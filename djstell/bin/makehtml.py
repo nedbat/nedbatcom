@@ -123,9 +123,6 @@ class CmdLine:
             include='*.gif *.jpg *.png *.swf'
             )
         self.xuff.copytree(dst=dst+"/files", src='files', include='*.*')
-        # This is here because the tabblo blog badge sometimes serves expired.png,
-        # and stupid browsers don't understand, and request it from my server!
-        self.xuff.copytree(src='bitty-static', dst=dst+'/bitty-static', include='*.*')
     
     def do_clean(self):
         if os.path.exists(settings.DATABASE_NAME):
