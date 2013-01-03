@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021107T092126'>
+<title>Auto-smileys and code don't mix</title>
+<category>im</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>This bugs me: using instant messaging, I type code snippets (because I'm talking to
+other developers) and the auto-smiley technology misinterprets my punctuation.
+</p>
+
+<p>I type: </p>
+<figurep><img src='pix/codemsn-text.gif' alt='CTimer::Shutdown, as I typed it'/></figurep>
+
+<p>I get: </p>
+<figurep><img src='pix/codemsn-smiley.gif' alt='CTimer:@hutdown, with a smiley in it'/></figurep>
+
+</body>
+</entry>
+</blog>

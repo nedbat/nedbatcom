@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050826T162053'>
+<title>Subversion tags</title>
+<category>srcctrl</category>
+<via />
+<body>
+<p>I'm a happy <a href='http://subversion.tigris.org/'>Subversion</a> camper, I use it for all my personal projects.
+There's one thing I don't get about it though: tags.
+In CVS (or Perforce, or many other systems), I can create a tag (or a label as it is called in some systems).
+It's a symbolic name for a set of revisions of files.  In Subversion, it would be a symbolic name for a
+revision of the repository.
+</p>
+
+<p>Subversion provides <a href='http://svnbook.red-bean.com/en/1.1/svn-book.html#svn-ch-4-sect-6'>tags</a>,
+but is gleeful about how they are implemented with the copy command: a tag is simply a copy of a particular
+revision of a tree into another part of the repository.
+The typical instructions for setting up Subversion say to create three directories at the top: trunk, branches, and tags.
+The tags directory is to hold the eventual tags you will create.</p>
+
+<p>OK, so I understand this, and I understand that making a copy doesn't really copy anything in the repository
+until the files are changed.  And since this is a tag, the files will never be changed there, so the copy really
+is small in terms of space.  But what happens to my working directory?  If I ever go into the tags directory
+and use the update command, I'll pull out a copy of every file that has ever been tagged, once for each tag!</p>
+
+<p>Is this right?  I know I don't want to keep all those copies, so I can delete the working directories in
+my tags directory.  They're still in Subversion, and the "svn ls" command will show them to me.  I can pull
+out the ones I want with "svn up tags/SomeTagName".  But I feel uneasy with "svn up" potentially pulling out
+a pile of files I don't really want.  Is there some other step I can take to keep the genie in the bottle?
+</p>
+
+</body>
+</entry>
+</blog>

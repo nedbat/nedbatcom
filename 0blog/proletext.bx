@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031206T170229'>
+<title>ProleText</title>
+<category>hacks</category>
+<via href='http://keithdevens.com/weblog/'>Keith Devens</via>
+<body>
+<p>I find it fascinating the way an information channel can be extended so
+that old receivers see no changes, but new receivers get more information.
+For example,
+<a href='http://entertainment.howstuffworks.com/tv4.htm'>color TV</a>
+does not transmit RGB information, but luminance and chrominance, so that
+black and white TV sets would see just the luminance in the way they always
+had.
+</p>
+
+<p>Text applications have a similar problem: suppose you have a receiver
+expecting plain text information.  How do you add formatting information
+so that it is invisible to the plain text receiver, but can be decoded
+by richer clients?
+<a href='http://www.templetons.com/tech/proletext.html'>ProleText</a>
+does it by adding trailing whitespace in specific ways to encode formatting
+information. Clever.
+</p>
+
+</body>
+</entry>
+</blog>

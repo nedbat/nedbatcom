@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060110T122311'>
+<title>Tecra M3, nVidia and Dell 2005fpw?</title>
+<category>hardware</category>
+<category>help</category>
+<via />
+<body>
+<p>I have a Tecra M3 laptop.  It has an nVidia graphics adapter,
+"GeForce Go 6200 TE 64M/6600 TE 128M" to be exact.
+I have a Dell 2005fpw flat panel display, with a native resolution of 1680<times/>1050.
+The graphics adapter does an ungodly number of tricks I don't need (who needs software keystoning on an LCD?),
+but does not offer 1680<times/>1050 as an option.
+It offers 1600<times/>1200 and even higher, but not the one I need.
+</p>
+
+<p>In a <a href='blog/200504.html#e20050416T065526'>previous situation like this</a>, I installed some
+scary hacked gamer video drivers, and they worked great.
+This time, I tried <a href='http://www.omegadrivers.net/'>OmegaDrivers.net</a>, which claims to provide
+nVidia drivers with more options for resolutions.  No luck.</p>
+
+<p>In fact, after installing the omega drivers, 1600<times/>1200 wasn't even an option, but now
+1440<times/>900 is.  Huh?  Uninstalling all the drivers and re-installing the official ones from Toshiba
+didn't get me back my 1600<times/>1200.
+Does anyone have any advice for how to get a supposedly high-end graphics adapter to do something simple
+like drive a very popular flat panel display?
+</p>
+
+
+</body>
+</entry>
+</blog>

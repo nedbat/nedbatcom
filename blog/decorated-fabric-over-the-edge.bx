@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120110T102116'>
+<title>Decorated fabric over the edge</title>
+<category>python</category>
+<body>
+    <p>Like many, I use <a href='http://fabfile.org'>Fabric</a> to write deploy procedures, 
+        but I feel like I'm doing it wrong. Fabric is fundamentally based on the ideas of
+        "hosts" and "tasks".  You write a Python file whose functions are tasks, and 
+        from the command line you can ask that a list of tasks be performed on a list of
+        hosts.</p>
+
+    <p>Tasks can be decorated to affect their execution, for example, the @runs_once decorator
+        will mean the function is only executed once, no matter how many hosts are specified.
+        This can be useful for performing initial work, such as preparing a tarball to be copied
+        to many hosts. So for example, I can write something like this:</p>
+
+<code lang='py'><![CDATA[
+@task
+def deploy():
+    make_tarball()
+    copy_tarball()
+
+@runs_once
+def make_tarball()
+    # .. create a .tgz ..
+
+def copy_tarball()
+    put('the_tar_ball.tgz', '/tmp/')
+]]></code>
+
+    <p>Fabric will run this by running the deploy task for each host, which will call both make_tarball and copy_tarball,
+        but the runs_once decorator on make_tarball means that it will only be executed for the first host, 
+        while copy_tarball will be executed for all of them.</p>
+
+    <p>This is great, and building on it for a multi-server deploy, I wanted to have functions
+        that would be run on a subset of the hosts.  I have servers divided into roles:
+        app server vs. static content server, for example.  Fabric provides a role system, and
+        includes a @roles decorator to control what gets run where:</p>
+
+<code lang='py'><![CDATA[
+env.roledefs.update({
+    'app': ['www1', 'www2'],
+    'static': ['stat1']
+})
+
+@roles('app')
+def my_func():
+    pass
+]]></code>
+
+    <p>But we run into a problem: @roles only works on top-level tasks invoked from the command line.
+        If I decorate my copy_tarball function with it, it will be ignored.  This is because
+        of how the decorator has been written: it annotates the function with role information,
+        and the Fabric main loop knows how to read that annotation to decide what tasks to run
+        on which hosts.</p>
+
+    <p>I wanted a deploy script that looked something like this:</p>
+
+<code lang='py'><![CDATA[
+@task
+def deploy():
+    copy_to_apps()
+    copy_to_static()
+
+@only_roles('app')
+def copy_to_apps():
+    #.. copy stuff ..
+
+@only_roles('static')
+def copy_to_static():
+    #.. copy stuff ..
+]]></code>
+
+    <p>So I wrote my own decorator to do roles the way I wanted:</p>
+
+<code lang='py'><![CDATA[
+def only_roles(*roles):
+    """Make a function run only on hosts that have certain roles."""
+    def _dec(fn):
+        @functools.wraps(fn)
+        def _wrapped(*args, **kwargs):
+            for role in roles:
+                if env.host_string in env.roledefs.get(role, ()):
+                    return fn(*args, **kwargs)
+        return _wrapped
+    return _dec
+]]></code>
+
+    <p>But I felt funny about this:  I saw something in the Fabric docs that sounded like
+        just what I wanted, but it didn't work as I thought it would, so I had to write
+        my own.  This makes me think I'm using Fabric wrong.</p>
+
+    <p>The runs_once decorator is great for doing one-time initial work, and I found I 
+        wanted a book-end for it: a way to do one-time cleanup work.  Fabric provided 
+        nothing, and I could see why: there's no global knowledge about all the hosts
+        and tasks, and no way to specify work to be done after they are through. For
+        that matter, there's no way to specify work to be done before they start,
+        but @runs_once provides that effect.</p>
+
+    <p>So I wrote another decorator, this one more devious and risky:</p>
+
+<code lang='py'><![CDATA[
+def runs_last(func):
+    """A decorator to run the function only on the *last* host.
+
+    This only works if you don't apply any other restrictions
+    on the function.
+
+    """
+    func.times_invoked = 0
+    @functools.wraps(func)
+    def decorated(*args, **kwargs):
+        func.times_invoked += 1
+        all_hosts = set()
+        for hosts in env.roledefs.values():
+            all_hosts.update(hosts)
+        if func.times_invoked == len(all_hosts):
+            func(*args, **kwargs)
+    return decorated
+]]></code>
+
+    <p>Here we count the number of invocations, and guess at the number of the last one
+        based on the hosts we know about.  There are a variety of ways this could not
+        work, but it was fine in my environment.</p>
+
+    <p>Since I'm sharing useful Fabric decorators, here's one that prevents repetitive
+        work being done that won't have any extra effect:</p>
+
+<code lang='py'><![CDATA[
+def idempotent(func):
+    """Don't invoke `func` more than once for host and arguments."""
+    func.past_results = {}
+    @functools.wraps(func)
+    def decorated(*args, **kwargs):
+        key = (env.host_string, args, tuple(kwargs.items()))
+        if key not in func.past_results:
+            func.past_results[key] = func(*args, **kwargs)
+        return func.past_results[key]
+    return decorated
+]]></code>
+
+    <p>Am I using Fabric wrong? It seems like maybe I'm expecting it to do too much,
+        like the right way is to have my deploy() function in a larger script somehow.
+        Or is Fabric fine like this, and I've just missed the right path?</p>
+
+</body>
+</entry>
+</blog>

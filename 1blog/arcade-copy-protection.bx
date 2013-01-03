@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040426T062802'>
+<title>Arcade copy protection</title>
+<category>vidgames</category>
+<via />
+<body>
+<p>This is a copy protection scheme for arcade video games.
+I heard about it the summer I worked at
+<a href='blog/200404.html#e20040425T124541'>General Computer</a>.
+I don't know if it is true, but it sounds good.
+</p>
+
+<more>
+
+<p>Before getting to the copy protection scheme, I have to explain a few things.</p>
+
+<p>Arcade video games are large machines that are often placed in hostile
+environments, such as bars.  Because the people who play video games in bars
+can become rowdy and abuse the machines, arcade games have a mechanical sensor
+called a "kick switch".  Like the tilt switch in pinball games, its job is to
+detect major movement of the game itself.
+The software monitored the kick switch, and if triggered, would end the game.
+This was meant to discourage patrons from beating up the games, extending their
+lives.</p>
+
+<p>Even with arcade games, piracy was a problem.  The hardware the games
+ran on was somewhat standardized, so the ROMs could be swapped around.
+Pirates would copy ROMs and put them into older machines, giving them an upgrade to
+a newer more profitable game. Apparently, though, the pirates would make one minor
+change: they would remove the copyright notice from the first screen.
+I guess there was at least a superstition that the copyright notice was the thing
+that would get you in trouble.</p>
+
+<p>Here's the scheme:</p>
+
+<ul>
+<li>When first started, the game behaves as usual, displaying its copyright notice,
+playing games, and so on.</li>
+<li>After a hundred games, the machine behaves a little differently.</li>
+<li>After displaying its copyright notice, a separate chunk of code examines the video
+memory to determine if the notice is really being displayed.</li>
+<li>If the notice is not on the screen, a message is displayed: "Kick me for a free game".</li>
+<li>Whenever the kick switch trips, a free game a credited.</li>
+</ul>
+
+<p>The clever thing about this scheme is that it doesn't prevent piracy,
+it just prevents pirates from making money.  How?  Imagine the life of that game.
+The pirates copy the ROM, modify the copyright string so that it doesn't display,
+and fire up the game.  It works fine, they play a few games, everything checks out.
+They deliver the game to a bar someplace, where everything is normal for the first hundred
+games.  After that, the patrons pound it mercilessly and never put in a another quarter.</p>
+
+<p>A week later, the game has been physically destroyed, having collected about $25.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

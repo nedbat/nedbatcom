@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040106T073508'>
+<title>How to ask for help</title>
+<category>howto</category>
+<via />
+<body>
+<p>I like being part of the wider geek community.
+When I've written a piece of code that I think works well and
+solves a problem that other people will have, I like to share
+it so other people can use it.  When people have problems with
+those pieces of code, I like to help them.
+But people, please, learn how to ask effectively.
+</p>
+
+<p>This is an actual email I received this morning,
+referring to a
+<a href='http://www.pygame.org/pcr/load_cursors/index.php'>cursor creation function</a>
+I posted at <a href='http://pygame.org'>pygame.org</a>:
+</p>
+
+<!-- from ketche@exoss.net -->
+
+<quotep>
+Hey, I'm in a hurry, so this isn't going to tell too much.
+I was having problems with your cursors pygame code.
+See if you can see what's wrong/fix it.
+I need to leave the office, see you later.
+</quotep>
+
+<p>What am I supposed to do with this?  Even if I wanted to spend time figuring
+out what this guy needs, where would I start?  There's no information here.
+When asking for help, keep these tips in mind:</p>
+
+<ul>
+<li>Ask nicely.</li>
+<li>Put some effort into your question.</li>
+<li>Be specific about the problem you are having.
+If you say, "I was having problems",
+I'm going to have to say, "What problems?"
+You might as well send the actual error message (or whatever) the first time.</li>
+</ul>
+
+<p>This isn't just me being difficult.  These things always make it easier
+for the helper to help the helpee.</p>
+
+</body>
+</entry>
+</blog>

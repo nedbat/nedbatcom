@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031109T193112'>
+<title>Do/fix vs prepare/commit/abort</title>
+<category>arch</category>
+<via href='http://www.gotdotnet.com/team/dbox/default.aspx'>Don Box's Spoutlet</via>
+<body>
+<p>Clemens Vasters posts a puzzle (literally):
+<a href='http://staff.newtelligence.net/clemensv/PermaLink.aspx?guid=b598b91f-bb97-4aad-9404-bceb3aff08c9'>Lightweight Transactions</a>.
+He's advocating using transactions for general error handling and
+state management.
+His
+<a href='http://staff.newtelligence.net/clemensv/ct.ashx?id=97f80d05-73bc-4e59-b2f1-c748d7eed43b&amp;url=http%3a%2f%2fstaff.newtelligence.net%2fclemensv%2fcontent%2fbinary%2f3-DistSys-Transactions-Swartz-Vasters-V9-complete.zip'>presentation about transactions</a>
+calls this style of coding Prepare/Commit/Abort,
+and the more traditional style Do/Fix.
+(Actually, he first calls the new style Consider/Confirm/Perform,
+but I still don't understand how those names map on to the concepts:
+there's no Abort.)
+</p>
+
+<p>Do/Fix is when you can ask a class to do work (Do), and then you can ask the class to
+undo the work if needed during exception handling (Fix).
+The problem with this is when you have a number of classes Do'ing things in
+a row: how do you know how to properly Fix across all of them?
+Prepare/Commit/Abort is when you can ask a class to consider a chunk of work (Prepare),
+then either do the work (Commit) or not do the work (Abort).
+These ideas will be familiar to anyone who has done transactional database work,
+but the point is that this style is applicable to many more domains.
+Just because databases first took problems seriously enough to apply transactions
+to them doesn't mean that only databases should.
+</p>
+
+<p>The puzzle he posts is a sliding block puzzle program where the different
+pieces of logic are implemented as separate transactional resource managers,
+interacting through a transaction manager to decide, for example, whether the
+puzzle is completed.  This may be a contrived example.  It's interesting as a
+demonstration of using transaction for very undatabase-like work, but I don't
+see that we've improved the lot of sliding-puzzle-writers by organizing it this way.
+</p>
+
+<p>But he makes some good points in the presentation (it can be hard to follow since it
+is mostly diagrams, but you get the gist. Just skip any acronyms you
+don't understand, they seem to be about Longhorn.)
+I can see the power in the transactional style.
+I've never built software this way, so I don't know how it would feel in a real-world
+situation.
+I note that <a href='text/exceptions-in-the-rainforest.html'>Joel's challenge to me</a>
+about exception handling would be handled more naturally with this sort of transactional
+model.
+</p>
+
+</body>
+</entry>
+</blog>

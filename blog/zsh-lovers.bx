@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050519T105729'>
+<title>Zsh-lovers</title>
+<category>shells</category>
+<category>unix</category>
+<via id='tedleung'/>
+<body>
+<p>I occasionally use a Unix shell, but I don't use much of it.
+I can't tell the difference between csh and bash (and probably not even sh).
+So when I read the tips and tricks for zsh at
+<a href='http://grml.org/zsh/zsh-lovers.html'>zsh-lovers</a>, I felt a bit like Kramer
+("You just blew my mind!").
+This is a Unix shell turned up to 11 (or maybe even 12!):
+</p>
+
+<quote>
+<p>List file ’foobar’ via recursive search in directories:</p>
+
+<code>$ ls **/foobar</code>
+
+<p>List files with suffix c and pro (e.g. foo.c, bar.pro):</p>
+
+<code>$ ls *.(c|pro)</code>
+
+<p>List all .c-files except ’lex.c’:</p>
+
+<code>$ ls *.c~lex.c</code>
+
+<p>List all zero-length-files which are not group- or world-writable:</p>
+
+<code>$ ls *(L0f.go-w.)</code>
+
+<p>List all .c-files for which there doesn’t exist a .o file:</p>
+
+<code>$ c=(*.c) o=(*.o(N)) eval ’ls ${${c:#(${~${(j:|:)${o:r}}}).c}:?done}’</code>
+
+</quote>
+
+<p>I don't think I'm going to be using those last two anytime soon...</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060213T080950'>
+<title>Things that bug me about two-dimensional programming</title>
+<category>coding</category>
+<category>python</category>
+<via />
+<body>
+<p>I'm doing a lot of coding these days involving XY coordinates, and there's a handful of little
+annoyances.  They're no one's fault, I just want to vent.
+</p>
+
+<p>First, it's natural to say "x and y", and it's natural to say "height and width", but x corresponds
+to width, and y to height, so I often make mistakes that switch the two:</p>
+
+<code lang='python'><![CDATA[
+ht, wd = foox, fooy   # This is wrong.
+]]></code>
+
+<p>The same goes for loops over x and y.  The natural order to visit the points in a grid is the raster
+order: finish a row, then go on to the next row.  But that means having the first loop be over y rather than x:
+</p>
+
+<code lang='python'><![CDATA[
+for y in range(lowy, hiy):
+    for x in range(lowx, hix):
+        do_something(x, y)
+]]></code>
+
+<p>For this last, there's a solution: create a generator that makes x,y pairs in a single loop:</p>
+
+<code lang='python'><![CDATA[
+def xyrange(startx, endx, starty, endy):
+    """ Generate the pairs (x, y) in a rectangle.
+    """
+    for y in range(starty, endy):
+        for x in range(startx, endx):
+            yield x,y
+]]></code>
+
+<p>Then this function is the only place that needs the inside-out y x ugliness, and you can use a
+single loop everywhere else:</p>
+
+<code lang='python'><![CDATA[
+for x, y in xyrange(lowx, hix, lowy, hiy):
+    do_something(x, y)
+]]></code>
+
+<p>This has the advantage that you can break out of the loop cleanly when you find a point you are
+looking for.  It has the disadvantage that you can't do an action at the end of each row.</p>
+
+<p><em>Update:</em> <a href='http://www.rhs.com/'>Richard Schwartz</a> noticed that I originally had
+said,</p>
+
+<quote><p>
+First, it's natural to say "x and y", and it's natural to say "height and width", but x corresponds
+to <em>height</em>, and y to <em>width</em>, so I often make mistakes that switch the two.
+</p></quote>
+
+<p>which makes that sentence itself an error of the sort it describes, making it an unintentionally
+self-referential sentence!</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030306T101242'>
+<title>Naming classes without 'Manager'</title>
+<category>coding</category>
+<via id='desktopfishbowl'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.cardboard.nu'>Alan Green</a> writes about the overuse
+(in Java at least) of the term 'Manager' in class names:
+<a href='http://www.cardboard.nu/archives/000023.html'>Naming Java Classes Without a 'Manager'</a>.
+I agree.  There are habits we fall into when writing code that eventually obscure
+our intent, and let us avoid thinking critically.
+Using a catch-all term like 'Manager' is one of them.
+Besides, 'Wrangler' is so much more colorful!
+</p>
+</body>
+</entry>
+</blog>

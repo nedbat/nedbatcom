@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051016T092523'>
+<title>Open Source licenses compared</title>
+<category>business</category>
+<via />
+<body>
+<p>I've decided to choose a real license for the software I post on this site,
+since responsible readers have asked me what license I use.
+I find the array of open source licenses baffling, so I dug up some resources:
+</p>
+
+<ul>
+<li>Starting from the big bang,
+the Open Source Initiative has a comprehensive list of over 50 different licenses:
+<a href='http://www.opensource.org/licenses/'>The Approved Licenses</a>.
+There's no help here choosing one, but at least you can examine them in all their glory.
+</li>
+
+<li>The <a href='http://www.openfoundry.org/'>Open Foundry</a> has an
+<a href='http://swan.iis.sinica.edu.tw/LicenseWizard/license_wizard.php?Lang=en'>interactive wizard</a>,
+and a two-page
+<a href='http://swan.iis.sinica.edu.tw/LicenseWizard/OSI_License_compare_v3.0.4EN.pdf'>comparison table</a>.
+They consider 16 licenses on eight criteria.
+Both are hampered by imperfect English, but they present a lot of useful information.
+</li>
+
+<li>Zack Rusin from KDE has a
+<a href='http://developer.kde.org/documentation/licensing/licenses_summary.html'>table comparing 15 popular licenses</a>.
+</li>
+
+<li>Whittling it down even further, David Wallace Croft
+<a href='http://www.croftsoft.com/library/tutorials/opensource/'>compares six licenses on three criteria</a>.
+</li>
+
+<li>Finally, a lawyer
+<a href='http://acmqueue.com/modules.php?name=Content&amp;pa=showpage&amp;pid=153'>explains the implications of some license choices</a>.
+</li>
+
+</ul>
+
+<p>After looking over all this, I'm choosing MIT.  It allows others to do the most with the code I write.
+When I put myself in the user's shoes, it's the license I would want to see on code I wanted to use.
+</p>
+
+</body>
+</entry>
+</blog>

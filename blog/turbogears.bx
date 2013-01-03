@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050917T144604'>
+<title>TurboGears</title>
+<category>webpage</category>
+<category>python</category>
+<via />
+<body>
+<p>Kevin Dangoor announces the
+<a href='http://www.blueskyonmars.com/2005/09/17/announcing-turbogears-web-megaframework-python/'>TurboGears web megaframework</a>.
+He calls it a megaframework not because it is enormous, but because it is a collection of existing pieces
+which have been integrated, kitted, and documented together into a larger framework.
+The pieces are:
+</p>
+
+<ul>
+<li><a href='http://www.mochikit.com/'>Mochikit</a> JavaScript library.</li>
+<li><a href='http://kid.lesscode.org/'>Kid</a> for HTML templating.</li>
+<li><a href='http://www.cherrypy.org/'>CherryPy</a> for Python web development.</li>
+<li><a href='http://sqlobject.org/'>SQLObject</a> for object persistence.</li>
+</ul>
+
+<p>So Python has another compelling web development framework.  I still haven't ever built a web
+site with any of the other ones, so when I finally do, I'll have another to choose from.</p>
+
+</body>
+</entry>
+</blog>

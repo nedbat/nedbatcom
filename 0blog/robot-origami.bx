@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031231T061034'>
+<title>Robot origami</title>
+<category>robots</category>
+<via href='http://hitormiss.org'>hitormiss.org</via>
+<body>
+<p>Devin Balkcom has built a
+<a href='http://www-2.cs.cmu.edu/~devin/'>robot that folds origami</a>.
+Well, very simple origami at least.
+It's fascinating to see the efforts of robots at emulating human manipulations
+and to see just how clumsy they are.  I would have thought machines could
+fold paper pretty well by now, but maybe not in a generalized way.
+</p>
+
+<p>
+It's also eye-opening to see the academic thought process at work:
+</p>
+
+<quotep>
+One interesting result to think about <emdash/>
+an ordinary shopping bag cannot be folded flat without bending the facets.
+(The flat and open configurations are isolated points.)
+This might be considered a 'design feature';
+the fact that the facets resist bending tends to keep the shopping bag open or closed.
+The fact that paper is not stretchy suggests that it may even be the case that
+bending the facets is not enough, and that some crinkling of the paper must occur.
+</quotep>
+
+</body>
+</entry>
+</blog>

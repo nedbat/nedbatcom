@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091228T182602'>
+<title>SSAO JS Snowman WTF?</title>
+<category>css</category>
+<category>js</category>
+<category>graphics</category>
+<body>
+<p>Rom&#225;n Cort&#233;s has a special place in my heart, since it was my
+<a href='blog/200805/css_homer_animated.html'>animation</a> of his
+<a href='http://www.romancortes.com/blog/homer-css/'>Homer Simpson in CSS</a>
+that got me my first and only Slashdotting.  But Rom&#225;n hasn't rested on
+his laurels.  His blog is full of edge-pushing browser experiments.
+</p>
+
+<p>So far in December alone, he's done
+<a href='http://www.romancortes.com/blog/css-3d-meninas/'>Las Meninas in 3D with CSS</a>,
+a <a href='http://www.romancortes.com/blog/javascript-text-reflection/'>pure JavaScript text reflection</a>,
+and his latest, a <a href='http://www.romancortes.com/blog/merry-christmas/'>3D snowman in JavaScript</a>.
+</p>
+
+<p>This last one, he explains, uses parallel sphere raycasting, with some simplified
+screen-space ambient occlusion, all built on the canvas element with direct pixel
+color control.  Of course it does.  The words describing it are practically
+longer than the mere 4k of JavaScript that implemented it!</p>
+
+<p>I don't understand what all that is (yet!), but I know Rom&#225;n routinely
+does things other people don't realize are possible.</p>
+
+</body>
+</entry>
+</blog>

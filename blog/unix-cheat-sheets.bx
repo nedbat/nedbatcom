@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050522T094231'>
+<title>Unix cheat sheets</title>
+<category>unix</category>
+<category>shells</category>
+<via />
+<body>
+<p>I've had to dabble a bit with Unix machines recently, and have needed help with my rusty
+skills.  Here are a few pages I found which helped:
+</p>
+
+<ul>
+<li><a href='http://www-106.ibm.com/developerworks/library/l-tip-prompt/'>Prompt magic</a>:
+a quick tutorial on using escape sequences in a bash prompt.</li>
+<li><a href='http://www.lagmonster.org/docs/vi.html'>Vi cheat sheet</a>: just what it says.</li>
+<li><a href='http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/index.html'>Bash Prompt HOW-TO</a>:
+an extensive guide to configuring the command prompt in bash.</li>
+<li><a href='http://docs.freebsd.org/info/readline/readline.info.Readline_Init_File.html'>Readline Init File</a>:
+the .inputrc file controls how input is read from the terminal.
+(Hint: set completion-ignore-case on).</li>
+</ul>
+</body>
+</entry>
+</blog>

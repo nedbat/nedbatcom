@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121010T063816'>
+<title>Pizza.py</title>
+<category>python</category>
+<category>food</category>
+<body>
+
+    <p>I've been organizing the <a href="http://bostonpython.com">Boston Python</a> user group
+        for a few years now, and I like it a lot.  Except for ordering pizza.  But finally I've
+        brought some technology to bear on the problem!
+    </p>
+
+    <p>First, I've taken a poll of people RSVP'ing for tonight's <a href="http://meetup.bostonpython.com/events/69073402/">project night</a>,
+        so I now have an empirical basis for deciding what fraction of the pizzas should be
+        meat, vegetable, cheese, or vegan.  Suprise (to me): vegetable wins.</p>
+
+    <p>Second, I've written what may be the world's most useful Python program: pizza.py!</p>
+
+<code lang="py"><![CDATA[
+"""How many pizzas do we need?"""
+
+import math
+import sys
+
+if len(sys.argv) > 1:
+    people = int(sys.argv[1])
+else:
+    people = int(raw_input("How many RSVPs? "))
+
+# The MUC (Meetup Universal Constant)
+attending = people * .65
+
+print
+print "%d people will show up (guess)" % attending
+
+# Appetite estimation
+slices = attending * 2.5
+
+# Basic pizza geometry
+pies = slices / 8
+
+print "%.1f pizzas (or so)" % pies
+
+# From answers to the 10/2012 project night:
+#   81 answers
+#   26 meat 32%
+#   37 veg 45%
+#   16 cheese 20%
+#   2 vegan 3%
+
+vegan = int(.03 * pies) or 1
+meat = int(.33 * pies) or 1
+veg = int(.45 * pies) or 1
+cheese = pies - vegan - meat - veg
+if cheese < 1:
+    cheese = 1
+cheese = int(math.ceil(cheese))
+
+print
+print "%2d cheese" % cheese
+print "%2d meat" % meat
+print "%2d veggie" % veg
+print "%2d vegan" % vegan
+print
+print "%2d total" % (cheese + meat + veg + vegan)
+]]></code>
+
+    <p>The hard truth here is the Meetup Universal Constant.  The
+        MUC has been empirically determined, and says that no matter how much
+        you wheedle people to show up if they say they will, and vice-versa,
+        about one-third of the RSVPs will not attend.  This number has proven
+        remarkably stable over the 25 or so events that we've measured.</p>
+
+    <p>As an example, for tonight's event, we have 127 RSVPs:</p>
+
+<code>
+How many RSVPs? 127
+
+82 people will show up (guess)
+25.8 pizzas (or so)
+
+ 6 cheese
+ 8 meat
+11 veggie
+ 1 vegan
+
+26 total
+</code>
+
+    <p>Your numbers may vary.  Perhaps Boston is a vegetarian hotbed compared
+        to where you are.  Maybe your city has more-predictable weather and 
+        fewer people abandon their intention to attend.  Tweak pizza.py as
+        you see fit!</p>
+
+</body>
+</entry>
+</blog>

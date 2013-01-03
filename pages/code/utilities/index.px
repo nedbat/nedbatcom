@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Shell Utilities'>
+<section title='Shell Utils' order='100'/>
+<history>
+<what when='20020427T200500'>Created (wh.py).</what>
+<what when='20020504T061031'>Added showfiles.py.</what>
+<what when='20020513T052412'>Added countlines.py.</what>
+<what when='20020531T120000'>Added xdir.py.</what>
+<what when='20021002T120000'>Added hexdump.py and ramp.py.</what>
+<what when='20021124T203500'>Added shenv.py and readurl.py.</what>
+<what when='20030801T080300'>Added pygrep.py.</what>
+<what when='20030911T091100'>Added makeroom.py.</what>
+<what when='20040104T193600'>Added m3utree.py.</what>
+<what when='20071127T065300'>Added blameall.py.</what>
+</history>
+
+<p>
+I use Windows, and I like using the command prompt (shell, for Unix types).
+But there are things I wish were different.
+So, when possible, I write python scripts to help make it a little better.
+</p>
+
+<p>For the most part, these tools aren't just for Windows, they've just been created
+initially for that environment. If you want to use these on other platforms, you
+may need to add a little bit of code.  If you do, let me know, and I'll fold it back in.</p>
+
+<p>These are personal tools, meaning they do just what I want them to do.
+There are many things they could be made to do, and I don't mind making them do those things,
+I just haven't needed them to.  If you have ideas (or wishes), let me know.  I like writing
+code when I know someone really wants to use it.</p>
+
+<ul>
+<li><a href='code/utilities/wh_py.html'>wh.py</a>, a replacement for the Unix 'which' command.</li>
+<li><a href='code/utilities/showfiles_py.html'>showfiles.py</a>, a file lister (like 'dir').</li>
+<li><a href='code/utilities/countlines_py.html'>countlines.py</a>, which counts the lines in files.</li>
+<li><a href='code/utilities/xdir_py.html'>xdir.py</a>, a replacement for 'cd'.</li>
+<li><a href='code/utilities/ramp_py.html'>ramp.py</a>, for generating simple binary data.</li>
+<li><a href='code/utilities/hexdump_py.html'>hexdump.py</a>, for displaying binary data in hex.</li>
+<li><a href='code/utilities/shenv_py.html'>shenv.py</a>, for showing environment variables.</li>
+<li><a href='code/utilities/readurl_py.html'>readurl.py</a>, for reading a URL.</li>
+<li><a href='code/utilities/pygrep_py.html'>pygrep.py</a>, for searching files.</li>
+<li><apage pref='code/utilities/makeroom_py.px'/>, for deleting directories to make room on a disk.</li>
+<li><apage pref='code/utilities/m3utree_py.px'/>, for creating playlists from a tree of MP3 files.</li>
+<li><apage pref='code/utilities/blameall_py.px'/>, providing "p4 annotate -a" for Subversion.</li>
+</ul>
+
+</page>

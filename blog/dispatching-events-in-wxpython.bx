@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050128T102350'>
+<title>Dispatching events in wxPython</title>
+<category>python</category>
+<via />
+<body>
+<p>I've been getting back into wxPython coding, and have been trying to find
+a clean example of the Model-View-Controller pattern, but haven't been having
+much luck.  For example, I'd like to have menu commands where the main frame
+doesn't have to know to invoke a method on the current view.  I'd rather that
+some generic event machinery found that the view could handle the event, and
+let it do just that.
+</p>
+
+<p>Matthew Scott's
+<a href='http://goldenspud.com/webrog/archives/2004/07/05/introducing-the-uberwx-technique'>uberwx technique</a>,
+which uses the <a href='http://pydispatcher.sourceforge.net/'>dispatch module</a> to move events
+around, may just the ticket, but I have to try it out to know for sure.
+</p>
+</body>
+</entry>
+</blog>

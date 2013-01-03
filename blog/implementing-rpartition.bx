@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121220T073745'>
+<title>Implementing rpartition</title>
+<category>python</category>
+<body>
+    
+    <p>One of my crazy decisions about coverage.py is to keep it running on 
+        Python 2.3 and up.  One of the reasons this is difficult is that
+        I've switched to using tox to test, and tox only supports >=2.5,
+        so actually testing on 2.3 has fallen behind.</p>
+        
+    <p>It's also really easy to forget what's not allowed in 2.3.  During
+        the <a href='blog/201211/coveragepy_36b1.html'>bug-fixing frenzy in the latest beta</a>, 
+        I accidentally broke 2.3 support in a few ways: combined try/except/finally, 
+        imports with parentheses, and rpartition.</p>
+
+    <p>For the first two, I just had to change the statements to use the 
+        old style, but I didn't want to give up rpartition, it's too useful.
+        So I implemented it myself.</p>
+
+    <p>My first thought was to implement it in terms of partition, by reversing
+        everything, using partition, then reversing everything back.  It's one
+        of the oddest-looking functions I've written:</p>
+
+<code lang="py"><![CDATA[
+def rpartition(s, sep):
+    """rpartition in terms of partition!"""
+    a, b, c = s[::-1].partition(sep[::-1])
+    return c[::-1], b[::-1], a[::-1]
+]]></code>
+
+    <p>Too bad I couldn't have gotten one more [::-1] in there to reverse the
+        return tuple, but that would just be weird for the sake of it...</p>
+
+    <p>Unfortunately, after I got this working, I discovered that partition and
+        rpartition appeared at the same time, so implementing one in terms of
+        the other wouldn't help me with backward compatibility.  So I had to
+        use a much less interesting implementation:</p>
+
+<code lang="py"><![CDATA[
+def rpartition(s, sep):
+    """Implement `s.rpartition(sep)` for old Pythons."""
+    i = s.rfind(sep)
+    if i == -1:
+        return ('', '', s)
+    else:
+        return (s[:i], sep, s[i+len(sep):])
+]]></code>
+
+    <p>Now 2.3 is back in the house.  One of these days, I'll drop it, but 
+        I like the idea of being able to provide the latest coverage.py to 
+        anyone who wants it.</p>
+
+</body>
+</entry>
+</blog>

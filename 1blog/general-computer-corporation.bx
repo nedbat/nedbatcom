@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040425T124541'>
+<title>General computer corporation</title>
+<category>history</category>
+<category>vidgames</category>
+<via />
+<body>
+<p>One thing I didn't mention in my recent
+<a href='blog/200404.html#e20040413T072618'>post about the Atari 2600</a>
+is that I once worked for a company that made games for the 2600.
+General Computer was started by some MIT guys who figured out how to hack
+a Missle Command game to give it more features.  Then they did the same
+thing for Pac-Man, creating
+<a href='http://www.klov.com/M/Ms._Pac-Man.html'>Ms. Pac-Man</a>.
+</p>
+
+<p>I worked for them in the summer of 1982, while I was in college.
+By that time Atari had realized they would do better hiring them than suing them.
+General Computer was making original arcade games
+like <a href='http://www.thelogbook.com/phosphor/winter01/f.htm'>Food Fight</a>,
+and porting existing arcade games to the home machines like the 2600.
+General Computer is still in business, though they long ago moved from video games
+to Macintosh peripherals, and thence to printers:
+<a href='http://gccprinters.com/corporate/history.html'>GCC Printers Corporate History</a>.
+</p>
+
+<p>For a college kid who liked writing software and playing video games,
+it was a cool place to work.
+For one thing, there was a room full of arcade machines.
+The compilers of the day were not that fast, so when it was time to compile the latest
+code changes, you had time for a game or two.</p>
+
+<p>When you don't have to pay to play the games,
+you can find things out other people can't.
+For example, one of the machines was Dig-Dug (GCC did the
+<a href='http://www.thelogbook.com/phosphor/atari26/q2-04/d.htm'>2600 Dig-Dug</a> port).
+As you moved up the levels of Dig-Dug, the monsters would move faster and faster.
+But when you got to level 128, the monsters would move extremely slowly.
+They had probably used a byte to represent the speed of the monsters, and added two for
+every level, and the speed wrapped around to zero!
+</p>
+
+</body>
+</entry>
+</blog>

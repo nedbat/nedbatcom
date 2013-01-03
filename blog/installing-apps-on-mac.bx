@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070623T082532'>
+<title>Installing apps on Mac</title>
+<category>mac</category>
+<body>
+<p>Right off the bat, let me say that this is not about Mac-bashing, or a
+Mac-vs-Windows flame.
+</p>
+
+<p>I use Windows, but Susan uses a Mac, so I occasionally am called on to perform
+simple maintenance on her laptop.  This morning, that involved upgrading an
+application.  I like the Mac, and generally find it to be well thought out,
+and easy to use.  But I've never understood the application installation process.
+Here's what I did to install the application Foo:
+</p>
+
+<ol>
+<li>Downloaded FooDownload.dmg.zip to the desktop.</li>
+<li>StuffIt Expander launched automatically, and gave me a FooDownload.dmg Folder on the desktop.</li>
+<li>At this point, nothing is happening, so I opened the folder, inside was a FooDownload.dmg icon.</li>
+<li>I opened that, a license agreement appears.</li>
+<li>I agreed to that, and a window appears with an application icon, and instructions
+to "Drag this icon to your Applications folder".</li>
+<li>I have to find the Applications folder, and drop the icon into it.</li>
+</ol>
+    
+<p>At this point, the application is installed.  To clean up, I had to:</p>
+
+<ol>
+<li>Close the Applications folder.</li>
+<li>Close the window with the dragging instructions.</li>
+<li>Close the FooDownload.dmg Folder window.</li>
+<li>Get rid of the three (!) things on the desktop: The dmg, the FooDownload.dmg Folder, and the FooDownload.dmg.zip file.</li>
+</ol>
+
+<p>To me, that seems like a lot of manual steps.  In the Windows world, you'll
+sometimes find shareware where the author gives two options: an installer,
+or a zip file where you can do everything yourself.  The Mac installation process
+is like the Windows do-it-all-yourself case.</p>
+
+<p>Again, I'm not trying to slam the Mac.  I genuinely do not understand why on
+a platform that makes things really simple, where the mantra is that stuff
+"just works", ordinary users are expected to do all these manual steps.  Why
+isn't the installation process more automated?  This isn't a rhetorical question.</p>
+
+<p>I know someone will answer,
+"Because you may not want to put the application in the Applications folder,"
+but really, how many users organize them differently?  And the Windows installation
+wizards often let you choose another installation directory anyway, so that control
+is not incompatible with automating the experience.
+</p>
+
+<p>I'm not flaming the Mac.</p>
+
+</body>
+</entry>
+</blog>

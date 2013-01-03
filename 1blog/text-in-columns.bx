@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040105T083458'>
+<title>Text in columns</title>
+<category>ui</category>
+<via href='http://web-graphics.com/mtarchive/001128.php'>webgraphics</via>
+<body>
+<p>Who'd have thought there was anything else to say about displaying
+text on screens?  Everyone just creates a long vertical scroll, and gives the user
+a scroll bar.  On top of that, the whole thing might be chopped into pages.
+But here's another way: a few people have been trying out displaying text in columns
+no taller than the screen, then laid out horizontally.  This gives a feel more
+like reading a book or newspaper.</p>
+
+<p>Try it out at the <a href='http://iht.com'>International Herald Tribune</a>.
+Read any story there, and notice the controls at the bottom of the page.
+The whole effect if very slickly accomplished, including the ability to click
+anywhere in the first or last column on the page to move in that direction,
+complete with highlighting of the action at the bottom of the page (try it, you'll see).
+They also let you change the size of the type, with the page count adjusting automatically,
+and even the number of columns changing to properly accommodate the font.
+</p>
+
+<p>It turns out the code to accomplish this trick is available at
+<a href='http://www.smokinggun.com/code/sg_layout.php'>smokinggun</a>
+(no, not the site that has
+<a href='http://www.thesmokinggun.com/archive/spearslicense1.html'>Britney Spears' marriage license application affidavit</a>).
+</p>
+
+<p>Another example of the same technique is
+<a href='http://homepage.mac.com/asagoo/tofu/index.html'>Tofu</a>,
+a text reader for the Mac.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20101102T221502'>
+<title>Pythonic</title>
+<category>python</category>
+<body>
+    <p>A <a href="http://stackoverflow.com/questions/4077249/a-more-pythonic-way-to-write-this-expression">nice question</a>
+        on Stack Overflow today drew good answers, but one of them chided,</p>
+
+    <quote><p>Stop saying "pythonic" when you mean "clean". It's just a cheesy buzzword.</p></quote>
+
+    <p>It made me think about what people mean by "pythonic," I think it is more than simply "clean."
+        I think it also involves appropriate use of the language and standard library features.
+        It of course includes "clean" but I think you can write clean Java-like code in Python,
+        and it will not be pythonic.  The pythonic label has to do with a minimalism, getting
+        more done than seems possible with a small amount of code.</p>
+
+    <p>But I also wonder, why does Python have an adjective, when other languages do not?  We don't
+        hear about code being Javanese, or Pearly, or Rubinesque.  Why don't we speak of code that
+        is C-plush-plush, or PHPleasing?  Why does Python have an adjective?</p>
+
+    <p>PS: any other interesting proposals for language adjectives?</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080123T070250'>
+<title>Django people</title>
+<category>django</category>
+<category>online</category>
+<category>maps</category>
+<body>
+<p>Simon Willison and Natalie Downe have launched <a href='http://djangopeople.net'>Django People</a>,
+a socialish site for discovering users of the <a href='http://djangoproject.com'>Django web framework</a>.
+It's heavily geography-based, which makes a nice counterpoint to the existing
+virtual community, where who knows where people live?  
+</p>
+
+<p>It's a very nicely done site, with a strong, clean look and smooth interactions.
+One odd point for US users: the per-state pages (<a href='http://djangopeople.net/us/ma/'>Massachusetts</a>, for example)
+feature state flags.  I've lived in Boston for 22 years, and I could not have told you
+what the Massachusetts state flag looked like!</p>
+
+<p>Small dedicated sites like this are great for their focus on one particular
+clumping factor, in this case, people who use Django. But I wonder about their
+future. How many of these niche networks can I be a part of? What will happen as
+the people in it morph due to changing skill sets, interests, and so on?
+In these days of Facebook and their exploding catalog of third party applications,
+what's the role for bespoke niche networks like Django People?
+</p>
+
+</body>
+</entry>
+</blog>

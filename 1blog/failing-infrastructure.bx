@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040802T213432'>
+<title>Failing infrastructure</title>
+<category>work</category>
+<via />
+<body>
+<p>Today was just one of those days.
+All day at work was the kind of integration hell that comes when four developers
+all make big changes at once.  We spent most of the day trying to grok each
+others changes to debug one problem after another.
+</p>
+
+<p>And I found bugs in the parts of our code that were long thought completely
+flushed out: reference counting, exception messages, engine patterns, and so
+on.  Then, to top things off, when I got home, the main waste pipe in my basement
+had sprung a leak and was soaking the floor!</p>
+
+<p>Maybe tomorrow the things that are supposed to just work, will.</p>
+
+</body>
+</entry>
+</blog>

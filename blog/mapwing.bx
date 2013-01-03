@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050830T091421'>
+<title>Mapwing</title>
+<category>graphics</category>
+<via />
+<body>
+<p>I created <a href='code/nats-world.html'>Nat's World</a>, my immersive photo exploration game,
+the hard way: each picture is added into the environment by adding a line to a large Python file.
+It worked for me because I'm a geek, and it was quick to get the whole thing going.
+But I've idly toyed with the idea of building a GUI application to create similar environments.
+I think it would be fun to write, but I've never seriously started on it.</p>
+
+<p>Redbug Technologies now has <a href='http://www.redbugtech.com'>Mapwing</a>, a commercial product
+to build the same type of walkthroughs.  I haven't tried it, but they've got a few demos on their
+site.  It was interesting to see that they faced some of the same problems I did, for example,
+how to show a simple photo of a spot without it being a fully-realized four-direction point you could
+navigate to.  They did it by putting a camera icon on the spot before you get there.  I did it by
+drawing a thick white border around the photo (to make it like a snapshot).
+</p>
+
+</body>
+</entry>
+</blog>

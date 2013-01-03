@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<page title='The important stuff about caching'>
+<history>
+<what when='20050604T093200'>Created.</what>
+</history>
+
+<p>Caching is the technique of saving computed results so that they can be
+reused without incurring the expense of creating them each time they are
+needed. It can be a useful and powerful technique when building complex systems,
+but it needs to be done with care. </p>
+
+<p>This article covers the important stuff about software caching.  Caches are also
+a big topic in computer design, but I don't know anything about that.</p>
+
+
+<h1>Basics</h1>
+
+<p>Programs can include expensive processes invoked repetitively. If these
+processes often produce the same results, the expense of the process can be
+saved by caching the results and reusing them. </p>
+
+<p>Some examples of expensive processes are:</p>
+
+<ul>
+<li>rendering large but static web pages,</li>
+<li>fetching data from a slow storage system,</li>
+<li>retrieving records from a remote database,</li>
+<li>computing a complex function.</li>
+</ul>
+
+<p>A cache can improve the performance of these processes by holding on to
+previously produced results, and reusing them directly rather than going to all
+the trouble and expense of producing them again.</p>
+
+<p>A cache can only help if the process is repeatable. That is, it can be
+characterized as taking a set of inputs, and producing an output, and the same
+inputs result in the same output. Since the same inputs produce the same output,
+it is reasonable to return a previously returned result.  If the process is not
+repeatable, then using a cache will produce the wrong result.
+</p>
+
+<p>The workings of a cache are conceptually simple:  let's call the process we
+are caching P.  The <b>cache</b> will be a table mapping inputs to previously
+produced outputs.  Instead of simply invoking P, we first take the inputs, and
+use them to look in the cache.  If there is an entry for those inputs, we have a
+<b>cache hit</b>. The result from the table is returned as if it came from P,
+and we are done. If there is no entry for those inputs, then we have a <b>cache
+miss</b>, and must invoke P for real.  When P returns its output, we can put
+the output into the cache (associated with the inputs, of course) for future use.</p>
+
+<p>Because the cache stores previous results and returns them faster than the original process,
+it uses space to save time. This is known as a "space for time tradeoff". </p>
+
+
+<h1>Considerations</h1>
+
+<p>Our simple description of a cache leaves out many important details:</p>
+
+<ul>
+<li>What parts of the system should use a cache?</li>
+<li>Where should data be cached?</li>
+<li>How many entries should we keep in the cache?</li>
+<li>How long can we keep the entries in the cache?</li>
+<li>When an entry must be dropped from the cache, which entry should it be?</li>
+<li>Are there entries which shouldn't be cached?</li>
+</ul>
+
+
+<h2>What to cache</h2>
+
+<p>Figuring out what to cache is difficult.  Caching is a technique of optimization,
+and the first principle of optimization is:</p>
+
+<box>Don't optimize.</box>
+
+<p>It is difficult to predict which parts of a large system will need
+optimization, and first guesses are often wrong.  The best course of action is
+to build the system without caching first, then measure the system, and build
+caches for those parts that truly need them. </p>
+
+<p>Most important:</p>
+
+<box>A cache is only an optimization.</box>
+
+<p>Running the system with the cache and without the cache should produce
+precisely the same results, but at different speeds.  If using a cache changes
+the semantics of the system, then either you have a bug, or you are playing with
+fire, and you need to be very careful. </p>
+
+
+<h2>Where to cache</h2>
+
+<p>The most common type of cache keeps data in memory, but there are other types
+of cache.  A web server may cache dynamically generated pages on disk.  A pool
+of worker threads is a cache that saves initialization time.
+</p>
+
+<p>The important thing about a cache is that it be faster than the process it is
+fronting.  So long as your cache storage is faster enough, anything will do.
+</p>
+
+
+<h2>How many entries to keep</h2>
+
+<p>As I said above, caching is a space for time tradeoff.  Just as it is hard to
+estimate where a cache will be beneficial, it is nearly impossible to guess how
+large a cache will provide the most benefit.  Too small a cache will have too
+low a hit rate.  Too large a cache will waste space with entries that are rarely
+used again.  If the cache is kept in memory, a large cache may cause your
+program to page too much, actually slowing down your system. </p>
+
+<p>Usually, the optimum size for a cache depends on many factors, especially on
+the load the system is under.  You'll probably want to provide configuration
+controls that can be used to adjust the cache to get the best performance.  More
+on this below.</p>
+
+
+
+<h2>Getting rid of entries</h2>
+
+<p>There are two reasons to get rid of an entry in the cache. First, the cache
+may be full, and you want to write a new entry into it.  An entry (or entries)
+must be chosen to throw out to make room for the new one.  Second, an entry in
+the cache may no longer be correct. Removing entries that are no longer accurate
+is a big topic handled below. </p>
+
+<p>When the cache is full, there are a variety of ways to choose an entry to get
+rid of. Ideally, you'd find the entry that is least likely to be a hit in the
+future.  Unless you have special knowledge about the pattern of calls to your
+cache, this is impossible to predict accurately.  So heuristics are used.</p>
+
+<p>The most common heuristics are <b>least-recently used (LRU)</b> and
+<b>least-frequently used (LFU)</b>.  In an LRU cache, each entry has additional
+bookkeeping with it that tracks when it was last returned as a cache hit. When
+the time comes to discard a cache entry, they are all examined, and the one that
+was last used the longest ago (the least recently used) is chosen.</p>
+
+<p>An LFU cache is similar, but instead of the time of last hit, the number of
+hits is recorded for each entry.  The one with the lowest count is discarded
+when the cache is full.</p>
+
+
+<h2>Invalidation</h2>
+
+<p>Earlier I touched on the idea that an entry in the cache may become
+incorrect. Remember, the cache is a record of previously produced answers to
+questions.  If the answer becomes stale, we have to make sure not to use it
+again, or the cache will produce the wrong answers, and the system will be
+broken.  Detecting when entries become stale is called <b>invalidation</b> and
+is one of the hairier aspects of building caches.</p>
+
+<p>Cache entries have to be invalidated if the output of your cached process is not
+dependent solely on the inputs.  For example, you are caching records retrieved from
+some sort of storage. The input to the cache is the id of the record.  Another
+process can modify the records, so the contents of the record doesn't depend solely
+on the id, it also depends on what data has been written to the record. </p>
+
+
+<h1>Special cases</h1>
+
+<h2>One entry</h2>
+
+<p>A useful special case of a cache that is often overlooked is the one-entry cache.
+This can be handy for processes where the input is often the same as last time. A
+one-entry cache is very simple to implement, because the bookkeeping is drastically
+simplified.  Each time the cache is invoked, check if the stored entry is the one
+being sought. If it is, return it.  If not, compute the answer, throw out the single
+entry, and store the new one.</p>
+
+<h2>Entire cache invalidation</h2>
+
+<p>Sometimes tricky invalidation can be handled by discarding the entire cache. For
+example, suppose you have a cache on top of a data store that is rarely modified. It
+could be a pain to track modified records, find them in the cache and remove them. A
+simpler option is to use the modification event to discard all the records in the
+cache. Since modifications rarely happen, the cache will fill again soon anyway.</p>
+
+<h2>Time-based invalidation</h2>
+
+<p>Another special case is caching the result of a computation which is expensive, and
+need only be approximately right.  For example, the front page of a web site may show
+statistics about the number of burgers sold.  This number doesn't have to be exact,
+so why compute it each time the page is loaded?  Instead, you can use a time-based
+invalidation: if the result was computed more than (for example) 10 minutes ago,
+throw away the answer, and compute the number of burgers again.</p>
+
+<p>This way, the answer is close to right (it will be no more than 10 minutes off), and
+by adjusting the invalidation time, you can easily control how often the work is done.
+This provides a neat slider for you to use: by shortening the time interval, you get more
+accurate answers.  By lengthening it, you reduce load on the system.</p>
+
+
+<h1>Tactical considerations</h1>
+
+<h2>Control</h2>
+
+<p>In practice, you will probably want to control aspects of the cache at run-time.
+The most basic control is turning it on and off.  There are a number of reasons you
+might want to disable a cache:</p>
+
+<ul>
+<li>If you are trying to debug the underlying cached process, a cache on top can be
+a real impediment.  Turning off the cache will let you call the process repeatedly
+without interference.</li>
+<li>You may suspect the cache is introducing bugs of its own.  You can turn off the
+cache to isolate the problem.</li>
+<li>After your software is deployed to a customer, you may discover a bug in the
+cache.  If you have a way to disable the cache, you can "fix" the problem without
+any fuss.</li>
+</ul>
+
+<p>There are of course plenty of other things you may want to control about your
+cache:</p>
+
+<ul>
+<li>The size of the cache. This can be either the number of entries, or the
+size in bytes of the data stored in the cache. </li>
+
+<li>How to choose entries to store in the cache.</li>
+
+<li>How to choose entries to flush from the cache.</li>
+</ul>
+
+<p>These types of controls will be important when the time comes to tune the system,
+and wring optimum performance from your cache.  Don't go overboard, though:
+build what you need when you need it.  Maybe you'll never need it, and you don't
+have to write the code at all.</p>
+
+<h2>Reporting</h2>
+
+<p>When tuning your cache, you'll want to know how it is behaving.  The most useful
+piece of information is the hit rate, how often the cache provided a quick answer.
+</p>
+
+<h1>Pitfalls</h1>
+
+<p>The whole point of adding a cache to your system is to improve it by making it faster.
+If you do it wrong, it can make the system worse.
+</p>
+
+<h2>Bugs</h2>
+
+<p>If you don't properly invalidate the cache, it will produce the wrong results.
+</p>
+
+<h2></h2>
+
+<p>The goal of the cache is to improve performance.  If you over-engineer it, you can
+actually end up slowing things down.  For example, you decide to keep your cache on
+disk so you don't have to worry about how much space it takes up, but the disk ends up
+being slower than the computation you were trying to cache.
+</p>
+
+<h2></h2>
+
+<!--
+benefits:
+	improved performance
+
+costs:
+	increased memory or disk usage
+	increased complexity
+		statefulness
+		bugs
+
+invalidation
+	how to know when to throw something out of the cache
+
+Prefilling.
+
+limiting the size
+
+disabling
+	for debugging the cache
+	for debugging the process under the cache
+	in case of emergency
+
+pitfalls
+	wrong invalidation
+	poor (or worse) performance
+	waste:
+		caching things that don't pay off
+    buggy re-use:
+        eg, sharing objects across threads when you shouldn't.
+        or starting to use an object again before it is idle.
+statistics
+
+-->
+
+</page>

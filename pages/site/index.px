@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='About this site'>
+<section title='Site' order='900'/>
+
+<history>
+<what when='20020303T065800'>Created.</what>
+<what when='20031204T084000'>Updated to be just an index of pages.</what>
+<what when='20080126T081500'>Remove non-functional and possibly uninteresting sitemap; make colophon the last thing.</what>
+</history>
+
+<p>This is my personal web site.
+It has nothing to do with any employer of mine, past or present.</p>
+
+<p>The major areas of the site are:</p>
+
+<ul>
+
+<li><h><a href='blog/index.html'>Blog</a></h>, my weblog.</li>
+
+<li><h><a href='code/index.html'>Code</a></h>, software I've written.</li>
+
+<li><h><a href='text/index.html'>Text</a></h>, my longer more permanent writing.</li>
+
+<li><h><a href='site/index.html'>Site</a></h>, these pages, about the site itself:
+
+<ul>
+<li><apage pref='site/introflash.px'/>, my son's Flash introduction to the site.</li>
+<li><apage pref='site/aboutned.px'/>, telling a little bit more about me.</li>
+<li><apage pref='site/whatisablog.px'/>, describing what a blog is.</li>
+<li><apage pref='site/whatisrss.px'/>, explaining what RSS is.</li>
+<li><apage pref='site/legal.px'/>, getting into who owns what, and who to blame.</li>
+<li><apage pref='site/search.px'/>, for searching this site.</li>
+<li><apage pref='site/colophon.px'/>, revealing how the site is made.</li>
+<!--<li><apage pref='site/sitemap.px'/>, showing the overall structure of the site.</li>-->
+</ul>
+
+</li>
+
+</ul>
+
+</page>

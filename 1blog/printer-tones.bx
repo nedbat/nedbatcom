@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040226T074007'>
+<title>Printer tones</title>
+<category>hacks</category>
+<category>printing</category>
+<via />
+<body>
+<p>Speaking of clever techniques using unorthodox channels of information:
+When I was in college, my best friend from high school came up with a novel
+way to identify his print-out in the computer lab.
+It was a large room full of terminals, with a
+<a href='http://www.columbia.edu/acis/history/la36.html'>DECwriter</a> dot matrix
+printer at one end.  Students could print to the printer, but there was
+no good notification system that the print-out was done.
+You had to wander over after a while and hope that it was ready.
+</p>
+
+<p>The dot matrix printer made a buzzing sound from the wires in the
+print head striking the paper.  So my friend ended his files with
+patterns of increasingly tightly spaced vertical bars:</p>
+
+<code><![CDATA[
+|  |  |  |  |  |  |  |  |  |  |
+| | | | | | | | | | | | | | | |
+|||||||||||||||||||||||||||||||
+]]></code>
+
+<p>When the file was printed,
+the typical buzz of the printer would be interrupted by
+a distinctive rising tone caused by printing the bars.
+It could be heard across the room, announcing that the file was ready.
+</p>
+
+</body>
+</entry>
+</blog>

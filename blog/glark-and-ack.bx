@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070803T095815'>
+<title>Glark and ack</title>
+<category>tools</category>
+<body>
+<p>Two new grep clones: <a href='http://www.incava.org/projects/glark/'>glark</a>
+(written in Ruby), and <a href='http://petdance.com/ack/'>ack</a> (in Perl).
+Both specialize in searching trees of source files, and do cool things like
+color-highlight the results.
+</p>
+</body>
+</entry>
+</blog>

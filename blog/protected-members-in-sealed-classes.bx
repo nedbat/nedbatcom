@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050429T140223'>
+<title>Protected members in sealed classes?</title>
+<category>csharp</category>
+<via />
+<body>
+<p>Here's the latest .NET head-scratcher: I wanted to put up an Open File dialog.
+Simple, use the <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfsystemwindowsformsopenfiledialogclasstopic.asp'>OpenFileDialog</a> class.
+Works great.
+Now I want to change the text of the Open button to "Insert".
+In the Win32 world, there's a hook procedure you can provide that lets you intercept window messages.
+You can customize the dialog by adding behaviors to specific messages.
+For example, on WM_INITDIALOG, you can change the text of a button.
+</p>
+
+<p>Looking at the members of the .NET OpenFileDialog class, I see it has
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfsystemwindowsformscommondialogclasshookproctopic.asp'>HookProc</a>,
+described as:
+</p>
+<quote><p>Defines the common dialog box hook procedure that is overridden to add specific functionality to a common dialog box.</p></quote>
+<p>Perfect! Except that OpenFileDialog is a sealed class (C# lingo meaning you can't derive your own classes from it, like Java final).
+What?! How is this useful to me?  D'oh!
+How do I override behavior in a common dialog?</p>
+
+<p>And another thing: Why show me this member in the docs?
+Just as the docs don't describe private members, they should omit protected members in sealed classes.
+</p>
+
+</body>
+</entry>
+</blog>

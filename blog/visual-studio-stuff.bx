@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051214T115857'>
+<title>Visual Studio Stuff</title>
+<category>tools</category>
+<via href='http://benarnold.f2s.com/'>code circle</via>
+<body>
+<p>Jonathan Payne has a couple of handy Visual Studio plugins on his
+<a href='http://zero-one-zero.com/vs/index.html'>Visual Studio Stuff</a> page:
+</p>
+
+<ul>
+<li>VSFileFinder is an alternate way to find files in your solution.
+Rather than navigate projects and folders, simply type some letters, and a list of all
+files containing the text appear in a list box.  Quick and simple.</li>
+<li>VSTabs is a replacement for the built-in document tabs.
+The good thing about it is that it groups a .h and .cpp file together (with the long part of
+the name only appearing once, to save space).
+This one is harder to adopt, because it removes some things I like, like being able to
+drag tabs to re-order them.</li>
+</ul>
+
+</body>
+</entry>
+</blog>

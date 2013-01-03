@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060412T210251'>
+<title>Client-side PHP</title>
+<category>js</category>
+<category>php</category>
+<via />
+<body>
+<p>Today's Daily WTF is a classic: <a href='http://thedailywtf.com/forums/68115/ShowPost.aspx'>Client-side PHP</a>.
+The developer solved the complexity of code living on both the server and the client by simply having the
+JavaScript in the browser build a chunk of PHP and ship it up to the server for execution! Yow! WTF?
+As one commenter on the thread put it,
+</p>
+
+<quote><p>
+Are.. you.. kidding me? Whoever wrote that code should <b>probably</b> stop using computers.
+</p></quote>
+
+</body>
+</entry>
+</blog>

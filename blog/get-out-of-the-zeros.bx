@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050203T131101'>
+<title>Get out of the zeros!</title>
+<category>development</category>
+<via />
+<body>
+<p>I love open source software. I use a lot of open source software.
+But there's something that really bugs me about it: zeros.
+You know the ones I mean: the major version number.
+What is the problem people have with declaring a piece of software to be 1.0?
+</p>
+
+<more>
+
+<p>Look, your software isn't done, we all know that.  Software is never done.
+That's one of the great things about it.  If you write a book, at some point
+you have to walk away from it and hand it to the printer. You generally don't
+get to tweak it some more, fix problems in it, add new content.  Sure, some
+books will go through multiple editions or revisions, but for the most part,
+writing text is a finite process.</p>
+
+<p>But software is never done.  You'll always find bugs to fix, features you want
+to add, improvements to make, and so on.  That's what version 2 is for!</p>
+
+<p>Look at some of the Python packages I have installed:</p>
+
+<ul>
+<li><a href='http://pyxml.sf.net'>PyXml 0.8.4</a></li>
+<li><a href='http://pyana.sf.net'>Pyana 0.9.2</a></li>
+<li><a href='http://starship.python.net/crew/theller/py2exe/'>py2exe 0.5.4</a></li>
+<li><a href='http://ipython.scipy.org'>IPython 0.6.10</a></li>
+<li><a href='http://starship.python.net/crew/theller/ctypes/'>ctypes 0.9.2</a></li>
+</ul>
+
+<p>These are all great pieces of software. Some of them have been publically released
+for years.  Just what is this 1.0 nirvana we're waiting for?
+Is the goal for the author to press the final Enter key on his deathbed?
+Here's an idea: what if we just throw a factor of ten into all of the version numbers above?
+Then I'd be running version 9.2 of Pyana.  Cool!
+</p>
+
+<p>I don't mean to snipe.
+I've been there: you have ideas in your head, great ideas that will make your software even
+better (more featureful, performant, robust, etc).  You don't want to give up on the
+thought that those great ideas will see the light of day in the future.
+Keeping a zero version number is a way of saying, "This is a work in progress.
+Soon it will be even cooler.  Come back in a little while and see what I've done to it."
+</p>
+
+<p>But the zero is also a way of saying, "Don't take this too seriously.  I was only kidding.
+I haven't done the final pieces to make it a <em>real</em> piece of software."
+At least that's the impression it gives.</p>
+
+<p>In the commercial world, it's important to put a good face on a piece of software,
+and shipping milestones are more formal than in much of the open source world.
+This makes it easier to decide when to call something 1.0.  But the ease of releasing
+open source software shouldn't keep us chained to the amateurish zeros.</p>
+
+<p>Own your work!  Declare it to the world!  Stand up and say, "This is good.  It's real.
+I think you should use it."</p>
+
+<p>If you have a piece of software that you think is useful enough to release into the
+wild, call it 1.0.  Then later we can talk about how to decide when it's 2.0...</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

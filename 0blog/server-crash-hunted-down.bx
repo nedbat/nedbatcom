@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030927T182419'>
+<title>A server crash hunted down</title>
+<category>debugging</category>
+<via /> <!-- id= or href= -->
+<body>
+
+<p>These days, we have great interpreted languages, and great IDEs for
+our compiled languages, and usually we can work at a pretty high level.
+But occasionally, the only way to solve a problem is to get down to
+the nitty gritty and do some old-fashioned detective work.
+Here's the story of a server crash hunted down to its lair the hard way.
+</p>
+
+<more>
+
+<p>Every morning at eight, the Domino server would crash
+(actually the namgr.exe process would crash), and it seemed likely to be
+<a href='http://www.kubisoftware.com/products_server.aspx'>Kubi</a>'s
+fault (Kubi runs as an extension manager add-in, meaning our DLL is loaded into
+all the running processes in the server).
+But the notes.rip file (a postmortem stack dump similar to Dr. Watson)
+didn't show any useful information, just a single stack frame.
+We surmised that the agent manager was trying to shut down after
+having run some agents, and somehow it was crashing. But manually shutting
+down the agent manager didn't reproduce the problem.
+</p>
+
+<p>I figured it would crash again at eight this morning, so I set up
+<a href='http://www.microsoft.com/whdc/ddk/debugging/default.mspx'>WinDbg</a>
+as the just-in-time debugger on the system.  WinDbg is difficult to use
+(it has a bizarre MDI-as-toolbars approach to windowing), but is very
+<a href='http://www.iunknown.com/000016.html'>powerful</a>
+and very lightweight (it doesn't have to be installed: just run it).
+</p>
+
+<p>Sure enough, at eight this morning, the agent manager crashed again, and
+WinDbg came up showing the crash.  Unfortunately, since we were running a
+release build, the optimized code produced the same bad stack trace.  Only a single
+frame was presented, and it had a dubious method name associated with it.
+</p>
+
+<p>My choices were to install a debug build and wait another day,
+or dig harder now.  I'd been looking at this crash for a day already,
+and didn't feel like waiting any more.  What information did I have?
+basically just the instruction pointer, and the disassembled code that
+was executing when it crased.
+I looked at the disassembly window in WinDbg:</p>
+
+<code><![CDATA[
+06a89170 51               push    ecx
+06a89171 56               push    esi
+06a89172 8bf1             mov     esi,ecx
+06a89174 8d4c2404         lea     ecx,[esp+0x4]
+06a89178 c744240400000000 mov     dword ptr [esp+0x4],0x0
+06a89180 8b06             mov     eax,[esi]         ds:0023:1c7c8bb0=????????
+06a89182 51               push    ecx
+06a89183 56               push    esi
+06a89184 c744240c00000000 mov     dword ptr [esp+0xc],0x0
+06a8918c ff5028           call    dword ptr [eax+0x28]
+06a8918f 85c0             test    eax,eax
+06a89191 7d19 jge ksCore!CCapicomSecurity::CheckExpirationDate+0xa0c (06a891ac)
+]]></code>
+
+<p>Maybe I could trace that machine code to a particular place in the
+built code to at least find out which routine we were in.</p>
+
+<p>I used <a href='http://www.perforce.com'>Perforce</a> to get the sources
+from a few days ago (when the running software was built).  I modified the
+Visual Studio projects to produce .cod files (object-level listings that combine
+source code, machine code and assembler), and rebuilt the release build.
+</p>
+
+<p>This produced a 74,000-line .cod file for the class that WinDbg indicated was
+at fault.  I searched the file for "8d 4c 24 04" (the first longish value in the
+disassembly).  There were 40 occurrences.  Taking into account all of the machine
+code from the snippet above, there was only one place in the compiled code
+that matched completely:
+</p>
+
+<code><![CDATA[
+; 418  : inline _bstr_t ICertificate::GetIssuerName ( ) {
+
+  00000 51               push    ecx
+  00001 56               push    esi
+  00002 8b f1            mov     esi, ecx
+
+; 419  :     BSTR _result = 0;
+; 420  :     HRESULT _hr = get_IssuerName(&_result);
+
+  00004 8d 4c 24 04      lea     ecx, DWORD PTR __result$[esp+8]
+  00008 c7 44 24 04 00
+        00 00 00         mov     DWORD PTR $T148998[esp+8], 0
+  00010 8b 06            mov     eax, DWORD PTR [esi]
+  00012 51               push    ecx
+  00013 56               push    esi
+  00014 c7 44 24 0c 00
+        00 00 00         mov     DWORD PTR __result$[esp+16], 0
+  0001c ff 50 28         call    DWORD PTR [eax+40]
+
+; 421  :     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+
+  0001f 85 c0            test    eax, eax
+  00021 7d 19            jge     SHORT $L105414
+]]></code>
+
+<p>While release builds are harder to debug because the optimizer
+scrambles code, here the optimizer helped me.
+Unoptimized code has more common code snippets due to inlining, while the
+optimizer will tend to shuffle code around, making the code more unique
+throughout.
+</p>
+
+<p>The .cod file pinpointed the routine that had failed (it wasn't the one
+the debugger had named).  Here's where I got lucky.  The routine was only
+called from one place, and that routine was only called from one place,
+and that was during shutdown, so our theory had been validated.
+The problem became easy to solve at that point: we were shutting down
+facilities that had never been started up.
+</p>
+
+<p>There's something really satisfying about digging in and persevering to
+find a problem, even through "unreasonable" steps like rebuilding the whole
+product to be able to read the machine code.
+How great it is to have a bug lying dead on the floor,
+with a sharp knife thrust cleanly through its middle!
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

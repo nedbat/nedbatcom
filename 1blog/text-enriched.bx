@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040608T081238'>
+<title>Text/enriched</title>
+<category>networks</category>
+<category>email</category>
+<body>
+<p>I received an email recently that had a text attachment with this XML stuff in it:
+</p>
+
+<quotep>
+&lt;fontfamily>&lt;param>Helvetica&lt;/param>&lt;bigger>http://example.com&lt;/bigger>&lt;/fontfamily>
+</quotep>
+
+<p>It didn't look familiar, so I did a few Google searches, and eventually found
+<a href='http://zvon.org/tmRFC/RFC1896/Output/index.html'>RFC 1896: The text/enriched MIME Content-type</a>.
+It isn't XML: it's an SGML-influenced syntax for simple enrichments to plain text emails.
+Funny that it's been out there for so long and I'd never run across it before.</p>
+
+<p>This feels like an abandoned line of development in the progress of technology,
+like <a href='http://zvon.org/tmRFC/RFC1436/Output/index.html'>gopher</a>,
+<a href='http://www.cs.indiana.edu/docproject/zen/zen-1.0_5.html#SEC26'>Archie</a>,
+and <a href='http://www.ou.edu/research/electron/internet/veronica.htm'>Veronica</a>.
+They were good ideas, but something even better, and at first blush not even that different,
+came along and blew them away.</p>
+
+<p>BTW: Zvon's great <a href='http://zvon.org/tmRFC/RFC_share/Output/index.html'>RFC Repository</a>
+is still the best way I've found to read RFC's, but they seem to have sprouted an unusually
+diverse bunch of ad mushrooms.  They seem to be sprinkled everywhere, in remarkable variety,
+and for some very spam-worthy products.  Too bad, but necessary I suppose.</p>
+
+</body>
+</entry>
+</blog>

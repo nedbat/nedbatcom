@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='pygrep.py'>
+<history>
+<what when='20030801T080300'>Created.</what>
+</history>
+
+<p>I needed a grep that I could modify slightly,
+so I grabbed a copy of Vivian De Smedt's
+<a href='http://www.vdesmedt.com/~vds2212/grep.html'>grep.py</a>,
+and renamed it pygrep.py (I have Cygwin's grep on the path).
+</p>
+
+<p>My additions:</p>
+<ul>
+<li>If the file argument is "@file.txt", then file.txt will be read for filenames,
+one per line, and the grep will be performed across those files.
+</li>
+
+<li>The -w flags turns on full-word-only mode.</li>
+</ul>
+
+<download file='pygrep.py' path='code/utilities/pygrep.py' />
+
+<pagecomments/>
+
+</page>

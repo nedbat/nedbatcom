@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040206T115434'>
+<title>Another cool thing about perforce: Python</title>
+<category>srcctrl</category>
+<category>python</category>
+<category>shells</category>
+<via />
+<body>
+<p>I like <a href='http://www.perforce.com'>Perforce</a> a lot.
+It's lean and clean.  I've always liked their approach of making
+the command line fully functional and then building on it as a way
+of providing multiple interfaces and platforms.
+But here's a twist on that idea that I just discovered:
+every command can take a -G switch which makes the output be marshalled
+Python objects, to aid in scripting.
+</p>
+
+<more>
+
+<p>To try it out, use this script:</p>
+
+<code lang='python'><![CDATA[
+# p4py.py: show off Perforce Python-marshalled output.
+import marshal, os, pprint, sys
+
+P4 = '"c:/program files/perforce/p4"'
+fP4 = os.popen(P4 + ' -G ' + ' '.join(sys.argv[1:]), 'rb')
+
+while 1:
+    try:
+        d = marshal.load(fP4)
+        pprint.pprint(d)
+    except EOFError:
+        break
+]]></code>
+
+<p>This script will accept any p4 command line and show the output as Python
+objects:</p>
+
+<code><![CDATA[
+$ p4py describe 14262
+{'action0': 'edit',
+ 'action1': 'edit',
+ 'change': '14262',
+ 'client': 'NedLaptop',
+ 'code': 'stat',
+ 'depotFile0': '//depot/main/dev/myproject/MyClass.h',
+ 'depotFile1': '//depot/main/dev/myproject/MyClass.cpp',
+ 'desc': 'A week ago I could not even spell programmer, and now I are one!\n',
+ 'rev0': '6',
+ 'rev1': '4',
+ 'status': 'submitted',
+ 'time': '1075862325',
+ 'type0': 'ktext',
+ 'type1': 'ktext',
+ 'user': 'ned'}
+]]></code>
+
+<p>Granted, a genuine API would be even better,
+and the data structure presented here is a little odd
+(why the parallel dict keys to represent more than one changed file?),
+but this is a lot better than screen scraping.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

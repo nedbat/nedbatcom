@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<page title='Software I use'>
+<history>
+<what when='20070204T101000'>Created.</what>
+<what when='20080121T150200'>Updated for publication.</what>
+<what when='20090225T101114'>Update the list since I lost my startups and have to reinstall to get them... :(</what>
+<what when='20090512T073519'>Added hg, removed picasa.</what>
+</history>
+
+<p>This is a summary of the various pieces of software I regularly use.
+For the most part, links here are to blog posts I've written about them,
+but some links are direct to the software page.</p>
+
+<h2>Windows</h2>
+
+<p>I use Windows, primarily out of familiarity and habit.
+Here are extras I use to augment Windows:</p>
+
+<ul>
+    <li><a href='http://www.cygwin.com'>Cygwin</a>, for adding dozens of useful Unix utilities.</li>
+    <li><a href='http://www.johnsadventures.com/software/backgroundswitcher'>John's Background Switcher</a>, for displaying pretty pictures on my desktop.</li>
+    <li><a href='blog/200512.html#e20051230T112438'>TaskSwitchXP</a> improves the Alt-Tab behavior so you can see what program you are switching to.</li>
+    <li><a href='blog/200611.html#e20061112T092359'>Taskbar Shuffle</a> lets me rearrange my taskbar icons.</li>
+    <li><a href='blog/200702.html#e20070210T125208'>Launchy</a> is an unobtrusive launcher similar to Quicksilver.</li>
+    <!--
+    <li><a href='blog/200502.html#e20050225T162715'>Free Launch Bar</a> is a start menu you can configure yourself.</li>
+    -->
+    <li><a href='http://www.microsoft.com/windowsxp/downloads/powertoys/xppowertoys.mspx'>TweakUI</a> gives you a bunch of control panels Windows doesn't provide.</li>
+    <li><a href='http://www.binaryfortress.com/displayfusion/'>DisplayFusion</a> provides nice support for multiple monitors.</li>
+    <li><a href='blog/200704.html#e20070409T220539'>SpeedFan</a> monitors CPU temperatures.</li>
+    <li><a href='blog/200704.html#e20070415T083446'>AutoHotkey</a> remaps keys to change the compromises on laptop keyboards.</li>
+    <li><a href='http://spybot.com'>SpyBot</a> is great at finding and eradicating malware of all sorts.</li>
+    <li><a href='blog/200701/spacemonger_v2.html'>SpaceMonger</a> is a tree map showing where your disk space is going.</li>
+    <li><a href='http://www.truecrypt.org/'>TrueCrypt</a> provides encrypted mountable disks.</li>
+</ul>
+
+<p>Special mention to Sysinternals' tools, which are always the Cadillac in their class:</p>
+
+<ul>
+    <li><a href='blog/200404.html#e20040402T070010'>Process Explorer</a> is a Task Manager on steroids.</li>
+    <li><a href='http://technet.microsoft.com/en-us/sysinternals/bb963902.aspx'>Autoruns</a> shows you what will run when you start Windows.</li>
+    <li><a href='http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx'>Process Monitor</a> tracks file and registry access in real time.</li>
+</ul>
+
+<h2>Internet</h2>
+
+<p>For surfing, I use <a href="http://getfirefox.com">Mozilla Firefox</a>, with these add-ons:</p>
+
+<ul>
+    <li><a href='blog/200609/show_image_catalog_greasemonkey_script.html'>Greasemonkey</a> for writing extension scripts for other people's sites.</li>
+    <!-- <li><a href=''>Adblock</a></li> -->
+    <li><a href='http://tmp.garyr.net/'>Tab Mix Plus</a> adds more options to how browser tabs work.</li>
+    <li><a href='https://addons.mozilla.org/en-US/firefox/addon/125'>SwitchProxy</a> makes living with proxies easier.</li>
+    <li><a href='http://downloadstatusbar.mozdev.org/'>Download Statusbar</a> puts download progress in the status bar instead of a dialog.</li>
+</ul>
+
+<p>While developing web sites, these Firefox add-ons are great:</p>
+
+<ul>
+    <li><a href='blog/200702.html#e20070204T091938'>Firebug</a> is an amazing in-browser debugger.</li>
+    <li><a href='http://tamperdata.mozdev.org/'>TamperData</a> lets you inspect and modify HTTP requests and responses.</li>
+    <li><a href='blog/200707/yslow.html'>YSlow</a> analyzes pages and recommends changes to improve their speed.</li>
+    <li><a href='http://chrispederick.com/work/web-developer/'>Web Developer</a> adds a huge number of helpful utilities.</li>
+    <li><a href='http://www.dwipal.com/extensions'>Remove Cookies for Site</a> helps while testing.</li>
+</ul>
+
+<p>My other communication tools:</p>
+
+<ul>
+    <li><a href='http://getthunderbird.com'>Thunderbird</a> for email.</li>
+    <!--
+    <li><a href='http://www.ceruleanstudios.com/'>Trillian</a> for instant messaging.</li>
+    -->
+    <li><a href='http://bloglines.com'>Bloglines</a> for reading RSS feeds.</li>
+    <li><a href='http://www.pidgin.im/'>Pidgin</a> for instant messaging.</li>
+    <li><a href='http://www.twhirl.org/'>Twhirl</a> for following Twitter.</li>
+    <li><a href='http://filezilla-project.org/'>FileZilla</a> for FTP transfers.</li>
+    <li><a href='http://www.chiark.greenend.org.uk/~sgtatham/putty/'>PuTTY</a> for secure terminals.</li>
+</ul>
+
+<h2>Development</h2>
+
+<p>Tools I use for writing software:</p>
+
+<ul>
+    <li><a href='http://python.org/'>Python</a> as language of choice.</li>
+    <li><a href='text/quicksvn.html'>Subversion</a> for legacy source control.</li>
+    <li><a href='http://www.selenic.com/mercurial/wiki/'>Mercurial</a> for new source control,
+        especially with <a href='http://bitbucket.org/'>Bitbucket</a> project hosting.</li>
+    <li><a href='blog/200210.html#e20021010T120254'>Beyond Compare</a>, an impeccable file comparison tool.</li>
+    <li><a href='blog/200702.html#e20070214T070543'>Komodo Edit</a> for lightweight text editing.</li>
+</ul>
+
+
+<h2>Graphics</h2>
+
+<p>My go-to apps for graphics work:</p>
+
+<ul>
+    <li><a href='http://gimp.org'>GIMP</a> for graphics editing.</li>
+    <!-- <li><a href='blog/200211.html#e20021121T210433'>Picasa</a> for organizing my photographs.</li> -->
+    <li><a href='http://www.adobe.com/products/photoshoplightroom/'>Lightroom</a> for photo storage and tweaking.</li>
+    <li><a href='http://www.towofu.net/soft/e-aicon.php'>@icon sushi</a> for manipulating Windows icons.</li>
+    <li><a href='blog/200212.html#e20021228T160356'>CoolRuler</a>, a handy pop-up pixel ruler.</li>
+    <li><a href='blog/200512.html#e20051201T075759'>ZoomPlus</a>, a well-executed screen magnifier, with measurement and clipboard support.</li>
+</ul>
+
+
+<h2>Toys</h2>
+
+<p>Little doodads that don't do anything useful, but I enjoy having on hand:</p>
+
+<ul>
+    <li><a href='http://golly.sourceforge.net/'>Golly</a>, an amazing implementation of Conway's Game of Life.</li>
+    <li><a href='blog/200206.html#e20020611T084735'>Xaos</a>, a realtime fractal zoomer.</li>
+    <li><a href='code/aptus/'>Aptus</a>, my own Mandelbrot renderer.</li>
+    <li><a href='blog/200705.html#e20070521T210923'>Chaoscope</a>, a strange attractor display program.</li>
+</ul>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where many reviews of other tools appear from time to time.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

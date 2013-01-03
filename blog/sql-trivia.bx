@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060923T083228'>
+<title>SQL trivia</title>
+<category>db</category>
+<via />
+<body>
+<p>I've been digging deeper into SQL details, especially for MySQL, and
+have found a few tidbits:
+</p>
+
+<p>1. In a GROUP BY clause, you can use integers to indicate the column number
+to group by.  I knew this was possible with ORDER BY, so it made sense that
+it would work for GROUP BY, but it never occurred to me to try it.  These
+pairs of statements are equivalent:</p>
+
+<code lang='sql'>
+select a, b from foo order by a, b;
+select a, b from foo order by 1, 2;
+
+select a, b, count(*) from foo group by a, b;
+select a, b, count(*) from foo group by 1, 2;
+</code>
+
+<p>2. MySQL provides a WITH ROLLUP modifier for grouped selects.  This inserts
+sub-total and total rows in the appropriate places:</p>
+
+<code>
+mysql> select color, count(*) from foo group by 1;
++-------+----------+
+| color | count(*) |
++-------+----------+
+| blue  |        6 |
+| green |        6 |
+| red   |        4 |
++-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select color, count(*) from foo group by 1 with rollup;
++-------+----------+
+| color | count(*) |
++-------+----------+
+| blue  |        6 |
+| green |        6 |
+| red   |        4 |
+| NULL  |       16 |
++-------+----------+
+4 rows in set (0.00 sec)
+</code>
+
+<p>3. At least according to these 
+<a href='http://savage.net.au/SQL/'>thorough and authoritative-looking SQL grammars</a>,
+the LIMIT clause is not a part of any SQL standard!</p>
+
+</body>
+</entry>
+</blog>

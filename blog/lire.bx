@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050407T113950'>
+<title>Lire</title>
+<category>tools</category>
+<category>webpage</category>
+<via />
+<body>
+<p>I ran across a mention of this open-source log file analyzer:
+<a href='http://logreport.org/lire/'>Lire</a>.  I haven't tried it, but it seems
+quite full-featured.  In fact, it may be too full featured.  Not content to
+analyze web server logs, it aims to encompass all log file analysis of any kind.
+New log file formats can be read by writing a "DLF converter" which reads your new
+log format, converting it into Distilled Log Format.  Then reports are generated
+by XML specifications somehow.  Like I said, it looks very powerful.  Anyone have any experience with it?
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100717T164700'>
+<title>Installing Python packages from Windows installers into virtualenv</title>
+<category>python</category>
+<category>windows</category>
+<body>
+<p>I'm a recent convert to <a href='http://pypi.python.org/pypi/virtualenv'>virtualenv</a>,
+it's a great way to maintain a number of different Python installations so that
+you can install packages for one project without it polluting the environment
+for all your projects.
+</p>
+
+<p>I also work on Windows, which can be a pain.  In particular, many interesting
+Python packages involve compiling extensions, which is not always easy, and
+especially not easy on Windows.  So I'm glad when package authors provide pre-built
+binaries for Windows.  These are typically delivered as .exe Windows installers.
+</p>
+
+<p>Here's the problem: these installers know to look in the registry to find the
+Python installation.  There are many things developers dislike about Windows,
+and the registry is often at the top of the list.  One of the bad things about
+it is that it encourages a mindset of their being one of everything.  Starting
+with the concept of "one registry", it seeps into the whole culture of Windows,
+invading even to Python, which cannot abide more than one installation of a
+major release.</p>
+
+<p>So when running a Windows package installer, it will find <em>the</em> Python 2.6
+installation in the registry, and that's the only option you've got for where
+the code is going to go.  Your nice isolated virtualenvs are completely out of
+the picture.</p>
+
+<p>I asked on Stack Overflow <a href='http://stackoverflow.com/questions/3271590/can-i-install-python-windows-packages-into-virtualenvs'>if
+there's a way to install Windows package installers into virtualenvs</a>, and
+didn't get the answers I wanted.</p>
+
+<p>So I decided the best approach was to change the registry, install my package,
+then change the registry back.  I adapted <a href='http://effbot.org/zone/python-register.htm'>a classic script
+to register Python installations</a>, to create what I've called the_python.py:</p>
+
+<code lang='python'><![CDATA[
+# script to register Python 2.0 or later for use with win32all
+# and other extensions that require Python registry settings
+#
+# Adapted by Ned Batchelder from a script
+# written by Joakim Low for Secret Labs AB / PythonWare
+#
+# source:
+# http://www.pythonware.com/products/works/articles/regpy20.htm
+
+import sys
+
+from _winreg import *
+
+# tweak as necessary
+version = sys.version[:3]
+installpath = sys.prefix
+
+regpath = "SOFTWARE\\Python\\Pythoncore\\%s\\" % (version)
+installkey = "InstallPath"
+pythonkey = "PythonPath"
+pythonpath = "%s;%s\\Lib\\;%s\\DLLs\\" % (
+    installpath, installpath, installpath
+)
+
+def RegisterPy():
+    try:
+        reg = OpenKey(HKEY_LOCAL_MACHINE, regpath)
+    except EnvironmentError:
+        try:
+            reg = CreateKey(HKEY_LOCAL_MACHINE, regpath)
+        except Exception, e:
+            print "*** Unable to register: %s" % e
+            return
+
+    SetValue(reg, installkey, REG_SZ, installpath)
+    SetValue(reg, pythonkey, REG_SZ, pythonpath)
+    CloseKey(reg)
+    print "--- Python %s at %s is now registered!" % (version, installpath)
+
+if __name__ == "__main__":
+    RegisterPy()
+]]></code>
+
+<p>Use your desired Python to run this script, and it will be entered into the
+registry as <em>the</em> Python.  When you run your Windows package installer,
+it will go into your virtualenv.  Don't forget to run it again at the end to
+put things back the way they were.</p>
+
+</body>
+</entry>
+</blog>

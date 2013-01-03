@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120919T205229'>
+<title>Gems all the way down</title>
+<category>python</category>
+<body>
+    
+    <p>Today I had to update a function that computed a date range for charting.
+        It accepted a parameter of how many days back to draw the chart. I needed
+        to adapt it to do months too.</p>
+
+    <p>Days are easy because datetime.timedelta() accepts a days= argument, and then
+        you can subtract the timedelta from your date.  But timedelta does not accept
+        a months= argument, because the date N months before the current date is
+        not well-defined, and depends on exactly what you mean by "month."  For example,
+        what is the date one month before March 30th?</p>
+
+    <p>So I had to write my own code to subtract months from a date just as I wanted.
+        Since I was charting months, I actually only needed the answer to be the first
+        day of the month N months ago, which simplified the problem.</p>
+
+    <p>Rather than drop the logic right into the compute_chart_dates() function, I pulled
+        it out into its own function.  This made it easy to test the month subtraction 
+        logic directly.  Thinking about testing often leads to better-structured code,
+        because of the extra demands of having usable surface area for the tests to attach
+        to.</p>
+
+    <p>Here's my code:</p>
+
+<code lang='py'><![CDATA[
+def subtract_months(when, months):
+    """Return the first of the month a certain number of months ago.
+
+    `when`: the datetime.date to count back from.
+
+    `months`: the number of months to subtract.
+    
+    """
+    when = when.replace(day=1)
+    years, months = divmod(months, 12)
+    if years:
+        when = when.replace(year=when.year-years)
+    for _ in range(months):
+        when -= datetime.timedelta(days=1)
+        when = when.replace(day=1)
+    return when
+]]></code>
+
+    <p>When I was done, I had a function that did just what I wanted.  I also
+        had a handful of tests of the tricky edge cases, to be sure I had
+        gotten those right.  Then I could very simply use that function to
+        extend my chart date function.</p>
+
+    <p>Afterward, I thought about how pleasing it was to write the
+        subtract_months() function, and to consider all of its aspects, and to
+        get it just right.  It felt like a gem in my hand.</p>
+
+    <p>I felt a little bad, too, because it felt indulgent to focus so much
+        effort on this one small function.  Shouldn't I be concentrating more
+        on the rest of the code?</p>
+
+    <p>But I realized, this code is the way it's supposed to be: tight,
+        focused, solid. It's a pure function, which makes it easy to reason
+        about, and easy to test.  This code is the ideal to aim for.  Rather
+        than scolding myself for thinking about the gem, I should be trying to
+        make all the code gems.</p>
+
+    <p>Of course, the little utilities like subtract_months are easier to make
+        gem-like than the twisty traffic jams at the heart of any real piece of
+        software.  But just because it's hard doesn't mean you shouldn't try.
+        The best code will be gems all the way down.</p>
+
+</body>
+</entry>
+</blog>

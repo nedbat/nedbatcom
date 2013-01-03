@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080607T085136'>
+<title>280slides</title>
+<category>tools</category>
+<category>js</category>
+<category>proglang</category>
+<body>
+<p><a href='http://280slides.com'>280 Slides</a> is an interesting application,
+not so much because of what it does, but because of how it does it.
+It's a nicely made presentation tool, but pretty basic as far as these things
+go (no animations or transitions, for example). But the whole thing runs in your
+browser, with no Flash, and has a nice snappy feel.  The most startling thing
+though, is the language it is written in: something called Objective-J, an
+Objective-C clone implemented in
+<a href='http://280slides.com/Editor/1212807849/Frameworks/Objective-J/Objective-J.js'>13Kb of JavaScript</a>,
+executing in the browser.
+</p>
+
+<p>The rest of the application is delivered in .j files:</p>
+
+<code><![CDATA[
+import <SlideKit/SKPresentation.j>
+import "EditorController.j"
+
+//...
+
+@implementation Document : CPDocument
+
+//...
+
+- (CPData)dataOfType:(CPString)aType error:({CPError})anError
+{
+    var dictionary = [CPDictionary dictionary],
+        data = [CPData dataWithString:@""],
+        archiver = [[CPKeyedArchiver alloc] initForWritingWithMutableData:data];
+
+    [archiver encodeObject:_presentation forKey:DocumentPresentationKey];
+    [archiver finishEncoding];
+    
+    if (aType == DocumentExportType)
+        return data;
+    
+    [data setString:"documentName=" + encodeURIComponent(_documentName) +
+        "&numSlides=" + [[_presentation slides] count] + "\n" + [data string]];
+    
+    return data;
+}
+
+//...
+
+@end
+]]></code>
+
+<p>Objective-J is one of those ideas which seems crazy at first, but then turns out
+to be not impossible, and even do-able.  I wonder if it will be adopted by other
+Mac developers as a way to on-ramp their skills to the web.</p>
+
+<p>Ajaxian has an <a href='http://ajaxian.com/archives/an-interview-with-280-north-on-objective-j-and-cappuccino'>interview
+with the developers</a> (audio, unfortunately), and there's a lot of info in the comments there.
+They'll be distributing the language as <a href='http://objective-j.org/'>objective-j.org</a>.
+</p>
+
+</body>
+</entry>
+</blog>

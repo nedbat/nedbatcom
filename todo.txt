@@ -1,0 +1,138 @@
+Content:
++ Sidebar stuff for articles and code (About me, email me).
++ Legends or explanation paragraphs for archive pages.
++ Dates on articles (http://simon.incutio.com/archive/2003/12/04/dates)
++ Articles section.
++ What's a Blog? page.
++ Comments on non-blog pages.
++ Error page.
+- Links section.
+- Quotes page.
+- Accessibility section (diveintomark.org)
+- A Last Updated notice on the home page.
++ Site search (from Google).
+- Change gifs to pngs.
++ Copyright page.
+- Creative Commons license?
++ Blog entry on home page?
+- Photo albums.
++ About Ned.
+- <link REL="blogroll" TYPE="text/x-opml" TITLE="Blogroll" href="blogroll.opml">
++ Comment system (enetation)
+
+Tools:
++ A way to link to other pages so the title is pulled into the link automatically.
++ PyExpat is slow on splitfile: use Sax instead.
+- Can't put accented chars into blog entries!
++ Sablotron can't do document('') in sub-stylesheets (day-of-week, eg)? Pyana can.
++ Use Pyana.compileStylesheet to speed up XslTreeWalker.
++ Syntax-color python from xuff? http://silvercity.sourceforge.net/
+- New way to find stylesheets: associate root elements with transforms.
++ <img> tags auto-calculate height and width.
++ Make the ftp uploader remove files that are gone.
++ Put the whole thing into Perforce. (subversion, actually).
++ Draft blog entries.
+- Trackback
++ My own comment system
+    + inlined rather than separate window.
+    - With reserved names for me.
+    + Unobtrusive inlines for blog page
+        - With easytoggle? http://simon.incutio.com/archive/2003/11/06/easytoggle
+    - More polished forms: http://www.sitepoint.com/article/1273
+    + BUG: Can't include an apostrophe in the user name in a comment!
+    - Live preview for commenting: http://www.hicksdesign.co.uk/journal/archives/000317.php
+    - Resizable textareas: http://superfluousbanter.org/archives/000157.php
+    - Spam prevention: http://www.sitepoint.com/blog-post-view?id=220357
++ Blogroll included via PHP.
+
+Transformations:
++ Allow link-less via's.
++ Archives by year.
+- Links between the archives by year.
++ Provide a way for blog pages to include the enetation js, but other pages not to.
+- Nicer pages for the large version of pictures.
+- Private sections for family photos.
++ Date-specific copyrights.
++ Blog roll different than nickname'd blogs.
++ A way to have blogs have a (more..) link.
++ Javascript (or php!) protection for mailto:
++ A way to have links to .px paths, and be transformed to the .html href.
+- A way to have links to .bx paths, and be transformed to the .html href.
+- Curly-quotes and apostrophes somehow.
++ Make the archive listing page line up nicer (dates right-flush, entries left-flush?).
++ For some reason, newlines are being inserted between tags (only on try.xuff: indentation ctrl).
+
+Design:
++ More navigation among archive blog pages (next, prev, etc).
++ Permalinks on the whole date? (or whole title!)
+- More of Mark Pilgrim's accessibility suggestions.
+- Get rid of the table-based layout.
++ Make sure Phoenix displays properly (paragraph spacing seems wrong).
+- <link rel='prev'>, etc.
+- Pref to open links in new window.
+- Different background on hover, ala http://imajes.info/
+- Collapsible metadata, ala http://www.paranoidfish.org/notes/
+- Use favicons for stuff: blogroll, commenters.
+
+Nice designs:
+    http://goodonpaper.org/
+    http://h3h.net/
+    http://www.markboultondesign.com/
+    http://jontangerine.com/
+    http://welovetypography.com/
+    http://journal.stuffwithstuff.com/
+
+Hosting:
++ Cancel ned@world.std.com?
++ Uninstall Movable Type.
+
+PR:
+
+Longer Term:
+- Alphabetical index!
+
+Done:
++ robots.txt file to index permalinks in blog.
++ A verbose mode for xuff.
++ Call xuff files from each other.
++ treefile should allow for multiple trees to be pulled in, by naming them
+  in sub-elements.
++ Auto-cloaking of mailto links (<xsl:text disable-output-escaping='yes'>&</xsl:text>)
++ Get rid of .xvpics directories.
++ blog.py should take an optional filename argument so blog files make sense.
++ A way for blog entries (bx) to be links (lx).
++ Left-hand column links
++ Way to include files into other files.
++ Break main blog into chronological pages.
++ Fix day-of-week computation.
++ Compute pagepaths from structure, not all-pages.
++ Via references for blog
++ Pictures (thumbs plus link)
++ Warnings of unrecognized tags?
++ Redirect for users.rcn.com pages
++ favicon.ico
++ Meta tags
++ A section for downloadable code.
++ Real page structure
++ A changes page (under /site).
++ Let <category><link/><link/>...</category> be a short cut for many links in one category.
++ Annotate expat errors in xuff with the file name.
++ FTP from xuff
++ Upgrade to Pyana 0.5.0
++ Write Python extension functions for string ops (EXSLT-conformant? no)
++ Keep xuff from falling over first run
+    (looks like removing temp works halfway?)
+    (maybe related to missing network drives?)
++ Switch to Pyana from Sablotron?
++ blogdex
++ daypop
++ gimp script post to news:
++ tool to ping weblogs.com
++ Transfer domains
++ CSS for lists for sitemap.
++ Use an <a class='s'> to control underlining.
++ Choose a list of fonts after Georgia.
++ Alt tags for permalinks? (title=)
++ How to conditionalize the html indenting?
++ Copyright notices
++ Different sources for left-hand column links for different pages.

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050605T164505'>
+<title>Customizable keyboards</title>
+<category>hardware</category>
+<via href='Scan Code Mapper for Windows'>Coding Horrow</via>
+<body>
+<p>My wrists are hurting again, so I've bought myself a bent keyboard to use with
+my laptop rather than just slouching on the couch.  By coincidence, I came across
+the <a href='http://www.ergodex.com'>Ergodex DX1</a> "input system".  It looks
+pretty cool: you can place keys anywhere you like on a special tray, and assign them
+any function you like.  They aren't selling it for use in typing text, but as a giant
+customizable function-key pad.  They're especially pushing it for gaming, I guess
+because that demographic doesn't mind spending money on cool toys that can potentially
+help them push a lot of buttons a lot faster.
+</p>
+
+<p>For my own problem, though, a bent keyboard helps.  What would be even better though,
+would be to break myself of the habit of using hand-twisting key combinations.  For example,
+when hitting Alt-Tab, it's a lot better for me to push the Alt key with my right hand, and
+the tab key with my left.  I'd like to customize my keyboard so that modifier keys wouldn't
+work if they were used with a regular key on the same side.  That way, I'd be forced to use
+the gentler two-hand combinations.  Does anyone out there know of a way to do that?
+</p>
+
+<p>There's a registry key that can change how keys map to keycodes
+(<a href='http://www.microsoft.com/whdc/device/input/w2kscan-map.mspx'>Scan Code Mapper for Windows</a>),
+but I don't think it can do what I want.</p>
+
+</body>
+</entry>
+</blog>

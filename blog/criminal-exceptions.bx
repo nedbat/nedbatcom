@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100329T132235'>
+<title>Criminal exceptions</title>
+<category>exceptions</category>
+<body>
+<p>We're using <a href='http://socksipy.sourceforge.net/'>socks.py</a> to provide
+SOCKS proxying in some code at work, and it works great until it doesn't.
+Then, unfortunately, the author didn't try very hard to help us out.
+</p>
+
+<p>Recently we got this exception:</p>
+
+<code>GeneralProxyError: (5, "bad input")</code>
+
+<p>Looking into the code, here's where it raises that error:</p>
+
+<code lang='python'><![CDATA[
+if (type(destpair) in (list,tuple)==False) or (len(destpair)<2) or (type(destpair[0])!=str) or (type(destpair[1])!=int):
+    raise GeneralProxyError((5,_generalerrors[5]))
+]]></code>
+
+<p>This is criminal: here is input validation, all of which focuses
+on a single variable, and when raising the exception, it doesn't include the
+value of the variable!  Ugh.</p>
+
+<p>Error handling is no different than the rest of your product: you need to put
+yourself in your customer's shoes and think about what they'll need. Then give
+it to them. Simple.</p>
+
+</body>
+</entry>
+</blog>

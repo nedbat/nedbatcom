@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120316T203641'>
+<title>Happy belated pi day</title>
+<category>math</category>
+<body>
+    <p>Pi day (two days ago) passed without notice here, but then Eric Johnson 
+        posted a comment on <a href="blog/201103/two_pi_day_puzzles_from_pycon.html">last year's pi day post</a>:</p>
+
+    <blockquote>
+        <p>Ancient Egyptians may have thought Pi was 256/81:
+            <a href="http://en.wikipedia.org/wiki/Approximations_of_%CF%80#Early_history">Approximations of &#x03C0;</a>.</p>
+
+        <p>256/81 is about 3.16049382716049382716, which is approx 0.6% above the value of Pi.  
+            22/7 is approx 0.04% less than Pi, so the ancient Egyptians weren't particularly accurate, 
+            but the numerator and denominator they choose are interesting for another reason.</p>
+
+        <p>256/81 can be expressed as 2^8 / 3^4, which can be expressed as 2^2^3/3^2^2, which of course is a palindrome.</p>
+
+        <p>Posted on A.E. Pi day, 2012 (A.E. = Ancient Egyptian)</p>
+    </blockquote>
+
+    <p>I had never heard any of this before, and was delighted.</p>
+    
+    <p>Poking around on the Wikipedia page about approximating pi,
+        I found this <a href="http://en.wikipedia.org/wiki/Approximations_of_%CF%80#Early_history#Pi_and_a_fractal">interesting tidbit</a>:
+        there are points in the Mandelbrot set whose iteration escape counts provide arbitrarily accurate estimates to pi!
+        Will the wonders never cease?</p>
+
+    <p>Happy belated Pi Day!</p>
+
+</body>
+</entry>
+</blog>

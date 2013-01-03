@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021001T054649'>
+<title>Python's maturity</title>
+<category>python</category>
+<via /> <!-- id= or href= -->
+<body>
+
+<p>It's been clear to me for a while that
+<a href='http://www.python.org'>Python</a> is a full-fledged programming language,
+and shouldn't be burdened with the term "scripting language" (although it is sometimes
+called that because of its quick-off-the-blocks feel).
+</p>
+
+<p>In my mind, there is only one thing still holding Python back: the way people name their
+projects.  With many languages, there's been the same pattern: as people first use
+the language (whether it is C, C++, Java, or Python), the language itself is one of
+the central features of the project.  The summary of the project will be something like,
+"JBlob is a blobbety-blob, and it's written in Java".
+With projects like this, the name of the project will reflect the language used.
+In the Java world, this meant many project names starting with J, and many coffee-based
+names (either puns or blends).
+</p>
+
+<p>As the language becomes more of an accepted engineering technology, and less of a
+novelty, the language itself fades into the background, and the focus goes back to the
+software itself.  The names of projects lose the language-specific twists.</p>
+
+<p>When C++ was still new, there were many "Foo++" libraries.
+Now we have
+<a href='http://www.boost.org/'>Boost</a> and
+<a href='http://www.josuttis.com/libbook/idx.html'>STL</a>.</p>
+
+<p>Looking around the Python world, it looks like we may be coming out of the
+play-on-the-language-name style of naming software.
+For example, we have "<a href='http://www.zope.org'>Zope</a>", which was the
+reason I found Python in the first place.
+A quick look at the
+<a href='http://sourceforge.net/softwaremap/trove_list.php?form_cat=178'>Python category at SourceForge</a>
+shows far more generically-named projects than PyProjects.</p>
+
+<p>On the other hand,
+we still have "<a href='http://sourceforge.net/projects/pycrust'>PyCrust</a>",
+but that's a language shell, so it's got to focus on the language anyway;
+we have "<a href='http://www.pygame.org'>PyGame</a>", but that's a language wrapper
+for a C-based library.
+I like "<a href='http://pyana.sourceforge.net/'>Pyana</a>" (I use it to create this site),
+but don't know why it is called that.
+</p>
+
+<p>It's hard to leave behind the appealing "Py" prefix, but I think it is a good
+sign for the language and its community.</p>
+
+</body>
+</entry>
+</blog>

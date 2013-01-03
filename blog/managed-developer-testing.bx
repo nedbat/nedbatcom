@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050221T194939'>
+<title>Managed developer testing</title>
+<category>testing</category>
+<category>management</category>
+<via />
+<body>
+<p>Kim writes about <a href='http://www.kimbly.com/blog/000398.html'>Managed Developer Testing</a>,
+referring to an in-depth article by Alberto Savoia about
+"<a href='http://www.developertesting.com/archives/month200312/20031227-ManagedDeveloperTesting.html'>a set of management practices supported by automated tools which [he believes] are essential to make a developer testing effort successful</a>".
+</p>
+
+<p>Kim says "our engineering team has nominally agreed that test-driven development is a good thing, but I'm having a lot of trouble keeping it going".
+I know the problem.  In my experience, there are a few factors that contribute to the impossibility of developer
+testing:
+</p>
+
+<ul>
+<li>Developers aren't used to writing tests, so we're talking about a change of culture, which is hard.</li>
+
+<li>Design for testability is rarely considered when architecting in the first place, so there are large
+chunks of code which are very difficult to test automatically.
+This contributes to developers' sense that unit testing is a waste of time.</li>
+
+<li>Developers have an in-born confidence in their code, so they view unit tests as a formality that won't
+yield any benefit.</li>
+</ul>
+
+<p>All of those are back-pressures on developer testing, but in my experience, the worst is this:
+The constant push to get the features "done" as quickly as possible.  There's little support
+in a traditionally-run engineering department to "hold up" the feature while the tests are written.
+Once it's coded and seems to work, we say it's done, then move on to the next feature.
+And of course if there isn't a strong culture and infrastructure for automated developer testing
+already in place, any effort to start is going to bear the entire burden of creating the culture
+and infrastructure, so it's a very high bar to get across.
+</p>
+
+<p>As I'm learning with my personal projects, automated testing is a wonderful thing.  I wish I
+knew how to get it in place on larger projects.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040422T085350'>
+<title>APL and J</title>
+<category>proglang</category>
+<via />
+<body>
+
+<p>For some reason, the topic of APL came up yesterday at the office.
+APL is one wild-ass idiosyncratic language.
+It stands for A Programming Language, and was created in 1962 by Ken Iverson.
+One of its most unusual aspects is that it requires an entirely new character set,
+including not only Greek letters, but new symbols created by Iverson.
+To add to the typographic diversity, even more new symbols were created by backspacing
+and overstriking two symbols together!
+</p>
+
+<more>
+
+<p>Here's an example I scanned from an APL book:</p>
+
+<figurep>
+<img src='pix/apl1.png' alt='Some typical APL'/>
+</figurep>
+
+<p>The lamp character introducing the comments is formed by overstriking a small circle
+with a mathematical intersection character.  The difficulty of entering this symbol
+may help explain the typical lack of comments in APL programs!</p>
+
+<p>Procedures are created with numbered lines of statements,
+and the only structuring mechanism is the goto (the right-pointing arrow):</p>
+
+<figurep>
+<img src='pix/apl2.png' alt='A procedure written in APL'/>
+</figurep>
+
+<p>APL is really a calculator on mega-steroids.
+Its pervasive matrix operations give the programs their particular flavor.
+Looping is rare, with data in matrices acted on with single strokes.
+To use an analogy, where a more typical programming language
+lets you deal cards one at a time from a deck,
+with APL you usually figure out how to throw the entire deck into the air so that the cards
+all land where they should.
+For example, this <a href='http://www.chilton.com/~jimw/hexdump.html'>hex dump program</a>
+has no loops or gotos at all.</p>
+
+<p>There are more modern implementations of APL that solve the character set problem.
+<a href='http://www.jsoftware.com/'>J</a> seems to be just an implementation of APL without
+the wacky characters, although the home page doesn't mention APL!
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

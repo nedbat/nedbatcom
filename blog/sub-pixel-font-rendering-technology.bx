@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050413T193716'>
+<title>Sub-pixel font rendering technology</title>
+<category>type</category>
+<via />
+<body>
+<p>A friend sent an email exhorting me to take advantage of
+<a href='http://www.microsoft.com/typography/ClearTypeInfo.mspx'>ClearType</a> on Windows XP.
+(Hmmm, he's a newly-minted Microsoft employee... the beginnings of a subtle intra-friend
+marketing push?)  I've tried it in the past, and been very impressed.  I don't use it
+because I switch back and forth from LCD to CRT a few times during the course of a day,
+and ClearType doesn't look good on CRTs.  I expect to be all LCD all the time in a week
+or so, so I'll give it a real try then.
+</p>
+
+<p>But I was reminded of Steve Gibson's
+<a href='http://www.grc.com/cleartype.htm'>Sub-Pixel Font Rendering Technology</a>
+page.  It's got a lot of good information about the technology.  It also has
+<a href='http://www.grc.com/freeandclear.htm'>Free &amp; Clear</a>, a demo of the concepts
+of sub-pixel rendering.  Perhaps most surprising about the app is that it is Windows application
+but only 35Kb in size, complete.  It's that small not because there's a 2Mb DLL alongside it,
+but because it is <a href='http://www.grc.com/smgassembly.htm'>written in assembly language</a>,
+just as all of Steve's software is.  I think he's nuts, but I admire his dedication.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040320T211922'>
+<title>Groovy</title>
+<category>proglang</category>
+<via id='tedleung'/>
+<body>
+<p><a href='http://groovy.codehaus.org/'>Groovy</a> is a new dynamic
+language that's borrowing heavily from Python and Ruby.
+It compiles to standard Java bytecodes, and so can be run on
+existing JVMs.  It looks very interesting.
+This snippet in particular caught my eye:
+</p>
+
+<code><![CDATA[
+foo = 'cheese'
+sql = TestHelper.makeSql()
+
+sql.eachRow("select * from FOOD where type=${foo}") {
+    println "Gromit likes ${it.name}"
+}
+]]></code>
+
+</body>
+</entry>
+</blog>

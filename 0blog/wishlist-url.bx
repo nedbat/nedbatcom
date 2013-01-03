@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021118T210140'>
+<title>Amazon wishlist URLs</title>
+<category>amazon</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>As another angle on the <a href='blog/200210.html#20021003T152905'>long URL</a> theme,
+<a href='http://www.jakehowlett.com/blog/'>Jake Howlett</a> pointed out that the URL I
+used for my Amazon wishlist was bogus: it always showed the current user's wishlist,
+rather than mine.</p>
+
+<p>What happened, of course, is I visited my wishlist, and copied the URL.
+It had what seemed like a long unique number at the end of it, so I figured it was mine:
+<a href='http://www.amazon.com/exec/obidos/wishlist/104-3115277-8167128'>http://www.amazon.com/exec/obidos/wishlist/104-3115277-8167128</a>.
+Actually, the random junk on the end is a session id or something (the same url with no
+random junk also takes you to your own wishlist:
+<a href='http://www.amazon.com/exec/obidos/wishlist'>http://www.amazon.com/exec/obidos/wishlist</a>).
+</p>
+
+<p>Visiting Amazon again, I tried to find a good URL for others to use to get to my wishlist.
+I couldn't find one: every time I got to my wishlist, Amazon knew it was me, and showed it
+to me in ways that wouldn't work for others.  In the end, I sent myself one of the
+cheezy emails Amazon would like me to send to all my friends announcing my wishlist.
+It had a URL that worked.  (Actually, Jake sent me a URL, but I wanted to work through it
+myself).</p>
+
+<p>All this brings up another point about long confusing URLs.  Dynamic URLs can
+bring the power of an API to a website (in that they let you craft queries with URLs).
+But they can also obscure the structure of a site by bringing you to the same place
+with different URLs (all the different ways I could see my wishlist, for example),
+or to different places via the same URL (the URL that showed each person their own
+wishlist).</p>
+
+<p>How much should web site designers make their URL structure transparent?  How much
+can they anticipate all the ways people will want to use their sites?  The permalink
+artifact common in weblogs is an example of providing a clear and direct mapping between
+content on a site and URLs that map to that content.  If only all sites could be as direct.
+</p>
+
+</body>
+</entry>
+</blog>

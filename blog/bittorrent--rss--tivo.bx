@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050313T174704'>
+<title>BitTorrent + RSS = TiVo?</title>
+<category>feeds</category>
+<category>tv</category>
+<via href='http://kottke.org/'>kottke.org</via>
+<body>
+<p>Pedro Alcocer explains
+<a href='http://pealco.net/archives/2004/11/08/how_to_never_miss_an_episode_with_bittorrent_and_rss'>How to never miss an episode with BitTorrent and RSS</a>.
+</p>
+
+<p>As it happens, I first installed <a href='http://bittorrent.com'>BitTorrent</a>
+this weekend (to get an update to the <a href='http://www.ubuntulinux.org'>Ubuntu</a>
+CD I picked up at the Python Meetup).
+I was very impressed with the BitTorrent technology.  Before I had even finished downloading
+the Ubuntu image, I was serving parts of it to other clients.</p>
+
+<p>So when I saw the description of using RSS with BitTorrent to automatically download
+episodes of TV shows, I figured I'd look into it.
+<a href='http://tvtorrents.com'>TvTorrents</a> implements the idea well:
+torrents are available for many shows, organized by year and episode.
+Each user has to login to download, and a credit system is used to ensure that downloaders
+also provide upload bandwidth.  I haven't read about the details of the BitTorrent
+protocol, but it seems to have been very well thought out if credit systems like this
+can be built on top of it.</p>
+
+<p>Of course, sites aggregating TV episodes and offering them for download are illegal,
+and I'm sure the TV industry is taking steps to bring them down.
+But it is thrilling that free open source technology is available which
+can be used to build services like this.</p>
+
+</body>
+</entry>
+</blog>

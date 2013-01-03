@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030402T071714'>
+<title>Disappointed in "XML names and addresses"</title>
+<category>xml</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://seanmcgrath.blogspot.com/2003_03_30_seanmcgrath_archive.html#200077537'>Sean McGrath</a>
+has written an article entitled
+<a href='http://www.itworld.com/nl/ebiz_ent/03252003/'>A study in XML culture and evolution</a>.
+It starts out well, making interesting
+observations about the differing culture between "document" people and
+"data" people.
+"Data" people believe in unique ids (names) for data, "document" people
+are satisfied with uniqueness among all the fields (addresses). Good point.
+</p>
+
+<p>Being a "document" person, he doesn't see the need for unique ids for
+his data.  Fair enough.
+But then he tanks, making some sort of leap to the conclusion
+that since his data doesn't need names, his XML doesn't need namespaces.
+Huh?  I'm hoping Sean was mis-edited, or maybe just had an off day.
+He seems otherwise to know what he is talking about.
+To confuse names for data with namespaces for names of attributes seems
+pretty basic to me.
+</p>
+
+</body>
+</entry>
+</blog>

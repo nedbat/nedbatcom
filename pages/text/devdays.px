@@ -1,0 +1,98 @@
+<page title="DevDays Whirlwind Python">
+<history>
+<what when="20091007T193400">Created.</what>
+</history>
+
+<p>This was a presentation I gave at the DevDays Boston conference in
+2009.  I don't have much text to go with it, but these are the slides.
+If you need them larger, there is a <a href="text/devdays_png.zip">zip file of .pngs</a>.
+</p>
+
+        <figurep><img src="text/devdays_000.png" alt="Slide 0"/></figurep><figurep><img src="text/devdays_001.png" alt="Slide 1"/></figurep><figurep><img src="text/devdays_002.png" alt="Slide 2"/></figurep><figurep><img src="text/devdays_003.png" alt="Slide 3"/></figurep><figurep><img src="text/devdays_004.png" alt="Slide 4"/></figurep><h1>~ Spell corrector ~</h1>
+
+<p>Joel's suggestion was to explain Peter Norvig's <a href="http://norvig.com/spell-correct.html">Spell Corrector</a>
+line-by-line.  I've made a few small edits for expository purposes.</p>
+
+        <figurep><img src="text/devdays_006.png" alt="Slide 6"/></figurep><figurep><img src="text/devdays_007.png" alt="Slide 7"/></figurep><p>Here's the code:</p>
+
+<code lang="py">
+import re, collections
+
+def words(text):
+    return re.findall('[a-z]+', text.lower()) 
+
+def train(words):
+    model = collections.defaultdict(int)
+    for w in words:
+        model[w] += 1
+    return model
+
+NWORDS = train(words(file('big.txt').read()))
+
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+def edits1(word):
+    s = [(word[:i], word[i:]) for i in range(len(word) + 1)]
+    deletes    = [a + b[1:] for a, b in s if b]
+    transposes = [a + b[1] + b[0] + b[2:] for a, b in s if len(b)&gt;1]
+    replaces   = [a + c + b[1:] for a, b in s for c in alphabet if b]
+    inserts    = [a + c + b     for a, b in s for c in alphabet]
+    return set(deletes + transposes + replaces + inserts)
+
+def known_edits2(word):
+    return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)
+
+def known(words):
+    return set(w for w in words if w in NWORDS)
+
+def correct(word):
+    candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
+    return max(candidates, key=NWORDS.get)
+
+if __name__ == '__main__':
+    import sys
+    for w in sys.argv[1:]:
+        print "%s -&gt; %s" % (w, correct(w))
+</code>
+
+
+        <figurep><img src="text/devdays_008.png" alt="Slide 8"/></figurep><figurep><img src="text/devdays_009.png" alt="Slide 9"/></figurep><figurep><img src="text/devdays_010.png" alt="Slide 10"/></figurep><figurep><img src="text/devdays_011.png" alt="Slide 11"/></figurep><figurep><img src="text/devdays_012.png" alt="Slide 12"/></figurep><figurep><img src="text/devdays_013.png" alt="Slide 13"/></figurep><figurep><img src="text/devdays_014.png" alt="Slide 14"/></figurep><figurep><img src="text/devdays_015.png" alt="Slide 15"/></figurep><figurep><img src="text/devdays_016.png" alt="Slide 16"/></figurep><figurep><img src="text/devdays_017.png" alt="Slide 17"/></figurep><figurep><img src="text/devdays_018.png" alt="Slide 18"/></figurep><figurep><img src="text/devdays_019.png" alt="Slide 19"/></figurep><figurep><img src="text/devdays_020.png" alt="Slide 20"/></figurep><h1>~ Templating ~</h1>
+
+        <figurep><img src="text/devdays_022.png" alt="Slide 22"/></figurep><figurep><img src="text/devdays_023.png" alt="Slide 23"/></figurep><figurep><img src="text/devdays_024.png" alt="Slide 24"/></figurep><figurep><img src="text/devdays_025.png" alt="Slide 25"/></figurep><figurep><img src="text/devdays_026.png" alt="Slide 26"/></figurep><figurep><img src="text/devdays_027.png" alt="Slide 27"/></figurep><figurep><img src="text/devdays_028.png" alt="Slide 28"/></figurep><figurep><img src="text/devdays_029.png" alt="Slide 29"/></figurep><figurep><img src="text/devdays_030.png" alt="Slide 30"/></figurep><figurep><img src="text/devdays_031.png" alt="Slide 31"/></figurep><figurep><img src="text/devdays_032.png" alt="Slide 32"/></figurep><figurep><img src="text/devdays_033.png" alt="Slide 33"/></figurep><p>Here's the completed Nango code:</p>
+
+<code lang="python">
+import re
+
+class Nango1(object):
+
+    def __init__(self, text):
+        # Convert {{foo}} into %(foo)s
+        text = re.sub(r"{{(.+?)}}", r"%(\1)s", text)
+        self.text = text
+
+    def render(self, data):
+        return self.text % NangoContext(data)
+
+
+class NangoContext(object):
+
+    def __init__(self, data):
+        self.data = data
+
+    def __getitem__(self, key):
+        if "." in key:
+            dots = key.split('.')
+            value = self[dots[0]]
+            for dot in dots[1:]:
+                try:
+                    value = getattr(value, dot)
+                except AttributeError:
+                    value = value[dot]
+                if callable(value):
+                    value = value()
+        else:
+            value = self.data[key]
+        return value
+</code>
+
+        <figurep><img src="text/devdays_034.png" alt="Slide 34"/></figurep><figurep><img src="text/devdays_035.png" alt="Slide 35"/></figurep><figurep><img src="text/devdays_036.png" alt="Slide 36"/></figurep><figurep><img src="text/devdays_037.png" alt="Slide 37"/></figurep></page>

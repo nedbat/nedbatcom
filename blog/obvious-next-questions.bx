@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080811T144621'>
+<title>Obvious next questions</title>
+<category>mac</category>
+<body>
+<p>Helping Max with DateDifference, we wanted a way to parse a date string using
+the user's current locale.  We naturally found the
+<a href='http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/Reference/Reference.html#//apple_ref/doc/uid/20000188-dateWithNaturalLanguageString_locale_'>dateWithNaturalString:locale: method on NSDate</a>.
+It sounds perfect.  The documentation for the method includes this statement:
+</p>
+
+<quote><p>This method supports only a limited set of colloquial phrases,
+primarily in English. It may give unexpected results, and its use is strongly discouraged.</p></quote>
+
+<p>There's an obvious next question here, and I wish the doc writer had thought
+enough about their reader to answer it: if this method's use is strongly
+discouraged, what is the recommended way to solve my problem?</p>
+
+<p>This isn't meant to be a dig at Apple.  There's tons of reference documentation
+all over the place just like this.  There are probably even tech writers that
+defend this style, in the name of modularity and brevity.  Don't believe it.
+This is unhelpful, exactly the opposite of what docs should be.</p>
+
+<p>Extra bonus question: if you can help me understand how to parse dates according
+to the user's current choices in the International system preferences panel, I would
+really appreciate it!</p>
+
+</body>
+</entry>
+</blog>

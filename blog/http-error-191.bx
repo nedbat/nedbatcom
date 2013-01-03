@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051006T155509'>
+<title>HTTP error 191</title>
+<category>debugging</category>
+<via />
+<body>
+<p>At work we had a thorny problem in our code: when trying to make an HTTP connection for a SOAP call,
+the connection would fail.  Reading the log files, it seemed to be a 191 error.  "That's odd, never heard
+of that one before," we all said.
+Somehow, the <a href='http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'>spec with all the HTTP errors</a>
+had never heard of it either.  Could it be some vendor-specific code?  We were stumped.
+</p>
+
+<p>We lived with it for a while until a co-worker figured it out.  Our logging code looked like this:</p>
+
+<code lang='cpp'><![CDATA[
+if (FAILED(hresult)) {
+    os << "hresult: " << std::hex << hresult << "\n";
+}
+if (lasterror > 0) {
+    os << "Win32 error: " << lasterror << "\n";
+}
+if (httperror > 0) {
+    os << "HTTP status: " << httperror << "\n";
+}
+]]></code>
+
+<p>Can you see what's going on here?  Bueller?  Anybody?</p>
+
+<p>The std::hex function modifies the ostream permanently.
+If the hresult was printed, then the ostream was switched into hex mode, and all numbers will be hex.
+The httperror value (and the lasterror value for that matter) are being written in hexadecimal.
+The mysterious 191 error was actually a 0x191 error, or a plain-old 401.
+Inserting a std::dec to set the ostream back to decimal fixed things up.  We still had to fix the
+"unauthorized" error, but at least now we know what it is!
+</p>
+
+</body>
+</entry>
+</blog>

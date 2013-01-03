@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090301T095708'>
+<title>Code hosting choices</title>
+<category>srcctrl</category>
+<body>
+<p>I'm in the middle of a major overhaul of <a href='code/modules/coverage.html'>coverage.py</a>,
+and one of the changes I'm making is to move the code into a public repository
+with bug tracking.  But I have to choose which one.
+</p>
+
+<p><a href='http://code.google.com/'>Google Code</a> is kind of the default
+choice at this point.  It has everything I need, and people understand it.
+But frankly, I don't want Google to own everything.  I'd like to give the
+business to another player.</p>
+
+<p><a href='https://launchpad.net/'>Launchpad</a> is a good alternative.  It's
+got tons of features, and is based on <a href='http://bazaar-vcs.org/'>Bazaar</a>,
+which is something I've wanted to learn more about.  Distributed version control
+is here to stay, and has real advantages over Subversion.  But Launchpad seems
+a bit heavyweight:  it's got features that make it a good home for large projects
+like Ubuntu and MySQL, but I don't need all those features, and there doesn't
+seem to be a simplified experience that I could use.</p>
+
+<p>Both Google Code and Launchpad require you to sign in to create a bug report,
+which is less of a problem for Google, since the chances are much greater that
+a random user will already have a Google account than a Launchpad account.</p>
+
+<p><a href='http://www.github.com'>Github</a> is very nice, but so far to my eyes,
+git is not, so I'm not seriously considering it.</p>
+
+<p>I'm sure there are other choices out there, I just don't know what they are.</p>
+
+</body>
+</entry>
+</blog>

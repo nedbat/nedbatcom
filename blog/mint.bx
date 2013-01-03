@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050906T091750'>
+<title>Mint</title>
+<category>webpage</category>
+<via href='http://www.kevinleitch.co.uk/wp/home.php'>Left Brain/Right Brain</via>
+<body>
+<p><a href='http://www.haveamint.com/'>Mint</a> is a new web server statistics package.
+Its slant is that it is simpler than other packages like
+<a href='http://awstats.sourceforge.net/'>Awstats</a>
+or <a href='http://analog.cx'>analog</a>.
+Some people feel this is a negative, others think it is
+<a href='http://www.mikeindustries.com/blog/archive/2005/09/mint-the-flavor-of-the-month'>Mint's strength</a>:
+</p>
+
+<quote>
+<p>Mint, as the name so cryptically implies, is designed to give you a “fresh look at your site”.
+A slice in time, if you will. Where has my traffic from the last 48 hours come from?
+What days of the week does activity on my site peak?
+What terms have people possibly been searching for that could lead them to my embarrassment-of-a-website?
+</p>
+
+<p>Mint grew out of a desire to maintain a rolling window, or dashboard,
+of activity with which one could easily analyze what’s going on in the here and in the now.
+Not so much in the two years ago.
+It is this philosophy which allows Mint to maintain such a small database
+(generally around 20 megs, but fully customizable) and yet provide such great functionality.
+</p>
+</quote>
+
+<p>Mint is also different from most other packages, in that it uses JavaScript on the pages to
+collect information, rather than analyzing the server logs. This allows it to exclude referrer spam,
+but means requiring JavaScript in your readers' browsers.
+</p>
+
+</body>
+</entry>
+</blog>

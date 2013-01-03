@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041012T171025'>
+<title>SimpleSQL</title>
+<category>db</category>
+<via id='keithdevens'/>
+<body>
+<p><a href='http://www.simplesql.org'>SimpleSQL</a> is another contender in the field
+of open source implementations of SQL relational databases.
+It's distributed under a GPL license.
+Interestingly, they seem to be writing in Java, then automatically converting the
+source to C++ so that they can support C++ clients!
+</p>
+</body>
+</entry>
+</blog>

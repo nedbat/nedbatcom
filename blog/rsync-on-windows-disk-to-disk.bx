@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080109T071613'>
+<title>Rsync on Windows disk to disk?</title>
+<category>windows</category>
+<category>help</category>
+<body>
+<p>I have a <abook isbn='B000W1OMQK'>Western Digital 250Gb Passport drive</abook>
+for backing up my Windows laptop.  I figured I would just use cygwin rsync to move data
+between the two drives.  When I mount the Passport as drive Q, I use a command
+like this:
+</p>
+
+<code>rsync -az --progress . /cygdrive/q/bak</code>
+
+<p>This faithfully copies all the data, and avoids copying stuff that hasn't
+changed, mostly.  But some files are copied every time I run the command, even
+when they haven't been changed, and in fact, a diff program shows that the source
+and the backup copy are identical.  I figure it's some Windows characteristic of
+the file that is throwing off rsync and making it think the file needs to be copied,
+but I can't figure out what.  Some of the files have capital letters in the filename,
+but not all of the afflicted files do.  I never set permissions on files, so I don't
+think that could be it (but I could be wrong).</p>
+
+<p>Anyone have any experience with this?</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021124T215035'>
+<title>Growing A Language</title>
+<category>ling</category>
+<category>proglang</category>
+<via href='http://www.cabezal.com/blog/'>Hugh's ramblings</via> <!-- id= or href= -->
+<body>
+<p>Guy Steele wrote a clever paper a few years back called
+<a href='http://www.research.avayalabs.com/user/wadler/steele-oopsla98.pdf'>Growing A Language</a>.
+It is a precisely written exposition of the difficulties of using programming languages,
+and his thoughts on how to plan for their growth.</p>
+
+<p>To illustrate his point, he uses English as programmers have to use programming languages.
+As a result, he provides definitions of words that are illuminating in their own right:
+</p>
+
+<ul>
+<li>A <i>machine</i> is a thing that can do a task with no help, or not much help, from a person.</li>
+<li><i>Meta</i> means that you step back from your own place. What you used to do is now
+what you see. What you were is now what you act on. Verbs turn to nouns. What you
+used to think of as a pattern is now treated as a thing to put in the slot of an other
+pattern.</li>
+</ul>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080321T072834'>
+<title>Is it a cache?</title>
+<category>arch</category>
+<body>
+<p>A <a href='http://groups.google.com/group/django-developers/msg/4763b140e1f796bb'>current discussion on django-developers</a>
+about identity mapping raised a sore point with me: when is something a cache?
+In the linked message, Philippe Raoult discussing the id/object map as a cache.
+In my mind, it is clear that it is not a cache.
+</p>
+
+<p>There are two defining characteristics of a cache:</p>
+
+<ul>
+    <li>It makes things go faster, and</li>
+    <li>It doesn't make things behave differently.</li>
+</ul>
+
+<p>An important test of cache-ness is to imagine disabling it. How does that
+affect the whole system? If you answered "it goes slower", then you have a
+cache. If you answered, "some stuff wouldn't work right", then you are talking
+about something besides a cache.</p>
+
+<p>Of the two traits above, counter-intuitively, the second is more important.
+If I have a component which is transparent to the rest of the system, and was
+supposed to make things faster, but doesn't, then I have a bad cache.  If I have
+a component which speeds things up but cannot be disabled because it would break
+things, then I have no cache at all.</p>
+
+<p>Another role sometimes confused with caching is persistence.  The defining
+characteristic of persistence is that you can give it a thing, and later it will
+give it back to you.  That's its promise.  Caches make no such promise. In fact,
+there is a term for when a cache doesn't have what you are looking for: a cache miss.
+</p>
+
+<p>When evaluating a component, you need to keep a clear eye on what you are using
+it for.  A tool built for caching cannot be slotted into the persistence role.
+The cache contract doesn't include the promise to return data. No matter how
+infrequently your cache misses, it still misses.  Similarly, if the component in
+question is important to the semantics of the system, then it isn't a cache,
+because it breaks the promise to not make things behave differently.
+</p>
+
+</body>
+</entry>
+</blog>

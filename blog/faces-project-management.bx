@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050907T065034'>
+<title>Faces project management</title>
+<category>python</category>
+<category>management</category>
+<via id='dailypython'/>
+<body>
+<p><a href='http://faces.homeip.net/'>Faces</a> is a project management tool.
+It makes an interesting compromise in the tradeoff between GUI and text entry:
+your project data is entered as stylized Python code, and a GUI lets you examine the
+project and its estimation results graphically.
+This lets the developer focus on calculation, the part you really need the computer for.
+</p>
+
+<p>I took a similar approach when I built Nat's World, using Python to
+<a href='http://www.python.org/about/success/natsworld/'>craft a mini-language to
+describe the environment</a>.
+</p>
+
+</body>
+</entry>
+</blog>

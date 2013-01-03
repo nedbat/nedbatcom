@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040624T073640'>
+<title>The digital object identifier system</title>
+<category>semweb</category>
+<via href='http://www.yarinareth.net/caveatlector/'>Caveat Lector</via>
+<body>
+<p>I stumbled upon the
+<a href='http://doi.org'>Digital Object Identifier system</a>, and I feel like I've fallen down
+a rabbit hole into some sort of parallel universe.  It's an elaborate scheme for
+"identifying and exchanging intellectual property in the digital environment".
+There are
+<a href='http://www.handle.net/rfc/rfc3650.html'>RFCs</a>,
+an extensive <a href="http://dx.doi.org/10.1000/186">handbook</a>,
+and an active organization.
+</p>
+
+<p>The idea seems to be a URN implementation.
+For example, the handbook is <a href="doi:10.1000/186">doi:10.1000/186</a>,
+though browsers don't recognize the doi: URI scheme, so there's a web implementation:
+<a href="http://dx.doi.org/10.1000/186">http://dx.doi.org/10.1000/186</a>.
+It reminds me of <a href='http://tinyurl.com/'>tinyurl.com</a>, though to solve a different problem.
+</p>
+
+<p>Is this going to be a real thing to know about, or is it one of those Library Science
+specialties that doesn't much get out into the real world?
+</p>
+
+</body>
+</entry>
+</blog>

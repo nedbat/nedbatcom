@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080409T055530'>
+<title>The structure of .pyc files</title>
+<category>python</category>
+<body>
+<p>I spent some time digging around in the Python code to understand how .pyc
+files work.  It turns out they are fairly simple, then kind of complex.
+</p>
+
+<p>At the simple level, a .pyc file is a binary file containing only three things:</p>
+
+<ul>
+    <li>A four-byte magic number,</li>
+    <li>A four-byte modification timestamp, and</li>
+    <li>A marshalled <a href='http://docs.python.org/ref/types.html#l2h-143'>code object</a>.</li>
+</ul>
+
+<p>The magic number is nothing as cool as
+<a href='http://www.artima.com/insidejvm/whyCAFEBABE.html'>cafebabe</a>,
+it's simply two bytes that change
+with each change to the marshalling code, and then two bytes of 0d0a.
+The 0d0a bytes are a carriage return and line feed, so that if a .pyc file is
+processed as text, it will change, and the magic number will be corrupted.  This
+will keep the file from executing after a copy corruption.
+The marshalling code is tweaked in every major release of Python, so in practice
+the magic number is unique in each version of the Python interpreter.
+For Python 2.5, it's b3f20d0a. (the gory details are in <a href='http://svn.python.org/view/python/trunk/Python/import.c?view=markup'>import.c</a>)</p>
+
+<p>The four-byte modification timestamp is the Unix modification timestamp of the
+source file that generated the .pyc, so that it can be recompiled if the source
+changes.</p>
+
+<p>The entire rest of the file is just the output of <a href='http://docs.python.org/lib/module-marshal.html'>marshal.dump</a>
+of the code object that results from compiling the source file.  Marshal is like
+pickle, in that it serializes Python objects.  It has different goals than pickle,
+though.  Where pickle is meant to produce version-independent serialization suitable
+for persistence, marshal is meant for short-lived serialized objects, so its representation
+can change with each Python version. Also, pickle is designed to work properly for
+user-defined types, while marshal handles the complexities of Python internal types.
+The one we care about in particular here is the code object.</p>
+
+<p>The nature of marshalling gives us the important characteristics of .pyc files:
+they are independent of platform, but very sensitive to Python versions.  A 2.4 .pyc
+file will not execute under 2.5, but it can be copied from one operating system to another just fine.
+</p>
+
+<p>So that's the simple part: two longs and a marshalled code object.  The complexity,
+of course, is in the structure of the code object.  They contain all sorts of information
+produced by the compiler, the meatiest of which is the bytecode itself.</p>
+
+<p>Luckily it isn't hard to write a program to dump these things out, thanks to the
+<a href='http://docs.python.org/lib/module-marshal.html'>marshal</a> and
+<a href='http://docs.python.org/lib/module-dis.html'>dis</a> modules:
+</p>
+
+<code lang='python'><![CDATA[
+import dis, marshal, struct, sys, time, types
+
+def show_file(fname):
+    f = open(fname, "rb")
+    magic = f.read(4)
+    moddate = f.read(4)
+    modtime = time.asctime(time.localtime(struct.unpack('L', moddate)[0]))
+    print "magic %s" % (magic.encode('hex'))
+    print "moddate %s (%s)" % (moddate.encode('hex'), modtime)
+    code = marshal.load(f)
+    show_code(code)
+    
+def show_code(code, indent=''):
+    print "%scode" % indent
+    indent += '   '
+    print "%sargcount %d" % (indent, code.co_argcount)
+    print "%snlocals %d" % (indent, code.co_nlocals)
+    print "%sstacksize %d" % (indent, code.co_stacksize)
+    print "%sflags %04x" % (indent, code.co_flags)
+    show_hex("code", code.co_code, indent=indent)
+    dis.disassemble(code)
+    print "%sconsts" % indent
+    for const in code.co_consts:
+        if type(const) == types.CodeType:
+            show_code(const, indent+'   ')
+        else:
+            print "   %s%r" % (indent, const)
+    print "%snames %r" % (indent, code.co_names)
+    print "%svarnames %r" % (indent, code.co_varnames)
+    print "%sfreevars %r" % (indent, code.co_freevars)
+    print "%scellvars %r" % (indent, code.co_cellvars)
+    print "%sfilename %r" % (indent, code.co_filename)
+    print "%sname %r" % (indent, code.co_name)
+    print "%sfirstlineno %d" % (indent, code.co_firstlineno)
+    show_hex("lnotab", code.co_lnotab, indent=indent)
+    
+def show_hex(label, h, indent):
+    h = h.encode('hex')
+    if len(h) < 60:
+        print "%s%s %s" % (indent, label, h)
+    else:
+        print "%s%s" % (indent, label)
+        for i in range(0, len(h), 60):
+            print "%s   %s" % (indent, h[i:i+60])
+
+show_file(sys.argv[1])
+]]></code>
+
+<p>Running this on the .pyc from an ultra-simple Python file:</p>
+
+<code lang='python'><![CDATA[
+a, b = 1, 0
+if a or b:
+    print "Hello", a
+]]></code>
+
+<p>produces this:</p>
+
+<code><![CDATA[
+magic b3f20d0a
+moddate 8a9efc47 (Wed Apr 09 06:46:34 2008)
+code
+   argcount 0
+   nlocals 0
+   stacksize 2
+   flags 0040
+   code
+      6404005c02005a00005a0100650000700700016501006f0d000164020047
+      65000047486e01000164030053
+  1           0 LOAD_CONST               4 ((1, 0))
+              3 UNPACK_SEQUENCE          2
+              6 STORE_NAME               0 (a)
+              9 STORE_NAME               1 (b)
+
+  2          12 LOAD_NAME                0 (a)
+             15 JUMP_IF_TRUE             7 (to 25)
+             18 POP_TOP
+             19 LOAD_NAME                1 (b)
+             22 JUMP_IF_FALSE           13 (to 38)
+        >>   25 POP_TOP
+
+  3          26 LOAD_CONST               2 ('Hello')
+             29 PRINT_ITEM
+             30 LOAD_NAME                0 (a)
+             33 PRINT_ITEM
+             34 PRINT_NEWLINE
+             35 JUMP_FORWARD             1 (to 39)
+        >>   38 POP_TOP
+        >>   39 LOAD_CONST               3 (None)
+             42 RETURN_VALUE
+   consts
+      1
+      0
+      'Hello'
+      None
+      (1, 0)
+   names ('a', 'b')
+   varnames ()
+   freevars ()
+   cellvars ()
+   filename 'C:\\ned\\sample.py'
+   name '<module>'
+   firstlineno 1
+   lnotab 0c010e01
+]]></code>
+
+<p>A lot of this stuff I don't understand, but the byte codes are nicely disassembled
+and presented symbolically.  The Python virtual machine is a stack-oriented interpreter,
+so a lot of the operations are loads and pops, and of course jumps and conditionals.
+For the adventurous: the byte-code interpreter is in 
+<a href='http://svn.python.org/view/python/trunk/Python/ceval.c?view=markup'>ceval.c</a>.
+The exact details of the byte codes change with each major version of Python.  For
+example, the PRINT_ITEM and PRINT_NEWLINE opcodes we see here are
+<a href='http://mail.python.org/pipermail/python-dev/2005-September/056154.html'>gone in Python 3.0</a>.
+</p>
+
+<p>In the disassembled output, the left-most numbers (1, 2, 3) are the line numbers in the original
+source file and the next numbers (0, 3, 6, 9, ...) are the byte offsets of the instruction.
+The operands to the instruction are presented numerically, and then in parentheses,
+interpreted symbolically.  Lines with ">>" are the targets of jump instructions
+somewhere else in the code.
+</p>
+
+<p>This sample was very simple, with a single code object for the flow of instructions in the module.
+A real module with class and function definitions would be more complicated.  The classes and
+functions would themselves be code objects in the consts list, nested as deeply as needed to
+represent the module.  The module code object has class code objects which themselves have
+function code objects, and so on.</p>
+
+<p>Once you start digging around at this level, there are all sorts of facilities
+for working with code objects.  In the standard library, there's the
+<a href='http://docs.python.org/lib/built-in-funcs.html#l2h-18'>compile</a> built-in function,
+and the 
+<a href='http://docs.python.org/lib/module-compiler.html'>compiler</a>, 
+<a href='http://docs.python.org/lib/module-codeop.html'>codeop</a>
+and <a href='http://docs.python.org/lib/bytecodes.html'>opcode</a> modules.
+For the truly adventurous, there are third-party packages like
+<a href='http://www.aminus.org/rbre/python/index.html'>codewalk</a>,
+<a href='http://wiki.python.org/moin/ByteplayDoc'>byteplay</a> and 
+<a href='http://bytecodehacks.sourceforge.net/bch-docs/bch/index.html'>bytecodehacks</a>.
+<a href='http://www.python.org/dev/peps/pep-0339/'>PEP 339</a> gives more detail about compilation
+and opcodes.  Finally, Ananth Shrinivas had another take on 
+<a href='http://thermalnoise.wordpress.com/2007/12/30/exploring-python-bytecode/'>exploring Python bytecode</a>.
+</p>
+
+<!-- reddit thread: http://reddit.com/r/programming/info/6f56t/comments/ -->
+
+</body>
+</entry>
+</blog>

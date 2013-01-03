@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060521T101030'>
+<title>top</title>
+<category>unix</category>
+<via />
+<body>
+<p>One of the things I've had to learn how to do at <a href='http://tabblo.com'>Tabblo</a>
+is to monitor the state of our servers.  I'm not the front-line guy for this, but
+I need to be knowledgable about it.  We have a number of Linux servers running
+the site, so the <b>top</b> command is very helpful for seeing what's going
+on in real-time.
+</p>
+
+<p>top is the an info-junkie's dream: it provides a compact dynamic presentation
+of a thousand factoids about what a Linux box is doing:</p>
+
+<code><![CDATA[
+top - 10:14:05 up 116 days, 11:55,  2 users,  load average: 0.14, 0.16, 0.22
+Tasks: 199 total,   2 running, 197 sleeping,   0 stopped,   0 zombie
+Cpu(s):  0.7% us,  0.2% sy,  0.0% ni, 98.2% id,  0.7% wa,  0.2% hi,  0.2% si
+Mem:   2054140k total,  2045456k used,     8684k free,     3056k buffers
+Swap:  4000144k total,  1995484k used,  2004660k free,    23052k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+15229 root      16   0  8880  864 8680 S    0  0.0   0:20.31 syslogd
+14987 ned       16   0 10676 1380  10m R    0  0.1   0:00.13 top
+    1 root      16   0  6012  432 5792 S    0  0.0   0:09.19 init
+    2 root      RT   0     0    0    0 S    0  0.0   0:00.66 migration/0
+    3 root      34  19     0    0    0 S    0  0.0   0:00.11 ksoftirqd/0
+    4 root      RT   0     0    0    0 S    0  0.0   0:00.17 migration/1
+    5 root      34  19     0    0    0 S    0  0.0   0:00.01 ksoftirqd/1
+    6 root       5 -10     0    0    0 S    0  0.0   0:00.27 events/0
+    7 root       5 -10     0    0    0 S    0  0.0   0:00.18 events/1
+    8 root       6 -10     0    0    0 S    0  0.0   0:00.00 khelper
+    9 root       5 -10     0    0    0 S    0  0.0   0:00.00 kacpid
+   39 root       5 -10     0    0    0 S    0  0.0   0:14.50 kblockd/0
+   40 root       5 -10     0    0    0 S    0  0.0   0:00.73 kblockd/1
+   41 root      15   0     0    0    0 S    0  0.0   0:00.00 khubd
+   54 root      15   0     0    0    0 S    0  0.0  17:09.55 kswapd1
+   55 root      15   0     0    0    0 S    0  0.0  14:56.34 kswapd0
+   56 root       7 -10     0    0    0 S    0  0.0   0:00.00 aio/0
+]]></code>
+
+<p>Unfortunately, the help is about as compact:</p>
+
+<code>
+$ man top
+No manual entry for top
+See 'man 7 undocumented' for help when manual pages are not available.
+$ top --help
+        top: procps version 3.2.6
+usage:  top -hv | -bcisSH -d delay -n iterations [-u user | -U user] -p pid [,pid ...]
+</code>
+
+<p>Luckily, the always-helpful O'Reilly devcenter has an actual man page:
+<a href='http://www.linuxdevcenter.com/linux/cmd/cmd.csp?path=t/top'>Linux command directory: top</a>.
+</p>
+
+</body>
+</entry>
+</blog>

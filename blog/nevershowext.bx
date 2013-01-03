@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050826T072548'>
+<title>NeverShowExt</title>
+<category>windows</category>
+<via />
+<body>
+<p>The next phase of Max's <a href='text/madlibs.html'>Madlibs program</a>
+is reading the madlib story out of a file rather than having it hardcoded in the program.
+First we put them in .txt files, but then I suggested using a new file extension,
+since the program didn't care.  Max thought having a custom file extension was very cool,
+so we started putting the text in .mad files.
+</p>
+
+<p>As a geek, I always set my Windows explorer options to show all file extensions.
+But when I looked at the madlibs directory, something odd was happening.
+I saw "madlib.py", but story1.mad was listed as "story1".
+Where was the .mad extension?</p>
+
+<p>I figured the answer must be in the registry somewhere, and it was.
+The registry entry for .mad (at \HKEY_CLASSES_ROOT\.mad) defines it as "Access.Shortcut.Module.1",
+which has registry values (at \HKEY_CLASSES_ROOT\Access.Shortcut.Module.1) of:</p>
+
+<ul>
+<li>(Default): Microsoft Office Access Module Shortcut</li>
+<li>IsShortCut</li>
+<li>NeverShowExt</li>
+</ul>
+
+<p>That "NeverShowExt" value prevents the shell from displaying the file extension.
+The "IsShortCut" value makes the shell put the little arrow overlay on the icon.
+</p>
+
+<p>Of course, this obscure feature of Windows has been
+<a href='http://www-uxsup.csx.cam.ac.uk/pub/webmirrors/www.cert.org/incident_notes/IN-2000-07.html'>exploited by the bad guys</a>
+to fool users into
+<a href='http://www.diamondcs.com.au/index.php?page=archive&amp;id=nevershowext'>running malicious programs</a>.
+Exactly what extensions are marked as invisible like this will depend on what software you have installed,
+but <a href='http://www.geocities.com/floydian_99/inv3.html'>here's one guy's census</a>.
+</p>
+
+<p>This <a href='http://msdn.microsoft.com/msdnmag/issues/1100/Registry/'>Microsoft article about these entries</a>
+is a breezy bestiary including other exotic examples like
+AlwaysShowExt, NoOpen, OpenWithList, and NoFileFolderConnection.
+And just to make things even hairier, it turns out you can use a
+<a href='http://www.guninski.com/clsidext.html'>COM class id as a file extension</a>!
+</p>
+
+</body>
+</entry>
+</blog>

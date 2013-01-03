@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030528T174602'>
+<title>Real-world patterns: Ghetto</title>
+<via /> <!-- id= or href= -->
+<body>
+<p>Charles Miller documents the
+<a href='http://fishbowl.pastiche.org/archives/001339.html#001339'>Ghetto Mini-Pattern</a>:
+</p>
+
+<quotep>
+The ghetto is a single file or class where issues of code cleanliness do not apply. 
+It is entered by reputable developers with no small amount of trepidation, 
+and left as quickly as possible. 
+</quotep>
+
+<p>I'm not actually sure if Charles meant this as a joke, but I think it
+is a useful pattern.  Although patterns should ideally
+be used to create elegant beautiful code, they have value as well if they
+at least give structure and shorthand (and therefore understanding) to our
+darker sides as well.</p>
+
+</body>
+</entry>
+</blog>

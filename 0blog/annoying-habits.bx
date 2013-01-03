@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030303T073503'>
+<title>About me</title>
+<category>site</category>
+<via href='http://www.benpoole.com'>Ben Poole</via> <!-- id= or href= -->
+<body>
+<p>Like many bloggers, I'm reacting to Jeremy Zawodny's
+<a href='http://jeremy.zawodny.com/blog/archives/000521.html'>10 Habits of Highly Annoying Bloggers</a>,
+trying to improve my blogging karma.
+In my case, by creating an <a href='site/aboutned.html'>About Me</a> page.
+</p>
+
+<p>Having crossed off habit 5,
+by my own estimation I am now guilty only of habits 1 (no comments enabled here),
+and maybe 10 (I don't have TrackBack).  Both are due to the fact that I
+<a href='site/index.html'>hand-rolled</a> this site from raw XML and Python.
+Maybe someday...
+</p>
+
+</body>
+</entry>
+</blog>

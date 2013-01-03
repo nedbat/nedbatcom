@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Caveman'>
+<section title='Caveman'/>
+<history>
+<what when='20111106T213200'>First version</what>
+</history>
+
+
+
+
+<p>Caveman is a package that parses and validates
+<a href='http://www.w3.org/TR/html5/offline.html'>HTML5 cache manifests</a>.  
+HTML5 applications are notoriously picky about their cache manifests, and it is
+difficult to check that all of the components are as they should be.</p>
+
+<p>Caveman provides one command-line script, check_manifest, which pulls an HTML
+page, scrapes it for used resources, parses its cache manifest, and validates
+the resources against the manifest:</p>
+
+<code>$ check_manifest URL</code>
+
+<p>Problems with the manifest are written to the standard output.  More detail
+about the process is output if you set the log level to a different severity
+with the --level=LEVEL switch, where LEVEL is DEBUG, INFO, WARNING, or ERROR.</p>
+
+
+<h1>Programmatic use</h1>
+
+<p>Caveman has been designed to be usable from your own code, for example, as
+part of a larger validation process, or as part of unit tests in your web
+application.</p>
+
+<p>Caveman's work is done by the ManifestChecker class.  You instantiate it
+with two helpers: a get_url function that fetches data from URLs, and a
+logger object that gets logged messages:</p>
+
+<code lang='py'><![CDATA[
+from caveman import ManifestChecker
+
+def get_url(url): ...
+
+logger = ...
+
+man_checker = ManifestChecker(get_url=get_url, logger=logger)
+]]></code>
+
+<p>Then call its check_manifest method with the URL of the HTML page:</p>
+
+<code lang='py'><![CDATA[
+man_checker.check_manifest(url)
+]]></code>
+
+<p>No value is returned: the output has been logged to the logger object.
+See the docstrings in the source code for details.</p>
+
+
+<h2>Django unit tests</h2>
+
+<p>As an example of programmatic use, here's one way to use Caveman in a Django
+test suite:</p>
+
+<code lang='py'><![CDATA[
+from caveman import ManifestChecker
+
+class TestManifest(django.test.TestCase):
+    def setUp(self):
+        self.checker = ManifestChecker(get_url=self.get_url, logger=self)
+        self.caveman_log = []
+
+    def get_url(self, url):
+        """A get_url function for `caveman.ManifestChecker`."""
+        # Use the Django test client to fetch the URL.
+        response = self.client.get(url)
+        return response.status_code, response.content, response
+
+    # Record the serious Caveman messages in `self.caveman_log`.
+    def debug(self, msg):       pass
+    def info(self, msg):        pass
+    def warning(self, msg):     self.caveman_log.append(msg)
+    def error(self, msg):       self.caveman_log.append(msg)
+
+    def test_my_manifest(self):
+        """Caveman produces no warnings or errors for the cache manifest."""
+        self.checker.check_manifest("/")
+        self.assertEqual([], self.caveman_log)
+]]></code>
+
+
+<h1>Limitations</h1>
+
+<p>Caveman only pulls the HTML page you specify.  Although it validates links to
+other HTML pages against the manifest, it does not pull those linked-to pages
+and verify their resources.</p>
+
+<p>Certain rules from the HTML5 spec are not validated.</p>
+
+
+<h1>More information</h1>
+
+<p>Caveman can be downloaded from PyPI: <a href='http://pypi.python.org/pypi/caveman'>http://pypi.python.org/pypi/caveman</a>.</p>
+
+<p>The HTML5 cache manifest spec is at <a href='http://www.w3.org/TR/html5/offline.html'>http://www.w3.org/TR/html5/offline.html</a>.</p>
+
+<p>Code repository and issue tracker are at <a href='http://bitbucket.org/ned/caveman'>bitbucket.org</a>.</p>
+
+
+
+<pagecomments/>
+
+</page>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051130T090000'>
+<title>Reap what you sow</title>
+<category>debugging</category>
+<via />
+<body>
+
+<p>A longish tale of debugging a failed server assertion, in which I suspect revelation
+of deep mysteries, but in the end am merely graphically reminded of what everyone knew all along.</p>
+
+<more text='read all the details'>
+
+<p>The other day at work our server started raising
+<a href='text/assert.html'>failed assertions</a>.
+The assertion was in the ATL SOAP code: our method handler had allowed an exception to go unhandled.
+Putting the IIS worker process w3wp.exe into the debugger, the exception was in our thread local abstraction:
+</p>
+
+<code lang='cpp' number='1'><![CDATA[
+class CThreadLocal
+{
+public:
+    CThreadLocal()
+    {
+        m_tlsIndex = ::TlsAlloc();
+    }
+
+    ~CThreadLocal()
+    {
+        if (m_tlsIndex != TLS_OUT_OF_INDEXES) {
+            ::TlsFree(m_tlsIndex);
+        }
+    }
+
+    void* GetStorage()
+    {
+        if (m_tlsIndex == TLS_OUT_OF_INDEXES) {
+            THROW(CException, "Couldn't allocate TLS index");
+        }
+
+        void * p = ::TlsGetValue(m_tlsIndex);
+        if (p == 0) {
+            if (::GetLastError() != NO_ERROR) {
+                THROW(CWinException, "Couldn't get TLS value");
+            }
+        }
+        return p;
+    }
+
+
+    void SetStorage(void* p)
+    {
+        if (m_tlsIndex == TLS_OUT_OF_INDEXES) {
+            THROW(CException, "Couldn't allocate TLS index");
+        }
+        if (!::TlsSetValue(m_tlsIndex, p)) {
+            THROW(CWinException, "Couldn't set TLS value");
+        }
+    }
+
+private:
+    DWORD m_tlsIndex;
+};
+]]></code>
+
+<p>If you don't know about thread locals: go read about them, they're damn handy in multi-threaded code.
+They let you store data that is available to all code in a single thread.  Once you allocate
+an index with TlsAlloc (on Win32), you can store data in that slot.  Each thread has its own instance of
+the slot, so each thread keeps its own state, and there is no need for synchronization.
+I think they're easier to understand if you call them thread globals (because they are good replacements
+for global variables if you want to keep them scoped to a single thread), but I can see why they are called
+thread locals (because the data is only available to one thread).
+</p>
+
+<p>Our CThreadLocal abstraction wraps the work of allocating and freeing the thread local index, which should
+be done during startup and shutdown.  By creating a global CThreadLocal variable, the index is allocated
+once at the start of the process, and then deallocated at the end.</p>
+
+<p>The exception was at line 19.
+Apparently the constructor hadn't been able to allocate a thread local index.
+There are a limited (but large) number of thread local indexes, so you have to guard against running
+out, but how can you really run out?
+This code had been untouched for over a year, with no problems, it worked great.
+The new twist was that our DLL was now being dynamically loaded into the IIS worker process.
+It seemed like this would be one of those bugs with an interesting learning moment at the end.
+Were the C++ globals not being constructed properly?  Not being destroyed properly?
+If they weren't, what could we do about it?  Was this a bug in the loader?  Was there some magic DLL
+wizardry we weren't intoning just right?
+</p>
+
+<p>I had reached this point in the process just before leaving for the day (I hate that!),
+so I was mulling over esoteric possibilities for a while.
+</p>
+
+<p>The next day, I was able to do some hands-on debugging.
+For whatever reason (maybe because of the ATL SOAP code), the worker process loads and unloads
+our DLL quite frequently.
+I added some tracing to the CThreadLocal constructor and destructor, and saw traces like this:</p>
+
+<code><![CDATA[
+Loading ksCore.dll...
+Allocating tls index 20
+Allocating tls index 21
+Allocating tls index 22
+Allocating tls index 24
+Unloading ksCore.dll...
+Freeing tls index 24
+Freeing tls index 22
+Freeing tls index 21
+Freeing tls index 20
+Loading ksCore.dll...
+Allocating tls index 20
+Allocating tls index 21
+Allocating tls index 22
+Allocating tls index 25
+Unloading ksCore.dll...
+Freeing tls index 25
+Freeing tls index 22
+Freeing tls index 21
+Freeing tls index 20
+Loading ksCore.dll...
+Allocating tls index 20
+Allocating tls index 21
+Allocating tls index 22
+Allocating tls index 26
+Unloading ksCore.dll...
+Freeing tls index 26
+Freeing tls index 22
+Freeing tls index 21
+Freeing tls index 20
+]]></code>
+
+<p>Hmmm, it looks like the constructor and destructor are working properly,
+but why is that last allocated index incrementing each time?  And why did the first trace skip index 23?
+Setting a breakpoint on TlsAlloc showed that the CThreadLocal abstraction was working great, but that
+we had a rogue TlsAlloc call that didn't use the class at all.  It was in its own class that allocated
+an index in the constructor, but had no destructor:
+</p>
+
+<code lang='cpp'><![CDATA[
+class CMyPrivateThreadLocal:
+{
+public:
+    CMyPrivateThreadLocal()
+    {
+        m_index = ::TlsAlloc();
+    }
+
+    // Blah blah...
+
+private:
+    DWORD m_index;
+};
+
+CMyPrivateThreadLocal mythreadlocal;
+]]></code>
+
+<p>So this one thread local index was leaking: each time the DLL was loaded, this global was constructed,
+allocating an index which was never freed.  All the other thread locals were working properly because
+of the CThreadLocal code, but we were losing one index per load/unload cycle.
+Win32 says we get 1088 (wtf?) thread local indexes per process, so after 1050 or so loads, the indexes
+would be used up, the allocation would fail, an exception would be thrown, and the ATL code raised
+a failed assertion.</p>
+
+<p>The code had worked fine in a standalone process, because the incorrect thread local was only being
+allocated once at startup.  If the resource isn't freed at process shutdown, who cares?  The whole process
+is shutting down anyway.  But in a dynamically loaded environment, a single process is starting and stopping
+the DLL over and over again, requiring stricter attention to freeing all resources.</p>
+
+<p>Getting rid of CMyPrivateThreadLocal and replacing it with a CThreadLocal fixed the problem nicely.
+There was no deep mystery of the C++ world revealed after all.  Just a reminder to code meticulously,
+and free all your resources, even if you don't think you have to.  As with all modular code, you can't
+make assumptions about the environment your code will run in.  The author of CMyPrivateThreadLocal assumed
+that his global variable would be created and destroyed only once per process.  He was wrong.
+Especially when writing server code, all resources allocated have to be freed.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

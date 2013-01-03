@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070108T073027'>
+<title>XUnit patterns</title>
+<category>testing</category>
+<via />
+<body>
+<p>Martin Fowler has updated his 
+<a href='http://martinfowler.com/articles/mocksArentStubs.html'>Mocks Aren't Stubs</a>
+article.  It looks like a good introduction to a deep understanding of mock object
+testing.  I was particularly struck by the definitions of dummy, fake, stub, and mock objects:</p>
+
+<quote>
+<ul>
+<li><b>Dummy</b> objects are passed around but never actually
+		used. Usually they are just used to fill parameter lists.</li>
+
+<li><b>Fake</b> objects actually have working implementations, but
+		usually take some shortcut which makes them not suitable for
+		production.</li>
+
+<li><b>Stubs</b> provide canned answers to calls made during the test,
+		usually not responding at all to anything outside what's
+		programmed in for the test.</li>
+		
+<li><b>Mocks</b> are objects
+pre-programmed with expectations which form a specification of the
+calls they are expected to receive. </li>
+
+</ul>
+</quote>
+
+<p>I'd never heard this distinction, but it is a good one.  Fowler attributes
+it to Gerard Meszaro, who it turns out is writing a book about patterns within
+test development, <a href='http://xunitpatterns.com'>xUnit Patterns</a>.
+The whole book is available on the website (for now), and looks like a good
+compendium of practices and ideas in test developement.
+</p>
+
+<p>I continue to work on how to best incorporate testing into real-world projects.
+The pressure of time, and the compexity of large systems, both conspire to make
+testing a real challenge.  So I'll be looking through the xUnit Patterns to see
+what it can add to my understanding.</p>
+
+</body>
+</entry>
+</blog>

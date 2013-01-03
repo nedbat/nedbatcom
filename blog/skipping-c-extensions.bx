@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121217T073018'>
+<title>Skipping C extensions</title>
+<category>python</category>
+<body>
+
+    <p><a href='https://bitbucket.org/ned/coveragepy'>Coverage.py</a> has a C extension:
+        the trace function is implemented in C for speed, since it's invoked for every
+        line of your program.  This works great, and makes things much faster, but not
+        every user has a C compiler properly installed on their machine.  There's also
+        a Python implementation of the trace function, so we can make do without a 
+        compiler, but this make the installation a little tricky.</p>
+
+    <p>It turns out that distutils is great at attempting what you instruct it to, but
+        not that great at letting you know what happened.  In particular, building an
+        extension can fail in a variety of ways.  Separating actual build failures from
+        other pathologies is not simple.</p>
+
+    <p>I had a way I was doing it, but still got bug reports from people who could not
+        install the kit without getting tangled.  Two suggestions were to do it the
+        way SQLAlchemy did it, or the way simplejson did it.  It turns out they do it
+        the same way!</p>
+
+    <p>For example, compare <a href="https://bitbucket.org/zzzeek/sqlalchemy/src/b91c1cc4c893741443534a112b1d2d74321fce64/setup.py?at=default#cl-50">SQLAlchemy's setup.py</a>:</p>
+
+<code lang="py"><![CDATA[
+ext_errors = (CCompilerError, DistutilsExecError, DistutilsPlatformError)
+if sys.platform == 'win32' and sys.version_info > (2, 6):
+    # 2.6's distutils.msvc9compiler can raise an IOError when failing to
+    # find the compiler
+    ext_errors += (IOError,)
+
+class BuildFailed(Exception):
+
+    def __init__(self):
+        self.cause = sys.exc_info()[1]  # work around py 2/3 different syntax
+
+class ve_build_ext(build_ext):
+    # This class allows C extension building to fail.
+
+    def run(self):
+        try:
+            build_ext.run(self)
+        except DistutilsPlatformError:
+            raise BuildFailed()
+
+    def build_extension(self, ext):
+        try:
+            build_ext.build_extension(self, ext)
+        except ext_errors:
+            raise BuildFailed()
+        except ValueError:
+            # this can happen on Windows 64 bit, see Python issue 7511
+            if "'path'" in str(sys.exc_info()[1]):  # works with both py 2/3
+                raise BuildFailed()
+            raise
+]]></code>
+
+    <p>with <a href="https://github.com/simplejson/simplejson/blob/master/setup.py#L22">simplejson's setup.py</a>:</p>
+
+<code lang="py"><![CDATA[
+if sys.platform == 'win32' and sys.version_info > (2, 6):
+   # 2.6's distutils.msvc9compiler can raise an IOError when failing to
+   # find the compiler
+   ext_errors = (CCompilerError, DistutilsExecError, DistutilsPlatformError,
+                 IOError)
+else:
+   ext_errors = (CCompilerError, DistutilsExecError, DistutilsPlatformError)
+
+class BuildFailed(Exception):
+    pass
+
+class ve_build_ext(build_ext):
+    # This class allows C extension building to fail.
+
+    def run(self):
+        try:
+            build_ext.run(self)
+        except DistutilsPlatformError, x:
+            raise BuildFailed()
+
+    def build_extension(self, ext):
+        try:
+            build_ext.build_extension(self, ext)
+        except ext_errors, x:
+            raise BuildFailed()
+]]></code>
+
+    <p>The code is clearly copied from the same source, even the name
+        ve_build_ext is the same, as is its comment.  SQLAlchemy has a
+        new twist based on <a href='http://bugs.python.org/issue7511'>Python bug 7511</a>,
+        but it's clear we're all copying and pasting the same solution.</p>
+
+    <p>In fact, <a href="https://www.google.com/search?q=%22This%20class%20allows%20C%20extension%20building%20to%20fail%22">a Google search
+        for that comment</a> reveals a dozen or so packages using the same technique, with
+        varying degrees of automatic fallback.</p>
+
+    <p>Does anyone know where this code first came from? What does the "ve" stand for in "ve_build_ext"?
+        Is any of the work on better packaging tackling this issue?  And how do people test this code? 
+        One suggestion was mocking out distutils, but the central issue here is properly catching the
+        diverse exceptions that might occur if the compile fails. Help!</p>
+        
+</body> 
+</entry> 
+</blog>

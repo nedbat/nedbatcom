@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030501T213155'>
+<title>Phoenix comes through again</title>
+<category>browsers</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Sometimes it's the little things that matter most.
+I was experimenting with XHTML for this site, and managed to generate
+a page that didn't display properly <em>at all</em>.
+I was using both IE and Phoenix at the time, and they (impressively)
+rendered the garbage exactly the same.
+I selected IE's View Source option to try to understand what went
+wrong.  I couldn't see what was wrong.
+Using Phoenix's View Page Source, it became clear, because while IE launches
+Notepad to view source, Phoenix uses its own syntax-colored window.
+</p>
+
+<p>An empty &lt;script&gt; tag (because it references a remote JavaScript
+file) was rendered like this in XHTML:</p>
+
+<code lang='html'><![CDATA[
+<script type='text/javascript' src='main.js' />
+]]></code>
+
+<p>Where HTML had:</p>
+
+<code lang='html'><![CDATA[
+<script type='text/javascript' src='main.js'></script>
+]]></code>
+
+<p>Both browsers treated everything between the opening script tag
+and the next explicit closing script tag as script.  As a result, the XHTML version
+had the first two-thirds of the page swallowed (incorrectly) as script.
+The syntax coloring made this clear.
+</p>
+
+<p>I assume there's a proper setting of DTDs to get XHTML to accept a truly
+empty script tag.  In any case, Phoenix saved me a bunch of time finding
+the reason for the wreckage of the page.
+</p>
+
+<p>BTW: Phoenix has been renamed Firebird, and
+<a href='http://www.mozilla.org/projects/phoenix/why/'>there are tons of good
+reasons to use it</a>.
+</p>
+
+</body>
+</entry>
+</blog>

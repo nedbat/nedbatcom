@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070915T172359'>
+<title>Gimp gradient files</title>
+<category>mycode</category>
+<category>python</category>
+<category>graphics</category>
+<body>
+<p>I had need to read Gimp gradient .ggr files today, so I hacked together a Python
+module to do it.  There was enough niggling detail that I think this
+may save someone else some work: I give you <a href='code/modules/ggr.html'>ggr.py</a>.
+</p>
+
+<p>Also, I found <a href='http://cpt-city.org.uk/'>cpt-city</a>,
+J. J. Green's collection of gradients collected from around the web and presented in a variety
+of file formats, including .ggr.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050803T082851'>
+<title>Time, time, time</title>
+<category>science</category>
+<category>space</category>
+<category>art</category>
+<via />
+<body>
+<p>Two random yet related links I came across made a synchronicty in my mind, so I present them to you:
+</p>
+
+<p>First, a story in the Wall Street Journal about
+<a href='http://online.wsj.com/article_email/0,,SB112258962467199210-H9je4Nilal4o52nbYCIbq6Em4,00.html'>Why the U.S. Wants
+To End the Link Between Time and Sun</a>.  This is a thorny problem: I've seen mention in various
+time libraries to the fact that the seconds component can have a value from 0 to 61 (to accomodate
+<em>two</em> leap seconds!).  Adding them randomly at two points during the year does seem like an
+inconvenience.  And while I wouldn't usually support changing science to accomodate ill-informed
+engineers, the other side doesn't have a very strong argument either: that severing the link between
+the earth's orbit and time would be an inconvenience to astronomers.  Don't astronomers have to
+do all sorts of crazy space-math all the time anyway?  They're the ones that figure out when to
+add the leap second, so why can't they just remember that the rest of us didn't add one, and
+compensate for themselves?
+</p>
+
+<p>Second, <a href='http://3eyes.co.uk/views/public/?doc=Streetclock'>Streetclock</a> is an
+art project about turning common street objects into sundials: signposts, building edges, and so on.
+It's a nice idea, but it wouldn't work.  Building a
+<a href='http://www.hartrao.ac.za/other/sundial/sundial.html'>real sundial is complicated</a>,
+and has to take into account the latitude of the dial.  There are things like
+<a href='http://www.analemma.com'>analemmas</a> to take into account.
+But it's a cool art project.</p>
+
+</body>
+</entry>
+</blog>

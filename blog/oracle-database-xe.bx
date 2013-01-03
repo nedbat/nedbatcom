@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051102T084851'>
+<title>Oracle database XE</title>
+<category>db</category>
+<via id='simonwillison'/>
+<body>
+<p>Oracle is jumping on the free database bandwagon:
+<a href='http://www.oracle.com/corporate/press/2005_oct/103105_databasexe_finalsite.html'>Oracle Database XE</a>
+is a free (as in beer) Oracle database.  This parallels Microsoft's SQL Server Express and of course all
+of the open source databases.  The press release indicates that XE will be limited in both RAM (1 Gb) and
+storage (4 Gb).  Microsoft's earlier free database, Desktop Edition, was unfortunately also limited in
+how many concurrent activities it would support, and made it just a toy.
+</p>
+
+<p>Keep in mind, XE is still Oracle 10g under the hood, so it's going to have a big footprint, the download
+is 150Mb!
+<a href='http://www.sitepoint.com/blogs/2005/11/01/oracle-10g-xe-and-php/'>Harry Fuecks</a> has some details
+on building a PHP site on top of it.
+</p>
+
+</body>
+</entry>
+</blog>

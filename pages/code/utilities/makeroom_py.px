@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='makeroom.py'>
+<history>
+<what when='20030911T084000'>Created.</what>
+<what when='20050619T193800'>Made it work with readonly files.</what>
+<what when='20050914T114800'>Some error handling to let it keep running if it can't delete a directory.</what>
+</history>
+
+<p>This is a script to ensure there's a certain amount of free space on
+the disk.  It works by deleting child directories until a target goal
+for free space has been reached.  It is designed to run automatically
+on a machine that performs repetitive disk-clogging tasks, such as a nightly build
+machine.
+</p>
+
+<p>You run it (for example) like this:</p>
+
+<code>python makeroom.py -s 2.5*G c:\builds</code>
+
+<p>It deletes child directories of c:\builds until there's 2.5 Gig free on the disk.
+The child directories are deleted starting with the oldest by modification date.
+Directories that contain a file named "keep.txt" are never deleted.
+Deleting stops when the disk has enough free space.
+If the disk has enough free space to start with, nothing is deleted.
+</p>
+
+<p>The -s argument is the amount of free space needed, and can be
+<a href='blog/200306.html#e20030606T002216'>any Python numeric expression</a>,
+with K, M, and G available for kilobytes, megabytes and gigabytes.
+</p>
+
+<download file='makeroom.py' path='code/utilities/makeroom.py' />
+
+<pagecomments/>
+
+</page>

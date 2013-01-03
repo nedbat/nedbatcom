@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Optimism and Pessimism' sitemap='no'>
+<history>
+<!--<what when='20061231T111700'>Created.</what>-->
+<what when='20080123T205600'>Published.</what>
+</history>
+
+<p>Two of the qualities that contribute to being a great developer seem to be
+contradictions: optimism and pessimism. Both fuel your drive to build great
+software: pessimism pushes you to remove all the flaws in your code, and
+optimism urges you forward to find the best solutions.
+</p>
+
+<h1>Pessimism</h1>
+
+<p>Software is inherently complex.  It's an abstract layer cake of interactions,
+with myriad possibilities for failure.  To develop robust software, and to do it
+well, you have to plan for every catastrophe.  You have to be constantly 
+anticipating what might go wrong.
+</p>
+
+<p>By pessimism, I mean a determined view that something will go wrong.
+It's easy to throw together code that will successfully handle a toy example. It's
+very difficult to consider all of the real world scenarios that could make it not
+work; difficult, but essential.</p>
+
+<p>A pessimistic developer will examine all of the possible ways that his software
+could fail:</p>
+
+<ul>
+<li>What if this function throws an exception?</li>
+<li>What if a needed file doesn't exist or is read-only, or is actually a directory?</li>
+<li>Is this a race condition?</li>
+<li>Do we trust the user?</li>
+<li>How could a bad guy get in here?</li>
+<li>What if our traffic increases a thousand-fold?</li>
+<li>What if we lose one of our servers?</li>
+</ul>
+
+<p>and on and on and on.  In a real software system, the number of ways something
+could go wrong is staggering.  But unless you constantly keep a depressing list
+of doomsday scenarios in mind, you'll find out the hard way how your code could
+fail.</p>
+
+<p>The pessimistic developer has an instinctive knack for considering these sorts
+of problems ahead of time, and plans for them.  At the very least, he's aware of
+which problems he's accounting for and which he is not.  Maybe instead of handling
+a freak traffic spike, he's put in an alarm that will sound if that
+success/failure happens.</p>
+
+<p>This list of failure scenarios is like a devil on your shoulder, constantly
+whispering to you that something, somewhere, might go wrong.  By having this litany
+running at all times, you're better prepared for their eventuality.  Rather than
+react when an unexpected crisis comes, you've taken the likely failures into account, and
+dealt with them in the code ahead of time.</p>
+
+<p>Developers who ignore the negative possibilities write code that is
+unprepared for the day-to-day dings and dents that all systems will encounter.
+Their system will fail occasionally, and mysteriously. Even if it is not a
+catastrophic failure, users will get a sense of the character of the code. It
+will seem loosely put together and fragile.</p>
+
+<p>Pessimism extends to other areas too: when a bug report comes in, the pessimistic
+developer will accept it as a problem in his code, no matter how outlandish
+the description.  If you believe the problem is with the user, you'll miss
+opportunities to fix genuine problems in your code.  If you instead pessimistically
+believe that there is a problem in your own code, you'll discover
+dark corners that the bug report is exposing for correction.</p>
+
+
+<h1>Optimism</h1>
+
+<p>Optimism is the angel counterpoint to pessimism's devil. It is the faith that
+good solutions are possible.</p>
+
+<p>Writing a significant piece of software is hard work. There are many
+potential obstacles, many possibilities for stumbling and failing. You have to
+be an expert in your programming language, its standard library, the existing
+body of code, and the problem domain. All of these facts and interconnections
+have to be juggled, while at the same time defending against the hobgoblins the
+pessimist in you knows are out there. Sometimes the only thing keeping a
+developer working on a tough problem is his optimism that the problem can be
+solved and solved well.</p>
+
+<p>It's easy in a complex software development environment to let down your
+guard, take a shortcut, and believe that a "correct" end result is unacheivable.
+It's times like this that weaken the code. For example, when debugging, you have
+to believe that the bug will be found. Many bugs take hours to track down. It's
+easy to poke around for a while, shrug, and throw a bizarre work-around into the
+code. Presto! The bug is gone, but not really. You've just covered it up with a
+new mystery. Only by doggedly chasing down the bug, fueled by your optimistic
+belief that the system should make sense, and that you can find the bug, will
+you really be able to understand what is wrong, and be able to make it right.</p>
+
+<p>Without an almost blind optimism in the possibilities of software engineering
+to tackle these problems, developers can easily get lazy. I worked on a project
+once where a developer couldn't get an asynchronous API call to work properly,
+and found that adding a sleep(.5) did the trick. Later, another developer found
+that shared resources were being mismanaged, and once they were handled
+correctly, the sleep was unnecessary. The sleep fix wasn't a fix at all: it took
+an easily-tripped race condition and turned it into a rare one. But it didn't
+actually correct the problem, and left a baffling artifact in the code, not to
+mention slowing down the user by half a second because the developer didn't
+understand his tools. The second developer didn't understand them at first
+either, but couldn't leave it alone: he had a nagging optimism that told him it
+should be possible to make it work correctly, and he was right.</p>
+
+<p>Here are some other difficult things you have to believe:</p>
+
+<ul>
+<li>Library APIs will make sense.</li>
+<li>Any bug can be found.</li>
+<li>Refactoring can be done without introducing bugs.</li>
+<li>Someone has solved this problem before.</li>
+<li>We can start on this feature without knowing all the details.</li>
+<li>Purity and beauty are possible.</li>
+</ul>
+
+<p>This is similar to the <a href='http://www.artima.com/intv/fixit.html'>broken
+windows theory</a> about quality: if you believe that shit happens, and bad
+things just are, then it's easy to excuse yourself for writing crappy code too.
+More bad code gets written, deflating other developers' optimism, and before you
+know it you're sitting on a huge pile of crappy code. If, on the other hand, you truly
+believe it's possible to perfect a piece of code, then you will push harder to
+reach the perfection that you know is within your grasp.</p>
+
+
+<h1>Living with the tension</h1>
+
+<p>The devil and the angel sit on opposite shoulders, each whispering their
+particular theories: "Something is wrong!" and "You can fix it!"  It's the
+tension between these two, and the combination of them, that makes you a great
+developer.</p>
+
+<p>Without pessimism driving you to examine all the dark corners,
+your code will be only a fragile toy, unable to withstand real-world pressures.
+Without optimism encouraging you through the hard parts, your code will be
+riddled with shortcuts and guesses, difficult to maintain and extend.</p>
+
+<p>Nurture both your devil and your angel: they are essential to conquering
+the challenges of serious software development.</p>
+
+<!-- *** Bug reports: "the bug is my fault", "it can be fixed!" -->
+
+
+
+
+
+<!-- XPlane linked to the original junk: keaggy@gmail.com -->
+
+<!-- More links:
+    http://www.javalobby.org/java/forums/t65399.html
+    http://www.philosophicalgeek.com/2008/01/20/5-attributes-of-highly-effective-programmers/
+    -->
+
+<!--
+<h1>Optimism</h1>
+
+<p>Good things to believe in:
+
+The universe is rational.
+Goals are acheivable.
+Algorithms exist.
+Purity and beauty are possible.
+Customers are telling the truth.
+
+
+Bad things to believe in:
+
+Bugs exist in your code.
+Murphies will conspire against you.
+Customers are telling the truth.
+-->
+
+<h1>See also</h1>
+
+<ul>
+<li><a pref='text/deleting-code.px'/>, about keeping code clean.</li>
+<li><a pref='text/fix-err-hand.px'/>, about pessimistic strategies for making your code bullet-proof.</li>
+<li><a pref='text/exceptions-in-the-rainforest.px'/>, describing the natural
+history of exceptions, a good tool for dealing with bad stuff.</li>
+<li><a href='blog/index.html'>My blog</a>, where the psychology of developers is
+much in evidence, especially in the <a href='blog/tag/devmindset.html'>posts tagged Dev Mindset</a>.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

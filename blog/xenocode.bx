@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090905T171450'>
+<title>Xenocode and multiple IE's</title>
+<category>browsers</category>
+<body>
+<p>One of the banes of a web developer's existence is the need to test their
+site in Internet Explorer, not just once, but in multiple versions of Internet
+Explorer.  These days, IE's 6, 7, and 8 are pretty much required.  Because of
+their tight integration with Windows, it's difficult to run all three side by
+side.</p>
+
+<p>There are installers that claim to run them independently, but we've definitely
+seen side-by-side IE6 behave differently than a true IE6-only machine.</p>
+
+<p>A technology that's been <a href='http://theonda.org/articles/2009/08/26/virtualized-turtles-all-the-way-down'>making
+the rounds of our office</a> is <a href='http://www.xenocode.com/'>Xenocode</a>,
+which is a new kind of virtualization: application-level virtualization.</p>
+
+<p>In the heat of a last-minute debugging session, a co-worker insisted I visit
+their <a href='http://www.xenocode.com/Browsers/'>browser sandbox page</a> and
+click on IE7.  My machine has a pristine IE6 install which I have resisted upgrading
+so that we can have "real" IE6 available.  I didn't understand what this Xenocode
+thing was going to do, so I was nervous.</p>
+
+<p>I clicked on IE7, and after downloaded, it ran, and I had an IE7 window running
+on my machine.  When I started to enter the URL to test, it auto-completed for
+me!  A little spooky for an application that is supposed to be running in a sandbox.
+</p>
+
+<p>Still curious about how this worked, I used <a href='http://technet.microsoft.com/en-us/sysinternals/bb896653.aspx'>Process Explorer</a>
+to see what was going on.  I expected to see xenocode.exe or something, but it
+claimed to be iexplore.exe, and it claimed to be in "C:\Program Files\Internet Explorer".
+Scary.  It seemed like it had upgraded me to IE7, but that's exactly what it
+claimed not to do.</p>
+
+<p>Just to experiment, I ran a Xenocode application that I didn't already have
+installed on my machine, a poker client. Sure enough, the Poker Stars
+application ran, and Process Explorer claimed it was running out of "C:\Program
+Files\Poker Stars". Except that directory doesn't exist on my machine!</p>
+
+<p>Xenocode <a href='http://www.xenocode.com/Technology/Understanding-Xenocode-virtualization-technology.aspx'>virtualizes the operating
+system services seen by the application</a>, and provides a virtual view of the
+filesystem, registry, and so on.  This lie is complete enough that even third-party
+OS utilities believe it, and report that the code is running from Program Files
+directories that don't exist.</p>
+
+<p>So far, it looks like it really works.  It's a great way to get multiple IE
+support on one machine. I don't know why you'd need to run other kinds of
+applications virtually, but it sure seems like impressive technology.</p>
+
+</body>
+</entry>
+</blog>

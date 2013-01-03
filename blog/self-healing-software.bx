@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080917T074859'>
+<title>Self-diagnosing software</title>
+<category>coding</category>
+<body>
+<p>At <a href='http://www.tabblo.com'>work</a> we upgraded to the shiny-new
+<a href='http://www.djangoproject.com/weblog/2008/sep/03/1/'>Django 1.0</a>,
+and we had to make a lot of small changes in the process.  Most were what you
+would expect: adapting to the 1.0 way from the older 0.96 code we had been using.
+</p>
+
+<p>But some of them were undoing ad-hoc patches to Django that we had accreted
+over the two years we'd been banging away at it.  Over the course of a week or
+so, we'd found dozens of things broken, pointing to work yet to be done to finish
+the 1.0 upgrade, just as you'd expect.  We have a large code base, and
+<a href='http://docs.djangoproject.com/en/dev/releases/1.0-porting-guide/'>many
+things changed between 0.96 and 1.0</a>.</p>
+
+<p>Yesterday, I couldn't log in on my dev server.  Everyone else had been working
+just fine for the last few days, so it seemed mysterious.  I asked our main Django
+guy Dave for help, and together we logged some session information, saw that
+there was no session being established at all. He realized what the problem was.
+"Oh, I changed SESSION_COOKIE_DOMAIN back to a string, we don't use the list any
+more." Turns out it was one of our ad-hoc Django changes that we threw
+overboard, and my settings file still had the old setting in it.</p>
+
+<p>This is where the software should have diagnosed itself.  If the settings/main.py
+file had these two lines added to it:</p>
+
+<code lang='python'><![CDATA[
+if isinstance(SESSION_COOKIE_DOMAIN, list):
+    raise Exception("SESSION_COOKIE_DOMAIN should be just a string now.")
+]]></code>
+
+<p>Then I would have immediately gotten an exception on my server console (and
+browser) pointing to precisely what the problem was.  I could have fixed it,
+and been running in two minutes, rather than being frustrated for half and hour,
+and bother Dave for another ten minutes.</p>
+
+<p>Our development team is small (five), and all sit next to each other most days
+of the week, so the cost of this sort of out of band communication about changes
+to infrastructure is small.  Also, I seem to have been the only developer who had
+a list in their settings file.  So perhaps the cost here was a total of about an
+hour.  Not so much, but adding those two lines in the first place would have cost
+about five minutes.  And in addition to the five developers, there are probably
+five other "development environments" floating around for other purposes: intern
+work, demos, backups, evaluation tarballs sent to other groups, etc, and who
+knows if those will have the same problem.
+</p>
+
+<p>And besides the simple time spent, there's the loss of focus, the distraction
+of the other developers, the frustration, and so on. Developer attention is a
+very valuable resource. A speed bump like this in the road is like a CPU cache
+miss: your pipelines are flushed, and you have to re-focus. The time taken
+doesn't tell the whole story.</p>
+
+<p>Yesterday was just one of those days, because later, I was entering a zipcode
+into my dev machine, and was consistently told that there were no facilities near
+that zipcode, even though I knew there should be.</p>
+
+<p>Turns out that somehow, my database table of zipcodes was empty.  We still
+don't know how that happened, but it would have been great if the software could
+have helped diagnose this anomalous condition. I changed this:</p>
+
+<code lang='python'><![CDATA[
+try:
+    z = ZipCode.objects.get(pk=zipcode)
+except ZipCode.DoesNotExist:
+    raise KeyError
+]]></code>
+
+<p>to this:</p>
+
+<code lang='python'><![CDATA[
+try:
+    z = ZipCode.objects.get(pk=zipcode)
+except ZipCode.DoesNotExist:
+    if settings.DEBUG:
+        # Sometimes the problem isn't one bad zipcode, but that there
+        # are no zipcodes in the db at all!
+        if ZipCode.objects.all().count() == 0:
+            print "*** You have no zipcodes! Run bin/load_zipcodes.py"
+    raise KeyError
+]]></code>
+
+<p>It would have been another half-hour saved.  I don't know how the zipcodes
+were deleted, so it's hard to guess how often someone will be in this position
+again, but I know it is worth it to add these sorts of diagnostics.  I'll take
+a guess that the next time the zipcodes are missing will be five minutes before
+a critical demo, when everyone is panicky and no one will be able to think through
+the possible causes clearly.  An unambiguous diagnostic will be very welcome.
+</p>
+
+<p>Take the time to make your software self-diagnosing.  The more you can automate
+about the job of writing software, the better your software will be.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051011T140137'>
+<title>Object reference not set to an instance of an object</title>
+<category>exceptions</category>
+<body>
+<p>I got this error message from .NET.  It basically means "null pointer":
+</p>
+
+<quote><p>
+Exception: Object reference not set to an instance of an object.
+</p></quote>
+
+<p>The more I look at it, the more I hate it.  Why are there so many words?  Who are we trying to impress?
+What's an "instance of an object"?  Don't they mean:</p>
+
+<quote><p>
+Exception: Object reference not set to an instance of a class.
+</p></quote>
+
+<p>And isn't "instance of a class" a fancy way to say "object"? So shouldn't it be:</p>
+
+<quote><p>
+Exception: Object reference not set to an object.
+</p></quote>
+
+<p>And what else would it be set to?  Can't we just shorten this to:</p>
+
+<quote><p>
+Exception: Object reference not set.
+</p></quote>
+
+<p>Or why don't we just say what we mean:</p>
+
+<quote><p>
+Exception: Null object reference.
+</p></quote>
+
+<p>Or, (heaven forbid):</p>
+
+<quote><p>
+Exception: Null pointer.
+</p></quote>
+
+<p>I know, I know, they aren't pointers, they're object references. Whatever. Bite me.</p>
+
+</body>
+</entry>
+</blog>

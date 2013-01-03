@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050908T142058'>
+<title>Amazon sales stats grabber</title>
+<category>python</category>
+<category>amazon</category>
+<via />
+<body>
+<p>Let's say your wife has just published a
+<a href='http://susansenator.com/makingpeace.html'>book</a>.
+Let us further suppose that you are a statistics-obsessed geek (not that there's anything wrong with that!)
+You're probably going to want a Python script that uses the
+<a href='http://www.amazon.com/gp/aws/landing.html'>Amazon web services</a> to check the book's sale ranking.
+I just happen to have one:
+</p>
+
+<more>
+<code lang='python'><![CDATA[
+# Amazon stats grabber
+# Ned Batchelder, http://nedbatchelder.com, September 2005.
+
+# A list of Amazon ASIN's to get stats for:
+asins = [
+    '1590302443',   # Making Peace with Autism
+    '1932565167',   # Thorn in My Pocket
+    '0385504209',   # DaVinci Code, why not aim high? :-)
+    ]
+
+# Put your own Amazon Web Services subscription id here:
+subid = '1AY..............S82'
+
+# The Amazon response groups you want to retrieve for the items.
+respgroups = 'SalesRank,ItemAttributes,Reviews'
+
+# How you want the results formatted.
+format = "%(SalesRank)7s [ %(TotalReviews)4s %(AverageRating)3s ]  %(Title)s"
+
+# The rest of the file doesn't need to be customized.
+
+import urllib
+from xml.dom.ext.reader import PyExpat
+from xml.dom.ext import PrettyPrint
+from xml import xpath
+
+urlfmt = 'http://webservices.amazon.com/onca/xml?' \
+    'Service=AWSECommerceService&SubscriptionId=%(subid)s&' \
+    'Operation=ItemLookup&ItemId=%(asin)s&' \
+    'ResponseGroup=%(respgroups)s'
+
+def load_stats(asins):
+    """ Returns a dictionary of stats. """
+    asin = ",".join(asins)
+    slots = dict(globals())
+    slots.update(locals())
+    url = urlfmt % slots
+    f = urllib.urlopen(url)
+    content = f.read()
+    f.close()
+    alldata = PyExpat.Reader().fromString(content)
+    # To get a look at the raw data, uncomment this:
+    #PrettyPrint(alldata)
+    return alldata
+
+def get_stats(alldata, asin):
+    itemdata = xpath.Evaluate('.//Item[ASIN/text()="%s"]' % asin, alldata)[0]
+    stats = {}
+    for tag in ['SalesRank', 'Title', 'AverageRating', 'TotalReviews']:
+        elts = xpath.Evaluate(".//%s/text()" % tag, itemdata)
+        val = '---'
+        if elts:
+            val = elts[0].data
+            if ':' in val:
+                val = val.split(':')[0]
+            val = val.strip()
+        stats[tag] = val
+    return stats
+
+alldata = load_stats(asins)
+
+for asin in asins:
+    stats = get_stats(alldata, asin)
+    print format % stats
+]]></code>
+
+<p>When run, it will write a simple report to standard out.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

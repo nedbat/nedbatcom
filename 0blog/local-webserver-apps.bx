@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030325T212302'>
+<title>Local web servers as applications</title>
+<category>arch</category>
+<body>
+<p>I happened upon
+<a href='http://hiveware.com/soapbox.php'>Soapbox</a> from
+<a href='http://hiveware.com'>Hiveware</a> today.
+It's a new blogging tool, but that's not what interested me.
+I was interested instead in its unusual construction:
+it's a desktop app, installed on your own
+machine, but it works by running a web server locally, serving
+HTML as the user interface.
+Essentially, it's a web service, running completely on your own desktop.
+</p>
+
+<p>I've seen this paradigm before
+(the RSS aggregator <a href='http://www.disobey.com/amphetadesk'>AmphetaDesk</a> works this way),
+and wondered about it.
+At first blush, it seems like nothing more a clever way to allow web-enabled developers to
+build desktop apps: by running the web server locally, all those web development skills
+become desktop development skills.
+But web applications are hard: you spend a lot of effort working against the
+stateless grain of web servers, and HTML is not great for things like drag-and-drop
+and multi-paned interfaces.
+</p>
+
+<p>But thinking about it, I realized there could actually be
+more important reasons to build apps this way.
+After all, HTML is the most widely-deployed cross-platform GUI toolkit there is,
+even if it is not the richest for supporting complex user interactions.  Nothing
+can touch it for cosmetic polish (CSS makes for great skinning). And if what you
+are building touches on the web, then your UI is already fully web-enabled.
+</p>
+
+<p>Are there other reasons to work this way?  Is there something beyond the power
+of HTML that I'm missing about
+the benefits of web-hosted apps that make them compelling even for local deployment?
+</p>
+
+</body>
+</entry>
+</blog>

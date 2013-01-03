@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041101T190334'>
+<title>Darcs</title>
+<category>srcctrl</category>
+<via />
+<body>
+<p><a href='http://abridgegame.org/darcs/'>Darcs</a> is a source code control system,
+but with a different feel from most.  Where most systems (CVS, Subversion, Perforce, ClearCase,
+Arch, and so on) use client/server topologies, Darcs is purely peer-to-peer.
+With Darcs, every working tree is a repository, on an equal footing with every other repository.
+And connectivity between repositories is as easy and as varied as accessing files:
+you can use the file system, FTP, a web server, or even email, it doesn't matter.
+Changes flow from one repository to another via the "push", "pull", or "send" commands.
+There is no central authority.
+</p>
+
+<p>I've recently started using Darcs for personal projects, and it fits that need admirably.
+I don't have to run a server, I don't have to checkout before I can make changes, and I can
+set up repositories on other computers as backups.
+I can even create a repository on a thumb drive!
+</p>
+
+<p>I don't how well Darcs will scale up to large projects, or many developers, but
+for my personal use, it's perfect.</p>
+
+</body>
+</entry>
+</blog>

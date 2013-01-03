@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051121T073317'>
+<title>Amazon mechanical turk</title>
+<category>amazon</category>
+<via />
+<body>
+<p>It's interesting to see how Amazon is opening up their infrastructure as web services.
+I just heard about <a href='http://mturk.amazon.com'>Amazon Mechanical Turk</a>,
+which is subtitled "Artificial Artificial Intelligence".  It's a clever idea: if you want a computer
+to do a task automatically, but the job is too hard for a computer, then farm it out to humans.
+Kind of like <a href='http://setiathome.ssl.berkeley.edu/'>SETI@home</a> in reverse.
+Where SETI@home farms out difficult computations to lots of computers (which are good at computation),
+Mechanical Turk farms out difficult image recognition to lots of humans (which are good at image recognition).
+</p>
+
+<p>I'd heard of this approach before, for example, a security firm handing out images from security cameras,
+asking people to tell whether there's a person lurking in the photo someplace.  Amazon seems to have set this
+up to find businesses in photos for their
+<a href='http://maps.a9.com/?ypLoc=84%20Beacon%20Street%2C%20Boston%2C%20MA'>BlockView maps</a>.</p>
+
+<p>Then once they had it set up, they exposed it via a
+<a href='http://www.amazon.com/gp/browse.html/002-8597643-9070452?node=15879911'>Mechanical Turk web service</a>.
+It's a great idea.  Since they had the infrastructure built, building a web service opened up their
+marketplace of human workers to others who wanted to provide work and needed to find people.  That will bring
+more human workers (since there is more work there of a more varied nature), which will bring competition
+among work providers to pay well, which will bring more workers.  Capitalism in action.
+It'll be interesting to see if there are enough businesses with work needing to be done to give it critical mass.
+</p>
+
+</body>
+</entry>
+</blog>

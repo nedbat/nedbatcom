@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031118T202038'>
+<title>Storing hierarchical data in a database</title>
+<category>db</category>
+<via href='http://keithdevens.com/blog'>Keith Devens</via>
+<body>
+<p>Keeping tree-structured data in a relational database is always a challenge.
+<a href='http://www.sitepoint.com/article/1105'>Storing Hierarchical Data In A Database</a>
+demonstrates a nifty technique that is heavily tipped toward fast queries.
+It stores two numbers that link all the nodes together in a depth-first traversal.
+This makes all sorts of queries possible and efficient, but updating rows is a real
+pain.  If you have data that is read far more often than written, it could be a good
+choice.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031122T171241'>
+<title>Recipezaar</title>
+<category>reference</category>
+<category>food</category>
+<via href='http://www.decafbad.com'>0xDECAFBAD</via>
+<body>
+<p>Recipes have been collected and traded on the Internet for as long
+as the net has been running.
+<a href='http://www.recipezaar.com'>Recipezaar</a> finally pulls all the
+technology together in a way that fulfills the promise of recipes on computers.
+It lets you search, then refine the results by categories in 6 facets.
+The recipes are presented with reviews, other recipe recommendations,
+computed nutrition facts, serving adjuster, and more.
+It's the kind of site that makes me wish I cooked!
+</p>
+
+<p>One thorny issue with structured data is where does it come from?
+You could ask users to enter data in separate edit controls, but that's
+asking them to shoulder the whole burden.  You could let them enter
+free-flowing data willy-nilly and hope to sort it out later.
+Apparently, Recipezaar gets the best of both worlds.
+Recipes are entered free-form, then parsed into structured data for presentation.
+Contact managers often work the same way.  Both recipes and contacts
+have the advantage of a narrow domain, where the information
+can be expected in semi-structured form.
+</p>
+
+</body>
+</entry>
+</blog>

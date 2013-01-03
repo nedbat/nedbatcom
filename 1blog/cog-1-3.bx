@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041230T172743'>
+<title>Cog 1.3</title>
+<category>cog</category>
+<via />
+<body>
+<p>You can't call me unresponsive!
+<a href='http://www.phoenix-designworks.com/home.php'>Rick Copeland</a>
+wrote a comment this morning requesting a change in <a href='code/cog'>Cog</a>'s behavior.
+I made the change, and Cog is at version 1.3.
+Now all generators in a single source file run with
+the same global dictionary, so they can share state.
+Bottom's up!
+</p>
+</body>
+</entry>
+</blog>

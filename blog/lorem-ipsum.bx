@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080305T192300'>
+<title>Lorem ipsum</title>
+<category>design</category>
+<category>history</category>
+<body>
+<p>One of the things I enjoy about my current job at <a href='http://tabblo.com'>Tabblo</a>
+is that I get to implement print design.  I like working at the intersection of
+engineering and graphic design.  Sometimes I have to explain engineers to designers,
+and sometimes designers to engineers.</p>
+
+<p>An engineer on the team asked me the other day what this gibberish text was:</p>
+
+<quote><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+In dapibus lorem quis dui. Phasellus adipiscing.
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></quote>
+
+<p>It's dummy text used by graphic designers when they need text
+for a layout, but don't want it to distract from the layout itself.  It's designed
+to mimic real text, but not draw people into discussing the content.</p>
+
+<p>You'll find that graphic designers all over the world use not just this idea,
+but this precise text.  It's a design tradition at this point.
+The text has a long and storied history, detailed at sites like 
+<a href='http://lipsum.org/'>lipsum.org</a>, an online lorem ipsum generator.
+Turns out it is a somewhat garbled version of a Latin passage by Cicero.</p>
+
+<p>Because designers often have need for passages of dummy text, there are other
+generator sites, like <a href='http://www.blindtextgenerator.com/'>blindtextgenerator.com</a>,
+with options controlling what text to use, how much of it to generate, and what
+typeface to display it in.</p>
+
+<p>Web framework may even provide tools to generate text like this inline.
+Here's a <a href='http://www.djangosnippets.org/snippets/46/'>loremipsum tag for Django</a>, for example.</p>
+
+<p>Another technique used by graphic designers to abstract away text
+is to draw lines of small text as simple gray bars.  While lorem ipsum is based
+on Latin text, this gray bar technique is known as <a href='http://desktoppub.about.com/cs/basic/g/greeking.htm'>greeking</a>!</p>
+
+</body>
+</entry>
+</blog>

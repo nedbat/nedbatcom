@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090705T072632'>
+<title>A nasty little bug</title>
+<category>coverage</category>
+<category>debugging</category>
+<category>development</category>
+<body>
+<p>James Bennett wrote to me the other day to ask for help with a problem using
+coverage.py. Some code he was measuring behaved very strangely: according to
+coverage.py, the first half of the function was executing, but the second half
+wasn't. And this was happening for a whole group of functions. These were test
+functions for XML-producing Django views, and each parsed the XML. The call to
+the XML parsed was the last function executed each time, none
+of the lines after it were detected as run.</p>
+
+<p>My first thought was that the XML parsing was throwing an exception, the
+simplest explanation for why execution would stop in the middle of a function.
+It made sense, since it was a similar operation in each function exhibiting this
+behavior.  And James had already had
+<a href='http://www.b-list.org/weblog/2009/jun/26/fun-little-bug/'>another
+problem with this same code</a> where an unexpected exception was throwing off
+his tests.</p>
+
+<p>But James is a clever boy, and proved that exceptions were not to blame by
+adding asserts, print statements and so on. The lines were really being
+executed, but coverage.py didn't think they were. Something more interesting and
+unusual was at work. I broke out my old quip:</p>
+
+<box>I learn something new every day, no matter how hard I try.</box>
+
+<p>To understand what happened here, I need to explain a little about how
+coverage.py works.  Python provides a trace feature: you register a function
+with sys.settrace(), and it is called as code is executed. It is passed an event
+argument indicating what happened: "call" for entering a new scope, "return" for
+leaving a scope, "line" for a line of code executed, and "exception" for an
+exception being raised.</p>
+
+<p>One of the changes I made in <a href='code/coverage'>coverage.py 3.0</a> was
+to write a more sophisticated trace function which uses the nesting of call and
+return events to keep track of what file we're running in and whether to record
+execution in that file.</p>
+
+<p>Back to the bug: after an intensive day of adding extensive logging to the
+trace function and poring over 1000-line log files, I found a sequence like
+this:</p>
+
+<code>
+    line expatbuilder.py 222
+     line expatbuilder.py 223
+     call pyexpat.c 905
+        call expatbuilder.py 892
+           line expatbuilder.py 894
+           line expatbuilder.py 900
+           exception expatbuilder.py 900
+           return expatbuilder.py 900
+        exception pyexpat.c 905
+        exception expatbuilder.py 223
+        line expatbuilder.py 225
+        line expatbuilder.py 226
+</code>
+
+<p>The first odd thing to note about this is the third line, where we seem to
+be entering a new scope at line 905 of pyexpat.c.  That's odd because the trace
+function doesn't get called for execution in C files, only in Python files!
+And then further down, there's an exception at line 905 in pyexpat.c, but no
+return from that line.  All my experience with trace functions said that "call"
+and "return" events would always match.  If a scope is left due to an exception
+being thrown, then there would be an "exception" event and a "return" event,
+like we see a little higher, at line 900 of expatbuilder.py.</p>
+
+<p>Digging into <a href='http://svn.python.org/view/python/trunk/Modules/pyexpat.c?view=markup'>pyexpat.c</a>
+itself reveals a strange thing: for some reason, this module calls the trace
+function explicitly, using "pyexpat.c" as a file name. That explains how the
+trace function could see inside C code: it can't, this module alone among all of
+the modules in the Python distribution calls the trace function to report on
+what it is doing.  I have no idea why.</p>
+
+<p>And further, it does it a little wrong: in the other place where the trace
+function is called, the interpreter itself, exceptions always generate a return
+event when they leave a scope. Pyexpat doesn't do this: if an exception comes up
+through the C code, it will generate an exception event, but no return event to
+indicate the scope is exiting. My trace function counts on matching call and
+return events to keep the bookkeeping straight.</p>
+
+<p>What was happening in James' code is that inside the XML parser, an exception
+is being thrown (something that happens internally when parsing doctype
+declarations), which caused a return event to be skipped, which threw off my
+trace function's bookkeeping, which made it think that James' code was actually
+inside the XML parser module, which is code that shouldn't be measured (since it
+is part of the Python standard library, and who wants to measure that), so the
+second half of James' code wasn't measured. Whew. Mystery solved, now what to do
+about it?</p>
+
+<p>The first order of business was to write a test showing the problem.  It took
+a while to get a small code sample, because without a doctype declaration in the
+XML chunk, there was no internal exception to throw off the event pairing.
+The line numbers in the logging files helped me figure out the source of the
+exception.</p>
+
+<p>I took a few stabs at fixing the problem, because I was hoping for a general
+approach to the problem of detecting mis-matched call and return pairs, but I
+didn't see a way to do that. In the end I took the unfortunate step of checking
+for "pyexpat.c" in the file name reported to the trace function, and assuming
+that an exception event from there needed a missing return event to be
+synthesized. You can see the
+<a href='http://bitbucket.org/ned/coveragepy/changeset/507072f95bdf/'>unfortunate
+blot in the tracer code</a> for yourself.</p>
+
+<p>For good measure, I wrote a <a href='http://bugs.python.org/issue6359'>bug
+against pyexpat</a>, but I'll be surprised if anything is done about it. In
+fact, I kind of hope nothing is, since I'll have to further complicate my
+workaround if there are newer versions of pyexpat that do the right thing.</p>
+
+<p>OK, problem fixed, time to run my newly-enhanced test suite against all the
+versions of Python that coverage.py supports, 2.3 through 2.6.</p>
+
+<p>Uh-oh: 2.3 failed.</p>
+
+<p>Yet more digging, and it turns out that Python 2.3 doesn't properly match
+call and return trace events: it shows the same problem with Python code that
+pyexpat does.  In Python 2.3, an exception that leaves a scope will fire an
+exception event but no return event. D'oh!</p>
+
+<p>2.3 is on the trailing edge of my support list, so I'm not willing to twist
+the code too badly for it, but I want to make it work.</p>
+
+<p>In coverage.py 3.0, there are two trace functions: a fast one in C, and a
+slow one in Python for installations that can't build the C extension.  I didn't
+want to complicate the C extension, so to keep Python 2.3 working,
+<a href='http://bitbucket.org/ned/coveragepy/changeset/52d52a44ff1c/'>I tweaked
+the Python trace function</a>. Now Python 2.3 always uses the Python trace
+function, which is too bad, since the C implementation is much faster. But it's
+better than dropping support for Python 2.3 altogether.</p>
+
+<p>This style of development is unfortunately par for the course for coverage.py.
+It's a natural outcome of a few goals I have for it:</p>
+
+<ul>
+    <li>Accuracy: coverage.py's job is to help developers understand their code.
+    It has to give accurate information, or it's just adding new mysteries for
+    them to solve. Claiming lines aren't executed when they are executed is
+    unacceptable.</li>
+    
+    <li>Applicability: if you are building real code in Python, coverage.py
+    should work for you. This means it can't opt out of older Python versions,
+    or specific modules from the standard library.</li>
+    
+    <li>Convenience: it shouldn't be a burden to run coverage testing on your
+    code, it should be fast and easy.</li>
+</ul>
+
+<p>I wish I didn't have to have pyexpat-specific code in the trace function, but
+I don't see a way to avoid it.  People should be able to measure code coverage
+of XML parsing code without having to read a footnote somewhere that says it
+doesn't work.</p>
+
+<p><strong><em>Update:</em></strong> Funny how things work out. I had worked on
+this bug for a day or two, trying all sorts of ways to fix it. I thought I had
+found the best way, even though it wasn't very nice. Then I wrote this blog
+post, and Andre commented on it, saying he thought there had to be a better way.
+While I was writing a response along the lines of, "no, there really isn't, and
+here's why," a new idea occurred to me.
+</p>
+
+<p>Each event is passed the frame object.  The essence of a return event is that
+the next event will be in a different frame.  Not only that, but we know what
+frame it will be in: the parent of the return event.  When an exception event
+happens, there are two possibilities:</p>
+
+<ul>
+    <li>the exception is being caught, and the next event will
+    be a line event in the same frame.</li>
+    <li>the exception is causing us to leave the scope, and the next event
+    will be a return event in the same frame.</li>
+</ul>
+
+<p>Either way, the event after an exception should be in the same frame. If the
+return event is incorrectly skipped, the next event will be something
+happening in the parent of the exception's frame.</p>
+
+<p>So that's now how I detect missing return events: when an exception happens,
+record the parent frame pointer.  If the next event happens in that frame, then
+we're missing a return, and can fake one. I didn't do the more straightforward
+thing of recording the frame the exception happened in, and checking against that,
+because by the time we get the next wrong event, that frame has been destroyed,
+and I didn't like keeping a stale pointer to check against.</p>
+
+<p>This fix is much nicer:</p>
+
+<ul>
+    <li>There's no hard-coding of "pyexpat.c" in the code,</li>
+    <li>If pyexpat is ever fixed, this code will still work, and</li>
+    <li>Python 2.3 can still be handled by the C trace function.</li>
+</ul>
+
+<p>Thanks everyone, for being my sounding board!  The
+<a href='http://bitbucket.org/ned/coveragepy/changeset/0c2f51a88b9b/'>new nicer fix</a>
+is viewable on bitbucket.</p>
+
+<p>BTW: I wanted to say, "thanks for being my wooden Indian," from an idea I read
+about (I thought) on the <a href='http://c2.com/cgi/wiki?WelcomeVisitors'>c2.com
+wiki</a> about how if you explain something to someone, they don't have to
+respond at all, just the act of talking it through will help you understand it
+better, so you might as well explain your problem to a wooden Indian. But I can
+find no trace of it now.</p>
+
+</body>
+</entry>
+</blog>

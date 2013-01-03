@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070708T160049'>
+<title>Abject-oriented programming</title>
+<category>development</category>
+<category>funny</category>
+<body>
+<p>Greg Jorgensen shows how not to do it:
+<a href='http://typicalprogrammer.com/programming/abject-oriented/'>Introduction to Abject-Oriented Programming</a>:
+</p>
+
+<quote><p>Inheritance is a way to retain features of old code in newer code. The
+programmer <i>derives from</i> an existing function or block of code by making a copy
+of the code, then making changes to the copy. The derived code is often
+<i>specialized</i> by adding features not implemented in the original. In this way the
+old code is retained but the new code <i>inherits</i> from it.</p>
+</quote>
+
+<p>His tone is perfect, explaining ludicrous techniques under well-known names,
+enough so that many commenters took the whole thing seriously.</p>
+
+</body>
+</entry>
+</blog>

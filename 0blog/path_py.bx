@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030130T222921'>
+<title>The path Python module</title>
+<category>python</category>
+<category>libs</category>
+<via id='dailypython'/> <!-- id= or href= -->
+<body>
+<p>Jason Orendorff has given us
+<a href='http://www.jorendorff.com/articles/python/path/'>the path Python module</a>,
+which is a true Pythonic joy.  It simplifies os.path, and makes it much easier
+to use.</p>
+
+<p>I had the same experience as Jason: os.path.walk is just not great.  My solution
+was to write my own module to do the same thing, but it ended up also not great.
+Jason's solution is intelligent enough to be simple, rather than clever enough to
+be difficult.  My hat is off to him.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090515T070608'>
+<title>Log in as a user</title>
+<category>webpage</category>
+<category>security</category>
+<body>
+<p>This s a question that pops up every once in a while in web site technology
+discussion forums: if I'm running a web site, what's the best way to log in as
+a particular user so that I can see the site as they would see it?
+</p>
+
+<p>The simplistic thing to do is to somehow get the user's password, and just
+log in as them.  But this is bad because you should never need to know your
+users' passwords, and ideally, you don't even have access to them.
+</p>
+
+<p>The better solution is to interpret the classic username and
+password fields liberally.  The username field is always interpreted as the
+desired username.  The clever part comes with the password field: it can either
+be the user's password, or it can be a combination of a super-user username
+and the super-user's password. It's the online equivalent of getting access
+to Joe's stuff either by showing your identity card proving you are Joe, or by
+being a policeman and showing your badge.</p>
+
+<p>To make it concrete, imagine authentication is implemented in a function
+called who_am_i that takes the username and password, and returns the authenticated
+username, or None.  You have an is_password function that can tell you whether
+a username and password match, and an is_superuser function that can tell you
+whether a username is a super-user.</p>
+
+<p>Here's the classic username/password authentication:</p>
+
+<code lang='python'><![CDATA[
+def who_am_i(username, password):
+    """Determine what user these credentials represent."""
+    if is_password(username, password):
+        return username
+    return None
+]]></code>
+
+
+<p>Here's the extended version.  An @-sign is the separator in the password
+field for the super-user's name and password:</p>
+
+<code lang='python'><![CDATA[
+def who_am_i(username, password):
+    """Determine what user these credentials represent."""
+    if is_password(username, password):
+        return username
+    if '@' in password:
+        super_name, super_pass = password.split('@', 1)
+        if is_super(super_name):
+            if is_password(super_name, super_pass):
+                return username
+    return None
+]]></code>
+
+<p>I like this solution because it doesn't require any extra UI, but gives
+super-users what they need: a way to log in any user they want, without knowing
+the user's password. If you like, you can strengthen the super-user path by
+requiring white-listed IP addresses, or special privilege cookies, etc.
+</p>
+
+<p>BTW, stackoverflow has <a href='http://stackoverflow.com/questions/263367/how-do-you-support-a-web-app-with-hashed-or-encrypted-passwords/263501'>more discussion</a>
+on the same topic, including other (bad) ideas about how to do it (change the
+user's password??)</p>
+
+</body>
+</entry>
+</blog>

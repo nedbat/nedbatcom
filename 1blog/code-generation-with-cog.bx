@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040210T222100'>
+<title>Code generation with Cog</title>
+<category>mycode</category>
+<category>cog</category>
+<via />
+<body>
+
+<p><a href='code/cog/index.html'>Cog</a> is a code generation tool I wrote to solve
+some problems at work.  It's based on embedding Python in source files
+to generate code (we use it to generate C++, for example).
+</p>
+
+<p>I'm really happy with the way Cog turned out.
+Some would say that Cog isn't a code generation tool at all,
+but just a file munger that can be used for code generation.
+They would be right, Cog does much less than most "code generators".
+But it was written to munge files in just the way you need to when generating code.
+Cog only does one thing, and it does it well: it executes
+chunks of Python it finds in text files, capturing the output and writing
+it into the file alongside the original code.</p>
+
+<p><a href='code/cog/index.html'>Download</a> it, try it out,
+and let me know what you think.</p>
+
+<p>For more about code generation in general, try:</p>
+
+<ul>
+<li><a href='http://www.codegeneration.net/tiki-read_article.php?articleId=9'>Dave Thomas interviewed about code generation</a>.
+Dave Thomas is one of the <a href='http://www.pragprog.com'>Pragmatic Programmers</a>,
+and I find I agree with him almost universally.
+He forbids putting the output of code generators under source control,
+I encourage it.  We agree that the output should never be edited.
+</li>
+
+<li>The <a href='http://c2.com/cgi/wiki?CodeGeneration'>Code Generation</a> page on the c2 wiki.
+As will happen with a wiki, this fractures off in many directions, with many different
+viewpoints, both for and against code generation.
+</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>

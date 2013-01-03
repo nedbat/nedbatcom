@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030521T062740'>
+<title>The Selfish Class</title>
+<via id='simonwillison'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.joeyoder.com/papers/patterns/Selfish/selfish.html#LowSurfaceToVolumeRatio'>The Selfish Class</a>
+is a paper by Brian Foote and Joseph Yoder 
+about how to design software to maximize reusability.
+It isn't quite a collection of patterns, more a collection of mindsets and
+philosophical goals, but with motto-able titles
+(such as "Low Surface to Volume Ratio", and "Gentle Learing Curve").
+</p>
+
+<p>I think they've nailed a number of important principles.  For a long time
+now, when designing a class, I've looked toward an intuitive feel of whether
+the class was "round" or not (meaning close to circular).  A class is bad 
+if its shape has become sort of bumpy or had pieces glued onto the sides.
+This is very similar to Foote and Yoder's low surface to volume ratio
+(the circle is the 2D object with the lowest), though my criteria feels
+more about the single-mindedness of the class.  I suppose they amount
+to the same thing.
+</p>
+
+</body>
+</entry>
+</blog>

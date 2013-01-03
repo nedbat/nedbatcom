@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050611T215645'>
+<title>BOM synchronicity</title>
+<category>charset</category>
+<via />
+<body>
+<p>It's funny how things happen.
+I was at the Boston <a href='http://python.meetup.com/'>Python Meetup</a> the other night,
+and one of the things we got talking about was the intricacies of Unicode, including the
+<a href='http://www.unicode.org/faq/utf_bom.html#BOM'>Byte Order Mark</a> (BOM).
+The BOM is a "character" in the Unicode standard, U+FEFF.  It doesn't
+render as anything (it is considered a Zero-Width Non-Breaking Space, or ZWNBSP).
+It's purpose in life is to be a tell-tale indicator of the endianness of a UTF-16 text file.
+</p>
+
+<p>If you read the first two bytes of a Unicode file, and they are 0xFF 0xFE, then you know
+that it is UTF-16, little-endian (low-order byte first).  If they are 0xFE 0xFF, then you
+know it is UTF-16, big-endian.</p>
+
+<p>So we were talking about this Thursday night, and about how funky things can happen and to
+diagnose them correctly, you have to grok all this BOM stuff (not to mention other things
+like UTF-8, UTF-16, and so on).</p>
+
+<p>OK, so the next day, I'm setting up a Remote Desktop Connection on my Windows box,
+and the video settings offer me 1280<times/>1024 or full-screen.  But I want 1400<times/>1050.
+I figure I'll create the .rdp file at 1280<times/>1024, then open it up, find the display
+resolution and change it.  I open the .rdp file, and what do you know, it's text!  I edit
+the text, save the file, double-click the .rdp file, and nothing happens.  Huh?</p>
+
+<p>Then the previous night's conversation comes back to me.  Sure enough, when I
+<a href='code/utilities/hexdump_py.html'>hexdump</a> the edited .rdp file and an unedited one,
+the original has a BOM, and the edited one does not.
+Both are legit UTF-16, both are little-endian, but the one
+with the BOM works, and the one without does not.  Now that is not proper Unicode support,
+but at least I understand what went wrong.  I open the file again in <a href='http://www.textpad.com/'>TextPad</a>,
+use the document properties to instruct it to write the BOM, save the file again, and
+everything works gloriously.</p>
+
+<p>Ah, Unicode.  It makes life so much simpler, doesn't it?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051114T204716'>
+<title>Coalescing Python parser info?</title>
+<category>online</category>
+<via />
+<body>
+<p>Last year, I wanted a parser generator for a Python program I was working on, and I went in
+search of a tool.  As is typical in the Python world, I found many, of varying degrees of
+maturity, activity, and depth.  To make sense of it all, I compiled a
+<a href='text/python-parsers.html'>list or python parsing tools</a> and put it on my site.
+</p>
+
+<p>Since then, many people have found it.  About ten people a day come to this site with search
+queries like "python parsing", "bison for python", "lexical analyzer python", and the like.</p>
+
+<p>Recently, though, <a href='http://www.broofa.com'>Robert Kieffer</a> wrote to me,
+asking me to do the Right Thing:</p>
+
+<more text='read the whole email exchange'>
+
+<quote>
+<p>Hi Ned,</p>
+<p>I just ran across your python parser page.  Great information!</p>
+
+<p>However, I stumbled across your page only after also finding
+<a href='http://wiki.python.org/moin/LanguageParsing'>http://wiki.python.org/moin/LanguageParsing</a>.
+One of the commenters on your page, "Henning", also refers to this url.</p>
+
+<p>If I may be so bold, it seems like the Right Thing (tm) to do here is to
+transition the information on your site to the python.org page.  Since
+python.org is a Wiki, it will be easier to maintain and contribute to.
+Also, by virtue of being on the python.org site it has at least the
+appearance of being a little more legitimate.</p>
+
+<p>I'd be happy to update the python.org page, assuming you're interested.</p>
+
+<p>Thoughts?</p>
+
+<p><emdash/> rwk</p>
+
+</quote>
+
+<p>I responded:</p>
+
+<quote>
+<p>I've thought a lot about this very issue, and I'm torn.</p>
+
+<p>On the one hand, I know that the spirit of sharing is very strong in the
+Python community, and it is that spirit which has made it so great.  I want
+to contribute, and give back to the community.</p>
+
+<p>On the other hand, I want (selfishly, to be honest) to be strongly
+associated with the work I put into my site.  And I want to have more
+control over the content than the wiki page would afford me.</p>
+
+<p>Balancing these forces is tricky.  I think I will leave my parser info where
+it is.  After all, it is freely available to the community where it is, so I
+am giving back.</p>
+
+<p>Of course, if you want to use my page to update the wiki page, that's fine
+too.  I can understand why you wouldn't want to if my page will continue on
+where it is.</p>
+
+<p>What's your take on these issues: do you think I am doing The Wrong Thing by
+not merging the pages?</p>
+
+<p><emdash/>Ned.</p>
+</quote>
+
+<p>Robert replied:</p>
+
+<quote>
+
+<p>Hey Ned,</p>
+
+<p>Thanks for the response.  I have to confess that I sympathize with your
+dillemma.  It's tough to give freely what you've worked so hard on.  That said,
+I also know that as one ponders these things the idea tends to grow on you.</p>
+
+<p>I actually began a response talking about how I believe the roll of a
+programmer is changing, but it became so philosophical (and long-winded) that I
+decided to turn it into a
+<a href='http://www.broofa.com/blog/index.php?p=56'>blog entry</a>.
+The essence of it is that we come from a generation of
+developers that find this open-sharing of code and information a little
+unnatural, and that it is something we will consciously have to embrace. The
+risk of not doing this is obsolesence.</p>
+
+<p>So, are you doing "The Wrong Thing"?  Well... yes.</p>
+
+<p>I really, really, want to be nice and say, "no, of course not!" but I just
+can't.  So, yes it's wrong, but not because it stems from selfish motivations.
+a) They aren't that selfish (you are publicizing this stuff after all) and b)
+recognition for our effort is what motivates all of us <emdash/> it's a good thing.
+Rather, it's wrong because keeping this information in two places derails the
+inspiration that originally led you to create that page <emdash/> that is, the goal of
+having a single, comprehensive source for information about Python language
+parsers.</p>
+
+<p>The fact you put this information on your website speaks to your desire to
+help people.  You just need to go one step further and put that information in
+the obvious place for it.  As for recognition, I think it would be fine for you
+to put a note at the top of the Wiki page to the effect that you compiled the
+information and would like to be involved (read, "coordinate") efforts to keep
+it current.</p>
+
+<p><emdash/> rwk</p>
+</quote>
+
+<p>So, now I ask my readers: what do you think?  I still want to leave the page
+where it is.  People are obviously able to find it, and I can put a link on the
+wiki page for people who don't.  Does the spirit of sharing demand centralization?
+Is my desire for control at odds with the greater good?
+Am I an old timer who doesn't fully get it?
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

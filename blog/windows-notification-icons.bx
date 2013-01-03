@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051201T090351'>
+<title>Windows notification icons</title>
+<category>windows</category>
+<category>ui</category>
+<category>debugging</category>
+<via />
+<body>
+<p>About once a year, someone at work decides that we need to tweak the icons on the Windows client.
+This usually involves getting an outside graphic designer to send us images which are unusable because they
+don't know what we need for a .ico file.  Then a developer munges the images to get the proper
+transparency, resolutions, and so on, and builds an ico file
+(<a href='http://www.nedbatchelder.com/blog/200501.html#e20050104T065730'>@icon sushi</a> is my favorite
+tool for this).
+</p>
+
+<p>Then comes the fun of trying yet again to second-guess how Windows is going to choose among the multiple
+images in the icon.
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwui/html/msdn_icons.asp'>Microsoft technotes</a>
+notwithstanding, it is not obvious what is going on.  In particular, the icon chosen for the notification tray
+(commonly referred to as the system tray) always looks smudged.
+</p>
+
+<p>To figure this out, I built a
+<a href='files/rgb.ico'>diagnostic icon (rgb.ico)</a>. It has three images, 16<times/>16, 32<times/>32, and
+48<times/>48.  But the three images are designed to look different: they are solid red, solid green, and
+solid blue respectively.  If you look at this file in Windows Explorer, you'll see a red square in the list
+view, a green square in the icon view, and a blue square in the tiles view:
+</p>
+
+<figurep>
+<img src='pix/rgbico.png' alt='Three views of the same rgb.ico file'/>
+</figurep>
+
+<p>In the client C# code, I tried setting rgb.ico as the notification icon.  Ideally, the red square would display,
+since it is the 16<times/>16 image.  Nope, the green square appears, a perfect 16<times/>16 green square,
+clearly produced by taking the 32<times/>32 image and scaling it down.  No wonder my icons look gross.
+</p>
+
+<p>I don't know if this is something about the system tray, or about the .NET NotifyIcon class, or what.
+But it bugs me.  To get the pixels I want I'll have to create a special 16-only icon for the notification area?
+</p>
+
+</body>
+</entry>
+</blog>

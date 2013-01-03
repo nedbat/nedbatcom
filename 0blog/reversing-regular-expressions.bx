@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030916T162322'>
+<title>Reversing regular expressions</title>
+<category>hacks</category>
+<category>regex</category>
+<body>
+<p>Just when you thought regular expressions were powerful and confusing
+enough, comes <a href='http://www.perl.com/pub/a/2001/05/01/expressions.html'>Reversing regular expressions</a>.
+The idea is that if a match is too hard to make going forward through the string,
+then reverse the string first, apply a reversed regex to it, and finally reverse the resulting
+match.  Wow.
+</p>
+
+<p>Update
+(thanks to <a href='http://simon.incutio.com/archive/2003/09/17/sexeger'>Simon</a>,
+who shows Python for the technique):
+I forgot to mention that this technique is called "sexeger" ("regexes" backwards, get it?),
+and here's <a href='http://japhy.perlmonk.org/sexeger/sexeger.html'>japhy's authoritative treatise</a>
+on the subject.
+</p>
+
+</body>
+</entry>
+</blog>

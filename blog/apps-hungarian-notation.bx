@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050727T155604' draft='y'>
+<title>Apps Hungarian notation</title>
+<category></category>
+<via />
+<body>
+<p>A few months ago I read Joel's piece
+<a href='http://www.joelonsoftware.com/articles/Wrong.html'>Making Wrong Code Look Wrong</a>.
+</p>
+
+<p>String file name produces file object, produces a string of data.</p>
+
+<p>Reasons Hungarian notation was misunderstood:</p>
+
+Simonyi used the word "type" when he meant something different than "compiler type".
+
+More importantly: using Apps Hungarian properly means carefully understanding your programming
+domain, and creating a set of prefixes for the major types that will be used in your system.
+It means agreeing on these prefixes within your team.  In short, it means doing a bunch of
+work up front.  Adopting Hungarian "the wrong way" (where the prefixes correspond to compiler
+types) is much easier: every team can do it the same way, and there's no thinking needed.
+There's also not much benefit, and you get ridiculed.
+
+Opponents of Hungarian notation complain that there are no standards.  As I see it, proper
+Apps Hungarian use requires that there be no standards.  You must create your own set of
+prefixes for the system you are building.  Yes, this is something else for developers to
+learn before they can be productive in your code.  But the proponents of Hungarian claim
+that it isn't difficult, and makes developers more productive overall, and that it helps
+prevent errors.
+
+http://en.wikipedia.org/wiki/Hungarian_notation
+http://www.objectmentor.com/resources/articles/naming.htm
+http://c2.com/cgi/wiki?HungarianNotation
+
+</body>
+</entry>
+</blog>

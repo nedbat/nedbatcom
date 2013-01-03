@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061014T060836'>
+<title>Porter stemming algorithm</title>
+<category>ling</category>
+<body>
+<p>From a roundup of the <a href='http://blog.cleverly.com/permalinks/247.html'>new full-text search feature in SQLite</a>,
+I found a reference to the <a href='http://www.tartarus.org/martin/PorterStemmer/'>Porter Stemmer</a>, an algorithm for
+reducing an English word to its root (sort of):
+</p>
+
+<code>
+cat --> cat
+catatonic --> cataton
+catatonically --> cataton
+catch --> catch
+catched --> catch
+catches --> catch
+catching --> catch
+caught --> caught
+abstemiously --> abstemi
+manliness --> manli
+mainlines --> mainlin
+</code>
+
+<p>I say "sort of" because abstemi is not exactly the root of abstemiously, but is close enough. The point of the algorithm
+is to map words from the same root onto the same value.  In this way, it's like a hash algorithm.  The fact that the value
+it comes up with is often the root, or usually very similar to the root, is a nice side effect, but if it mapped all of the
+"catch-" words onto 117243, it would still work as the basis for a full-text search engine.</p>
+
+<p>And of course, English is a bastard when it comes to this sort of thing, as you can see from the "caught" case.</p>
+
+<p>BTW: Martin Porter (the author of the algorithm) has a marvelously (root: marvel) dry witty 
+<a href='http://www.tartarus.org/martin/index.html'>home page</a> which starts off with a startlingly accurate prediction
+(roots: startlingli accur predict).</p>
+
+<p>Also BTW: abstemiously is a word with all six vowels, in alphabetical order.</p>
+
+</body>
+</entry>
+</blog>

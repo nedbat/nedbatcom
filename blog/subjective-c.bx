@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090401T160433'>
+<title>Subjective-C</title>
+<category>proglang</category>
+<body>
+<p>A few ideas have finally come together.  I've been looking at Objective-C,
+the language Apple uses for Mac and iPhone development, and it's pretty nice.
+Then over the weekend, I saw Raymond Hettinger's fabulous PyCon presentation,
+<a href='http://us.pycon.org/2009/conference/schedule/event/71/'>Easy AI with Python</a>.
+I wanted to do some AI experimenting of my own, and figured a new language was the way to go.
+</p>
+
+<p>So I'm starting work on Subjective-C, the first language with semantics specified
+loosely enough to build systems that mimic human thought.  It borrows ideas from
+lots of sources, of course.  Reflection and introspection will play a central role.
+Python's duck-typing will be adapted to DWIM-typing.  List incomprehesions will
+allow for more concise coding. Eclipse will be the IDE of choice, since it already
+has Views and Perspectives of its own.</p>
+
+<p>BTW: this joke
+<a href='http://nslog.com/2003/01/27/subjective_c_and_silly_customers'>has been made before</a>,
+but not as often as I would have thought.</p>
+
+<p>This idea started when <a href='http://theonda.org/'>Antonio</a> and I were
+talking on the L in Chicago, and he said, "Objective-C," but because of the noise
+I thought he said, "Subjective-C."  I thought it was funny, but now I wonder,
+who thought of it?  He didn't, and I didn't, but we were the only ones there!</p>
+
+</body>
+</entry>
+</blog>

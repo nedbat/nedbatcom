@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<page title='Usability testing on the cheap'>
+<history>
+<what when='20060203T064658'>Created.</what>
+<what when='20060208T064858'>First edition finished.</what>
+</history>
+
+<p>You've built a product.  You think it's ready for real users.  How do you find out?
+You do usability testing.  This is a specialized discipline, and there are specialists out
+there who know what they are doing.  You should hire one of them to do usability tests on
+your product.  They will do a much better job than you can, and you will get much better results.
+But if you can't, here's how to do it yourself.
+</p>
+
+<p>Disclaimer: I'm not a usability engineer, I'm a software engineer.  But I've been through
+a fair amount of usability testing, on both sides of the one-way mirrors.  I've learned from
+some real usability gurus, like
+<a href='http://www.nngroup.com/about/people/kpcoyne.html'>Kara Coyne</a>.
+So I know a little bit about how it is done.  As I said, you should really hire an
+expert to do this stuff for you.  There's lots of subtlety to doing it right.
+</p>
+
+
+<h1>Usability testing</h1>
+
+<p>Usability testing consists of having sample users use your product, and watching carefully
+what happens.  That's it.  It sounds simple, but there are right ways and wrong ways to go about it.
+</p>
+
+<p>Why do you need usability testing?  Your engineers (or you) may say, "I don't need a usability
+test, I've been using the software for months.  I know exactly what it does."
+Your engineers are wrong.  Yes, they know what it does.  But they have no idea what a typical
+user will make of it.  Precisely because they've been using the software for months, they
+can't see it as a brand-new user would.  Features that seem to be straightforward and obvious
+can be exposed as confusing user traps with a little usability testing.  You need to know about
+the problems and fix them, and the best way to do it is with usability testing.
+</p>
+
+
+<h1>Planning</h1>
+
+<p>The first step in doing usability testing is planning.  It's easy to think that you can
+send your drinking buddies a URL to try the product, and then ask them what they thought.
+You won't get good feedback from them.  Much better is to take usability testing seriously
+and plan ahead.</p>
+
+<h2>Goals</h2>
+
+<p>The typical goal of usability testing is to find out what real users will find easy and
+hard in using your product.  The emphasis is on finding the hard stuff, since that is what
+you will have to fix.</p>
+
+<p>Here's the mindset you need to have: imagine a real user of your product.  They are trying
+to use it to accomplish some task.  You won't be there to help them with it.  If they can't
+do what they want to do, they won't use your product.  It's that simple.  The goal of
+usability testing is to simulate that user with you watching, so you can identify the bottlenecks
+and stumbling blocks in your product, and fix them.</p>
+
+
+<h2>Designing the test</h2>
+
+<p>The test itself consists of putting a user in front of your product.
+But what are they going to actually do with it?  They'll be unfamiliar with the product,
+and in an artificial setting.  Don't make them improvise.</p>
+
+<p>When the test starts, your user won't know what to do.  You need to give them a
+scenario (why are they looking at your product), and a task (what is it they are trying to do).
+Then they'll feel directed and have something specific to do.</p>
+
+<p>Let's say you're testing a word processor.
+Rather than sitting them in front of a blank screen, give them a setting
+and a task. Saying, "Here's a document, reproduce it in this word processor" is much better than "OK, go".
+</p>
+
+<p>Not only will creating a scenario put your user at ease, it gives you two advantages:</p>
+
+<ul>
+<li>You can direct them to area of the product you specifically want tested.
+This is especially true if you are testing a specific feature rather than the entire product.</li>
+
+<li>You get a much more realistic test.  If the user types "asdlk aslk aslk asldk" into your word
+processor, they won't have an interesting document to work on.  It won't act like a real document
+of theirs, and they won't feel like they're working on something real.</li>
+
+</ul>
+
+
+<h2>Finding users</h2>
+
+<p>Before you can find users for your tests, you need a model of who your real users are.
+Who is your aimed at? High school students?  Business executives?  Engineers? Whoever it is,
+you want your test subjects need to be as close to those real users as possible.
+Narrowing it down even further, what sort of problems do your real users have that you are going
+to help them solve?  High school students who are struggling with foreign languages?
+Business executives looking for their next job?  Engineers who can't figure out if their product is usable?
+Ideally, your test subjects would have those problems too, but that's a bit much to ask for.
+You can simulate the problems in the test scenario by asking your users to pretend that they have those
+problems, or think back to the last time they had them.
+</p>
+
+<p>Anyone who closely models your target users will do for a test.  Natural candidates are friends,
+since you can ask favors of them.  Friends can be problematic, though:</p>
+
+<ul>
+<li>They may be too polite to tell you what they really think.</li>
+<li>They may also be software engineers, so they may overthink their responses.</li>
+<li>On the other hand, you may be good enough friends that you can read their reactions more closely than
+a stranger's.</li>
+</ul>
+
+<p>Friends can be good subjects in spite of these factors, and they may be the only people at
+hand.  For any subject, you need to take into account how they are and are not like your target
+user.</p>
+
+
+
+<h1>Running the Test</h1>
+
+<p>The main thing to do during the test is listen and observe.  This is the hardest thing for
+engineers to do right.  The urge to help the user, and to show off your product, is huge.
+But it is essential to shut up and listen in order to get good results.
+The goal of the session is not to teach this one user how to use the product.
+The goal is to find out how a typical user will
+fare when encountering your product for the first time.
+</p>
+
+<box>You aren't there to teach, you are there to learn.</box>
+
+<p>This relationship seems backwards:  you are an expert on the product, and the user
+has never seen it before, they know nothing about it!  That is their valuable commodity: innocence.
+You need to learn how they see your creation without being tainted by your knowledge of it.
+Keep your mouth closed and your eyes open.
+</p>
+
+
+<h2>Put the user at ease</h2>
+
+<p>When running the test be sure to let your subject know that they are not being tested.  People
+have a natural tendency to think that if they can't figure out a piece of software, then they are
+stupid.  Not so, especially when the software is unfinished and undergoing usability testing.
+So be sure to let them know up front that they can do no wrong and that they are not being tested,
+the software is.
+</p>
+
+<p>Be nice to your subjects. You are the host, and your user is a guest.  They are in
+an unfamiliar environment looking at an unfamiliar and probably confusing product.  Be as charming
+as you can be.</p>
+
+<p>Being nice can be especially difficult when the test isn't going well.  The user keeps getting
+stuck on the simplest things.  He misreads your carefully crafted prose, misinterprets your
+beautifully iconic gizmos. He may even laugh when some particularly egregious bug rears its head.
+Take a deep breath, and be nice.  They are doing you a huge favor.  Not only are they donating
+a significant chunk of time to your product's development, but they are showing you things you
+couldn't have found any other way.</p>
+
+
+<h2>What the user does</h2>
+
+<p>The user has two things to do during the test.  The first is pretty clear: use the product
+as you have directed them.  The second comes less naturally: let you know what they are thinking.</p>
+
+<p>The ideal test subject will narrate their thoughts as they work through the tasks.  This is not
+a comfortable thing for users to do, especially when it comes to the most important parts of the
+test: the parts where they don't know how to do what they want, or where they get confused.
+Try to make them comfortable with the idea of talking as they work.  Let them know again that they
+aren't being tested.
+</p>
+
+<p>You'll have to help the user to keep the stream of consciousness flowing.  Questions like,
+"what are you working on," "what do you see on the screen," or "what are you looking for,"
+can help get them talking again.</p>
+
+
+<h2>Observing</h2>
+
+<p>The most important thing for you to do is pay attention and know what the user is thinking.
+As I described above, ask them what they are thinking, what they are looking at.
+</p>
+
+
+<p>Watch their face when you can: eyebrows express a lot, surprise, consternation, and so on.
+Listen to them talk.  When do they hesitate? Don't be afraid to ask follow-up questions.
+If they are surprised, ask them what they thought would happen.  Ask them why they thought that?</p>
+
+<p>It may seem like too much probing, but users interpreting UIs will make lots of mental leaps that
+they won't tell you about, even when they are trying to tell you everything going on in their heads.
+And sometimes a small thing, probed further, can lead to an insight about what you've built.
+</p>
+
+
+
+<h2>Recording</h2>
+
+<p>After observing, the most important thing for you to do is to record.  Ideally, you'd have a video
+camera for the whole session.  Even better is what the professionals do: they record the screen
+and the user's face, so you can see exactly what the user was doing, and how they were reacting to it.
+</p>
+
+<p>If you can't video tape, at least take lots of notes.  Take down the user's exact words when you
+can.  Taking notes is hard because there's no way you'll be able to get everything down, and you'll
+end up asking the user to stop so you can catch up.  With video, you never have to worry about missing
+a step or losing something interesting.</p>
+
+<p>Try to write down everything.  Seemingly uninteresting tangents can end at interesting points.</p>
+
+
+<h2>Getting stuck</h2>
+
+<p>If the user gets stuck, it's very tempting to tell them what to do.  Not only can you see the
+solution clearly ("it's right there!"), but you don't want them to feel frustrated, and you want
+to get on with more testing.</p>
+
+<p>But it's important to find out more about their difficulty.  Ask them what they see on the screen.
+Ask them to tell you what they're thinking as they look for the solution.  An ideal monologue goes
+something like,</p>
+
+    <quote><p>Well, I want to find a way to turn this chunk of text into a quote, but I don't see
+    anything that looks right.  I see a button labeled "B", maybe that's for blockquote, no that
+    usually means "bold".  I'm looking over the toolbar, but everything there seems to be about
+    colors and fonts.  I want the font italicized because it's a quote, but I need a quote-maker to
+    do that, I don't want to italicize it myself...
+    </p></quote>
+
+<p>As the user describes the details of their thought process, you'll learn a lot about how your
+UI is being interpreted.  When designing the UI, you'll have made lots of guesses as to how users
+will attach semantics to everything on the screen.  Now you get to hear the mapping being worked
+out live, in detail.  Listen as hard as you can, and let the user work at it for a while, until
+they find the answer, or they aren't saying anything interesting any more.</p>
+
+<p>Even once they are completely out of ideas, don't tell them, "Pull down the Format menu, and
+select Quote".  Instead, ask them, "did you look in the menus? What did you see there?" or,
+"I saw you opened the Format menu, what did you find there?  Can you tell me about that?"
+These are compromise questions: you aren't giving the answer, but you're directing their attention
+in the right direction.   This lets you get a few more of their thoughts out into the open.</p>
+
+<p>Eventually, you may have to help them out of a dead end.  This is OK.  You need to understand
+the situation they've created well enough for your needs, and then move on so that you can cover
+other aspects of the product with your users.  You'll have to strike your own balance between
+wringing the most out of a situation, and making progress through the test you planned.
+</p>
+
+
+<h2>Questions</h2>
+
+<p>At times, the user will turn to you with a direct question.  Don't answer them.  Turn the
+question to your advantage.  For example, they may ask, "Will it make a two-column
+table of contents?"  Instead of responding, "Sure, you just go here and here", you can
+ask, "Do you want it to?", or, "How would you think you'd go about doing that?"
+</p>
+
+<p>The user wants information about the product in front of them, but resist the urge to start
+selling them on how wonderful it is.  Remember you are listening, not talking.</p>
+
+
+
+<h1>Afterwards</h1>
+
+<p>After the test is over, you still have more work to do.</p>
+
+<p>Write up the test sesson as soon as possible.  Go over your notes, putting in the bits you remember
+that you couldn't scribble down.  Fix up the shorthand you resorted to in order to keep up.  Clarify
+the sequences that don't seem to make sense.  Do this as soon as you can, while it is all still fresh
+in your mind.
+</p>
+
+<p>Then comes the hard part: interpretation.  Once you have done a few sessions, you'll have some
+data points.  You need to decide what to do with the data.  Some of what you discover in the tests
+will be easily translatable into product changes that are clear improvements.  Some will be so
+obvious, you'll wonder how you could have missed them.
+</p>
+
+<p>Others will not be so clear, for a few reasons:</p>
+
+    <ul>
+
+    <li>Some users will have difficulty with your product, but you still don't understand why,
+    or what you could do to make their life easier.</li>
+
+    <li>Some problems can be difficult or even impossible to fix.  You can try to mitigate the
+    problem somewhat, but you may have to live with a bumpy road.</li>
+
+    <li>You may have differing user profiles with conflicting goals.  One user may find
+    the interface too complex, and want it simpler.  Another may not have as much control
+    as they would like.  How can you satisfy both at once?  Maybe in this release of the
+    product you can't.  It's hard to decide which camp to favor.</li>
+
+    <li>You may not have a clear sense from your session notes what the user wanted.</li>
+
+    </ul>
+
+<p>The best thing you can do with the test results is to write up recommendations.
+The session notes are interesting, but it is hard to pick out specific changes from them.  Do
+that work, and make a list that your team can work from.</p>
+
+<p>Keep in mind: most of your test results have to be taken with (at least one) grain of salt.
+Usability tests are designed to simulate real users using your product, but there are many
+inaccuracies:</p>
+
+<ul>
+<li>The users were in an artificial setting, with you watching over their shoulders.</li>
+<li>The users were working under your instructions, rather than solving their own problems.</li>
+<li>You only had a handful of users, five to model 50,000.  Who knows if you got the right five?
+Maybe they were too smart, maybe they were too dumb?</li>
+</ul>
+
+<p>But these are unavoidable limitations.  Do what you can in spite of them.</p>
+
+<h1>What next</h1>
+
+<p>As I mentioned above, I'm not a usability expert, I'm a software engineer.  This is how
+I've tested for usability problems on my own projects, and I've found it valuable.
+My using this approach in a disciplined realistic way, you can find problems and fix them.
+</p>
+
+<h1>See also</h1>
+
+<ul>
+<li>As always, <a href='http://en.wikipedia.org/wiki/Usability_testing'>Wikipedia</a> is a good
+starting point for reading more about usability testing.</li>
+<li><a href='blog/index.html'>My blog</a>, where many software engineering topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040903T083157'>
+<title>Spirit parser framework</title>
+<category>cpp</category>
+<category>libs</category>
+<via />
+<body>
+<p>If you want to generate a parser, there are lots of choices of software to help you.
+Most follow the classic <a href='http://dinosaur.compilertools.net/'>yacc</a> model:
+you write a grammar in a dedicated grammar language,
+run it through a parser generator,
+and end up with executable code for your parser.
+Newer tools run the same way: <a href='http://www.gnu.org/software/bison/bison.html'>Bison</a>,
+<a href='http://www.antlr.org/'>ANTLR</a>, and
+<a href='http://www.hwaci.com/sw/lemon/'>Lemon</a>.
+</p>
+
+<p>So I was interested to find the
+<a href='http://spirit.sourceforge.net/'>Spirit Parser Framework</a>,
+which employs a completely different technology.
+Grammars are written in highly stylized C++, and executed directly.
+The grammar syntax is unconventional, because it's all based on C++ operator
+overloading.
+Here's part of a SQL parser:</p>
+
+<code lang='cpp'><![CDATA[
+program =  +(query) ;
+
+query
+= longest_d[ select_from_clause
+| select_from_where_clause ] >> SEMI;
+
+select_from_clause
+=  select_clause >> from_clause ;
+
+select_from_where_clause
+=  select_from_clause >> where_clause ;
+
+select_clause
+= SELECT >> !(DISTINCT) >> ( STAR | var_list_clause ) ;
+
+var_list_clause
+= list_p( varname >> !alias_clause, COMMA ) ;
+
+from_clause
+=  FROM >> list_p( table_name >> !alias_clause, COMMA ) ;
+]]></code>
+
+<p>Significant template wizardry is at work behind the scenes, I don't claim to understand it.
+</p>
+
+</body>
+</entry>
+</blog>

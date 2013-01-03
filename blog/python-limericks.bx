@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050324T182337'>
+<title>Python limericks</title>
+<category>python</category>
+<category>geeky</category>
+<via href='http://www.brunningonline.net/simon/blog/'>Small values of cool</via>
+<body>
+<p>A thread on comp.lang.python asking about text-to-speech libraries turned into a
+<a href='http://groups-beta.google.com/group/comp.lang.python/browse_thread/thread/2825cf318cb63a81/56b9a6375d98bfee'>call for Python limericks</a>.
+The discussion meandered on for a while (let's just say there's a reason most of these people
+are engineers rather than poets), until Michael Spencer posted this piece of brilliance:
+</p>
+
+<quote>
+<p>How about a category for executable limericks?</p>
+<p>Here's one to get the ball rolling:</p>
+
+<code lang='python'><![CDATA[
+# voice only the alphanumeric tokens
+
+from itertools import repeat
+for feet in [3,3,2,2,3]:
+     print " ".join("DA-DA-DUM"
+     for dummy in [None]
+for foot in repeat("metric", feet))
+]]></code>
+
+<p>Michael</p>
+<p>P.S. I know 'three' doesn't rhyme.</p>
+
+</quote>
+
+<p>Not only is the Python code itself in the form of a limerick, but if you run it,
+it prints this:</p>
+
+<code><![CDATA[
+DA-DA-DUM DA-DA-DUM DA-DA-DUM
+DA-DA-DUM DA-DA-DUM DA-DA-DUM
+DA-DA-DUM DA-DA-DUM
+DA-DA-DUM DA-DA-DUM
+DA-DA-DUM DA-DA-DUM DA-DA-DUM
+]]></code>
+
+<p>Genius!</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030309T210429'>
+<title>Past and future</title>
+<category>hardware</category>
+<category>proglang</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Two unrelated links, at opposite ends of computing's temporal spectrum:</p>
+
+<p>From <a href='http://tiddly-pom.com'>tiddly-pom</a> comes a site about one of
+the first computers, the <a href='http://edsac.net'>EDSAC</a>.
+A simulator is provided, with instructions, and programs to run (including
+Conway's Game of Life).  It's hard to imagine using a computer this primitive,
+but imagine how jazzed they must have been that the thing worked at all,
+and it was a great leap ahead of what came before it (paper and pencil, mostly).
+</p>
+
+<p>Indirectly from <a href='http://www.danbricklin.com/log'>Dan Bricklin</a> comes
+<a href='http://www.opencroquet.org/'>Open Croquet</a>, a wild-assed experiment
+about a potential
+user interface, with 3D navigation among programs and computers.  The whole thing
+is built in
+<a href='http://www.squeak.org/'>Squeak</a>, a dialect of Smalltalk,
+and has a number of software luminaries
+working on it (David A. Smith, Andreas Raab, David Reed, and Alan Kay).
+It's easy to say "it'll never make it onto everyone's desktop", but who knows?
+I'm sure people said that about other things Alan Kay has come up with,
+like windowed GUIs.
+</p>
+
+</body>
+</entry>
+</blog>

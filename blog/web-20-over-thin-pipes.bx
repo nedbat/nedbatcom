@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060718T222030'>
+<title>Web 2.0 over thin pipes</title>
+<category>webpage</category>
+<via />
+<body>
+<p>The Daily WTF has a Web 2.0 entry: 
+<a href='http://thedailywtf.com/forums/thread/82139.aspx'>Incompatible with Web 2.0</a>.
+Basically, a really fat Web application wouldn't work well over very thin
+pipes. In fact, it was unacceptably slow because even with the browser's
+page cache working properly, each request was downloading up to 600KB of data.
+The solution: install remote desktop software to a terminal server, and the
+whole thing works "amazingly fast". 
+</p>
+
+<p>Everything old is new again.  Technology pushes more smarts to the 
+browser, and makes use of downloadable programs to execute at the client
+(in the form of JavaScript).  But when the going gets tough, the clever
+guy uses remote desktops to essentially implement a mainframe model:
+all of the work happens on a central computer, with purely cosmetic
+display instructions sent to dumb terminals!  Who came up with this?
+Austin Powers? It's like the '60's all over again, baby!
+</p>
+
+</body>
+</entry>
+</blog>

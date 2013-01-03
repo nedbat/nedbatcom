@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040612T194017'>
+<title>Syntax colored code</title>
+<via />
+<body>
+<p>In Fredrik Lundh's breezy list of
+<a href='http://online.effbot.org/2004_06_01_archive.htm#europython-3'>happenings at EuroPython</a>
+I saw a reference to <a href='http://silvercity.sourceforge.net/'>SilverCity</a>.
+It's a Python module for lexing source code, making use of Scintilla.
+This is an odd inversion: I would have expected a syntax-coloring editor to make use of a lexer
+module, not the other way around, but so be it.</p>
+
+<p>I hooked up SilverCity into my blog system, tagged my samples by language, and it works
+great.
+Now my code samples are all syntax colored automatically.
+And with the samples tagged,
+I can also compile a useless census of code samples by language:</p>
+
+<table align='center' cellpadding='5'>
+<tr><td>Python</td><td>17</td>
+<td>C++</td><td>14</td></tr>
+<tr><td>HTML</td><td>9</td>
+<td>PostScript</td><td>5</td></tr>
+<tr><td>XSLT</td><td>4</td>
+<td>CSS</td><td>3</td></tr>
+<tr><td>JavaScript</td><td>3</td></tr>
+</table>
+
+<p>with one each for
+<a href='blog/200402.html#20040201T154057'>ActionScript</a>,
+<a href='blog/200308.html#20030801T074225'>DOS batch file</a>,
+<a href='blog/200311.html#20031105T205652'>M3U</a>,
+<a href='blog/200303.html#20030330T213505'>Perl</a>,
+<a href='blog/200309.html#20030911T210325'>.htaccess, PHP</a>, and
+<a href='blog/200312.html#20031202T212103'>XML</a>.</p>
+
+<p>Aside from all the code samples that were really just text files or console displays,
+the trickiest entry was the
+<a href='blog/200209.html#e20020902T110606'>polyglot C and PostScript</a> code,
+where syntax coloring for a single language would ruin the fun.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040930T085244'>
+<title>Survey of Python parsing tools</title>
+<category>python</category>
+<category>libs</category>
+<via />
+<body>
+<p>I had need for a parser written in Python, so I investigated the
+available Python parser generators.
+I found more than I thought I would (sixteen!), and my head was swimming with
+all the choices and differences.  So I started taking organized notes.
+It seemed like something others would find useful, so I present it to you:
+<a href='text/python-parsers.html'>Python Parsing Tools</a>.
+</p>
+
+<p>It's incomplete and disorganized, but I would like to keep it up to date
+and/or improve it.  Let me know if you have changes to the information there.
+</p>
+
+</body>
+</entry>
+</blog>

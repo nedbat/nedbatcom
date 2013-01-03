@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031105T205652'>
+<title>M3u files in a tree</title>
+<category>music</category>
+<category>python</category>
+<via />
+<body>
+<p>On Sunday I wrote about
+<a href='blog/200311.html#e20031102T135849'>Reading mp3 metadata</a>,
+in an effort to create m3u playlist files for mp3 files stored in directories
+by artist and album.
+I got an unexpected solution from an unexpected source.
+</p>
+
+<more>
+
+<p>I had cast the problem as how to read data out of mp3 files so that I
+could populate m3u files.  You see, there's no spec I could find for m3u
+files, so the best I could do was to create files like those created by
+<a href='http://www.winamp.com'>Winamp</a>.
+They look kind of like this:
+</p>
+
+<code lang='m3u'><![CDATA[
+#EXTM3U
+#EXTINF:173,Aimee Mann - One
+\music\mp3\Aimee Mann\Magnolia\01-One.mp3
+#EXTINF:207,Aimee Mann - Momentum
+\music\mp3\Aimee Mann\Magnolia\02-Momentum.mp3
+]]></code>
+
+<p>The number after #EXTINF is the duration of the song, in seconds.
+The rest of the line is the title to display in the player.
+So I figured I needed to determine the length of the song,
+and find a good title.
+But the title data is dirty and stored in discouragingly diverse ways.
+The length isn't stored at all, and seems to require reading all of
+the song data to decode fiddly bit rates. Yuck.</p>
+
+<p>Then I got an email on the topic from
+<a href='http://martinfowler.com/bliki'>Martin Fowler</a> of all people.
+He wasn't delivering some deep insight about refactoring or object orientation.
+He told me about how he's organized his mp3 files, and in particular,
+he told me he makes m3u files that are just a long list of file names.
+</p>
+
+<p>Of course! Just make a list of file names, and Winamp will read the
+other data itself when the song plays.  Simple.  A few minutes with
+Python, and I had it all done:</p>
+
+<code lang='python'><![CDATA[
+# Create a tree of .m3u files, one for each directory in the tree,
+# containing all the .mp3 files in the subtree rooted there.
+
+import path
+
+# A stack of .m3u files.
+m3us = []
+
+def doDir(d):
+    '''Called recursively for each directory in the tree.'''
+
+    # Make a new .m3u file for this directory.
+    m3u = d / (d.name + '.m3u')
+    m3us.append(open(m3u, 'w'))
+
+    # Add all the .mp3's in this dir to all the .m3u's.
+    for f in d.files('*.mp3'):
+        for m3ufile in m3us:
+            m3ufile.write(f + '\n')
+
+    # Recurse into all the subdirectories.
+    for dchild in d.dirs():
+        doDir(dchild)
+
+    # We're done with this directory's .m3u file.
+    m3us.pop()
+
+doDir(path.path('.').abspath())
+]]></code>
+
+<p>Thanks, Martin!
+</p>
+
+</more>
+
+<p><em>Update:</em> In January 2004 I finally got a
+<a href='blog/200401.html#e20040104T192724'>complete solution</a>
+together.</p>
+</body>
+</entry>
+</blog>

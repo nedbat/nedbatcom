@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081223T160920'>
+<title>Referrers in iframes</title>
+<category>webpage</category>
+<body>
+<p>Yet another in a recent spate of browser discoveries, this one has to do with
+displaying pages in iframes, and how referrers work with them.
+</p>
+
+<p>Here's the quiz: suppose page A displays page B in an iframe.  What is the referrer
+for page B?  The answer is simple: page A.  Now suppose that B contains a link
+to page C.  Click the link, and the iframe now shows page C.  What referrer is
+used for C?</p>
+
+<p>The answer isn't so simple.  Turns out Firefox 3 and Safari 3 both report that C's
+referrer is B, while IE 6 reports that it is A! I don't have IE 7 or 8 at the moment to try.</p>
+
+<p>BTW: all these niggling browser behavior posts are the result of
+<a href='blog/200810/tabblo_is_hiring_web_frontend_developer.html'>trying to hire
+a web front-end developer</a>, and me having to help out while we look...</p>
+
+</body>
+</entry>
+</blog>

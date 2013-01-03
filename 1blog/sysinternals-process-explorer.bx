@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040402T070010'>
+<title>Sysinternals process explorer</title>
+<category>tools</category>
+<category>windows</category>
+<via />
+<body>
+<p>I've mentioned <a href='http://www.sysinternals.com'>SysInternals</a>
+here <a href='http://www.nedbatchelder.com/blog/200305.html#e20030522T071258'>before</a>,
+but I've just become addicted to another of their tools,
+<a href='http://www.sysinternals.com/ntw2k/freeware/procexp.shtml'>Process Explorer</a>.
+It's like the Task Manager on steroids.  Have you ever looked at your process list
+and found some mysterious process running, but didn't know why it was there?
+Process Explorer shows you all the information from Task Manager, plus the parent process
+relationships, the path, description, and command line (!) of the executable.
+</p>
+
+<p>For each process, you can get performance information or chart,
+the list of threads, a list of environment variables, the security permissions,
+and a list of all the DLLs loaded by the process.
+For each thread, you can see CPU usage, and you can examine the running stack.
+It just goes on and on.
+</p>
+
+<p>In a nice touch, you can set it to replace your Task Manager, and its system tray
+icon shows the same CPU monitor, but it turns yellow or red as the CPU load gets too high.
+Highly highly recommended.
+</p>
+
+</body>
+</entry>
+</blog>

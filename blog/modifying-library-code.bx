@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060314T195703'>
+<title>Modifying library code</title>
+<category>development</category>
+<via />
+<body>
+<p>One of the joys of developing software these days is being able to build on top of high-quality
+libraries.  Finding just the right package to solve one of your problems can remove a huge burden
+from your development shoulders.
+</p>
+
+<p>Unfortunately, sometimes you experience the disappointment of realizing your beloved library has
+a flaw.  A bug, a missing function, whatever.  Then you have to try to fix it.  If you don't have the
+source, forget it, you have to work around it.  But if you do have the source, do yourself a favor:
+before modifying the code, put in some protection to make sure your product really is using the
+modified source.</p>
+
+<p>The problem with modifying library code is that you shift from using the library as shipped to using
+your modified version, and subtle changes is build or deploy environments can switch you between the
+two without even knowing it.  For example, modified include files have to be found in a product tree
+before searching the standard include directories.
+So the first modification to the library should be to mark it as your
+modified version, and your product code should assert that it is using the modified library.</p>
+
+<p>For example, in C++, in one of the headers, add a macro definition:</p>
+
+<code lang='cpp'><![CDATA[
+// ReportGeneratorLib.h header file
+
+#define INITECH_REPORTGEN_LIB 1
+
+//.. blah blah rest of the header ..
+]]></code>
+
+<p>Then in your code where you include the library, check that you have the right version:</p>
+
+<code lang='cpp'><![CDATA[
+// Initech TPS Report system
+
+#include <ReportGeneratorLib.h>
+
+#ifndef INITECH_REPORTGEN_LIB
+#error We need the Initech modification to ReportGeneratorLib.h
+#endif
+
+// .. rest of product code ..
+]]></code>
+
+<p>This way, if a build machine's configuration changes, or a new devloper doesn't set up his enviroment
+properly, a very visible error message will appear, rather than subtle bugs manifesting themselves.</p>
+
+<p>The same technique can be used in Python.  Mark the library file:</p>
+
+<code lang='python'><![CDATA[
+# ReportGeneratorLib.py
+
+IniTechReportGenLib = 1  # Mark our customizations
+]]></code>
+
+<p>and then assert in the product code:</p>
+
+
+<code lang='python'><![CDATA[
+# Initect TPS Report system
+
+import ReportGeneratorLib
+
+assert ReportGeneratorLib.IniTechReportGenLib == 1
+
+# .. rest of product code ..
+]]></code>
+
+<p>It's a very simple technique, but can save headaches later, after you've long forgotten about having
+made the changes to the libraries.</p>
+
+</body>
+</entry>
+</blog>

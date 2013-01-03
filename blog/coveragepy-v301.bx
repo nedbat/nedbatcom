@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090706T223532'>
+<title>Coverage.py v3.0.1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I've just released <a href='code/coverage'>Coverage.py v3.0.1</a>, a bugfix
+release of my code coverage measurement package for Python code.  Since releasing
+3.0 three weeks ago, a few serious bugs have surfaced, and this release fixes
+them:</p>
+
+<ul>
+    <li>Removed the recursion limit in the tracer function.  Previously, code that
+    ran more than 500 frames deep would crash.</li>
+
+    <li>Fixed a <a href='blog/200907/a_nasty_little_bug.html'>bizarre problem involving pyexpat</a>,
+    whereby lines following XML parser invocations could be overlooked.</li>
+
+    <li>On Python 2.3, coverage.py could mis-measure code with exceptions being
+    raised.  This is now fixed.</li>
+
+    <li>The coverage.py code itself will now not be measured by coverage.py, and no
+    coverage modules will be mentioned in the nose --with-cover plugin.</li>
+
+    <li>When running source files, coverage.py now opens them in universal newline
+    mode just like Python does.  This lets it run Windows files on Mac, for
+    example.</li>
+</ul>
+
+<p>As always, let me know how it is or is not working for you.</p>
+
+</body>
+</entry>
+</blog>

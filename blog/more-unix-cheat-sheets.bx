@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051020T210550'>
+<title>More Unix cheat sheets</title>
+<category>unix</category>
+<category>reference</category>
+<via />
+<body>
+<p>The last few weeks I've had to dive into Linux again (to install a wiki), and I found some more
+cheat sheets and tutorial that were helpful:</p>
+
+<ul>
+<li><a href='http://linuxbasics.org/'>LinuxBasics</a> offers attractive tutorials on a number of
+topics, nicely organized.</li>
+<li>The <a href='http://www.pathname.com/fhs/'>Filesystem Hierarchy Standard</a> explains all of the
+details of the layout of a typical Unix box.  Don't know the difference between /usr/sbin and /var?
+This comprehensive standard has the answers.</li>
+<li>YoLinux's <a href='http://www.yolinux.com/TUTORIALS/LinuxTutorialSysAdmin.html'>Linux System Administration Tutorial</a> was very helpful.</li>
+<li>The O'Reilly Linux devcenter has an <a href='http://www.linuxdevcenter.com/linux/cmd/'>Alphabetical directory of Linux commands</a>,
+if you need the details of a particular command.</li>
+</ul>
+
+<p>Finally, this won't help you run a Linux box, but Éric Lévénez's
+<a href='http://www.levenez.com/unix/'>UNIX History</a> has a mind-blowing graphic laying out the entire
+twisted family tree, from September 1969 to the present.
+</p>
+</body>
+</entry>
+</blog>

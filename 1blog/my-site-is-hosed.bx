@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041227T092144'>
+<title>My site is hosed</title>
+<category>site</category>
+<category>php</category>
+<via />
+<body>
+<p>Thank goodness for RSS feeds, or I wouldn't be able to get this message out:
+my web site is majorly hosed.  It looks like my hosting provider botched the
+upgrade to PHP 4.3.10, because now every page returns a 500 error.
+I've been thinking about switching providers for a while, so this looks like
+a good time.  My current one is JumpDomain, which worked well if you didn't
+need a lot of hand-holding.  But the support was always a little iffy, and
+now I can't get hold of them.  If you have a provider you like,
+<a href='mailto:ned@nedbatchelder.com'>send me an email</a> to let me know.
+</p>
+
+<p>There are a bunch of super-cheap hosters out there (hostcolor, hostony, siteground),
+but I'm not interested so much in super-cheap, as accessible.  The cheap hosters all
+seem to be off-shore.  I've got nothing against Bulgarians (or whatever), but it
+would be great to be able to get an English speaker on the phone during my usual
+hours.</p>
+
+</body>
+</entry>
+</blog>

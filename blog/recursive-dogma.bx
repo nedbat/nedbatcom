@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120528T105229'>
+<title>Recursive dogma</title>
+<category>python</category>
+<body>
+<p>This morning in the #python IRC channel, someone needed help with a recursive function:
+</p>
+
+<quote><p>
+<b>Questioner:</b> i have a problem with a little recursive function<br/>
+<b>Questioner:</b> i create a list recursive of length 2**30 but i get a memory problem<br/>
+<b>Naysayer:</b> recursion in Python is almost always bad news<br/>
+<b>Questioner:</b> i have probs with high memory because i create too many too large list when i enter a value of 2**30 for N<br/>
+<b>RecursionFan:</b> recursion is awesome<br/>
+<b>RecursionFan:</b> it sounds like you're doing it wrong<br/>
+<b>Naysayer:</b> you should avoid recursion in python<br/>
+<b>RecursionFan:</b> why?<br/>
+<b>Naysayer:</b> There's this little thing called the stack<br/>
+<b>Questioner:</b> yeah i now the depth of my recursion, its just log(N)<br/>
+<b>Questioner:</b> but can somebody help me so this function can work for parameters of 2**30<br/>
+<b>RecursionFan:</b> there's this little thing called <a href='http://en.wikipedia.org/wiki/Tail_call'>http://en.wikipedia.org/wiki/Tail_call</a><br/>
+<b>Naysayer:</b> yeah, and python doesn't have it<br/>
+<b>Onlooker:</b> RecursionFan, does python optimise tail-recursion?<br/>
+<b>nedbat:</b> RecursionFan: Python doesn't do tail-call removal.<br/>
+<b>Naysayer:</b> Onlooker: No<br/>
+<b>nedbat:</b> Naysayer: "you should avoid recursion" is a bit strong.  You need to understand the limitation.<br/>
+<b>nedbat:</b> Naysayer: Python is as good at recursion as C is at integer arithmetic.<br/>
+<b>Naysayer:</b> nedbat: It is good practice to avoid recursion in Python if you don't understand how it works.<br/>
+<b>nedbat:</b> Naysayer: it is good practice to avoid _____ in Python if you don't understand how it works.
+</p>
+</quote>
+
+<p>(Names other than mine, nedbat, are changed.) 
+    Before anyone's read Questioner's code, or even listened fully to his question,
+    we're off on the usual rant against recursion in Python, and debates about tail-call elimination.
+    As it happens, and as Questioner rightly understood, the problem is not about deep recursion:</p>
+
+<code lang='py'><![CDATA[
+def computeHW(N):
+    if N == 1:
+        return [1]
+    else:
+        L = computeHW(N/2)
+        L.extend([2*i for i in L])
+        return L
+]]></code>
+
+<p>Questioner wanted to call this function with 2**30, which is quite modest in terms of depth, 
+    the stack will only get 30 levels deep.  But it's crazy in memory terms: it tries to allocate
+    a list with a billion elements, but not before it's allocated and deallocated many many others,
+    up to that size.</p>
+
+<p>So yes, this function isn't going to work, but not because of tail-call optimization or its lack.
+    We can change the function into a generator that still works recursively, but won't allocate
+    any memory:</p>
+
+<code lang='py'><![CDATA[
+def computeHW2(N):
+    if N == 1:
+        yield 1
+    else:
+        for i in computeHW2(N/2):
+            yield i
+        for i in computeHW2(N/2):
+            yield 2 * i
+]]></code>
+
+<p>Talking more with Questioner, it turns out he didn't want the sequence, he wanted to be able 
+    to randomly access elements of his list.  
+    We can turn this function into a closed-form solution that computes the n'th element of this
+    list:</p>
+
+<code lang='py'><![CDATA[
+def closedHW(N):
+    if N == 0:
+        return 1
+    else:
+        bits = N.bit_length()
+        return 2 * closedHW(N - 2**(bits-1))
+]]></code>
+
+<p>This function is still recursive, and so will use up to 30 stack frames for numbers up to 2**30,
+    but doesn't allocate any lists at all.  This function is also in a simple tail-call form,
+    so we can easily make it iterative:</p>
+
+<code lang='py'><![CDATA[
+def closedHW_iterative(N):
+    hw = 1
+    while N:
+        bits = N.bit_length()
+        N -= 2**(bits-1)
+        hw *= 2
+    return hw
+]]></code>
+
+<p>BTW, this code gets to use one of the few methods on integers, bit_length(), which is new in 2.7.</p>
+
+<p>In the end, we eliminated the recursion, but not for any of the reasons Naysayer was darkly hinting at.</p>
+
+<p>When people say Python is bad at recursion, they are referring to the fact that the stack can't
+    grow beyond 1000 frames.  This makes it bad at the kind of 
+    recursion that languages like Scheme and Haskell encourage. This school of thought uses recursive procedures
+    for iterative processes, to put it in terms from 
+    <a href='http://mitpress.mit.edu/sicp/'>Structure and Interpretation of Computer Programs</a>.
+    Python is not good for this sort of recursion, because it won't work for more than 1000 iterations,
+    which is far too low a limit.</p>
+
+<p>But truly recursive processes don't often need that much stack, so using recursive procedures for
+    recursive processes is fine in Python.  Blanket statements like "recursion is almost always bad in Python"
+    are just simplistic.</p>
+
+</body>
+</entry>
+</blog>

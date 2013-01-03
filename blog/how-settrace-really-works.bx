@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110504T101900'>
+<title>How settrace really works, or doesn't</title>
+<category>python</category>
+<category>coverage</category>
+<body>
+<p>It all started innocently enough, as it always does.  A <a href='https://bitbucket.org/ned/coveragepy/issue/123/pyeval_settrace-used-in-way-that-breaks'>coverage.py bug</a>
+    said that the coverage trace function wasn't properly re-installed if this apparently innocuous line was executed:</p>
+
+<code lang='py'><![CDATA[
+sys.settrace(sys.gettrace())
+]]></code>
+
+<p>I knew enough about trace functions to see that it was not going to be trivial to fix,
+    but I didn't know how involved it was going to get.  I certainly didn't expect that
+    it would include finding a 10-year-old bug in Python itself!</p>
+
+<p>Read all the details in <a href='text/trace-function.html'>How C trace functions really work</a>.</p>
+
+<p>I hope it's helpful or at least interesting. I don't know how many people are trying to
+    write C trace functions, or care if they round-trip properly.  Coverage.py's function works well 
+    now, and in a few years when I'm baffled by this again, I'll be able to come back and read
+    it to remind myself of the details at least.</p>
+
+</body>
+</entry>
+</blog>

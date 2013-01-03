@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051219T064343'>
+<title>XML without the &lt;!DOCTYPE&gt;</title>
+<category>xml</category>
+<via />
+<body>
+<p>Tim Bray, who is one of the editors of the XML standard, and creator of the awesome
+<a href='http://www.xml.com/axml/testaxml.htm'>Annotated XML Specification</a>,
+writes about the absurd wart of &lt;!DOCTYPE&gt;:
+<a href='http://www.tbray.org/ongoing/When/200x/2005/12/15/Drop-the-Doctype'>Drop the &lt;!DOCTYPE&gt;</a>.
+I've long thought that of all the things that are ugly about XML, &lt;!DOCTYPE&gt; is the worst:
+it could easily have been separated out into another standard, giving competing validation techniques
+an equal chance, and saving us from carrying it around forever in the spec.</p>
+
+<p>It turns out Tim and Norman Walsh (another XML luminary) have each written speculative follow-on XML specs:
+Norman's <a href='http://norman.walsh.name/2004/11/10/xml20'>XML 2.0</a>, and
+Tim's <a href='http://www.textuality.com/xml/xmlSW.html'>XML-SW</a>, both of which omit &lt;!DOCTYPE&gt;.
+Neither of these is being worked on as an actual standard, but it's interesting to see where people think
+XML can go. (I know: "Hey buddy! I'll tell you where XML can go!", ba-dum <em>bum!</em>)
+</p>
+
+<p>Tim's a smart guy, though.  He observes (correctly):</p>
+
+<quote><p>I suspect that nothing will happen;
+we’ll go forward indefinitely into the future, with XML implementors required to read the XML spec,
+learn to ignore all the Doctype stuff, then go read the Namespaces and Infoset specs,
+and synthesize all that in their heads.
+</p></quote>
+
+<p>Standards evolve to a point where they are good enough, and they get a large enough adoption, then they
+stop, because it isn't worth the marginal improvement to leave all the earlier adopters behind.
+It happened with HTML, and it's happened with XML.
+</p>
+
+</body>
+</entry>
+</blog>

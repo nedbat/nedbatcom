@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090220T064712'>
+<title>Print css</title>
+<category>css</category>
+<category>printing</category>
+<via href='http://agiletesting.blogspot.com/'>Agile Testing</via>
+<body>
+<p>Alexander Artemenko starts a game he calls "<a href='http://aartemenko.com/texts/printer-css/'>Do you a have printer.css? I do!</a>"
+in which you rat out your blog friends for not printing nicely.  When I saw it,
+I was surprised at some of the blogs he mentions that don't print well,
+because this is a well-established technique.  I've had a print stylesheet for a
+while, so I smugly considered myself to be in the GOOD category.</p>
+
+<p>When I tried my site though, I saw that my print stylesheet was a little
+neglected.  Although I wasn't offering up sidebar and comment forms for printing,
+some unneeded graphical elements had snuck in.  And my recently overhauled
+<a href='/'>home page</a> was kind of a wreck on paper, since I not only had
+forgotten to accomodate it in my print stylesheet, I had forgotten to link to my
+print stylesheet from there at all! So I fixed everything and all is well again.</p>
+
+<p>There are <a href="http://www.alistapart.com/stories/goingtoprint/">good resources
+for how to do print CSS</a>, but it's not difficult.  If you have the CSS chops
+to have designed your pages in the first place, this will be a breeze.</p>
+
+<p>First, create a new empty CSS file, call it printstyle.css.
+Link to it in the &lt;head> section of your page:</p>
+
+<code lang='html'><![CDATA[
+<link rel='stylesheet' href='printstyle.css' type='text/css' media='print'>
+]]></code>
+
+<p>Then visit your page, and select Print Preview in your browser.  How does it
+look?  There's probably stuff you want to fix.  Simply add style rules to
+printstyle.css to correct whatever is wrong.</p>
+
+<p>For example, You'll probably have entire sections of your page you don't want
+to print at all.  Give them a <codeword>display:none</codeword> rule.  Narrow
+columns can be fixed with <codeword>width:100%</codeword>.  Fancy positioning
+can be undone with <codeword>float:none</codeword> or <codeword>position:static</codeword>.
+Garish styling can be set back to black and white.</p>
+
+<p>You may find you need to select sections of your pages differently than you
+had to for the screen.  For instance, my home page has inline CSS since it's
+unique on my site, but it shares the printstyle.css stylesheet, so I added an
+id to the body tag (<codeword>&lt;body id="mainpage"></codeword>) so that I could
+write print CSS rules that applied only to the home page.</p>
+
+<p>When you are done, you'll have a printable page that looks like you meant
+for your stuff to be printed, not the usual web printing experience of
+mostly-blank pages and ads all over the place, complemented with taunting input
+forms that can't be filled in.</p>
+
+<p>Printing well is one of those nice touches web designers often overlook, but
+it's not difficult at all, and will pleasantly surprise your printing readers
+when they put your content through their printer and end up with something they
+can actually use.</p>    
+
+<p>I'm not going to pick on ten blogs I read.  My checklist looks like this:</p>
+
+<ul>
+    <li><a href='http://nedbatchelder.com'>Ned Batchelder</a>: GOOD.</li>
+</ul>
+
+<p>In fact, I think a better game is to pick a blogger in the BAD category,
+and suggest fixes to get them going.  For example, <a href='http://simonwillison.net/'>Simon Willison's</a>
+main problem is that his content is in a <codeword>overflow:hidden</codeword> div,
+which makes it both pop onto a page of its own, and be clipped to that page,
+giving you three pages out of your printer: two blank except for navigation,
+and one with only the start of the content.  This would go a long way to making
+Simon printable:</p>
+
+<code>
+    div#wrapper {
+        overflow: visible;
+        width: 100%;
+    }
+    div#searchbox {
+        display: none;
+    }
+    p.bighead-toolbar {
+        display: none;
+    }
+</code>
+
+</body>
+</entry>
+</blog>

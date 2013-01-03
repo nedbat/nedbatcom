@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110615T144053'>
+<title>Running coverage on your tests</title>
+<category>coverage</category>
+<category>testing</category>
+<body>
+    <p>Here's a true story from the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel, 
+        a frequently-asked question played out for real.
+        I'm nedbat, the other nick has been changed to protect the innocent:
+    </p>
+
+<quote>
+    <p><b>other:</b> there's no way to automagically omit coveraging the actual test modules is there?</p>
+    <p><b>nedbat:</b> you can add an omit line to the .coveragerc, but I've found useful info from coverage on my tests.</p>
+    <p><b>other:</b> What kind of useful info?</p>
+    <p><b>nedbat:</b> useful info: two test methods with the same name (by accident) so one was never called.</p>
+    <p><b>other:</b> hah oh boy, one of the test modules I was ignoring sure enough was a test that wasn't being run :). Perhaps I better not, I hadn't thought of that before.</p>
+    <p><b>nedbat:</b> yay coverage! :)</p>
+    <p><b>other:</b> yay coverage!</p>
+</quote>
+
+<p>Moral of the story: if you have enough tests to run coverage, then your tests are a serious part of your product.  
+    You should run coverage on them, it will help.</p>
+
+</body>
+</entry>
+</blog>

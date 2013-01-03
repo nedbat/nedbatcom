@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030413T121006'>
+<title>FtpUpload.py</title>
+<category>mycode</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I've posted the Python module I use to upload this site to my hosting
+provider: <a href='code/modules/ftpupload.html'>FtpUpload.py</a>.
+</p>
+
+<p>
+I didn't want to upload the entire site every time I made a small change.
+But since I do regenerate the entire site every time I make a change,
+I couldn't use a timestamp approach to detecting which files to upload.
+FtpUpload uses MD5 hashes of
+the contents of the files to determine what files have truly changed since
+the last upload.
+</p>
+
+</body>
+</entry>
+</blog>

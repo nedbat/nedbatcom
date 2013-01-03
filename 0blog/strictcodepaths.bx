@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020410T203603'>
+<title>Code should only do nothing if nothing is the correct thing to do</title>
+<category>coding</category>
+<via /> <!-- id= or href= -->
+<body>
+
+<p>This is on my mind, so I'll share:  When writing code, if you want to leave a code path
+empty (for example, because it's a placeholder for more code to be written in the future,
+or because you think it isn't a case that can arise, or you just don't feel like writing
+it), don't leave it empty.</p>
+
+<p>I'll state it differently, as a strict rule:  Your code should only do nothing if
+nothing is the correct thing to do.</p>
+
+<p>The reason is this: it is very hard to debug a problem if the root cause is that nothing
+happened a while back when something should have.</p>
+
+<p>Rather than leave an empty code path, write an assert that expresses your intentions.
+For example, if you simply haven't written the code yet, then instead of this:</p>
+
+<code lang='c++'><![CDATA[
+if (IsThisATrickyFutureCase()) {
+    // todo: write some code...
+}
+]]></code>
+
+<p>do this:</p>
+
+<code lang='c++'><![CDATA[
+if (IsThisATrickyFutureCase()) {
+    // todo: write some code...
+    ASSERT(FALSE, "Not yet implemented");
+}
+]]></code>
+
+<p>Now when the tricky future case finally arrives, instead of nothing happening, and possibly
+making your whole system behave mysteriously, an assert will be raised, and it will be
+very clear that some code needs to be written.</p>
+
+<p>Some would claim that leaving these asserts all over is too compulsive.  It may be, and there
+will be plenty of them that are never triggered, or that are removed (to be replaced by real
+code) a short time later.  But, it is not hard to put these asserts in, especially once you
+get in the habit, and if even one of them fires, it will save you fifteen minutes (or more)
+of head scratching to figure out how everything got into some "impossible" state.</p>
+
+<p>And if you provide yourself with a rich set of tools ahead of time:</p>
+
+<code lang='c++'>
+#define NOT_YET_IMPLEMENTED() ASSERT(FALSE, "Not yet implemented")
+#define SHOULD_NOT_HAPPEN()   ASSERT(FALSE, "Should not happen")
+</code>
+
+<p>you can have expressive, strict code with very little trouble.  These examples are in C++,
+where the preprocessor helps a bit, but the same is true in any language: your code should
+only do nothing if nothing is the correct thing to do.</p>
+
+<p>BTW: I expanded on this in the <a href='text/empty-code-paths.html'>text</a> section.
+</p>
+
+</body>
+</entry>
+</blog>

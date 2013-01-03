@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030406T231343'>
+<title>dispmode can set the refresh rate</title>
+<category>mycode</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I have a new IBM T30 laptop, and it is very nice, but the video adapter
+has a strange quirk: it can support a ton of different resolutions, and
+for each of them, it can drive a monitor at lots of different refresh rates,
+except: the LCD's natural size (1400 <times/> 1050), where it can only do 60Hz.
+Grr. This means that when using an external monitor, I have to choose a
+different resolution, or the monitor flickers.
+</p>
+
+<p>So I switch resolutions when I switch displays, and my
+<a href='code/winutils/dispmode.html'>dispmode</a> utility can do that, but
+now I have to also switch between refresh rates.  So I added that to
+dispmode, and all is well.</p>
+
+</body>
+</entry>
+</blog>

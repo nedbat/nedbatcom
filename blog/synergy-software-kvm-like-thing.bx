@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050525T120817'>
+<title>Synergy: software keyboard sharing</title>
+<category>tools</category>
+<via id='pito'/>
+<body>
+<p><a href='http://synergy2.sourceforge.net'>Synergy</a> is software that does the Keyboard and Mouse
+part of KVM.  The idea is that you have a bunch of computers, each with their own screen.
+But you want to use only one keyboard and mouse.  Install Synergy server on the machine with the
+keyboard, and install Synergy clients on the other machines.  Now all the screens act as a single
+unified desktop, and you switch where the input is going simply by moving the mouse off the edge
+of one screen onto another.  And it works on multiple operating systems!
+</p>
+
+<p>I haven't tried it, but it sounds damn handy.</p>
+</body>
+</entry>
+</blog>

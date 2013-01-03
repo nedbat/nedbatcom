@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060101T073856'>
+<title>Joel Spolsky is a crotchety old man</title>
+<category>edu</category>
+<category>compsci</category>
+<via />
+<body>
+<p>Joel Spolsky's latest essay is
+<a href='http://www.joelonsoftware.com/articles/ThePerilsofJavaSchools.html'>The Perils of Java Schools</a>.
+He explains in detail why he thinks teaching computer science with Java is a bad thing.
+It basically comes down to not learning about pointers or recursion.
+He laments the state of computer science education, and fears for the entire industry as a result.
+</p>
+
+<p>At least Joel has the good sense to start the piece by making fun of himself for griping about
+"kids these days".  He has his knickers in a twist for no good reason.
+</p>
+
+<more text='Read all the reasons Joel is wrong'>
+
+<p>One of the things that caught my eye about the piece was that Joel attended Penn, and discusses a
+course there called CSE 121.  As it happens, I also went to Penn.  I suspect it was a couple of years
+earlier than Joel, but not many.  I didn't take CSE 121.  I wonder if it was offered, because it
+doesn't sound familiar, but looks like an interesting course.</p>
+
+<p>So I never had the legendary Intro To The Theory Of Programming Languages Using Lisp course that
+so many people find so fascinating.  But I took another course that is germane
+to the discussion, Intro To Assembly Language.
+</p>
+
+<p>I don't think CS students today are being taught assembly language.  Should they be?  I don't know.
+Is it useful? Yes, at the very least for debugging.  Working in C++, there have been many times when
+dropping into disassembly in the debugger was the only way to see what was really going on.  I've had
+debugging sessions with engineers with recent Master's degrees from MIT where I started poking around in
+disassembly and registers, and as far as they were concerned, I might as well have been speaking in tongues.
+</p>
+
+<p>(Side note about the Assembly Language course at Penn: we were taught PDP-11 assembly language,
+and did all our work in it.  The final project was to write a 6502 emulator for the PDP-11.
+But Penn didn't have a PDP-11; all the projects were run on a PDP-11 emulator on a Univac mainframe!
+Needless to say, the 6502 programs we tested our emulators with ran very slowly!)</p>
+
+<p>Assembly language can be very helpful, but if you're working in Java (or Python or Ruby or PHP or Perl),
+there isn't much call for it. So should it be taught?  Hard to say.  Understanding it will definitely
+give you a deeper understanding of what's really going on, and many areas of software engineering still
+require its use.
+But if students don't take a semester of assembly language, they can take a semester of something
+else instead, something that may be more helpful in the long run. UI design? Finance? There are lots
+of things I never learned in college that would be handy now.</p>
+
+<p>Why does Joel pick out pointers and recursion as the two gatekeeper concepts? Because he found
+them difficult?
+As <a href='http://tbray.org/ongoing/When/200x/2005/12/30/Spolsky-Recursion'>Tim Bray points out</a>,
+Java is perfectly adept at recursion, and concurrency may be a more important and difficult concept to
+master in any case.
+The emphasis on recursion in Lisp languages is a bit over the top, and doesn't carry into other programming
+cultures.  Why do people think it's so important for software engineering?  Don't get me wrong: I love
+recursion when it's the right tool for the job, but that is just not that often to warrant Joel's focus
+on it as a fundamental concept.
+</p>
+
+<p>While we're hunting around for tough concepts that separate the men from the boys, what about
+the one that got Joel and I into a tussle two years ago: Exceptions.  He
+<a href='http://www.joelonsoftware.com/items/2003/10/13.html'>doesn't like them</a>, bascially, because
+they confuse him.  Is this any different than a Java guy not liking pointers?  Yes, you can avoid exceptions
+and use status returns, but you can also try really hard to avoid pointers.  Does that mean you should?
+So Joel's got the concepts he likes (pointers and recursion), and laments their decline, but doesn't seem to
+notice that there are newer concepts that he's never caught on to, which the Java kiddies feel at home with.
+</p>
+
+<p>Joel draws an analogy to Latin and Greek being required
+by universities in 1900.  Good point.  This is where the "kids these days" arguments always fall apart.
+By digging back even further into the past for helpful analogies, the old timers don't even realize
+the trap they are falling into.  Joel didn't learn Latin or Greek at Penn, and neither did I.
+Neither did 99.99% of the software engineers working today.
+Which means Mr. 1900 would look at every single one of us and consider us unfit for professional work.
+But we are not.  We are fit for the world we find ourselves in.</p>
+
+<p>Education changes, and the world changes.  Which is the cause and which the
+effect?  Perhaps it's a bit of both.  In any case, the colleges produce
+graduates, who go into industry, and produce software. Some will be good at it,
+some will not.  This is how it has always been.  In my experience, most of what
+is truly helpful in writing software didn't come out of a text book or off of a
+blackboard. So much of the day-to-day work of writing software is completely
+missing from curricula anyway, why worry about it? You want a good software
+engineering education? The final project should be to take some other kids'
+project from last year and adapt it to do something he didn't even consider.
+Then the result gets passed on to another kid next year. <em>That</em> would be an education!
+</p>
+
+<p>The Java kiddies will learn to write software.  Some of that learning will happen in college,
+some will happen on the job.  Joel learned on Pascal, a language specifically simplified for teaching.
+When I started at Penn in 1980, the first course in the computer science curriculum was Introduction to
+Programming in, you guessed it, Pascal, because Pascal was trendy for teaching in 1980.  Java is trendy now.
+The industry survived Pascal and its students, and it will survive Java.
+</p>
+
+<p>And you know what? Twenty years from now, the Java kiddies will be the old timers, and they'll probably
+be lamenting how computer science is being taught in 2026.  So it has always been, and so it will always be.
+Geez, old-timers these days!
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

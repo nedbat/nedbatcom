@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040325T084039'>
+<title>Broken build rituals</title>
+<category>development</category>
+<via />
+<body>
+<p>One of the common components of software engineering culture is the shared build.
+A team of people work together to produce a piece of software, and on a regular basis,
+often daily, that software is built for the team.
+One of the cardinal sins in this culture is breaking the build:
+changing the software so that it can no longer be built.
+To punish the offender, and provide a bonding experience for the innocent victims on the
+team, a ritual develops around how to treat the offender.
+</p>
+
+<p>At a previous startup, a totem figure would appear on the culprit's desk.
+At <a href='http://www.kubisoftware.com'>Kubi</a>, we've taken to using ordinary
+<a href='http://www.uvprocess.com/products/Safety/caution_barrier_tape.asp'>caution tape</a>
+to identify the problem source.</p>
+
+<p align='center'>
+<a href='http://www.brozilla.com'><img src='pix/brozilla_thumb.jpg' alt='Brozilla' /></a>
+<a href='pix/cautioncubicle.jpg'><img src='pix/cautioncubicle_thumb.jpg' alt='A cubicle draped in caution tape' /></a>
+</p>
+
+<p>An additional benefit of these tribal behaviors is that it gets people talking
+about the process.  When opinions differ on the severity of an infraction,
+people will talk about whether the punishment was deserved or not.
+Without a visible and derisive consequence, the process failure may not have been
+discussed further once the build was working again.
+</p>
+
+</body>
+</entry>
+</blog>

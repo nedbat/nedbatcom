@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090101T113953'>
+<title>Django special character tag</title>
+<category>django</category>
+<category>charset</category>
+<body>
+<p>I like using unusual text characters to decorate my site, for example, my
+<a href='/'>home page</a> uses lots of mid-dots (&amp;#xb7; &#xb7;) and
+chevrons (&amp;#xbb; &#xbb;), as well as other special characters.
+To keep the HTML source from being cluttered with those inscrutable numeric entities,
+I wrote this Django tag:
+</p>
+
+<code lang='python'><![CDATA[
+special_ch = {
+    '':     '',
+    '>>':   '&#xbb;',    # RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+    '<<':   '&#xab;',    # LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+    '(c)':  '&#xa9;',    # COPYRIGHT SIGN
+    'S':    '&#xa7;',    # SECTION SIGN
+    '*':    '&#x2022;',  # BULLET
+    '.':    '&#xb7;',    # MIDDLE DOT
+    '-':    '&#x2013;',  # EN DASH
+    '--':   '&#x2014;',  # EM DASH
+    ':>':   '&#x25b6;',  # BLACK RIGHT-POINTING TRIANGLE
+    'o':    '&#x25e6;',  # WHITE BULLET
+    '[]':   '&#x25ab;',  # WHITE SMALL SQUARE
+    '<>':   '&#x25c7;',  # WHITE DIAMOND
+    }
+
+@register.simple_tag
+def ch(value):
+    return '&#xa0;'.join([special_ch[s] for s in value.split(' ')])
+]]></code>
+
+<p>Now I can use the ch tag with a mnemonic representation of the character in
+question.  Spaces become non-breaking spaces to help control the layout around
+these characters:</p>
+
+<code><![CDATA[
+<p>{% ch ">> " %}more text..</p>
+<p>{% ch "(c) " %}2002{% ch "-" %}2009</p>
+]]></code>
+
+<p>becomes</p>
+
+<quote>
+<p>&#xbb;&#xa0;more text..</p>
+<p>&#xa9;&#xa0;2002&#x2013;2009</p>
+</quote>
+
+<p>The tag reference takes more space than the entities, but I can tell how they
+will display, without having to memorize the Unicode code points.</p>
+
+</body>
+</entry>
+</blog>

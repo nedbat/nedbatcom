@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071107T072142'>
+<title>Chris Lomont and the Excel formatting bug</title>
+<category>debugging</category>
+<category>math</category>
+<body>
+<p>In September, a bug was reported in Excel 2007 which makes 850<times/>77.1 display
+as 100,000 instead of the correct 65,535.  Many people theorized about the cause.
+Chris Lomont did something different: he analyzed the behavior of the code in depth,
+and found the problem, producing a 25-page paper with code and diagrams:
+<a href='http://www.lomont.org/Math/Papers/2007/Excel2007/Excel2007Bug.pdf'>An Analysis of the Excel 2007 "65535" Bug</a>.
+This is an impressive piece of work, and is an instructive example of the difference
+between what problems appear to be, and what they actually are.
+</p>
+
+<p>It also includes this paragraph in the conclusion:</p>
+
+<quote><p>A final comment to lawyers confused about fair-use issues,
+reverse-engineering for interoperability, First Amendment and DMCA issues, and
+the like. Be sure to do your homework before you contact me. It will save us
+both time and one of us embarrassment.</p></quote>
+
+<p>Chris has a lot more than that, too.  <a href='http://www.lomont.org/'>His site</a>
+has tons of math-meets-computers goodness, including graphics code, puzzles,
+screen savers, floating point tricks, LED hacking, superball pranks, and so on.  Good fun.
+</p>
+
+</body>
+</entry>
+</blog>

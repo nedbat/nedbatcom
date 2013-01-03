@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041109T121501'>
+<title>Stored procedures: good or bad?</title>
+<category>db</category>
+<via id='keithdevens'/>
+<body>
+<p>Rob Howard says
+<a href='http://weblogs.asp.net/rhoward/archive/2003/11/17/38095.aspx'>stored procedures are good</a>.
+Frans Bouma rebuts with
+<a href='http://weblogs.asp.net/fbouma/archive/2003/11/18/38178.aspx'>stored procedures are bad</a>.
+Many many comments ensue.
+</p>
+
+<p>In my experience, this debate comes down to a mindset.  If you are fundamentally database-focused,
+you will like stored procedures.  If you are fundamentally application-focused, you will not.
+Generally, requirements like portability and maintenance costs will outweigh personal preferences
+any way.
+For example, if your application has to run on more than one database,
+stored procedures will be very expensive to use
+(because they will have to be re-written for each database platform).
+Personally, I find writing code in pre-paleolithic SQL extensions to be absolutely abhorrent,
+so I don't like stored procedures.  Some day, maybe I'll work on a project where their benefits
+outweigh their disadvantages.
+</p>
+
+</body>
+</entry>
+</blog>

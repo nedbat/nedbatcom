@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<!-- 
+    vim: foldmethod=marker 
+-->
+<html>
+<!-- *** Head stuff {{{ -->
+<!--[[[cog
+import cog
+from cogutil import *
+]]]-->
+<!--[[[end]]]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!-- Slide meta data, remove/edit as you see fit -->
+    <title>Getting Started Testing</title>
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="starttest_stuff/slippy/src/jquery.min.js"></script>
+    <script type="text/javascript" src="starttest_stuff/slippy/src/jquery.history.js"></script>
+    <!-- Slippy slides -->
+    <script type="text/javascript" src="starttest_stuff/slippy/src/slippy.js"></script>
+    <link type="text/css" rel="stylesheet" href="starttest_stuff/slippy/src/slippy.css"/>
+    <link type="text/css" rel="stylesheet" href="starttest_stuff/neds.css"/>
+
+    <!-- Syntax highlighting core file  -->
+    <script type="text/javascript" src="starttest_stuff/slippy/src/highlighter/shCore.js"></script>
+    <!-- Syntax highlighting brushes, remove those you don't need -->
+    <script type="text/javascript" src="starttest_stuff/slippy/src/highlighter/shBrushPlain.js"></script>
+    <script type="text/javascript" src="starttest_stuff/slippy/src/highlighter/shBrushPython.js"></script>
+    <!-- Syntax highlighting styles-->
+    <link type="text/css" rel="stylesheet" href="starttest_stuff/shNedCore.css"/>
+    <link type="text/css" rel="stylesheet" href="starttest_stuff/slippy/src/highlighter/shThemeEclipse.css"/>
+    <!-- Slippy init code -->
+    <script type="text/javascript">
+        $(function() {
+            $(".slide").slippy({
+                // settings go here
+                // possible values are:
+                //  - animLen, duration for default animations (0 = disabled)
+                //  - animInForward, receives a slide and animates it
+                //  - animInRewind, receives a slide and animates it
+                //  - animOutForward, receives a slide and animates it
+                //  - animOutRewind, receives a slide and animates it
+                //  - baseWidth, defines the base for img resizing, if you don't want only
+                //    full-width images, specify this as the pixel width of a slide so that
+                //    images are scaled properly (default is 620px wide)
+                //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
+                margin: .10
+            });
+            SyntaxHighlighter.all();
+        });
+    </script>
+
+    <!-- Ned's slides init code -->
+    <script type="text/javascript" src="starttest_stuff/lineselect.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            // I don't know why, but SyntaxHighlighter needs a little time to take over the <pre> elements.
+            setTimeout(
+                function() {
+                    $(".syntaxhighlighter").lineselect();
+                }, 500
+            );
+        });
+    </script>
+
+</head>
+<!-- }}} -->
+
+<body>
+
+<!-- *** Slide layouts {{{ -->
+
+<div class="layout" data-name="default">
+    <content></content>
+    <!--
+    <div class="footer">
+        <span class="left">@nedbat</span>
+        <span class="right">http://nedbatchelder.com/text/aware.html</span>
+        <hr class="defloat" />
+    </div>
+    -->
+</div>
+
+<div class="layout" data-name="withurl">
+    <content></content>
+    <div class="footer">
+        <span class="left">@nedbat</span>
+        <span class="right">http://nedbatchelder.com/text/starttest.html</span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nochrome" data-name="clean">
+    <content></content>
+</div>
+
+<!--
+<div class="slide">
+    <h1>Style test, including a very long title that wraps I think</h1>
+    <ul>
+        <li>A simple bullet</li>
+        <li>A long bullet that has a very important point to make, or it better, else why would it be so long?</li>
+        <li>This has sub-bullets:
+        <ul>
+            <li>First</li>
+            <li>Second</li>
+        </ul>
+        </li>
+    </ul>
+</div>
+-->
+
+<!-- }}} -->
+
+<!-- *** Introduction {{{ -->
+
+<div class="slide title" data-layout="clean">
+    <h1>Getting Started Testing your Python</h1>
+    <h2>Ned Batchelder</h2>
+    <h2>@nedbat</h2>
+    <h2 style="margin-top:1em">http://nedbatchelder/text/starttest.html</h2>
+    <div class="footer"><span class="left">&copy; 2011, Ned Batchelder</span><hr class="defloat" /></div>
+    <!--
+    <img src='starttest_stuff/dodeca3_500.png' style="right:-5%; bottom: 0%; position:absolute;"></img>
+    -->
+</div>
+
+<div class="slide" data-layout="withurl">
+    <h1>Goals</h1>
+    <ul>
+        <li>Convince you to test</li>
+        <li>Show you a way to test your Python code</li>
+        <li>Remove the mystery</li>
+    </ul>
+</div>
+
+<div class="slide" data-layout="withurl">
+    <h1>Why test?</h1>
+    <ul>
+        <li>The best way to know if your code works</li>
+        <li>Saves time in the long run</li>
+        <li>Produces better code</li>
+        <li>Removes fear from development</li>
+    </ul>
+</div>
+
+<div class="slide" data-layout="withurl">
+    <h1>Common testing mindset</h1>
+    <p class="incremental">Most developers' #1 thought about testing:</p>
+    <p class="incremental" style='font-size: 500%; text-align: center'>I AM BAD</p>
+</div>
+
+<div class="slide" data-layout="withurl">
+    <h1>Reality</h1>
+    <ul>
+        <li>Developers aren't bad (most of them)</li>
+        <li>Testing is hard</li>
+        <li>It needs to be given its due</li>
+        <li>It's real engineering</li>
+        <li>It's worth it</li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** Blank slides {{{ 
+
+<div class="slide">
+    <h1></h1>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+ }}} -->
+
+<!-- *** Grow a first test {{{ -->
+<div class="slide section" layout="clean">
+    <h1>Starting from first principles</h1>
+    <h2>Evolving tests</h2>
+</div>
+
+<div class="slide">
+    <h1>Stock portfolio class</h1>
+    <p>A simple system under test:</p>
+    <!--[[[cog
+    include_file("portfolio1.py")   # {{{
+    ]]]-->
+    <pre class='brush: python'>
+    # portfolio1.py
+
+    class Portfolio(object):
+        """A simple stock portfolio"""
+        def __init__(self):
+            # stocks is a list of lists:
+            #   [[name, shares, price], ...]
+            self.stocks = []
+
+        def buy(self, name, shares, price):
+            """Buy `name`: `shares` shares at `price`."""
+            self.stocks.append([name, shares, price])
+
+        def cost(self):
+            """What was the total cost of this portfolio?"""
+            amt = 0.0
+            for name, shares, price in self.stocks:
+                amt += shares * price
+            return amt
+    </pre>
+        <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>First test: interactive</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session("""\
+        from portfolio1 import Portfolio
+        p = Portfolio()
+        p.cost()
+
+        p.buy("IBM", 100, 176.48)
+        p.cost()
+
+        p.buy("HPQ", 100, 36.15)
+        p.cost()
+        """)
+    ]]]-->
+    <pre class='brush: python'>
+    $ python
+    Python 2.7.2 (default, Jun 12 2011, 15:08:59) 
+    &gt;&gt;&gt; from portfolio1 import Portfolio
+    &gt;&gt;&gt; p = Portfolio()
+    &gt;&gt;&gt; p.cost()
+    0.0
+
+    &gt;&gt;&gt; p.buy("IBM", 100, 176.48)
+    &gt;&gt;&gt; p.cost()
+    17648.0
+
+    &gt;&gt;&gt; p.buy("HPQ", 100, 36.15)
+    &gt;&gt;&gt; p.cost()
+    21263.0
+
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+    <li>Good: testing the code</li>
+    <li>Bad: not repeatable</li>
+    <li>Bad: labor intensive</li>
+    <li>Bad: is it right?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Second test: standalone</h1>
+    <!--[[[cog
+    include_file("porttest1.py", klass="focus")   # {{{
+    ]]]-->
+    <pre class='brush: python; class-name: focus'>
+    # porttest1.py
+    from portfolio1 import Portfolio
+
+    p = Portfolio()
+    print "Empty portfolio cost: %s" % p.cost()
+    p.buy("IBM", 100, 176.48)
+    print "With 100 IBM @ 176.48: %s" % p.cost()
+    p.buy("HPQ", 100, 36.15)
+    print "With 100 HPQ @ 36.15: %s" % p.cost()
+    </pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("porttest1.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python porttest1.py
+    Empty portfolio cost: 0.0
+    With 100 IBM @ 176.48: 17648.0
+    With 100 HPQ @ 36.15: 21263.0
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Good: testing the code</li>
+        <li>Better: repeatable</li>
+        <li>Better: low effort</li>
+        <li>Still bad: is it right?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Third test: expected results</h1>
+    <!--[[[cog
+    include_file("porttest2.py", klass="focus")   # {{{
+    ]]]-->
+    <pre class='brush: python; class-name: focus'>
+    # porttest2.py
+    from portfolio1 import Portfolio
+
+    p = Portfolio()
+    print "Empty portfolio cost: %s, should be 0.0" % p.cost()
+    p.buy("IBM", 100, 176.48)
+    print "With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost()
+    p.buy("HPQ", 100, 36.15)
+    print "With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost()
+    </pre>
+    <!--[[[end]]] }}} -->
+    <!--[[[cog
+    include_file("porttest2.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python porttest2.py
+    Empty portfolio cost: 0.0, should be 0.0
+    With 100 IBM @ 176.48: 17648.0, should be 17648.0
+    With 100 HPQ @ 36.15: 21263.0, should be 21263.0
+    </pre>
+        <!--[[[end]]] }}}-->
+    <ul>
+        <li>Good: testing the code repeatably with low effort</li>
+        <li>Better: explicit expected results</li>
+        <li>Bad: have to check the results yourself</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Fourth test: check results automatically</h1>
+    <!--[[[cog
+    include_file("porttest3.py", klass="focus")   # {{{
+    ]]]-->
+    <pre class='brush: python; class-name: focus'>
+    # porttest3.py
+    from portfolio1 import Portfolio
+
+    p = Portfolio()
+    print "Empty portfolio cost: %s, should be 0.0" % p.cost()
+    assert p.cost() == 0.0
+    p.buy("IBM", 100, 176.48)
+    print "With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost()
+    assert p.cost() == 17648.0
+    p.buy("HPQ", 100, 36.15)
+    print "With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost()
+    assert p.cost() == 21263.0
+    </pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("porttest3.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python porttest3.py
+    Empty portfolio cost: 0.0, should be 0.0
+    With 100 IBM @ 176.48: 17648.0, should be 17648.0
+    With 100 HPQ @ 36.15: 21263.0, should be 21263.0
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Good: testing the code repeatably with low effort</li>
+        <li>Good: explicit expected results</li>
+        <li>Good: results checked automatically</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Fourth test: what failure looks like</h1>
+    <!--[[[cog
+    include_file("porttest3_broken.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python porttest3_broken.py
+    Empty portfolio cost: 0.0, should be 0.0
+    With 100 IBM @ 176.48: 17600.0, should be 17648.0
+    Traceback (most recent call last):
+      File "porttest3_broken.py", line 9, in &lt;module&gt;
+        assert p.cost() == 17648.0
+    AssertionError
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Good: testing the code repeatably with low effort</li>
+        <li>Good: expected results checked automatically</li>
+        <li>So-so: failure is visible, but output is cluttered with success</li>
+        <li>Bad: failure prevents further tests</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>This is starting to get complicated!</h1>
+    <ul>
+        <li>Like any code, tests will grow</li>
+        <li>A test is a real program</li>
+        <li>Testing deserves real engineering</li>
+        <li>Common issues can be handled in standard ways</li>
+        <li>Unique issues can be handled in custom ways</li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** Using unittest {{{ -->
+<div class="slide section" layout="clean">
+    <h1>unittest</h1>
+    <h2>Writing tests</h2>
+</div>
+
+
+<div class="slide">
+    <h1>unittest</h1>
+    <ul>
+        <li>Part of the Python standard library</li>
+        <li>Provides infrastructure for well-structured tests</li>
+        <li>Provides a test runner</li>
+        <li>Based on patterns used across many languages</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test classes</h1>
+    <ul>
+        <li>Tests are organized into classes</li>
+        <li>Tests are methods starting with test_</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>A simple unit test</h1>
+    <!--[[[cog
+    include_file("test_port1.py", klass="focus")   # {{{
+    ]]]-->
+    <pre class='brush: python; class-name: focus'>
+    # test_port1.py
+
+    import unittest
+    from portfolio1 import Portfolio
+
+    class PortfolioTest(unittest.TestCase):
+        def test_ibm(self):
+            p = Portfolio()
+            p.buy("IBM", 100, 176.48)
+            assert p.cost() == 17648.0
+
+    if __name__ == '__main__':
+        unittest.main()
+    </pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("test_port1.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port1.py
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 0.000s
+
+    OK
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Under the covers</h1>
+    <pre class='brush: python'>
+    # unittest runs the tests as if I had written:
+    testcase = PortfolioTest()
+    try:
+        testcase.test_ibm()
+    except:
+        [record failure]
+    else:
+        [record success]
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Add more tests</h1>
+    <!--[[[cog
+    include_file("test_port2.py", start=6, end=20)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 6'>
+    class PortfolioTest(unittest.TestCase):
+        def test_empty(self):
+            p = Portfolio()
+            assert p.cost() == 0.0
+
+        def test_ibm(self):
+            p = Portfolio()
+            p.buy("IBM", 100, 176.48)
+            assert p.cost() == 17648.0
+
+        def test_ibm_hpq(self):
+            p = Portfolio()
+            p.buy("IBM", 100, 176.48)
+            p.buy("HPQ", 100, 36.15)
+            assert p.cost() == 21263.0</pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("test_port2.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port2.py
+    ...
+    ----------------------------------------------------------------------
+    Ran 3 tests in 0.000s
+
+    OK
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>A dot for every passed test</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Under the covers</h1>
+    <pre class='brush: python'>
+    # unittest runs the tests as if I had written:
+    testcase = PortfolioTest()
+    try:
+        testcase.test_empty()
+    except:
+        [record failure]
+    else:
+        [record success]
+
+    testcase = PortfolioTest()
+    try:
+        testcase.test_ibm()
+    except:
+        [record failure]
+    else:
+        [record success]
+    
+    testcase = PortfolioTest()
+    try:
+        testcase.test_ibm_hpq()
+    except:
+        [record failure]
+    else:
+        [record success]
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Test isolation</h1>
+    <ul>
+        <li>Every test is run with a new test object</li>
+        <li>Test isolation is very important</li>
+        <li>Tests are focused on a small amount of code</li>
+        <li>Tests can't affect each other</li>
+        <li>Failure doesn't prevent further tests</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>What failure looks like</h1>
+    <!--[[[cog
+    include_file("test_port2_broken.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port2_broken.py
+    .F.
+    ======================================================================
+    FAIL: test_ibm (__main__.PortfolioTest)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "test_port2_broken.py", line 14, in test_ibm
+        assert p.cost() == 17648.0
+    AssertionError
+
+    ----------------------------------------------------------------------
+    Ran 3 tests in 0.001s
+
+    FAILED (failures=1)
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Better: the failed test didn't keep others from running</li>
+        <li>Bad: what value was returned?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>unittest assert helpers</h1>
+    <ul>
+        <li>Use self.assertEqual(x, y) instead of assert x == y</li>
+        <li>You get nicer messages</li>
+    </ul>
+    <!--[[[cog
+    include_file("test_port3.py", start=11, end=14, klass="focus", highlight=[14])   # {{{
+    ]]]-->
+    <pre class='brush: python; highlight: [14]; first-line: 11; class-name: focus'>
+        def test_ibm(self):
+            p = Portfolio()
+            p.buy("IBM", 100, 176.48)
+            self.assertEqual(p.cost(), 17648.0)</pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("test_port3_broken.out", highlight=[9])   # {{{
+    ]]]-->
+    <pre class='brush: plain; highlight: [9]'>
+    $ python test_port3_broken.py
+    .F.
+    ======================================================================
+    FAIL: test_ibm (__main__.PortfolioTest)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "test_port3_broken.py", line 14, in test_ibm
+        self.assertEqual(p.cost(), 17648.0)
+    AssertionError: 17600.0 != 17648.0
+
+    ----------------------------------------------------------------------
+    Ran 3 tests in 0.001s
+
+    FAILED (failures=1)
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>unittest assert helpers</h1>
+    <ul>
+        <li>There are lots of specialized assert methods</li>
+    </ul>
+    <pre class='brush: python'>
+    assertEqual(first, second)
+    assertNotEqual(first, second)
+    assertTrue(expr)
+    assertFalse(expr)
+    assertIn(first, second)
+    assertNotIn(first, second)
+    assertAlmostEqual(first, second)
+    assertGreater(first, second)
+    assertLess(first, second)
+    assertRegexMatches(text, regexp)
+    .. etc ..
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Major enhancements in 2.7</h1>
+    <ul>
+        <li>unittest expanded significantly in 2.7 and 3.2</li>
+        <li>Some of what I show here is only available then</li>
+        <li>Test discovery</li>
+        <li>More asserters</li>
+    </ul>
+</div>
+
+
+<div class="slide">
+    <h1>Three possible outcomes</h1>
+    <ul>
+        <li>Test raises an exception other than AssertionError</li>
+        <li>Produces an E outcome</li>
+    </ul>
+    <!--[[[cog
+    include_file("test_port3_broken2.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port3_broken2.py
+    .E.
+    ======================================================================
+    ERROR: test_ibm (__main__.PortfolioTest)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "test_port3_broken2.py", line 13, in test_ibm
+        p.buyxxxxx("IBM", 100, 176.48)
+    AttributeError: 'Portfolio' object has no attribute 'buyxxxxx'
+
+    ----------------------------------------------------------------------
+    Ran 3 tests in 0.000s
+
+    FAILED (errors=1)
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Under the covers</h1>
+    <pre class='brush: python'>
+    testcase = PortfolioTest()
+    try:
+        testcase.test_method()
+    except AssertionError:
+        [record failure]
+    except:
+        [record error]
+    else:
+        [record success]
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Testing for failure</h1>
+    <ul>
+        <li>What if your code is supposed to raise an exception?</li>
+    </ul>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session("""\
+        from portfolio1 import Portfolio
+        p = Portfolio()
+        p.buy("IBM")
+        """)
+    ]]]-->
+    <pre class='brush: python'>
+    $ python
+    Python 2.7.2 (default, Jun 12 2011, 15:08:59) 
+    &gt;&gt;&gt; from portfolio1 import Portfolio
+    &gt;&gt;&gt; p = Portfolio()
+    &gt;&gt;&gt; p.buy("IBM")
+    Traceback (most recent call last):
+      File "&lt;console&gt;", line 1, in &lt;module&gt;
+    TypeError: buy() takes exactly 4 arguments (2 given)
+
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Can't just call the function</h1>
+    <!--[[[cog
+    include_file("test_port4_broken.py", start=22, end=24)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 22'>
+        def test_bad_input(self):
+            p = Portfolio()
+            p.buy("IBM")</pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("test_port4_broken.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port4_broken.py
+    E...
+    ======================================================================
+    ERROR: test_bad_input (__main__.PortfolioTest)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "test_port4_broken.py", line 24, in test_bad_input
+        p.buy("IBM")
+    TypeError: buy() takes exactly 4 arguments (2 given)
+
+    ----------------------------------------------------------------------
+    Ran 4 tests in 0.001s
+
+    FAILED (errors=1)
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>assertRaises</h1>
+    <ul>
+        <li>assertRaises(exc, callable, arg1, arg2, ...)</li>
+        <li>Have to provide callable and args separately</li>
+    </ul>
+    <!--[[[cog
+    include_file("test_port4.py", start=22, end=24)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 22'>
+        def test_bad_input(self):
+            p = Portfolio()
+            self.assertRaises(TypeError, p.buy, "IBM")</pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("test_port4.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ python test_port4.py
+    ....
+    ----------------------------------------------------------------------
+    Ran 4 tests in 0.000s
+
+    OK
+    </pre>
+    <!--[[[end]]] }}}-->
+    <p>Nicer in 2.7:</p>
+    <pre class='brush: python'>
+    def test_bad_input(self):
+        p = Portfolio()
+        with self.assertRaises(TypeError):
+            p.buy("IBM")
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Add sell functionality</h1>
+    <!--[[[cog
+    include_file("portfolio2.py", start=21, end=30)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 21'>
+        def sell(self, name, shares):
+            """Sell some number of shares of `name`."""
+            for holding in self.stocks:
+                if holding[0] == name:
+                    if holding[1] &lt; shares:
+                        raise ValueError("Not enough shares")
+                    holding[1] -= shares
+                    break
+            else:
+                raise ValueError("You don't own that stock")</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Testing sell</h1>
+    <!--[[[cog
+    include_file("test_port5.py", start=26, end=49)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 26'>
+    class PortfolioSellTest(unittest.TestCase):
+        def test_sell(self):
+            p = Portfolio()
+            p.buy("MSFT", 100, 27.0)
+            p.buy("DELL", 100, 17.0)
+            p.buy("ORCL", 100, 34.0)
+            p.sell("MSFT", 50)
+            self.assertEqual(p.cost(), 6450)
+
+        def test_not_enough(self):
+            p = Portfolio()
+            p.buy("MSFT", 100, 27.0)
+            p.buy("DELL", 100, 17.0)
+            p.buy("ORCL", 100, 34.0)
+            with self.assertRaises(ValueError):
+                p.sell("MSFT", 200)
+
+        def test_dont_own_it(self):
+            p = Portfolio()
+            p.buy("MSFT", 100, 27.0)
+            p.buy("DELL", 100, 17.0)
+            p.buy("ORCL", 100, 34.0)
+            with self.assertRaises(ValueError):
+                p.sell("IBM", 1)</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Setting up a test</h1>
+    <ul>
+        <li>Tests can get repetitive</li>
+        <li>Many tests may need similar setup</li>
+        <li>A class can define setUp() to create initial state</li>
+    </ul>
+    <!--[[[cog
+    include_file("test_port6.py", start=26, end=43)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 26'>
+    class PortfolioSellTest(unittest.TestCase):
+        def setUp(self):
+            self.p = Portfolio()
+            self.p.buy("MSFT", 100, 27.0)
+            self.p.buy("DELL", 100, 17.0)
+            self.p.buy("ORCL", 100, 34.0)
+
+        def test_sell(self):
+            self.p.sell("MSFT", 50)
+            self.assertEqual(self.p.cost(), 6450)
+
+        def test_not_enough(self):
+            with self.assertRaises(ValueError):
+                self.p.sell("MSFT", 200)
+
+        def test_dont_own_it(self):
+            with self.assertRaises(ValueError):
+                self.p.sell("IBM", 1)</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Under the covers</h1>
+    <pre class='brush: python'>
+    testcase = PortfolioTest()
+    try:
+        testcase.setUp()
+    except:
+        [record error]
+    else:
+        try:
+            testcase.test_method()
+        except AssertionError:
+            [record failure]
+        except:
+            [record error]
+        else:
+            [record success]
+        finally:
+            try:
+                testcase.tearDown()
+            except:
+                [record error]
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>setUp and tearDown: isolation!</h1>
+    <ul>
+        <li>Establish context for tests</li>
+        <li>Use them for common pre-test or post-test work</li>
+        <li>They ensure isolation, even in the face of failures</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>How NOT to do it</h1>
+    <pre class='brush: python'>
+    class MyBadTestCase(unittest.TestCase):
+        def test_a_thing(self):
+            old_global = some_global_thing
+            some_global_thing = new_test_value
+
+            do_my_test_stuff()
+            
+            some_global_thing = old_global
+    </pre>
+
+    <ul>
+        <li>Common impulse</li>
+        <li>But if test fails, globals aren't restored</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>The right way</h1>
+    <pre class='brush: python'>
+    class MyGoodTestCase(unittest.TestCase):
+        def setUp(self):
+            self.old_global = some_global_thing
+            some_global_thing = new_test_value
+
+        def tearDown(self):
+            some_global_thing = self.old_global
+
+        def test_a_thing(self):
+            do_my_test_stuff()
+    </pre>
+    <ul>
+        <li>tearDown gets run no matter what *</li>
+        <li>Reuse: same setUp and tearDown apply to all the test methods</li>
+        <li>Test method is small and focused</li>
+        <li>* unless setUp fails</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>A better way</h1>
+    <pre class='brush: python'>
+    def test_with_special_settings(self):
+        with patch_settings(SOMETHING='special', ANOTHER='weird'):
+            do_my_test_stuff()
+    </pre>
+    <pre class='brush: python'>
+    # From: http://stackoverflow.com/questions/913549
+    from somewhere import MY_GLOBALS
+
+    NO_SUCH_SETTING = object()
+
+    @contextlib.contextmanager
+    def patch_settings(**kwargs):
+        old_settings = []
+        for key, new_value in kwargs.items():
+            old_value = getattr(MY_GLOBALS, key, NO_SUCH_SETTING)
+            old_settings.append((key, old_value))
+            setattr(MY_GLOBALS, key, new_value)
+
+        yield
+
+        for key, old_value in old_settings:
+            if old_value is NO_SUCH_SETTING:
+                delattr(MY_GLOBALS, key)
+            else:
+                setattr(MY_GLOBALS, key, old_value)
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Tests are real code</h1>
+    <ul>
+        <li>Test helpers can become significant</li>
+        <li>All the same techniques you use for product code, you can use for test code</li>
+        <li>Helper functions, classes, etc.</li>
+        <li>BTW: These helpers might need tests!</li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** Approaches {{{ -->
+<div class="slide section" layout="clean">
+    <h1>Approaches</h1>
+    <h2>crafting tests</h2>
+</div>
+
+<div class="slide">
+    <h1>What to test?</h1>
+    <ul>
+        <li>Any code that you want to work</li>
+        <li>Start with what worries you</li>
+        <li>Where are your bugs?</li>
+    </ul>
+</div>
+
+<!--
+
+- White box testing
+- Black box testing
+- Regression testing
+
+- non-functional testing
+    - performance
+    - security
+    - usability
+
+-->
+
+<div class="slide">
+    <h1>How to start?</h1>
+    <ul>
+        <li>Pick a chunk of code</li>
+        <li>What should it do?</li>
+        <li>Test that</li>
+        <li>What shouldn't it do?</li>
+        <li>Test that</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test granularity</h1>
+    <ul>
+        <li>How big is the code chunk?</li>
+        <li>Creates a hierarchy of tests:
+            <ul>
+                <li>Unit</li>
+                <li>Functional</li>
+                <li>Integration</li>
+                <li>System</li>
+            </ul></li>
+        <li>Start small</li>
+    </ul>
+</div>
+
+
+<div class="slide">
+    <h1>What should the code do?</h1>
+    <ul>
+        <li>This can be difficult!</li>
+        <li>Tests force you to decide</li>
+        <li>Be as clear as you can</li>
+        <li>(Document it in your docstrings)</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test what the code should do</h1>
+    <ul>
+        <li>Typical values</li>
+        <li>Edge values</li>
+        <li>Combinations of values</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test what the code shouldn't do</h1>
+    <ul>
+        <li>Error conditions</li>
+        <li>Absurd values</li>
+        <li>Common mistakes in usage</li>
+        <li>Does it fail the way it should?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Where to put them?</h1>
+    <ul>
+        <li>Put tests in their own files</li>
+        <li>Name them test_*.py</li>
+        <li>Parallel to the code they're testing</li>
+        <li>Pick your granularity</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Good tests should be...</h1>
+    <ul>
+        <li>Automated</li>
+        <li>Repeatable</li>
+        <li>Convenient: fast</li>
+        <li>Unambiguous</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>How much is enough?</h1>
+    <ul>
+        <li>Hard to know</li>
+        <li>Depends on your needs</li>
+        <li>Coverage measurement can help</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Tests will fail</h1>
+    <ul>
+        <li>Could be the code is broken</li>
+        <li>Could also be the tests are broken</li>
+        <li>Tests have to be maintained</li>
+        <li>Refactoring code might mean refactoring tests too</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test-Driven Development</h1>
+    <ul>
+        <li>Write tests before code!</li>
+        <li>Ensures code is testable</li>
+        <li>Produces better code</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Testability</h1>
+    <ul>
+        <li>The quality of being testable</li>
+        <li>Affects the design of your code</li>
+        <li>Mostly: improved modularity</li>
+        <li>See my PyCon 2010 talk: <a href='http://pycon.blip.tv/file/3261272'>Tests &amp; Testability</a></li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** nose {{{ -->
+<div class="slide section" layout="clean">
+    <h1>nose and py.test</h1>
+    <h2>Running tests</h2>
+</div>
+
+<div class="slide">
+    <h1>Test runners</h1>
+    <ul>
+        <li>Third-party test runners: nose, py.test, trial</li>
+        <li>Know how to run your unittest tests</li>
+        <li>Test discovery</li>
+        <li>Run tests better</li>
+        <li>Plugins provide lots of features</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test discovery</h1>
+    <ul>
+        <li>Running one file of tests is easy</li>
+        <li>Pre-2.7 unittest: hard to run many test files</li>
+        <li>New test runners provide test discovery</li>
+        <li>They sniff out your tests wherever they are</li>
+    </ul>
+</div>
+
+<!-- Unused slides {{{
+<div class="slide">
+    <h1>Running tests</h1>
+    <ul>
+        <li>Show test names as they run</li>
+        <li>Capture stdout</li>
+        <li>Stop on first failure</li>
+        <li>These are also in 2.7 unittest</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Plugins</h1>
+    <ul>
+        <li>LOTS of useful functions added by plugins</li>
+        <li>parallel execution</li>
+        <li>attribute-based test selection</li>
+        <li>output formats: color, subunit, xml, etc</li>
+        <li>extreme isolation</li>
+        <li>django integration</li>
+        <li>etc</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Class-less tests</h1>
+    <ul>
+        <li>*Unit patterns are based on Smalltalk</li>
+        <li>But Python can have code outside of classes</li>
+        <li>So why do my tests have to be in classes?</li>
+        <li>Test can be just functions</li>
+        <li>And why can't my asserts be plain asserts?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test generators</h1>
+    <ul>
+        <li>Tests can be created with a generator</li>
+        <li>Generator yields callable + args</li>
+        <li>Each yield is a separate test</li>
+        <li>This produces four tests, two pass:</li>
+    </ul>
+    <pre class='brush: python'>
+    def test_evens():
+        for i in range(4):
+            yield check_even, i
+
+    def check_even(n):
+        assert n % 2 == 0
+    </pre>
+    <pre class='brush: python'>
+    def test_0():
+        check_even(0)
+    def test_1():
+        check_even(1)
+    def test_2():
+        check_even(2)
+    def test_3():
+        check_even(3)
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>nose and unittest together</h1>
+    <ul>
+        <li>nose extended unittest</li>
+        <li>Then unittest grew in 2.7</li>
+        <li>They don't always get along</li>
+        <li>Be careful</li>
+    </ul>
+</div>
+
+<div class="slide highlight_code_red">
+    <h1>py.test</h1>
+    <pre class='brush: plain, highlight: [17,18,19]'>
+    $ py.test test_port2_broken.py
+    =========================== test session starts ===========================
+    platform win32 - - Python 2.7.2 - - pytest-2.1.0
+    collected 3 items
+
+    test_port2_broken.py .F.
+
+    ================================ FAILURES =================================
+    _________________________ PortfolioTest.test_ibm __________________________
+
+    self = &lt;test_port2_broken.PortfolioTest testMethod=test_ibm>
+
+        def test_ibm(self):
+            p = Portfolio()
+            p.buy("IBM", 100, 176)
+    &gt;       assert p.cost() == 17648.0
+    E       AssertionError: assert 17600.0 == 17648.0
+    E        +  where 17600.0 = &lt;bound method Portfolio.cost of &lt;portfolio1.Por
+    E        +    where &lt;bound method Portfolio.cost of &lt;portfolio1.Portfolio o
+
+    test_port2_broken.py:14: AssertionError
+    =================== 1 failed, 2 passed in 0.12 seconds ====================
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Twisted's trial</h1>
+    <ul>
+        <li>Many advanced options</li>
+        <li>Some particular to Twisted</li>
+        <li>Control GC between tests</li>
+        <li>Check global state</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>IDEs</h1>
+    <ul>
+        <li>IDEs like Eclipse and Netbeans also have test runners</li>
+        <li>Vim and Emacs too</li>
+        <li>I know nothing about them</li>
+        <li>They are probably awesome</li>
+    </ul>
+</div>
+
+ }}} -->
+
+<div class="slide">
+    <h1>Test runners</h1>
+    <ul>
+        <li>unittest (2.7)</li>
+        <li>nose, py.test, trial</li>
+        <li>IDEs, Vim, Emacs</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Lots of options</h1>
+    <ul>
+        <li>However you want to run your tests, you can</li>
+        <li>Choose the runner that suits you</li>
+        <li>Plugins allow further customization</li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** Coverage {{{ -->
+<div class="slide section" layout="clean">
+    <h1>Coverage</h1>
+    <h2>Testing tests</h2>
+</div>
+
+<div class="slide">
+    <h1>What code are you testing?</h1>
+    <ul>
+        <li>The goal: tests execute product code</li>
+        <li>But do they really?</li>
+        <li>How much of it?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Coverage measurement</h1>
+    <ul>
+        <li>Run your tests</li>
+        <li>Track what parts of product code are executed</li>
+        <li>Report on covered / not covered</li>
+        <li>You find code not being tested</li>
+        <li>Write more tests</li>
+        <li>The world is better!</li>
+    </ul>
+</div>
+
+<!--
+<div class="slide">
+    <h1>Running coverage.py</h1>
+    <ul>
+        <li>Install it from PyPI</li>
+        <li><tt>coverage run my_prog.py arg ...</tt></li>
+        <li><tt>coverage html</tt></li>
+        <li>Or: &nbsp;<tt>nosetests - -with-cover ...</tt></li>
+        <li>Or: &nbsp;<tt>py.test - -cov ...</tt></li>
+    </ul>
+</div>
+-->
+
+<div class="slide">
+    <h1>HTML report</h1>
+    <iframe src='starttest_stuff/htmlcov/index.html' style='background:white;width:100%;height:85%;'></iframe>
+</div>
+
+<div class="slide">
+    <h1>Coverage can only tell you a few things</h1>
+    <ul>
+        <li>What lines were executed</li>
+        <li>What branches were taken</li>
+        <li>100% coverage is difficult to reach</li>
+        <li>100% coverage doesn't tell you everything</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>What coverage can't tell you</h1>
+    <ul>
+        <li>Are you exercising all your data?</li>
+        <li>Are you exercising all your HTML templates?</li>
+        <li>Are you checking results properly?</li>
+        <li>Are you hitting all edge conditions?</li>
+        <li>Are you testing the right things?</li>
+        <li>Are you building the right product?  ;-)</li>
+    </ul>
+</div>
+
+
+<!-- }}} -->
+
+<!-- *** Mocking {{{ -->
+<div class="slide section" layout="clean">
+    <h1>Test Doubles</h1>
+    <h2>Focusing tests</h2>
+</div>
+
+<div class="slide">
+    <h1>Testing small amounts of code</h1>
+    <ul>
+        <li>Systems are built in layers</li>
+        <li>Components depend on each other</li>
+        <li>How to test just one component without its dependencies?</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Dependencies are bad</h1>
+    <ul>
+        <li>More suspect code in each test</li>
+        <li>Some components are slow</li>
+        <li>Some components are unpredictable</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test Doubles</h1>
+    <ul>
+        <li>Replace a component's dependencies</li>
+        <li>Focus on one component</li>
+        <li>Different kinds: Mocks, stubs, fakes, etc</li>
+    </ul>
+    <img src='starttest_stuff/mock.png'/>
+</div>
+
+<div class="slide">
+    <h1>Real-time data!</h1>
+    <ul>
+        <li>Hit the web to get current stock prices</li>
+    </ul>
+    <!--[[[cog
+    include_file("portfolio3.py", section="value")   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 51'>
+        def current_prices(self):
+            """Return a dict mapping names to current prices."""
+            # http://download.finance.yahoo.com/d/quotes.csv?f=sl1&amp;s=ibm,hpq
+            # returns comma-separated values:
+            #   "IBM",174.23
+            #   "HPQ",35.13
+            url = "http://download.finance.yahoo.com/d/quotes.csv?f=sl1&amp;s="
+            names = [name for name, shares, price in self.stocks]
+            url += ",".join(sorted(names))
+            data = urllib.urlopen(url)
+            prices = dict((sym, float(last)) for sym, last in csv.reader(data))
+            return prices
+
+        def value(self):
+            """Return the current value of the portfolio."""
+            prices = self.current_prices()
+            total = 0.0
+            for name, shares, price in self.stocks:
+                total += shares * prices[name]
+            return total</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>It works great!</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session("""\
+        from portfolio3 import Portfolio
+        p = Portfolio()
+        p.buy("IBM", 100, 150.0)
+        p.buy("HPQ", 100, 30.0)
+
+        p.current_prices()
+        
+        p.value()
+        """)
+    ]]]-->
+    <pre class='brush: python'>
+    $ python
+    Python 2.7.2 (default, Jun 12 2011, 15:08:59) 
+    &gt;&gt;&gt; from portfolio3 import Portfolio
+    &gt;&gt;&gt; p = Portfolio()
+    &gt;&gt;&gt; p.buy("IBM", 100, 150.0)
+    &gt;&gt;&gt; p.buy("HPQ", 100, 30.0)
+
+    &gt;&gt;&gt; p.current_prices()
+    {'HPQ': 35.61, 'IBM': 185.21}
+
+    &gt;&gt;&gt; p.value()
+    22082.0
+
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>But how to test it?</h1>
+    <ul>
+        <li>Live data from the web is unpredictable</li>
+        <li>Could be slowish</li>
+        <li>Could be unavailable</li>
+        <li>Question should be: 
+            <ul>
+                <li>"Assuming yahoo.com is working,</li>
+                <li>does my code work?"</li>
+            </ul></li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Fake implementation of current_prices</h1>
+    <!--[[[cog
+    include_file("test_port7.py", start=45, end=59)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 45'>
+    # Replace Portfolio.current_prices with a stub implementation.
+    # This avoids the web, but also skips all our current_prices
+    # code.
+    class PortfolioValueTest(unittest.TestCase):
+        def fake_current_prices(self):
+            return {'IBM': 140.0, 'HPQ': 32.0}
+
+        def setUp(self):
+            self.p = Portfolio()
+            self.p.buy("IBM", 100, 120.0)
+            self.p.buy("HPQ", 100, 30.0)
+            self.p.current_prices = self.fake_current_prices
+
+        def test_value(self):
+            self.assertEqual(self.p.value(), 17200)</pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Good: test results are predictable</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>But some code isn't tested!</h1>
+    <!--[[[cog
+    include_file("test_port7.out", highlight=[10])   # {{{
+    ]]]-->
+    <pre class='brush: plain; highlight: [10]'>
+    $ coverage run test_port7.py
+    ........
+    ----------------------------------------------------------------------
+    Ran 8 tests in 0.000s
+
+    OK
+    $ coverage report -m
+    Name         Stmts   Miss  Cover   Missing
+    ------------------------------------------
+    portfolio3      33      6    82%   57-62
+    test_port7      45      0   100%   
+    ------------------------------------------
+    TOTAL           78      6    92%   
+    </pre>
+    <!--[[[end]]] }}}-->
+    <!--[[[cog
+    include_file("portfolio3.py", start=51, end=62)   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 51'>
+        def current_prices(self):
+            """Return a dict mapping names to current prices."""
+            # http://download.finance.yahoo.com/d/quotes.csv?f=sl1&amp;s=ibm,hpq
+            # returns comma-separated values:
+            #   "IBM",174.23
+            #   "HPQ",35.13
+            url = "http://download.finance.yahoo.com/d/quotes.csv?f=sl1&amp;s="
+            names = [name for name, shares, price in self.stocks]
+            url += ",".join(sorted(names))
+            data = urllib.urlopen(url)
+            prices = dict((sym, float(last)) for sym, last in csv.reader(data))
+            return prices</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>Fake urllib.urlopen instead</h1>
+    <!--[[[cog
+    include_file("test_port8.py", section="fake")   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 48'>
+    # A simple fake for urllib that implements only one method,
+    # and is only good for one request.  You can make this much
+    # more complex for your own needs.
+    class FakeUrllib(object):
+        """An object that can stand in for the urllib module."""
+
+        def urlopen(self, url):
+            """A stub urllib.urlopen() implementation."""
+            return StringIO('"IBM",140\n"HPQ",32\n')
+
+
+    class PortfolioValueTest(unittest.TestCase):
+        def setUp(self):
+            self.old_urllib = portfolio3.urllib
+            portfolio3.urllib = FakeUrllib()
+
+            self.p = Portfolio()
+            self.p.buy("IBM", 100, 120.0)
+            self.p.buy("HPQ", 100, 30.0)
+
+        def tearDown(self):
+            portfolio3.urllib = self.old_urllib
+
+        def test_value(self):
+            self.assertEqual(self.p.value(), 17200)</pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="slide">
+    <h1>All of our code is executed</h1>
+    <!--[[[cog
+    include_file("test_port8.out")   # {{{
+    ]]]-->
+    <pre class='brush: plain'>
+    $ coverage run test_port8.py
+    ........
+    ----------------------------------------------------------------------
+    Ran 8 tests in 0.001s
+
+    OK
+    $ coverage report -m
+    Name         Stmts   Miss  Cover   Missing
+    ------------------------------------------
+    portfolio3      33      0   100%   
+    test_port8      51      0   100%   
+    ------------------------------------------
+    TOTAL           84      0   100%   
+    </pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Stdlib is stubbed</li>
+        <li>All our code is run</li>
+        <li>No web access during tests</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Even better: mock objects</h1>
+    <ul>
+        <li>Mock objects are automatic chameleons</li>
+        <li>Can act like any object</li>
+        <li>Also record what happened to them</li>
+        <li>You can make assertions after the fact</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Automatic chameleons</h1>
+    <!--[[[cog
+    include_file("test_port9.py", section="mock")   # {{{
+    ]]]-->
+    <pre class='brush: python; first-line: 49'>
+    class PortfolioValueTest(unittest.TestCase):
+        def setUp(self):
+            self.p = Portfolio()
+            self.p.buy("IBM", 100, 120.0)
+            self.p.buy("HPQ", 100, 30.0)
+
+        def test_value(self):
+            # Create a mock urllib.urlopen
+            with mock.patch('urllib.urlopen') as urlopen:
+
+                # When called, it will return this value
+                urlopen.return_value = StringIO('"IBM",140\n"HPQ",32\n')
+
+                # Run the test!
+                self.assertEqual(self.p.value(), 17200)
+
+                # We can ask the mock what its arguments were
+                urlopen.assert_called_with(
+                    "http://download.finance.yahoo.com/d/quotes.csv"
+                    "?f=sl1&amp;s=HPQ,IBM"
+                    )</pre>
+    <!--[[[end]]] }}}-->
+    <ul>
+        <li>Using Foord's Mock: <a href='http://www.voidspace.org.uk/python/mock/'>http://www.voidspace.org.uk/python/mock</a></li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Test doubles</h1>
+    <ul>
+        <li>A powerful way to isolate your code</li>
+        <li>Focuses tests on one thing at a time</li>
+        <li>Removes speed bumps and randomness</li>
+        <li>Lots of libraries to make it easier</li>
+        <li>Also called Dependency Injection</li>
+    </ul>
+</div>
+
+<!-- }}} -->
+
+<!-- *** Other topics {{{ -->
+<!--
+<div class="slide section" layout="clean">
+    <h1>Other topics</h1>
+    <h2>You should at least know what these are</h2>
+</div>
+
+<div class="slide">
+    <h1>Doctest</h1>
+    <ul>
+        <li>Run code snippets in docstrings</li>
+        <li>Parses console sessions to find tests and results.</li>
+        <li>Good for testing code in docs</li>
+        <li>Don't use it for testing product code</li>
+    </ul>
+</div>
+
+-->
+
+<!-- }}} -->
+
+
+<div class="slide section" layout="clean">
+    <h1>Summing up</h1>
+</div>
+
+<div class="slide">
+    <h1>Testing is...</h1>
+    <ul>
+        <li>Complicated</li>
+        <li>Important</li>
+        <li>Worthy</li>
+        <li>Rewarding</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Resources</h1>
+    <ul>
+        <li>Testing In Python mailing list</li>
+        <li>Python meetup! Project Night 8/11</li>
+        <li>#bostonpython and #python on freenode</li>
+    </ul>
+</div>
+
+<div class="slide thankyou" data-layout="clean">
+    <h1 style='margin-top:1em'>Thank You</h1>
+    <h1 style='margin:1em; font-size:140%'>http://nedbatchelder.com/text/starttest.html</h1>
+    <h1 style='margin:1em; font-size:140%'>@nedbat</h1>
+    
+    <!--
+    <p style='text-align:center; margin-top:7em;'>PS: I'm available for freelance work :)</p>
+    -->
+    <p style='text-align:center; font-size:85%; margin-top:9em;'>
+    <i>Made with Cog, Slippy, and Fontin.</i>
+    </p>
+</div>
+
+</body>
+</html>

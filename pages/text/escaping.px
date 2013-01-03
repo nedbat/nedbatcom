@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<page title='Escaping the zoo'>
+<history>
+<what when='20080125T102623'>Created.</what>
+</history>
+
+<p>Properly escaping data to make it correct and safe is a seemingly
+mundane coding task that has huge implications.  Many security vulnerabilites
+boil down to incorrectly escaped data.  Getting escaping right often requires
+a thorough understand of all the components of your system.</p>
+
+<h1>Processors and modes</h1>
+
+<p>First, let's define some terms and concepts.  None of this will be new to you,
+I just want us to agree on names for things. A <term>processor</term> is a piece
+of software that reads a stream of <term>text</term> and interprets it in some way.
+Processors can be in a number of different <term>modes</term>, where each mode
+applies its own interpretation to the text. Two common types of modes are <term>instruction</term>,
+where the text makes the processor do something, and <term>data</term>, where the
+processor collects text as data for later use. A <term>command</term> is the signal in
+the text that causes the processor to change modes.</p>
+
+<p>For example, a programming language compiler or interpreter is an example of
+a processor. It reads source code, and creates executable code from it.  In most
+programming languages, a double-quote character is a command to switch modes,
+from the instruction mode of compiling code, to the data mode of collecting
+literal string characters.  Once in data mode the double-quote character is a
+command to switch back to instruction mode:</p>
+
+<code lang='c'>s = a + "hello" + b;</code>
+
+<p>Processors can have a number of instruction modes or data modes.  For example,
+many languages also use single-quotes to denote literal strings.  The double-quote
+string mode is different from the single-quote string mode, at the very least
+because each is looking for a different command to end the mode: single-quoted
+strings end when a single-quote character is found, double-quoted strings end
+when a double-quote character is found.</p>
+
+<p>Finally, we get to escaping.  If the processor is in a data mode, and you need
+to include a mode-switching command in the data, it must be <term>escaped</term>,
+or your data will be ended prematurely.</p>
+
+<p>In our example, the way to escape the double-quote is to precede it with a
+backslash:</p>
+
+<code lang='c'>s = a + "hello \"friend\"!" + b;</code>
+
+<p>Again, none of this is news, I'm just laying out a conceptual framework for
+describing problems and solutions.</p>
+
+<p>Now consider HTML:</p>
+
+<code lang='html'><![CDATA[
+<p>My awesome web page!</p>
+]]></code>
+
+<p>Here the HTML processor is your web browser, and begins in a data mode.  The
+left angle bracket <codeword>&lt;</codeword> is the command to switch into
+instruction mode, and the right angle bracket <codeword>&gt;</codeword> switches
+back to data mode.
+If I need to include an angle bracket in the displayed page, I need to escape it:</p>
+
+<code lang='html'><![CDATA[<p>My &lt;awesome&gt; web page!</p>]]></code>
+
+<p>In HTML, there isn't actually a way to escape the angle bracket, instead
+I need to use a different chunk of text (<codeword>&amp;lt;</codeword>) to the same effect.</p>
+
+
+<h1>Nested processors</h1>
+
+<p>Things get more complicated when one stream of text will be interpreted by more
+than one processor.  Here's some Javascript embedded into HTML:</p>
+
+<code lang='html'><![CDATA[
+<p>My awesome web page!</p>
+<script>document.write("<p>It's awesome!</p>");</script>
+]]></code>
+
+<p>The <codeword>&lt;script&gt;</codeword> command switches into another
+mode. But: is it a data mode or an instruction mode?  It depends on how you look
+at it.</p>
+
+<box>One man's data is another man's instructions.</box>
+
+<p>To the browser, the script code is data to be collected and passed on to another
+processor, the Javascript interpreter.  To the Javascript interpreter, that data
+will be interpreted starting in an instruction mode. And here's where it gets
+extra complicated, because within the script data that the browser collected
+are commands to switch the Javascript processor between its instruction and data
+modes.</p>
+
+<p>To properly escape the Javascript string, you have to take into account that both
+the HTML processor and Javascript processor are looking for commands.  To make
+the Javascript processor do the right thing, we need to use backslashes to escape
+string-ending commands:</p>
+
+<code lang='html'><![CDATA[
+<script>document.write("<p>It's \"awesome\"!</p>");</script>
+]]></code>
+
+<p>But the HTML processor is also scanning that text looking for the end of the
+script tag.  What happens now?:</p>
+
+<code lang='html'><![CDATA[
+<script>document.write("<p>Script ends with </script></p>");</script>
+]]></code>
+
+<p>Here the Javascript text ends at the <codeword>&lt;/script></codeword> tag
+in the string literal.  When the HTML processor enters its script mode, it isn't
+understanding the script text, it's just looking for its command to switch out of
+data mode and back into instruction mode.  It doesn't know those characters are in
+a Javascript string literal.  The HTML processor will return to instruction mode
+starting with the <codeword>&lt;/p></codeword> tag, the text it sends to Javascript
+will be invalid because it is truncated, and so will not run, and this will be displayed
+on the page:</p>
+
+<code>");</code>
+
+<p>Because the script text is being interpreted by both the HTML processor (to look for
+the end of the script), and by the Javascript processor (to look for the end of
+the string), the closing script tag has to be escaped in a way that keeps the HTML
+processor from ending the script, but will still cause the Javascript processor
+to put the characters <codeword>&lt;/script></codeword> into the string.</p>
+
+<p>Here's one way:</p>
+
+<code lang='html'><![CDATA[
+<script>document.write("<p>Script ends with <\/script></p>");</script>
+]]></code>
+
+<p>The HTML processor now doesn't see a sequence it recognizes as ending the script,
+so all of our text ends up collected in data mode to go to the Javascript processor.
+In Javascript, the backslash-slash combination results in a slash in the string,
+so we get the result we wanted.</p>
+
+<p>One more detail to note: although the HTML processor will be reading all of the
+Javascript text, there's no need to perform the usual escaping of <codeword>&lt;</codeword>
+to <codeword>&amp;lt;</codeword> in the Javascript text because the HTML processor's
+script data mode doesn't recognize simple angle brackets as commands, only the
+<codeword>&lt;script></codeword> tag.</p>
+
+
+<p>http://www.thescripts.com/forum/thread90624.html</p>
+
+
+
+
+<h1>User data</h1>
+
+<p>So far, this is all just a lot of detail to be sure you get the results you
+want from whatever processors you're programming.  Some testing will confirm that
+it works the way you want, and you're all set.</p>
+
+<p>The situation gets more difficult, and more critical, when you are dealing with
+user-provided data.  The text you prepare for a processor will often consist of
+fixed text of your choosing, and varying text pulled from a database, or the
+requester, or whatever.</p>
+
+<p>Suppose we're creating a SQL query to find users with a certain last name,
+using a provided variable:</p>
+
+<code lang='python'><![CDATA[
+sql_query = "SELECT * from USERS where last_name = '" + last_name + "';"
+]]></code>
+
+<p>Given a name of Batchelder, this will create a query like:</p>
+
+<code lang='sql'>SELECT * from USERS where last_name = 'Batchelder';</code>
+
+<p>Good.  But what if the last name is O'Neill? The query will be:</p>
+
+<code lang='sql'>SELECT * from USERS where last_name = 'O'Neill';</code>
+
+<p>which is not valid SQL.  Worse yet, evil users could try to subvert your
+system by carefully crafting data that would make your query do very different
+things.  This is called a <a href='http://www.unixwiz.net/techtips/sql-injection.html'>SQL injection attack</a>,
+and is a big topic all its own, including <a href='http://xkcd.com/327/'>comics</a>.
+All SQL injections rely on unescaped user-supplied data to
+break the assumptions code like this makes about mode switches in the SQL
+processor.  By including mode-switching commands in the data, bad guys try to
+get their data interpreted as instructions, and cause harm.</p>
+
+<p>To fix this problem, we need to escape the data so that we can guarantee
+that the user data will only be processed in a data mode, not an instruction mode.
+Unlike the examples above, where we simply examined our own text to decide how
+to escape it, here we have to write a function which can escape any data passed
+to it, which is a trickier task.</p>
+
+<p>In the SQL example, the simple approach is to escape any single quotes by doubling
+them up:</p>
+
+<code lang='python'>
+def esc_sql(data):
+    return data.replace("'", "''")
+    
+sql_query = "SELECT * from USERS where last_name = '" + esc_sql(last_name) + "';"
+</code>
+
+<p>Even here, though, it is trickier than that, because MySQL also uses backslash
+escapes in strings, so you also have to deal with those to properly escape data.
+</p>
+
+<p>In addition to this sort of procedural code for building text streams to be
+processed later, these days templating is very popular, especially as a way to
+produce HTML in web applications.</p>
+
+<p>For example, here's a snippet of HTML in a templating language, with the
+title pulled from a variable.  I'll use an invented syntax, where double square
+brackets denote variable substitution:</p>
+
+<code lang='html'><![CDATA[
+<h1 class='title'>Entry: [[title]]</h1>
+]]></code>
+
+<p>Here we have to worry that the title variable might have characters in it that are
+special to HTML.  If title is <codeword>&lt;blink> is bad!</codeword>, then the
+title will be "is bad!", blinking!</p>
+
+<p>In the case of HTML, malicious code can be inserted with a <codeword>&lt;script></codeword>
+tag, and these holes are known as Cross-Site Scripting (XSS) vulnerabilities.</p>
+
+<p>Escaping HTML is easy, simply replace the five characters
+<codeword>&lt; > &amp; " '</codeword> with their entities
+<codeword>&amp;lt; &amp;gt; &amp;amp; &amp;quot; &amp;#39;</codeword>
+(the last should <a href='blog/200703/random_html_factoid_no_apos.html'>not be &amp;apos;</a>):</p>
+
+<code lang='python'><![CDATA[
+def esc_html(data):
+    h = data.replace('&', '&amp;').replace('<', '&lt;')
+    h = h.replace('>', '&gt;').replace('"', '&quot;')
+    h = h.replace("'", '&#39;')
+    return h
+]]></code>
+
+<p>Templating systems often have ways of manipulating variables during insertion,
+so we can apply this escaping in the template:</p>
+
+<code lang='html'><![CDATA[
+<h1 class='title'>Entry: [[title|esc_html]]</h1>
+]]></code>
+
+
+<h1>Automatic escaping</h1>
+
+<p>A quick word about automatic escaping: the problem with applying filters
+manually to escape data is that it is easy to forget to do it.  When you forget
+to escape your data, you are opening an XSS hole in your web application.
+Many templating systems automatically escape data for you, giving you a way to
+turn off the escaping when you need to. This is not perfect, but it is a very
+good thing.  In an automatically escaped templating system, the worst that
+happens when you forget to apply a filter is that HTML tags appear on the web
+page.</p>
+
+
+<h1>Nested filters</h1>
+
+<p>The ultimate complexity comes when dealing with user supplied data in nested
+processors.  As an example, the Django framework has long had an addslashes filter
+which adds backslashes to escape characters destined for string literals:</p>
+
+<code lang='js'><![CDATA[
+var title = "{{title|addslashes}}";
+]]></code>
+
+<p>But as we saw above, if this Javascript is also in an HTML fragment, then
+more escaping is needed.  The new escapejs filter adds the escaping of
+<codeword>&lt;/</codeword> to guarantee that a <codeword>&lt;/script></codeword>
+tag doesn't get through improperly.  If you used only the addslashes filter
+on Javascript in an HTML file, you have an XSS hole.</p>
+
+<box>You need to identify all of the processors that will
+interpret your text.</box>
+
+<p>Also, Django now provides automatic HTML escaping, which isn't needed in
+&lt;script> tags, and so must be disabled, with the <codeword>safe</codeword> pseudo-filter.
+The correct incantation is:</p>
+
+<code lang='js'><![CDATA[
+var title = "{{title|escapejs|safe}}";
+]]></code>
+
+<p>Of course, there's always room for things to get more complicated:</p>
+
+<code lang='html'><![CDATA[
+<script>window.location = '/login?next={{dest|urlencode|escapejs|safe}}'</script>
+]]></code>
+
+<p>Here dest is a URL, which requires its own form of escaping,
+where many characters are replaced by a hex escape, so that <codeword>A@B</codeword>
+becomes <codeword>A%40B</codeword>, for example.  Since dest will be interpreted
+as a Javascript string embedded in HTML, we need the escapejs and safe filters
+to get the data into the string properly.  Since the string will be used as a URL
+it also needs urlencode to get URL escaping.</p>
+
+<h1>The menagerie</h1>
+
+<p>The challenge with web programming is the number of languages involved, and
+the way they are intermingled. Each language has its own escaping needs, and
+intermingling them requires nested escaping.</p>
+
+<p>Let's take a look at some of the variety.</p>
+
+<h2>HTML</h2>
+
+<p>As mentioned above, HTML is simple to escape: five characters need to be
+replaced with character entities.  You don't actually have to escape all five,
+the precise ones that must be escaped depend on exactly where in the HTML you are.
+But it is always safe to escape all five, so HTML escaping filters simply do that,
+and you don't have to be too careful about where it is applied.</p>
+
+<h2>Javascript</h2>
+
+<p>Javascript takes a typical backslash strategy:
+</p>
+
+<p>
+
+    PHP strings http://us2.php.net/types.string
+   
+</p>
+
+Python's r strings
+XML CDATA
+PHP's different strings
+SQL escaping
+
+Injection attacks: server accepts data, and uses it to create literals in code.
+
+<code><![CDATA[
+<?php echo 'Hello ?> there' ?>
+<script>document.write("Goodbye</script> there");</script>
+]]></code>
+
+
+
+
+
+<h1>See also</h1>
+
+<ul>
+    <li><a href='blog/index.html'>My blog</a>, where many software engineering topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

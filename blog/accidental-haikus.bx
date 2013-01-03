@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090916T062133'>
+<title>Accidental haikus</title>
+<category>ling</category>
+<body>
+<p>Jonathan Feinberg has made a neat hack:
+<a href='http://github.com/jdf/haikufinder'>Haiku Finder</a>.  It uses NLTK to
+parse English text, looking for sentences that happen to fit the syllabic
+pattern required of haikus.  It seems to work really well.  I ran it on my
+<a href='http://nedbatchelder.com/text/'>longer text pieces</a>, and it found
+these:</p>
+
+<quote>
+<p>These are personal<br/>
+&#160;&#160;&#160;&#160;tools, meaning they do just what<br/>
+I want them to do.</p>
+
+<p>People who visit<br/>
+&#160;&#160;&#160;&#160;the page in their browser will<br/>
+see the new entry.</p>
+
+<p>But this powerful<br/>
+&#160;&#160;&#160;&#160;feature of C++ is missing<br/>
+in those languages.</p>
+
+<p>I know this sounds like<br/>
+&#160;&#160;&#160;&#160;coddling, or bending over<br/>
+backward, and it is.</p>
+
+<p>And maybe you don't<br/>
+&#160;&#160;&#160;&#160;want to put effort into<br/>
+improving your log.</p>
+
+<p>It sounds simple, but<br/>
+&#160;&#160;&#160;&#160;there are right ways and wrong ways<br/>
+to go about it.</p>
+
+<p>Ask them to tell you<br/>
+&#160;&#160;&#160;&#160;what they're thinking as they look<br/>
+for the solution.</p>
+
+<p>If you get it wrong,<br/>
+&#160;&#160;&#160;&#160;the object will be freed out<br/>
+from under you: crash!</p>
+
+<p>This is a macro<br/>
+&#160;&#160;&#160;&#160;that creates the initial<br/>
+fields in the structure.</p>
+
+<p>It seemed like I was<br/>
+&#160;&#160;&#160;&#160;buried in that dark harsh towel<br/>
+cyclone for ages.</p>
+</quote>
+
+<p>Note that it did a great job, but didn't know that "C++" is a three-syllable
+word, not one syllable.</p>
+
+<p>If you want to try this, you'll have to install <a href='http://www.nltk.org/'>NLTK</a>,
+which is a large package.  It requires the punkt dataset, so you have to install
+that from the NLTK page after the code is installed.  The whole process is
+automated, but perhaps more than you expected, so be forewarned.</p>
+
+<p>You may remember Feinberg as the creator of <a href='http://www.wordle.net/'>Wordle</a>,
+so I expect we'll see more inspired language-related hacks from him...</p>
+
+</body>
+</entry>
+</blog>

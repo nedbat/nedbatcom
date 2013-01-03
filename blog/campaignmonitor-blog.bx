@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070108T100938'>
+<title>CampaignMonitor blog</title>
+<category>blogs</category>
+<category>email</category>
+<body>
+<p>I received an email newsletter from Technorati, and noticed the links
+were redirecting through cmail1.com.  I looked at the domain, and got a generic
+web server error message.  Searching with Google led me to 
+<a href='http://campaignmonitor.com'>Campaign Monitor</a>, a company in the 
+business of running email marketing campaigns.  Unremarkable, except that they
+have a really good 
+<a href='http://www.campaignmonitor.com/blog/'>blog covering all sorts of issues
+around sending HTML emails</a>.
+</p>
+
+<p>Now I know that this is a controversial topic, not just marketing via email,
+but even the existence of HTML emails.  But I am often in the business of
+programmatically sending information in emails, and it can be a complicated
+business.  I appreciate the care with which Campaign Monitor has shared some
+of their knowledge. If you find yourself scratching your head about the different
+ways that Gmail and Yahoo scramble your CSS (for example), you will like their
+blog.
+</p>
+
+</body>
+</entry>
+</blog>

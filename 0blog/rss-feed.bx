@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021116T112702'>
+<title>My RSS Feed</title>
+<category>site</category>
+<category>feeds</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I've added an
+<a href='http://purl.org/rss/1.0/spec'>RSS</a> feed for this blog.
+I'm not sure what to think of RSS.
+On the plus side, it's a great way to syndicate sites, and makes for easy aggregation.
+Its early history was a textbook example of starting with the simplest thing that can
+possibly work,
+and letting it grow as needed, rather than the bureaucratic creation of a monstrous
+standard that no one is happy with and no one can implement.
+</p>
+
+<p>On the minus side, I personally don't want to view web sites via their RSS feeds.
+It means having all of the sites I like being homogenized together through an
+aggregator blender.
+I like visiting sites and experiencing their different designs.
+It's part of the experience, and the variety of designs helps me keep them all straight
+in my mind.  The one thing I don't like about the broad adoption of easy-to-use
+blogging tools is that too many people use the default templates, and we end up with
+tons of sites that look exactly alike.
+</p>
+
+<p>And RSS's recent history has been an ugly squabble over what should be a great
+shared resource.</p>
+
+<p>But part of the fun of this site is experimenting with technology,
+so I've added an
+<a href='blog/rss.xml'>RSS feed</a> just to try it out.</p>
+
+<figurep href='http://feeds.archive.org/validator/check?url=http://www.nedbatchelder.com/blog/rss.xml'>
+<img src="pix/valid-rss-dylan2.gif" alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" border='0'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

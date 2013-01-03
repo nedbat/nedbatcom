@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050416T065526'>
+<title>Disappointed: T30 DVI</title>
+<category>hardware</category>
+<via />
+<body>
+<p>I have a T30 Thinkpad laptop that I use primarily.  I use an external monitor at 1600<times/>1200
+(<a href='blog/200212.html#e20021229T093439'>UXGA</a> for those of you that prefer obscure acronyms).
+The T30 also has a <a href='http://www.datapro.net/techinfo/dvi_info.html'>DVI</a> output for direct
+digital video.  So I got a
+<a href='http://accessories.us.dell.com/sna/productdetail.aspx?c=us&amp;l=en&amp;s=bsd&amp;cs=04&amp;sku=320-1578&amp;category_id=4058'>Dell UltraSharp 2001FP 20.1-inch Flat Panel LCD Monitor</a>
+to use with it.
+</p>
+
+<p>It arrived yesterday.  I plugged it in, and saw that I was getting a small window onto my screen,
+panning around with the mouse, as if the display had a lower resolution than 1600<times/>1200.
+Digging into it, it turns out that the T30 is a bit crippled in this regard:
+<a href='http://www-1.ibm.com/support/docview.wss?uid=psg1MIGR-43994'>Maximum Digital Video (DVI) Resolution is 1280<times/>1024</a>.
+This is baffling.  1280<times/>1024 is lower resolution than the built-in LCD (1400<times/>1050),
+and it's being driven digitally.  WTF?
+Looking some more turned up some
+<a href='http://www.thinkwiki.org/Problem_with_DVI_throughput'>dodgy sounding workarounds</a>.
+I'm reluctant to start down the path of fiddling with drivers, especially if the proponents of the
+technique admit that there are still video corruptions.
+</p>
+
+<p>For now, I'm using the monitor with analog video at full resolution, but I don't think it looks as good
+as my old CRT.  The anti-glare coating is much better, though.</p>
+
+</body>
+</entry>
+</blog>

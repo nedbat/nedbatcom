@@ -1,0 +1,81 @@
+/* Style sheet for nedbatchelder.com */
+body
+{ font-family: verdana, sans-serif }
+
+.body
+{ font-size: 95%; line-height: 120% }
+
+.body h1
+{ font-size: 100%; border-bottom: .25pt solid Silver }
+
+.copyright
+{ font-size: 75%; color: gray; margin-top: 20pt }
+
+ul
+{ list-style-type: square }
+
+.sidebar
+{ font-size: 80%; line-height: 110%; margin-top: 0pt; font-weight: bold }
+
+.sidebar a
+{ text-decoration: none; color: black }
+
+.sidebar a:hover
+{ text-decoration: underline; color: red }
+
+.blogroll
+{ font-size: 80%; font-weight: normal; line-height: 110% }
+
+.blogroll p
+{ margin-top: 0pt; margin-bottom: 4pt }
+
+.blogroll h1
+{ font-size: 100%; margin-bottom: 4pt }
+
+a.s
+{ text-decoration: none; color: black }
+
+a.s:hover
+{ text-decoration: underline; color: red }
+
+.headslug
+{ font-size: 150%; font-weight: bold }
+
+.mainslug
+{ font-size: 160%; font-weight: bold }
+
+.path
+{ font-size: 90%; line-height: 150% }
+
+.path a
+{ text-decoration: none; color: black }
+
+.path a:hover
+{ text-decoration: underline; color: red }
+
+.blog-entry table.head 
+{ padding-bottom: 2pt; margin-bottom: 0pt }
+
+.blog-entry table.foot 
+{ border-bottom: solid .25pt silver; padding-bottom: 12pt; margin-bottom: 6pt; font-size: 80%; color: gray }
+
+.blog-entry table.foot a
+{ text-decoration: none; color: gray }
+
+.blog-entry table.foot a:hover
+{ text-decoration: underline; color: red }
+
+.blog-entry .title
+{ font-size: 100%; line-height: 100%; margin-bottom: 0pt }
+
+.blog-entry .date
+{ font-size: 80%; line-height: 100%; color: gray; margin-top: 0pt }
+
+.blog-entry .date a
+{ text-decoration: none; color: gray }
+
+.blog-entry .date a:hover
+{ text-decoration: underline; color: red }
+
+.code
+{ font-size: 85%; line-height: 115%; font-family: lucida console, monospace; background-color: #F0F0F0; color: black }

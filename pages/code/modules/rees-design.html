@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<base href="http://www.nedbatchelder.com/">
+	<title>Statement coverage for Python: design and analysis</title>
+	<script type="text/javascript" src="nedbatchelder.js"></script>
+
+	<style>
+	body {
+		font-size: 101%;  /* Trick to shut off divergent font rounding algorithms. */
+		margin: -5px;
+		padding: 0;
+		background-color: white;
+	}
+
+	.ned {
+		font-family: verdana, sans-serif;
+	}
+
+	.explanation {
+		font-size: 80%; line-height: 1.45em;
+		margin: 0 20px;
+		background: #eee;
+		border-bottom: 1px solid #aaa;
+		padding: .05em 1em;
+	}
+
+	.original {
+		margin: 20px;
+	}
+
+	td#logo {
+		border-color: black; border-style: solid; border-width: 2px
+	}
+
+	td#banner {
+		border-color: black; border-style: solid; border-width: 2px 0 1px 0
+	}
+
+	td#menu {
+		border-color: black; border-style: solid; border-width: 0 1px 0 2px;
+		padding: 10px;
+	}
+
+	td#content {
+	}
+
+	td#copyright {
+		text-align: right;
+	}
+
+	.headslug
+	{ font-size: 150%; font-weight: bold }
+
+	.mainslug
+	{ font-size: 160%; font-weight: bold }
+
+	.path
+	{ font-size: 90%; line-height: 150% }
+
+	.path a
+	{ text-decoration: none; color: black }
+
+	.path a:hover
+	{ text-decoration: underline; color: red }
+
+	</style>
+</head>
+<body bgcolor="white">
+	<div class='ned'>
+	<table style="table-layout: fixed" width="100%" cellpadding="0" cellspacing="20">
+		<tr>
+			<td id="logo" width="120px" align="center"><img src="dodeca3_100.gif" width="100" height="120" alt="[*]"></td>
+			<td id="banner">
+				<span class="path"><a href="index.html">Ned Batchelder</a> : <a href="blog/index.html">Blog</a> | <a href="code/index.html">Code</a> | <a href="text/index.html">Text</a> | <a href="site/index.html">Site</a></span><br>
+				<span class="headslug">Statement coverage for Python: design and analysis</span><br>
+				<span class="path">&raquo; <a href="index.html">Home</a> : <a href="code/index.html">Code</a> : <a href="code/modules/index.html">Python Modules</a>  : <a href="code/modules/coverage.html">coverage</a> </span>
+			</td>
+		</tr>
+	</table>
+
+	<div class='explanation'>
+	<p>This page is orignally from <a href='http://www.garethrees.org/2001/12/04/python-coverage/design.html'>http://www.garethrees.org/2001/12/04/python-coverage/design.html</a>,
+	which seems to be defunct.
+	I grabbed the text from archive.org, and present it here for posterity.
+	I've updated the links to point to appropriate pages on this site.
+	</p>
+	</div>
+
+	</div>
+
+<div class='original'>
+
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<title>Statement coverage for Python: design and analysis</title></head>
+
+
+
+
+
+<body alink="#ff0000" bgcolor="#ffffff" link="#000099" text="#000000" vlink="#660066">
+-->
+
+<div align="center">
+
+<p>
+<a href="http://www.garethrees.org/">www.garethrees.org</a> /
+<a href="http://www.garethrees.org/?category=Software">Software</a> /
+<a href="code/modules/rees-coverage.html">Coverage</a>
+</p>
+
+<h1>Statement coverage for Python: design and analysis</h1>
+
+<address>
+<a href="mailto:gdr@ravenbrook.com">Gareth Rees</a>,
+<a href="http://www.ravenbrook.com/">Ravenbrook Limited</a>,
+2001-12-04
+</address>
+
+</div>
+
+
+<h2><a id="section-1" name="section-1">1. Introduction</a></h2>
+
+<p> This document lists the requirements for a statement coverage tool
+for Python, describes some issues in design and implementation, and
+compares <code>coverage.py</code> with other statement coverage
+implementations. </p>
+
+
+<h2><a id="section-2" name="section-2">2. Requirements</a></h2>
+
+<ol>
+
+  <li><p> You can run many tests and perform coverage analysis based on
+  all the tests. </p></li>
+
+  <li><p> You can get a summary report showing coverage for a set of
+  modules and the total. </p></li>
+
+  <li><p> You can annotate Python source code to show which statements
+  are covered. </p></li>
+
+  <li><p> The coverage analysis deals correctly with all Python
+  features. </p></li>
+
+  <li><p> You can do coverage analysis while testing
+  interactively. </p></li>
+
+  <li><p> Recording of coverage information doesn't slow down a test
+  case more than necessary. </p></li>
+
+</ol>
+
+
+<h2><a id="section-3" name="section-3">3. Design</a></h2>
+
+
+<h3><a id="section-3.1" name="section-3.1">3.1. Interfaces</a></h3>
+
+<p> Requirement 1 means that coverage information needs to be
+accumulated in a file during a sequence of tests.  See [<a title="Statement coverage for Python" href="code/modules/rees-coverage.html#section-2">GDR 2001-12-04, 2</a>] for
+the command-line interface which achieves this. </p>
+
+<p> Requirement 5 means that there needs to be a documented programmatic
+interface.  See [<a title="Statement coverage for Python" href="code/modules/rees-coverage.html#section-3">GDR 2001-12-04, 3</a>] for
+the documented interface. </p>
+
+
+<h3><a id="section-3.2" name="section-3.2">3.2. Python language features</a></h3>
+
+<p> To meet requirement 4 we need to know which source lines represent
+statements.  Looking for non-blank, non-comment lines isn't good enough
+because some statements extend across many lines, but only the first
+line will appear in Python as a source line number.  So we use the
+Python parser [<a title="Python Reference Manual (release 2.1.1)" href="http://www.python.org/doc/2.1.1/lib/module-parser.html">van Rossum
+2001-07-20, 17.1</a>] to parse the module sources and walk the source
+tree looking for the first line of each statement (when <code>tree[0] ==
+symbol.stmt</code> we descend <code>tree[1]</code> until we get to a
+terminal token, whose line we record). </p>
+
+<p> Code on the second and subsequent lines of multi-line simple
+statements is reported by the tracing interface as appearing on the
+first line of the statement, so recording the first line of each
+statement captures all the executed lines except for <code>elif</code>,
+<code>except</code> and <code>finally</code> lines in compound
+statements.  So we record the lines with these tokens separately. </p>
+
+<p> See the <code>find_statements()</code> method. </p>
+
+<p> No execution takes place on a line containing only the
+<code>else</code> token of <code>if</code>, <code>while</code> and
+<code>try</code> compound statements, so we don't record lines
+containing only <code>else</code>.  But when we annotate a listing, such
+a line should be marked as covered if and only if the following
+statement is covered.  So the <code>annotate()</code> method has special
+logic for this case. </p>
+
+
+<h3><a id="section-3.3" name="section-3.3">3.3. Filenames</a></h3>
+
+<p> The filename in a Python code object rarely matches the
+<code>__file__</code> attribute of the module to which the code belongs.
+There are three kinds of difference: </p>
+
+<ol>
+
+  <li><p> <code>module.__file__</code> is the compiled byte code
+  (<code>.pyc</code>), but the filename for the code is the source file.
+  We work around this by turning <code>.pyc</code> to <code>.py</code>
+  when we find it. </p></li>
+
+  <li><p> The file names differ as to directory, for example we may have
+  <code>module.__file__ == '/dev/project/foo/module.py'</code>, but
+  <code>code.co_filename == 'module.py'</code>.  We work around this by
+  search <code>sys.path</code> to find the file. </p></li>
+
+  <li><p> The code might have been compiled somewhere temporary, for
+  example <code>module.__file__ == '/usr/lib/python1.5/getopt.py'</code>
+  but <code>code.co_filename ==
+  '/var/tmp/python/usr/lib/python1.5/getopt.py'</code>. We work around
+  this as a last resort by stripping the directory part and then looking
+  for the file in <code>sys.path</code>. </p></li>
+
+</ol>
+
+<p> See the <code>canonical_filename()</code> method. </p>
+
+
+<h2><a id="section-4" name="section-4">4. Comparison with other implementations</a></h2>
+
+<p> I discovered two other statement coverage testing tools for Python.
+Both <code>trace.py</code> [<a title="trace.py" href="ftp://starship.python.net/pub/crew/dalke/trace.py">Dalke 1999</a>]
+and <code>pycover</code> 0.2 [<a title="pycover" href="http://www.geocities.com/drew_csillag/pycover.html">Csillag
+1999-07-01</a>].  Neither met all my requirements. </p>
+
+<p> Both have these problems: </p>
+
+<ul>
+
+  <li><p> No summary report (requirement 2). </p></li>
+
+  <li><p> Annotations aren't accurate (requirement 4): </p>
+
+  <ul>
+
+    <li><p> Second and subsequent lines of multi-line statements are
+    marked as not executed. </p></li>
+
+    <li><p> Lines containing only <code>else:</code> are marked as not
+    executed. </p></li>
+
+    <li><p> Comment lines and blank lines are incorrectly recognized and
+    marked as blank if they appear in multi-line strings. </p></li>
+
+  </ul></li>
+
+</ul>
+
+<p> <code>trace.py</code> also has these problems: </p>
+
+<ul>
+
+  <li><p> Complicated programmatic interface (requirement 5). </p></li>
+
+  <li><p> Substantially slower than other coverage testing tools
+  (requirement 6): see <a href="#table-1">table 1</a>. </p></li>
+
+</ul>
+
+<div align="center">
+
+<p><a id="table-1" name="table-1">Table 1. Performance of coverage implementations</a></p>
+
+<table border="1" cellpadding="5" cellspacing="0">
+<thead>
+  <tr valign="top">
+    <th rowspan="2" valign="bottom">Test</th>
+    <th colspan="4">Execution time (s)</th>
+  </tr>
+  <tr align="left" valign="top">
+    <th>No coverage</th>
+    <th><code>coverage.py</code></th>
+    <th><code>trace.py</code></th>
+    <th><code>pycover.py</code></th>
+  </tr>
+</thead>
+<tbody>
+  <tr align="right" valign="top">
+    <td align="left">10 × <code>test_message.py</code></td>
+    <td>15</td>
+    <td>59</td>
+    <td>120</td>
+    <td>65</td>
+  </tr>
+  <tr align="right" valign="top">
+    <td align="left"><code>test_xhtml.py</code></td>
+    <td>21</td>
+    <td>180</td>
+    <td>306</td>
+    <td>184</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+
+
+<h2><a id="section-A" name="section-A">A. References</a></h2>
+
+<table>
+
+<tbody><tr valign="top">
+
+  <td>[<a id="ref-Csillag-1999-07-01" name="ref-Csillag-1999-07-01" href="http://www.geocities.com/drew_csillag/pycover.html">Csillag 1999-07-01</a>]</td>
+
+  <td>
+    "pycover 0.2";
+    <a href="mailto:drew_csillag@geocities.com">Andrew Csillag</a>;
+    1999-07-01;
+    &lt;<a href="http://www.geocities.com/drew_csillag/pycover.html">http://www.geocities.com/drew_csillag/pycover.html</a>&gt;.
+  </td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>[<a id="ref-Dalke-1999" name="ref-Dalke-1999" href="ftp://starship.python.net/pub/crew/dalke/trace.py">Dalke 1999</a>]</td>
+
+  <td>
+    "trace.py";
+    Andrew Dalke;
+    1999;
+    &lt;<a href="ftp://starship.python.net/pub/crew/dalke/trace.py">ftp://starship.python.net/pub/crew/dalke/trace.py</a>&gt;.
+  </td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>[<a id="ref-GDR-2001-12-04" name="ref-GDR-2001-12-04" href="code/modules/rees-coverage.html">GDR 2001-12-04</a>]</td>
+
+  <td>
+    "Statement coverage for Python";
+    <a href="mailto:gdr@ravenbrook.com">Gareth Rees</a>;
+    <a href="http://www.ravenbrook.com/">Ravenbrook Limited</a>;
+    2001-12-04;
+    &lt;<a href="code/modules/rees-coverage.html">http://www.garethrees.org/2001/12/04/python-coverage/</a>&gt;
+  </td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>[<a id="ref-van-Rossum-2001-07-20" name="ref-van-Rossum-2001-07-20" href="http://www.python.org/doc/2.1.1/lib/lib.html">van Rossum 2001-07-20</a>]</td>
+
+  <td>
+    "Python Reference Manual (release 2.1.1)";
+    Guido van Rossum;
+    2001-07-20;
+    &lt;<a href="http://www.python.org/doc/2.1.1/lib/lib.html">http://www.python.org/doc/2.1.1/lib/lib.html</a>&gt;.
+  </td>
+
+</tr>
+
+</tbody></table>
+
+
+<h2><a id="section-B" name="section-B">B. Document History</a></h2>
+
+<table>
+
+<tbody><tr valign="top">
+
+  <td>2001-12-04</td>
+
+  <td><a href="mailto:gdr@ravenbrook.com">GDR</a></td>
+
+  <td>Created.</td>
+
+</tr>
+
+</tbody></table>
+
+<hr>
+
+<p><small>Copyright © 2001 Gareth Rees. This document is provided "as
+is", without any express or implied warranty. In no event will the
+authors be held liable for any damages arising from the use of this
+document. You may make and distribute verbatim copies of this document
+provided that you do not charge a fee for this document or for its
+distribution.</small></p>
+
+<div align="center">
+
+<p><code>$Id: //info.ravenbrook.com/user/gdr/www.garethrees.org/2001/12/04/python-coverage/design.html#5 $</code></p>
+
+<p>
+<a href="http://www.garethrees.org/">www.garethrees.org</a> /
+<a href="http://www.garethrees.org/?category=Software">Software</a> /
+<a href="code/modules/rees-coverage.html">Coverage</a>
+</p>
+
+</div>
+</div>
+
+</body></html>

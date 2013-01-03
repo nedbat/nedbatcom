@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081230T081355'>
+<title>PyCon double-talk</title>
+<category>gatherings</category>
+<category>pycon</category>
+<body>
+<p>It seems a number of people are giving two talks at <a href='http://us.pycon.org/2009'>PyCon 2009</a>
+(<a href='http://aroberge.blogspot.com/2008/12/seeing-double-at-pycon-2009.html'>André Roberge</a>,
+<a href='http://jessenoller.com/2008/12/16/pycon-2009-talks-accepted/'>Jesse Noller</a>,
+<a href='http://tarekziade.wordpress.com/2008/12/16/pycon-2009-talks/'>Tarek Ziadé</a>, and
+<a href='http://blog.vrplumber.com/index.php?/archives/2243-Two-Talks-at-PyCon.html'>Mike Fletcher</a>
+at least), and I can add my name to that list as well:
+both of my proposals were accepted. 
+</p>
+
+<p>The first is a straightforward talk about code coverage testing, and
+<a href='code/modules/coverage.html'>coverage.py</a> in particular.  I'm hoping
+to have some major new features in place in time for the talk.  Maybe the conference
+as a deadline will help get it done.
+</p>
+
+<p>The second talk is more ambitious: how to write a C extension, in 45 minutes.
+Here, I've got a few options how to proceed.  One possibility is to go slowly
+through however much of the topic as will fit in 45 minutes, making sure it is
+understandable and people come away with a solid footing in the beginnings of the
+topic.  The other way to go is to blaze through as much as I can, firehosing information
+on the theory that people will be able to go back and read about it later, and
+it will be familiar to them for having heard it once from me.</p>
+
+<p>Personally I prefer the second style of talk.  I learn the general lay of the
+land, get a quick 10,000-foot overview of the landscape, hear about places to go
+back to learn more in depth, and so on.  But others could feel battered by the
+rapid-fire barrage of facts with little to grab onto.</p>
+
+<p>Either way, there's no way to cover even a fraction of the complex topic of
+writing C extensions.  My main goal is to de-mystify extensions so that people
+coming into the talk feeling like C extensions are deep magic leave the talk
+feeling like extensions are within the realm of possibility.</p>
+
+<p>I don't know if previous PyCons had a similar number of double speakers.  If not,
+what does it say about this PyCon?</p>
+
+</body>
+</entry>
+</blog>

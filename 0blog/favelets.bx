@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030319T200024'>
+<title>Nice favelets</title>
+<category>browsers</category>
+<category>js</category>
+<via href='http://simon.incutio.com'>Simon Willison</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.accessify.com'>Accessify.com</a> has a nice
+<a href='http://www.accessify.com/tools-and-wizards/accessibility-checking-favelets.asp'>page of favelets</a>,
+that is, handy-dandy JavaScript packaged as bookmarks that can be used to analyze
+web pages dynamically.
+</p>
+
+<p>For example, try this:
+<a href="javascript:var t=document.getElementsByTagName('div');for(i=0;i&lt;t.length;i++){void(t[i].style.padding='5px;');b=t[i].className;h=t[i].innerHTML;void(t[i].innerHTML='&lt;p style=\'color:red;font-weight:bold;\'&gt;'+b+'&lt;/p&gt;'+h);void(t[i].style.border='2px solid red');}">Show and label divs with classes</a>.
+</p>
+</body>
+</entry>
+</blog>

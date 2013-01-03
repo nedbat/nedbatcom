@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120315T223738'>
+<title>Pragmatic unicode</title>
+<category>pycon</category>
+<category>charset</category>
+<body>
+
+    <p>Last week was PyCon 2012, I had a blast as always.  I gave a talk entitled,
+        <a href='text/unipain.html'>Pragmatic Unicode, or, How Do I Stop the Pain?</a>
+    </p>
+
+    <p>I chose the topic because I thought it would appeal to many Python developers,
+        and because I knew all about it.  Turns out I didn't!  But it was great learning
+        more details as I went.  And then I filled in a few more tidbits by chatting with
+        Martin v. Löwis at PyCon.</p>
+
+    <p>Part of the fun of this talk was finding the Unicode characters to decorate it with,
+        and then building the credits slide at the end on the plane.  It's all built with
+        Cog to avoid cut-and-paste nightmares.  Look at the HTML source of the actual
+        presentation if you're interested in the Cog twistiness.</p>
+
+    <p>Of course, Unicode is a much bigger topic than this, but 25 minutes is what it is.
+        <a href='text/unipain.html'>Enjoy</a>, the video, slides, and full text are there.</p>
+
+</body>
+</entry>
+</blog>

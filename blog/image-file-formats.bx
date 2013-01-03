@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051104T072335'>
+<title>Image file formats</title>
+<category>graphics</category>
+<body>
+<p>A conversation with a <a href='http://davidpitkin.com'>friend</a> yesterday turned to photography.
+He said he wanted to gather statistics from the EXIF data in his photos.
+I said I didn't know how EXIF data was stored, and would have to go look it up.
+David responded,
+</p>
+
+<quote><p>That's because you're Ned.</p></quote>
+
+<p>which I can't argue with.</p>
+
+<p>Turns out <a href='http://www.exif.org/specifications.html'>EXIF data</a>
+is actually stored as a TIFF file embedded in a JPEG record!</p>
+
+<p>I'm probably more interested in file formats than your average guy.  I'm fascinated by the different
+choices made by the designers of these formats.  For example, JPEG is a sequentially-read record-oriented
+format.  The file is composed of chunks, each of which has a tag number and a length.
+<a href='http://www.libpng.org/pub/png/pngdocs.html'>PNG files</a> are also record oriented,
+but the records are identified by a four-character id.
+In a clever hack, four bits of record metadata are stored in the 0x10 bit of each character, so
+the case of the letters in the tag are significant in interesting ways.
+Typical tags include tIME, pHYs, and bKGD.
+</p>
+
+<p><a href='http://partners.adobe.com/public/developer/tiff/index.html'>TIFF files</a> are a bit harder to pick
+apart: they include byte offset pointers within the file, so reading the file may involve jumping to the
+end only to be directed back toward the beginning to find the data you want.</p>
+
+<p>David and I also discussed <a href='http://photography.about.com/library/weekly/aa061603a.htm'>RAW files</a>.
+We both knew they were a straight capture from the CCD, and that there'd been no compression loss or
+"developing" interpretation, but couldn't put our finger on exactly how
+that differed from typical image files.
+</p>
+
+<p>The downside of RAW files is that different cameras use slightly different formats.
+Adobe has a format called DNG,
+<a href='http://www.adobe.com/products/dng/'>Digital Negative</a>, which is designed to retain all the
+benefits of RAW files, but without all the vendor-specific differences.
+</p>
+
+</body>
+</entry>
+</blog>

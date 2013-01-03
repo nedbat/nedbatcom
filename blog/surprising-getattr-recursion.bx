@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20101007T205837'>
+<title>Surprising __getattr__ recursion</title>
+<category>python</category>
+<body>
+<p>A bug was filed against coverage.py this morning, and digging into it revealed
+    a number of details about Python's inner workings.  The bug boiled down to this code:
+</p>
+
+<code lang="py"><![CDATA[
+import copy
+
+class Tricky(object):
+    def __init__(self):
+        self.special = ["foo"]
+
+    def __getattr__(self, name):
+        if name in self.special:
+            return "yes"
+        raise AttributeError()
+
+t1 = Tricky()
+assert t1.foo == "yes"
+t2 = copy.copy(t1)
+assert t2.foo == "yes"
+print "This runs, but isn't covered."
+]]></code>
+
+<p>The code runs just fine, but coverage.py claims that the last two lines aren't
+executed.  They clearly are, because the print statement produces output during
+the run.</p>
+
+<p>It turns out that coverage fails because there's an infinite recursion here,
+    and when the Python interpreter unwinds the recursion, it doesn't report it
+    to the trace function, so its bookkeeping gets out of whack.</p>
+
+<p>But where's the recursion? It's well-known that you have to be careful in
+    __getattr__ not to use an attribute that might be missing.  That would cause
+    an infinite recursion.  But here, the only attribute used
+    in __getattr__ is self.special, and that's created in __init__, so it should
+    always be present, right?</p>
+
+<p>The answer lies in how copy.copy works.  When it copies an object, it doesn't
+    invoke its __init__ method.  It makes a new empty object, then copies attributes
+    from the old to the new.  In order to implement custom copying, the object can
+    provide functions to do the copying, so the copy module looks for those attributes
+    on the object.  This naturally invokes __getattr__.</p>
+
+<p>If we add a bit of logging to __getattr__ like this:</p>
+
+<code lang="py"><![CDATA[
+def __getattr__(self, name):
+    print name
+    if name in self.special:
+        return "yes"
+    raise AttributeError()
+]]></code>
+
+<p>then we see the recursion:</p>
+
+<code><![CDATA[
+foo
+__getnewargs__
+__getstate__
+__setstate__
+special
+special
+special
+special
+.. 989 more ..
+special
+special
+special
+special
+foo
+]]></code>
+
+<p>What's happening here is this: the copy module looks for a __setstate__ attribute,
+    which doesn't exist, so __getattr__ is invoked.  It tries to access self.special,
+    but that doesn't exist either, because this is a newly created object which hasn't
+    had __init__ invoked to create self.special.  Because the attribute doesn't exist,
+    __getattr__ is invoked, and the infinite recursion begins.</p>
+
+<p>The Python interpreter limits the recursion to 1000 (or so) levels, but why don't we
+    see the exception?  Because the attribute access is inside the copy module's hasattr(o, "__setstate__"),
+    and hasattr takes any exception to mean, "No, this attribute doesn't exist," returning
+    False.  So hasattr swallows the exception, and we never hear about it.
+</p>
+
+<p>To fix the problem, we have to prevent the recursion due to looking up self.special:</p>
+
+<code lang="py"><![CDATA[
+def __getattr__(self, name):
+    if name == "special":
+        raise AttributeError()
+    if name in self.special:
+        return "yes"
+    raise AttributeError()
+]]></code>
+
+<p>Now there's no error due to reaching the recursion limit, and everything works the way
+    it should.  The moral of the story is that if you access an attribute in __getattr__,
+    you have to defend against recursion, even if there's "no way" it could be missing
+    from the object.</p>
+
+</body>
+</entry>
+</blog>

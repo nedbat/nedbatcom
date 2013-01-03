@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061008T101333'>
+<title>Google code search</title>
+<category>google</category>
+<category>search</category>
+<via />
+<body>
+<p>Google announced <a href='http://google.com/codesearch'>Google Code Search</a> the other day.
+It's the Google search engine, but pointed at chunks of source code rather than at web pages.
+<a href='http://www.koders.com/'>Koders</a> and <a href='http://krugle.com/'>Krugle</a> have both
+been doing this for a while, but it's interesting to see how Google's take on it differs.
+</p>
+
+<p>Right off the bat, it looks like Google gives more results, but they are not always as useful.
+My first test search was for, what else?, my name.
+<a href='http://google.com/codesearch?q=ned+batchelder'>Google's returned 192 results</a>,
+but many were lexicons for natural language parsers, where 'ned' appears at the end of 'aforementio<b>ned</b>'.
+<a href='http://www.koders.com/default.aspx?s=ned+batchelder'>Koders returned 3 results</a>, and
+<a href='http://krugle.com/kse/files?query=ned%20batchelder'>Krugle returned 17</a>.
+One immediately noticeable difference is the Google is finding code wherever it may be, while the
+other two are only looking in known code repositories.  For example, Google found the zip files
+on my site where I distribute code, while the other two did not.
+</p>
+
+<p>Krugle has more features, for example, the ability to limit search to comments, or to function definitions.
+I haven't used it enough to know whether that will be helpful or not, but it is cool to see that they
+parse the code deeply enough to provide the feature.  Krugle also has an Ajaxy interface, which seems
+like overkill for a search engine.  If I get used to it, it may be really nice, but it breaks all my
+habits in dealing with search engines and their results.  
+On a non-search-related note, they have hip help-wanted ads on their site:
+</p>
+
+<quote><p>another reason <b>not</b> to work at krugle:<br/>
+you like to set the bar low &amp; surpass expectations with average work.
+</p></quote>
+
+<p>Overall, Koders seemed like the poor relation, with the fewest results and the fewest features.</p>
+
+<p>One more thing: Jason Kottke has a 
+<a href='http://www.kottke.org/06/10/google-code-search'>list of interesting stuff</a>
+(like passwords!) that you can find out with Google code search.</p>
+
+</body>
+</entry>
+</blog>

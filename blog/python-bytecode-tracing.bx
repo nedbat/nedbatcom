@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080411T072534'>
+<title>Wicked hack: Python bytecode tracing</title>
+<category>python</category>
+<category>coverage</category>
+<body>
+<p>Something I've been noodling on since PyCon is how to improve code coverage
+testing in Python, in particular, finding a way to measure bytecode execution
+instead of just line execution.  After a fruitful investigation, I know a lot more
+about how CPython executes code, and I've found a way to trace each bytecode.</p>
+
+<more>
+
+<p>As I mentioned in the Hidden Conditionals section of
+<a href='blog/200710/flaws_in_coverage_measurement.html'>Flaws in coverage measurement</a>,
+measuring line execution misses details within the lines.  My example was:</p>
+
+<code lang='python'><![CDATA[
+def implied_conditional(a):
+    if (a % 2 == 0) or (a % 0 == 0):
+        print "Special case"
+    return a+2
+
+# 100% coverage:
+implied_conditional(0) == 2
+implied_conditional(2) == 4
+]]></code>
+
+<p>A line coverage tool says that line 2 was executed, but never points out that
+a divide by zero error is lurking there.
+</p>
+
+
+<h1>Line tracing and beyond</h1>
+    
+<p>The problem is that Python's tracing facility
+(<a href='http://docs.python.org/lib/debugger-hooks.html'>sys.settrace</a>) is
+based on source lines.  Your callback function is invoked for each line executed.
+At PyCon, <a href='http://panela.blog-city.com/pycon_2008_managing_complexity_slides.htm'>Matt Harrison</a>
+floated the possibility of a source transformation tool which would take your
+Python code and rewrite it so that the operations were spread out over more lines
+so that the trace function would be invoked more often.  This would allow for
+tracing of the operations within lines.</p>
+
+<p>It's an intriguing idea, but seems difficult and risky: the rewriting process
+could introduce errors, and there could be constructs which can't be pulled apart
+successfully.</p>
+
+<p>I thought a better approach would be to modify the Python interpreter itself.
+If we could have the interpreter call a tracing function for each bytecode, we'd
+have an authoritative trace without intricate code munging.
+This approach has a few problems of its own:</p>
+
+<ul>
+<li>Hacking the C code of the Python interpreter is not a simple task.</li>
+<li>The change might not even be technically feasible.</li>
+<li>Even if we did write a patch, getting those changes accepted by the core
+team is not easy if their perception of the costs and benefits is different than
+yours.</li>
+<li>Even if the changes were accepted, it would be some future version of the
+Python interpreter which supported the cool new feature.</li>
+</ul>
+
+<p>But I was interested enough to explore the possibility, so I went digging
+into the Python interpreter sources to see how sys.settrace did its work.
+I found the answer to how it works, and also a cool trick to accomplish bytecode
+tracing without modifying the interpreter.</p>
+
+
+<h1>Python line numbers</h1>
+
+<p>The bytecode interpreter invokes the trace function every time a opcode to be
+executed is the first opcode on a new source line. But how does it know which
+opcodes those are? The key is the co_lnotab member in the code object. This is a
+string, interpreted as pairs of one-byte unsigned integers. To re-use the
+example from
+<a href='blog/200804/the_structure_of_pyc_files.html'>The Structure of .pyc Files</a>,
+here's some bytecode:</p>
+
+<code><![CDATA[
+  1           0 LOAD_CONST               4 ((1, 0))
+              3 UNPACK_SEQUENCE          2
+              6 STORE_NAME               0 (a)
+              9 STORE_NAME               1 (b)
+
+  2          12 LOAD_NAME                0 (a)
+             15 JUMP_IF_TRUE             7 (to 25)
+             18 POP_TOP
+             19 LOAD_NAME                1 (b)
+             22 JUMP_IF_FALSE           13 (to 38)
+        >>   25 POP_TOP
+
+  3          26 LOAD_CONST               2 ('Hello')
+             29 PRINT_ITEM
+             30 LOAD_NAME                0 (a)
+             33 PRINT_ITEM
+             34 PRINT_NEWLINE
+             35 JUMP_FORWARD             1 (to 39)
+        >>   38 POP_TOP
+        >>   39 LOAD_CONST               3 (None)
+             42 RETURN_VALUE
+]]></code>
+
+<p>and here's its line number information:</p>
+
+<code><![CDATA[
+   firstlineno 1
+   lnotab 0c010e01
+]]></code>
+
+<p>The lnotab bytes are pairs of small integers, so this entry represents:</p>
+
+<code><![CDATA[
+0c 01: (12, 1)
+0e 01: (14, 1)
+]]></code>
+
+<p>The two numbers in each pair are a bytecode offset delta and a source line
+number delta. The firstlineno value of 1 means that the bytecode at offset zero
+is line number 1. Each entry in the lnotab is then a delta to the
+bytecode offset and a delta to the line number to get to the next line.
+So bytecode offset 12 is line number 2, and bytecode offset 26 (12+14) is line
+number 3. The line numbers at the left of the disassembled bytecode are computed
+this way from firstlineno and lnotab.
+</p>
+
+<p>(There are more details to deal with deltas larger than 255. Complete info is in the
+CPython source: <a href='http://svn.python.org/view/python/trunk/Python/compile.c?view=markup'>compile.c</a>, search for "All about a_lnotab".)
+</p>
+
+<p>As the Python interpreter executes bytecodes, it examines the offsets against
+this map, and when the source line number that results is different than for the
+previous bytecode, it calls the trace function.</p>
+
+<p>Here's where the hack comes in: what if we <b>lie about line numbers</b>?
+What would happen if we change the .pyc file to have a different mapping of bytecode
+offsets to line numbers?</p>
+
+
+<h1>A simple program to trace</h1>
+    
+<p>To set up the test, here's a sample.py:</p>
+
+<code lang='python' name='sample.py'><![CDATA[
+a, b = 1, 0
+if a or b:
+    print "Hello", a
+]]></code>
+
+<p>and here's tracesample.py:</p>
+
+<code lang='python' name='tracesample.py'><![CDATA[
+import sys
+
+def trace(frame, event, arg):
+    if event == 'line':
+        print frame.f_code.co_filename, frame.f_lineno
+    return trace
+
+sys.settrace(trace)
+
+import sample   # import sample to produce a sample.pyc file...
+]]></code>
+
+<p>Running tracesample.py gives this output:</p>
+
+<code><![CDATA[
+C:\ned\sample.py 1
+C:\ned\sample.py 2
+C:\ned\sample.py 3
+Hello 1
+]]></code>
+
+<p>As each line is executed, my trace function is invoked, and it digs into the
+frame object to get the filename and line number.  From the output, we can see
+that we executed lines 1, 2, and 3 in turn.</p>
+
+
+<h1>Lying about line numbers</h1>
+
+<p>To lie about line numbers, I wrote a small tool to rewrite .pyc files.  It
+copies everything verbatim, except it changes the firstlineno and lnotab entries.
+As a simple proof of concept, we'll make the lnotab map claim that every byte offset
+is a new line number: it will consist entirely of (1,1) entries.  And because
+byte offsets start at zero, I'll change the firstlineno entry to zero.
+Here's hackpyc.py:
+</p>
+
+
+<code lang='python' name='hackpyc.py'><![CDATA[
+""" Wicked hack to get .pyc files to do bytecode tracing
+    instead of line tracing.
+"""
+
+import dis, marshal, new, sys, types
+
+class PycFile:
+    def read(self, f):
+        if isinstance(f, basestring):
+            f = open(f, "rb")
+        self.magic = f.read(4)
+        self.modtime = f.read(4)
+        self.code = marshal.load(f)
+    
+    def write(self, f):
+        if isinstance(f, basestring):
+            f = open(f, "wb")
+        f.write(self.magic)
+        f.write(self.modtime)
+        marshal.dump(self.code, f)
+
+    def hack_line_numbers(self):
+        self.code = hack_line_numbers(self.code)
+        
+def hack_line_numbers(code):
+    """ Replace a code object's line number information to claim that every
+        byte of the bytecode is a new line.  Returns a new code object.
+        Also recurses to hack the line numbers in nested code objects.
+    """
+    n_bytes = len(code.co_code)
+    new_lnotab = "\x01\x01" * (n_bytes-1)
+    new_consts = []
+    for const in code.co_consts:
+        if type(const) == types.CodeType:
+            new_consts.append(hack_line_numbers(const))
+        else:
+            new_consts.append(const)
+    new_code = new.code(
+        code.co_argcount, code.co_nlocals, code.co_stacksize, code.co_flags,
+        code.co_code, tuple(new_consts), code.co_names, code.co_varnames,
+        code.co_filename, code.co_name, 0, new_lnotab
+        ) 
+    return new_code
+
+def hack_file(f):
+    pyc = PycFile()
+    pyc.read(f)
+    pyc.hack_line_numbers()
+    pyc.write(f)
+
+hack_file(sys.argv[1])
+]]></code>
+
+<p>This is fairly straightforward, the only hiccup was that code objects' members
+are read-only, so I couldn't just update the parts I wanted, I had to create a
+new code object with <a href='http://docs.python.org/lib/module-new.html'>new.code</a>.
+</p>
+
+<p>Running "hackpyc.py sample.pyc" rewrites sample.pyc to lie about its line
+numbers. Now running tracesample.py produces:</p>
+
+<code><![CDATA[
+C:\ned\sample.py 0
+C:\ned\sample.py 3
+C:\ned\sample.py 6
+C:\ned\sample.py 9
+C:\ned\sample.py 12
+C:\ned\sample.py 15
+C:\ned\sample.py 25
+C:\ned\sample.py 26
+C:\ned\sample.py 29
+Hello C:\ned\sample.py 30
+C:\ned\sample.py 33
+1 C:\ned\sample.py 34
+
+C:\ned\sample.py 35
+C:\ned\sample.py 39
+C:\ned\sample.py 42
+]]></code>
+
+<p>Here the "line number" in the trace function is really a bytecode offset, and the
+interpreter invokes the trace function for every bytecode executed!</p>
+
+<p>We can see that execution jumped from 15 to 25, skipping the bytecodes that examine
+the b variable.  This is just the sort of detail about execution that line-oriented
+coverage measurement could never tell us.</p>
+
+
+<h1>Where does this leave us?</h1>
+
+<p>As I see it, these are the good things about this technique:</p>
+
+<ul>
+<li>It works.</li>
+<li>It doesn't require complex manipulation of source code.</li>
+<li>It doesn't require changes to the Python interpreter, with all of the difficulties that could bring.</li>
+</ul>
+
+<p>Problems with this so far:</p>
+
+<ul>
+<li>I'm sure some people will find it distasteful.</li>
+<li>It needs to compute more useful fake line numbers. These bytecode offsets are always
+from the beginning of each code object. In real .pyc files, which have many
+distinct code objects, each code object will start from zero.  We need some way of disambiguating the offsets.
+Also, the line number is the byte offset, not the number of the bytecode, so there are gaps in the numbers
+that can only be understood by examining the bytecode.</li>
+<li>If the Python interpreter changes their line numbering mechanism, this technique
+could be completely broken.</li>
+<li>There's no way to correlate the bytecodes back to source constructs other than
+the original source lines they came from.  In our small example, we only know it
+was b that was never examined by looking at the disassembled bytecodes.</li>
+<li>The original line number information is lost. It would have to be stored off
+to the side to make this useful.</li>
+</ul>
+
+<p>This is only a quick demonstration of a technique, it isn't useful yet. I think it could be made useful though.</p>
+
+<p>PS: As a result of this investigation, I also think it would be simple to patch
+the interpreter to call a trace function on every bytecode.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

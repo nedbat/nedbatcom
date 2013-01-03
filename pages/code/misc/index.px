@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Miscellaneous Stuff'>
+<section title='Miscellaneous Stuff' order='900'/>
+<history>
+<what when='20020523T120000'>Created.</what>
+<what when='20060910T152300'>Added image_catalog.user.js</what>
+<what when='20110217T083500'>Added two more greasmonkey scripts.</what>
+</history>
+
+<p>Miscellaneous stuff that's unusual enough I probably won't ever have a separate category for it.
+</p>
+
+<ul>
+<li><a href='code/misc/image_catalog.user.js'>image_catalog.user.js</a>,
+A <a href='http://greasemonkey.mozdev.org'>Greasemonkey</a> script for 
+displaying all the images on a web page.</li>
+<li><a href='code/misc/scaled_images.user.js'>scaled_images.user.js</a>, a Greasemonkey script for
+    <a href='blog/200805/i_hate_browserscaled_images.html'>identifying scaled images on web pages</a>.</li>
+<li><a href='code/misc/no_so_answers.user.js'>no_so_answers.user.js</a>, a Greasemonkey script to
+    hide the answer box on <a href='http://stackoverflow.com'>Stack Overflow</a> so you 
+    <a href='blog/201102/how_to_not_get_reputation_points_on_stack_overflow.html'>won't obsess about reputation points</a>.</li>
+<li><a href='code/misc/load-frames.html'>load-frames.scm</a>,
+A <a href='http://www.gimp.org'>Gimp</a> script for loading a series of image files into
+layers of an image.</li>
+</ul>
+
+</page>

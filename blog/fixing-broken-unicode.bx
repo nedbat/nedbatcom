@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120821T084247'>
+<title>Fixing broken Unicode</title>
+<category>python</category>
+<category>charset</category>
+<body>
+
+    <p>In <a href="text/unipain.html">Pragmatic Unicode, or, How Do I Stop the Pain?</a>,
+        I said that you have to know the encoding of your bytes, so that you 
+        can properly decode them to Unicode.  I also said the world is a
+        really messy place, and that the declarations that should tell you
+        the encoding are sometimes wrong.
+    </p>
+
+    <p>It gets even worse than that: your bytes may have been incorrectly
+        handled by an upstream component, so that it isn't a valid sequence
+        of bytes at all.  We've all seen web pages with A-hats on them:</p>
+
+    <quote><p>If numbers arenâ€™t beautiful, I donâ€™t know what is. â€“Paul ErdÅ‘s</p></quote>
+
+    <p>Rob Speer deals with data like this at his day job at <a href='http://lumino.so/'>Luminoso</a>, 
+        and decided to do something about it.
+        His blog post <a href='http://blog.lumino.so/2012/08/20/fix-unicode-mistakes-with-python/'>Fixing common Unicode mistakes with Python â€” after they’ve been made</a>
+        explains his function fix_bad_unicode(text), which detects common mistakes
+        and fixes them with a handful of real-world heuristics.</p>
+
+    <p>This is the kind of code I'm not sure I would have attempted, given the
+        "impossibility" of the task.  Bravo to Rob for taking it on.</p>
+
+</body>
+</entry>
+</blog>

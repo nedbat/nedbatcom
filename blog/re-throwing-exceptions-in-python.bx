@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071113T210850'>
+<title>Re-throwing exceptions in Python</title>
+<category>python</category>
+<category>exceptions</category>
+<body>
+<p>When dealing seriously with error handling, an important technique is to be
+able to manipulate exceptions in ways other than simply throwing and catching
+them.  One of these is to re-throw exceptions.</p>
+
+<more text="Read how to re-throw properly, with examples">
+    
+<p>The simplest way to do this is if you need to perform a little work after the
+catch, but then immediately re-throw.  This can be done with a simple raise
+statement:</p>
+
+<code lang='py'><![CDATA[
+try:
+    do_something_dangerous()
+except:
+    do_something_to_apologize()
+    raise
+]]></code>
+
+<p>Here the raise statement means, "throw the exception last caught".
+This is a simple case, and I probably didn't need to remind you of it.
+But a more sophisticated technique is to catch an exception in one place,
+and raise it again in another.</p>
+
+<p>For example, you may have a worker thread pre-fetching data from slow storage,
+and then on the main thread, the consumer of the data either gets the data or
+sees the exception that prevented him from getting the data.
+</p>
+
+<p>Here's the simple implementation:</p>
+
+<code lang='py' number='1'><![CDATA[
+class DelayedResult:
+    def __init__(self):
+        self.e = None
+        self.result = None
+        
+    def do_work(self):
+        try:
+            self.result = self.do_something_dangerous()
+        except Exception, e:
+            self.e = e
+
+    def do_something_dangerous(self):
+        raise Exception("Boo!")
+
+    def get_result(self):
+        if self.e:
+            raise self.e
+        return self.result
+    
+dr = DelayedResult()
+dr.do_work()
+dr.get_result()
+]]></code>
+
+<p>We store an exception in the object, and when retrieving the result, if there's
+an exception, we raise it.  It works:</p>
+
+<code><![CDATA[
+$ python delayed.py
+Traceback (most recent call last):
+  File "C:\lab\delayed.py", line 22, in ?
+    dr.get_result()
+  File "C:\lab\delayed.py", line 17, in get_result
+    raise self.e
+Exception: Boo!
+]]></code>
+
+<p>The only problem is, the traceback for the exception shows the problem starting
+in get_result.  When debugging problems, it's enormously helpful to know their
+real origin.</p>
+
+<p>To solve that problem, we'll store more than the exception, we'll also store
+the traceback at the time of the original problem, and in get_results, we'll
+use the full three-argument form of the raise statement to use the original
+traceback:</p>
+
+<code lang='py' number='1'><![CDATA[
+class DelayedResult:
+    def __init__(self):
+        self.exc_info = None
+        self.result = None
+        
+    def do_work(self):
+        try:
+            self.result = self.do_something_dangerous()
+        except Exception, e:
+            import sys
+            self.exc_info = sys.exc_info()
+    
+    def do_something_dangerous(self):
+        raise Exception("Boo!")
+
+    def get_result(self):
+        if self.exc_info:
+            raise self.exc_info[1], None, self.exc_info[2]
+        return self.result
+    
+dr = DelayedResult()
+dr.do_work()
+dr.get_result()
+]]></code>
+
+<p>Now when we run it, the traceback points to do_something_dangerous, called
+from do_work, as the real culprit:</p>
+
+<code lang='py'><![CDATA[
+$ python delayed.py
+Traceback (most recent call last):
+  File "C:\lab\delayed.py", line 23, in ?
+    dr.get_result()
+  File "C:\lab\delayed.py", line 8, in do_work
+    self.result = self.do_something_dangerous()
+  File "C:\lab\delayed.py", line 14, in do_something_dangerous
+    raise Exception("Boo!")
+Exception: Boo!
+]]></code>
+
+<p>The three-argument raise statement is a little odd, owing to its heritage
+from the old days of Python when exceptions could be things other than instances
+of subclasses of Exception.   This accounts for the odd tuple-dance we do on the
+saved exc_info.</p>
+
+<p>It's easy to write code that does the right thing when everything is going
+well.  It's much harder to write code that does a good job when things go wrong.
+Properly manipulating exceptions helps.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

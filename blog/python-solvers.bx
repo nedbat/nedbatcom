@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080226T065108'>
+<title>Python solvers</title>
+<category>python</category>
+<category>algorithms</category>
+<body>
+<p>There's something magical about complex algorithms.  They take a hard problem
+and build a strong fence around it. Once you've got an implementation working, you don't
+have to worry about what's inside any more. Take the specifics of the problem
+at hand, drop them into the algorithm, and out pops an answer.  It's like a
+cartoon machine with lights and wheels on the outside, and magic happens on the
+inside.
+</p>
+
+<p>I've been poking around looking at Python implementations of algorithms for solving.
+Roughly speaking, these tools take a system of constraints, and produce an answer
+comprising the values that satisfy the constraints.  I'm sure there are more,
+but these are what I've turned up in a quick search.</p>
+
+<quick>
+<a href='http://elonen.iki.fi/code/misc-notes/python-gaussj/'>Simple Gauss-Jordan Elimination</a>
+is a classic math technique for solving a system of linear equations.  This works
+great, but is crying out to be implemented as a C extension.
+</quick>
+
+<quick>
+<a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/117244'>SMAWK</a>
+(an awk-like acronym of the authors' initials) finds the maxima in each row of
+a large matrix of values, provided the matrix is totally monotone.  This sounds
+esoteric, but has applications in computational geometry and other areas.
+David Eppstein used it to <a href='http://www.ics.uci.edu/~eppstein/PADS/Wrap.py'>implement Knuth's paragraph wrapping algorithm</a>,
+and if an algorithm lets you re-implement Knuth-Plass in 65 lines of Python, I'm guessing
+you have a powerful algorithm.  David has <a href='http://www.ics.uci.edu/~eppstein/PADS/'>a bunch of other algorithmic stuff for Python</a>
+too.
+</quick>
+
+<quick>
+<a href='http://www.logilab.org/projects/constraint'>logilab-constraint</a> and
+<a href='http://labix.org/python-constraint'>python-constraint</a> are two Python implementations
+of <a href='http://en.wikipedia.org/wiki/Constraint_solving'>constraint solvers</a>.
+These seem to be good at discrete problems like <a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/491275'>solving Sudoku</a>
+or eight queens.
+BTW: Roman Barták maintains a <a href='http://kti.mff.cuni.cz/~bartak/constraints/systems.html'>list of
+constraint system implementations</a> which could be useful.
+</quick>
+
+<p>Beyond these, there are tons of fascinating techniques:
+<a href='http://en.wikipedia.org/wiki/Simulated_annealing'>simulated annealing</a>
+(with <a href='http://psychicorigami.com/2007/06/28/tackling-the-travelling-salesman-problem-simmulated-annealing/'>some</a>&#xa0;<a href='http://www.margaretmorgan.com/wesley/python/'>Python</a>&#xa0;<a href='http://jtauber.com/blog/2005/08/04/ordering_goals_rather_than_prerequisites/'>implementations</a>),
+<a href='http://en.wikipedia.org/wiki/Genetic_algorithm'>genetic algorithms</a>
+(<a href='http://www.freenet.org.nz/python/pygene/'>Python</a>&#xa0;<a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/199121'>implementations</a>),
+and <a href='http://en.wikipedia.org/wiki/Category:Optimization_algorithms'>optimization algorithms</a>
+of all sorts.</p>
+
+</body>
+</entry>
+</blog>

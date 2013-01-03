@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070329T071319'>
+<title>Random HTML factoid: no &amp;apos;</title>
+<body>
+<p>A brief detour through some docs led me to PHP's
+<a href='http://us2.php.net/manual/en/function.htmlspecialchars.php'>htmlspecialchars</a>
+function, where I noticed that double-quote becomes &amp;quot;, but apostrophe
+becomes &amp;#039;.  Seemed odd, since we're all so used to &amp;apos; as the
+apostrophe entity.  A comment on the docs claimed that there's no such thing
+as &amp;apos; in HTML.  I was already three or four levels deep on the distraction
+stack, so I went and looked.
+</p>
+
+<p>Sure enough, the HTML 4.0 spec defines
+<a href='http://www.w3.org/TR/1998/REC-html40-19980424/sgml/entities.html'>255 different character entities</a>,
+and &amp;apos; is not among them.</p>
+
+<p>What does it mean? Nothing, really, since the browsers all understand the
+entity, but it demonstrates that sticking to a standard may be tougher than you
+think, since common practice so often exceeds what the standard guarantees.</p>
+
+</body>
+</entry>
+</blog>

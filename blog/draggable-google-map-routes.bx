@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070711T070010'>
+<title>Draggable google map routes</title>
+<category>google</category>
+<category>maps</category>
+<body>
+<p>I stumbled on an awesome new feature of Google Maps yesterday:  once you've
+plotted a route for driving directions, if you hover over the route on the map,
+a little square appears, with the hover help "Drag to change route".
+Drag the square, and the route dynamically changes to go through the point you
+are dragging.  The list of driving directions update as well, of course, with
+your dragged point included as a new intermediate milestone.
+</p>
+
+<p>I showed this to a co-worker, who literally stared slack-jawed as my driving
+path wiggled all over the screen, and then finally said, "That's impossible!".
+What he meant was, it's impressive to be able to make server round trips as
+you drag, with enough responsiveness to serve new route images quickly enough to
+get that dynamic and fluid feel.
+</p>
+
+<p>Other stuff: once you have multiple milestones in your driving directions,
+you can drag and drop them to reorder them, and there's an "avoid highways"
+checkbox to stick to the scenic routes.</p>
+
+<p>The amazing gets amazinger.  Funny to discover it by accident, though.
+Isn't
+there a blog that announces these things?  The <a href='http://googleblog.blogspot.com/'>Official Google Blog</a>
+has bigger fish to fry (acquisitions, global warming, privacy concerns).
+Turns out <a href='http://googlemapsmania.blogspot.com/'>Google Maps Mania</a>
+is the place, and had the news about draggable driving directions two weeks ago.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051118T110203'>
+<title>My personal Python mind set</title>
+<category>python</category>
+<category>devmindset</category>
+<via />
+<body>
+<p>I was talking to a fellow Python enthusiast the other day, and the topic came up of Python's great
+dynamic nature.  I said that I didn't think it had had that big an effect on me. He was surprised.
+"You don't like dynamic typing?" he asked.
+It's not that.  Looking back over my experience with Python, it's not the dynamic typing that has
+affected me most.  Let me explain:</p>
+
+<p>Python fits my expectations: the dynamic typing was simply what my primitive monkey coding brain expected.
+There's a strong contrast to C++'s static-typing friction, and include file hell,
+but because of my mental expectations, that contrast feels like a point taken from C++,
+not a point given to Python.</p>
+
+<p>When working in C++, the Python thing I miss more than dynamic typing are the easy to use built-in
+data types like lists and dictionaries.  The amount of noise you have to introduce into your code when
+using the STL is just staggering.  It's a true impediment to progress.
+Let's say I have an A and want a B, and there's a simple
+mental path between the two (string to split array, array to joined string, and so on).
+In Python (and most other "scripting" languages), it's a simple expression that makes sense.
+In C++ or Java, it's three or four lines of idiomatic yet still not memorizable code.
+I find myself having to go and find the last place I did it in the code, and copying.
+</p>
+
+<p>Also, I haven't yet used a lot of Python's deeper mysteries: metaclasses, decorators, and so on.
+I've benefited from them in other people's code (like SQLObject's magic), but I haven't made use of
+them myself.  I've built much larger systems in C++ and Java than I have in Python, so I haven't yet
+needed some of the raw power in Python.</p>
+
+<p>But if I had to pick the biggest effect Python has had in me as a programmer, it's been about testing.
+My experience writing automated tests in Python projects is that I am freed from fear.  I don't have to
+worry about forgotten corners of the code.  I've tried to apply that mind set in non-Python projects.
+The change in philosophy about testing is a much bigger change in me because I can apply it outside
+of Python.
+I wrote code differently, and approach
+development differently.  And I can use those concepts in C++ code, whereas dynamic stuff is
+left behind with the Python.
+</p>
+
+<p>So no, Python's dynamic nature is not its defining characteristic for me.  And to be perfectly
+honest, I have a lot of static typing habits that I'm still trying to break.</p>
+
+</body>
+</entry>
+</blog>

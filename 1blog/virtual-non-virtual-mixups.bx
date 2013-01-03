@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040224T132719'>
+<title>Virtual/non-virtual mixups</title>
+<category>cpp</category>
+<via />
+<body>
+<p>The Microsoft Visual C++ compiler will warn you about all sorts of
+harmless things.  Today I ran across a harmful thing it would not
+warn me about, and I am really surprised.
+</p>
+
+<more>
+
+<p>The bug was a method declared non-virtual in a base class,
+then virtual in a derived class:</p>
+
+<code lang='c++'><![CDATA[
+class CBase
+{
+public:
+    void DoIt();
+};
+
+class CDerived: public CBase
+{
+public:
+    virtual void DoIt();
+};
+]]></code>
+
+<p>An instance of CDerived was being used via a CBase pointer,
+so the CDerived::DoSomething() method wasn't being called:
+</p>
+
+<code lang='c++'><![CDATA[
+CBase * pBase = new CDerived();
+pBase->DoIt();  // Calls CBase::DoIt, not CDerived::DoIt.
+]]></code>
+
+<p>I tried my hardest to get the compiler to generate a warning
+about the mismatch, but could not. It's hard to imagine a coder
+wanting to produce this situation (a virtual hiding a non-virtual),
+and there are warnings for tons of situations that are perfectly
+harmless.  I'm amazed that there's no warning for this.
+</p>
+
+<p>I even tried /Wall, which means show absolutely all the warnings.
+For one .cpp file, this produced over 3800 warnings, most of which
+were about STL functions that were not inlined.  No mention of my
+hidden virtual function. D'oh!
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

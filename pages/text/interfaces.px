@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<page title='Interfaces'>
+<history>
+<what when='20021010T120000'>Created.</what>
+<what when='20030215T113100'>Edited, and added see also section.</what>
+<what when='20041019T065300'>Added a reference to pythonic-interfaces.px.</what>
+</history>
+
+<p>The most important concept in designing software systems is the interface.
+It is the construct that allows a divide-and-conquer approach to building large systems.
+</p>
+
+
+
+<h1>Definition</h1>
+
+<p>The term "object-oriented programming" (or OOP) is overused these days, and means different
+things to different people.  In my opinion, the most important aspect of OOP is the realization
+that the behavior of objects are their most important characteristic, and that different classes
+can behave the same as far as external callers are concerned.
+</p>
+
+<p>At the heart of this design technique is treating interfaces themselves as first-class
+citizens, as independent as possible from the classes that support or use the interfaces.
+Java did a wonderful thing by creating interfaces as a language construct in their own right,
+but you don't need explicit language support to achieve the benefits of interface-centered design.
+</p>
+
+<p>So what exactly is an interface?
+</p>
+	<box>
+	An interface is a definition of a set of methods, and nothing more.
+	</box>
+
+<p>There are no implementations, there are no data members.  There are just semantics of methods.
+Interfaces can derive from other interfaces (Java uses the keyword "extends" for this relationship).
+</p>
+
+<p>Other terms have been used for this idea.
+"Polymorphic programming" explicitly gets at the concept that differently shaped ("polymorphic")
+objects can be treated uniformly.
+"Design By Contract" focuses on the fact that method semantics are an agreement between the
+caller and the implementer about precisely what each can expect from the other.
+</p>
+
+<p>(My son Max read this page, and said, "interface sounds like a bunch of faces", like the way
+the Internet is a bunch of nets.  In a way, he's right: all an interface defines is the outward
+face of a bunch of methods.  So an interface is a bunch of faces.)
+</p>
+
+
+
+
+<h1>What's the big deal?</h1>
+
+<p>So why is this so important?  The key reason is divide-and-conquer.  By hiding implementations
+behind well-defined interfaces, the implementer of a class and the user of the class don't have
+to know so much about each other; they don't have to be so tightly bound.  This provides a number
+of benefits:
+</p>
+
+<ul>
+<li>The implementation can change without the caller changing.</li>
+<li>The caller can change without the implementation changing.</li>
+<li>The specific class used as the implementation can change without the caller knowing.</li>
+</ul>
+
+
+
+<h1>Specifying semantics</h1>
+
+<p>To get the most from interfaces, it pays to put extra effort into thinking about precisely
+what the semantics of the methods are. In fact, I'll so far as to say:
+</p>
+
+	<box>
+	If you only have to time to make a good interface or a good implementation, but
+	not both, make a good interface.
+	</box>
+
+<p>The reason is this: once a good interface has been put in place, the poor implementation can
+be improved later without making a big change to the system.  If the interface is poor, then
+when the change comes (and it will, even with a good implementation), the effect will be much
+more far-reaching. </p>
+
+<p>Besides, sometimes choosing a good implementation over a bad one is
+optimizing cases that don't need it.  Write a good-enough implementation, and change it later if
+it really needs to be changed.
+</p>
+
+<p>Since the interface is the contract between the caller and the implementer, and you want
+these two to know as little about each other as possible, it makes sense:
+</p>
+
+	<box>
+	When designing interfaces, promise as little as possible.
+	</box>
+
+<p>Which is to say that the semantics of methods should specify everything they need to, and
+no more.  Think hard about precisely what the caller needs to know about the implementer.
+The less you say in the interface, the less you've constrained the implementations of your
+interface, and the more flexibility you'll have in implementing them.
+</p>
+
+<p>As an interface designer trying to promise as little as possible, don't be afraid to use
+the bluntest tool in your box: "undefined".  Not everything needs to be spelled out, and
+cases can be explicitly reserved for the implementer to decide at his convenience.  If the
+caller shouldn't care, don't be afraid to say it's undefined.  It doesn't mean you haven't
+done your job: it means you've thought carefully about who needs to know what, and you've
+decided the caller doesn't need to know.
+</p>
+
+
+
+<h1>Multiple implementations</h1>
+
+<p>You may be saying to yourself, "all of this is very nice, but really, how often am I going
+to be implementing the same interface more than once?".
+The answer is, "more often than you'd guess".
+There are classic obvious example of an interface that needs more than one implementation.
+For example, for portability, you may have an interface to OS operations.  Then for each platform
+you port to, you implement the OS interface for that platform.
+But there are other reasons to need more than one.
+</p>
+
+<p>To generalize the operating system example, any chunk of code will depend on other software
+to help it perform its duties.  For example, a logging subsystem may be used.  If I'm building
+an page generation engine, and want to log messages, I don't care precisely how those messages
+are logged.  If I use an ILog interface to isolate my engine from the logging system, then the
+logging system can be changed without affecting my code.  If my engine is used in a desktop
+application, ILog could be implemented as a scrolling message window.
+If the engine is used in a server environment, ILog could be implemented as a disk file.
+</p>
+
+<p>In every large system I've built, I've wanted to test part of it in isolation
+(a unit test).  Doing this requires stubbing out the other parts, or replacing them with test
+harnesses.  This is all made much easier if those parts are implementations of well-defined
+interfaces.  Then the stub code can simply be another implementation of the same interface.
+With a proper factory in place to provide the stub implementation transparently, the code under
+test doesn't have to be changed at all.
+</p>
+
+<p>Interfaces also help with testing code by allowing you more control over the variety of behaviors
+exhibited by a chunk of software.  For example, how do you test your system to see if it behaves
+correctly when it is running out of memory?  One way is to run your software on a machine with
+very little memory, or to artificially consume the memory on a normal machine.  But a more
+controlled method is to have your memory allocator pretend it is out of memory.  If your memory
+allocator is accessed through an interface, then it is a simple matter to write a new allocator
+which lies about being out of memory.  This same technique can be used to test failure scenarios
+throughout your code.  If you have an IDatabase interface implemented by COracleDatabase, you
+can create a CPathologicallyFailingDatabase implementation (perhaps as a
+<a href='http://home.earthlink.net/~huston2/dp/decorator.html'>decorator</a>
+over COracleDatabase) to test how your code deals with database failures.
+</p>
+
+
+
+
+<h1>Language support</h1>
+
+<p>Java leads the pack due to their "interface" keyword.  The language introduced interfaces
+more as a way to avoid multiple inheritance than as a way to encourage well-modularized designs,
+but in any case, Java provides excellent support for designing explicit interfaces.
+</p>
+
+<p>In C++, the typical technique is to create a class with nothing but public pure virtual methods.
+This works well, and gives the same semantics of the Java keyword.
+One thing to be careful of, though: the compiler doesn't treat this class differently.  If using
+multiple inheritance (as you almost certainly will be when dealing with interfaces), you must
+still face C++'s thorny multiple inheritance problems.
+</p>
+
+<p>Python has no formal support for interfaces.  The question of how to emulate interfaces in Python
+comes up often, and there is a
+<a href='http://python.org/peps/pep-0245.html'>proposal to add them to Python</a> (PEP 245).
+But interfaces as a formal concept doesn't fit naturally into existing Python.
+This is because Python's dynamic typing doesn't concern itself with the class of objects, but
+with their reaction to method invocation.  As a result, there is no way (yet) to declare that
+an object implements an interface (and PEP 245 describes them as "interface assertions").
+If the object supports all the methods in the interface, then it implements the interface.
+It's as simple as that.  In some ways, Python has embraced interfaces to the point that they
+are invisible in the language: all that matters about an object is its behavior.
+Despite this, I have tried to use interfaces in Python, with mixed results: see
+<apage pref='text/pythonic-interfaces.px'/> for details.
+</p>
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/assert.px'/>, about the theory and practice of assertions,
+including their definition as an interface.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

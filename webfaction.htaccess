@@ -1,0 +1,82 @@
+### nedbatchelder.com .htaccess file for WebFaction hosting.
+
+# .ico files are image/x-icon MIME type
+AddType image/x-icon ico
+
+# Treat .html files as PHP and .py as plain text
+AddHandler application/x-httpd-php .php .php3 .phtml .html .htm .php4
+#AddHandler text/plain .py
+
+# Treat .html files as PHP.
+<IfModule !php5_module>
+RewriteCond %{REQUEST_URI} \.html$
+RewriteRule (.*) http://127.0.0.1:2480/$1 [P]
+</IfModule>
+
+# Get XML files served properly for interpretation and charset issues.
+AddType text/xml .xslt
+AddType application/xml .xml
+
+# Error 404 should be served with /err404.html
+ErrorDocument 404 /err404.html
+
+# Serving a directory should try these files in turn.
+DirectoryIndex home.php index.php index.html index.htm
+
+# Change the include path to get Reactor to work.
+<IfModule php5_module>
+php_value include_path ".:/home/nedbat/webapps/main/reactor:/home/nedbat/webapps/main:/usr/local/lib/php"
+php_value register_globals 0
+# Advice from http://www.ragepank.com/articles/26/disable-phpsessid/ to disable PHPSESSID
+php_value session.use_only_cookies 1
+php_value session.use_trans_sid 0
+
+# Compress the output of PHP if the browser is up for it.
+php_flag zlib.output_compression on
+</IfModule>
+
+# Serve Python files literally: http://community.webfaction.com/questions/5527/statically-serve-py-files
+<FilesMatch "\.py$">
+   SetHandler default-handler
+</FilesMatch>
+
+## Rewrite rules
+RewriteEngine on 
+
+# canonicalize the host name (no prefix)
+RewriteCond %{HTTP_HOST} \.nedbatchelder\.com$ [NC]
+RewriteRule .? http://nedbatchelder.com%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTP_HOST} \.stellated\.com$ [NC]
+RewriteRule .? http://stellated.com%{REQUEST_URI} [R=301,L]
+
+# Tags moved.
+RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
+RewriteRule ^blog/cat_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
+RewriteRule ^blog/categories\.html$ /blog/tags.html [R=301,L]
+# Blog-more pages moved.
+RewriteRule ^blog/200[0-9]{5}T[0-9]{6}.html /blog/moved.php
+# Feeds all go to rss.xml.
+RewriteRule ^blog/rssfull\.xml /blog/rss.xml [R=301,L]
+RewriteRule ^blog/atom\.xml /blog/rss.xml [R=301,L]
+
+# Partial URLs with no content should find an appropriate page.
+RewriteRule ^blog/([0-9]{6})/?$ /blog/$1.html [R=301,L]
+RewriteRule ^blog/tag/?$ /blog/tags.html [R=301,L]
+
+# Don't serve explicit index.html's, make them shorter.
+#RewriteRule ^index.html$ / [R=301,L]
+#RewriteRule ^(.*)/index.html$ /$1 [R=301,L]
+
+# Some things are gone.  Get Yahoo to stop bugging us about them.
+RewriteRule ^stiki/.* - [G]
+RewriteRule ^reactor/comment.php - [G]
+
+# The coverage.py page has moved
+RewriteRule ^code/modules/coverage.html$ /code/coverage [R=301,L]
+# and now there are version-specific URLs out there.
+# If a production release is the latest, comment out the rewrite
+# rule that points to /code/coverage/beta.  If a beta release is
+# the latest, then uncomment it and fix the version number match.
+RewriteRule ^code/coverage/3\.6b[1-9]/?$ /code/coverage/beta [R=302,L]
+RewriteRule ^code/coverage/[0-9][.].*/(.*)$ /code/coverage/$1 [R=301,L]
+RewriteRule ^code/coverage/[0-9][.].*$ /code/coverage [R=301,L]

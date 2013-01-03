@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040604T063808'>
+<title>Omniscient debugging</title>
+<category>debugging</category>
+<via id='smallvaluesofcool'/>
+<body>
+<p>Bil Lewis has implemented an
+<a href='http://www.lambdacs.com/debugger/ODBDescription.html'>Omniscient Debugger</a> for Java.
+It tracks the entire history of the execution of a program, allowing you to move backward and
+forward through time watching the state change.
+There's even a slider at the top to change the time.
+It sounds very cool, though I'm skeptical that it could be used practically on real programs
+(that is, large ones).
+</p>
+</body>
+</entry>
+</blog>

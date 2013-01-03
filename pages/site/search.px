@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Search this site'>
+
+<history>
+<what when='20050405T100400'>Created.</what>
+</history>
+
+<!-- Search Google -->
+<p>Search this site with Google:</p>
+
+<form method='GET' action='http://www.google.com/custom' name='search'>
+<input type='text' name='q' size='32' maxlength='255' value=""/>
+<input type='submit' name='sa' value="Search"/>
+<input type='hidden' name='cof' VALUE="AH:center;S:http://nedbatchelder.com;AWFID:50596c8be30aa04b;"/>
+<input type='hidden' name='domains' value="nedbatchelder.com"/>
+<input type='hidden' name='sitesearch' value="nedbatchelder.com"/>
+<a href='http://www.google.com'>
+<img src='pix/Google_Logo_25wht.gif' alt='Google' align='absmiddle'/>
+</a>
+</form>
+<script>document.search.q.focus();</script>
+
+<!-- Search Google -->
+
+<p>Other navigation aids you might find helpful:</p>
+
+<ul>
+<!--<li>Non-blog content is mapped in the <a href='site/sitemap.html'>site map</a>.</li>-->
+<li>Blog entries are categorized with <a href='blog/tags.html'>tags</a>.</li>
+<li>Blog entries are organized chronologically in the <a href='blog/archiveall.html'>archives</a>.</li>
+</ul>
+
+</page>

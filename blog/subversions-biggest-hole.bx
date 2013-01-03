@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080621T091254'>
+<title>Subversion's biggest hole</title>
+<category>srcctrl</category>
+<body>
+<p><a href='http://subversion.tigris.org/svn_1.5_releasenotes.html'>Subversion 1.5
+has just been released</a>, but it does nothing to fix what I consider to be
+Subversion's biggest hole.  I know people deride svn for not being
+distributed, or for doing a bad job of merging, and both of those will be
+solved when everyone finally switches over to <a href='http://git.or.cz/'>git</a>,
+as I'm sure we all will eventually.
+</p>
+
+<p>But I don't miss those things.  The thing I miss that Subversion is lacking
+is a repository setting for globally ignored files.  You can set a property
+on a directory to ignore (for example) *.pyc files.  And you can set your client
+to always ignore *.pyc files in any working tree on your machine.  But there is
+no way to set a repository to ignore *.pyc files anywhere they appear in the tree.
+</p>
+
+<p>This is such a common need in software development, and is truly a property of
+the repository, not the client.  Why are we still either touching every directory
+in the tree, or touching every client on the team?</p>
+
+<p>And probably this will also be solved when we all switch over to git...</p>
+
+</body>
+</entry>
+</blog>

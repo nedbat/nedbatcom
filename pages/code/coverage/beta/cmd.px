@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<page title='Coverage command line usage' index='no'>
+
+  <history>
+<what when='20090524T134300'>brand new docs.</what>
+<what when='20090613T164000'>final touches for 3.0</what>
+<what when='20090913T084400'>new command line syntax</what>
+<what when='20091004T170700'>changes for 3.1</what>
+<what when='20091127T200700'>changes for 3.2</what>
+<what when='20100223T200600'>changes for 3.3</what>
+<what when='20100725T211700'>updated for 3.4</what>
+<what when='20110827T212500'>updated for 3.5.1, combining aliases</what>
+<what when='20120119T075600'>Added some clarification from George Paci</what>
+<what when='20120504T091800'>Added info about execution warnings, and 3.5.2 stuff.</what>
+<what when='20120807T211600'>Clarified the combine rules.</what>
+<what when='20121003T074600'>Fixed an option reference, https://bitbucket.org/ned/coveragepy/issue/200/documentation-mentions-output-xml-instead</what>
+<what when='20121117T091000'>Added command aliases.</what>
+</history>
+
+                <box>
+                These docs are for a beta release, 3.6b3. 
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
+is placed in your Python scripts directory.  To help with multi-version
+installs, it will also create either a <tt class="docutils literal"><span class="pre">coverage2</span></tt> or <tt class="docutils literal"><span class="pre">coverage3</span></tt> alias,
+and a <tt class="docutils literal"><span class="pre">coverage-X.Y</span></tt> alias, depending on the version of Python you&#8217;re using.
+For example, when installing on Python 2.7, you will be able to use
+<tt class="docutils literal"><span class="pre">coverage</span></tt>, <tt class="docutils literal"><span class="pre">coverage2</span></tt>, or <tt class="docutils literal"><span class="pre">coverage-2.7</span></tt> on the command line.</p>
+<p>Coverage has a number of commands which determine the action performed:</p>
+<ul class="simple">
+<li><strong>run</strong> &#8211; Run a Python program and collect execution data.</li>
+<li><strong>report</strong> &#8211; Report coverage results.</li>
+<li><strong>html</strong> &#8211; Produce annotated HTML listings with coverage results.</li>
+<li><strong>xml</strong> &#8211; Produce an XML report with coverage results.</li>
+<li><strong>annotate</strong> &#8211; Annotate source files with coverage results.</li>
+<li><strong>erase</strong> &#8211; Erase previously collected coverage data.</li>
+<li><strong>combine</strong> &#8211; Combine together a number of data files.</li>
+<li><strong>debug</strong> &#8211; Get diagnostic information.</li>
+</ul>
+<p>Help is available with the <strong>help</strong> command, or with the <tt class="docutils literal"><span class="pre">--help</span></tt> switch on
+any other command:</p>
+<code lang="console">$ coverage help
+$ coverage help run
+$ coverage run --help</code>
+<p>Version information for coverage.py can be displayed with
+<tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">--version</span></tt>.</p>
+<p>Any command can use a configuration file by specifying it with the
+<tt class="docutils literal"><span class="pre">--rcfile=FILE</span></tt> command-line switch.  Any option you can set on the command
+line can also be set in the configuration file.  This can be a better way to
+control coverage.py since the configuration file can be checked into source
+control, and can provide options that other invocation techniques (like test
+runner plugins) may not offer. See <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>Configuration files</em></a> for more details.</p>
+<h1 id="cmd-execution">Execution</h1>
+<p>You collect execution data by running your Python program with the <strong>run</strong>
+command:</p>
+<code lang="console">$ coverage run my_program.py arg1 arg2
+blah blah ..your program's output.. blah blah</code>
+<p>Your program runs just as if it had been invoked with the Python command line.
+Arguments after your file name are passed to your program as usual in
+<tt class="docutils literal"><span class="pre">sys.argv</span></tt>.  Rather than providing a filename, you can use the <tt class="docutils literal"><span class="pre">-m</span></tt> switch
+and specify an importable module name instead, just as you can with the
+Python <tt class="docutils literal"><span class="pre">-m</span></tt> switch:</p>
+<code lang="console">$ coverage run -m packagename.modulename arg1 arg2
+blah blah ..your program's output.. blah blah</code>
+<p>If you want <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>branch coverage</em></a> measurement, use the <tt class="docutils literal"><span class="pre">--branch</span></tt>
+flag.  Otherwise only statement coverage is measured.</p>
+<p>You can specify the code to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt>, <tt class="docutils literal"><span class="pre">--include</span></tt>, and
+<tt class="docutils literal"><span class="pre">--omit</span></tt> switches.  See <a class="reference internal" href="/code/coverage/beta/source.html#source-execution"><em>Specifying source files</em></a> for
+details of their interpretation.  Remember to put options for run after &#8220;run&#8221;,
+but before the program invocation:</p>
+<code lang="console">$ coverage run --source=dir1,dir2 my_program.py arg1 arg2
+$ coverage run --source=dir1,dir2 -m packagename.modulename arg1 arg2</code>
+<p>By default, coverage does not measure code installed with the Python
+interpreter, for example, the standard library. If you want to measure that
+code as well as your own, add the <tt class="docutils literal"><span class="pre">-L</span></tt> flag.</p>
+<p>If your coverage results seem to be overlooking code that you know has been
+executed, try running coverage again with the <tt class="docutils literal"><span class="pre">--timid</span></tt> flag.  This uses a
+simpler but slower trace method.  Projects that use DecoratorTools, including
+TurboGears, will need to use <tt class="docutils literal"><span class="pre">--timid</span></tt> to get correct results.  This option
+can also be enabled by setting the environment variable COVERAGE_OPTIONS to
+<tt class="docutils literal"><span class="pre">--timid</span></tt>.</p>
+<p>If you are measuring coverage in a multi-process program, or across a number of
+machines, you&#8217;ll want the <tt class="docutils literal"><span class="pre">--parallel-mode</span></tt> switch to keep the data separate
+during measurement.  See <a class="reference internal" href="#cmd-combining"><em>Combining data files</em></a> below.</p>
+<p>During execution, coverage.py may warn you about conditions it detects that
+could affect the measurement process.  The possible warnings include:</p>
+<ul>
+<li><p class="first">&#8220;Trace function changed, measurement is likely wrong: XXX&#8221;</p>
+<p>Coverage measurement depends on a Python setting called the trace function.
+Other Python code in your product might change that function, which will
+disrupt coverage.py&#8217;s measurement.  This warning indicate that has happened.
+The XXX in the message is the new trace function value, which might provide
+a clue to the cause.</p>
+</li>
+<li><p class="first">&#8220;Module XXX has no Python source&#8221;</p>
+<p>You asked coverage.py to measure module XXX, but once it was imported, it
+turned out not to have a corresponding .py file.  Without a .py file,
+coverage.py can&#8217;t report on missing lines.</p>
+</li>
+<li><p class="first">&#8220;Module XXX was never imported&#8221;</p>
+<p>You asked coverage.py to measure module XXX, but it was never imported by
+your program.</p>
+</li>
+<li><p class="first">&#8220;No data was collected&#8221;</p>
+<p>Coverage.py ran your program, but didn&#8217;t measure any lines as executed.
+This could be because you asked to measure only modules that never ran,
+or for other reasons.</p>
+</li>
+</ul>
+<h1 id="cmd-datafile">Data file</h1>
+<p>Coverage collects execution data in a file called &#8221;.coverage&#8221;.  If need be, you
+can set a new file name with the COVERAGE_FILE environment variable.</p>
+<p>By default,each run of your program starts with an empty data set. If you need
+to run your program multiple times to get complete data (for example, because
+you need to supply disjoint options), you can accumulate data across runs with
+the <tt class="docutils literal"><span class="pre">-a</span></tt> flag on the <strong>run</strong> command.</p>
+<p>To erase the collected data, use the <strong>erase</strong> command:</p>
+<code lang="console">$ coverage erase</code>
+<h1 id="cmd-combining">Combining data files</h1>
+<p>If you need to collect coverage data from different machines or processes,
+coverage can combine multiple files into one for reporting. Use the <tt class="docutils literal"><span class="pre">-p</span></tt> flag
+during execution to append distinguishing information to the .coverage data
+file name.</p>
+<p>Once you have created a number of these files, you can copy them all to a single
+directory, and use the <strong>combine</strong> command to combine them into one .coverage
+data file:</p>
+<code lang="console">$ coverage combine</code>
+<p>If the different machines run your code from different places in their file
+systems, coverage won&#8217;t know how to combine the data.  You can tell coverage
+how the different locations correlate with a <tt class="docutils literal"><span class="pre">[paths]</span></tt> section in your
+configuration file.  See <a class="reference internal" href="/code/coverage/beta/config.html#config-paths"><em>[paths]</em></a> for details.</p>
+<p>If you are collecting and renaming your own data files, you&#8217;ll need to name
+them properly for <strong>combine</strong> to find them.   It looks for files named after
+the data file (defaulting to &#8221;.coverage&#8221;, overridable with COVERAGE_FILE), with
+a dotted suffix.  All such files in the current directory will be combined.
+Here are some examples of combinable data files:</p>
+<code lang="console">.coverage.machine1
+.coverage.20120807T212300
+.coverage.last_good_run.ok</code>
+<h1 id="cmd-reporting">Reporting</h1>
+<p>Coverage provides a few styles of reporting, with the <strong>report</strong>, <strong>html</strong>,
+<strong>annotate</strong>, and <strong>xml</strong> commands.  They share a number of common options.</p>
+<p>The command-line arguments are module or file names to report on, if you&#8217;d like
+to report on a subset of the data collected.</p>
+<p>The <tt class="docutils literal"><span class="pre">--include</span></tt> and <tt class="docutils literal"><span class="pre">--omit</span></tt> flags specify lists of filename patterns. They
+control which files to report on, and are described in more detail
+in <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a>.</p>
+<p>The <tt class="docutils literal"><span class="pre">-i</span></tt> or <tt class="docutils literal"><span class="pre">--ignore-errors</span></tt> switch tells coverage.py to ignore problems
+encountered trying to find source files to report on.  This can be useful if
+some files are missing, or if your Python execution is tricky enough that file
+names are synthesized without real source files.</p>
+<p>If you provide a <tt class="docutils literal"><span class="pre">--fail-under</span></tt> value, the total percentage covered will be
+compared to that value.  If it is less, the command will exit with a status
+code of 2, indicating that the total coverage was less than your target.  This
+can be used as part of a pass/fail condition, for example in a continuous
+integration server.  This option isn&#8217;t available for <strong>annotate</strong>.</p>
+<h1 id="cmd-summary">Coverage summary</h1>
+<p>The simplest reporting is a textual summary produced with <strong>report</strong>:</p>
+<code lang="console">$ coverage report
+Name                      Stmts   Miss  Cover
+---------------------------------------------
+my_program                   20      4    80%
+my_module                    15      2    86%
+my_other_module              56      6    89%
+---------------------------------------------
+TOTAL                        91     12    87%</code>
+<p>For each module executed, the report shows the count of executable statements,
+the number of those statements missed, and the resulting coverage, expressed
+as a percentage.</p>
+<p>The <tt class="docutils literal"><span class="pre">-m</span></tt> flag also shows the line numbers of missing statements:</p>
+<code lang="console">$ coverage report -m
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+my_program                   20      4    80%   33-35, 39
+my_module                    15      2    86%   8, 12
+my_other_module              56      6    89%   17-23
+-------------------------------------------------------
+TOTAL                        91     12    87%</code>
+<p>You can restrict the report to only certain files by naming them on the
+command line:</p>
+<code lang="console">$ coverage report -m my_program.py my_other_module.py
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+my_program                   20      4    80%   33-35, 39
+my_other_module              56      6    89%   17-23
+-------------------------------------------------------
+TOTAL                        76     10    87%</code>
+<p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>
+<h1 id="cmd-html">HTML annotation</h1>
+<p>Coverage can annotate your source code for which lines were executed
+and which were not.  The <strong>html</strong> command creates an HTML report similar to the
+<strong>report</strong> summary, but as an HTML file.  Each module name links to the source
+file decorated to show the status of each line.</p>
+<p>Here&#8217;s a <a class="reference external" href="/code/coverage/sample_html/index.html">sample report</a>.</p>
+<p>Lines are highlighted green for executed, red for missing, and gray for
+excluded.  The counts at the top of the file are buttons to turn on and off
+the highlighting.</p>
+<p>A number of keyboard shortcuts are available for navigating the report.
+Click the keyboard icon in the upper right to see the complete list.</p>
+<p>The title of the report can be set with the <tt class="docutils literal"><span class="pre">title</span></tt> setting in the
+<tt class="docutils literal"><span class="pre">[html]</span></tt> section of the configuration file, or the <tt class="docutils literal"><span class="pre">--title</span></tt> switch on
+the command line.</p>
+<p>If you prefer a different style for your HTML report, you can provide your
+own CSS file to apply, by specifying a CSS file in the <tt class="docutils literal"><span class="pre">[html]</span></tt> section of
+the configuration file.  See <a class="reference internal" href="/code/coverage/beta/config.html#config-html"><em>[html]</em></a> for details.</p>
+<p>The <tt class="docutils literal"><span class="pre">-d</span></tt> argument specifies an output directory, defaulting to &#8220;htmlcov&#8221;:</p>
+<code lang="console">$ coverage html -d coverage_html</code>
+<p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>
+<p>Generating the HTML report can be time-consuming.  Stored with the HTML report
+is a data file that is used to speed up reporting the next time.  If you
+generate a new report into the same directory, coverage.py will skip
+generating unchanged pages, making the process faster.</p>
+<h1 id="cmd-annotation">Text annotation</h1>
+<p>The <strong>annotate</strong> command produces a text annotation of your source code.  With a
+<tt class="docutils literal"><span class="pre">-d</span></tt> argument specifying an output directory, each Python file becomes a text
+file in that directory.  Without <tt class="docutils literal"><span class="pre">-d</span></tt>, the files are written into the same
+directories as the original Python files.</p>
+<p>Coverage status for each line of source is indicated with a character prefix:</p>
+<code lang="console">&gt; executed
+! missing (not executed)
+- excluded</code>
+<p>For example:</p>
+<code lang="console">  # A simple function, never called with x==1
+
+&gt; def h(x):
+      &quot;&quot;&quot;Silly function.&quot;&quot;&quot;
+-     if 0:   #pragma: no cover
+-         pass
+&gt;     if x == 1:
+!         a = 1
+&gt;     else:
+&gt;         a = 2</code>
+<p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>
+<h1 id="cmd-xml">XML reporting</h1>
+<p>The <strong>xml</strong> command writes coverage data to a &#8220;coverage.xml&#8221; file in a format
+compatible with <a class="reference external" href="http://cobertura.sourceforge.net">Cobertura</a>.</p>
+<p>You can specify the name of the output file with the <tt class="docutils literal"><span class="pre">-o</span></tt> switch.</p>
+<p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>
+<h1 id="cmd-debug">Diagnostics</h1>
+<p>The <strong>debug</strong> command shows internal information to help diagnose problems.
+If you are reporting a bug about coverage.py, including the output of this
+command can often help:</p>
+<code lang="console">$ coverage debug sys &gt; please_attach_to_bug_report.txt</code>
+<p>Two types of information are available: <tt class="docutils literal"><span class="pre">sys</span></tt> to show system configuration,
+and <tt class="docutils literal"><span class="pre">data</span></tt> to show a summary of the collected coverage data.</p>
+
+
+<p class='pmn pmnbot'>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/install.html" title="previous topic">Installation</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/config.html" title="next topic">Configuration files</a>&#xa0;&#xbb;</span>
+</p>
+
+</page>

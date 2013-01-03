@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060131T162751'>
+<title>Using Eclipse</title>
+<category>python</category>
+<category>ide</category>
+<via />
+<body>
+<p>A friend asked what IDE I'm using for Python these days.
+Because it was already in use at my new job, I'm using
+<a href='http://www.eclipse.org'>Eclipse</a>.
+Here are my impressions so far.</p>
+
+<more>
+
+<p>One co-worker doesn't use Eclipse because "it's a pig", but I have found
+it to be quite snappy, and very native feeling. And it uses far less memory than Firefox porked up
+with all the interesting extensions.
+</p>
+
+<p>For Python, the <a href='http://pydev.sourceforge.net/'>PyDev</a> plug-in is pretty good.
+It has code completion, although I haven't found it very useful with Python's dynamic nature.
+One annoyance: Ctrl-Tab is bound to re-tabbing the code or something, and I can't seem to re-bind
+it back to switching among the editor windows.
+I tried the debugger, but found it to be unusably slow, for example, 10 seconds to single-step to the next
+line.  More recent builds claim to have fixed some simple things to speed that up, but I haven't tried it
+again.
+</p>
+
+<p>I would have prefered to use a native Python IDE, but the free ones still don't seem ready to me.
+I still have high hopes for <a href='http://stani.be/python/spe/blog/'>SPE</a>, and am keeping my eye on it.
+One thing I'd like about SPE is since it's in Python, I could get in there and contribute to its development.
+(Of course, one thing I like about Eclipse is that since it's in Java, I can't fool myself into thinking
+that I can get in there and contribute to its development!)</p>
+
+<p>Things I like about Eclipse:</p>
+
+<ul>
+<li>It's a serious project run with discipline.  For example,
+here's <a href='http://dev.eclipse.org/viewcvs/index.cgi/%7Echeckout%7E/eclipse-project-home/plans/3_1/freeze_plan_3_1_2.html'>the page about the recent 3.1.2 release</a>,
+complete with goals, milestones, list of bugs fixed, and so on.</li>
+<li>It provides the closing paren when you open the paren, but when the time comes,
+if you also type the closing paren, it cleverly skips over the automatically provided one,
+instead of leaving you with two.</li>
+<li>It's very professional.  Too often, free IDE's look like everyone and their brother added a coulple of
+menu items, until you have a monstrosity that collapses under its own weight.  Considering all that it can do,
+Eclipse has a very small menu tree.</li>
+<li>It's free.</li>
+</ul>
+
+<p>Things I don't like about Eclipse:</p>
+<ul>
+<li>I haven't found a way to jump to the next search result, either within a file (what Microsoft
+tools would have bound to F3), or in a multi-file search (F8).
+There are next-result arrows on the search view, but I want a keystroke I can use in an editor to
+jump to the next result.
+</li>
+<li>Also on search: the Find/Replace dialog has Whole Word as an option, but File Search does not. WTF?</li>
+<li>The icon is a blue circle, just like Thunderbird: one of them has to change. It's too confusing.</li>
+<li>Eclipse seems to have gotten over its phobia of dealing with files as files, though some of that
+still shows through.  Open File is a menu item, but it isn't mapped to Ctrl+O, for example.
+And for some reason, the files I open from my project have line numbers displayed, but a file I open
+with Open File does not?</li>
+<li>Another thing about the file system: if I update my tree with Subversion on the command line,
+the next file search I do in Eclipse tells me that there were problems (because the project navigator
+is no longer in sync with the file system).  Then I have to go to the navigator and refresh it.
+Why doesn't it just refresh it?  What's the big deal?</li>
+<li>I can't turn off Java IDE features.  I don't code in Java, so I don't want to see Java features.
+I can't uninstall the Java plugins, so there are lots of choices about Java in my face. Even worse:
+why bug me about plug-in development?  I know it's important to Eclipse, but can't I declare once and for all
+that I am not developing a plug-in, and lighten the environment or something?</li>
+</ul>
+
+<p>One recommendation: The <a href='http://www.muermann.org/gotofile/'>GotoFile</a>
+plug-in is great for finding files within your project. Open Resource already let you type in names
+to find files, but GotoFile lets you use discontiguous characters.  "mcozpl" could find "MyCoolWhizzyPlugin.py"
+for example.</p>
+
+<p>I had been using the <a href='http://subclipse.tigris.org/'>Subclipse</a> plug-in for Subversion support,
+but found it to be both very slow and unreliable.
+I've gone back to the command line to do my updates and commits, which works fine so long as I remember to
+do a refresh from my project navigator.  The plug-in is still back there decorating my navigator, but it
+didn't seem to add much value to the meat and potatoes of Subversion use.</p>
+
+<p>All in all, after a number of earlier attempts to "get" Eclipse, this time it has stuck, and I am
+productive with it. SPE is probably in my future, but not yet.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

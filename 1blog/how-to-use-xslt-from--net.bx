@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041012T161950'>
+<title>How to use XSLT from .NET</title>
+<category>howto</category>
+<category>xslt</category>
+<category>csharp</category>
+<via />
+<body>
+<p>Yesterday I was trying to write some C# code that uses the .NET
+XML classes to perform an <a href='http://www.w3.org/TR/xslt'>XSLT</a> transform.
+I was a bit hampered by not knowing C#, but not much.
+The tricky thing was working through all of the pertinent classes in the .NET framework.
+</p>
+
+<p>I needed to transform an XML string (sDataXml) with an XSLT string (sXslt)
+and get the HTML string that results (sHtml).
+Further, I needed to pass a parameter to the transform.
+Here's what I ended up with:</p>
+
+<code lang='cs'><![CDATA[
+XsltArgumentList vArgs = new XsltArgumentList();
+vArgs.AddParam("myParamName", "", "myValue");
+XPathDocument xml = new XPathDocument(new StringReader(sDataXml));
+XmlUrlResolver resolver = new XmlUrlResolver();
+XslTransform xsl = new XslTransform();
+Type t = typeof(Kubi.UI.IssuePreviewCtrl);
+XmlTextReader xslReader = new XmlTextReader(new StringReader(sXslt))
+xsl.Load(xslReader, resolver, Assembly.GetCallingAssembly().Evidence);
+StringWriter sw = new StringWriter();
+xsl.Transform(xml, vArgs, sw, resolver);
+string sHtml = sw.ToString();
+]]></code>
+
+<p>In retrospect, the result is not as complicated as it seemed when I was in the middle of it.
+I understand the value of finely-diced APIs that provide many objects, each with a small job
+to do.  The .NET framework has clearly taken this approach.
+Being able to pass an explicit URL resolver is a very powerful way to use XSLT in a larger
+system.
+</p>
+
+<p>But sometimes you'd like some defaults to help you along.
+For example, the Evidence passed to xsl.Load: wouldn't that make a wonderful default?
+And when a XmlUrlResolver is required, a new one constructed with no arguments sounds
+like a good default.</p>
+
+</body>
+</entry>
+</blog>

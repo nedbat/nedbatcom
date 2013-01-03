@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050824T213549'>
+<title>Log Parser</title>
+<category>tools</category>
+<via />
+<body>
+<p>Jeff Atwood extolls the virtues of <a href='http://www.codinghorror.com/blog/archives/000369.html'>Microsoft Log Parser</a>.
+It provides a SQL syntax for querying log files of diverse heritages.  It sounds very cool, and damn handy.
+From a quick look through the source he provides, I didn't see how to plug in new input parsers,
+though the architecture diagram he shows has a block for them.
+With CSV and XML inputs available, I guess you could transform anything you like into something it
+could eat even without plugins.
+</p>
+</body>
+</entry>
+</blog>

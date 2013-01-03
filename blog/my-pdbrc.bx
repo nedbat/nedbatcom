@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070408T175558'>
+<title>My .pdbrc</title>
+<category>python</category>
+<category>debugging</category>
+<body>
+<p>When I need a Python debugger, I use the standard
+<a href='blog/200509.html#e20050902T072954'>pdb debugger</a>.
+I'm very low-tech about it: I set breakpoints by adding this line to my source:
+</p>
+
+<code lang='python'>import pdb; pdb.set_trace()</code>
+
+<p>It's the only time I use the Python semicolon, and I always use it for this
+line.</p>
+
+<p>This breaks me into the debugger when the line is executed, and I can step,
+examine, and so on, from there.  The one aid I have is a small .pdbrc file to
+define a few handy shortcuts for me:</p>
+
+<code>
+# Ned's .pdbrc
+
+# Print a dictionary, sorted. %1 is the dict, %2 is the prefix for the names.
+alias p_ for k in sorted(%1.keys()): print "%s%-15s= %-80.80s" % ("%2",k,repr(%1[k]))
+
+# Print the member variables of a thing.
+alias pi p_ %1.__dict__ %1.
+
+# Print the member variables of self.
+alias ps pi self
+
+# Print the locals.
+alias pl p_ locals() local:
+
+# Next and list, and step and list.
+alias nl n;;l
+alias sl s;;l
+</code>
+
+<p>This defines useful commands for printing members of expressions, members of self, and locals.
+Not a huge step forward, but helpful nonetheless.
+</p>
+
+<p>There are other Python debuggers, but whenever I try them, I get tangled up
+in configurations and connections and IDEs.  PDB just works, even though it is
+very basic. Someday I'll find a better one, but for now it serves my needs.</p>
+
+<p><em>Update:</em> from the comments, a link to a cool way to get more interesting
+helper functions into the .pdbrc file: <a href='http://wiki.python.org/moin/PdbRcIdea'>have it read an external Python file</a>.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110601T173939'>
+<title>Filenames with accents</title>
+<category>python</category>
+<category>charset</category>
+<body>
+    <p>I'm working on projects for <a href='http://threepress.org'>Threepress</a>, and they
+        have a good, extensive test suite.  I was surprised when a test failed on Ubuntu
+        that had always passed on their Macs.</p>
+
+    <p>The test in question was trying to open a file by name, no big deal, right?  Well, in this
+        case, the filename had an accented character, so it was a big deal.  Getting to the bottom
+        of it, I learned some new things about Python and Unicode.</p>
+
+    <p>On the disk is a file named lé.txt.  On the Mac, this file can be opened by name, on Ubuntu,
+        it cannot.  Looking into it, the filename we're using, and the filename it has, are different:</p>
+
+<code lang='py'><![CDATA[
+>>> fname = u"l\u00e9.txt".encode('utf8')
+>>> fname
+'l\xc3\xa9.txt'
+>>> os.listdir(".")
+['le\xcc\x81.txt']
+]]></code>
+
+    <p>On the Mac, that filename will open that file:</p>
+
+<code lang='py'><![CDATA[
+>>> open(fname)
+<open file 'lé.txt', mode 'r' at 0x1004250c0>
+]]></code>
+
+    <p>On Ubuntu, not so much:</p>
+
+<code lang='py'><![CDATA[
+>>> open(fname)
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+IOError: [Errno 2] No such file or directory: 'l\xc3\xa9.txt'
+]]></code>
+
+    <p>What's with the two different strings that seem to both represent the same text? Wasn't
+        Unicode supposed to get us out of character set hell by having everyone agree on how
+        to store text?  Turns out it doesn't make everything simple, there are still multiple
+        ways to store one string.</p>
+
+    <p>In this case, the accented é is represented as two different UTF-8 strings: both as '\xc3\xa9' and as 'e\xcc\x81'.  In
+        pure Unicode terms, the first is a single code point, U+00E9, or LATIN SMALL LETTER E WITH ACUTE.
+        The second is two code points: U+0065 (LATIN SMALL LETTER E) and U+0301 (COMBINING ACUTE ACCENT).
+        Turns out Unicode has both a single combined code point for accented e, and also two code points
+        that together can mean accented é.</p>
+
+    <p>This demonstrates a complicated Unicode concept known as <a href='http://en.wikipedia.org/wiki/Unicode_equivalence'>equivalence
+        and normalization</a>.  Unicode defines complex rules that make it so that our two strings are 
+        "equivalent".</p>
+
+    <p>On the Mac, trying to open the file with either string works, on Ubuntu, you have to use the
+        same form as is stored on disk.  So to open the file reliably, we have to try a number of
+        different Unicode normalization forms to be sure to open it.</p>
+    
+    <p>Python provides the <a href='http://docs.python.org/dev/library/unicodedata.html#unicodedata.normalize'>unicodedata.normalize</a>
+        function which can perform the normalizations for us:</p>
+
+<code lang='py'><![CDATA[
+>>> import unicodedata
+>>> fname = u"l\u00e9.txt"
+>>> unicodedata.normalize("NFD", fname)
+u'le\u0301.txt'
+]]></code>
+
+    <p>Unfortunately, you can't be sure in what normalization form a filename might be.  The
+        Mac likes to create them in decomposed form, but Ubuntu seems to prefer composed form.
+        Seems like a fool-proof file opener would need to try the four different normalization
+        forms (NFD, NFC, NFKD, NFKC) to be sure to open a file with non-ASCII characters in it, but that also seems
+        like a huge pain. Is it really true I have to jump through those hoops to open these files?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021203T210110'>
+<title>Validating credit cards</title>
+<category>js</category>
+<category>coding</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I was doing some online shopping, and had to enter a credit card number.
+I entered my credit card number
+(using <a href='blog/200204.html#20020407T111438'>virtual card numbers</a>, of course).
+I hit submit, and was prompted to enter a valid credit card number.
+Of course, what had happened was that I had entered my number with spaces
+between every four digits, as any normal person would do, and the stupid
+site would only accept the number with no spaces in it.
+</p>
+
+<p>Why is this so hard? How many people a day get that idiotic message box?
+Looking at the source for the page, I found these snippets of JavaScript:
+</p>
+
+<code lang='javascript'><![CDATA[
+var cardPattern = /\d{16}/;
+
+if (!(cardPattern.test(document.userInfo.cardNumber.value))) {
+  errorMsg += 'Please enter a valid Card Number.\n';
+  errorFlg = 1;
+}]]></code>
+
+<p>Why not do this:</p>
+
+<code lang='javascript'><![CDATA[
+var cardPattern = /\d{16}|\d{4} \d{4} \d{4} \d{4}/
+]]></code>
+
+<p>and let me be?  Why after all these years are average users still expected to
+pick up the slack for lazy programmers?</p>
+
+<p>And don't tell me, "the back end wouldn't accept the string with spaces, so the
+front end is right to reject it"!  Why can't the back end deal with the spaces?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120126T213123'>
+<title>Slim comparisons</title>
+<category>python</category>
+<body>
+    
+    <p>Hanging out in the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel today, 
+        I learned something new about Python comparisons.
+        It isn't so much a new detail of the language, as a way to make use of a detail,
+        a clever technique that I hadn't seen before.</p>
+
+    <p>When defining a class, it's often useful to define an equality comparison so that
+        instances of your class can be considered equal.  For example, in an object with three
+        attributes, the typical way to define __eq__ is like this:</p>
+
+<code lang='py'><![CDATA[
+class Thing(object):
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def __eq__(self, other):
+        print "Comparing %r and %r" % (self, other) 
+        return (
+            self.a == other.a and
+            self.b == other.b and
+            self.c == other.c
+            )
+]]></code>
+
+<p>When run, it shows what happens:</p>
+
+<code lang='py'><![CDATA[
+>>> x = Thing(1, 2, 3)
+>>> y = Thing(1, 2, 3)
+>>> print x == y
+Comparing <Thing 37088896> and <Thing 37088952>
+True
+]]></code>
+
+    <p>Here the __eq__ method compares the three attributes directly on the self and other objects,
+        and returns a boolean, a simple direct comparison.</p>
+
+    <p>But on IRC, a different technique was proposed:</p>
+
+<code lang='py'><![CDATA[
+class Thing(object):
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def __eq__(self, other):
+        print "Comparing %r and %r" % (self, other) 
+        return (self.a, self.b, self.c) == other
+]]></code>
+
+<p>Now when we run it, something unusual happens:</p>
+
+<code lang='py'><![CDATA[
+>>> x = Thing(1, 2, 3)
+>>> y = Thing(1, 2, 3)
+>>> print x == y
+Comparing <Thing 37219968> and <Thing 37220024>
+Comparing <Thing 37220024> and (1, 2, 3)
+True
+]]></code>
+
+<p>Our __eq__ is being called twice!  The first time, it's called with two
+    Thing objects, and it tries to compare a tuple of (1, 2, 3) to other, which
+    is y, which is a Thing.  Tuples don't support comparison to Thing's, so it
+    returns NotImplemented.  The == operator handles that case, and relying
+    on the commutative nature of ==, tries swapping the two arguments.  That
+    means comparing y to (1, 2, 3), which calls our __eq__ again.  Now it
+    compares (1, 2, 3) to (1, 2, 3), which succeeds, producing the final True
+    result.</p>
+
+<p>This is an interesting technique, but I'm not sure I like it.  For one thing, the code 
+    doesn't read clearly.  It's comparing a tuple to an object, which isn't supported.
+    It only makes sense when you keep in mind the argument-swapping dance.</p>
+
+<p>For another, it make operations work that maybe shouldn't:</p>
+
+<code lang='py'><![CDATA[
+x == (1, 2, 3)
+(1, 2, 3) == x
+]]></code>
+
+<p>I don't know that I want these comparisons to succeed.  It exposes internals
+    that should be hidden.  Of course, why would a caller who didn't know the
+    internals try a comparison like this?  But things like this have a way of
+    creeping out to bite you.</p>
+
+<p>I'm glad to have a better understanding of the workings of comparisons,
+    but I'm not sure I'll write them like this.</p>
+
+</body>
+</entry>
+</blog>

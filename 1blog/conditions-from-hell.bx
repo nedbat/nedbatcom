@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040813T211956'>
+<title>Conditions from hell</title>
+<category>coding</category>
+<via />
+<body>
+<p>I saw this in a chunk of code recently (the names have been changed to protect the guilty):</p>
+
+<!--
+    // Step 3: Is the originator Active in the space or invited and
+    // responding to the invite or uninvited and uninviting himself?
+
+    // anyone active is ok
+    if (state == CParticipant::kActive ||
+        // always allow invite responses
+        isInviteResponse ||
+        // when you withdraw, you get set uninvited first, so allow any uninvites while uninvited
+        // also allow internal updates when you're uninvited (this only comes into play when you're
+        // updating yourself to be uninvited
+        ( (state == CParticipant::kUninvited || state == CParticipant::kInvited) &&
+          ( cmdClassId == kCommandClassId_Uninvite ||
+            ( isInternalCmd && cmdClassId == kCommandClassId_ReplicatorUpdateEntity ) ) ) )
+    {
+
+-->
+
+<code lang='cpp'><![CDATA[
+if (state == kActive ||
+    // always allow invitation responses.
+    isInviteResponse ||
+    // ..(three-line comment that I couldn't understand)..
+    ( (state == kUninvited || state == kInvited) &&
+      ( opcode == kUninvite ||
+        ( isOutgoing && opcode == kUpdate ) ) ) )
+{
+    // execute the command.
+}
+]]></code>
+
+<p>Um, right, whatever.  Is that condition correct? Who can tell? I can't make sense of it.
+I would rewrite it with intermediate booleans like this:</p>
+
+<more>
+
+<code lang='cpp'><![CDATA[
+bool bExecuteIt = false;
+
+// Active users can always execute.
+if (state == kActive) {
+    bExecuteIt = true;
+}
+
+// Always execute invitation responses.
+if (isInviteResponse) {
+    bExecuteIt = true;
+}
+
+bool bWaitingForResponse = (state == kUninvited || state == kInvited);
+bool bSendingUpdate = (isOutgoing && opcode == kUpdate);
+
+if ((bWaitingForResponse && (opcode == kUninvite || bSendingUpdate))) {
+    bExecuteIt = true;
+}
+
+// Finally, execute the command! (if we should).
+if (bExecuteIt) {
+    // execute the command.
+}
+]]></code>
+
+<p>This is still complicated, but at least we've managed to pull apart that horrendous
+boolean expression into some named variables. I'd like to simplify it further so that
+no boolean expression has both 'and' and 'or', but that last condition might be as
+good as it's going to get.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

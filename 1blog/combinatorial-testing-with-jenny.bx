@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040501T222035'>
+<title>Combinatorial testing with jenny</title>
+<category>testing</category>
+<category>tools</category>
+<via />
+<body>
+<p>As a developer, I've often puzzled over how to do good feature coverage testing.
+You have to take a complex program with many
+dimensions of features, and design a finite set of tests that will verify that any
+possible use of the program behaves correctly.
+How can the infinite variety of uses of the software be whittled down to a manageable
+yet complete set of test cases?
+When I am asked to interview candidates for testing positions, I ask them this question,
+precisely because I don't know the answer.  If a candidate says something that
+enlightens me even a little, I recommend hiring them.
+</p>
+
+<p>Kim was also
+<a href='http://www.kimbly.com/blog/000340.html'>thinking about combinatorial testing</a>,
+and found <a href='http://burtleburtle.net/bob/math/jenny.html'>jenny</a> as an aid in
+planning combinatorial tests.  Jenny is a simple program that doesn't understand anything
+about your particular software.  All it does is tell you which combinations of features
+to test to ensure that every possible pair (or triple, or quadruple, or ..) of features
+has been tested together.  Then you take its feature tuples and write tests from them.
+</p>
+
+<p>I haven't used jenny, so I don't know how much of a help it is.
+Clearly, it takes more than a combinatorial tuple generator to create good test scripts.
+Even deciding what dimensions are important in your software seems like an art.
+Any real product would probably have hundreds of dimensions, meaning they couldn't all be
+fed into jenny at once.  I guess you'd have to make some decisions about how to partition the
+dimensions into manageable arenas.
+Even with these limitations, jenny seems like it could be a useful tool to reduce the number
+of test cases while keeping the same coverage.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100507T215015'>
+<title>Fossilized hack-arounds</title>
+<category>development</category>
+<body>
+<p>A few weeks ago, we had a baffling problem with our web application: some
+JSON responses were being gzipped incorrectly.  I asked about it on Server Fault:
+<a href='http://serverfault.com/questions/133375/incorrect-gzipping-of-http-requests-cant-find-whos-doing-it'>Incorrect gzipping of http requests, can’t find who’s doing it</a>.
+</p>
+
+<p>The final resolution was that Akamai was gzipping the request, and adding a
+"Content-Encoding: gzip" header.  But we'd already put in a "Content-Encoding: identity"
+header, the browser saw both, only attended to the first (identity), and couldn't
+interpret the gzipped gibberish it saw in the content.</p>
+
+<p>It turns out we aren't supposed to use "Content-Encoding: identity" on
+responses, and removing that from our JSON code solved the problem.</p>
+
+<p>But there was a mystery remaining: Akamai also adds an "X-N: S" header to the
+response. What the heck is that?</p>
+
+<p>A friend has friends at Akamai, and sent them the question. Back came the
+answer:</p>
+
+<quote><p>A long time ago, when there was a browser called "Netscape", :-) there
+was a bug that prevented embedded images from rendering if the HTTP headers were
+exactly some length. (If the terminating \r\n begins on character 256, 257, or
+258.) So if the header size is in this range the Akamai server adds that
+header...
+</p></quote>
+
+<p>Wow, talk about bug workarounds encased in amber.  That's a really old bug
+and code is still trying to sidestep it.  Looking on <a href='http://www.google.com/search?q=netscape+bug+header+length+257'>Google</a>,
+it looks like other web intermediaries are also adding headers to fix it:
+Apache used to send <a href='http://george.hotelling.net/90percent/geekery/why_is_apache_sending_a_xpad_header.php'>X-Pad</a>,
+and WebSTAR sent <a href='http://reviews.cnet.com/8301-13727_7-10338296-263.html'>X-BrowserAlignment</a>.
+</p>
+
+<p>I doubt the affected browser is even out there in the wild any more, but Akamai
+is still adding this header to requests, plugging away a decade later. It's astounding
+to think of the labyrinth of special checks and bug adaptations in software like
+this, the extra cycles expended in the name of obsolete components that are no
+longer even listening on the other end.</p>
+
+<p>The problem of course is that once you've added code like this, how can you
+be sure it's safe to remove?  Who's even checking over the code to consider that
+it might be safe?  Accommodations like this get in the code and generally never
+come out, though Apache <a href='http://www.mail-archive.com/dev@httpd.apache.org/msg42280.html'>removed theirs</a>.
+</p>
+
+<p>One last micro-mystery: what do the N and S mean in "X-N: S"?  I'm betting on
+"Netscape Sucks"!</p>
+
+</body>
+</entry>
+</blog>

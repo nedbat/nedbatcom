@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021112T221028'>
+<title>Grouping in XSLT</title>
+<category>xslt</category>
+<body>
+<p><a href='http://www.zanthan.com/itymbi/'>Alex Moffat</a> has
+<a href='http://www.zanthan.com/itymbi/archives/000827.html#000827'>an entry about how
+to group data with XSLT</a>.  This has got to be the biggest question people face as they
+climb the XSLT learning curve. It's a tough one to solve, because it's probably the most
+common operation that doesn't fall naturally out of the nested template model of XSLT,
+and whose simple and obvious looping solution is not available in XSLT.
+</p>
+
+<p>Alex's solution is a clever use of tail recursion to loop and
+work around XSLT's lack of mutable variables.
+Luckily, when I was trying to figure out this same problem (for my
+<a href='blog/archive2002.html'>blog archive</a> page),  I found
+<a href='http://www.jenitennison.com'>Jeni Tennison</a>'s XSLT pages, including
+<a href='http://www.jenitennison.com/xslt/grouping/muenchian.html'>a page about grouping</a>.
+She describes the Muenchian method, which is what I ended up using.
+Not only is it faster than Alex's method for very large data sets, but it has a
+natural place to drop in sorting so the original data set doesn't have to be pre-sorted.
+(Actually, Alex's method doesn't need the data to be sorted to get the grouping to work
+either, but the groups appear in whatever order they occurred in the data set.
+The Muenchian method lets me sort the groups and the records).
+</p>
+
+<p>Another excellent resource for XSLT is Dave Pawson's
+<a href='http://www.dpawson.co.uk/xsl/xslfaq.html'>XSL FAQ</a>.
+The presentation is more of a firehose than Jeni's pages, so there's more information,
+but it's a little more work to find what you want.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070128T172342'>
+<title>EURIon constellation</title>
+<body>
+<p>On the back of the US $20 bill is a strange pattern of "20" numbers.  They
+are yellow, which is odd for the overwhelmingly green bill, and they seem to
+be randomly placed.  Unlike the rest of the bill, which uses randomness as a way
+to tight pack an area, the back seems sparsely dotted with these yellow numbers.
+It has the whiff of having some other purpose.</p>
+
+<p>Turns out these numbers are part of the <a href='http://en.wikipedia.org/wiki/EURion_constellation'>EURion constellation</a>
+on the bill.  The zeroes are circles in a specific geometric arrangement that
+allows for detection of moneyness (to coin a term, har!) by copiers and software like Photoshop,
+which refuses to open scanned images of money.</p>
+
+<p>Except it seems that <a href='http://www.cl.cam.ac.uk/~sjm217/projects/currency/'>software
+doesn't use the EURion constellation</a>.  The linked page demonstrates all sorts of
+clipping and manipulation of money images, some of which are detected as money,
+and some of which are not.  The EURion constellation being part of the image
+seems not to be correlated to detection.  Interesting.</p>
+
+<p>There must be all sorts of fascinating algorithms at work to detect bills
+from many countries in many denominations...</p>
+
+</body>
+</entry>
+</blog>

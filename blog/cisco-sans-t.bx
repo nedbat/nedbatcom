@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080926T072525'>
+<title>Cisco minus t</title>
+<category>funny</category>
+<category>webpage</category>
+<via href='http://taint.org'>Justin Mason</via>
+<body>
+<p>One of those simple typos that turns into an embarassing public mistake:
+<a href='http://blog.dotsmart.net/2008/09/25/cisco-home-page-fail/'>Cisco home page FAIL</a>,
+where (it is theorized) a regex that should have had \t had only t, and as a
+result, all lowercase t's were removed from the page, breaking it completely.
+</p>
+</body>
+</entry>
+</blog>

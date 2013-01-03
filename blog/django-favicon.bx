@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070919T191044'>
+<title>Django favicon</title>
+<category>django</category>
+<category>graphics</category>
+<body>
+<p>A recent thread on Django Users,
+<a href='http://groups.google.com/group/django-developers/browse_thread/thread/98ab27af4ab0b748/ff7b9896ec76f7cc'>Visual recognition of Django website</a>
+is about the need for a <a href='http://en.wikipedia.org/wiki/Favicon'>favicon</a> for the <a href='http://djangoproject.com'>Django web site</a>.
+The thread follows a typical path, starting with a reasonable request, followed by a smattering of debate about whether it is in fact a good idea.
+A few people posted proposed favicon files based on the d in the Django logo
+(including <a href='http://groups.google.com/group/django-developers/browse_thread/thread/98ab27af4ab0b748/946595867c465d0a?lnk=st&amp;q=&amp;rnum=1#946595867c465d0a'>one with a Makefile</a>!)</p>
+
+<p>Making a good 16<times/>16 pixel icon is tough.  Here's how I made one that avoids some of the smearing.
+I started with the <a href='http://www.djangoproject.com/community/logos/'>Django logo</a>, took the Dj (in honor of <a href='http://www.railsenvy.com/2007/9/10/ruby-on-rails-vs-django-commercial-7'>DJ Ango</a>!) from it, and placed them
+in a square.  The color is a very dark green that would look black at such small sizes, so I lightened it to a green borrowed
+from one of the Django badges:
+</p>
+
+<figurep>
+    <img src='pix/django-icon-256.png' alt='Dj from Django'/>
+</figurep>
+
+<p>If I simply scale this image down to 16<times/>16, it looks like this:</p>
+
+<figurep>
+    <img src='pix/django-icon-naive-16.png' alt='Dj from Django'/>
+</figurep>
+
+<p>The letters here are blurred, and we can do better.
+To see why the letters are blurred, go back to the full-size square, and turn on the grid,
+setting it to one-sixteenth the width of the square. The grid now represents the
+16<times/>16 pixels of the final actual-size icon:</p>
+
+<figurep>
+    <img src='pix/django-icon-256-grid.png' alt='Dj square with grid overlaid'/>
+</figurep>
+
+<p>Most of the edges of the letters don't fall neatly onto the pixels defined by the grid.
+As a result, when the image is scaled down, the edges are blurred.  To prevent
+this, we have to move the letters' edges so that they line up better with the grid.
+This is what font renderers do for you, and a great deal of work has gone into
+<a href='http://www.microsoft.com/typography/tools/trtalr.htm'>type hinting</a>
+that can automatically adjust the curves of letters to align with whatever pixel
+grid they are being rendered onto.</p>
+
+<p>To improve the icon, I did this by hand. Using the grid as a guide, I used
+the lasso tool to select parts of letters and move them until they fit better
+onto the grid:</p>
+
+<figurep>
+    <img src='pix/django-icon-warped-grid.png' alt='Dj adjusted to the grid.'/>
+</figurep>
+
+<p>This changed all sorts of details of the letters, including the height,
+the thickness of the <a href='http://graphicdesign.spokanefalls.edu/tutorials/process/type_basics/default.htm'>stems</a>,
+and so on, but kept the overall feel of the logo.
+(<a href='pix/django-icon-warp.png'>here it is</a> if you want it.)
+Generally, I haven't worried too much about
+the curvy parts: remember we're going to be scaling down to 16<times/>16 at the
+end anyway, so all the mistakes will be fuzzed away.
+I added the white dots in the corner pixels to get a slight rounded look to the corners
+when they get rendered down.  The final icon:
+</p>
+
+<figurep>
+    <img src='pix/django-favicon.png' alt='Finished favicon'/>
+</figurep>
+
+<p>The two favicons side-by-side, old and new:</p>
+
+<figurep>
+    <img src='pix/django-icon-naive-16.png' alt='Naive favicon'/>
+    &#160;&#160;
+    <img src='pix/django-favicon.png' alt='Finished favicon'/>
+</figurep>
+
+<p>Is it better? I think so.</p>
+
+</body>
+</entry>
+</blog>

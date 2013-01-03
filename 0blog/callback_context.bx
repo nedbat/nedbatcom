@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021230T223939'>
+<title>Callbacks should always have context</title>
+<category>arch</category>
+<body>
+<p>If you are designing an API, and you have callbacks in it, please: do us all a favor
+and let your caller provide a context for the callback.  In other words, wherever the
+callback function is registered, take an another opaque data argument as well,
+and pass that data to the callback.</p>
+
+<p>For example, in C, here's a function that could be used to register a malloc-like
+memory allocation callback:</p>
+
+<code lang='c++'><![CDATA[
+void SetMallocCallback(
+    void * (*pMalloc)(size_t size)
+);
+]]></code>
+
+<p>This works fine, as long as I want to implement a truly global malloc.
+Far better is this:</p>
+
+<code lang='c++'><![CDATA[
+void SetMallocCallback(
+    void * (*pMalloc)(void * pCtx, size_t size),
+    void * pCtx
+);
+]]></code>
+
+<p>Now I can do more interesting things in my callback: I could create a local allocation
+pool, and pass it through the void * to a sub-allocating malloc, for example.
+Of course, if I want to write a simple global malloc, I still can,
+I just ignore the context data.</p>
+
+<p>I apologize for the ugly C mess in these examples, but I hope you see what I'm
+getting at.</p>
+
+</body>
+</entry>
+</blog>

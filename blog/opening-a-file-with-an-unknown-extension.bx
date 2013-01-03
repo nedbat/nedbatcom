@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050318T070512'>
+<title>Opening a file with an unknown extension</title>
+<category>windows</category>
+<category>howto</category>
+<via />
+<body>
+<p>I was trying to fix a bug at work yesterday that had bothered me for a while.
+Our product launches document files, and the bug was that if the file has no
+file association, it wouldn't do what most Windows programs do.
+If you attach a file called foo.xyzzy to an email, and double-click it, you
+get a dialog that says "Windows cannot open this file", and it lets you
+choose an application to open it with.
+</p>
+
+<p>In our product, the user got a message box that said "There is no application
+associated with this file", and nothing she could do about it.
+The original developer of the feature was the type to try for a while,
+then claim it couldn't be done.  He had marked the bug as fixed because he
+put up the alert telling the user they were screwed.</p>
+
+<p>I remembered seeing tips on how to get the whole choreography right, so I started digging.
+Here's a bit about the solution, and how I found it.
+</p>
+
+<more>
+
+<p>We're writing in C#, using the .NET method System.Diagnostic.Process.Start
+to start a new process for the document.  Reading the documentation makes
+clear that this method is a wrapper for Win32's ShellExecute, which was a good
+start because ShellExecute was what I thought you needed to use for launching
+documents.  Also, there's a lot more chatter on the web about ShellExecute.
+</p>
+
+<p>So I start searching with Google.  This is one of those tricky searches
+("Windows cannot open the file ShellExecute" or "ShellExecute unknown", etc)
+where there aren't enough unusual words to give you good results.  I found
+Raymond Chen's entry
+<a href='http://blogs.msdn.com/oldnewthing/archive/2004/11/26/270710.aspx'>Simple things you can do with the ShellExecuteEx function</a>,
+which looked good, and one commenter there even mentions my problem, but without a solution.
+The best thing about that post was the sample program.  I built it
+and confirmed that a single call to ShellExecute does just what our Process.Start
+was doing.  I had feared that I needed an unwrapped feature of ShellExecute, and
+would have to hack past the .NET wrapper.  Now it looked like I didn't have to.
+</p>
+
+<p>Poking around some more, I found the name of the error returned from ShellExecute when
+there's no association (SE_ERR_NOASSOC).  That at least was another unusual word to search on.
+There's a lot of code out there that calls
+ShellExecute and defines this symbol, but then just prints error messages, which didn't
+help me.  My code already did that.</p>
+
+<p>When you want to find code these days, there's only one place to go:
+<a href='http://www.koders.com'>Koders</a>, the source code search engine.
+It's fabulous for finding a chunk of code that uses a particular method or symbol.
+Searching there for <a href='http://www.koders.com/?s=ShellExecute+SE_ERR_NOASSOC'>ShellExecute SE_ERR_NOASSOC</a>
+produced lots more code that calls ShellExecute and doesn't do anything insightful
+with the error code.</p>
+
+<p>In fact, there was nothing useful.  But Raymond had been talking about ShellExecuteEx
+rather than plain-old ShellExecute.
+I don't understand how they differ (they take the same structure as an argument),
+but what the heck, search on that.
+This produced a similar page of results, but the very last result had the answer.
+<a href='http://www.koders.com/cpp/fid0FBA53AAC3BD032693E2E4A299556C4D355DD6AD.aspx?s=ShellExecuteEx+SE_ERR_NOASSOC'>LaunchHandlers.cpp</a>
+from the CvsGui project shows how to do it.</p>
+
+<p>The answer turns out to be calling ShellExecute <em>twice</em>.  The first time, call it
+with a verb of "open", and tell it not to show any UI.  If it returns
+SE_ERR_NOASSOC, then call it again with a verb of "openas", and let it show a UI.
+You'll get the familiar Windows interface.
+</p>
+
+<p>Coding up this technique in my app produced: nothing different.
+It turns out I still had to wrestle with error code translation.
+The .NET method returns ERROR_NO_ASSOCIATION (1155) in NativeErrorCode
+rather than SE_ERR_NOASSOC (31).  Whatever.
+Once I adapted to that, everything worked perfectly!</p>
+
+<p>I went into the problem believing there was a solution where
+a previous developer had thrown up his hands.  It was very satisfying to find the
+answer and to be able to make the app do just what I wanted it to do, rather than
+have to settle for a lame compromise.
+</p>
+
+<p>Ah, west and wewaxation at wast!</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

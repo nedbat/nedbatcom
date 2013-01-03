@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060210T074815'>
+<title>Zillow</title>
+<category>reference</category>
+<category>type</category>
+<via />
+<body>
+<p><a href='http://zillow.com'>Zillow</a> is a real-estate information site.  In particular, it will
+give you an estimate of how much a house is worth, given its address.  It's very impressive.  Not only
+do they have tons of accurate information about houses, but they also have historical information,
+so you can see what a house sold for, and when, with a graph of its estimated value over time.
+It says my house is stucco when it is actually shingle, but I can only assume that this is an inaccuracy
+in the data from the town.
+</p>
+
+<p>It's from the same guys that started Expedia, so they have some experience disintermediating
+professionals.  "Disintermediating," I haven't said that in a while, how late 20th century of me!</p>
+
+<p>Coolest feature: an aerial map of a neighborhood, with prices overlaid all the houses.
+Most annoying feature: they've overdone it with the whole "z" thing.  Estimates are called "zestimates" (TM!),
+and the URLs end in a ".z" extension.
+</p>
+
+<p>Typographically most annoying feature:  To label themselves as being in beta, they've put the word "Beta"
+in their logo, and the designer tried the cute trick of using the greek letter Beta for the B.
+Except they've used a German double-s instead:
+</p>
+
+<figurep>
+<img src='pix/sseta.png' alt='Sseta'/>
+</figurep>
+
+<p>The <a href='http://en.wikipedia.org/wiki/%C3%9F'>German double-s</a> is actually a lowercase letter,
+a ligature of a <a href='http://en.wikipedia.org/wiki/Long_s'>long s</a> and a normal s.
+The long s in turn is the letter that everyone thinks is an f in old-fashioned texts.
+You know, like at the top of the Bill of Rights, where it says, "In Congrefs".
+So we have confusion piled on top of confusion, and Zillow seems to be in sseta (with a German accent).
+</p>
+
+</body>
+</entry>
+</blog>

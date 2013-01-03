@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030911T214246'>
+<title>Bookmarks with referrers</title>
+<via /> <!-- id= or href= -->
+<body>
+<p>Recently, I noticed two mentions of things I had linked to, and each mention
+said something like "I forget where I found this".
+One was on
+<a href='http://www.kryogenix.org/days/537.html'>kryogenix.org</a>, the other in
+<a href='http://simon.incutio.com/archive/2003/09/08/hinting'>a comment in Simon Willison's blog</a>.
+I suspect that the authors had found them here.
+</p>
+
+<p>Considering the web is fundamentally about links, and that surfing constantly
+takes us far afield, why don't our bookmarks help us more with this problem?
+Typically a bookmark is simply a URL and a title.
+Why can't a bookmark also include the chain of referrers (the history stack)
+that led up to it?  Wouldn't that be valuable contextual information?
+</p>
+
+<p>Someday when I'm independently wealthy and can spend my days in a smoking jacket
+writing the software I want to use, I'll write a bookmark manager that remembers
+not just the bookmarks but where they came from.
+</p>
+
+<p>Or maybe the <a href='http://lazyweb.org'>LazyWeb.org</a> can help out...</p>
+
+</body>
+</entry>
+</blog>

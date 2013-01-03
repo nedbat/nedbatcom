@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051018T085530'>
+<title>wcscmp vs StrEqual</title>
+<category>coding</category>
+<category>cpp</category>
+<via />
+<body>
+<p>I know this is a small thing, but it snagged my brain this morning.  I hate the C standard
+library function wcscmp.  First, because the name is so crappy (it stands roughly for Wide Character
+String CoMPare).  Second, because although it returns a true comparison (which of the two arguments
+is greater), it's almost always used to compare for equality, and therefore has to be negated.
+It returns zero if the strings are equal, so you end up writing this:
+</p>
+
+<code lang='cpp'><![CDATA[
+if (!wcscmp(s1, s2)) {
+   // Do something if s1 and s2 are equal...
+}
+]]></code>
+
+<p>Or worse, you want to know if they are not equal, so you leave off the negation.
+When I see wcscmp, I think, "we're comparing to see if the strings are the same", but then I have
+to carefully navigate that negation to get the sense correct.</p>
+
+<p>If we're not going to have a real string class with an equality operator, I much prefer to
+have a StrEqual function:</p>
+
+<code lang='cpp'><![CDATA[
+inline bool
+StrEqual(const wchar_t * s1, const wchar_t * s2)
+{
+    return !wcscmp(s1, s2);
+}
+]]></code>
+
+<p>Then I can write what I mean.  But others feel that at least wcscmp is standard.
+I'll take readable and straightforward over standardized obfuscation any day.</p>
+
+</body>
+</entry>
+</blog>

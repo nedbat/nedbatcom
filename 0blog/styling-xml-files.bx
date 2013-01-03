@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031202T212103'>
+<title>Styling XML files</title>
+<category>xml</category>
+<category>xslt</category>
+<body>
+<p>These days, it's more and more common to find data files and
+<a href='http://c2.com/cgi/wiki?LittleLanguage'>little languages</a>
+using XML as their representation.  It's a reasonable compromise:
+the developer saves on tokenizing and parsing, and can focus on
+semantics, but the user has to read and edit XML files.
+There's no simple fix for the editing problem, but the reading
+problem can be solved nicely.</p>
+
+<p>Using the same technique that's been going around for
+<a href='blog/200311.html#e20031106T222129'>styling RSS</a>,
+you can style any XML file, to present its contents both with more
+pleasing cosmetics, and with a more usable structure.</p>
+
+<p>Create an XSLT stylesheet that produces the page you'd rather see than
+the raw XML.  Then add a stylesheet processing instruction to the top of the XML file,
+referencing your stylesheet:</p>
+
+<code lang='xml'><![CDATA[
+<?xml-stylesheet type="text/xsl" href="props2html.xslt" ?>
+]]></code>
+
+<p>Now launching the XML file in a browser will invoke the stylesheet
+and render the transformed result.  The stylesheet doesn't just
+have to provide nice cosmetics: it's XSLT, so it can arbitrarily transform
+the file.  I recently did this for a hierarchical data file, and the
+resulting HTML page provided three different views of the data,
+with cross-referencing links.</p>
+
+<p>Remember, any XML file will do this trick: RSS feeds,
+<a href='http://ant.apache.org/'>Ant</a> files,
+<a href='http://www.w3.org/TR/xmlschema-1/'>XML Schema</a> files,
+<a href='http://www.mozilla.org/projects/xul/'>XUL</a> files,
+and so on and so on.
+</p>
+
+</body>
+</entry>
+</blog>

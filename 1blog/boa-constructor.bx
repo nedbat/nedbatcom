@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040408T075059'>
+<title>Boa constructor</title>
+<category>python</category>
+<category>ide</category>
+<via />
+<body>
+<p>I've been trying out Python IDEs, and I really like
+<a href='http://boa-constructor.sourceforge.net/'>Boa Constructor</a>.
+It's got a usable GUI builder, and it seems solid.
+When I first tried it out over a year ago, it was neither usable nor solid, so
+it's made a lot of progress.
+</p>
+
+<p>On the con side, still though:</p>
+
+<ul>
+<li>It's hard to get current releases.  Riaan Booysen (the author) seems to put
+his energy into adding to the code rather than packaging what he has every so often.
+0.2.3 is the latest build available from the download page, but 0.2.8 has been marked
+in CVS, and is available as a download from a page linked to from a
+<a href='http://sourceforge.net/forum/forum.php?thread_id=965297&amp;forum_id=301310'>comment thread</a>.
+</li>
+
+<li>The UI suffers from some common engineer tendencies:
+the menus are in need of organization and pruning,
+and too much is stuffed into the explorer tree view (preferences?).
+</li>
+
+<li>There's more work to be done in the GUI builder.
+For example, accelerators and tab order have to be manipulated in the source code.
+</li>
+
+</ul>
+
+<p>Here's my dream: that all of the Python IDE energy out there could be focused
+on one project.  For example,
+<a href='http://spe.pycs.net/'>SPE</a> (by Stani Michiels)
+is another Python IDE (which includes
+<a href='http://wxglade.sourceforge.net/'>wxGlade</a>, a GUI builder),
+and it is also showing a lot of promise.
+If we could get Stani and Riaan working together on one IDE, imagine where we could end up.
+Then maybe we can pull in Detlev Offenbach
+(<a href='http://www.die-offenbachs.de/detlev/eric3.html'>Eric3</a>)
+and Josiah Carlson (<a href='http://pype.sourceforge.net/'>PyPE</a>),
+and the sky's the limit!
+</p>
+
+</body>
+</entry>
+</blog>

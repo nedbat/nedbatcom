@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080625T064351'>
+<title>Spore creature creator and steganography</title>
+<category>vidgames</category>
+<category>security</category>
+<category>graphics</category>
+<body>
+<p><a href='http://www.spore.com/'>Spore</a> is the wildly anticipated new game
+from Will Wright, and <a href='http://www.spore.com/what/screensmovies#creator'>Creature Creator</a>
+is the first part of it to be released for us to try. It allows you to build
+creatures, Mr-Potato-Head-style, which will eventually be usable in the full
+game:</p>
+
+<figurep>
+<img src='pix/500001332762.png' alt='A Spore creature'/>
+<img src='pix/500002605560.png' alt='A Spore creature'/>
+<img src='pix/500002620239.png' alt='A Spore creature'/>
+</figurep>
+
+<p>It's fun to put arms and legs and body parts together to make creatures,
+but the more impressive part of the technology is that once you make your creature,
+it's fully animated already, with a repertoire of moves like walking, sitting,
+dancing and greeting.  This is no small feat considering you aren't constrained
+to building a humanoid creature.  For example, <a href='http://www.spore.com/sporepedia#qry=usr-nedbatchelder'>my tricyclotops</a>
+has three legs, and that front centered leg participates in the animations in a
+way that seems very natural, considering I've never seen a creature with legs
+in that formation. 
+</p>
+
+<p>The developers behind this animation have written up the technology:
+<a href='http://chrishecker.com/Real-time_Motion_Retargeting_to_Highly_Varied_User-Created_Morphologies'>Real-time
+Motion Retargeting to Highly Varied User-Created Morphologies</a>. One of the
+authors, John DeWeese, has <a href='http://www.spore.com/view/profile/MaxisJD'>a handful of riotously varied creatures</a>
+on his Spore page.</p>
+
+<p>If you look at the sidebar on the Spore creature pages, you'll see instructions
+that you can save those PNG files, and drag them into Creator, and you'll have
+the creature.  That interested me: one of the things I did with <a href='code/aptus'>Aptus</a>
+was to save the coordinate info for a picture as a
+<a href='http://www.libpng.org/pub/png/spec/1.0/PNG-Chunks.html#C.tEXt'>tEXt record</a>
+in the PNG file. Aptus can open a PNG file it saved, and instead of dealing with
+pixel data, can read the coordinates and recreate the Mandelbrot view directly,
+allowing you to continue exploring from there.</p>
+
+<p>Looking at the PNGs on the Spore page though, they have not done this. There
+is no data other than the image.  But dragging the PNG into Creator does indeed
+give you the creature as structured data.  Renaming the PNG doesn't affect the
+data transfer, but any sort of editing of the image does.
+They're using <a href='http://en.wikipedia.org/wiki/Steganography'>steganography</a>,
+hiding one message inside another.  In this case, they seem to be using the least
+significant bits in all the pixels.</p>
+
+<p>Some quick Python shows details. Using <a href='http://www.pythonware.com/library/pil/handbook/index.htm'>PIL</a>, we can examine
+the numeric values of the pixels:</p>
+
+<code lang='python'><![CDATA[
+# Open an image, and show the RGBA data for the first ten pixels.
+import Image, sys
+
+im = Image.open(sys.argv[1])
+for pix in list(im.getdata())[:10]:
+    print pix
+]]></code>
+
+<p>produces:</p>
+
+<code><![CDATA[
+(0, 1, 0, 1)
+(0, 1, 1, 1)
+(0, 0, 1, 0)
+(1, 1, 0, 0)
+(1, 0, 0, 0)
+(0, 0, 1, 0)
+(1, 1, 0, 1)
+(0, 0, 1, 0)
+(1, 1, 1, 0)
+(0, 1, 1, 0)
+(1, 0, 1, 1)
+(1, 0, 1, 0)
+(0, 0, 0, 1)
+(0, 1, 1, 1)
+(0, 1, 0, 1)
+(1, 0, 1, 1)
+(0, 1, 1, 1)
+(1, 0, 1, 1)
+(0, 1, 0, 0)
+(1, 1, 0, 1)
+]]></code>
+
+<p>These pixels are part of the black transparent edge of the image, except
+it isn't truly black and it isn't truly transparent.  There's one
+bit of information being encoded in each channel, or four bits per pixel.</p>
+
+<p>We can go further and yank out the full 8-bit data:</p>
+
+<code lang='python'><![CDATA[
+# Open an image file, read the low bits as 8-bit data,
+# and write it out to a .out file next to the image.
+import Image, sys
+
+def stegdata(imfile):
+    """ Read the low bits of pixels as 8-bit data. """
+    im = Image.open(imfile)
+    bytes = ""
+    hi = 0
+    for ipix, (r,g,b,a) in enumerate(im.getdata()):
+        nyb = (r%2)*8 + (g%2)*4 + (b%2)*2 + (a%2)
+        if ipix % 2:
+            bytes += chr(hi + nyb)
+            hi = 0
+        else:
+            hi = nyb*16
+    return bytes
+
+fname = sys.argv[1]
+data = stegdata(fname)
+open(fname+'.out', 'w').write(data)
+]]></code>
+
+<p>I had to guess here how to put the bits back together into a byte. 
+The results are full-spectrum 8-bit data, but I don't know how to interpret it:</p>
+
+<code><![CDATA[
+000000: 57 2c 82 d2 e6 ba 17 5b  7b 4d 20 32 76 eb f4 8b  W,.....[{M 2v...
+000010: 4a b7 54 8b b6 9c a7 ba  d5 6a 5f a4 54 15 f1 1f  J.T......j_.T...
+000020: c6 90 df 98 54 72 6d 62  58 71 69 f6 63 fe 7e 23  ....TrmbXqi.c.~#
+000030: 49 97 de 81 d7 08 ec 5a  1a 63 57 e6 8e 27 16 03  I......Z.cW..'..
+000040: 80 5c 56 a1 34 6b d8 fb  49 46 f9 d6 7b 32 ce 6b  .\V.4k..IF..{2.k
+000050: a3 2c 35 4e f7 e7 52 1a  62 1f ce 8e 47 5f e7 ba  .,5N..R.b...G_..
+000060: 14 ea 74 58 39 ac eb 53  ee c1 c8 3b cc 38 11 d6  ..tX9..S...;.8..
+000070: fd 3f dd 41 ff 35 03 a3  67 c4 a6 43 1c 82 24 41  .?.A.5..g..C..$A
+000080: b7 1d ce 66 5a 32 b3 f0  34 6b f3 0f 73 f9 ee f6  ...fZ2..4k..s...
+000090: 05 41 56 7b 27 19 40 25  bc e7 b1 02 c9 43 e7 7d  .AV{'.@%.....C.}
+0000a0: fd b4 11 82 52 1f c8 d0  3c ad 92 ee 1e 57 6d e7  ....R...<....Wm.
+0000b0: ad fd 72 53 b3 fd 1a 9b  10 52 57 01 86 11 42 7c  ..rS.....RW...B|
+0000c0: a2 74 ed f6 1b 28 33 cf  7a 19 79 fa b0 6c 04 a7  .t...(3.z.y..l..
+0000d0: 89 36 c5 08 d8 ee e8 de  5a a3 b8 48 3d 94 62 0d  .6......Z..H=.b.
+0000e0: 0a 38 4c 21 5d 15 b8 54  e1 ea d7 0b 12 bf 8a a0  .8L!]..T........
+0000f0: a3 e0 96 1a a8 79 c3 44  62 9e de 02 ea a0 31 8d  .....y.Db.....1.
+000100: 96 12 e0 7c ad e0 a5 9f  fe 89 54 a6 54 f2 9d 6c  ...|......T.T..l
+000110: 42 c1 f0 14 8d 15 49 a5  d3 80 2c b1 26 ca af 80  B.....I...,.&...
+000120: a8 cf a8 a4 77 02 60 ea  c0 d8 4d 2c d9 18 1e 67  ....w.`...M,...g
+000130: 8f 9a 29 67 30 92 b5 62  da 1d c1 30 21 f8 eb 21  ..)g0..b...0!..!
+000140: fe d8 c2 a6 64 cf 52 dc  58 d1 0c ef d0 60 fb 9b  ....d.R.X....`..
+000150: 02 7a e9 d1 d6 a7 3c 01  79 7b da a7 9b 0b ef 3f  .z....<.y{.....?
+000160: 80 a3 d1 87 d2 81 50 d1  a2 59 c0 65 c3 8b c5 7b  ......P..Y.e...{
+000170: 8c e5 56 50 bf c2 6e 50  82 26 23 9a 76 2b e7 3b  ..VP..nP.&#.v+.;
+000180: 4f 5a ec f3 87 aa 27 fe  33 74 40 48 ba db 4f 25  OZ....'.3t@H..O%
+... ...
+]]></code>
+
+<p>Nothing jumps out at me here.  As an exercise in code-breaking, this one is
+probably possible, since we have a way to generate as many cases as we need.
+I looked at other images, and there was no clear pattern.</p>
+
+<p>It's interesting that Spore chose steganography here, since it's
+usually described as a way to hide a message so that its very existence is a
+secret.  But there's no sensitive data here, and they tipped us off to its
+presence with their instructions.  Perhaps they wanted to save space by using
+those unneeded low bits?  Perhaps they didn't have the tools for manipulating
+tEXt records?</p>
+
+<p>In any case, Spore is already a fertile breeding ground, both for wild new
+life forms, and geek interest in its technology.</p>
+
+</body>
+</entry>
+</blog>

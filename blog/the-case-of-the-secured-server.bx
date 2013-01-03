@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100501T085209'>
+<title>The case of the secured server</title>
+<category>work</category>
+<category>security</category>
+<body>
+<p>When Tabblo was being acquired by HP, we had a bunch of different HP people
+talking to us about all different aspects of the acquisition.  The security guys
+were a special treat.
+</p>
+
+<p>We were in a small rented office in Cambridge, and were going to move to a
+large existing HP facility in Marlborough.  But we still had a month or so of
+being in the Cambridge office, and the security guys wanted to make sure everything
+was locked down.  Our founder Antonio spent a couple of hours on the phone with
+an HP guy from Australia who wanted all sorts of details about the physical
+security of the office: when entering from the street, how many different doors
+are there? How many are secured by locks? What kind of locks? When you get off
+the elevator, are there ceiling tiles above you? Could you lift the tiles and
+climb into the offices, etc, etc, etc. We joked that this guy was going to
+pop out of an air duct as a surprise visit some day.</p>
+
+<p>Ultimately, though, the thing that concerned the security guys the most was
+our Subversion server. We were a tight-fisted startup, conserving money. That
+means our office space was the cheapest dump we could find, and our furniture
+was from Ikea. Our Subversion server was some junky Dell desktop machine stuck
+in the phone closet.</p>
+
+<p>The security guys were very worried about the safety of this server, more
+than anything else we had.  They asked us how we were going to move the server
+to the new office.</p>
+
+<p>Us: "We'll put it on the van."</p>
+
+<p>Them: "You can't do that."</p>
+
+<p>Us: "We'll take it in one of our cars?"</p>
+
+<p>Them: "Nope."</p>
+
+<p>They insisted that we use a bonded mover (whatever that is) to move the
+server. Everything else in the office would be loaded up by regular movers onto
+vans and driven the 30 minutes or so to the new offices. But the server had to
+be moved by a bonded mover.  You know, for security.</p>
+
+<p>For some reason, we couldn't get a bonded mover for the day of the big move.
+So the regular movers came and took everything else, and left the server for
+later.</p>
+
+<p>The next day was our first in the Marlborough office, and much of the morning
+was taken up with orientation, tours, unpacking and so on. I got there late, and
+when I did, everyone was all abuzz: the Subversion server wasn't reachable, did
+I know anything about it?  I didn't, and calls were placed to the Cambridge landlord.
+Security tapes were inspected, theories abounded.
+</p>
+
+<p>Turns out, the building janitor had taken the server.</p>
+
+<p>Of course he did: put yourself in his place.  He comes to the office to clean,
+sees that the tenants have moved out and taken absolutely everything with them,
+except for an old crappy computer in the phone closet. They must not have wanted it.</p>
+
+<p>As it happens, we knew the janitor closet in the old building had a child's
+pink bike in it, so we figured it was where the janitor stashed "found" stuff.
+Sure enough, our server was in there with the bike. Antonio went back and
+got the server, put it in his car, and drove it to Marlborough.</p>
+
+<p>The security guys had fits about us unilaterally executing plan B, but what
+could they do about it?</p>
+
+</body>
+</entry>
+</blog>

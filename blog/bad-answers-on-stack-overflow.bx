@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120720T080352'>
+<title>Bad answers on Stack Overflow</title>
+<category>online</category>
+<category>python</category>
+<category>edu</category>
+<body>
+    
+    <p>I answer questions on Stack Overflow a lot, and also in the #python IRC
+        channel.  There's a common dynamic in both environments, I'll describe
+        it by giving aliases to three participants:
+    </p>
+
+    <ol> <li>BaffledNewb asks a simple question, but the question itself
+            strongly hints at a misunderstanding of his problem, or of the best
+            possible solution.</li>
+
+        <li>HelpfulNewb answers the question literally, giving BaffledNewb what
+            amounts to bad advice, and missing an opportunity to help him
+            understand the big picture.</li>
+
+        <li>GrizzledExpert chides HelpfulNewb for answering the question
+            "wrong," and tries hard to get to the bottom of BaffledNewb's real
+            problem, or makes an assumption about what he really wants, and
+            gives that answer instead.</li>
+
+    </ol>
+
+    <p>At this point, the conversation can go a few different ways, sometimes
+        all at once.  Popular next steps are:</p>
+
+    <ol>
+        <li>HelpfulNewb insists he was merely answering the question, and
+            wonders out loud why GrizzledExpert has to be so obnoxious.</li>
+
+        <li>BaffledNewb is outraged that his motives would be questioned,
+            gripes about not being able to get a simple answer, and wonders out
+            loud why GrizzledExpert has to be so obnoxious.</li>
+
+        <li>HelpfulNewb points out that of course his answer is usually a bad
+            idea, but perhaps BaffledNewb has unusual, valid, but undisclosed
+            circumstances that makes it a reasonable answer.</li>
+    
+        <li>HelpfulNewb claims that he never said his answer was a good idea,
+            just a technically correct answer.</li>
+    </ol>
+
+    <p>All this came to mind again a few days ago when three questions and
+        answers fitting this description appeared on Stack Overflow in quick
+        succession:</p>
+
+    <ul>
+        <li><a href='http://stackoverflow.com/a/11553761/14343'>Using a string variable as a variable name? With vars()!</a></li>
+        <li><a href='http://stackoverflow.com/a/11544725/14343'>Python ASCII and UNICODE decode error? Throw away all the Unicode!</a></li>
+        <li><a href='http://stackoverflow.com/a/11543718/14343'>Make all variables in a python function global? globals().update(locals())!</a></li>
+    </ul>
+
+    <p>There's really no excuse for giving simplisitic, bad, but technically
+        correct answers to mis-guided questions.  I understand the desire to
+        give an answer, to be the helpful knowledgable one.  And Stack Overflow
+        in particular inadvertently rewards speed.</p>
+
+    <p>But answers like these only cause damage.  At the very least, wrap them
+        well with a thick layer of bubble-wrap in the form of cautions, caveats,
+        pointers to likely better ways to solve the problem, and so on.</p>
+
+    <p>If the questioner really had one of the unusual circumstances that meant
+        they needed a literal answer to their oddball question, they tend to
+        mention it up front.  In my experience, doubting questions like these
+        pays off much more often than it turns out to have falsely accused a
+        curious expert of being a newb, though of course that sometimes
+        happens.</p>
+
+    <p>The #python IRC channel on freenode has a bit of a reputation for being
+        full of grizzled experts who can't answer any question no matter how
+        straightforward without grilling the questioner about their motives and
+        needs.  I myself have argued for less of this, and being more trusting
+        of the questioner. (Actually, as I'm editing this, I just answered a
+        question in #python in a way that other grizzleds didn't like!)</p>
+
+    <p>But if you do this kind of answering long enough, you will learn to
+        recognize the misguided question, and push back on it.  I don't feel at
+        all bad about downvoting the answers and calling people on it.</p>
+
+    <p>A common failing among GrizzledExperts, though, is being too blunt.
+        When a beginner asks a question, it's almost never useful for them to
+        get this in response:</p>
+
+    <quote><p>Why?</p></quote>
+
+    <p>That's too short, too blunt, and is interpreted (perhaps correctly!) as,
+        "you are wrong," setting up a conflict right from the start. More words
+        always help:</p>
+
+    <quote><p>That's an interesting question, it sounds like having more context
+            would help us answer it well. Can you tell us more about what you
+            are building?</p></quote>
+
+    <p>Helping intelligent but lost beginners is not easy, it requires a
+        healthy mix of technical know-how and interpersonal skills.  The
+        GrizzledExpert definitely has the first, but often not enough of the
+        second.</p>
+
+    <p>My advice:</p>
+
+    <ul>
+        <li>Use more words to fully express what you mean to say.</li>
+        <li>Resist the urge to give the simple but dangerous answer.</li>
+        <li>If the forum allows it, ask questions to get a deeper understanding
+            of the questioner's need.</li>
+        <li>Don't be shy about calling a bad answer bad.</li>
+    </ul>
+
+</body>
+</entry>
+</blog>

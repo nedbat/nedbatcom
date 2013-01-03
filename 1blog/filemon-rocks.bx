@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040916T105907'>
+<title>Filemon rocks</title>
+<category>tools</category>
+<via />
+<body>
+<p>I haven't mentioned
+<a href='http://www.sysinternals.com'>Sysinternals</a>
+<a href='http://www.nedbatchelder.com/blog/200305.html#e20030522T071258'>in a while</a>,
+but they should be promoted forcefully and often.</p>
+
+<p>Yesterday I wasted five hours trying to figure out why a C# module couldn't call a COM
+interface.  The method was obviously properly defined, and called properly, but
+it always raised a No Such Method exception.
+I used oleview and ildasm and regasm until my eyes were crossed.
+I cleaned and rebuilt. I rebooted.
+Hours passed and I still could not figure out why it didn't work.
+A handful of workers were similarly baffled after wasting more time.
+</p>
+
+<p>Finally we had the bright idea of using
+<a href='http://www.sysinternals.com/ntw2k/source/filemon.shtml'>Filemon</a> to monitor
+exactly what files were being used by the process in question. Two minutes later,
+it was clear that my local download assembly cache (WTF?) had a stale copy of the assembly.
+I executed "gacutil /cdl" to clear the cache, and the problem was gone.</p>
+
+<p>Thank you, thank you, thank you Sysinternals!</p>
+
+</body>
+</entry>
+</blog>

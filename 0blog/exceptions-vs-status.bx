@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030916T091940'>
+<title>Exceptions vs status returns</title>
+<category>exceptions</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I had thought that this debate was long over,
+but the other day I found myself arguing the benefits of
+throwing exceptions vs. returning status codes.
+Since I had to go through the whole thing, I've written them up.
+Maybe this will help put the argument to rest:
+<a href='text/exceptions-vs-status.html'>Exceptions vs. status returns</a>
+</p>
+</body>
+</entry>
+</blog>

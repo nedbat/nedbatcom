@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090107T081051'>
+<title>Your IDE of choice</title>
+<category>ide</category>
+<category>browsers</category>
+<body>
+<p>A recent posting on django-users is entitled
+<a href='http://groups.google.com/group/django-users/browse_thread/thread/fa317c6140f3b5d1'>Your IDE of choice</a>,
+simply asking people for their IDE preferences.
+</p>
+
+<p>These questions sometimes turn into silly flame wars about Emacs vs. vim vs.
+everything else, but in this case, it's a bunch of people chiming in with their
+choice, and I find it useful to read through to see what people are using. Often
+I discover new tools, as I did this time.</p>
+
+<ul>
+<li><a href='http://www.geany.org/'>Geany</a> is a new programmer's editor with
+some project and build features.  If the development keeps progressing, it could
+be useful.</li>
+
+<li><a href='http://rope.sourceforge.net/'>rope</a> is a Python refactoring
+library that I had seen before, but it doesn't integrate with an editor I use
+day-to-day (yet), so I haven't been able to try it.  It seems very capable.</li>
+
+<li>Turns out <a href='http://www.activestate.com/komodo_edit/'>Komodo Edit</a>,
+my current workhorse editor, has gone to 5.0, and I didn't even know.  I think
+asking 4.4 if there are any updates should say, "Yes, 5.0!", but it doesn't.
+</li>
+
+<li><a href='http://www.dillo.org/'>Dillo</a> is a web browser.  People still
+write browsers from scratch?! It sounds very idealistic ("Our policy is not to work around broken HTML."),
+but isn't this a hopelessly uphill battle?</li>
+
+<li><a href='http://ecb.sourceforge.net/'>ecb</a> is the Emacs Code Browser,
+which looks like a clever shoehorning of standard tree control file browsers into
+the Emacs world.  How do they render the icons and stuff?</li>
+
+<li><a href='http://pyrox.utp.edu.co/'>Pyrox</a> looks like yet another start
+on a wxPython-based editor, along the lines of <a href='http://code.google.com/p/ulipad/'>UliPad</a>,
+<a href='http://mmm-experts.com/Products.aspx?ProductID=4'>PyScripter</a>, and so on.
+Unfortunately, the site is only in Spanish, so I can't really tell.</li>
+
+</ul>
+
+<p>Other than Komodo Edit 5, none of these are going to become part of my tool set,
+but it's good to keep on top of what's out there.</p>
+
+</body>
+</entry>
+</blog>

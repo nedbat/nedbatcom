@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080124T072208'>
+<title>Chandler and Python: don't blame the tools</title>
+<category>osaf</category>
+<category>python</category>
+<body>
+<p>Chandler, the uber-PIM project from the Open Source Applications Foundation,
+has had a <a href='http://blog.chandlerproject.org/2008/01/18/osaf-20-team/'>major life event</a>.
+Many people are calling it the
+<a href='http://blogs.cnet.com/8301-13505_1-9847739-16.html?part=rss&amp;subj=news&amp;tag=2547-1_3-0-20'>end of the project</a>,
+and it may well be.  People are still working on it, but the funding is cut,
+and the future is very very unclear.</p>
+
+<p>This is too bad, it was an ambitious and idealistic project, perhaps too much
+so.  I don't really know what was going on over there.  I haven't read
+<abook isbn='1400082463'>Dreaming in Code</abook>, I don't read the mailing lists,
+I haven't even looked at their software in years.</p>
+
+<p>Remarkably, Carlos Perez <a href='http://www.manageability.org/blog/stuff/chandler-failure'>blames it on Python</a>.
+His piece is really something, because he starts by admitting that he suspected
+from the beginning that Python wasn't up to the task, and now he's pretty sure
+his suspicions have been confirmed.  Except that he doesn't do any analysis of
+what actually went wrong at Chandler.  He repeats his biases against dynamic
+languages, and concludes that they are to blame.  He comes to this conclusion
+even as he points out how strange it is that Python is only used in the client,
+and the server is Java!</p>
+
+<p>The consensus seems to be, and it seems right, that the problems with Chandler
+were:</p>
+
+<ul>
+    <li>Organization: too many heavy-hitters heading in their own directions.
+    See the previous point about Python at the client and Java at the server.</li>
+    
+    <li>Lack of focused target: replacing people's email infrastructure, while
+    at the same time re-thinking how those activities are accomplished is a huge
+    challenge.</li>
+</ul>
+
+<p>Carlos' viewpoint will probably perservere.  Chandler was in some ways seen
+as a poster child for Python, and its demise I'm sure will cause at least a minor
+meme along the lines of, "We can't use Python, look what happened to Chandler."
+This is too bad.  I think the choice of language matters to a project, but not
+nearly as much as we techies often think.  So many other things matter a great
+deal more.</p>
+
+<p>Carlos points to Eclipse as an example of what can be accomplished with Java.
+Eclipse is an amazing achievement, but it isn't Java that did it.  There's a huge
+amount of effort that goes into the focus and support that makes Eclipse what it
+is.  As an example, have you ever read their <a href='http://archive.eclipse.org/eclipse/downloads/drops/R-3.3-200706251500/whatsnew/eclipse-news-all.html'>release notes</a>?
+These are amazing!  No project in the history of the world has had such thorough,
+helpful, and well-crafted release notes.  That's got nothing to do with Java,
+and everything to do with the care and work that the Eclipse organization puts
+into producing and supporting their software.</p>
+
+<p>So here's to Chandler, a (nearly) departed friend.  I hope that it continues
+in some <a href='http://blog.chandlerproject.org/2008/01/23/chandler-project-status-update/'>meaningful form</a>.
+Here's to good craftsmen (and their <a href='http://www.urbandictionary.com/define.php?term=kibbitz'>kibbitzers</a>)
+not blaming their tools. Here's to using your language of choice as just one tool
+in your tool set.  And here's to seeing your projects for what they are: a collection of
+<a pref='text/engineers-are-people.px'>people</a> trying hard to achieve difficult
+goals the best they can.</p>
+
+</body>
+</entry>
+</blog>

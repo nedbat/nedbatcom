@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070123T071157'>
+<title>Wikipedia and nofollow</title>
+<category>malware</category>
+<body>
+<p>One of the techniques I mentioned off-hand in 
+<a href='text/stopbots.html'>Stopping spambots with hashes and honeypots</a>
+was to mark all out-going links with rel="nofollow" to negate the search engine
+incentive to spammers putting links in your comments.
+Turns out Wikipedia has just turned this on for all their outgoing links (I think:
+<a href='http://lists.wikimedia.org/pipermail/wikien-l/2007-January/061137.html'>the announcement</a>
+was pretty terse, and actually makes it sound like a temporary measure).
+</p>
+
+<p>When a small-time blogger does this for their comments, it's no big deal.
+But when Wikipedia does it, it is a huge deal.  Wikipedia is an 8000-pound gorilla
+in the Pagerank ecosystem.  A change to how they treat their external links will
+make waves.  Naturally people are debating the issue.</p>
+
+<p>Aside from all of the 
+web-societal implications, the debate is exposing some new ideas:
+<a href='http://blog.outer-court.com/archive/2007-01-22-n21.html'>Google Blogoscoped</a>
+mentions the idea of a "fading nofollow": links start with a nofollow attribute,
+and then over time, lose it.   The idea is that spam links will be found and 
+removed, and will not get a chance to age to the point that they lose the attribute.
+Over time, most links will lose the nofollow, so the site as a whole will 
+contribute to the search engines rankings, while spam links won't survive past
+their probationary period.  Clever.
+</p>
+
+</body>
+</entry>
+</blog>

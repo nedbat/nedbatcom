@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070214T070543'>
+<title>Two new editors</title>
+<category>ide</category>
+<body>
+<p>I spend much of my day working in a text editor, so I'm pretty sensitive to
+how well it does (or doesn't) work.  I'm always on the lookout for new entrants
+into the field, hoping for the perfect Windows programmer's editor.
+</p>
+
+<p>Over the past few years, I've used (and paid for) a number of editors that
+came close, but which ultimately disappointed in some way, most recently
+<a href='http://zeusedit.com'>Zeus</a>,
+<a href='http://editpadpro.com'>EditPad Pro</a>, and
+<a href='http://textpad.com'>TextPad</a>.
+There are also a dozen more that I've downloaded and played with enough to see
+that they weren't for me:
+<a href='http://www.alleycode.com/'>Alleycode</a>,
+<a href='http://www.boxersoftware.com/pgbwin.htm'>Boxer</a>,
+<a href='http://www.context.cx/'>ConTEXT</a>,
+<a href='http://cream.sf.net'>Cream</a>,
+<a href='http://www.crimsoneditor.com/'>Crimson Editor</a>,
+<a href='http://www.e-texteditor.com/'>e</a>,
+<a href='http://editplus.com'>EditPlus</a>,
+<a href='http://www.gnu.org/software/emacs/'>Emacs</a>,
+<a href='http://www.emeditor.com/'>EmEditor</a>,
+<a href='http://www.jedsoft.org/jed/'>Jed</a>,
+<a href='http://jedit.org'>jEdit</a>,
+<a href='http://notepad-plus.sourceforge.net'>Notepad++</a>,
+<a href='http://pspad.com'>PSPad</a>,
+<a href='http://slickedit.com'>Slickedit</a>,
+<a href='http://wiki.woodpecker.org.cn/moin/UliPad'>UliPad</a>,
+<a href='http://ultraedit.com'>Ultra-Edit</a>,
+<a href='http://vim.org'>vim</a>,
+<a href='http://www.xtort.net/xtort/xint.php'>Xint</a>.
+</p>
+
+<p>In the past month, two new possibilities have appeared:</p>
+
+<p><a href='http://intype.info/'><img src='pix/intype_icon.png' class='floatimg' alt='Intype'/></a>
+<a href='http://intype.info/'>Intype</a> is a new editor modelled after
+the much-vaunted TextMate.  They are only just getting started, but as an example
+of how much they are following the TextMate model, they've implemented bundles
+before most other things you need in an editor (tabbed interface, undo, etc).
+</p>
+
+<p>Although Intype has a long way to go to be a complete editor, the first looks
+are promising: it is polished and thoughtful, and the team is conducting itself
+in the modern way (screencasts, forums, releasing often, etc).  And the interest
+is quite intense: someone has written a project manager for Intype which hijacks
+Intype editor windows to present the tabbed interface Intype hasn't built yet!</p>
+
+<p>Overall Intype is very interesting, and I'll be watching its progress.</p>
+
+<p><a href='http://www.activestate.com/products/komodo_edit/'><img src='pix/komodo_icon.png' class='floatimg' alt='Komodo Edit'/></a>
+<a href='http://www.activestate.com/products/komodo_edit/'>Komodo Edit</a>
+is a free subset of Komodo IDE.  For my tastes, it chooses almost the exact right subset
+of features.  For example, it doesn't include Subversion integration, but I use
+svn from the command line anyway.  It gets projects right: a directory spec, with file patterns
+to include and exclude dynamically.  If the Find In Files features could search
+the files in a project, it would probably be perfect.</p>
+
+</body>
+</entry>
+</blog>

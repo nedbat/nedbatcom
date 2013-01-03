@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110125T201501'>
+<title>Cathode</title>
+<category>history</category>
+<category>hacks</category>
+<body>
+    <p>I don't want to get onto a whole rant about how much technology has changed,
+        and what I had to put up with as a youth while all you whippersnappers 
+        have everything and don't even realize it, but the fact of the matter is,
+        I used to use dial-up terminals to write code.
+</p>
+
+<p>No one has to do that any more, but if you are interested in experiencing what
+    those times were like, or you are just into recreations of old technology,
+    take a look at <a href='http://www.secretgeometry.com/apps/cathode/'>Cathode</a>,
+    a Mac terminal emulator that emulates all of the crappy aspects of real terminals
+    that no one wants to deal with any more: curved screens, CRT fuzziness, power-line
+    noise, vertical retrace burps, the whole works.
+</p>
+
+<figurep href='http://www.secretgeometry.com/apps/cathode/'>
+    <img src='pix/cathode.png' alt='Cathode, emulating a curved-screen terminal'/>
+</figurep>
+
+<p>Looking at the <a href='http://en.wikipedia.org/wiki/VT100'>VT100</a>
+    skin immediately took me back in a Proustian recollection of coding
+    days gone by.</p>
+
+<p>Oh, and they have a terrific payment model: Cathode is free, but the annoying CRT
+    glitches get increasingly bad over time unless you buy a license.  Genius.</p>
+
+</body>
+</entry>
+</blog>

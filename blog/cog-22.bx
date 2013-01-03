@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090625T210422'>
+<title>Cog 2.2</title>
+<category>cog</category>
+<body>
+<p>I've updated my code generation tool, <a href='code/cog'>Cog</a>.  It's now
+supported on Jython 2.5, and I've removed the handyxml module it used to ship
+with, since most Cog users have no need of it.  There's no functional changes.
+</p>
+
+<p><a href='code/cog'>Cog</a> does one thing well: find snippets of Python code
+in text files, and run them, capturing the output and splicing it into the file.
+It can be used for all sorts of code generation and preprocessing tasks.</p>
+
+<p>The irony of Cog is that I wrote it back when I worked in C++ and needed
+to generate code.  Now that I work in Python, I don't need it, or so I thought.
+But this winter when I was writing my <a href='text/whirlext.html'>Whirlwind
+Excursion through Python C Extensions</a>, I wanted a way to create the slides
+and the web page from a single source, and also not have to copy and paste
+sample code between runnable files and the text source.  Cog would have been a
+great way to do this.  For example,
+<a href='http://www.blueskyonmars.com/projects/paver/'>Paver</a> uses Cog for
+just this sort of job.</p>
+
+<p>But it didn't even occur to me to reach for Cog, and I ended up hacking
+something together.  So I have to try to remember Cog in the future.</p>
+
+<p>I updated Cog because I got two requests in one week to update it to keep it
+working on newer Python implementations.  I'm going to start porting projects
+to Python 3.0, and Cog may be the first, since it is relatively small and
+simple.</p>
+
+</body>
+</entry>
+</blog>

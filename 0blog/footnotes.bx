@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031113T082822'>
+<title>Footnotes?</title>
+<via />
+<body>
+<p>What's with footnotes on web pages?  Footnotes to references used to be a compact
+way to point off to other resources without unduly interrupting the flow of the text.
+On a printed page, it was a good solution.  But now we have better technology.</p>
+
+<more>
+
+<p>A footnote is essentially a link to a link.  Why make two hops?  And if you are
+going to, at least make the links actual links.
+In the
+<a href='http://www.boxesandarrows.com/archives/forgotten_forefather_paul_otlet.php'>Paul Otget article</a>
+I just pointed to, there are footnotes, which are not clickable, and refer to a numbered
+list at the end of the paper.  That list references paper resource, and so are not links,
+and so can be forgiven for appearing collected at the end.</p>
+
+<p>Here's a article about web services:
+<a href='http://www.webservices.org/index.php/article/view/1246/'>Achieving Loose Coupling</a>.
+In it are footnotes which are links to a list at the end.  The list is itself composed of
+clickable URLs.  Why do this?  Make the footnotes themselves links to the URLs.
+I click the footnotes to open them in new windows, then go look in the other window, and
+don't see what I expect.</p>
+
+<p>If you want to collect the URLs at the end for some sort of overview of outward links,
+fine.  Do that, and label it as such, but don't make me take two hops to get to the
+reference.</p>
+
+<p>Worse yet: Here's a short piece about
+<a href='http://www.itworld.com/nl/ebiz_ent/11112003/'>describing XML data</a>.
+It's about web technologies, published online by a technical publication.
+It has footnotes, which are not clickable, each of which at the bottom of the page lists
+a URL, which is itself not clickable.  Can someone get a clue?
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

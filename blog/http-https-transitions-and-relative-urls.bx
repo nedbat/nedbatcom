@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071017T215538'>
+<title>Http-https transitions and relative URLs</title>
+<category>webpage</category>
+<category>howto</category>
+<body>
+<p>When building a web site with HTTPS pages, one of the annoying tasks is to
+ensure that those pages make no references to HTTP resources.  If they do,
+then Internet Explorer will pop up alarming messages about mixing secure and
+insecure content, and do you want to display the insecure content.  This
+confuses users and generally discourages them from continuing to use your site.
+</p>
+
+<p>To fix the problem, all URLs on the page must use HTTPS.  Web sites these
+days are built from reusable components, some of which may be used on both
+HTTP and HTTPS pages.  How to make the URLs correct for both?</p>
+
+<p>Relative URLs are the answer.  Typically, relative URLs omit the hostname,
+specifying the full path to the resource, or perhaps just a single path component:</p>
+
+<code lang='html'><![CDATA[
+<img src='/pix/smiley.jpg' />
+<img src='smiley.jpg' />
+]]></code>
+
+<p>Either of these images will display without warning on either HTTP or HTTPS
+pages.  Since the host name is omitted, it uses the host name from the page
+being displayed.  But these URLs also omit the protocol scheme, so the protocol is
+taken from the base URL also. On an HTTP page, the images will be requested using
+HTTP, on an HTPPS page, they will use HTTPS. That's why there's no warning,
+because there's no mixing of secure and insecure content.</p>
+
+<p>But what if you need to pull resources from another site? For example,
+a CDN (content delivery network)?  Here the problem seems to be thornier:</p>
+
+<code lang='html'><![CDATA[
+<img src='http://fast.cdn.net/pix/smiley.jpg' />
+]]></code>
+
+<p>If this reference appears in an HTTPS page, the mixed content warning will
+appear. How to craft a reference that works for both? The answer is again relative
+URLs, but using a more obscure syntax:
+</p>
+
+<code lang='html'><![CDATA[
+<img src='//fast.cdn.net/pix/smiley.jpg' />
+]]></code>
+
+<p>Here, we've left off the protocol scheme, but included a host name.  In this
+case, the protocol scheme from the displayed page will be used, but against the
+host in the URL.  The relative URL system is still in play here: omitted portions
+of the URL at the beginning are taken from the base page, and the relative URL
+takes over whereever it starts.  On an HTTPS page, this will be an HTTPS request
+to the CDN, on an HTTP page, it will be an HTTP request.</p>
+
+<p>You have to be careful to only use this syntax in pages destined for browsers.
+If you put it in an email, there will be no base page URL to use in resolving the
+relative URL.  In Outlook at least, this URL will be interpreted as a Windows
+network file, not what you intended.</p>
+
+<p>BTW: when trying to get rid of the mixed secure and insecure content warning,
+you really have to fix up every URL, even if it doesn't seem like it's being used for
+anything.  Flash content? There's a macromedia.com URL in there in the codebase attribute:</p>
+
+<code lang='html'><![CDATA[
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+   codebase="//download.macromedia.com/pub/shockwave/cabs/flash/blah#blah"
+   width="600" height="400"> ... </object>
+]]></code>
+
+<p>Making it scheme-relative as shown will also prevent warnings.</p>
+
+</body>
+</entry>
+</blog>

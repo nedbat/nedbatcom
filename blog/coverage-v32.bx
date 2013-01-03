@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091110T215846'>
+<title>Coverage.py v3.2b1: branch coverage!</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.2 beta 1</a>
+is available, and it's got a big new feature: branch coverage. It's been a long
+time coming, but I'm pretty pleased with the results. I'm very interested to
+hear whether this is useful, and what could be improved.</p>
+
+<h1>Branch coverage</h1>
+
+<p>Coverage.py now supports branch coverage measurement.  Where a line in your
+program could jump to more than one next line, coverage.py tracks which of
+those destinations are actually visited, and flags lines that haven't visited
+all of their possible destinations.</p>
+
+<p>For example:</p>
+
+<code lang='python'><![CDATA[
+def my_partial_fn(x):       # line 1
+    if x:                   #      2
+        y = 10              #      3
+    return y                #      4
+    
+my_partial_fn(1)
+]]></code>
+    
+<p>In this code, the if on line 2 could branch to either line 3 or line 4.
+Statement coverage would show all lines of the function as executed.  But the
+if is always true, so line 2 never jumps to line 4.  Even though line 4 is
+executed, coverage.py knows that it was never because of a branch from line
+2.</p>
+
+<p>Branch coverage would flag this code as not fully covered because of the
+missing jump from line 2 to line 4.</p>
+
+
+<h1>How to measure branch coverage</h1>
+
+<p>To measure branch coverage, run coverage.py with the --branch flag:</p>
+
+<code>coverage run --branch myprog.py</code>
+
+<p>When you report on the results with "coverage report" or "coverage html", the
+percentage of branch possibilities taken will be included in the percentage
+covered total for each file.  The coverage percentage for a file is the
+actual executions divided by the execution opportunities.  Each line in the
+file is an execution opportunity, as is each branch destination.</p>
+
+<p>Currently, only HTML reports give information about which lines had missing
+branches.  Lines that were missing some branches are shown in yellow, with an
+annotation at the far right showing branch destination line numbers that were
+not exercised.</p>
+
+
+<h1>How it works</h1>
+
+<p>When measuring branches, coverage.py collects pairs of line numbers, a source
+and destination for each transition from one line to another.  Static analysis
+of the compiled bytecode provides a list of possible transitions.  Comparing
+the measured to the possible indicates missing branches.</p>
+
+<p>The idea of tracking how lines follow each other was from C. Titus Brown.
+Thanks, Titus!</p>
+
+
+<h1>Problems</h1>
+
+<p>Some Python constructs are difficult to measure properly.  For example, an
+infinite loop will be marked as partially executed:</p>
+
+<code lang='python'><![CDATA[
+while True:                         # line 1
+    if some_condition():            #      2
+        break                       
+    body_of_loop()                  #      4
+
+keep_working()                      #      6
+]]></code>
+
+<p>Because the loop never terminates naturally (jumping from line 1 to 6),
+coverage.py thinks the branch is partially executed. </p>
+
+<p>Currently, if you exclude code from coverage testing, a branch into that code
+will still be considered executable, and may result in the branch being
+flagged.</p>
+
+<p>A few other unexpected cases are described in <a href='code/coverage/branches_html/branches.html'>branches.html</a>,
+which also shows how partial branches are displayed in the HTML report.</p>
+
+<p>The only way currently to initiate branch coverage is with the command-line
+interface.  In particular, the nose coverage plugin has no way to use it.</p>
+
+<h1>Other work</h1>
+
+<p>One interesting side effect of tracking line transitions: we know where some
+exceptions happened because a transition happens that wasn't predicted by the
+static analysis.  Currently, I'm not doing anything with this information.
+Any ideas?</p>
+
+</body>
+</entry>
+
+
+<entry when='20091124T075646'>
+<title>Coverage.py v3.2b3: now with fewer memory leaks!</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.2 beta 3</a>
+is available, with a fix for the debilitating
+<a href='blog/200911/memory_leak_mystery.html'>memory leak</a> introduced in
+3.2 beta 1.  If you tried using the latest coverage.py and found it consumed
+all your RAM, this one will work much better.</p>
+
+<p>Other changes since beta 1:</p>
+
+<ul>
+    <li>Branch coverage has been improved.  A few Python constructs were
+    marked as branches because of their structure in bytecode, but shouldn't
+    have been because conceptually there is no branch.  Also, excluded source
+    lines no longer count as branch targets.</li>
+    
+    <li>The --omit command-line flag works much better.</li>
+    
+    <li>The HTML report now has click-to-sort columns, thanks to <a href='http://improbable.org/chris/'>Chris Adams</a>.</li>
+</ul>
+
+</body>
+</entry>
+
+
+<entry when='20091205T170744'>
+
+<title>Coverage.py v3.2</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.2</a> is done.
+Branch coverage works great, and the HTML report now has clickable columns
+(thanks to <a href='http://chris.improbable.org/'>Chris Adams</a>), as well as
+<a href='code/coverage/changes.html'>other improvements</a>. 
+</p>
+
+<p>Enjoy.</p>
+
+<!--
+<p>The one issue in my mind with the branch coverage has to do with overriding
+coverage.py's assessment of missed branches.  For example, this code:
+</p>
+
+<code lang='python'><![CDATA[
+while True:
+    do_some_work()
+    if my_complex_condition():
+        break
+    do_some_more_work()
+]]></code>
+
+<p>will be marked as having a partial branch.  A while statement can always go
+either to the first line of the loop body, or the first line after the loop
+body.  In this case, that second option is never executed.  Of course, it never
+can be exercised.</p>
+
+-->
+
+</body>
+</entry>
+
+</blog>

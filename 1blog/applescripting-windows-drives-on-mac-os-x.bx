@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040718T162814'>
+<title>AppleScripting Windows drives on Mac OS X?</title>
+<category>mac</category>
+<category>windows</category>
+<category>help</category>
+<via />
+<body>
+<p>Today I've been hacking
+<a href='http://developer.apple.com/documentation/AppleScript/'>AppleScript</a>
+to make it easier for my wife to back up her work from her Mac to our Windows box.
+Despite all the English-like syntax,
+I managed to make a new folder on the Windows drive with the date in the name,
+and copy her important folder into it.
+But I'm stumped on how to get the Windows drive connected in the first place.
+</p>
+
+<p>When I use the Record command in Script Editor, and then manually connect the
+drive, I get code like this:</p>
+
+<code>
+set target of Finder window 1 to item "Network"
+set target of Finder window 1 to folder "MyStreet" of item "Network" of startup disk
+set target of Finder window 1 to disk "C"
+set target of Finder window 1 to folder "sue" of disk "C"
+</code>
+
+<p>I'm willing to leave aside the odd repetitive nature of these lines (why does line 2 redo what was done on line 1?)
+When I run this code while the network drive is already connected, it works fine.
+But if I run it when the drive is disconnected (which is when I need it), it fails at the
+third line, which is just where the UI pops up a box title "SMB Mount".</p>
+
+<p>Does anyone know how to do this?  Searching Google is proving fruitless. Help!</p>
+
+</body>
+</entry>
+</blog>

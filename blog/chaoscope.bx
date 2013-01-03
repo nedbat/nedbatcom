@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070521T210923'>
+<title>Chaoscope</title>
+<category>math</category>
+<category>art</category>
+<body>
+<p><a href='http://www.chaoscope.org'>Chaoscope</a> is a visualization toy.
+It draws beautiful pictures of strange attractors, which are a bizarre fractal-like
+mathematical construct from the field of chaos theory.  Whatever, they look really
+nice:
+</p>
+
+<figurep>
+<thumbnail href='pix/chaoscope.png' alt='A jellyfish-like thingy I made with Chaoscope'/>
+</figurep>
+
+<p>The interface is really well done, letting you randomly find interesting
+attractors, but then drag them in three dimensions and fiddle with their parameters.
+You can get a good intuitive sense of the chaos in chaos theory by making small
+changes in the parameters, and seeing sometimes small changes in the output,
+and sometimes huge changes.  There are a number of nice options for the rendering
+phase too.</p>
+
+<p>This is definitely going in my list of mesmerizing desktop toys...</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031123T105619'>
+<title>IncrediBuild</title>
+<category>tools</category>
+<via />
+<body>
+<p>If you are writing C++ with Visual Studio, and your builds take longer
+than you would like, you should try
+<a href='http://www.xoreax.com'>IncrediBuild</a>.
+It's a distributed build tool that just drops in to the Visual Studio environment.
+Worker machines are enlisted to help with the compilation, and the results
+are collected back on your machine.
+We're trying it at work, and it isn't quite automatic (there seems to be
+some fiddliness with projects involving IDL files producing TLB files to
+be included in RC files), but it's close.
+They've got a whizzy graphical view of the build being spread across a
+number of machines, and they don't even require Visual Studio to be
+installed on the worker machines.  Magic.
+</p>
+
+<figurep href='http://www.xoreax.com'>
+<img src='pix/incredibuild.gif' alt='IncrediBuild progress window'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

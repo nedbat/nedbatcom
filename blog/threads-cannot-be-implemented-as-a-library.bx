@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050906T073902'>
+<title>Threads cannot be implemented as a library</title>
+<category>proglang</category>
+<category>concurrency</category>
+<via id='keithdevens'/>
+<body>
+<p>Programming with threads has always been a tricky proposition.
+Reasoning about multiple threads of execution, and properly implementing locking strategies
+is difficult to do properly and requires great care and attention to detail.
+Unfortunately, it may not even be possible, as Hans-J. Boehm shows in his paper,
+<a href='http://www.hpl.hp.com/techreports/2004/HPL-2004-209.html'>Threads Cannot Be Implemented as a Library</a>.
+He demonstrates that in the presence of optimizing compilers, you can't know the sequence of operations
+really being executed in your code, and therefore, you can't correctly call thread primitives in libraries.
+Only threads implemented as part of the language can be correct in all cases.
+</p>
+
+<p>This stuff is fascinating, but it hurts my brain!</p>
+
+</body>
+</entry>
+</blog>

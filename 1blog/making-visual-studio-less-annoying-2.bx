@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040304T221742'>
+<title>Making Visual Studio less annoying #2</title>
+<category>howto</category>
+<category>ide</category>
+<via />
+<body>
+<p>If you've installed the MSDN library on top of your Visual Studio,
+you've got a ton of documentation at your fingertips.
+In fact, way too much, at least in my opinion.
+Here's how to get rid of some of it.
+</p>
+
+<more>
+
+<p>When I use the index, I find that many topics appear for which
+I have absolutely no interest.  What the heck is Fox Pro, and why do I care?
+</p>
+
+<p>The worst offender here is Windows CE.  It seems to me that all of the
+documentation for C++ and .NET has been duplicated, stamped with the Windows
+CE brand, and included in MSDN. This means nearly everything I need to look up
+in the index has two entries, which are the same, except one says Windows
+CE on it, and is formatted worse.</p>
+
+<p>The library comes with an impressive filter facility, but I can't figure it out,
+and it looks like it would be a labor-intensive process.  What I want is this:
+when a topic is presented, I want a menu pick that says Never Show This To Me Again
+(Or Any Other Topic Like It).</p>
+
+<p>That menu pick isn't available, so here's how to do it yourself:
+when the topic appears, find its URL, either in the address bar, or
+in the properties panel.  It will look something like this:</p>
+
+<code>
+help://MS.VSCC.2003/MS.MSDNQTR.2004JAN.1033/oledb/htm/olappr_chapter24_3.htm
+</code>
+
+<p>(This is "Flattening Algorithm" from the OLE DB Programmer's Reference).
+The important part here is "oledb".  The help files are stored (for example) in
+c:\Program Files\MSDN\2004JAN\1033.  The file in this case is oledb.hxi.
+Delete it (or if you are a scaredy-cat like me, rename it to .hxi_hidden).
+</p>
+
+<p>Repeat this process for all the annoying topic areas you find.
+When you restart Visual Studio, it will notice that the help topics have changed,
+and spend a while rebuilding its uber-index.  You won't be bothered with
+those topics again.
+</p>
+
+</more>
+
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111106T223300'>
+<title>Caveman</title>
+<category>browsers</category>
+<category>tools</category>
+<category>mycode</category>
+<body>
+<p>Last week, as part of my work with <a href='http://threepress.org'>Threepress</a>
+building HTML5-based ebook reading software, I had to debug a problem with inaccurate
+cache manifests.  Like any good engineer, rather than spend three hours doing it
+by hand, I spent six hours building a tool to do it.</p>
+
+<p>The result is <a href='/code/caveman'>Caveman</a>, a Python tool to validate
+HTML5 cache manifests.  It scrapes the HTML page you specify, finding resources,
+then compares them to the cache manifest and reports problems.</p>
+
+<p>When run as a command-line tool, it writes problems to its standard output.  When
+run as a module, it's encapsulated enough that you can define how it gets HTTP
+data, and where it writes its results.</p>
+
+<p>It worked well for me, and it might also for you.  
+<a href='http://pypi.python.org/pypi/caveman'>Try it and let me know</a>.</p>
+
+</body>
+</entry>
+</blog>

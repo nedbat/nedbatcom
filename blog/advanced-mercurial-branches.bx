@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111115T211009'>
+<title>Advanced Mercurial branches</title>
+<category>srcctrl</category>
+<body>
+
+<p>A Mercurial challenge today: we have a repo (A) that we cloned (B) a
+    year ago for a client.  Work has been progressing in both A and B.  Now
+    we wanted to take all the work in repo A, and make it available in repo
+    B as a new branch.  I took a few stabs at it myself, but kept getting
+    confused, so I asked in the #mercurial IRC channel on freenode.</p>
+
+<p>The answers were enlightening to me.</p>
+
+<p>Initially I had tried pulling from repo A into repo B.  This was
+    disconcerting, because all of the changes from A appeared in the
+    default branch in repo B.  I wanted them to be sequestered off into a
+    new branch.</p>
+
+<p>I learned that just because a changeset is in the default branch, that
+    doesn't mean that its effect will be in your tree if you update to
+    default.  A branch name in Mercurial is nothing more than a string
+    label associated with a changeset. What we developers think of as "a
+    branch" is a line of development separate from other lines.
+    But in Mercurial, a "branch" is simply the set of changesets labelled
+    with the same branch name.  There's no requirement that this set of
+    changesets form a line, or in fact, that the changesets have any
+    relationship to each other.</p>
+
+<p>The Mercurial branch concept maps well onto the common meaning of branch
+    because changesets inherit branch names from their parent.  Once you
+    set a branch name on a changeset, it tends to trickle down the lineage
+    of changesets, naturally labelling a line of development.  But in
+    strict terms, this is a convenient coincidence: the Mercurial
+    concept of branch (set of changesets with the same branch label) and
+    the common meaning (a line of changesets deriving from each other)
+    coincide.</p>
+
+<p>Another import thing: Mercurial changesets are immutable, and the branch
+    label is part of the changeset.  So there's no way to take a changeset
+    from A's default, and put it into another branch in B.</p>
+
+<p>When I pulled changesets from A into B, since the changesets in A had
+    been part of "default", when they landed in B, they were also in
+    "default".  But that doesn't mean they were magically part of the
+    ancestry of B's tip.  When I looked at the log, I saw recent changesets
+    on "default", but there were really two distinct lines of development,
+    both labelled "default".</p>
+
+<p>Here are the directions for the right way to accomplish this merge.  
+    To prepare, note the current tip revisions
+    of repo A and B, call them TipA and TipB.  Then, all the actual work
+    happens in repo B.  First, pull all of the changes from repo A into
+    repo B, and update to the tip of A:</p>
+
+<code>
+$ hg pull Repo_A
+$ hg update Tip_A
+</code>
+
+<p>At this point, we're in the state that scared me: A pile of new changes
+    have appeared in your "default" branch.  Don't panic: they aren't really
+    in your main line of development.</p>
+
+<p>To make the repo make sense, we'll label A's default line as a new branch:</p>
+
+<code>
+$ hg branch New_Branch_Name
+$ hg ci -m "Created New_Branch_Name from latest on Repo_A"
+</code>
+
+<p>We've labelled the tip with a new branch name and checked it in.  
+    This means people who want to work with the newly-pulled changes from A
+    can use the branch name, while others can stay with B's default.
+    Notice that this doesn't change the branch name on all of those A changes
+    (nothing can, changesets are immutable), but at least we have a name
+    for the tip of that line of development.</p>
+
+<p>We're all set now, except for one thing: if someone updates to "default"
+    now, they won't get what they expect.  When updating to a branch name,
+    they changeset used is the newest one carrying the branch name, and newest
+    doesn't mean the most recent date, it means the last one added to the repo.
+    Since we just pulled in all those A changes on "default", one of them will
+    be the tip of "default", even though we just created a new branch to 
+    represent them.</p>
+
+<p>To fix this, we switch back to B's default branch, and commit a change there:</p>
+
+<code>
+$ hg update Tip_B
+(.. edit something ..)
+$ hg ci -m "The new tip to work from after all those Repo_A changes"
+</code>
+
+<p>Now this change is the most recent "default" changeset, so all is good:
+    B's default line of development is still "default", and A's changes
+    are available on a new branch.</p>
+
+<p>I've been using Mercurial for a long time, but never understood things
+    at this level.  What had seemed bizarre and confusing makes so much
+    more sense when the fundamentals are clear! 
+    Thanks, Ry4an and timeless in #mercurial.</p>
+
+</body>
+</entry>
+</blog>

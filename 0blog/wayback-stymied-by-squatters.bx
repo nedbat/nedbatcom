@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030708T092219'>
+<title>Wayback machine stymied by squatters</title>
+<category>webpage</category>
+<category>search</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I used to work at a startup called Blue Ripple.
+When I
+<a href='blog/200306.html#e20030624T194714'>mention</a> it,
+I like to put in a link to the Blue Ripple website.
+Because it is a failed startup, the website is no more.
+So I would link to its archived version at the
+<a href='http://web.archive.org'>Internet Archive Wayback Machine</a>.
+If you've never used it, it is an amazing thing, storing old copies
+of websites for posterity
+(for example, they have the
+<a href='http://web.archive.org/web/19961109175623/http://www.lotus.com/'>Lotus homepage from November 1996</a>).
+</p>
+
+<p>Recently, though, the Wayback Machine stopped showing me the Blue Ripple
+website, instead claiming that
+<a href='http://web.archive.org/web/*/http://blueripple.com'>access to http://blueripple.com has been blocked by the site owner via robots.txt</a>.
+Huh? Blocked? By the site owner?
+Sure enough, a domain squatter has slurped up
+<a href='http://www.blueripple.com'>blueripple.com</a>,
+and has
+<a href='http://www.blueripple.com/robots.txt'>excluded</a>
+the Internet Archive from visiting with a
+<a href='http://www.robotstxt.org/wc/robots.html'>robots.txt</a> file.
+</p>
+
+<p>Doesn't it kind of defeat the whole purpose of the Internet Archive if
+some crappy-ass domain squatter can prevent access out-of-hand?
+And why should a robots.txt today prevent the archive from displaying
+previously crawlable content?
+</p>
+
+<p>In any case, I've put up my own
+<a href='blueripple'>archive of the Blue Ripple site</a>,
+in case anyone is interested.
+</p>
+
+</body>
+</entry>
+</blog>

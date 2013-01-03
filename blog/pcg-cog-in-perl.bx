@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060205T085702'>
+<title>PCG: Cog in Perl</title>
+<category>cog</category>
+<category>perl</category>
+<via />
+<body>
+<p>Jeremy Shute wrote me to say that he like the idea of my <a href='/code/cog'>Cog</a> code generator
+enough to reimplement it in Perl:
+<a href='http://www.crazilocks.com/pcg.html'>PCG :: The Perl Code Generator</a>.
+</p>
+
+<p>Jeremy also sent along an elisp snippet to get Emacs to run Cog interactively, handy during development
+of the code generators:</p>
+
+<code><![CDATA[
+;; COG stuff.
+(defun cog-buffer ()
+  (interactive)
+  (save-buffer)
+  (call-process "cog.py" nil "*Messages*" nil "-r" (buffer-file-name))
+  (revert-buffer nil t))
+(global-set-key [f5] 'cog-buffer)
+]]></code>
+
+</body>
+</entry>
+</blog>

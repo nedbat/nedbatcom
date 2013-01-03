@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071111T073114'>
+<title>Beautiful Code</title>
+<category>books</category>
+<category>reviews</category>
+<category>devmindset</category>
+<body>
+<p><abook isbn='0596510047'>Beautiful Code</abook> is a different kind of O'Reilly book.
+First off, the cover isn't an "O'Reilly cover":
+</p>
+
+<figurep isbn='0596510047'>
+<img src='pix/beautiful-code.jpg' alt='Cover of Beautiful Code: blue with birds'/>
+</figurep>
+
+<p>Second, instead of an in-depth examination of a single topic, it's a browsable
+anthology of essays by a wide range of writers about a wide range of topics,
+loosely tied together by a single theme: Beautiful Code.  Here beauty is widely
+interpreted, with each author applying the adjective as they see fit.</p>
+
+<p>Some essays work better than others, of course.  Andrew Kuchling's piece about
+how to implement Python dictionaries so that they perform well for all of their
+varied tasks was very interesting, reviewing all the various optimizations and tradeoffs.
+Not to turn this into a Python vs. Ruby thing, but Yukihiro Matsumoto's piece,
+<i>Treating Code as an Essay,</i> was fluffy and inconsequential.  That's the price
+you pay for having an assortment of pieces by different authors.</p>
+
+<p>The other essays cover a wide gamut, from the design of Linux kernels to
+audio-enabling emacs to the Mars Rover mission to designing software for Stephen Hawking:</p>
+
+<quote><p>"Professor Stephen Hawking can only press one button," was the one-line
+spec we were given,</p></quote>
+
+<p>begins Arun Mehta's <i>When a Button is All That Connects You to the World</i>.
+One of the fascinating aspects of these essays is that although they are all about
+code, they come from such diverse domains, that you can't help but learn new views
+on topics you already know a lot about.
+</p>
+
+<p>I haven't read all of the pieces in the book, but the ones I've dipped into
+have been thought provoking.  It's an interesting collection of essays, each by
+someone who cares a great deal about their code.  If you care about yours,
+<abook isbn='0596510047'>Beautiful Code</abook> can only deepen your appreciation of it.</p>
+
+</body>
+</entry>
+</blog>

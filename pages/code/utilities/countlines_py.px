@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='countlines.py'>
+<history>
+<what when='20020915T120000'>Created.</what>
+</history>
+
+<p>I write software for a living, and the raw unit of measure for software source code is
+lines of code.  You can argue what it means, or whether it's worth anything as a measure,
+but it is used as a measure.</p>
+
+<p>I find it handy to be able to see the size of a tree of files as a line count, per file type.
+For example, here is the output of countlines for my Python21/Lib directory:
+</p>
+
+<code><![CDATA[
+         ext files    lines
+               142     4353
+         .au     1        1
+        .out     1      115
+         .py   480   107433
+        .pyc   150     1929
+        .pyo    33      254
+        .txt     1       18
+        .uue     4     4858
+        .xml     2      122
+   ==total==   814   119083
+]]></code>
+
+<p>There are no options or arguments, it examines the entire directory tree rooted at the
+current directory.  Certain directories are skipped (ones named CVS), and certain files
+are ignored (ones starting with .#).</p>
+
+<download file='countlines.py' path='code/utilities/countlines.py' />
+
+<pagecomments/>
+
+</page>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040407T213903'>
+<title>Help with CSS alignment? Please?</title>
+<category>css</category>
+<category>site</category>
+<category>help</category>
+<via />
+<body>
+<p>I've managed alright with the CSS for this site, but I'm still just a
+Salieri-like beginner ("Why give me the desire, but not the skill?!?").
+There's one bug on this site that I have not been able to squash.
+If there is a kind-hearted CSS guru out there who can help, I would be
+very grateful, and would be glad to trade services for the answer.
+</p>
+
+<more>
+
+<p>My <a href='blog/archive2004.html'>archive page</a> is organized by
+date, with the day of the month hanging in the left margin.
+When a number of entries occur on a single day, only the upper-most
+entry has the day, with the others below it with nothing in the margin.
+This works well, but the alignment of the entries is off in IE.</p>
+
+<p>Here's a screenshot, with Firefox on the left (perfect alignment), and
+IE 6 on the right (imperfect alignment).  The pink rectangles are to highlight
+the misalignment at the left edge of the titles:</p>
+
+<figurep>
+<img src='pix/archive-alignment.png' alt='Side-by-side alignment comparison' />
+</figurep>
+
+<p>The HTML looks like this:</p>
+
+<code lang='html'><![CDATA[
+<div class="archive">
+<h1 id="h_January_2004">
+<a href="blog/200401.html" class="s">January 2004</a>
+</h1>
+<p>
+<span class="date">Sat 31: </span>
+</p>
+<p>
+<a href="blog/200401.html#e20040131T172516" class="s">Ultra-geeky Life amusement</a>
+</p>
+<p>
+<a href="blog/200401.html#e20040131T082234" class="s">Mars scorecard</a>
+</p>
+</div>
+]]></code>
+
+<p>and the CSS like this:</p>
+
+<code lang='css'><![CDATA[
+/* Archive page: make the dates hang left to align all the titles. */
+.archive .date {
+    float: left;
+    width: 5em;
+    text-align: right;
+    padding: 0 .5em 0 0;
+    margin-left: -5.5em;
+    color: gray;
+}
+
+.archive p {
+    margin: 0 0 0 5.5em;
+    line-height: 1.45em;
+}
+]]></code>
+
+<p>I had a certain idea about the structure of the HTML code, but I don't remember what
+it was.  If the solution involves changing it, so be it.  Someone, please help!
+How do I make the blog titles line up perfectly in both browsers?
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

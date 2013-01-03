@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041228T095118'>
+<title>Updates to commenting system</title>
+<category>site</category>
+<category>malware</category>
+<via />
+<body>
+<p>While I was trying to debug the problem with my old host, I got back into
+my commenting code, and while I was in there, I made a few upgrades.
+Now URLs are auto-linked, and the problem with fancy HTML entities losing their
+specialness during preview was fixed.
+There's also some simple-minded spam prevention that's been in there for a
+few weeks (it's just a blacklist of words, but it works for me so far).</p>
+
+<p>Actually, I'm a little flattered that my system is getting any comment spam.
+I would have thought the spammers would rely on details of widely-used blogging
+and commenting systems to write their bots.  Since my blog and comment system
+is entirely home-grown, some filthy spammer must have specially coded for this site.
+Sweet of them to have thought of me.</p>
+
+<p>In any case, I don't get much, and it is formulaic enough (and verbose enough!)
+that a small blacklist prevents it.
+Someday, maybe I'll need a fancier technique, like Elliot Back's
+<a href='http://elliottback.com/wp/archives/2004/11/29/spam-stopgap-extreme/'>Spam Stopgap Extreme</a>
+which relies on client-side MD5 hashing in JavaScript to ensure no bots can get through.
+</p>
+
+</body>
+</entry>
+</blog>

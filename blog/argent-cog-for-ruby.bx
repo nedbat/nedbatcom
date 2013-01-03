@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050329T065641'>
+<title>Argent: Cog for Ruby</title>
+<category>cog</category>
+<category>ruby</category>
+<via />
+<body>
+<p>Cullen O'Neil wrote to tell me that he liked
+<a href='code/cog/index.html'>Cog</a> enough to re-implement it in
+<a href='http://www.ruby-lang.org'>Ruby</a>.
+The result is <a href='http://rubyforge.org/projects/argent/'>Argent</a>.
+Now you can use Ruby for code generation:
+</p>
+
+<code lang='ruby'><![CDATA[
+// This is my C++ file.
+...
+/*[[$argent
+  ['DoSomething', 'DoAnotherThing', 'DoLastThing'].each do |fn|
+    $argent.outl("void #{fn}();")
+  end
+  $]]*/
+//[[$end$]]
+...
+]]></code>
+
+<p>Reading the Argent code was an interesting experience: I don't really know Ruby,
+but I'm familiar with how Cog is implemented, so I "knew" the code without knowing
+the language.  It helped me understand more about Ruby.</p>
+
+<p>Also cool: Cullen uses Argent to manage its own Makefile.  He generates test classes
+and Makefile entries for them using Argent itself.</p>
+
+</body>
+</entry>
+</blog>

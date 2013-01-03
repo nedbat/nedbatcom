@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100821T144349'>
+<title>Coverage.py v3.4 beta 1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.4 beta 1</a>
+is available now.  3.4 brings improved source code specification.
+The --omit and --include switches have changed in an incompatible way, taking
+file patterns rather than prefixes, and a new --source switch specifies 
+directories or modules to measure.  Details are in the new page about
+<a href="http://nedbatchelder.com/code/coverage/beta/source.html">specifying source files</a>
+in the coverage.py docs.  These changes should help people focus
+coverage.py on the code they really want to measure.
+</p>
+
+<p>In addition, a few bug fixes have helped in this area: Jinja templates and
+doctest bodies are no longer measured, since they produced errors during 
+reporting anyway.</p>
+
+<p>One other notable change: coverage.py used to report the number of statements,
+and the number of executed statements.  Now instead of executed statements,
+it reports missed statements.  This is a better indicator of how well your code
+is covered, because it's clear what the goal is: zero missed statements.</p>
+
+<p>Give this version a try.  There have been lots of 
+<a href="http://bitbucket.org/ned/coveragepy/src/c0af9a0b5c4d/CHANGES.txt">changes</a>.
+Also, I hate to admit it: but this version has broken my own coverage
+measurement of coverage.py itself, and I haven't figured out why yet...</p>
+
+</body>
+</entry>
+
+
+<entry when='20100906T141300'>
+<title>Coverage.py v3.4 beta 2: uncovered files</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I just posted 
+    <a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.4 beta 2</a>,
+    the latest version of my code coverage measurement tool for Python.
+    The biggest change is now if you specify --source to tell coverage where
+    to find source files, it will identify file that weren't executed at all,
+    and add their 0% coverage to the final report.  This has been a highly
+    requested feature for a long time, and for good reason: what's the point in
+    measuring lines that aren't executed if entire files slip by unnoticed?</p>
+
+<p>But unexecuted files are only detected if --source is specified, because
+    otherwise coverage.py won't know where to search for files.  I don't know
+    if there's a useful default for something like this.  Let me know if you
+    have any interesting ideas.</p>
+
+<p>A small but interesting change: coverage percentages will now only be reported
+    as 100% or 0% if they are truly all or nothing. In the past, you could have
+    99.6% rounded to 100%, or 0.4% rounded to 0%.</p>
+</body>
+</entry>
+
+<entry when='20100919T171100'>
+<title>Coverage.py v3.4</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>Coverage.py 3.4, the latest release of my code coverage tool for Python,
+is now <a href="http://pypi.python.org/pypi/coverage">available</a>.
+If you haven't been trying the betas, then new in this release are better
+ways to direct's coverage.py's attention on your source code, a number of
+fixes to reporting, especially the XML report, and now completely unexecuted
+files can be reported as 0% covered.
+</p>
+
+<p>Enjoy!</p>
+</body>
+</entry>
+
+</blog>

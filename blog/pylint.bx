@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080614T085101'>
+<title>Pylint</title>
+<category>python</category>
+<category>tools</category>
+<body>
+<p>Being a developer, I'm a sucker for rules to follow to improve my code, and
+for tools that can help me to follow them.  Being a Python developer, I don't
+have a static type checking compiler to help me.
+<a href='http://www.logilab.org/857'>Pylint</a> aims to fill some of those gaps.
+</p>
+
+<p>It examines your Python source code and reports on all sorts of things it doesn't like.
+Like most tools of this sort (its name is a reference to the classic <a href='http://en.wikipedia.org/wiki/Lint_programming_tool'>lint tool for C</a>),
+it can be annoyingly picky.  Since its job is to flag things that might be a problem,
+it errs on the alarmist noisy side.
+</p>
+
+<p>Pylint tries to apply light type checking to methods and variables, so it will
+complain about constructs simply because they interfere with that goal:</p>
+
+<code>W0142: 26:MyClass.my_method: Used * or ** magic</code>
+
+<p>Excuse me, but ** is not magic, it's a powerful language feature.  Reading pylint's
+warnings, you get the feeling that it won't be completely happy until you are coding
+within the intersection of Python and Java.</p>
+
+<p>But pylint's best feature is its configurability.  In the settings file, you
+can disable individual messages:</p>
+
+<code><![CDATA[
+# Disable the message(s) with the given id(s).
+disable-msg=C0103,R0903,W0142,C0324,R0201,C0111,W0232,W0702,W0703,W0201
+]]></code>
+
+<p>and also configure all sorts of other settings.  This is important because
+pylint also natters on about style issues: valid names, line length, number of
+statements per method, and so on. Pylint also lets you disable a particular message
+in specific files, classes, or methods, which is extremely useful for overriding
+warnings about tricky cases, or simple misdiagnoses.</p>
+
+<p>As with every other lint-like tool I've ever used, the first order of business
+is deciding what you really want pylint to tell you about.  Initially,
+its reporting will be about things that just don't matter, and you'll disable a
+ton of messages.  Then you'll get to the things that you'll agree are minor issues
+and you'll want to clean up, like unused imports.</p>
+
+<p>The next rung of messages are helpful because they get you to think about the
+way you've written your code.  For example, this code:</p>
+
+<code lang='python'><![CDATA[
+def my_method(self, arg1, extras=[]):
+    // blah blah...
+]]></code>
+
+<p>will get you this warning:</p>
+
+<code><![CDATA[
+W0102:247:MyClass.my_method: Dangerous default value [] as argument
+]]></code>
+
+<p>Pylint warns about this because you could append to extras in the body of the
+method, and that would modify the single list object that is used as the default
+value for every invocation of the method, something you almost certainly didn't
+intend.  Changing the code to this avoids the possibility and the warning:</p>
+
+<code lang='python'><![CDATA[
+def my_method(self, arg1, extras=None):
+    extras = extras or []
+    // blah blah...
+]]></code>
+
+<p>Whether you want to adopt this idiom uniformly, or stick with the more common
+extras=[] is something you'll have to decide.  Pylint did you the favor of bringing
+it to your attention so that you could think through the issue and decide.
+In this case, you may be able to simply leave extras as None and use it as is in
+the body of the function, but you get the point.
+</p>
+
+<p>Occasionally, you'll get unambiguous value from the pylint output.
+I ran pylint on a large actively developed code base, and it reported on an instance
+of an undefined variable.  I looked, and sure enough, that code shouldn't work.
+Digging further, I looked at who called that code, and once I was done pulling on
+all of the threads I discovered, I had a couple hundred lines of code that were
+not used any more, and I could <a href='/text/deleting-code.html'>delete</a> them.
+</p>
+
+<p>I don't know whether I'll stick with pylint.  It's a tricky balance to get it
+set properly so that it warns about things I genuinely believe to be issues.
+</p>
+
+<p>The other minor downside to pylint is that you have to install three separate
+packages to get it to work.  Logilab would do well to provide a single installer
+for pylint and its dependencies.</p>
+
+<p>BTW: There are other tools for static checking Python code, but I haven't used them
+recently: <a href='http://divmod.org/trac/wiki/DivmodPyflakes'>PyFlakes</a> and
+<a href='http://pychecker.sourceforge.net/'>PyChecker</a>.</p>
+
+</body>
+</entry>
+</blog>

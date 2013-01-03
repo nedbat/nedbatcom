@@ -1,0 +1,123 @@
+% See http://nedbatchelder.com/blog/200712/ancient_history_the_digital_logo.html
+11 dict begin
+
+/FontInfo 3 dict def
+FontInfo begin
+    /Notice (The Digital logo is a registered trademark of Digital Equipment Corporation.) def
+    /FullName (Digital Logo) def
+    /version (1.7, 24-Apr-1989) def
+    end
+
+/FontName /DEC_Logo def
+/FontType 3 def                         % This is a user-defined font
+/FontMatrix matrix def                  % Use an identity transform
+/FontBBox [ 0 0 3.383 1 ] def           % Logo itself is biggest
+/GapWidth .070 def                      % The width of the gap between boxes
+/LogoWidth 3.383 def                    % The width of the logo
+
+/Encoding 256 array def
+0 1 255 { Encoding exch /.notdef put } for
+
+Encoding
+dup (d) 0 get /DEC-logo put             % (d) gives logo
+dup (t) 0 get /smalltrademark put       % (t) gives small trademark
+    (T) 0 get /largetrademark put       % (T) gives large trademark
+
+/Work 15 dict def                       % for doing work in font.
+
+/BuildChar {
+    exch begin                          % Use the font dictionary
+        Work begin
+            Encoding exch get           % Look up the character name
+            load                        % Pull out the procedure
+            exec                        % Run it.
+            end                         % Work
+        end                             % fontdict
+    } def
+
+Work begin
+
+/.notdef {} def
+
+/words {
+    0           %  
+    moveto      % !
+    curveto     % "
+    closepath   % #
+    lineto      % $
+    boxw        % %
+    boxstep     % &
+    translate   % '
+} bind cvlit def
+( mr vy! mt rQ h[ kF aw kE" Zw kG T@ q] T@ ~I" T@ AKA Zv AQi ai AQk" h[ AQi m
+t AJX mr ADw"# nI AZ[! nI Avp$ |C Avp$ |C ^h$ mk ^h$ mk bl$ l` a` gc \\U _F 
+\\U" VR \\T Fa cj Fa ~I" Fa ATf RS A`M `S A`M" e_ A`M je A^W nI AZ["#% !% B\\
+P$  B\\P$  $#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV!
+ ZK Au~$ hO Au~$ hO AfV$#& ' l[ AE~! l[ AKe fG AQX `Q AQX" [O AQX S] ANK S] 
+?t" S] pa ]A nR `L nR" f_ nR l[ rg l[ yS"#  B\\P!% B\\P$% $  $# ld AWi! kG A
+Yn fV A^\\ _b A^\\" T} A^[ FM AXT FM }s" FN hy V{ ax ]r ax" eL aw jl fK lL g
+s" lL aN$ lL \\W gM Wg ^w Wg" Wk Wh V{ \\O V{ ^a" HO ^a$ HO WN L| Ld ]~ Lc" 
+mN Lc rP RX t[ Td" vP VZ x? [^ x? _a" x? A]p$ le A]p$#& '% !% B\\P$  B\\P$  
+$# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV! ZK Au~$ hO Au~$ hO AfV$#& ' dX Aue
+! Wa Aue$ Wa A^w$ Pr A^w$ Pr ATT$ Wa ATT$ Wa ld$ Wa d? [Z _B fP _C" kU _C kH
+ _A ob _r" ob lz$ lj lZ kq lM jW lP" gj lU dX mR dX rF" dX ATS$ nd ATS$ nd A
+^w$ dX A^w$#% !  $  B\\P$% B\\P$#& '  !  B\\P$% B\\P$% $# J{ AIx! V~ AIx$ V~
+ APR ZR ASi `f ASi" jj ASj jU AOK jT AId" dF AGI dk AGM [L AEC" OI ABQ Gq }G
+ Gp ph" Gq d[ P] ]z ZP ]{" dD ]z fF aE jJ cr" jJ ^z$ yb ^z$ uz dp vw ey vu j
+R" vv mn vu AOX vu AOX" vv AVC sX AZH qG A[_" k] A^w d^ A_Q `f A_R" Ru A_P J
+z AXU J{ AIx"# jT }j! jT uI$ jT qP ee in \\R im" Wp il UN mC UM qZ" UN ur X{
+ yI \\D yq" _U z[ fv |V jT }j"#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK Awb$ hO Aw
+b$ hO ^h$#)
+/pathstring exch def
+
+/round-to-pixels {
+    0 transform
+    round exch round exch
+    itransform
+    pop
+    } def
+
+/DEC-logo {
+    3.383 0 0 0 3.383 1 setcachedevice
+    .0001 .0001 scale
+
+    /boxw 4250 round-to-pixels def
+    /boxstep 4950 round-to-pixels def
+
+    pathstring
+    {
+        dup 62 gt
+        {   63 and exch 6 bitshift add }
+        {   dup 32 ge
+            {   32 sub words exch get exec }
+            {   pop }
+            ifelse
+            }
+        ifelse
+        }
+    forall
+
+    fill
+    } def
+
+
+/trademark {
+    /s exch .380 div def
+    /w s .725 mul .070 add def
+    /u 1 .673 s mul sub def
+    w 0 0 u w 1 setcachedevice
+    /Symbol findfont s scalefont setfont
+    .070 u moveto                               % Superscript it
+    (\344) show
+    } def
+
+
+/smalltrademark { .15 trademark } def
+/largetrademark { .25 trademark } def
+
+end                                             % Work dictionary
+
+FontName                                        % Get the name
+currentdict                                     % Get the font dict
+end                                             % Close up the dict
+definefont pop                                  % Define the font

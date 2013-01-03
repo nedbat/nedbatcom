@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<blog>
+<entry when='20020313T135640'>
+<title>Python: batteries included</title>
+<category>python</category>
+
+<body>
+<p>When <a href='http://www.python.org'>Python</a> claims that batteries are
+included, they mean that Python has a very rich standard library.</p>
+
+<p>Today I had a vivid demonstration.  I was sick of seeing ads in my Yahoo mail,
+so I did the hosts file hack: enter the ad servers' names as 127.0.0.1, and
+the images can't be served.  It worked: instead of ad images, I had broken
+images.  They're not pretty, but at least they aren't ads.</p>
+
+<p>Then I figured, "if I had a simple web server running on this machine, I
+could serve my own gif in place of those ads, and I wouldn't
+have broken images".</p>
+
+<p>I did a little poking around in the Python manuals, and 8 lines later,
+I was done:</p>
+
+<code lang='python'><![CDATA[
+import BaseHTTPServer, SimpleHTTPServer
+
+class BogusAdRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+    def translate_path(self, path):
+        return r'c:\img\1green.gif'
+
+httpd = BaseHTTPServer.HTTPServer(('', 80), BogusAdRequestHandler)
+httpd.serve_forever()
+]]></code>
+
+<p>This is a web server which returns a one-pixel green gif no matter
+what file was requested.  I run this on my machine, and now I have nice
+clean pages with no ads and no broken images, and a pleasing green field where
+the ads used to be!</p>
+
+</body>
+</entry>
+</blog>

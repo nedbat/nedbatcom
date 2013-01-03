@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061001T105747'>
+<title>Redesign</title>
+<category>site</category>
+<via />
+<body>
+<p>I've redesigned this site.  I'd been using the same design for the past
+4<half/> years.  Let me know if there are any problems.
+</p>
+
+<p>Once again I looked into using a no-tables approach, but I didn't see
+how I could accomplish everything I wanted to with pure CSS.  If anyone 
+wants to take a crack at it, I'd be very interested to see how it can be
+accomplished.
+</p>
+
+<p>There are a few things I couldn't get right.  One of them is that the
+gap between a blog title and its date is different in Firefox and IE.
+I played with all sorts of margins and paddings and line-heights, and could
+not get them to agree.</p>
+
+</body>
+</entry>
+</blog>

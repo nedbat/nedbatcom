@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100905T071306'>
+<title>Making good tar files on Windows</title>
+<category>python</category>
+<category>windows</category>
+<body>
+<p>I work on Windows, and produce Python kits for various projects.
+    Of course one of the kits is a source kit, as a .tar.gz.
+    Python's distutils does a fine job of this, but it uses the 
+    native system command to tar up the files, and this means my
+    tar files are from Windows.</p>
+
+<p>The problem is that Windows doesn't know how to make tar files
+    that look native on Unix: the permission bits aren't right,
+    they come out as 0700:</p>
+
+<code>
+drwx------ batcheln/100      0 2010-08-21 14:13 coverage-3.4b1/
+-rwx------ batcheln/100    516 2010-08-08 09:36 coverage-3.4b1/AUTHORS.txt
+...
+</code>
+
+<p>The tar command let me set the mode bits in a command-line switch,
+    which means I could set them in an environment variable, but that
+    would make all the files have the same permission bits, and directories
+    and files should be different.</p>
+
+<p>To fix this problem, I wrote a distutils extension command.  It turned
+    out to be not difficult, distutils has good extensibility.</p>
+
+<p>To make a new command, create a new package directory somewhere, I 
+    called my "distcmd".  To make a command called "fixtar", you you derive a
+    class from distutils.core.Command, name it fixtar, and put it in a file
+    called fixtar.py.  You have to provide three methods:</p>
+
+<code lang='py'><![CDATA[
+from distutils.core import Command
+import shutil, tarfile
+
+class fixtar(Command):
+    """A new setup.py command to fix tar file permissions."""
+
+    description = "Re-pack the tar file to have correct permissions."
+
+    user_options = []
+
+    def initialize_options(self):
+        """Required by Command, even though I have nothing to add."""
+        pass
+
+    def finalize_options(self):
+        """Required by Command, even though I have nothing to add."""
+        pass
+
+    def run(self):
+        """The body of the command."""
+        # Put something useful here!
+]]></code>
+
+<p>The initialize_options and finalize_options methods are required.  It's too
+    bad distutils didn't allow them to be omitted in cases like mine where
+    there are no options to specify.  The run() method is the interesting one,
+    that's where all the work will happen.  In mine, I read the tar file
+    distutils made, and I create a new tar file just like it, but with the
+    permissions and owner info that I want:</p>
+
+<code lang='py'><![CDATA[
+    def run(self):
+        """The body of the command."""
+        for _, _, filename in self.distribution.dist_files:
+            if filename.endswith(".tar.gz"):
+                self.repack_tar(filename, "temp.tar.gz")
+                shutil.move("temp.tar.gz", filename)
+
+    def repack_tar(self, infilename, outfilename):
+        """Re-pack `infilename` as `outfilename`.
+
+        Permissions and owners are set the way we like them.
+
+        """
+        itar = tarfile.open(infilename, "r:gz")
+        otar = tarfile.open(outfilename, "w:gz")
+        for itarinfo in itar:
+            otarinfo = otar.gettarinfo(itarinfo.name)
+            if itarinfo.isfile():
+                otarinfo.mode = 0644
+            else:
+                otarinfo.mode = 0755
+            otarinfo.uid = 100
+            otarinfo.gid = 100
+            otarinfo.uname = "ned"
+            otarinfo.gname = "coverage"
+            otar.addfile(otarinfo, itar.extractfile(itarinfo))
+        itar.close()
+        otar.close()
+]]></code>
+
+<p>To invoke my new command, I have to tell setup.py to pull it in with the --command-packages=distcmd switch.
+Then I can simply use "fixtar" as a command on the line just like any other:</p>
+
+<code>python setup.py --command-packages=distcmd sdist --keep-temp --formats=gztar fixtar</code>
+
+<p>Now I get a tar file that looks right:</p>
+
+<code><![CDATA[
+drwxr-xr-x ned/coverage      0 2010-09-04 19:44 coverage-3.4b2/
+-rw-r--r-- ned/coverage    516 2010-08-08 09:36 coverage-3.4b2/AUTHORS.txt
+...
+]]></code>
+
+<p>There's a bit more complication to it, because of the --keep-temp switch that I needed
+    to keep the original tarred files around so they could be re-tarred.  The 
+    <a href='http://bitbucket.org/ned/coveragepy/src/tip/distcmd/fixtar.py'>real fixtar.py</a>
+    also cleans up that directory.</p>
+
+<p>This was more than I wanted to do to get the right permissions in a tar file, 
+    but it was a chance to see how distutils extensions work, and it lets me make all
+    my kits in one place.</p>
+
+</body>
+</entry>
+</blog>

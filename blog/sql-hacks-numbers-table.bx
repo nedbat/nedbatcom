@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050303T080020'>
+<title>SQL hacks: numbers table</title>
+<category>db</category>
+<category>hacks</category>
+<via href='http://dabbler.typepad.com/ooze/'>Ooze</via>
+<body>
+<p>I've done SQL work for a number of years, but it's usually been pretty plain vanilla
+relational data: I haven't had to venture too far into the truly wild and wooly SQL
+hacks.  For example, I'd never heard of a
+<a href='http://sqljunkies.com/WebLog/amachanic/articles/NumbersTable.aspx'>numbers table</a>.
+It's a table with one integer column, and a row for each integer in a range
+(for example, 1 through 10,000).  The table gets used for
+<a href='http://www.aspfaq.com/show.asp?id=2516'>all kinds of unusual queries</a>.
+</p>
+
+<p>But is it a good idea?  A quick look at some of these queries gives me the impression
+that they'd be inefficient:</p>
+
+<code lang='sql'><![CDATA[
+DECLARE @csv VARCHAR(255)
+SET @csv = '1,3,5,7,9,14,36,395'
+
+SELECT n
+    FROM numbers
+    WHERE CHARINDEX
+    (
+        ','+CONVERT(VARCHAR(12),n)+',',
+        ','+@csv+','
+    ) > 0
+    ORDER BY n
+]]></code>
+
+
+<p>This will examine each row in the numbers table, and check if the number is in the
+string.  This is bone-headed.
+In fact, if that exact algorithm were coded in a procedural language, it would
+qualify as a <a href='http://www.thedailywtf.com'>Daily WTF</a>.</p>
+
+<p>Sometimes the pure relational model nudges you into odd hacks like this, and sometimes
+it is hard to know the best way to slice a problem.  For example, if the alternative
+to a numbers table is to write a loop in the client, then shuttling all the data to the
+client may be a bottleneck, and the numbers query may be better in any case.</p>
+
+<p>As with all performance issues, you can take a guess, but the only way to really
+know is to measure a real system.</p>
+
+<p>BTW: XSLT is another programming model that leads to these sorts of tricks.
+Both XSLT and SQL give you a fundamentally declarative style of programming.
+But developers think procedurally.  The conceptual mismatch leads to difficulties
+expressing yourself, and then off-the-wall ideas like a numbers table to make more
+things possible.</p>
+
+</body>
+</entry>
+</blog>

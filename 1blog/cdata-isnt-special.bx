@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040908T082607'>
+<title>CDATA isn't special</title>
+<category>xml</category>
+<via />
+<body>
+<p>Here's one of those recurring misconceptions about XML.
+I've run into it a number of times, most recently from a co-worker.
+There's no difference between character data in XML (you know, the text that isn't
+part of any tag), and CDATA (the stuff inside the wacky &lt;![CDATA[ .. ]]&gt; tag).
+</p>
+
+<more>
+
+<p>Dealing with an XML stream that would include HTML text, my co-worker asked if we
+could put the HTML into a CDATA section, because that would make it easier to render
+later. I assured him it wouldn't make a bit of difference how the text was communicated,
+so long as it was properly quoted.</p>
+
+<p>As Tim Bray comments in the <a href='http://www.xml.com/axml/testaxml.htm'>Annotated XML Specification</a>:</p>
+
+<quote><p>
+CDATA sections don't mean anything;
+they are strictly a convenience to make XML document authors' lives easier.
+</p></quote>
+
+<p>These two chunks of XML behave exactly the same:</p>
+
+<code lang='xml'><![CDATA[
+<thingy type='html'>
+&lt;p&gt;Here is a paragraph&lt;/p&gt;
+</thingy>
+]]></code>
+
+<code lang='xml'><![CDATA[
+<thingy type='html'>
+<![CDATA[<p>Here is a paragraph</p>]]>]]&gt;<![CDATA[
+</thingy>
+]]></code>
+
+<p>It's just two different ways of quoting text lexically in XML.
+The data being represented is exactly the same,
+just as these C strings are all the same:</p>
+
+<code lang='cpp'><![CDATA[
+"Hello"
+"\x48\x65\x6c\x6c\6f"
+"He" "llo"
+]]></code>
+
+<p>Once they are read in, the data is the same.  When the time comes to print them
+out, there are many options, but they have no correlation with how they were read in.
+</p>
+
+<p>When the time comes to transform that XML into HTML with XSLT,
+you'll use disable-output-escaping:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:template match='thingy[@type="html"]'>
+    <html><body>
+        <xsl:value-of disable-output-escaping='yes' select='text()'/>
+    </body></html>
+</xsl:template>
+]]></code>
+
+<p>Of course, the picture is muddied by things like <a href='http://www.saxproject.org/'>SAX</a>'s
+<a href='http://www.saxproject.org/apidoc/org/xml/sax/ext/LexicalHandler.html#startCDATA()'>startCDATA</a>
+method, which is called when a CDATA section is first encountered.
+Thankfully, SAX pipes all of the text in the CDATA section through the single
+<a href='http://www.saxproject.org/apidoc/org/xml/sax/ContentHandler.html#characters(char[],%20int,%20int)'>characters</a> event,
+but the existence of startCDATA seems to encourage assigning meaning to a CDATA section.
+It's just another way to escape characters.
+</p>
+
+<p>Another misuse of CDATA is to see it as a no-quoting-needed free-for-all.
+Have a chunk of text you want in your XML, and you don't want to bother stuffing
+in the &amp;lt; and &amp;gt; escapes?  Just use a CDATA section, and you don't have
+to look at all the data.  Wrong.  You still have to escape the ]]&gt; sequence if
+it appears in your data.  (If you think that won't happen, you should see the XML
+source for this page!)</p>
+
+</more>
+
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050604T174707'>
+<title>XML alternatives</title>
+<category>xml</category>
+<via />
+<body>
+<p>If you think XML is full of crap that no one needs (DTDs, anyone?) or could have been
+made simpler (we need element names in end-tags why?), then Paul "PaulT" Tchistopolskii's page of
+<a href='http://www.pault.com/pault/pxml/xmlalternatives.html'>XML Alternatives</a>
+is for you.  He lists a number of projects whose goals are similar to XML (to structure data
+for computer use).
+The list also includes things like intuitive text markup schemes (like wiki text),
+and front-end languages for bizarre XML syntax
+(like <a href='http://nicexsl.sourceforge.net/'>NiceXSL</a>).</p>
+
+<p>Of course, none of these alternatives will come anywhere near XML's ubiquity, but it's good
+to know there are other possibilities.  Lots of people use XML in situations where interchange
+isn't required, and other options are perfectly reasonable choices.
+</p>
+</body>
+</entry>
+</blog>

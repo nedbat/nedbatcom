@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060126T062551'>
+<title>Quick PIL tip</title>
+<category>python</category>
+<category>graphics</category>
+<via />
+<body>
+<p>Just a quick note:
+let's say you are using the
+<a href='http://www.pythonware.com/products/pil/'>Python Imaging Library</a>
+to composite a number of images with borders into a larger image.
+The <a href='http://www.pythonware.com/library/pil/handbook/imagedraw.htm'>ImageDraw</a>.rectangle
+method is fabulous for drawing borders.
+BUT: The ImageDraw.bitmap method is not what you want for putting little images onto the larger image.
+I don't what it is good for, but it isn't good for that.  You want the
+<a href='http://www.pythonware.com/library/pil/handbook/image.htm'>Image</a>.paste method.  It works great.
+</p>
+
+</body>
+</entry>
+</blog>

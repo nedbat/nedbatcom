@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120908T154112'>
+<title>Removing overlapping regex matches</title>
+<category>python</category>
+<body>
+
+    <p>In a Stack Overflow question a few months ago, a petitioner wanted to 
+        <a href='http://stackoverflow.com/q/11442470/14343'>remove all the
+        matches of a number of regexes</a>.  The complication was that the
+        regexes could overlap.</p>
+
+    <p>Simply using re.sub() on each pattern in turn wouldn't work, because
+        the overlapping matches wouldn't be fully matched once the first 
+        patterns were removed from the string.</p>
+
+    <p>The solution is to match the regexes, and note the locations of the
+        matches, and then in a second pass, delete all those parts of the
+        string.  Here's an updated version of my answer:</p>
+
+<code><![CDATA[
+def remove_regexes(text, patterns):
+    """Remove all the matches of any pattern in patterns from text."""
+    bytes = bytearray(text)
+    for pat in patterns:
+        for m in re.finditer(pat, text):
+            start, end = m.span()
+            bytes[start:end] = [0] * (end-start)
+    new_string = ''.join(chr(c) for c in bytes if c)
+    return new_string
+]]></code>
+
+    <p>There are a few rarely-used features of Python at work here.  First,
+        I use a bytearray, which is kind of like a mutable string.  Like
+        strings, it is a sequence of bytes.  Unlike strings, you can change
+        the bytes in place.  This is handy for us to mark which portions 
+        of the string are being removed.</p>
+
+    <p>I initialize the bytearray to have the same contents as the text string,
+        then for each pattern, I find all the matches for the pattern, and
+        remove them from the bytearray by replacing the matched bytes with a zero bytes.</p>
+
+    <p>The re.finditer method gives us an iterator over all the matches, and produces
+        a match object for each one.  Match objects are usually just tested and then
+        examined for the matched string, but they have other methods on them too.
+        Here I use m.span(), which returns a two-tuple containing the starting and ending
+        indexes of the match, suitable for use as a slice.  I unpack them into 
+        start and end, and then use those indexes to write zero bytes into my bytearray
+        using slice assignment.</p>
+
+    <p>Because I match against the original unchanged string, the overlapping regexes are not a problem.
+        When all of the patterns have been matched, what's left in my bytearray are zero bytes
+        where the patterns matched, and real byte values where they didn't.  A list
+        comprehension joins all the good bytes back together, and produces a string.</p>
+
+    <p>Nothing earth-shattering here, just a nice showcase of some little-used Python features.</p>
+
+</body>
+</entry>
+</blog>

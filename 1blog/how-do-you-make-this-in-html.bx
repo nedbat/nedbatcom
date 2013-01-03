@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041009T095900'>
+<title>How do you make this in HTML?</title>
+<category>webpage</category>
+<category>css</category>
+<category>help</category>
+<via />
+<body>
+<p>I'll try not to get off on a CSS vs. tables rant here, tempting though it is.
+Just by coincidence, two different projects now need very similar HTML designs,
+and I don't know what my options are for accomplishing it.  Ideas are most welcome.
+</p>
+
+<p>I need a page split horizontally in two parts.
+The top part should expand and shrink to display however much content it needs to.
+The bottom part should fill the rest of the browser window, and get a vertical scroll
+bar to see all of the stuff in it.  The effect should be like an email message window:
+the top half stays fixed in place to show the message headers, and the bottom half
+scrolls to read the body of the message.
+</p>
+
+<p>I've tried divs, I've tried tables, I've tried iframes, and my head is spinning with
+all the combinations I've tried that didn't quite work.  Please help!
+I'll write a glowing review about you and your work!
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100222T070751'>
+<title>Back from PyCon 2010</title>
+<category>gatherings</category>
+<category>pycon</category>
+<body>
+<p>I'm back from PyCon 2010. It was a great three days. I had a chance to talk
+to tons of people about
+<a href='/code/coverage'>coverage.py</a>, or testing in general, or just
+chat.  It's really true that the "hallway track" is the best part of PyCon.
+The formal presentations will be available on video later anyway, and there's
+not much opportunity for interaction.  Meeting people face-to-face is a rare
+opportunity and really builds the community.</p>
+
+<p>Every year at PyCon there seem to be strong themes, not by design, but
+because of the community's current focus. This year they seemed to be packaging,
+concurrency, and speed. There was a lot of discussion about threading,
+asynchronous activity, eventlets, and so on.</p>
+
+<p>Last year seemed to be about the alternative Python implementations. This
+year, they were present, with status talks as part of the plenaries, but were
+just an accepted part of the Python eco-system. I think this has had a positive
+effect, even on CPython. There's a new GIL implementation in 3.x, and I can't
+help but think that the idea of completely different implementations of all of
+Python helped grease the skids for re-implementations of central parts of
+CPython.</p>
+
+<p>I decided on the spur of the moment to do a lightning talk about the last
+year of progress on coverage.py, <a href='http://blip.tv/file/3245057'>video here</a>,
+I start at about 19:40. Lightning talks are fun: they're fast, spirited, and can
+be (far) less serious than the formal presentations. But it was a little
+terrifying being on the big stage, knowing you have only 5 minutes to talk, and
+that you'll be cut off unceremoniously if you go over. As it was, I finished
+with 0:05 on the clock!</p>
+
+<p>I met with other local users' group organizers in an  open space. It was
+cool to see the positive energy they each brought to the job, and to hear other
+ideas for bringing Pythonistas together.</p>
+
+<p>I gave a talk on Saturday, <a href='http://pycon.blip.tv/file/3261272'>Tests and Testability</a>, which seemed to be well
+received. There was an interesting dynamic afterward, because people who saw the
+talk assumed I was an expert on testing, and had all sorts of difficult
+questions for me. The fact is, I'm not a testing expert, just an eager learner.
+I wanted to talk about testability not because I know all about it, but because
+it's a topic I struggle with myself, so it's on my mind quite a bit. I did the
+talk because I'm learning about testability myself. In the talk, I energetically
+described what I've learned, but afterward, I felt like I was learning from the
+questioners as much as they were learning from me.</p>
+
+<p>The Saturday night Testing in Python open space was the usual rowdy party,
+with lightning talks and extended heckling from the crowd. I missed the first
+hour, but the bits I saw were good. Andrew Dalke and I talked about nitty-gritty
+details of grokking the structure of Python programs, and he's got an
+<a href='http://www.dalkescientific.com/writings/diary/archive/2010/02/22/instrumenting_the_ast.html'>interesting
+start on a different approach to coverage measurement</a>.</p>
+
+<p><a href='http://dirkjan.ochtman.nl/'>Dirkjan Ochtman</a> and I had been
+exchanging emails about getting tricky parts of the Mercurial test suite
+coverage tested. We managed to get together one evening and worked through the
+problems. If we had been caught up on our sleep, it probably would have taken
+about 15 minutes, but it was a fun way to spend three hours anyway! Dirkjan
+convinced me to release the next version of coverage.py quickly so that he could
+use it for real, so that should happen in the next few days.</p>
+
+<p>I also had a chance to help <a href='http://pythonide.blogspot.com/'>Stani
+Michiels</a> start coverage testing Phatch.</p>
+
+<p>Antonio did a kick-ass keynote. He's posted the text and slides, but if you
+didn't see it, I recommend waiting for the video to get his inimitable delivery.</p>
+
+<p>I booked my flight early, thinking that the presentations would be over by
+noon (for some reason), so I had to miss ones I really wanted to see.  I'll
+plan better next time.</p>
+
+<p>Overall, PyCon was the usual re-energizing experience, making me excited to
+continue contributing to the community, and seeing where things will go in the next year.</p>
+
+<p>Micro-notes:</p>
+
+<ul>
+<li><a href='http://groups.csail.mit.edu/uid/sikuli/'>Sikuli</a> is one of those
+tools that does the seeming impossible: automating GUI's directed by screenshots.</li>
+<li><a href='http://github.com/mikemaccana/python-docx'>Python Docx</a> looks like a useful
+tool for those of us that need to deal with Office documents.</li>
+<li>A few people used Prezi to do unconventional presentations, and someone mentioned JessyInk also:
+<a href='http://people.w3.org/~dom/archives/2009/10/prezi-vs-jessyink/'>a comparison</a>.</li>
+<li>In the future, will speakers pre-check that their good jokes fit into 140 characters
+so they can be effectively tweeted?</li>
+</ul>
+
+</body>
+</entry>
+</blog>

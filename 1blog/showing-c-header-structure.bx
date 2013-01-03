@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040203T140829'>
+<title>Showing C header structure</title>
+<category>cpp</category>
+<category>python</category>
+<category>tools</category>
+<via />
+<body>
+<p>A co-worker had a mysterious C++ compile error:
+a symbol was undefined, but it was clearly present in the header file.
+We figured there was an ifdef affecting it, but how to find the
+culprit in the 11,000-line header file?
+</p>
+
+<more>
+<p>I tossed off this Python script:</p>
+
+<code lang='python'><![CDATA[
+# showifstruct.py
+import re, sys
+
+reDirective = re.compile(r'\s*#\s*([a-z]+)')
+
+f = file(sys.argv[1])
+targetLnum = int(sys.argv[2])
+
+# A stack. Each element is a list of tuples.
+# Each tuple is a linenumber/text pair of a directive that affects the current line.
+ifstack = []
+
+lnum = 0
+for l in f.readlines():
+    lnum += 1
+    if lnum == targetLnum:
+        break
+    matchDir = reDirective.match(l)
+    if matchDir:
+        directive = matchDir.group(1)
+        if directive in ['if', 'ifdef', 'ifndef']:
+            # Start a group
+            ifstack.append( [[lnum, l]] )
+        elif directive == 'else':
+            ifstack[-1].append( [lnum, l] )
+        elif directive == 'endif':
+            del ifstack[-1]
+
+indent = ''
+for ifs in ifstack:
+    for lnum, line in ifs:
+        print "%6d: %s%s" % (lnum, indent, line),
+    indent += '  '
+]]></code>
+
+<p>Give it a file name and a line number,
+and it will track what preprocessor directives affect the line in question.
+It prints the lines that matter, indented to show structure,
+with line numbers:</p>
+
+<code><![CDATA[
+$ showifstruct WinUser.h 11100
+    12: #ifndef _WINUSER_
+ 10384:   #if(WINVER >= 0x0500)
+ 10483:     #ifndef NOWINABLE
+]]></code>
+
+
+</more>
+
+</body>
+</entry>
+</blog>

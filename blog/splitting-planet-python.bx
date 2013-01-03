@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20101230T074641'>
+<title>Splitting Planet Python</title>
+<category>python</category>
+<category>site</category>
+<body>
+    <p>For more than eight years, this blog has had a single rss feed, with everything mixed together.
+        It was simpler that way, but it meant that <a href='http://planet.python.org/'>Planet Python</a>
+        aggregated all of my posts, regardless of their interest to a Python audience.</p>
+
+    <p>In keeping with Planet Python policy, I've at long last created a <a href='blog/planetpython.xml'>special feed</a> for them to pull.
+        So as not to completely banish serendipity from Pythonista's lives, I haven't built the feed
+        only around the <a href='blog/tag/python.html'>python tag</a>, but from a list of tags I think
+        Pythonistas might reasonably be interested in.  So I've included <a href='blog/tag/math.html'>math</a>,
+        but not <a href='blog/tag/art.html'>art</a>, for example. <a href='blog/tag/js.html'>Javascript</a> is in,
+        <a href='blog/tag/php.html'>PHP</a> is out.  No longer will you have to wade through <a href='blog/tag/cakes.html'>cakes</a>
+        or <a href='blog/tag/politics.html'>politics</a> just because you are interested in <a href='blog/tag/django.html'>Django</a>.
+    </p>
+
+    <p>Of course, if you want the full range of topics, the original <a href='http://nedbatchelder.com/blog/rss.xml'>full feed</a> is still here.</p>
+</body>
+</entry>
+</blog>

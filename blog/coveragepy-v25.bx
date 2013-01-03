@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051204T132720'>
+<title>Coverage.py, v2.5</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I've updated <a href='code/modules/coverage.html'>coverage.py</a> with a number of
+(mostly user-contributed) changes:
+</p>
+
+<ul>
+<li>Multi-threaded programs now have all threads properly measured (thanks Martin Fuzzey).</li>
+<li>The report() method now takes an optional file argument which defaults to stdout.</li>
+<li>Adapted Greg Rogers' patch to allow omitting files by directory from the report and annotation,
+sorting files, and reporting files relatively.</li>
+<li>coverage.py can now recursively measure itself under test!</li>
+</ul>
+
+<p>What is it about December that spurs work on coverage.py?  Looking at the changes made over the
+years, they have all taken place between December 4th and January 7th across three separate years!
+Perhaps the coming cold of winter causes us to turn to the warmth and safety of a tool that increases our
+confidence in our tests...
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081001T210102'>
+<title>Switching python versions on windows</title>
+<category>python</category>
+<category>windows</category>
+<body>
+<p>I forget what software first set up these associations, but I have .py files
+registered with Windows so that they can execute directly.  The registry defines
+.py as a Python.File, which has a shell open command of:
+</p>
+
+<code><![CDATA[
+"C:\Python24\python.exe" "%1" %*
+]]></code>
+
+<p>My PATHEXT environment variable includes .py, so the command prompt will
+attempt to execute .py files, using the registry associations to find the
+executable.</p>
+
+<p>But: I wanted to switch from Python 2.4 to Python 2.5.  That meant updating
+the registry in a handful of places.  A Python script to the rescue!</p>
+
+<code lang='python'><![CDATA[
+""" Change the .py file extension to point to a different
+    Python installation.
+"""
+import _winreg as reg
+import sys
+
+pydir = sys.argv[1]
+
+todo = [
+    ('Applications\python.exe\shell\open\command',
+                '"PYDIR\\python.exe" "%1" %*'),
+    ('Applications\pythonw.exe\shell\open\command',
+                '"PYDIR\\pythonw.exe" "%1" %*'),
+    ('Python.CompiledFile\DefaultIcon',
+                'PYDIR\\pyc.ico'),
+    ('Python.CompiledFile\shell\open\command',
+                '"PYDIR\\python.exe" "%1" %*'),
+    ('Python.File\DefaultIcon',
+                'PYDIR\\py.ico'),
+    ('Python.File\shell\open\command',
+                '"PYDIR\\python.exe" "%1" %*'),
+    ('Python.NoConFile\DefaultIcon',
+                'PYDIR\\py.ico'),
+    ('Python.NoConFile\shell\open\command',
+                '"PYDIR\\pythonw.exe" "%1" %*'),
+    ]
+
+classes_root = reg.OpenKey(reg.HKEY_CLASSES_ROOT, "")
+for path, value in todo:
+    key = reg.OpenKey(classes_root, path, 0, reg.KEY_SET_VALUE)
+    reg.SetValue(key, '', reg.REG_SZ, value.replace('PYDIR', pydir))
+]]></code>
+
+<p>Invoke this with your desired Python installation directory, and the registry
+is updated to point to it.</p>
+
+<p>Note that this doesn't affect what the command "python" means, that's determined
+by your PATH enviroment variable.  These registry settings change which Python
+executable is found when you invoke a .py file as a command.</p>
+
+</body>
+</entry>
+</blog>

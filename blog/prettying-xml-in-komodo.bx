@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091202T100134'>
+<title>Prettying XML in Komodo</title>
+<category>ide</category>
+<body>
+<p>I use <a href='http://www.activestate.com/komodo/'>ActiveState Komodo</a>
+as my editor these days, and have for a while.  It's got just the right
+feature set for me, including scriptability in Python.</p>
+
+<p>I haven't dug into the scripting much, but one constant need finally drove
+me to learn more about it.  At work, we often deal with chunks of data sent
+from servers in either XML or JSON formats, and that data is rarely indented
+for readability.  So I often need to pretty up a file so that I can see what's
+going on.</p>
+
+<p>Here's a Komodo Python script to prettify XML, either the current selection,
+or the entire document:</p>
+
+<code lang='python'><![CDATA[
+import xml.dom.minidom as md
+
+def pretty_xml(x):
+    """Make xml string `x` nicely formatted."""
+    # Hat tip to http://code.activestate.com/recipes/576750/
+    new_xml = md.parseString(x.strip()).toprettyxml(indent=' '*2)
+    return '\n'.join([line for line in new_xml.split('\n') if line.strip()])
+
+def filter_selection_or_document(fn):
+    """Filter the current selection, or if none, the entire document.
+    
+    `fn` is a function taking text and returning text.
+    
+    """
+    the_sel = komodo.editor.selText
+    if not the_sel:
+        komodo.editor.selectAll()
+        the_sel = komodo.editor.selText
+    
+    komodo.editor.replaceSel(fn(the_sel))
+
+filter_selection_or_document(pretty_xml)
+]]></code>
+
+<p>Unfortunately, the
+<a href='http://docs.activestate.com/komodo/5.2/macroapi.html'>Komodo scripting docs</a>
+are not great: they are fairly terse, with not much introductory material to
+help you find your way around.  And the Python bindings are step-children: you
+have to read about JavaScript, then translate to Python in your head.
+</p>
+
+<p>But you can call into the extensive Python standard library to get done what
+you need done, so the power is there.  I also made a JSON prettifier by using
+this filter function in the above code:</p>
+
+<code lang='python'><![CDATA[
+def pretty_json(j):
+    """Make JSON prettier."""
+    return json.dumps(json.loads(j), indent=2)
+]]></code>
+
+</body>
+</entry>
+</blog>

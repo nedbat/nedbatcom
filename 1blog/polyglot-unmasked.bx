@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040616T125243'>
+<title>Polyglot unmasked</title>
+<via />
+<body>
+<p>I added PostScript support to <a href='http://silvercity.sourceforge.net'>SilverCity</a>.
+Now I can show my <a href='blog/200209.html#e20020902T110606'>polyglot code</a> in a new way.
+</p>
+
+<more>
+<p>Here's the code labelled as C code:</p>
+
+<code lang='C++'><![CDATA[
+/* % Dual program: C or PostScript!
+   % Ned Batchelder
+   %
+{pop}/,{}/={}/"{}/+{}/;{pop}/-{moveto}/printf{show}/return{showpage}9{def}repeat
+   ( */
+# include <stdio.h>
+# include <string.h>
+/* ) */char count , def = 0 ;
+/* */main()
+{
+    char * /* */Courier = " findfont " + 36 , scalefont = 0 ;
+    char * setfont = "(Hello, world!)" + 0 * 100 + 0 * 100 - 0 ;
+
+    printf("%.*s\n", strlen(setfont)-2, setfont+1);
+    return ;
+}
+
+char * exec ;
+]]></code>
+
+<p>And here it is labelled as PostScript:</p>
+
+<code lang='PostScript'><![CDATA[
+/* % Dual program: C or PostScript!
+   % Ned Batchelder
+   %
+{pop}/,{}/={}/"{}/+{}/;{pop}/-{moveto}/printf{show}/return{showpage}9{def}repeat
+   ( */
+# include <stdio.h>
+# include <string.h>
+/* ) */char count , def = 0 ;
+/* */main()
+{
+    char * /* */Courier = " findfont " + 36 , scalefont = 0 ;
+    char * setfont = "(Hello, world!)" + 0 * 100 + 0 * 100 - 0 ;
+
+    printf("%.*s\n", strlen(setfont)-2, setfont+1);
+    return ;
+}
+
+char * exec ;
+]]></code>
+
+<p>OK, now I'll shut up about the syntax coloring!</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

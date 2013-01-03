@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='ramp.py'>
+<history>
+<what when='20021002T120000'>Created.</what>
+</history>
+
+<p>I needed some simple binary data for testing, so I wrote this
+python script to generate a simple ramp.  It started with just 256 bytes,
+00 through FF, then I added options to get more variety, and here it
+is.</p>
+
+<code>ramp out.dat</code>
+<p>will write out.dat as a 256-byte ramp.</p>
+
+<code>ramp -n 100 out.dat</code>
+<p>will write out.dat as a 100-byte ramp.</p>
+
+<code>ramp -n 16 -d -r 3 out.dat</code>
+<p>will write out.dat as a 48-byte file, 0x0F down to 0x00 repeated three times.</p>
+
+<code>ramp -q "0x10 1+1 0 255" -r 100 out.dat</code>
+<p>will write out.dat as a 400-byte file, 0x10 0x02 0x00 0xFF repeated 100 times.</p>
+
+<code>ramp -t "hi" -q 0 -r 10 out.dat</code>
+<p>will write out.dat as a 30-byte file, 0x68 0x69 0x00 repeated 10 times.</p>
+
+<p>All of the numbers expected on the command line are parsed by eval(), so
+you can use decimal or hex, or arithmetic expressions!</p>
+
+<download file='ramp.py' path='code/utilities/ramp.py' />
+
+<p>And what better way to see the great data you've created than with
+<a href='code/utilities/hexdump_py.html'>hexdump.py</a>?</p>
+
+<pagecomments/>
+
+</page>

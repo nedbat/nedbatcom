@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080522T071350'>
+<title>Bad web type: georgia's numerals</title>
+<category>type</category>
+<category>webpage</category>
+<body>
+<p>Typography is an ancient and fascinating subject, with many facets: artistic,
+historic, and technological.  At the intersection of these is how technology
+has shaped the art over time. The design of typefaces has always been shaped
+both by what the technology was capable of, and what the technology required.
+</p>
+
+<p>As new typographic technology is introduced, there's a general trend:</p>
+
+<ul>
+<li>imitate the old technology,</li>
+<li>discover the possibilities of the new technology,</li>
+<li>develop a new set of norms,</li>
+<li>restore some parts of the old technology in the new.</li>
+</ul>
+
+<p>When Gutenberg first carved type into steel punches to make movable type, he
+made a number of different versions of each letter to reproduce the variation
+found in manuscripts. Eventually uniformity became the norm, with sophisticated
+variant forms later re-introduced as an advanced option.</p>
+
+<p>The web is no different: type on the web is limited by HTML, by ASCII, and by
+browser support. For example, straight apostrophes and quotes are a compromise
+required by the limitations of typewriter and computer keyboards.
+<a href='http://en.wikipedia.org/wiki/Quotation_mark_glyphs'>Curly quotes</a>
+are the return of previous quality, but require a little more work.
+</p>
+
+<p>Sometimes, though, the old high-quality touches are still inappropriate.
+I realized one of these in the
+<a href='/blog/200805/how_to_apply_patches.html#comments'>comments to yesterday's post about patch</a>.
+Simon Brunning helpfully provided this snippet:
+</p>
+
+<code>patch -p0 -i my.patch      # ABC0123456789XYZ</code>
+
+<p>except that instead of the monospace code font I just used, it was in Georgia:</p>
+
+<quotep style='font-family:georgia'>patch -p0 -i my.patch     # abc0123456789xyz</quotep>
+
+<p>See the problem?  Georgia's numerals (or figures) are one of those advanced touches, known
+as old-style or lowercase figures.  In the full range of type possibilities, there
+are a number of ways of designing figures.  Old-style are like lowercase
+letters: they have a variety of heights, some with ascenders and some with descenders,
+as the Georgia sample shows.  The alternative is called lining, or uppercase
+figures, which all extend from the baseline to the cap-height, just as uppercase
+letters do. The monospace font has these, as do most typefaces.</p>
+
+<p>BTW: There's another way figures can vary: tabular or proportional, which
+doesn't affect this discussion, but for the full details, have a look at the FontFeed's
+<a href='http://www.fontshop.com/fontfeed/archives/figuring-it-out-osf-lf-and-tf-explained/'>OSF, LF, and TF Explained</a>.
+</p>
+
+<p>The problem here is that Georgia's old-style figures make it impossible to
+distinguish a zero and a lowercase o.  Of course, with lining figures, it would
+be difficult to distinguish a zero and an uppercase O, and don't get me started
+on the whole l/1/I (ell/one/Eye) thing.  Maybe the problem here is setting code
+samples in a proportional face in the first place.
+</p>
+
+<p>Typographers would tell you that typefaces have to be chosen carefully for their
+intended use.  The FontFeed article above makes clear that the choice of old-style
+or lining figures depends on what numbers you are setting: in running text, best
+to use old-style, in tables use lining.  No mention of Unix commands!</p>
+
+<p>So what's a web designer to do?  In this case, it is especially complicated,
+because comments can contain any kind of content at all, with minimal markup limited
+by the tools, and provided by the commenter.  Even if my comment form provided
+a &lt;code> tag, readers would have to know to use it, and remember to use it each
+time they provided a code sample.</p>
+
+<p>No typeface is going to be right for all uses, and the choices are limited
+by having to consider cross-platform browser issues.  Georgia is at least one
+of the <a href='http://www.fonttester.com/help/list_of_web_safe_fonts.html'>web-safe fonts</a>,
+so I can be reasonably certain I know what my readers are seeing.</p>
+
+<p>Georgia's old-style figures are a nice touch, a whiff of the high-craft past
+in our sterile modern times.  The title of this post is a bit harsh: they aren't
+bad. But using them indiscriminately in web content isn't always a good thing.
+The best answer may be yet more technology, finding ways to guide the use of the
+old tools appropriately for new contexts.
+</p>
+
+</body>
+</entry>
+</blog>

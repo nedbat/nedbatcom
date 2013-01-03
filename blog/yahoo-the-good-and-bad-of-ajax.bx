@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061217T175158'>
+<title>Yahoo: the good and bad of ajax</title>
+<category>js</category>
+<via />
+<body>
+<p>These days I don't know what to make of Yahoo.  On the one hand, they're
+the authors of arguably the best of the modern JavaScript libraries:
+<a href='http://developer.yahoo.com/yui/'>the Yahoo! User Interface library</a>.
+It seems more solid and better thought-out than the other libraries out there.</p>
+
+<p>And now, Dav Glass from Yahoo has written the 
+<a href='http://blog.davglass.com/files/yui/grids/'>YUI: CSS Grid Builder</a>,
+an interactive tool to make using the complex YUI grids much easier.
+This is all good stuff.
+</p>
+
+<p>But on the other hand, they've taken their <a href='http://tv.yahoo.com'>TV
+listings</a>, which used to work perfectly well in the Web 1.0 world, and slathered
+Ajax all over them.  Not only do they no longer show the right channels (no, channel 2 is 
+not MTV in my town: is it for anyone!?), but the page doesn't fully load initially.
+It's divided into chunks, and not until a chunk is scrolled onto the page does
+it load its half-dozen channels.  But the chunk can be partially visible while
+empty, giving the impression of having reached the end of the page.  And now
+I have to wait (with a progress bar) while it loads each chunk.  Clicking on
+a show is better in that it opens a panel on the current page rather than the old way of loading 
+a new page, but if the whole page seems slower overall, the bouncy panel opening and closing is just annoying.
+Don't give me bells and whistles if the fundamentals suck.
+</p>
+
+<p>I guess Yahoo, like any big company, is too large to be given a monolithic
+grade on anything.  In this case, they've definitely got split marks for Ajax.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Python Modules'>
+<section title='Python Modules' order='250'/>
+<history>
+<what when='20030413T120200'>Created, with FtpUpload.</what>
+<what when='20040104T072303'>Added id3reader.</what>
+<what when='20040125T192300'>Added handyxml.</what>
+<what when='20041212T190400'>Added coverage.</what>
+<what when='20070709T210300'>Added hyphenate.</what>
+<what when='20070915T173000'>Added ggr.</what>
+<what when='20090613T215000'>Move coverage.</what>
+</history>
+
+<p>These are Python modules.</p>
+
+<ul>
+<li><apage pref='code/modules/ftpupload.px'/>, for intelligently uploading files to an FTP server.</li>
+<li><apage pref='code/modules/ggr.px'/>, for interpreting Gimp .ggr gradient files.</li>
+<li><apage pref='code/modules/handyxml.px'/>, for simplifying access to simple XML files.</li>
+<li><apage pref='code/modules/hyphenate.px'/>, for hyphenating words with the Liang/Knuth algorithm.</li>
+<li><apage pref='code/modules/id3reader.px'/>, for reading ID3 tags in MP3 files.</li>
+</ul>
+
+</page>

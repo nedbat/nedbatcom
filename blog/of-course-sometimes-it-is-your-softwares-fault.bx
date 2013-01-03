@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050526T203441'>
+<title>Of course, sometimes it is your software's fault</title>
+<category>debugging</category>
+<category>db</category>
+<category>concurrency</category>
+<via />
+<body>
+<p>Just to show that this blog is fair and balanced, after yesterday's story of bad hardware,
+here's a story with the opposite moral.
+</p>
+
+<more>
+
+<p>We were getting a failed assertion on our server when it performed a certain task
+(post-processing completed action items with attachments). The assertion was about a null smart
+pointer, and the assertion message simply pointed to the code in the template in the C++
+header, meaning that we didn't know what source line contained the bad pointer. (I know: we
+really should get stack traces for these things! Hi Nate!) But the type of the pointer was included
+in the assert, and it was a fairly unusual type, so there were only a few places in the code where
+they were used.</p>
+
+<p>We examined the processing code, and found a use of the unusual pointer type. The code was
+using a database query to get the latest version of the attachment, and when it got the
+result set back, it assumed that it contained a row. We surmised that the assert was
+happening because it did not contain a row.
+So that was one bug: I changed the assert to be a more informative exception.
+But how could it happen in any case? How could we not find a row?</p>
+
+<p>The latest version of the attachment is found by following a link on a bookkeeping
+record. The bookkeeping record is found from a link on any version of the attachment.
+We were processing an incoming transaction which included an update to the
+bookkeeping record, and a new version of the attachment.</p>
+
+<p>As it happens, when processing that transaction, the code starts processing the completed
+action item on another thread.  That's another bug: there's a race condition between committing the
+completed action item and the other thread doing the subsequent processing.
+The other thread might see old data if it wins the race, or might see the new data if it
+loses the race.</p>
+
+<p>But regardless how that race turns out, the database should contain a consistent set of
+records.  The attachment should point to a bookkeeping record, which should point to
+the latest version, which should exist.  So again: how could that result set be empty?</p>
+
+<p>The QE engineer looking into the problem reported that it wasn't consistently reproducable.
+There seemed to be a random element, bolstering our finger-pointing at the race condition.
+He thought that putting more than one attachment on an action item made the problem worse.
+Maybe loading up the transaction with more attachments affected the timing
+of the race condition.
+</p>
+
+<p>But nagging at us was the question of how the result set could be empty.  It seemed
+that the new bookkeeping record was present, but the attachment it referenced was not.
+Somehow, it looked like half of the action item transaction was being committed, or
+only half of it was visible to the other thread.  This was bad news: it meant that
+the database or our layer on top of the database, was not delivering
+<a href='http://en.wikipedia.org/wiki/ACID'>ACID transaction</a>
+semantics to us.</p>
+
+<p>As it happens, a co-worker was also working through a thorny debug session, and
+was talking about strange behavior that could be attributed to bogus transactions.</p>
+
+<p>I wasn't relishing the prospect of figuring out whether the transaction isolation
+was wrong, and determining how to fix it, but we didn't have another explanation for the
+strange behavior we were seeing.  I started to look into how to test
+transaction semantics.  Searching the web, I found the Transaction Processing Performance Council's
+<a href='http://www.tpc.org/tpcb/default.asp'>TPC-B</a>, a detailed test of transaction
+throughput which includes verifying that transaction semantics are correct.
+I liked this part of the description:
+"First, let's look at what TPC-B is not. It is not TPC-A." Thanks.</p>
+
+<p>It seems to be a well thought-out test, and I was mulling over adapting it
+to test our database supprt, when the QE engineer showed me the results of running
+the new code with the exception instead of the assert.
+</p>
+
+<p>It turned out the whole transaction semantic issue was a paranoid fantasy.
+The exception showed that in fact, the problem was that we were using a bogus
+record id for the attachment to look up.  When the action item had two attachments,
+the two ids were concatenated into one, and no attachment could be found, so no
+bookkeeping record could be found, so no latest version could be found.
+I had assumed that the record set was empty because the latest version was missing, when in
+fact the link was missing because an input to the method was totally bogus.
+The exception I added included the "id" being looked up, and once we saw the exception
+being thrown, the entire situation was obvious.
+</p>
+
+<p>Because of a few assumptions (the attachment id must be OK), I ended up going down
+a path that ended with a monster at the end of it (our database doesn't work!), when
+really it turned out to be a very simple and understandable bug.
+</p>
+
+<p>Lessons:</p>
+
+<ul>
+<li>Sometimes, it really is your software's fault.</li>
+<li>Challenge all of your assumptions.</li>
+<li>Find a simpler explanation.</li>
+<li>Put helpful information in all error messages.</li>
+</ul>
+
+</more>
+
+</body>
+</entry>
+</blog>

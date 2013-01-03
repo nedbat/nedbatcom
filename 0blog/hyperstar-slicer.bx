@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030106T083054'>
+<title>Hyperspace Star Polytope Slicer</title>
+<category>math</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>OK, I can't claim to really understand what this thing is doing, but the
+<a href='http://dogfeathers.com/java/hyperstar.html'>Hyperspace Star Polytope Slicer</a>
+is an awesome thing to watch.  It's a Java applet that does 4-dimensional animation of
+slices of polytopes (whatever that is!). Luckily, you don't have to grok the math to
+enjoy the show: fiddle with the controls, and watch the pretty shapes.
+</p>
+
+<p>Here's a cross-eyed stereoscopic pair sample:</p>
+
+<figurep href='http://dogfeathers.com/java/hyperstar.html'>
+<img src='pix/hyperstar.gif' width='370' height='160' alt='hyperspace sliced star polytope'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

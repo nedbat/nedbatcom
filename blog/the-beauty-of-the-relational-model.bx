@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050408T203839'>
+<title>The beauty of the relational model</title>
+<category>db</category>
+<via />
+<body>
+<p>Relational databases are great. They've become the hands-down dominant
+database technology primarily because of the high level of abstraction they provide.
+ADO.NET provides a great set of in-memory relational data classes, for example, DataTable.
+Why couldn't they have understood the relational model better and provided better abstraction?
+</p>
+
+<more>
+
+<p>I think relational databases work as well as they do because
+they provide a simple abstract data model (rectangles),
+and it doesn't matter where the data came from.
+</p>
+
+<p>Dealing with data in pure rectangles means that data can be used in many different
+ways.  To begin with, a table is a rectangle: every row has the same columns.
+Then, the result of a SELECT query against the table is a rectangle:
+it has a subset of the rows, and a subset of the columns, so the result is another rectangle.
+</p>
+
+<p>The designers of SQL understood the power of the abstraction of rectangles.
+That's why you can query a table:
+</p>
+
+<code lang='SQL'><![CDATA[
+select a, b, c from mytable where d = 17
+]]></code>
+
+<p>or you can query the results of another query:</p>
+
+<code lang='SQL'><![CDATA[
+select x, y from (select a+b x, c*2 y from mytable where d = 17) where x > 23
+]]></code>
+
+<p>If a query is really useful, you can create a view from it.  This creates a
+new named data source alongside your tables:</p>
+
+<code lang='SQL'><![CDATA[
+create view myxyview as select a+b x, c*2 y from mytable where d = 17
+]]></code>
+
+<p>Now you can select from the view as if it were a table, and the rectangles
+just work:
+</p>
+
+<code lang='SQL'><![CDATA[
+select x, y from myxyview where x > 23
+]]></code>
+
+<p>And of course, since rectangles don't care where they came from, you can
+create a view based on another view, or a select from a select based on a view,
+and so on, ad infinitum.</p>
+
+<p>Going even further, joins and unions provide ways to combine rectangles side-by-side or serially.
+Most databases leverage the power of rectangles further by providing built-in "tables"
+which expose internal information about the database and its schemas.
+The relational model is fundamentally about rectangles and their interchangeability.
+Their simplicity and universality is at the heart of relational databases' success.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070615T071309'>
+<title>Upgrading from lists to objects</title>
+<category>python</category>
+<body>
+<p>Synchronicity abounds.  Just as a blog post was forming in my mind, Kevin Dangoor
+wrote about the very same topic:
+<a href='http://www.blueskyonmars.com/2007/06/12/python-dictionaries-are-not-the-same-as-instances/'>Python dictionaries are not the same as instances</a>.
+Python makes it so easy to cobble together ad-hoc data structures of lists and dicts,
+I find myself making do with them long past the time when I should have promoted
+them up to real classes.
+</p>
+
+<p>It starts out simple, a function needs to return a list of strings. Fine.
+Then I need to add another piece of data for each string, so the result becomes
+a list of pairs.  Another piece of data will turn it into a full-blown list of lists,
+and so on.  Another function aggregates those results together, making a list of
+lists of lists, and so on.</p>
+
+<p>I find I often live with this scheme beyond its tenable lifetime, like
+the <a href='http://en.wikipedia.org/wiki/Boiling_frog'>boiling frog</a>.
+Unlike Kevin's scenario I usually don't start with dicts, in my mind they
+naturally become classes: once you have to think up names for the components,
+classes are easy.  It's lists (with their unnamed components) that seem so simple to me that they
+gain favor where the "heavier-weight" classes won't do.</p>
+
+<p>But of course converting over to classes is not a big deal, and always
+reaps benefits.  Kevin lists six, but overlooked the one that usually makes
+me smile first: default values in the constructor.</p>
+
+<p>I don't know that I will stop writing ad-hoc data structures, but maybe
+I'll learn, and upgrade them to classes sooner.  I just changed a data
+structure that was clearly over its limit: it was a list of four-element lists,
+the first element of which was a list of six-element lists:</p>
+
+<code>
+[
+    [ [ [a,b,c,d,e,f], [a,b,c,d,e,f], ... ],
+        g, h, i ],
+    [ [ [a,b,c,d,e,f], [a,b,c,d,e,f], ... ],
+        g, h, i ],
+    ...
+]
+</code>
+
+<p>The change makes it a list of objects, one of whose attributes is a list of objects.
+Much nicer. I shouldn't have put it off so long.
+</p>
+
+</body>
+</entry>
+</blog>

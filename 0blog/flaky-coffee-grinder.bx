@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020718T084754'>
+<title>Flaky coffee grinder</title>
+<category>debugging</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>My coffee grinder is flaky again (no, it doesn't grind coffee beans into flakes: it behaves erratically).
+Last time this happened, I remembered a story my brother-in-law told me.  My brother-in-law is a physicist,
+and not one to let mechanical failures be.  When his coffee grinder stopped working, he took it apart,
+found the problem, and wrote to the manufacturer to explain what he found (I don't remember what the
+problem was, but he couldn't fix it, so writing to complain was the best he couild do). </p>
+
+<p>When my coffee grinder first failed, inspired by John's can-do attitude, I took my coffee grinder apart
+too.  It had been slowly getting less and less eager to begin grinding when I pressed the button, so I
+assumed the switch was broken in some way.  I figured I couldn't fix it, but I should at least see the
+problem. </p>
+
+<more>
+
+<p>When I opened the bottom of the grinder, the problem was clear: the entire inside of the grinder was
+filled with finely-ground coffee!  The upper cup was sealed to the body of the grinder with
+a strip of what looked like ordinary electrical tape.  The tape had come loose, and over the course of
+its lifetime, little bits of fine coffee dust had been making their way into the grinder.  Once the
+electrical contacts of the switch became completely clogged, it stopped working.</p>
+
+<p>I was able to empty out the dust, clean everything, re-wrap the upper seal with ordinary electrical
+tape, and put it back together.  The grinder worked perfectly (and was about a pound lighter).
+As an engineer, I was very proud.</p>
+
+<p>So that was the last time my coffee grinder didn't work (there are three separate grinder failures
+in this story, remember: John's, my first, and my current).  So I opened it up again this morning
+expecting to find a cascade of coffee dust, but alas, my electrical tape had held, and the inside was
+only dusty from the last cleaning.  I blew around inside, and put it back together, and it seems
+to work OK, who knows?</p>
+
+<p>Is there a lesson in this? Maybe not...</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081202T223710'>
+<title>Internet explorer mystery #1376</title>
+<category>webpage</category>
+<category>js</category>
+<body>
+<p>Digging into a mysterious failure today at work, I discovered an odd factoid
+about the way Internet Explorer interprets Javascript.
+</p>
+
+<p>Here's a small sample HTML file with a chunk of Javascript:</p>
+
+<code lang='html'><![CDATA[
+<html>
+<head>
+<script>
+/* When are functions defined? */
+function really() { alert("Original"); }
+if (0) {
+    alert("No");
+    function really() { alert("Yes, really"); }
+}
+really();
+</script>
+</head>
+<body>Really</body>
+</html>
+]]></code>
+
+<p>What alerts will display when you load this page?  In Firefox, you'll see "Original".
+In Internet Explorer 6 (and I think 7), you'll see "Yes, really".  In neither
+browser will you see "No".</p>
+
+<p>In IE, the redefinition of really() is interpreted and used even though it
+is inside a block of code that is not executed.  Wonder of wonders...</p>
+
+<p>You can fix it by changing the redefinition clause to:</p>
+
+<code lang='js'><![CDATA[
+if (0) {
+    alert("No");
+    var really = function() { alert("Yes, really!"); }
+}
+]]></code>
+
+<p>Oh, Internet Explorer, how can you be right when you feel so wrong?</p>
+</body>
+</entry>
+</blog>

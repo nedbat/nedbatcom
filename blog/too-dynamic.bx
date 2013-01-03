@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061022T192641'>
+<title>Too dynamic?</title>
+<category>python</category>
+<via />
+<body>
+<p>Here's a debate that arose recently, about the extent to which dynamic typing can be 
+taken, and whether it is too far.  We have a function that takes a list of ids, but it
+can also be used in a way that gets the ids from another well-known place.  It was
+originally coded like this:
+</p>
+
+<code lang='python'>
+def insert_ids(ids):
+    """ Insert the ids, or the global ids if ids is 'global'.
+    """
+    if ids == 'global':
+        ids = get_global_ids()
+    for id in ids:
+        # blah blah blah
+
+# Now we can insert ids two different ways:
+insert_ids([1,2,17,23])
+insert_ids('global')
+</code>
+
+<p>ids is an argument that can either be a list of ids, or the string 'global', meaning go off
+and get a list of ids from somewhere else.  But this use of the same argument as either a 
+string or a list felt funny, so we changed it to this:</p>
+
+<code lang='python'>
+def insert_ids(ids=None, use_global=False):
+    """ Insert the ids, or the global ids if use_global is True.
+    """
+    if use_global:
+        ids = get_global_ids()
+    for id in ids:
+        # blah blah blah
+
+# Now we can insert ids two different ways:
+insert_ids([1,2,17,23])
+insert_ids(use_global=True)
+</code>
+
+<p>But now we have two arguments, both of which have to be defaultable, making it possible
+to call the function with no arguments, which is not a valid form of the function.  Am I being
+too squeamish about the dynamic nature of the first form?  Although Python doesn't mind, it 
+feels strange to me for a variable to sometimes be a string and sometimes be a list.  Is this
+pythonic? Or just a confusing abuse of power?</p>
+
+</body>
+</entry>
+</blog>

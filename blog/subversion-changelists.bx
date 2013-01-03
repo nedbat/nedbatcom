@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090311T191330'>
+<title>Subversion changelists</title>
+<category>srcctrl</category>
+<body>
+<p>I've been using Subversion 1.5 for a while now, and didn't know this existed:
+<a href='http://svnbook.red-bean.com/en/1.5/svn.advanced.changelists.html'>changelists</a>.
+You can tag modified files so that you work on a handful of disjoint changes at
+once.  When looking at your working directory status, the files are organized
+by changelist, and when committing, you can specify the changelist to commit.
+</p>
+
+<p>This is the feature I missed most from <a href='http://www.perforce.com/'>Perforce</a>,
+so I'm glad to see it in Subversion. I'm using distributed source control a
+little around the edges, but Subversion will be central at work, so it's good to
+have all the power I can.</p>
+
+</body>
+</entry>
+</blog>

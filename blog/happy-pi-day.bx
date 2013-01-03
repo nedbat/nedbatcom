@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050314T164550'>
+<title>Happy &#x03C0; Day</title>
+<category>math</category>
+<via>Andrew</via>
+<body>
+<p>Today is <a href='http://en.wikipedia.org/wiki/Pi_day'>Pi Day</a>.
+All day long, in the back of my mind, I've been wondering what tidbit I could find to post here
+to appropriately declare my math geekiness.  I didn't do anything about, though, and it turns
+out I didn't have to: a friend forwarded along news of
+<a href='http://www.sadpenguin.com/pi.html'>Ned Raggett's &#x03C0; record</a>,
+wherein a bigger-math-geek-Ned-than-me reads forty-five minutes of the digits of pi.
+Yee-hah!
+</p>
+</body>
+</entry>
+
+
+<entry when='20090314T170950'>
+<title>Happy Pi Day</title>
+<category>math</category>
+<body>
+<p>Today is <a href='http://en.wikipedia.org/wiki/Pi_day'>Pi Day</a>, and the
+end of <a href='blog/200903/square_root_of_christmas.html'>nerdigras</a>.
+Max and his girlfriend are baking an actual pie, nice!</p>
+
+<p>I don't have a factoid about pi, but here's a math gem that pleases me, about
+prime numbers.  Primes and composite (non-prime) numbers are mixed together
+throughout the natural numbers, in seeming chaos.  Prime numbers can never
+appear in runs, since even numbers are never prime, but composites clump
+together.  Here's the question: how many composites can appear consecutively?
+</p>
+
+<p>It turns out that you can find arbitrarily long runs of composite numbers,
+there is no limit to how many will appear together.  To prove this, here's a
+method to find a run of a desired length n.  Consider the factorial of n+1,
+let's call it Q.  Q is 1 <times/> 2 <times/> 3 <times/> ... <times/> (n+1),
+so Q is divisible by every number from 2 to n+1.  Since Q is divisible by 2, Q+2 is
+divisible by 2. Similarly, Q+3 is divisible by 3, Q+4 is divisible by 4, and so on, all the
+way up to Q+n+1, which is divisible by n+1.  So the run of numbers from Q+2 to
+Q+n+1 are all composite, and there are n of them in a row, a run of n composites,
+for whatever n you choose.
+</p>
+
+</body>
+</entry>
+
+</blog>

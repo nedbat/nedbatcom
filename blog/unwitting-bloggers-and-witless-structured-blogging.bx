@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060122T170514'>
+<title>Unwitting bloggers and witless structured blogging</title>
+<category>online</category>
+<category>feeds</category>
+<category>semweb</category>
+<via />
+<body>
+<p>Antonio wrote today about
+<a href='http://theonda.org/articles/2006/01/22/the-unwitting-blogger'>Unwitting Bloggers</a>.
+He started by pointing to Bill Burnham's pompously-titled
+<a href='http://billburnham.blogs.com/burnhamsbeat/2006/01/a_unified_theor.html'>A Unified Theory of Search,
+Social Networking, Structured Blogging, RSS and the Active Web</a>, so I started reading there.
+</p>
+
+<p>Bill is very excited about RSS, and its extension into
+<a href='http://structuredblogging.org'>Structured Blogging</a>.  He forsees a world in which everyone
+has a web page, and rather than post bits of content on sites like eBay or Craigslist, everyone will post
+structured blog entries on their own sites.  Specialized search engines will find those pieces and aggregate
+them for people looking for movie reviews or apartment listings.
+</p>
+
+<p>This is a nice ideal, but there are a pile of things wrong with it.</p>
+
+<more>
+
+<p>First, I don't believe that in the
+future everyone will have a web page the way everyone has an email now.  Having a web page is an active
+endeavor that not everyone is willing to undertake. Even the services that have created unwitting bloggers
+require <em>some</em> energy and participation.  Second, the proliferation of those services will
+splinter people's digital identities rather than unify them.  Yes, more and more people will have some sort
+of page on some sort of social site, but also more and more will have more than one page.</p>
+
+<p>This proliferation may not be a bad thing, and doesn't even invalidate Bill's vision.  My 13-year-old son
+has a number of online identities which he nurtures like a garden, and so do all of his friends.  His AOL
+buddy list has over 200 entries, representing just a few dozen people.
+But with all of these sites representing different facets of a person online, there will still be a need
+to actively create the single page that is you.  No one has an answer for that, other than that their
+social site is better than all the rest, so you should just use theirs.
+</p>
+
+<p>The larger problem with structured blogging is the naive dream of the semantic web.  Don't get me wrong:
+I would love to see this happen.  But semantics are really hard.  Look at the definition of the
+<a href='http://ietf.org/rfc/rfc4287'>Atom Syndication Format</a>.  It defines the semantics of blog
+posts, something that at first blush seems pretty straightforward.  But the semantics are not straightforward.
+It has taken many smart people a long time
+(RSS is roughly ten years old, the Atom mailing list goes back 2<half/> years)
+to arrive at these semantics.  Even after all that work, the definitions in the RFC seem kind of vague:</p>
+
+<quote>
+<p>4.2.9. The "atom:published" Element</p>
+
+<p>The "atom:published" element is a Date construct indicating an
+   instant in time associated with an event early in the life cycle of
+   the entry.</p>
+
+<p>Typically, atom:published will be associated with the initial
+   creation or first availability of the resource.</p>
+</quote>
+
+<p>"Typically"? I understand why the semantics have to be vaguely described. It's because there's a great
+deal of variation in the world.  Blog posts, as simple and uniform as they seem, are actually
+quite squishy when you get them under a microscope and consider the entire range of possibilities,
+as the Atom authors did.
+I'm not criticizing Atom.  I've lived through the earlier incarnations of feed specifications, and
+it's miles above the rest.  There's actually enough information in the RFC to make systems that
+work together.  I'm merely pointing out how difficult it is to specify semantics, and even when you
+do the best job you can, you're far from where the starry-eyed semantic web crowd thinks we're going to
+get.
+</p>
+
+<p>If Atom took as long as it did, and still leaves open questions of interpretation,
+how will more interesting data be somehow unified into Structured Blogging?  I don't believe it
+will.
+I've written about this before:
+<a href='blog/20031111T213841.html'>Semantic Web Difficulties</a>, about how even CD descriptions
+are too difficult to describe just once for all audiences.
+</p>
+
+<p>Even if the semantics could be nailed down,
+there are a vanishingly small fraction of blog posts that even qualify as structurable.
+And people are notoriously unreliable when it comes to entering data.  Data in the wild is very dirty.
+It requires hard work to make it clean enough to use in the aggregate.
+Let's not even start on fraud and spam.
+</p>
+
+<p>Maybe I'm just being cranky.  Maybe the market forces will encourage uniform adoption of standards.
+Maybe people will realize their postings don't "work" if they do them wrong, and will do them right.
+But I've been hearing about the semantic web for a long time, and haven't seen much come of it yet.
+No one is talking about overcoming the basic difficulties, they are still just waving their hands and
+rhapsodizing about how wonderful it all will be.
+</p>
+
+</more>
+
+<p>Luckily, Antonio didn't buy into the structured blogging thing either.  He's excited about unwitting
+bloggers, and I think he's right.  People are more and more willing to have bits of themselves
+online.
+Some are more than willing, they are eager, but need help getting started with a substantial presence.
+I think there's lots that online services could do to turn members into unwitting bloggers.
+There's lots of exciting stuff coming down the pike.
+</p>
+
+</body>
+</entry>
+</blog>

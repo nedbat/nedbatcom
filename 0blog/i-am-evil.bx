@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021013T074233'>
+<title>Apparently I'm evil</title>
+<category>lotus</category>
+<category>lego</category>
+<category>blogs</category>
+<via id='desktopfishbowl'/> <!-- id= or href= -->
+<body>
+<p>When I wrote my recent blog entry about
+<a href='blog/200210.html#20021003T152905'>long URLs</a>,
+I expected it would only be of minor interest to a few dedicated web geeks,
+sort of a historical note from a behind-the-scenes player.
+</p>
+
+<p><a href='http://fishbowl.pastiche.org'>Charles Miller</a> didn't think so.  In an entry titled
+<a href='http://fishbowl.pastiche.org/archives/001100.html'>It's all your fault!</a>,
+Charles reports that I have owned up to a "heinous sin", and says,</p>
+
+<quotep>
+Sir, I hereby pronounce you evil, and sentence you to a year with only Jakob Nielsen for company.
+</quotep>
+
+<p>Charles is only joking, of course (right Charles? <i>*gulp*</i>).</p>
+
+<p>Over at <a href='http://codestore.net/A55692/store.nsf/unid/BLOG-20021010?OpenDocument&amp;count=-1'>codestore</a>,
+Jake thinks I sounded almost guilty about the URLs.  I don't feel guilty in the sense
+of having done something wrong, but I did have a hand in them, and as Charles makes clear,
+there are negative feelings out there about them.  I work hard on my software, and I care
+about how people react to it.</p>
+
+<p>Domino URLs really are an API in that you can use them many ways to accomplish
+similar tasks.  For example, the
+<a href='http://www-10.lotus.com/ldd/today.nsf/lookup/domino_url_cheat_sheet'>Domino URL Cheat Sheet</a>
+shows lots of different ways to open documents, including syntaxes that have only names
+chosen by the developer in them, no baffling and unwieldy hex numbers.</p>
+
+<p>BTW: I like Charles' blog, and have read it for a while.  I especially like his pithy,
+geeky summary of the blogging process: "tail -f /dev/mind > blog".  I also enjoyed the
+<a href='http://www.lipsons.pwp.blueyonder.co.uk/escher/ascending.html'>Lego renditions of Escher works</a>.
+</p>
+
+</body>
+</entry>
+</blog>

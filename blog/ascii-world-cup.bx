@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060610T134529'>
+<title>ASCII world cup</title>
+<category>sports</category>
+<via href='http://samishalabi.blogspot.com/2006/06/world-cup-in-ascii-art.html'>Sami Shalabi</via>
+<body>
+<p>From the technically-amazing-but-why-would-I-want-that department:
+<a href='http://ascii-wm.net/'>The World Cup, live, in ASCII art</a>.
+You can use telnet to get a live stream of ASCII art of the World Cup games:
+</p>
+
+<code>$ telnet ascii-wm.net 2006</code>
+
+<p>Of course, most soccer coverage involves long shots of a large field
+with small people on it, which doesn't translate well to ASCII art.
+Here's a pretty good picture of a single player moving the ball ($RO) left:
+</p>
+
+<code><![CDATA[
+TRINIDAD & T. - SCHWEDEN                                                     0:0
+
+
+::ooooooooooooooooooo:o:Y::::::o::P%%%%oo:o;n$$$%$;;O%%Oyyyy;;;y%%$;oO%%:o%%o:$:
+::::oo::yoOooyoOyyymonoo:ooooooooooooooooooooooooooooooooOR%yoooOoOoyOo#$#RYYYYY
+:::::::oyyOyyyyoooooo::::;nm::::::::::::onn;::::::::::::::::o:::::::o:::o:oo:ooo
+:::::::ooooooo:::::::::::::::::::::::::::::::::::::::o:o:oooo:oooooooo:oo::o:ooo
+oooooooooooooo::o::ooo::::::::o:::::::::::::::::::::oooooooooooooo:ooooooo:oo::o
+::o::::::::::o::::o:o:oooooooooooooooooooooooooooo::ooooooooooooooooooo;;ooooooo
+:::o:::oo:oo:ooo:::o::::oo::oo:::o:oo:o:oo::oooooo;yOyynmooooooooooooooooooooooo
+::::::o:::o::::::::o::o:o::::oooooo::::::o:ooooo;%$OOYY$%$ynoooooooooooooooooooo
+:oooooooo:ooooooooooooo:oo:ooo:o:oooo::oooooooooRRR;Ooo%oooooooooooooooooooooooo
+:oooooooo:o:oooo:oooooooooooooooooooooooooooooooooOO%%$%%ooooooooooooooooooooooo
+:oooooooooooooooooooooooooooooooooooooooooooooooooo$$$$$$ooooooooooooooooooooooo
+:oooooooooooooooooooooooooooooooooo;ooooooooooooooo%%OOOOOoooooooooooooooooooooo
+:oo:oooooooooooooooooooooooooooooo$ROoooooooooooooooO:YYoooooooooooooooooooooooo
+:oooooooooooooooooooooooooooooooooooooooooooooooooooooooO%oooooooooooooooooooooo
+:oooooooooooooooooooooooooooooooooooooooooooooooooooooooo%oooooooooooooooooooooo
+:oooooo:oooooooooooooooooooooooooooooooooooooooooooooooooYoooooooooooooooooooooo
+:ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+:ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+]]></code>
+
+</body>
+</entry>
+</blog>

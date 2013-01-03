@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040131T172516'>
+<title>Ultra-geeky Life amusement</title>
+<category>geeky</category>
+<via />
+<body>
+<p>If you're looking for time-wasting eye candy based
+on disrupting gigantic cellular automata simulations
+of theoretical computer science concepts
+(and who isn't?),
+this is just what you're after:
+</p>
+
+<ol>
+<li>Download Johan Bontes' awesome
+<a href='http://psoup.math.wisc.edu/Life32.html'>Life32</a>,
+an implementation of Conway's
+<a href='http://www.math.com/students/wonders/life/life.html'>Game of Life</a>
+for Windows.
+</li>
+
+<li>Download Paul Rendell's astounding pattern:
+<a href='http://rendell.server.org.uk/gol/tm.htm'>Turing Machine implemented in Conway's Game of Life</a>.
+</li>
+
+<li>Run it for a while, and marvel at the complexity of the parts interacting.</li>
+
+<li>Stop the pattern running,
+and go into draw mode (Options - Draw mode).
+Make a little squiggle somewhere off at the edge of the pattern.</li>
+
+<li>Run the pattern again.
+Chances are good your squiggle will generate a glider headed into some part of the Turing Machine.
+It will gradually cause complete chaos.
+</li>
+
+<li>Repeat as desired.
+Try different types of squiggles, in different places.
+For extra fun, imagine the rogue glider is Luke Skywalker,
+and the Turing Machine is the Death Star!</li>
+
+</ol>
+
+
+</body>
+</entry>
+</blog>

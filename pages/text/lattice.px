@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<page title='Lattice drawings'>
+<history>
+<!--<what when='19800101T000000'>The drawings were done a long time ago.</what>-->
+<what when='20050628T135200'>Created.</what>
+</history>
+
+<p>When I was a teenager, I loved drawing on graph paper.
+I invented many rectilinear doodles.
+One of my specialties was abstract lattices.
+For example, this is a simple one:
+</p>
+
+<figurep>
+<img src='text/lattice0.png' alt='A simple lattice' />
+</figurep>
+
+<p>I like this lattice because it nearly fills a square, consists
+entirely of loops, is symmetric, and has a pleasing denseness in the center without
+being simply a hatch-work.
+I recently re-drew it from memory for my son, which got me thinking about the
+original drawings I did of them. I went and found some of them.
+</p>
+
+<p>The image above was created on a computer, but 25 years ago I didn't have
+that option.  So I settled for paper and pencil, but not just any would do:
+I used 1-mm graph paper and a mechanical pencil.  With those simple tools,
+I made some pretty intricate drawings.  I would get into almost a trance-like state
+creating some of them.</p>
+
+<p>I treasured that graph paper irrationally, to the point that I would
+try not to waste any of it.  So I have pages crowded with drawings on
+both sides (click to see larger):</p>
+
+<figurep>
+<thumbnail href='text/latticesheet.png' alt='A sheet of my graph paper, crowded with drawings' />
+</figurep>
+
+<p>My lattice technique was to start with a hatch-work lattice of a certain size,
+and then poke holes in it to change the shape of the pieces.  The esthetics of the exercise
+were to get the holes so that the weave was dense, but not repetitive.
+</p>
+
+<p>Here's one of lattices from that sheet:</p>
+
+<figurep>
+<thumbnail href='text/lattice32drawn.png' alt='A lattice' />
+</figurep>
+
+<p>This is the same lattice, computer-drawn, with (garish) coloring:</p>
+
+<figurep>
+<img src='text/lattice32.png' alt='A computer-drawn lattice' />
+</figurep>
+
+<p>I was always fascinated to see how moving a hole would drastically alter the shapes of the
+component loops.  Certainly, you couldn't design these things by starting with the loop shapes.
+How could you get them packed in properly?  And working from the holes "magically" made loops that
+fit together perfectly.</p>
+
+<p>Also on that piece of graph paper was a lattice-of-lattice experiment.  It's the simple lattice
+shown above, but each strand has been replaced with a trio of strands, which interweave
+in interesting ways, though the bulk of it ended up being too repetitive.  I don't know if that
+explains it well:</p>
+
+<figurep>
+<thumbnail href='text/latlattice.png' alt='A lattice of latticework' />
+</figurep>
+
+<h1>See also</h1>
+
+<ul>
+
+<li><a href='code/platitude/index.html'>Platitude</a>, my program for producing these drawings.</li>
+
+<li><a href='blog/index.html'>My blog</a>,
+where similar topics make appearances now and then.</li>
+
+</ul>
+
+
+<h1>Colophon</h1>
+
+<p>The original artwork was drawn on 1mm graph paper with a mechanical pencil,
+then scanned at 1200 dpi and scaled and filtered with the <a href='http://gimp.org'>Gimp</a>.</p>
+
+<p>The computer-drawn figures here were created with a python program
+using <a href='http://effbot.org/zone/draw-agg.htm'>aggdraw</a> and
+<a href='http://www.pythonware.com/products/pil/'>Python Imaging Library</a>,
+then colored with the <a href='http://gimp.org'>Gimp</a>.</p>
+
+<googleads/>
+<pagecomments/>
+
+</page>

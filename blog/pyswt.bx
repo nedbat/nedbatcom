@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050711T160758'>
+<title>PySWT</title>
+<category>python</category>
+<category>ui</category>
+<via/>
+<body>
+<p><a href='http://www.cs.nyu.edu/zilin/pyswt/pmwiki.php?n=PySWT.Introduction'>PySWT</a> is a Python
+binding to the critically-accliaimed SWT GUI library from Eclipse.
+I'm torn about this.  On the one hand, I like high-quality tools made available for us all to use.
+On the other hand, why do we need another?  How does this do a better job than wxPython?
+</p>
+
+<p>Part of the <a href='http://www.python.org/doc/Humor.html#zen'>Zen of Python</a> is
+"There should be one <emdash/>and preferably only one<emdash/> obvious way to do it."
+While this needs to be taken with a grain of salt (the URL <em>is</em> Humor.html, after all), the libraries
+available for Python have strayed far from this ideal.
+Everywhere I look I see too many choices.</p>
+
+<p>I've whined about this before, to what end, I don't know.
+I can't imagine the Python community will somehow consolidate to have a single GUI framework,
+a single web app framework, and so on.  Part of the fun is the ease of getting a project off
+the ground, then finding a large enough audience to keep it going.
+</p>
+
+</body>
+</entry>
+</blog>

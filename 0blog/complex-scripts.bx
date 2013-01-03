@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031221T131643'>
+<title>Complex scripts</title>
+<category>charset</category>
+<via href='http://www.kimbly.com/blog/'>About Kim</via>
+<body>
+<p>SIL International ("working for more than 50 years to study, develop and
+document the world's lesser-known languages") has some great information
+about complex writing systems of the world:</p>
+
+<ul>
+<li><a href='http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=CmplxRndExamples'>Examples of Complex Rendering</a>
+shows some of the tricky manipulations that need to happen for correct rendering,
+including glyph shape changes, glyph reorderings, ligatures, and so on.</li>
+<li><a href='http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=IWS-Chapter09'>Challenges in publishing with non-Roman scripts</a>
+demonstrates more difficulties, at the sentence, paragraph and page level.</li>
+</ul>
+
+<p>There's ton of other interesting stuff on the site about Unicode, font technologies, input
+techniques, type design, and so on.</p>
+
+</body>
+</entry>
+</blog>

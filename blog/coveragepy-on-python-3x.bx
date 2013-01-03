@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090713T210255'>
+<title>Coverage.py on Python 3.x</title>
+<category>coverage</category>
+<category>python</category>
+<body>
+<p>Last week I went through the exercise of making <a href='code/coverage'>coverage.py</a>
+compatible with Python 3.1.  I learned a few things along the way.
+</p>
+
+<p>At first, I wanted to create code that would work on both 2.x and 3.x, but
+while that is possible to an extent, there are syntactic differences that make
+it impossible. Then I toyed with the idea of a preprocessor-like tool that would
+let me have 2.x lines and 3.x lines together in one file, but it seemed like more
+trouble than it was worth.</p>
+
+<p>In the end I went back to the standard
+<a href='http://docs.python.org/library/2to3.html'>2to3</a> tool. I had thought
+that this tool was meant to be a starting point for creating a 3.x codebase, and
+I started using it that way. But a recommendation I read somewhere suggested
+using it not once at the start of the project, but as a build step to create
+your 3.x kit from your 2.x sources.  This is what I ended up doing.</p>
+
+<p>2to3 is impressive: it runs over your source files, changing code to work
+under 3.x.  It doesn't always do the best thing, but I never saw it do the
+wrong thing.</p>
+
+<p>My process is to copy my whole source tree into a "three" directory, then
+run 2to3, then run the unit tests.  After fixing a problem, repeat the process.
+This seems like an odd way to run with an interpreted language, but works really
+well, and lets me keep one code base.  It doesn't run as-is on 2.x and 3.x, but
+it's one set of files that produces code that runs on both.</p>
+
+<p>The bulk of the changes I had to make were in the tests rather than in the
+coverage.py code itself.  Coverage.py's tests consists of many small snippets
+of code, often in strings, so 2to3 wasn't able to fix it all up for me.  In these
+snippets, I had often used print statements where any statement would do, so I
+ended up converting a lot of these to assignments.  Where I really did want 
+printing I added parentheses to make them compatible between 2.x and 3.x.</p>
+
+<p>Here are some other differences I had to accommodate:</p>
+
+<ul>
+<li>There's no setuptools on 3.x. The one feature I really used from it was its
+auto-generated coverage script, so I wrote a simple script and conditionalized
+setup.py.  Unfortunately, it means I can't use "coverage" as a command name under
+3.x, but have to run it as "python /blah/Python3.1/Scripts/coverage etc".</li>
+
+<li>3.x no longer has os.popen4, so I wrote a helper function to run commands,
+with different implementations for 2.x and 3.x.</li>
+  
+<li>filter() is no longer available, but easy to replace.</li>
+
+<li>exec is no longer a statement, so those tests had to be conditionalized by
+version.</li>
+
+<li>Variables in comprehensions are local to the comprehension in 3.x, whereas
+they are available outside the comprehension in 2.x. This ended up making a
+difference because of the way coverage tracing doesn't start until the next
+call, and in 3.x, the new scope for comprehensions means it is traced as a call.</li>
+
+<li>Bytes vs. strings: this took a few go-rounds to get right, and wasn't helped
+by the fact that the 3.x docs say write() takes a string. It doesn't: what it
+expects depends on how the file was opened. In binary mode, write() expects a
+bytes argument, in text mode, it expects a string. This makes perfect sense, and
+is part of the new logical goodness in 3.x, but I learned about it the hard way.
+I dealt with it by moving around some encode() and decode() calls, and still might
+have it a little wrong, but it works, so I don't think so.</li>
+  
+<li>Comparison special functions: __cmp__() is gone in 3.x. This is too bad,
+since now I have to implement the comparison as __lt__() and __eq__(). But once
+I do that, the 2.x code doesn't work properly, since it wants all six functions
+defined. So where I used to have __cmp__(), now I have __lt__(), __le__(),
+__eq__(), __ne__(), __gt__(), and __ge__(). Is there a simpler way to define
+custom comparisons that work on both 2.x and 3.x?</li>
+  
+<li>The module containing the built-in functions has changed.  In 2.x, it's __builtin__,
+in 3.x, it's builtins.</li>
+  
+<li>An obscure difference: at one point in my tests I was appending to the PYTHONPATH
+environment variable, and doing it repeatedly, adding the same entries over and
+over again.  In Python 2.x, this worked fine.  In 3.x, once the variable got
+longer than some limit, it was ignored, and my tests failed. I hadn't meant to
+append repeatedly like that, so I fixed the tests not to, but I don't know why
+3.x minded when 2.x didn't.</li>
+
+</ul>
+
+<p>After all of these changes, now I have code that passes all its unit tests on
+3.x. I still haven't tackled packaging kits for 3.x, but that's next.</p>
+
+</body>
+</entry>
+</blog>

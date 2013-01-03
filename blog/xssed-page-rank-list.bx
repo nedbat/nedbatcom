@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070529T210607'>
+<title>XSSed page rank list</title>
+<category>malware</category>
+<via id='simonwillison'/>
+<body>
+<p>The security announcement site <a href='http://www.xssed.com'>XSSed</a>
+has an archive of identified XSS vunerabilities, ordered by the traffic the page
+receives: <a href='http://www.xssed.com/pagerank'>TOP Pagerank List</a>.  The
+listings include an iframe demonstrating the vulnerability.  Very slick. It's 
+sobering to see how many high-profile sites have problems like this.
+</p>
+</body>
+</entry>
+</blog>

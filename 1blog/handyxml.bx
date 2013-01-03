@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040125T201307'>
+<title>Handyxml</title>
+<category>mycode</category>
+<category>xml</category>
+<via />
+<body>
+<p>To make accessing simple XML files easier, I've written
+<a href='code/modules/handyxml.html'>handyxml</a>,
+a Python module to wrap XML parsers and provide the parsed
+DOM in a more convenient form.
+See the <a href='code/modules/handyxml.html'>full description</a>
+for details.
+</p>
+</body>
+</entry>
+</blog>

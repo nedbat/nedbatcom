@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040819T141724'>
+<title>MD5 collisions</title>
+<category>security</category>
+<category>compsci</category>
+<via />
+<body>
+<p>Looks like the venerable MD5 cryptographic hash has developed a crack:
+<a href='http://www.rtfm.com/movabletype/archives/2004_08.html#001055'>A real MD5 collision</a>.
+A team has published two different input streams which hash to the same MD5 value.
+Of course, because of the
+<a href='http://www.ma.umist.ac.uk/avb/Pigeon.html'>pigeonhole</a>
+<a href='http://mathworld.wolfram.com/PigeonholePrinciple.html'>principle</a>,
+everyone knew this had to happen.
+But no one had ever found a pair before.
+</p>
+
+<p>Now that they have, researchers will be working on the question of whether it is feasible
+to compute, for any given input stream, a different stream with the same hash.  If that happens,
+then MD5 is useless cryptographically, and a lot of infrastructure will have to be thrown out,
+but not before a bunch of bad stuff (like theft and fraud) happens.</p>
+
+<p>Mark Pilgrim <a href='http://diveintomark.org/archives/blinks/2004/08/#b20040819015345'>provides</a>
+this Python program to demonstrate:</p>
+
+<code lang='python'><![CDATA[
+# see http://www.freedom-to-tinker.com/archives/000663.html
+
+a = "\xd1\x31\xdd\x02\xc5\xe6\xee\xc4\x69\x3d\x9a\x06\x98\xaf\xf9\x5c" \
+    "\x2f\xca\xb5\x87\x12\x46\x7e\xab\x40\x04\x58\x3e\xb8\xfb\x7f\x89" \
+    "\x55\xad\x34\x06\x09\xf4\xb3\x02\x83\xe4\x88\x83\x25\x71\x41\x5a" \
+    "\x08\x51\x25\xe8\xf7\xcd\xc9\x9f\xd9\x1d\xbd\xf2\x80\x37\x3c\x5b" \
+    "\xd8\x82\x3e\x31\x56\x34\x8f\x5b\xae\x6d\xac\xd4\x36\xc9\x19\xc6" \
+    "\xdd\x53\xe2\xb4\x87\xda\x03\xfd\x02\x39\x63\x06\xd2\x48\xcd\xa0" \
+    "\xe9\x9f\x33\x42\x0f\x57\x7e\xe8\xce\x54\xb6\x70\x80\xa8\x0d\x1e" \
+    "\xc6\x98\x21\xbc\xb6\xa8\x83\x93\x96\xf9\x65\x2b\x6f\xf7\x2a\x70"
+
+b = "\xd1\x31\xdd\x02\xc5\xe6\xee\xc4\x69\x3d\x9a\x06\x98\xaf\xf9\x5c" \
+    "\x2f\xca\xb5\x07\x12\x46\x7e\xab\x40\x04\x58\x3e\xb8\xfb\x7f\x89" \
+    "\x55\xad\x34\x06\x09\xf4\xb3\x02\x83\xe4\x88\x83\x25\xf1\x41\x5a" \
+    "\x08\x51\x25\xe8\xf7\xcd\xc9\x9f\xd9\x1d\xbd\x72\x80\x37\x3c\x5b" \
+    "\xd8\x82\x3e\x31\x56\x34\x8f\x5b\xae\x6d\xac\xd4\x36\xc9\x19\xc6" \
+    "\xdd\x53\xe2\x34\x87\xda\x03\xfd\x02\x39\x63\x06\xd2\x48\xcd\xa0" \
+    "\xe9\x9f\x33\x42\x0f\x57\x7e\xe8\xce\x54\xb6\x70\x80\x28\x0d\x1e" \
+    "\xc6\x98\x21\xbc\xb6\xa8\x83\x93\x96\xf9\x65\xab\x6f\xf7\x2a\x70"
+
+print a == b
+
+from md5 import md5
+print md5(a).hexdigest() == md5(b).hexdigest()
+]]></code>
+
+<p>Running it prints:</p>
+
+<code><![CDATA[
+False
+True
+]]></code>
+
+</body>
+</entry>
+</blog>

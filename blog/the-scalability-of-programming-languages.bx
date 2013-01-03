@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091024T083323'>
+<title>The scalability of programming languages</title>
+<category>proglang</category>
+<body>
+<p><a href='http://tabblo.com'>Tabblo</a> is written on the Django framework,
+and therefore, in Python.  Ever since we were acquired by Hewlett-Packard two
+and a half years ago, there's been a debate about whether we should start working
+in Java, a far more common implementation language within HP.  These debates
+come and go, with varying degrees of seriousness.
+</p>
+
+<p>The latest wave of "Java?" debating is upon us, and Mike Vanier's 
+<a href='http://www.cs.caltech.edu/~mvanier/hacking/rants/scalable_computer_programming_languages.html'>The Scalability of Programming Languages</a>
+has been entered into evidence.  I found it a very interesting read, especially
+about static vs. dynamic typing. At one point, Mike says,
+</p>
+
+<quote><p>What typically happens in large projects written in these languages is
+that extensive unit tests are written to catch type errors as well as logical
+errors ...</p></quote>
+
+<p>I think Mike meant this as a negative, but I don't see how it is.  Extensive
+unit tests are a good thing, especially since they catch logical errors as well
+as type errors.  The static type people either don't have such tests, in which
+case nothing is catching their logic errors, or they do have such tests, in which
+case they didn't need the static type checking in the first place.</p>
+
+<p>Static type adherents claim that their type declarations give them both
+documentation of what's expected, and automatic checking of code. But it only
+gives you a small amount of either.</p>
+
+<p>For example, a parameter to a function has to be a string, so you declare it
+as String, and the compiler can guarantee that it is a String. But that's just
+one small aspect of the rules about the parameter. Can it be NULL? Can it be
+empty? What's it supposed to represent? An IP address? Can it be a wild-carded
+IP address?  Can it be a comma-separated list of such addresses?</p>
+
+<p>The questions beyond "String" go on and on, and static type checking gives us
+help with none of them.  There's the temptation to slice the universe ever more
+finely to get the type system to carry some of this information.  So you'll end
+up with IpAddress types, and WildcardableIpAddress, and so on.  Those are good things,
+since you will likely have methods on IP addresses that you want to perform, so
+building classes will help.  But there are always distinctions between instances
+that can't be expressed in the type system. The only way to get at them is
+at run time.  You can decide which run time you want to find them: in tests
+or in real use.  Tests are the better answer.</p>
+
+
+<p>The rest of the essay is interesting, especially Mike's postscripts where
+his changes of viewpoint are recorded.  It's worth a read, if only for its
+exposition of the considerations that go into programming language design.  He
+doesn't get caught up in shallow issues like syntax, but gets at the deeper
+factors in programming languages that affect the outcome of projects that use them.
+</p>
+
+
+</body>
+</entry>
+</blog>

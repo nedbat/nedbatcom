@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050102T145734'>
+<title>Musical navigation</title>
+<category>music</category>
+<via />
+<body>
+<p>I was playing some piano music today, and saw that familiar notation "D.S. al Coda".
+Although it was familiar, I didn't actually know what it meant.  I knew it had to do
+with going back and repeating some part of the music, but that detail of my piano
+education had withered long ago.
+</p>
+
+<p>So I looked it up online, finding this great online music notation reference:
+<a href='http://www.dolmetsch.com/theoryintro.htm'>Music Theory Online</a>.
+Chapter 24 is <a href='http://www.dolmetsch.com/musictheory24.htm'>Repeats</a>, and told me what I needed
+to know.
+Acoustic Guitar also has a handy
+<a href='http://www.acousticguitar.com/lessons/notation/notation.shtml'>online lesson about notation</a>.
+So: "D.S. al Coda" means go back to the percent-over-S sign, then play to the other plus-over-O sign,
+then play the coda (the end).
+</p>
+
+<p>But when I looked at my sheet music with this new understanding, I saw some oddities:
+First, the percent-over-S sign was placed at the beginning of the piece, so why not use "D.C. al Coda",
+which means go back to the beginning, and so on?
+And when I looked at the end of the piece, it seemed clear it could have been written more compactly
+without changing the music: the same measures were in the coda as in the normal repeat that was skipped.</p>
+
+<p>I guess music can be refactored just as code can.  What I saw in the music were duplicate lines of code
+that could have been eliminated by rewriting the loops with different termination conditions! Fascinating.</p>
+
+<p>BTW: Back in March, I asked about
+<a href='blog/200403.html#e20040316T070726'>MIDI-to-notation converters</a>.
+I really appreciate the shorthands of music notation after looking at the output of these programs.
+All the loops have been unrolled, all the trills, grace notes, and arpeggios have been literalized, and so on.
+A simple three-page song becomes a twelve-page mess of mind-numbing repetitive scribbles.</p>
+
+</body>
+</entry>
+</blog>

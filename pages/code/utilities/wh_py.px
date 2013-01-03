@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='wh.py'>
+<history>
+<what when='20020427T200500'>Created.</what>
+<what when='20021013T120000'>Added switches to control the path and extension list.</what>
+</history>
+
+<p>I like the 'which' command on Unix; it finds the executable on the path that will
+be executed when you type any given command.  I have cygwin, which provides a which.exe, but
+I don't like the way it Unix-izes all the paths, and it doesn't understand the way Windows
+actually finds executables.  Visual Studio provides a where.exe, which does the same sort of
+thing, but it requires the full file name (foo.exe) rather than just the command (foo).  If I
+knew it was a .exe rather than a .cmd, I probably wouldn't need help in the first place!
+</p>
+
+<p>I wrote wh.py to do the job right: it understands the full semantics of mapping Windows
+commands onto files in the file system (including the PATH and PATHEXT environment variables),
+and it has the extra bonus of listing all of the files that qualify, in search order, so you
+can see that files are being occluded by each other.</p>
+
+<p>There are command-line switches to control where the path
+and extension list are read from, or you can provide explicit lists for these.  Also,
+the current directory is read before the path in the default case, to better match
+the way Windows actually works.</p>
+
+<download file='wh.py' path='code/utilities/wh.py' />
+
+<pagecomments/>
+
+</page>

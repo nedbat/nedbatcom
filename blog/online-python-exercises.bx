@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110909T131100'>
+<title>Online Python exercises</title>
+<category>python</category>
+<category>edu</category>
+<body>
+    <p>I've been thinking about online Python learners.  There have been some cool examples
+        of online code exercises, like <a href="http://nathansjslessons.appspot.com/">Nathan's Javascript Lessons</a>.
+        These are great because they require absolutely no setup, and can run right on the web page
+        that describes the concepts involved.</p>
+
+    <p>But of course, it's easy to run Javascript in a browser.  What are the options for doing something similar
+        for Python?</p>
+
+    <p><a href="http://codingbat.com/">CodingBat</a> provides exercises for Java and Python.  Your code is
+        actually run on the server.  Generally, this is risky, because Python's dynamic nature makes it
+        notoriously difficult to limit its powers.  CodingBat does this aggressively, and manages it only
+        because it limits the code it will run to very simple functions.  For example, you cannot import
+        anything.</p>
+
+    <p>Another server-side solution is the <a href="http://challenge.ncss.edu.au/">NCSS Challenge</a>, which
+        uses an elaborate sandboxing technique on the server to run arbitrary Python code.  The sandbox
+        is explained in this <a href="http://www.youtube.com/user/PyConAU#p/u/6/y-WPPdhTKBU">PyCon AU video</a>
+        by Tim Dawborn.  It seems prohibitively complex, but makes it possible to run sophisticated Python
+        code from the browser.</p>
+
+    <p>There are other server-side online Python execution pages:</p>
+
+    <ul>
+        <li><a href="http://pythonwebconsole.thomnichols.org/">Python Web Console</a>, which uses Jython
+            (<a href="http://blog.thomnichols.org/2010/03/introducing-the-python-web-console">details here</a>)
+            so that Java sandboxing will keep the server safe.</li>
+        <li><a href="http://scraperwiki.com/docs/python/tutorials/">ScraperWiki Tutorials</a>.</li>
+    </ul>
+
+    <p>Server-side execution solve the problem of executing Python, but introduces the new problem of keeping
+        the server safe.  Can we instead execute Python in the browser?  There have been some interesting
+        implementations of this also:</p>
+
+    <ul>
+        <li><a href="http://trypython.org">Try Python</a> is an in-browser Python implementation using
+            IronPython running in Silverlight.  This limits its platform viability, somewhat blunting the
+            benefits of in-browser execution. Also, most of the standard library is missing, and OS services
+            are necessarily limited.</li>
+
+        <li><a href="http://gumbyapp.com/">Gumby</a> is astounding: Tim Dawborn (again!) and Ben Taylor took
+            CPython, compiled it using llvm, then ran it through an llvm-to-Javascript compiler, to produce
+            a full implementation of CPython that runs natively in the browser.  This is one of those dancing
+            bear moments where it isn't that it does it well, it's amazing that it does it at all.
+            The problems are the 790Kb Javascript download, and the limited environmental support.</li>
+
+        <li><a href="http://www.skulpt.org/">Skulpt</a> implements Python in Javascript, from scratch, so it's 
+            really its own Python implementation.  Alone among these tools, it experiments with Python access
+            to the browser environment, but still suffers from the in-browser problem of how to provide OS 
+            services.  Also, because it's implementing from the ground up, it's incomplete.</li>
+    </ul>
+
+    <p>Reviewing all these possibilities, none are perfect, and some are far from it. And I started to wonder,
+        are online exercises worth all this?  After all, the point of learning a language is to eventually
+        write your own code, and that won't happen in a sandbox in a browser.  The student will have to 
+        install a real Python environment at some point, so why not start with that, and get a better
+        learning environment right off the bat?</p> 
+
+    <p>Are there other possibilities?  Is it important?  What about an environment on the student's computer
+        that can communicate result back to the online environment automatically?  Or an online environment
+        that can use the student's local resources so the server doesn't need protection?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050127T075325'>
+<title>More exception handling debate</title>
+<category>exceptions</category>
+<via />
+<body>
+<p>First Raymond Chen wrote that exceptions are
+<a href='http://weblogs.asp.net/oldnewthing/archive/2005/01/14/352949.aspx'>cleaner, more elegant, and harder to recognize</a>:
+</p>
+
+<quote><p>
+It is extraordinarily difficult to see the difference between bad exception-based code and
+not-bad exception-based code. ...</p>
+
+<p>My point isn't that exceptions are bad.
+My point is that exceptions are too hard and I'm not smart enough to handle them.
+(And neither, it seems, are book authors, even when they are trying to teach you how to program with exceptions!)
+</p></quote>
+
+<p>Max Ischenko responded, writing about
+<a href='http://ischenko.blogspot.com/2005/01/exception-based-code.html'>exception-based code</a>
+and <a href='http://ischenko.blogspot.com/2005/01/exception-based-code-antipatterns.html'>exception-based code antipatterns</a>:
+</p>
+
+<quote>
+<p>Overall, exception seems to be a net benefit. Result is a more stable program (fails early) with less efforts (fewer places to do error handling). Yes, it's hard to write a good exception-based code, harder then write a good error-code-based code but who said it's going to be easy?</p>
+
+<p>There is no such thing as a free launch, after all.</p></quote>
+
+<p>So everyone agrees that exceptions (or any other comprehensive approach to error checking) is hard.
+</p>
+
+<p>In response to Max, Ian Bicking writes about
+<a href='http://blog.ianbicking.org/good-catch-all-exceptions.html'>good catch all exceptions</a>:</p>
+
+<quote><p>The most obvious case: it's not bad at all to catch all exceptions if you re-raise them.</p></quote>
+
+<p>I've written at length about my philosophy of exceptions.
+As David Byrne said, "say something once, why say it again?":
+<a href='text/exceptions-vs-status.html'>Exception vs. status returns</a> and
+<a href='text/exceptions-in-the-rainforest.html'>Exceptions in the rainforest</a>.
+</p>
+
+</body>
+</entry>
+</blog>

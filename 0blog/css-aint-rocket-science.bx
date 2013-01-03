@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030521T061913'>
+<title>CSS ain't rocket science</title>
+<category>css</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Normally I wouldn't use "ain't" in a post title, but it comes from the
+name of Simon Willison's
+<a href='http://simon.incutio.com/categories/csstutorial/'>series of CSS tutorials</a>.
+He's doing a good job laying out how CSS works, in a very real-world way:
+by taking existing table-heavy sites, and reworking them with CSS
+(Simon: care to redo mine?).
+It's a series of blog postings, so if you want to read the whole thing, start
+from the bottom and work up.
+</p>
+
+<p>The comments are enlightening as well, if inadvertently.  They are a
+capture of the downside of CSS: different browsers behaving differently,
+with the fix for one causing problems for another.  The platform tradeoffs
+are always the problem, and the comments show them being discovered,
+traded off, and fixed chronologically.  Included are honest feelings of
+frustration, even from the author himself.
+</p>
+
+</body>
+</entry>
+</blog>

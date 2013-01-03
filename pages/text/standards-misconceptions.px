@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<page title='Standards misconceptions'>
+<history>
+<what when='20030921T153500'>Created.</what>
+</history>
+
+
+<p>There seem to be widely-held misconceptions about software standards.
+People treat them as if they were laws, or moral commandments,
+or guarantees of success. They're not. They're just shorthands.
+</p>
+
+<h1>Designing with web standards</h1>
+
+<p>As an example, Jeffrey Zeldman has written a well-regarded book called
+<a href='http://www.zeldman.com/dwws'>Designing With Web Standards</a>.
+It is about using
+<a href='http://www.w3.org/TR/xhtml1/'>XHTML</a> to structure content, and
+<a href='http://www.w3.org/Style/CSS/'>CSS</a> to apply style.
+He argues cogently that this is a good way to build web pages,
+and in fact, it is designing with web standards.
+</p>
+
+<p>But the "wrong" way of creating web pages
+(using HTML where cosmetics is mixed in with content,
+and big tables control the layout of pages)
+is also perfectly compliant with web standards.
+The dreaded &lt;font&gt; tag works because an
+<a href='http://www.w3.org/TR/REC-html32#font'>HTML standard</a>
+says what it should do,
+and the browser manufacturers implemented the standard.
+Using tables to create page layouts works for the same reason.
+Everyone used the standard.  We still ended up with the mess Zeldman describes.
+</p>
+
+<p>Now Zeldman may be right that his is the better way to create pages,
+but both ways are based on standards issued by the <a href='http://w3c.org'>W3C</a>,
+so there must be more to it than simply "designing with web standards".
+A better title for the book would have been "Designing with XHTML and CSS",
+or "Designing Modern Web Sites", or "Separating Content from Cosmetics".
+</p>
+
+<p>I'm not criticizing the message of Zeldman's book: it's a good one.
+It's just misleading to claim that the "right" way is right because it's
+based on standards.  The "wrong" way is also based on standards,
+which is perfect proof that designing with standards doesn't guarantee you
+a well-designed system architecture.
+</p>
+
+<h1>What standards mean</h1>
+
+<p>There's an old joke:</p>
+
+<quotep>The great thing about standards is there are so many to choose from.</quotep>
+
+<p>The humor in this joke derives from the mistaken idea that once a
+standard is written, everyone should use it, or the mistaken idea that
+a standard defines the best way to do something.  If a standard is so
+great, why do we need more than one for the same purpose?
+</p>
+
+<p>When an organization creates a standard, it doesn't mean
+that everyone must conform to the standard.  All it really means
+is that hundreds of pages of details can be summarized with a simple phrase.
+The <a href='http://www.w3.org/TR/REC-CSS2/'>CSS 2.0 standard</a>
+doesn't anywhere say that people must use it.
+What it says is that a hugely complex set of characteristics, functions and features
+can be described by saying "CSS 2.0", and that everyone agrees what that means.
+</p>
+
+<p>This is a good thing.  I can read the standard, and write a page that
+will work properly if the semantics in the standard are delivered as promised.
+Then I can read about a browser, and see that it says it supports CSS 2.0.
+Unless someone is lying, or there are bugs, then I know that my page will work
+in that browser.  I've used the shorthand of "CSS 2.0" to avoid having to read
+a 200-page manual about how the browser works, or test each little feature to
+see what the browser does with it.
+</p>
+
+<h1>Different kinds of standards</h1>
+
+<p>CSS is a good standard, by which I mean that it is well designed, and
+does its job well.  Even better, its place in the world has been well thought
+out by its authors, and a system built upon it will have the power of a good
+architecture behind it.  But that's not because it is a standard.  It's
+because it's a good standard.
+</p>
+
+<p>Usually, when an organization sets out to write a new standard, they'll
+try to incorporate the latest best thinking, so often recent standards will
+be better architecturally than older ones.  But there's no guarantee of that,
+and there's no guarantee that the most recent standard is the best one for
+your purposes.  You have to understand what it really offers you other than
+buzzword compliance.
+</p>
+
+<p>Not all standards are created equal.
+Some, such as HTML 3.2, are written to codify existing practice.
+Others, such as XSLT, are written to introduce new technology.
+The former tend to have a broader adoption,
+while the latter tend to be more thoughtfully designed.
+Understanding which type of standard you are considering may help you
+to use it appropriately.
+</p>
+
+<p>To top it off, there are plenty of bad standards.  HTML 3.2 may be one of them,
+because of its careless mixing of content and style, among other reasons.
+The <a href='http://www.xml.com/axml/testaxml.htm'>XML standard</a>
+includes the definition of DTDs for describing classes of
+XML documents.  Once it was finished, work began almost immediately on
+<a href='http://www.w3.org/XML/Schema'>XML Schema</a>, which could obsolete DTDs.
+</p>
+
+<h1>Use standards</h1>
+
+<p>So use standards for what they are good for: giant dictionary definitions
+of pieces of system architecture.  Don't assume that they are good design,
+or appropriate for your work.  Standards can save us time by defining syntax
+and semantics, but they can't be used to skip our own thinking about
+architecture.
+</p>
+
+<p>And when you use standards, keep in mind what about them makes the useful.
+Just being "standard" isn't enough.  If you lose sight of why your system is
+built the way it is, you'll make bad decisions about its future.
+XHTML and CSS are good things, but not simply because they are standards.
+Being standardized is one of the good things about them, but more important
+is what they can actually do.
+</p>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

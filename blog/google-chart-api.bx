@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071208T083119'>
+<title>Google chart API</title>
+<category>google</category>
+<category>tools</category>
+<body>
+<p>If I had a need for quick charts as images in web pages,
+<a href='http://code.google.com/apis/chart/'>Google Chart API</a> looks pretty
+useful.  I have a feeling I would have more charts on my pages if I took something
+like this as a given.  I'll have to keep my eyes peeled for opportunities I would
+have overlooked.
+</p>
+
+<p>They <a href='http://gulopine.gamemusic.org/2007/12/google-chart-api.html'>don't
+handle negative numbers</a>, but that may be a misunderstanding about whether
+the data are values or relative positions.</p>
+
+</body>
+</entry>
+</blog>

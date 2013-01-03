@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040330T222648'>
+<title>XSLTXT version 2</title>
+<category>xslt</category>
+<category>tools</category>
+<body>
+<p><a href='http://www.w3.org/TR/xslt'>XSLT</a>
+is a powerful technology that uses some unusual constructs compared to
+more traditional programming environments.
+I like it, in fact, I use it to generate the page you are reading right now.
+But it is an XML dialect, meaning that if you want to write XSLT, you are stuck
+with the horrible-for-humans XML syntax.
+</p>
+
+<p>To solve this, Alex Moffat has written
+<a href='http://www.zanthan.com/itymbi/archives/001788.html'>XLSTXT</a>,
+an alternative syntax for XSLT.
+It's a great idea, but the implementation needs some work.
+Some of my XSLT constructs occupied more lines as XSLTXT constructs,
+and I couldn't roundtrip some of my complicated files.
+But I'm glad to see that someone is thinking about other ways for people to
+produce XSLT code.
+</p>
+</body>
+</entry>
+</blog>

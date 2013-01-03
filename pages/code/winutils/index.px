@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<page title='Windows Utilities'>
+<section title='Windows Utils' order='200'/>
+<history>
+<what when='20020504T162800'>Created.</what>
+<what when='20030324T142600'>Added jot.</what>
+</history>
+
+<p>These are small utilities I've written to make Windows more usable.</p>
+
+<ul>
+<li><a href='code/winutils/dispmode.html'>dispmode</a>, a command-line executable for changing the display mode.</li>
+<li><a href='code/winutils/jot_py.html'>Jot</a>, a wxPython app for collecting XML
+elements to jot to a file.</li>
+</ul>
+
+</page>

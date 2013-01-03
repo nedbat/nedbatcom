@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='m3utree.py'>
+<history>
+<what when='20040104T182400'>Created.</what>
+<what when='20040107T182400'>Protected against exceptions in mp3.py.</what>
+<what when='20040113T062300'>Works better when information is missing.</what>
+</history>
+
+<p>This utility creates a tree of M3U files (MP3 playlist files) to
+parallel a tree of MP3 files.  Each directory gets an .m3u file named
+for the directory that includes all of the .mp3 files in the directory
+and all of its subdirectories.</p>
+
+<p>For example, suppose your MP3 directory has subdirectories for each artist,
+which have subdirectories for each album, which have .mp3 files for the
+album's tracks.  Then after running this utility, you will have a .m3u
+file that includes every track at the root, an .m3u file in each artist
+directory that includes all that artist's tracks, and an .m3u file
+in each album directory that includes all the tracks on the album.</p>
+
+<p>Requirements:</p>
+<ul>
+<li><a href='http://www.python.org'>Python</a> 2.2 or later.</li>
+<li>Jason Orendorff's
+<a href='http://www.jorendorff.com/articles/python/path/'>path module</a>,
+which is standard with Python 2.3.</li>
+<li>Sune Kirkeby's <a href='http://ibofobi.dk/svn/Jukebox/jukebox/mp3.py'>mp3.py</a>,
+which determines the length of the MP3 file.</li>
+<li>My <apage pref='code/modules/id3reader.px'/>, which reads ID3 tags from MP3 files.</li>
+</ul>
+
+<p>Run m3utree.py in the root of your mp3 tree.  It will create m3u files at each
+subdirectory.</p>
+
+<download file='m3utree.py' path='code/utilities/m3utree.py' />
+
+<h1>Changes</h1>
+
+<p>7 January 2004: The mp3.py module occasionally fails when trying to read
+the length of an MP3 file, so I've protected against exceptions when calling it.</p>
+
+<p>9 January 2004: Now it doesn't write the #EXTINF line if it has no
+information to add there.</p>
+
+<p>13 January 2004: Yet better handling of the #EXTINF line when information
+is missing, Unicode data is printed without fail.</p>
+
+<pagecomments/>
+
+</page>

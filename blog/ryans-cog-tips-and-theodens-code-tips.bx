@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050208T072014'>
+<title>Ryan's cog tips, and Theoden's code tips</title>
+<category>funny</category>
+<category>howto</category>
+<category>coding</category>
+<category>cog</category>
+<via />
+<body>
+<p>Ryan (not sure of his last name) is using <a href='code/cog/index.html'>Cog</a> and has
+written up some tips on
+<a href='http://blogs.acceleration.net/ryan/articles/577.aspx'>Code Generation with Python, Cog, and Nant</a>.
+It's the first article I've seen about Cog, so I'm flattered.
+</p>
+
+<p>Also on Ryan's blog are amusing
+<a href='http://blogs.acceleration.net/ryan/archive/2005/01/07.aspx'>coding tips from his brother Theoden</a>.
+Tip #1:
+</p>
+<quote><p>litter your code with unused variables and assignments <emdash/>
+if you have too few variables it'll make your application too light and it'll float away</p></quote>
+
+<p>and tip #2:</p>
+
+<quote><p>if you have a logical grouping of business logic, split the logic into two separate functions. Like so:
+</p>
+<code>eoc_check_toxicity()</code>
+<code>eoc_toxicity_checks()</code>
+
+<p>that way if you accidentally delete one of the functions, at least some of the logic will still be there</p></quote>
+
+</body>
+</entry>
+</blog>

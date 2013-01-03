@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080318T071851'>
+<title>Consistent hashing</title>
+<category>algorithms</category>
+<via id='simonwillison'/>
+<body>
+<p>Like most production web sites these days, we use memcached to cache all sorts
+of data to increase responsiveness.  It's great, partly because it's really simple.
+One of its simplicities, though, is that the available client libraries use a very
+simple hashing mechanism to assign a resource to a server.  If you have N memcached
+servers, the server id is just (hash(key) mod N).</p>
+
+<p>This isn't great if your servers come and go, because only 1/N resources get
+mapped to the same server when adding or removing a server.
+Also, if some servers have much larger capacity than the rest, either the big
+servers won't fill up, or the small servers will have a lower hit rate as they flush
+more frequently.
+<a href='http://www.spiteful.com/2008/03/17/programmers-toolbox-part-3-consistent-hashing/'>Consistent Hashing</a>
+is a technique for assigning resources to servers much more flexibly.  When adding
+a new server, only 1/N resources change their server, and different servers can
+be assigned varying fractions of the resources.
+</p>
+
+<p>Now we just need a Python memcached implementation...</p>
+</body>
+</entry>
+</blog>

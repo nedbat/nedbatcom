@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090831T072953'>
+<title>PNG optimization</title>
+<category>webpage</category>
+<category>graphics</category>
+<body>
+<p>A simple step I often forget when building image assets for web pages is to
+optimize the graphics files.  There are a whole host of utilities that reduce
+the size of images. I tried a few and the best for PNG seems to be PNGout.exe,
+from Ken Silverman's retro-ugly <a href='http://advsys.net/ken/utils.htm'>utility page</a>.
+</p>
+
+<p>PNGout fiddles with a bunch of degrees of freedom in the PNG spec to find the
+smallest sequence of bytes that express the same pixel values. This morning it
+reduced one of my images to 61% of its size. Nice.</p>
+
+<p>If you want to understand what's going on, OptiPNG has a
+<a href='http://optipng.sourceforge.net/pngtech/optipng.html'>page explaining the
+details</a> of what parameters exist in PNG that can be twiddled to acheive better
+compression.</p>
+
+<p>If you are willing to consider art-level changes to get the absolute smallest
+sizes, Sergey Chikuyonok's <a href='http://www.smashingmagazine.com/2009/07/15/clever-png-optimization-techniques/'>Clever PNG Optimization Techniques</a>
+gets into the nitty-gritty of how to re-think your image to take advantage of
+PNG's characteristics.  He also has a companion piece on <a href='http://www.smashingmagazine.com/2009/07/01/clever-jpeg-optimization-techniques/'>Clever
+JPEG Optimization Techniques</a> which gets even trickier.</p>
+
+</body>
+</entry>
+</blog>

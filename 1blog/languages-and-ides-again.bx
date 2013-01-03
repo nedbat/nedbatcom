@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041128T190631'>
+<title>Languages and IDEs, again: Just write some code</title>
+<category>phil</category>
+<category>ide</category>
+<category>development</category>
+<via />
+<body>
+<p>I read Simon's
+<a href='http://simon.incutio.com/archive/2004/11/27/eclipse'>complaint about Eclipse</a>
+this morning, and spent a little time looking into it.  I considered downloading the latest
+milestone, and I investigated what version I was running, and whether it would upgrade
+itself, and so on.
+And then I realized that fiddling with Eclipse was not how I wanted to spend my
+software engineering energy.  I wanted to write code.  And I thought about
+<a href='blog/200411.html#e20041122T131429'>The IDE Divide</a>, which says you're either
+a language person or an IDE person.
+Bob <a href='http://www.bobcongdon.net/blog/2004/11/dividing-developer-world.html'>responded
+to that division of the world</a> by saying, "you need both".
+I guess my attitude toward the dichotomy is that you can do really well with neither.
+</p>
+
+<more>
+
+<p>I often find myself tempted by the glittering riches of some new IDE, or some new language
+(or language feature), when what I really need to do is buckle down and write some code,
+or even harder, do some of the difficult thinking that happens before coding.
+Usually, when I am not making progress on a project, it is because of something that
+neither languages nor tools will help.  Usually, I am mulling over some thorny problem,
+either in the user experience, or in the architecture.  When those hard chunks
+are out of the way, it's pretty clear sailing.
+</p>
+
+<p>So I didn't do anything about Eclipse this morning.  I continued to hack Python in
+one of the many Python IDEs that clutter my hard drive.  Aha! "Many IDEs" must mean
+I'm an IDE guy.  I'll admit it, I like playing with new tools.  But the fact is that
+I use all those IDEs the same way: as a Python-aware text editor with tabs.  I don't
+do much more with them than that.  For me, IDEs occupy a similar slot to candy:
+they're tempting, almost irresistible, enjoyable for a short while, but ultimately
+unsatisfying.  They don't get at the heart of the problem.</p>
+
+<p>I haven't had an opportunity to use Eclipse's luxuriant refactoring tools and
+quick fix doodads. I'm sure they make developers more productive, how could they not?
+But they won't help me decide how to refactor, or what the right semantics are for
+an abstraction, or predict in which ways the system will have to change in the next
+release.  They won't help me find the simple path among the complex, or choose just
+the right words to describe my thoughts, or understand the user's problem better.
+They may help me be a more productive coder, but they won't help me write better software.
+</p>
+
+<p>So, I must be a language guy, right?  Well, no.
+I haven't dug into Ruby or Haskell or Smalltalk, and frankly, I don't know why I would.
+I can't explain how Scheme is different than Lisp,
+I have only a primitive understanding of what a closure is.
+Even in the languages I use, I am slow to adopt new features.
+I haven't installed Python 2.4 yet, and I haven't incorporated
+2.2's generators into my daily routines.</p>
+
+<p>I'm technologically skeptical and slow to adopt in general
+(shameful confession: I don't have a TiVo, an iPod, or a cell phone camera).
+I'm interested in solving problems, and if the tools I already have can help me solve them,
+I'll stick with them.
+</p>
+
+<p>The fact is, there's no shortage of choices out there, whether it's IDEs, or languages.
+For that matter, what of the support facilities we use during development?
+Just in the Python world, there are many unit testing frameworks
+(<a href='blog/200411.html#e20041122T131429'>at least four</a>),
+many documentation generators
+(<a href='http://epydoc.sourceforge.net/relatedprojects.html'>at least ten</a>),
+many parser generators
+(<a href='text/python-parsers.html'>at least 19</a>), and so on.
+Using any of these requires investigation and learning,
+and correctly choosing among them requires investigation and learning multiplied many times.
+My time is precious, and sometimes I just need to cut off all the exploration and ask
+myself what I've actually accomplished in the last hour.
+When I'm stuck on a particular difficult challenge, those twinkly tools are an
+especially dangerous distraction.  Experimenting with a new toy is easier than facing
+down a hard choice, and playing with the tool almost certainly will not provide the answer.
+</p>
+
+<p>Of course, I need to stay abreast of the possibilities.  Most of these things
+offer real benefits.  A parser generator is a huge win over trying to write a parser
+by hand.  But all that glitters is not gold.  Sometimes I need to stay focused on
+what really matters and put my nose to the grindstone and write some frickin' code.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

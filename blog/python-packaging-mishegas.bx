@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091129T145206'>
+<title>Python packaging mishegas</title>
+<category>python</category>
+<body>
+<p>Everyone likes to complain about Python packaging, me included.  It's no
+fun, and it's confusing, and it seems to be in a constant state of flux, and
+the languages and the distros can't agree on who's in charge, etc, etc.</p>
+
+<p>I'll add just one small observation: <a href='http://pypi.python.org/pypi/setuptools'>setuptools</a>
+is widely used as a way to install Python packages.  Look at its latest version:
+0.6c11.  In case it's not familiar to you, that "c" in there means this is the
+eleventh release candidate for version 0.6.  What!?  Do we really believe that
+a release engineer is closely monitoring the health of this package, and is
+about to release 0.6, but needs this code tried first?  And that this is their
+eleventh attempt at building an acceptable 0.6 kit?</p>
+
+<p>This is crazy.  According to PyPI, the <a href='http://pypi.python.org/pypi/setuptools/0.6c1'>first release candidate of 0.6</a>
+was posted 3 years 4 months ago, and the <a href='http://pypi.python.org/pypi/setuptools/0.6b1'>first beta</a>
+was posted 14 months before that.  What are we waiting for?  Considering how
+widely adopted this package is, and how dependent we are on it working properly,
+and how little it has changed, this latest code should have just been called 1.1.</p>
+
+<p>I've long held that it's a plague on open source that so many project insist
+on <a href='blog/200502/get_out_of_the_zeros.html'>staying in the zeros</a>.
+But setuptools takes it even further than most with this insane charade that
+somehow these are release candidates.</p>
+
+<p>It's just one more small reason I say, Welcome to <a href='http://pypi.python.org/pypi/distribute'>Distribute</a>.</p>
+
+</body>
+</entry>
+</blog>

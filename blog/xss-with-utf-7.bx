@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070421T080434'>
+<title>Xss with utf-7</title>
+<category>malware</category>
+<category>charset</category>
+<body>
+<p>I've been reading a lot about XSS issues these days.  It's fascinating to
+learn about the various vulnerabilities and exploits.  Understanding them helps
+me make my own applications more bullet-proof, and forces a better understanding
+of the interaction between layers of the computing infrastructure.
+</p>
+
+<p>A good example is the UTF-7 vulnerability.  When I first read this one in
+the <a href='blog/200703.html#e20070314T112230'>XSS Bestiary</a>, I didn't understand
+what it meant.  How could character sets be a vulnerability?  After reading
+a few explanations, I finally get it.  Here's the deal.
+</p>
+
+<more>
+
+<p>Broadly, XSS vulnerabilities exist when content from the user is displayed
+on your page as executable HTML.  A malicious user can include script content,
+which then executes in the browser, with access to the cookies from your domain.</p>
+
+<p>The most famous example of a UTF-7 vulnerability was in
+<a href='http://shiflett.org/blog/2005/dec/googles-xss-vulnerability'>Google's forbidden access page</a>,
+where the URL requested was displayed in the browser.  In this case,
+the URL itself was the content from the user.</p>
+
+<p>Here's a very simple PHP implementation of a similar page, for 404 errors:</p>
+
+<code lang='php'><![CDATA[
+<?php
+echo "<h1>Oops</h1>";
+echo "<p>Can't find " . $_SERVER['REQUEST_URI'];
+echo ". Have you looked under the couch?</p>";
+?>
+]]></code>
+
+<p>Before we get into the UTF-7 issues, notice that this page could be vulnerable to
+a garden-variety XSS attack.  If you visit a URL like</p>
+
+<code><![CDATA[http://example.com/<script>alert('xss')</script>]]></code>
+
+<p>the page will appear, and the script tags will be executed, leading to an
+alert box that says "xss", the canonical benign example of script
+used to test or demonstrate vulnerabilities.  In a real exploit, the script would
+steal cookies or post requests.</p>
+
+<p>A side note: one of the complexities of analyzing these exploits is that there
+are so many moving parts.  In fact, you can't visit that URL directly, because
+the browser will replace &lt; with %3C and so forth.  And when I put that URL
+in a link and follow it, Apache gives me a Forbidden page before the PHP
+script is even invoked, I don't know why.</p>
+
+<p>Just to be safe, let's fix the XSS hole in this page.  The problem is that we use the
+URL verbatim on the HTML page, so what should be treated as plain text (the URL)
+is inserted into the page as if it were executable HTML.  The solution is to
+escape the data so that it becomes static text in the HTML page.  PHP's
+<a href='http://php.net/htmlentities'>htmlentities</a> function does the escaping
+we need:</p>
+
+<code lang='php'><![CDATA[
+<?php
+echo "<h1>Oops</h1>";
+echo "<p>Can't find " . htmlentities($_SERVER['REQUEST_URI']);
+echo ". Have you looked under the couch?</p>";
+?>
+]]></code>
+
+<p>Now, regardless of the other layers of the system that might protect us from
+nasty URLs, this script will escape the URL anyway, and it's safe to display it
+on the page, right? Wrong. This is where UTF-7 comes into the picture.</p>
+
+<p><a href='http://en.wikipedia.org/wiki/Utf7'>UTF-7</a>
+is an encoding of Unicode that only uses 7-bit characters, for use in email transmission.
+In a nutshell, many characters are used as-is,
+but some characters require encoding, in the form of a plus-sign, a modified base-64
+encoding of the character code, and a minus-sign.  For example, our
+script snippet can be represented in UTF-7 as:</p>
+
+<code>+ADw-script+AD4-alert(+ACc-xss+ACc-)+ADw-+AC8-script+AD4-</code>
+
+<p>+ADw- is an open angle-bracket, +AD4- is a closing angle-bracket, and so on.</p>
+
+<p>If we include that string as part of our URL, it will be passed through
+the htmlentities function unchanged, and will appear in the HTML page as-is.
+The resulting page doesn't have any explicit declaration of its character set,
+so depending on your browser settings, the browser may try to auto-detect
+the character set, and seeing the distinctive UTF-7 byte sequences, will
+choose UTF-7. In UTF-7, the string is executable HTML, and the
+script will be executed.</p>
+
+<p>XSS vulnerabilites often boil down to a piece of data interpreted
+in two different ways.  The server believes it to be static, but the browser
+decides it is executable.  In this case, the server thought the string was
+static because it interpreted the byte string as ISO-8859-1 characters
+(the default encoding for htmlentities).  As 8859-1, these characters are static.
+The browser, though, decides that the bytes are UTF-7, where they are executable,
+leading to the vulnerability.</p>
+
+<p>The solution in this case is simple: force the browser to interpret the bytes
+the same way the server did, by declaring the character set:</p>
+
+<code lang='php'><![CDATA[
+<?php
+echo "<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
+echo "<h1>Oops</h1>";
+echo "<p>Can't find " . htmlentities($_SERVER['REQUEST_URI']);
+echo ". Have you looked under the couch?</p>";
+?>
+]]></code>
+
+<p>The Content-Type declaration keeps the browser from auto-detecting the character
+set.  By keeping the two interpretations synched up, the discrepancy that caused
+the vulnerability is removed, and the hole is closed.</p>
+
+<p>BTW: if you want to see a UTF-7 page in action, try
+<a href='utf7.html'>this one I made</a>.  It doesn't do anything malicious,
+simply pops up an alert:</p>
+
+<code>
++ADw-p+AD4-Welcome to UTF-7!+ADw-+AC8-p+AD4-
++ADw-script+AD4-alert(+ACc-utf-7!+ACc-)+ADw-+AC8-script+AD4-
+</code>
+
+</more>
+
+</body>
+</entry>
+</blog>

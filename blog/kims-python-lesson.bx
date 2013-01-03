@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121201T132700'>
+<title>Kim's Python lesson</title>
+<category>python</category>
+<category>friendfam</category>
+<category>edu</category>
+<via />
+<body>
+    
+    <p>I spent the afternoon on Thanksgiving teaching my 14-year-old niece Kim
+        about programming in Python.  She hadn't done any programming before, but was
+        very interested, so I figured we could just give it a shot.  I didn't
+        have a text to follow, and hadn't known she was interested, so I hadn't
+        prepared anything.</p>
+
+    <p>But the path we took seemed to work, so here's what I remember of it,
+        in rough outline form. As you look at the code samples, remember the
+        goal here isn't to use the best or most Pythonic way to write the code,
+        but to use simple tools to teach beginning programming.</p>
+
+    <p>The text below is not for the teacher to read to the student, or for the
+        student to read on their own.  This is just of list of topics we discussed,
+        and programs we wrote.</p>
+
+
+    <bulletsep/>
+
+    <p>What is a computer program?  Instructions for a computer to follow.
+        Computers are really dumb, so you have to spell out everything precisely.</p>
+
+    <p>Install Python (IDLE doesn't work well on a Mac, we ended up with
+        plain-old textedit and a terminal.)</p>
+
+    <p>Try some arithmetic in the interactive prompt.  Assign values to names:</p>
+
+<code lang="py"><![CDATA[
+>>> 2 + 2
+4
+>>> 10 * 3 + 5 * 3
+45
+>>> x = 10
+>>> 2 * x
+20
+>>> x = x+1
+>>> x
+11
+>>> 2 * x
+22
+]]></code>
+
+    <p>"x = 1" in Python is not like "x = 1" in algebra. You can't say, 
+        "x + 1 = 2" in Python, and you can't say "x = x + 1" in algebra.</p>
+
+    <p>Create and run a simple program:</p>
+
+<code lang="py"><![CDATA[
+print "Hello, world!"
+]]></code>
+
+    <p>You can ask for input from the user:</p>
+
+<code lang="py"><![CDATA[
+name = raw_input("What's your name? ")
+print "Hi", name
+]]></code>
+
+    <p>If statements let you make decisions:</p>
+
+<code lang="py"><![CDATA[
+name = raw_input("What's your name? ")
+print "Hi", name
+age = int(raw_input("How old are you? "))
+if age > 25:
+    print "Wow, you are old"
+]]></code>
+
+    <p>An else clause lets you go either way:</p>
+
+<code lang="py"><![CDATA[
+name = raw_input("What's your name? ")
+print "Hi", name
+age = int(raw_input("How old are you? "))
+if age > 25:
+    print "Wow, you are old"
+else:
+    print "Don't worry, you're still cool"
+]]></code>
+
+    <p>An elif clause lets you keep trying different conditions:</p>
+
+<code lang="py"><![CDATA[
+name = raw_input("What's your name? ")
+print "Hi", name
+age = int(raw_input("How old are you? "))
+if age > 25:
+    print "Wow, you are old"
+elif age < 6:
+    print "You're just a baby!"
+else:
+    print "Don't worry, you're still cool"
+]]></code>
+
+    <p>We've used two kinds of values: numbers and text, called strings. You
+        have to be clear which kind you have.  12 != "12".</p>
+
+    <p>Loops: when you want to do something over and over, you can use a while
+        loop.  It checks a condition and if the condition is true, runs the
+        statements, then checks the condition again etc, over and over, until
+        the condition is false.</p>
+
+<code lang="py"><![CDATA[
+count = 10
+while count > 0:
+    print "Count:", count
+    count = count - 1
+print "Blastoff!"
+]]></code>
+
+    <p>Also, we can write "count = count - 1" as "count -= 1"</p>
+
+    <p>Play around with that first number.  Computers can do a lot of boring
+        stuff really quickly.</p>
+
+    <p>Let's write a program to add up all the numbers up to 1000.  You have
+        to think like a computer, which means you can't just say, "Add them all
+        up," you need to break it down into smaller steps.</p>
+
+<code lang="py"><![CDATA[
+total = 0
+num = 0
+while num <= 1000:
+    total += num
+    num += 1
+print "total is", total
+]]></code>
+
+    <p>Now let's add a twist: let's only include the number in the sum if the
+        number is divisible by 3 or by 5.  To see if a number is divisible by
+        3, you can test if N % 3 == 0.  "%" gives you the remainder after 
+        dividing, and "==" is how you test for equality.</p>
+
+    <p>This program is where we start to get opportunities for real logic
+        errors.  If they happen, make sure you talk about them and how they
+        happened before moving on.</p>
+
+<code lang="py"><![CDATA[
+total = 0
+num = 0
+while num <= 1000:
+    if num % 3 == 0:
+        total += num
+    elif num % 5 == 0:
+        total += num
+    num += 1
+print "total is", total
+]]></code>
+
+    <p>Try a new kind of value: lists.  In the interactive prompt, try this:</p>
+
+<code lang="py"><![CDATA[
+>>> nums = [1, 2, 3]
+>>> print nums
+[1, 2, 3]
+>>> print len(nums)
+3
+>>> nums.append(17)
+>>> print nums
+[1, 2, 3, 17]
+]]></code>
+
+    <p>Lists can hold any kind of value, like text strings:</p>
+
+<code lang="py"><![CDATA[
+>>> cats = ["penny", "kiki", "naomi"]
+>>> print cats
+['penny', 'kiki', 'naomi']
+>>> print len(cats)
+3
+>>> cats.append('arwen')
+>>> print cats
+['penny', 'kiki', 'naomi', 'arwen']
+]]></code>
+
+    <p>Let's write a program to catalog cats (Kim has 5 cats).  It will ask
+        the user for the name of a cat, and keep asking until the user types
+        nothing, then will show how many cats the user has.</p>
+
+    <p>If you want to loop forever, or test a condition that you can't test
+        immediately, you can use "while True".  Remember while tests its condition
+        and runs the loop if the condition is true.  True is always true.  Later,
+        if you want to end the loop, you can use the "break" statement.</p>
+
+<code lang="py"><![CDATA[
+cats = []
+while True:
+    name = raw_input("Tell me the name of a cat (just plain enter to end): ")
+    if name == "":
+        break
+    cats.append(name)
+print "You have", len(cats), "cats"
+]]></code>
+
+    <p>Hmm, it looks kind of funny if you only have one cat, because it says,
+        "You have 1 cats". Fix that.</p>
+
+<code lang="py"><![CDATA[
+cats = []
+while True:
+    name = raw_input("Tell me the name of a cat (just plain enter to end): ")
+    if name == "":
+        break
+    cats.append(name)
+if len(cats) == 1:
+    print "You have 1 cat"
+else:
+    print "You have", len(cats), "cats"
+]]></code>
+
+    <p>or:</p>
+
+<code lang="py"><![CDATA[
+# ...
+if len(cats) == 1:
+    group = "cat"
+else:
+    group = "cats"
+print "You have", len(cats), group
+]]></code>
+
+    <p>We'll add one more feature to our cat cataloguer:  print the names of
+        the cats.  There's another way to loop in Python beside "while".  A
+        "for" loop will go around the loop once for each element in a list.  We
+        can use it to print the names of the cats:</p>
+
+<code lang="py"><![CDATA[
+#.. tack this on the end of the cat cataloguer from above..
+print "Here are their names:"
+for cat in cats:
+    print cat
+]]></code>
+
+    <p>Now we make a mighty leap to madlibs, which isn't that much more complicated,
+        but needs a few more new concepts.</p>
+
+    <p>Play in the interactive prompt with building a string by adding strings
+        together:</p>
+
+<code lang="py"><![CDATA[
+>>> s = ""
+>>> s = s + "Hello"
+>>> s += " world"
+>>> print s
+'Hello world'
+>>> s += " I have something"
+>>> s += " to say."
+>>> print s
+'Hello world I have something to say.'
+]]></code>
+
+    <p>If we have a list of things, we can examine individual elements in the list:</p>
+
+<code lang="py"><![CDATA[
+>>> cats = ["penny", "kiki", "naomi"]
+>>> print cats[0]
+'penny'
+>>> print cats[1]
+'kiki'
+>>> print cats[2]
+'naomi'
+]]></code>
+
+    <p>To do madlibs, the story will be represented as a list of pieces,
+        where each piece can be a literal piece of text in the story, or a slot to
+        be filled in.  A piece will be a 2-element list: for text, the first element
+        will be 'text', and the second element will be the actual text to go in the
+        story.  For a slot, the first element will be 'slot', and the second element
+        will be the prompt for the user.  The madlib will be a list of these little lists:</p>
+
+<code lang="py"><![CDATA[
+madlib = [
+    ['text', "Once upon a time there was a "],
+    ['slot', "an adjective"],
+    ['text', ", "],
+    ['slot', "another adjective"],
+    ['text', " "],
+    ['slot', "an animal"],
+    ['text', ". He liked to "],
+    ['slot', "a verb in the present tense"],
+    ['text', " all day. One day, he went to "],
+    ['slot', "an adjective"],
+    ['text', " "],
+    ['slot', "a place"],
+    ['text', " to meet "],
+    ['slot', "a person"],
+    ['text', "."],
+    ]
+]]></code>
+
+    <p>When writing a madlib this way, it's really hard to get the spacing and punctuation right...</p>
+
+    <p>The madlib program will scan the madlib.  Each 'text' piece will be added to the
+        story we're building.  For each 'slot' piece, we'll prompt the user to give us
+        someething to go in the slot, and we'll add their answer to the story.
+        When it's all done, we'll print the story.</p>
+
+<code lang="py"><![CDATA[
+madlib = [
+    #.. from above ..
+    ]
+
+story = ""
+
+for piece in madlib:
+    if piece[0] == 'text':
+        story += piece[1]
+    elif piece[0] == 'slot':
+        prompt = "Give me " + piece[1] + ": "
+        answer = raw_input(prompt)
+        story += answer
+
+print story
+]]></code>
+
+    <bulletsep/>
+
+    <p>At this point, the student has a program they can actually enjoy.  If all has gone well,
+        they've probably wanted to show off each program to nearby admirers (typically parents),
+        but the madlibs program is the crowning acheivement.</p>
+
+    <p>By the way, the madlibs exercise is one I first did with my son Max when he was 13, and
+        <a href='text/madlibs.html'>wrote about then</a>, with more code and other ideas about how to expand it.</p>
+
+    <p>Working with Kim on this was really interesting.  There were some parts where I was
+        astonished that she understood so quickly, and then others where something she had
+        understood in the previous program needed to be re-explained.  Programming is a
+        really foreign environment, and it's hard for those of us who are fully steeped in it
+        all day to realize just how foreign.</p>
+
+</body>
+</entry>
+</blog>

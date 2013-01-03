@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030919T080212'>
+<title>Windows startups</title>
+<category>windows</category>
+<category>admin</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>In a bid to be both helpful and sticky, most Windows software seems to install
+code to be run when Windows starts up.  My laptop had about 25 different executables set
+to run at boot time.
+<a href='blog/200309.html#e20030913T093555'>Spybot</a> has a great "System Startup"
+panel that shows all of the startup entries, and lets you disable them individually.
+</p>
+
+<p>Part of the information shown about each entry is a quick description of what it is,
+where it came from, why it got put there, and whether it can be safely disabled.
+Many of these entries are credited to
+<a href='http://www.pacs-portal.co.uk/startup_content.htm'>Paul Collins' Startup List</a>,
+which is one of those reference works only the web could have produced:
+obsessive, helpful, authoritative, and mind-bogglingly detailed.  Its utility is limited
+to those times when you need to identify a mysterious bit of flora from your invisible
+Windows ecosystem, but when you need it, you really need it, and it delivers.
+</p>
+
+<p>Using Spybot and Paul's list, I disabled more than half of my sneaky Windows
+startups.  My machine boots ever so much faster, and I don't even have the "show me more"
+button on my system tray any more, because I only have icons there that I actually
+want to see.  Bliss.
+</p>
+
+</body>
+</entry>
+</blog>

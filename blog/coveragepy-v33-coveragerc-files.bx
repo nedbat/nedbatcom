@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100224T213434'>
+<title>Coverage.py v3.3: .coveragerc files</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.3</a> is ready.
+It has two new features, support for
+<a href='code/coverage/config.html'>.coveragerc configuration files</a>, and a
+way to start coverage measurement automatically when Python starts. These work
+together to make it possible to <a href='code/coverage/subprocess.html'>measure
+coverage in subprocesses</a> started by your test suite.</p>
+
+<p>I had been hoping to get more features into this release, but at PyCon,
+Dirkjan Ochtman made it clear that it would help Mercurial's test suite if these
+two features were released, so here they are.</p>
+
+</body>
+</entry>
+
+
+
+<entry when='20100306T182700'>
+<title>Coverage.py v3.3.1: two fixes</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I fixed two bugs in coverage.py, and called it
+<a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.3.1</a>.
+<a href='code/coverage/changes.html#h_Version_3.3.3_2C_6_March_2010'>The bugs</a>
+had to do with sub-process support, which was the new thing in 3.3, so I figured
+it was worth a quick release.</p>
+
+</body>
+</entry>
+
+</blog>

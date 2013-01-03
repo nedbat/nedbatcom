@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040820T080552'>
+<title>Cleaning up after yourself</title>
+<category>coding</category>
+<via />
+<body>
+<p>I've long been an advocate of
+<a href='text/deleting-code.html'>deleting code</a> and letting
+go of the past, but don't leave mysterious garbage behind.
+Recently, a co-worker was removing some unneeded code.
+A certain class (let's call it COldThing) was obsolete, and all references to it had to go.
+He changed code that looked like this:
+</p>
+
+<code lang='cpp'><![CDATA[
+static bool bInitted = false;
+
+if (!bInitted) {
+    gpOldThing = new COldThing();
+    bInitted = true;
+}
+]]></code>
+
+<p>to something that looked like this:</p>
+
+<code lang='cpp'><![CDATA[
+static bool bInitted = false;
+
+if (!bInitted) {
+    bInitted = true;
+}
+]]></code>
+
+<p>This is just inexcusable. Why leave the empty initialization logic?
+The only explanation is simple haste.
+I ran across this code while working in the file,
+and it took some digging to figure out why this no-op initialization logic was there.
+</p>
+
+<p>I added a few paragraphs to <a href='text/deleting-code.html'>Deleting Code</a> about this.
+</p>
+
+</body>
+</entry>
+</blog>

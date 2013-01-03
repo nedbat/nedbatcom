@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080217T075827'>
+<title>Apache proxy auto-re-loader</title>
+<category>webpage</category>
+<body>
+<p>On my development machine, I use the
+<a href='http://www.djangoproject.com/documentation/django-admin/#runserver-optional-port-number-or-ipaddr-port'>Django development web server</a>,
+proxied by Apache so that static files can be served directly by Apache.
+Because of the way the Django development server works, when I edit a source file,
+it automatically restarts, and I can reload my browser page to see the effects
+of the new code.</p>
+
+<p>This works great, except that it takes a little time for Django to restart.
+As my Ctrl-S (save the file), Alt-Tab (switch back to the browser), Ctrl-R (reload the page)
+twitch gets faster, the browser reloads before Django has restarted, and I end up with
+a stupid error page:
+</p>
+
+<box><p><b>Bad Gateway</b></p>
+<p>The proxy server received an invalid response from an upstream server.</p>
+</box>
+
+<p>Then I keep hitting Ctrl-R until the page comes up.  The last thing I need
+is another <a href='http://www.youtube.com/watch?v=4TyYX5C8uuI'>pellet lever</a>
+in my life.</p>
+
+<p>This simple hack solved my problem.  In Apache's http.conf, add this line:</p>
+
+<code><![CDATA[
+# If Django isn't ready yet, try again automatically.
+ErrorDocument 502 "<meta http-equiv='refresh' content='2'>Retrying in 2 secs."
+]]></code>
+
+<p>This makes use of the fact that Apache ErrorDocument directives can specify
+the literal content to return to the browser in addition to the usual filename
+or URL to return.  502 is the error status for Bad Gateway.
+Now when Django isn't ready, the browser shows a simple message, then
+reloads automatically every two seconds until it gets a real page.</p>
+
+<p>Of course, you could write a nicer page, maybe with some attempt to not reload
+forever in the case that the server really isn't coming up, but this quick hack
+works and makes those slow restarts a small moment of peace.</p>
+
+</body>
+</entry>
+</blog>

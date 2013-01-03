@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110824T211403'>
+<title>Stack ninjas</title>
+<category>python</category>
+<category>debugging</category>
+<category>hacks</category>
+<body>
+    <p>Running a Django test suite today, we had a frustrating problem: database objects
+        were leaking from one test to the next.  To track down how this was happening,
+        I used some aggressive debugging tricks.</p>
+
+    <p>First, a little background: Django provides two test case classes for creating
+        tests: TestCase, which should usually be used, and TransactionTestCase, which
+        should be used for testing code that does explicit transaction management.</p>
+
+    <p>TestCase uses transactions to restore the state of the database at the end
+        of each test.  This helps guarantee test isolation, an important property of
+        tests that ensures that each tests runs without being tainted by the side effects
+        of previous tests.</p>
+
+    <p>We didn't have any TransactionTestCase classes in our code, but we were definitely
+        seeing bleed-through from one test to the next.  One particular test failed
+        unless it deleted all User objects at the very beginning.  But there shouldn't 
+        have been any Users in the database at the start of the test in the first 
+        place.  Clearly, some database state wasn't being restored after some test:
+        there was one User object left in the database when it should have been empty.</p>
+
+    <p>I knew what test was tripped up by the User object, but which test left it behind?
+        There are hundreds of tests, and many of them create User objects.  Reading
+        the code wasn't revealing anything.  A more powerful technique would be needed.</p>
+
+    <p>It's easy in the failing test to examine the errant User object.  What if the
+        User object could itself point to where it had been created?  If the creator 
+        of User objects annotated the object with a stack trace, then we could examine
+        that stack in the failing test, and we'd identify the culprit.</p>
+
+    <p>Keep in mind here: my plan wasn't to add features to Django, or to our product
+        code, or even our tests.  I was going to hack whatever was needed to find the
+        test that polluted the database, and then I was going to get rid of it all.  
+        So all sorts of dirty tricks were allowable.</p>
+
+    <p>Getting a useful stack trace at a point in the code isn't difficult: inspect.stack gives us the
+        stack itself, and from there we can pull useful information to put into 
+        a string:</p>
+
+    <code lang="python"><![CDATA[
+import inspect
+
+def get_stack():
+    """Get a string describing the current stack."""
+    parts = []
+    for f in inspect.stack()[1:]:
+        frame = f[0]
+        code = frame.f_code
+        if code.co_varnames and code.co_varnames[0] == "self":
+            data = frame.f_locals['self']
+        else:
+            data = ""
+        parts.append("%s:%d:%s:%r" % (f[1], f[2], f[3], data))
+    return "\n".join(parts)
+    ]]></code>
+
+    <p>Calling this function returns a string that looks like this:</p>
+
+    <code><![CDATA[
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/contrib/auth/models.py:151:create_user:<django.contrib.auth.models.UserManager object at 0xa7bc56c>
+/ned/ibis/nest/tests/test_nest.py:49:create_user:''
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/util.py:478:try_run:''
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/case.py:267:setUp:ibis.nest.tests.test_nest.test_create_user
+/opt/python2.6/lib/python2.6/unittest.py:270:run:ibis.nest.tests.test_nest.test_create_user
+/opt/python2.6/lib/python2.6/unittest.py:300:__call__:ibis.nest.tests.test_nest.test_create_user
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/case.py:151:runTest:Test(ibis.nest.tests.test_nest.test_create_user)
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/case.py:133:run:Test(ibis.nest.tests.test_nest.test_create_user)
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/case.py:45:__call__:Test(ibis.nest.tests.test_nest.test_create_user)
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis.nest.tests.test_nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis.nest.tests.test_nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis.nest.tests>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis.nest.tests>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis.nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis.nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis.nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis.nest>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=ibis>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=ibis>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:223:run:<nose.suite.ContextSuite context=None>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/suite.py:176:__call__:<nose.suite.ContextSuite context=None>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/core.py:61:run:<nose.core.TextTestRunner object at 0xb2a810c>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/core.py:197:runTests:<nose.core.TestProgram object at 0xab4c34c>
+/opt/python2.6/lib/python2.6/unittest.py:817:__init__:<nose.core.TestProgram object at 0xab4c34c>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/core.py:118:__init__:<nose.core.TestProgram object at 0xab4c34c>
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/core.py:284:run:''
+/ned/ibis/nose_test_runner.py:105:run_tests:''
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/core/management/commands/test.py:34:handle:<django_nose.management.commands.test.Command object at 0xa02cf8c>
+/ned/ve/lib/python2.6/site-packages/South-0.7.3-py2.6.egg/south/management/commands/test.py:8:handle:<django_nose.management.commands.test.Command object at 0xa02cf8c>
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/core/management/base.py:220:execute:<django_nose.management.commands.test.Command object at 0xa02cf8c>
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/core/management/base.py:191:run_from_argv:<django_nose.management.commands.test.Command object at 0xa02cf8c>
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/core/management/__init__.py:379:execute:<django.core.management.ManagementUtility object at 0x9e3de8c>
+/ned/ve/lib/python2.6/site-packages/Django-1.3-py2.6.egg/django/core/management/__init__.py:438:execute_manager:''
+./manage.py:49:<module>:''
+    ]]></code>
+
+    <p>Every frame in the stack is a single line, with the file name, line number, function name, and
+        if present, the value of self. Getting the stack string is simple enough: User objects are all
+        created with a helper function called create_user in django/contrib/auth/models.py.  Adding
+        a call to get_stack there will get us the stack trace we want.</p>
+    
+    <p>But where
+        to store it in User?  Ideally there'd be a description column or something that we could
+        stuff this into, but there isn't.  I tried storing it as the password, but that failed miserably,
+        because the password is hashed before storing, and then dozens of tests failed when the passwords
+        didn't match.
+        If these had been ordinary Python objects, I could have just added new attributes to 
+        store the stack trace, but these were written to the database, then later read back out,
+        so only information that got stored in the database was useful to me.
+    </p>
+
+    <p>So I was a bit stuck: User had no usable text column in which to store the stack trace, so I couldn't annotate the User object itself.
+        Instead, maybe I could store the stack trace somewhere else, and associate it with the User object.
+        My first thought was to use the primary key of the User as an identifier, but of course, as the database is rolled
+        back and Users created, they re-use the same keys, so that was no good.</p>
+
+    <p>Then I noticed that Users are created with the current time as their last_login value. Those
+        datetimes have enough resolution that each User gets a unique value, and of course, time progresses
+        independently of database rollbacks, so there's no danger of values getting reused.</p>
+
+    <p>Now I had a plan: modify django/contrib/auth/models.py to keep a global dictionary mapping
+        User creation times to the stack trace that created them.  Then, in my failing test, I could
+        examine the User object, and use its last_login time to look up the stack trace.</p>
+
+    <p>I modified the creation code like this (simplified):</p>
+
+    <code lang="python"><![CDATA[
+USER_TIMES = {}     # <-- new
+
+def create_user(self, username, email, password=None):
+    """
+    Creates and saves a User with the given username, e-mail and password.
+    """
+    now = datetime.datetime.now()
+
+    user = self.model(username=username, email=email, is_staff=False,
+                    is_active=True, is_superuser=False, last_login=now,
+                    date_joined=now)
+
+    USER_TIMES[now] = get_stack()       # <-- new
+    user.save()
+    return user
+    ]]></code>
+
+    <p>Then, in the failing test, I added a check at the very beginning, where we expected
+        to have no Users:</p>
+
+    <code lang="python"><![CDATA[
+for user in User.objects.all():
+    from django.contrib.auth.models import USER_TIMES
+    print "\n\n*** Extra user created at\n%s" % USER_TIMES[user.last_login]
+    ]]></code>
+
+    <p>With these modifications in place, running the tests gave me just what I wanted: 
+        a stack trace that pinpointed where the User was created.  The actual trace is 
+        the one I've included at the top of this post.  The most useful part of the stack was this line:</p>
+
+    <code><![CDATA[
+/ned/ve/lib/python2.6/site-packages/nose-1.1.2-py2.6.egg/nose/case.py:267:setUp:ibis.nest.tests.test_nest.test_create_user
+    ]]></code>
+
+    <p>which shows that the User was created in the setUp method of the test_create_user test.  Looking
+        at that test showed what the problem was:</p>
+
+    <code lang="python"><![CDATA[
+def create_user():
+    try:
+        User.objects.get(username=USERNAME)
+    except User.DoesNotExist:
+        User.objects.create_user(username=USERNAME, email="%s@example.com" % USERNAME, password=PASSWORD)
+
+@with_setup(create_user)
+def test_create_user():
+    '''Ensure that user creation is working'''
+    assert User.objects.get(username=USERNAME)
+    ]]></code>
+
+    <p>As I mentioned at the very beginning, Django provides two test case classes to derive from.
+        But here's a test that isn't part of a class at all!  Nose allows the use of test functions in 
+        addition to the classic unittest-style test classes.  Many people like the cleaner Pythonic
+        feel of functions.  But Django relies on the setup and teardown that the test case classes
+        provide. Using pure test functions in a Django project is a good way to miss out on the machinery
+        that cleans the databases between tests, which is precisely what we'd been experiencing.</p>
+
+    <p>Removing this test (it also happened to be redundant!) solved the problem.</p>
+
+</body>
+</entry>
+</blog>

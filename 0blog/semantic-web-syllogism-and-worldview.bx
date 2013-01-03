@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031108T093040'>
+<title>Shirky: The Semantic Web, Syllogism and Worldview</title>
+<category>semweb</category>
+<via href='http://www.blueskyonmars.com/'>Blue Sky on Mars</via>
+<body>
+<p>Clay Shirky has another long and intelligent essay.
+This time, it's about the misguided efforts to build the semantic web:
+<a href='http://www.shirky.com/writings/semantic_syllogism.html'>The Semantic Web, Syllogism and Worldview</a>.
+In it, he argues that (ironically) the semantic web effort is focusing
+on syntax, which is easy, and ignoring semantics, which is impossible.
+</p>
+
+<quotep>
+This example sets the pattern for descriptions of the Semantic Web.
+First, take some well-known problem.
+Next, misconstrue it so that the hard part is made to seem trivial
+and the trivial part hard.
+Finally, congratulate yourself for solving the trivial part.
+</quotep>
+
+<p>He lampoons the focus on logical deduction (syllogisms) as a foundation
+for understanding the real world.  Unfortunately, he does so by presenting
+poorly constructed syllogisms, where top-notch ones would have failed equally well.
+I'm sure his essay will be criticized for not understanding the logical foundations
+properly.  This will be missing the point.</p>
+
+<p>The point is that the true semantics of the world are too shifting and slippery
+to easily accommodate in strict terms.  The "semantic web" projects that have worked
+have had tiny domains of knowledge to work in, where the semantics are easy to
+describe.
+For example, RSS describes weblog postings, and FOAF describes loose connections
+among people.  Even in these areas, there has been disagreement over semantics, schisms
+over syntax, and uncertainty about compliance.  How are we to address anything
+truly interesting?</p>
+
+<p>The most ludicrous example of people not understanding this is
+<a href='http://www.humanmarkup.org'>HumanMarkup</a>, an attempt to design an
+XML dialect that can encode those things that make us human: emotions, intentions,
+and so on.  I'm astonished anyone believed in this quixotic effort long enough to register
+a domain name, much less create all the empty puffery that fills the site.
+Tellingly, all of the links to hard information like schemas point to nowhere.
+</p>
+
+</body>
+</entry>
+</blog>

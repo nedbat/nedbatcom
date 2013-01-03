@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030103T180856'>
+<title>Ted Nelson and Xanadu</title>
+<category>semweb</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>My recent
+<a href='blog/200301.html#e20030101T140310'>posting about the Semantic Web</a> got me
+thinking about <a href='http://ted.hyperland.com/'>Ted Nelson</a>.
+He's the guy who actually coined the term "hypertext", way back in the sixties.
+So what's the connection?
+Both <a href='http://xanadu.com/'>Xanadu</a> (Nelson's yet-to-be-built hypertext system)
+and the Semantic Web are presented as better than the Web we have, and ideals to
+strive toward.  Both tell us to closely examine the web we have and understand its
+faults.
+</p>
+
+<p>But there's something about Ted Nelson's
+<a href='http://ted.hyperland.com/buyin.txt'>insistence that the web has missed the mark</a>
+that I find really sad.  How can anything as wildly successful as the web be completely
+dismissed as having gotten it wrong?  (And how ironic that Nelson's short writings
+now are awkward .txt files: not only are they not hyper, they are barely
+even readable text).
+</p>
+
+<more>
+
+<p>Nelson insists that there are fundamental hypertext facilities missing from the web:
+deep quotability, two-way links, and side-by-side document comparison.
+</p>
+
+<p><a href='http://ted.hyperland.com/quotableformat.txt'>Deep quotability</a>
+is the ability to quote one document from another, without copying
+the text, and without just linking to it.  Like all of Nelson's objections to the web,
+I guess this is an interesting capability, but I don't see it as fundamental to hypertext.
+I think it might even be wrong: when I quote someone, I make a copy of the text, and I
+don't have to worry that they'll change it out from under me.  The other style of quoting
+might be useful, but it isn't obviously the right choice.</p>
+
+<p>A companion idea to deep quotability is
+<a href='http://xanadu.com/tco/index.html'>transcopyright</a>,
+which I don't fully understand, but is a new permission framework for reusing digital
+content.</p>
+
+<p>Two-way links are an interesting idea, and have been experimented with.
+<a href='http://www.w3.org/TR/xlink/'>XLink</a> proposes them, though I'm not sure anyone
+is implementing it yet.  Blogs have been experimenting with automated links to referrers
+that accomplish a two-way effect.
+<a href='http://www.movabletype.org/trackback/'>TrackBack</a>,
+<a href='http://www.hixie.ch/specs/pingback/pingback'>Pingback</a>,
+and various other back-link techniques are common among blogs these days.
+Compared to the purity of Nelson's vision, these techniques are hacks, but they are here,
+and Xanadu is not.</p>
+
+<p>And besides,
+having back-links created by automated tasks rather than springing fully-formed
+without any intervention can be a good thing: it lets people do more intelligent
+back-linking.
+For example, <a href='http://diveintomark.org'>dive into mark</a>
+<a href='http://diveintomark.org/archives/2002/10/28.html#we_have_arrived'>checks all
+referrers to be sure the page really has a link to him</a>.
+(<a href='http://www.lightningfield.com/david/clips/0211backlinks.html'>The Web's Missing
+Links</a> is a good short piece about these technologies).
+</p>
+
+<p>Side-by-side document comparison I just don't get at all.  I can imagine there are a
+few people in some specialized domains that might need to do this.  It just isn't
+something the web is missing.
+</p>
+
+</more>
+
+<p>Ted Nelson is one of the great computer visionaries (tomorrow I'll say more about
+that). I just wish he could find a way to bring some of his ideas to fruition, or
+recognize that others already have.  Just sitting on the sidelines and pointing
+out "mistakes" is a waste of his talents.</p>
+
+</body>
+</entry>
+</blog>

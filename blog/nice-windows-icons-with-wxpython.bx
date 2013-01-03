@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050130T142955'>
+<title>Nice Windows icons with wxPython</title>
+<category>python</category>
+<category>howto</category>
+<via />
+<body>
+<p>I've been building a small GUI program with wxPython, and it's
+mostly a straightforward experience (if you're accustomed to the
+way GUIs tend to be built).
+<a href='http://wxglade.sourceforge.net/'>wxGlade</a> helps a lot
+with building the visible components of the UI.
+But I was going nuts trying to figure out
+why my Windows icons didn't look right.
+I went to the trouble of reading a technote
+(<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwui/html/msdn_icons.asp'>Icons in Win32</a>)
+to decide which sizes and depths of icon I needed to provide to get
+a nice looking taskbar icon and alt-tab icon.
+But my taskbar icon always came out smeared, clearly having been scaled down from
+a 32<times/>32 image.
+</p>
+
+<p>I was ready to start reverse-engineering Windows' algorithm for picking
+the icon image, when I thankfully decided to look into the wxGlade-generated
+code first.  Here's what it gave me for setting the icon in my main frame:
+</p>
+
+<code lang='python'><![CDATA[
+_icon = wx.EmptyIcon()
+_icon.CopyFromBitmap(wx.Bitmap("myapp.ico", wx.BITMAP_TYPE_ANY))
+self.SetIcon(_icon)
+]]></code>
+
+<p>This clearly seems to be picking a single image from the icon, then
+setting it as the icon.  That defeats the whole idea of a multi-image
+icon.  No wonder Windows seems to be scaling a large image for the taskbar.
+The .ico bitmap loader probably just picks the highest quality image it finds.
+</p>
+
+<p>Digging deeper into the wxWidgets docs, I found wxIconBundle and
+wxTopLevelWindow.SetIcons, and came up with this instead:
+</p>
+
+<code lang='python'><![CDATA[
+ib = wx.IconBundle()
+ib.AddIconFromFile("myapp.ico", wx.BITMAP_TYPE_ANY)
+self.SetIcons(ib)
+]]></code>
+
+<p>This works like a charm, giving me pixel-perfect icons for the taskbar
+and the alt-tab image. Bliss!  I couldn't find much discussion of this issue,
+or use of these methods in existing code, and I don't know what it does on
+other platforms, but it works great on Windows.
+</p>
+
+</body>
+</entry>
+</blog>

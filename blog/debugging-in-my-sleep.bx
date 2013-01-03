@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070326T072838'>
+<title>Debugging (in) my sleep</title>
+<body>
+
+<p>I often wake up before I need to get up, and I'll look at the clock to see
+what time it is. For some reason, this often happens at 4:00 am. I don't mean
+between 3:30 and 4:30, I mean between 3:55 and 4:05. I've long wondered what
+could make me open my eyes at the same time so often.
+</p>
+
+<p>When it happened this morning, I wondered again, and in my hazy dream-like
+state, I finally came up with an answer. I decided there is a cron job running
+somewhere, and it's a Python script that makes the mistake of overwriting a
+built-in function or type with a variable (like file="foo", or list=[1,2]), so
+that the next time the script runs, it fails, and that failure is what wakes
+me up.</p>
+
+<p>The problem with this theory of course, as I realized the next time I floated
+up to consciousness, is that there is nothing in my bedroom running cron jobs. I
+forget the details, but I found a rebuttal to that objection too, so that I was
+pretty satisfied that I had finally found the answer.</p>
+
+<p>In the clear light of morning, of course, the details elude me, though I
+can't shake the feeling that I should look through my code for overwritten
+built-ins...</p>
+
+</body>
+</entry>
+</blog>

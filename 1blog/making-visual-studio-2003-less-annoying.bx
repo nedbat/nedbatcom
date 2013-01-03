@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040303T081049'>
+<title>Making Visual Studio less annoying #1</title>
+<category>howto</category>
+<category>ide</category>
+<via />
+<body>
+<p>If you are like me, you use Microsoft Visual Studio 2003,
+and there are things about it that are just plain annoying.
+I've discovered a few tips to ease the irritation.
+The first is how to get the solution explorer to stop flipping and flapping.
+</p>
+
+<more>
+
+<p>You know the solution explorer, the list of projects
+and their files?  It's constantly opening itself to show you the current
+file, even when you just switch from one file to another in the editor.
+This is annoying for a number of reasons:</p>
+
+<ul>
+<li>The movement as the thing opens up is distracting visually.</li>
+<li>It's supposed to be a navigation element, so it should stay where I want it to stay.</li>
+<li>When I do want to use it to find something, it's useless, because it's completely
+expanded, making it hard for me to find what I want.</li>
+<li>When opening a solution, it opens all the previously open files,
+and each of them changes the solution explorer, and the tree control does
+its fancy smooth opening thing, and I swear it slows down the launch time.</li>
+</ul>
+
+<p>After upgrading to VS 2003, I thought maybe they had provided a toolbar command
+to entirely collapse the solution explorer.
+There are <a href='http://www.codeproject.com/macro/collapseall.asp'>macros</a> to do
+this, and they seem to work, but I wanted there to be a built-in operation.
+I selected Tools - Customize, clicked the Keyboard button, then typed "Solution" into the
+Show Commands Containing field. They didn't have what I wanted, but had something
+even better: View.TrackActivityInSolutionExplorer.
+It disables the tracking of the current file in the solution explorer altogether.
+</p>
+
+<p>You can add this command to your View menu (or wherever):
+select Tools - Customize, then the Commands tab, choose the View category,
+then almost all the way at the bottom of the Commands list is
+Track Activity in Solution Explorer.  Drag this thing onto the View menu
+(or wherever), and you're good to go!
+Now you can turn off the whole flipping and flapping thing completely,
+and if you ever do want to find the current file in the solution explorer,
+click the thing on again, and you're there.
+Woohoo!
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

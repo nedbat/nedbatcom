@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061201T062617'>
+<title>Svn annotate all?</title>
+<category>srcctrl</category>
+<via />
+<body>
+<p>Here's a thing I miss about <a href='http://www.perforce.com'>Perforce</a>
+from Subversion, and I hope there's a way I can still do it.
+Both systems have an annotate command, that shows for each line in the file
+what revision last touched it.  It's a great way to figure out how your code
+got to be the way it is.</p>
+
+<p>But the
+<a href='http://www.perforce.com/perforce/doc.061/manuals/cmdref/annotate.html'>Perforce annotate command</a>
+offers the -a switch.  This means show all revisions of all lines.  So for example,
+if a certain line changed three times over the lifetime of the file, all three
+lines would appear in the annotated output, with the range of revisions that each
+was current. It's a great tool for figuring out when some baffling change was introduced,
+so you can go back, read the checkin comment, get your head into the mindset
+of the time, and forensically understand the history of the code.</p>
+
+<p>Is there a Subversion tool that can do this?</p>
+
+</body>
+</entry>
+</blog>

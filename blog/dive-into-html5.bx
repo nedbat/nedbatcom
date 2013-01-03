@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100328T133927'>
+<title>Dive into HTML5</title>
+<category>webpage</category>
+<category>site</category>
+<body>
+<p>Mark Pilgrim is good at writing introductions to technical topics, and his
+latest is no exception: <a href='http://diveintohtml5.org/'>Dive Into HTML5</a>.
+It's a detailed exposition of the latest additions to HTML.</p>
+
+<p>Some of it seems strangely circuitous, as in the first chapter when he recounts
+in detail how the img tag got added to HTML in the first place.  He has a reason
+(which is to underscore that HTML was never pure in the first place), but it can
+seem a long way to go for the lesson.</p>
+
+<p>I've added a few simple tweaks to this site as a result of perusing the changes:
+input fields of type email and url, and links with rel of author, tag, and license.
+I haven't gotten into the deeper changes like the new semantic tags &lt;article&gt;,
+&lt;header&gt; and &lt;time&gt;.  Native video is even farther out.</p>
+
+<p>I also learned about <a href='http://www.hanselman.com/blog/AddingOpenSearchToYourWebsiteAndGettingInTheBrowsersSearchBox.aspx'>OpenSearch</a>
+which doesn't seem worth it for this site. I can't imagine many people want a
+special search just for this blog.</p>
+
+<p>And I also learned something new about Internet Explorer in my tangential browsing
+along the way also: not only does IE interpret these odd
+<a href='http://www.quirksmode.org/css/condcom.html'>conditional HTML comments</a>:</p>
+
+<code><![CDATA[
+<!--[if IE 6]>
+    Special instructions for IE 6 here
+<![endif]-->
+]]></code>
+
+<p>but it also has a <a href='http://robertnyman.com/2008/05/26/conditional-compilation-in-javascript/'>Javascript conditional comment</a> syntax:</p>
+
+<code><![CDATA[
+/*@cc_on
+    alert("Hello IE user (please, please switch)!");
+@*/
+]]></code>
+
+<p>This leads to this remarkably terse snippet to detect if your code is running
+in IE:</p>
+
+<code lang='js'><![CDATA[
+var ie = /*@cc_on!@*/false;
+]]></code>
+
+<p>Will the wonders never cease?</p>
+
+</body>
+</entry>
+</blog>

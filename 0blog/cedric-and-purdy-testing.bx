@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021205T092649'>
+<title>The root cause of lousy software</title>
+<category>testing</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://freeroller.net/page/cbeust'>Cedric</a> and
+<a href='http://freeroller.net/page/cpurdy'>Cameron</a> are having a micro-debate about the
+root cause of lousy software.
+Cedric <a href='http://www.freeroller.net/page/cbeust/20021128'>says</a>:
+</p>
+
+<quotep>The reason for lousy software lies in two simple words:
+Inadequate testing.</quotep>
+
+<p>In response, Cameron <a href='http://freeroller.net/page/cpurdy/20021128'>says</a>:
+</p>
+
+<quotep>If he's talking about QA, then he's dead wrong.
+According to studies in all other facets of production,
+a focus on increasing the quantity of QA will actually increase the number of defects.
+</quotep>
+
+<p>Now Cameron is a smart guy, so I hope he mispoke and meant
+"increase the number of <i>identified</i> defects".
+The software is what it is.  Increased testing cannot in and of itself increase the
+number of bugs in a piece of software.</p>
+
+<p>I think these guys are actually in agreement.  Cameron goes on to say that developers
+should do more testing themselves.  Whatever.  The more testing that gets done, the more
+is known about the software.  The first step to making good software is to understand
+the software.
+Testing is not a perfect way to know what software does, but it's the best way we've got.
+</p>
+
+</body>
+</entry>
+</blog>

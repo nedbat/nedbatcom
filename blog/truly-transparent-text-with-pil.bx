@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080130T071847'>
+<title>Truly transparent text with PIL</title>
+<category>python</category>
+<category>graphics</category>
+<category>howto</category>
+<body>
+<p>I needed a transparent PNG image of some text to overlay text on an image.
+My first try looked OK, but the edges of the text seemed to be the wrong color.
+After some finagling, I came up with
+<a href='http://www.pythonware.com/library/'>PIL</a> code that did the right thing.</p>
+
+<p>Here was the first code I used:</p>
+
+<code lang='py'><![CDATA[
+import Image, ImageFont, ImageDraw
+
+fontfile = r"C:\WINDOWS\Fonts\arialbd.ttf"
+
+words = [
+    ((10, 10), "Red", "#ff0000", 30),
+    ((10, 50), "Green", "#00ff00", 30),
+    ((10, 90), "Blue", "#0000ff", 30),
+    ((10, 130), "White", "#ffffff", 30),
+    ((10, 170), "Black", "#000000", 30),
+    ]
+
+# A fully transparent image to work on.
+im = Image.new("RGBA", (120, 210), (0,0,0,0))
+dr = ImageDraw.Draw(im)
+
+for pos, text, color, size in words:
+    
+    font = ImageFont.truetype(fontfile, size)
+    dr.text(pos, text, font=font, fill=color)
+
+im.save("badtranstext.png", "PNG")
+]]></code>
+
+<p>Here's the image it produces: (If you are viewing this in IE6, you won't see
+the transparency)</p>
+
+<figurep>
+    <img style='background:white;padding:10px' src='pix/badtranstext.png' alt='Red, Green, Blue, with black halos'/>
+    <img style='background:gray;padding:10px' src='pix/badtranstext.png' alt='Red, Green, Blue, with black halos'/>
+    <img style='background:black;padding:10px' src='pix/badtranstext.png' alt='Red, Green, Blue, with black halos'/>
+</figurep>
+
+<p>You can see that the edges of the letters are grimy.  The white text should
+not be visible at all against the white background, but you can see the edges.</p>
+
+<p>This is because when PIL draws a partially-transparent pixel at the edge of
+a letter, it uses the partial coverage of the shape to blend the background and
+foreground pixels.  If the background were fully opaque, this would be the right
+thing to do, but with a fully transparent background like we are using, this
+gives the wrong color.  We specified the background as fully transparent black,
+so for a pixel half-covered with white, PIL computes a color of half-transparent
+gray.  It should be half-transparent white, so that the final image will
+be able to blend properly with any color underneath it.</p>
+
+<p>Look at it another way: if I specify the background as completely transparent
+(alpha of 0), then it shouldn't matter what color I provide for the RGB channels.
+I should get the same final result if I specify (0,0,0,0) or (255,255,255,0):
+the background is completely transparent, it has no color at all, those values
+are merely placeholders.  But PIL will use the color channels to assign color
+to the edges of the type, so the placeholder "background color" will bleed into
+the result.</p>
+
+<p>To get the proper result, I draw each string onto a separate gray channel,
+then add those gray pixels into an accumulated alpha channel.  Then I use the
+gray text to compute full-color pixels for any pixels with even a slight trace
+of the text on it.  When combined, the alpha channel will dilute down the color
+of the edge pixels down to give the proper appearance.</p>
+
+<code lang='py'><![CDATA[
+import Image, ImageFont, ImageDraw, ImageChops
+
+fontfile = r"C:\WINDOWS\Fonts\arialbd.ttf"
+
+words = [
+    ((10, 10), "Red", "#ff0000", 30),
+    ((10, 50), "Green", "#00ff00", 30),
+    ((10, 90), "Blue", "#0000ff", 30),
+    ((10, 130), "White", "#ffffff", 30),
+    ((10, 170), "Black", "#000000", 30),
+    ]
+
+# A fully transparent image to work on, and a separate alpha channel.
+im = Image.new("RGB", (120, 210), (0,0,0))
+alpha = Image.new("L", im.size, "black")
+
+for pos, text, color, size in words:
+    
+    # Make a grayscale image of the font, white on black.
+    imtext = Image.new("L", im.size, 0)
+    drtext = ImageDraw.Draw(imtext)
+    font = ImageFont.truetype(fontfile, size)
+    drtext.text(pos, text, font=font, fill="white")
+        
+    # Add the white text to our collected alpha channel. Gray pixels around
+    # the edge of the text will eventually become partially transparent
+    # pixels in the alpha channel.
+    alpha = ImageChops.lighter(alpha, imtext)
+    
+    # Make a solid color, and add it to the color layer on every pixel
+    # that has even a little bit of alpha showing.
+    solidcolor = Image.new("RGBA", im.size, color)
+    immask = Image.eval(imtext, lambda p: 255 * (int(p != 0)))
+    im = Image.composite(solidcolor, im, immask)
+
+# These two save()s are just to get demo images of the process.
+im.save("transcolor.png", "PNG")
+alpha.save("transalpha.png", "PNG")
+
+# Add the alpha channel to the image, and save it out.
+im.putalpha(alpha)
+im.save("transtext.png", "PNG")
+]]></code>
+
+<p>This is more work, but gives the correct results.  Here's the alpha channel,
+the color channels, and the final result:</p>
+
+<figurep>
+    <img style='padding:10px' src='pix/transalpha.png' alt='The alpha channel'/>
+    <img style='padding:10px' src='pix/transcolor.png' alt='The color channel'/>
+    <img style='padding:10px' src='pix/transtext.png' alt='The final result'/>
+</figurep>
+
+<p>And the result on various backgrounds:</p>
+
+<figurep>
+    <img style='background:white;padding:10px' src='pix/transtext.png' alt='The good transparent text'/>
+    <img style='background:gray;padding:10px' src='pix/transtext.png' alt='The good transparent text'/>
+    <img style='background:black;padding:10px' src='pix/transtext.png' alt='The good transparent text'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

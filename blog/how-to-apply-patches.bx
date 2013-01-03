@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080521T081607'>
+<title>How to apply patches</title>
+<category>howto</category>
+<category>unix</category>
+<body>
+<p>Occasionally I write things here simply so that I won't forget them, here's
+one of them.  Applying patches is something I do infrequently enough that I
+have to re-figure it out each time.
+</p>
+
+<p>If you have a patch file called my.patch that looks like this (in part):</p>
+
+<code>
+=== modified file 'cogapp/cogapp.py'
+--- cogapp/cogapp.py	2005-12-04 20:27:41 +0000
++++ cogapp/cogapp.py	2008-05-21 09:00:08 +0000
+@@ -37,6 +37,7 @@
+                     A %s in the CMD will be filled with the filename.
+     -x          Excise all the generated output without running the generator
+     -z          The [[[end]]] marker can be omitted, and is assumed at eof.
++    -N          Write the output as binary file (with LF line-endings).
+     -v          Print the version of cog and exit.
+     -h          Print this help.
+ """
+</code>
+
+<p>then to apply the patch, cd to the directory that has cogapp in it, and use
+this command:</p>
+
+<code>patch -p0 &lt; my.patch</code>
+
+<p>The patch command is one of those inscrutable Unix-culture tools which does not
+behave as I expect.  In this case, there seems to be no syntax that names
+my.patch explicitly, only an input redirect works.  And zero seems not to be the
+default for the -p switch, so it needs to be specified, but the help text doesn't
+mention the default value, so I'm not sure what it is.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090822T082235'>
+<title>Humane email validation</title>
+<category>regex</category>
+<category>email</category>
+<category>ui</category>
+<body>
+<p>My recent work on a consumer-facing product brought up the old problem: how
+to validate an email address before using it?  There's a classic tension here
+between those developers that want to prevent typos from floundering around in
+the system, giving users feedback as soon as possible that it seems like they've
+made a mistake; and those developers that want to be sure that any valid email
+address can be used.</p>
+
+<p>The <a href='http://stackoverflow.com/search?q=email+validation+regex'>usual advice on this matter</a>
+is to not bother with validation, because it's a fool's errand, instead simply
+send an email to the address with a confirmation link.  If the user clicks the link,
+then the address must have been valid.</p>
+
+<p>I don't like this advice because the vast, vast majority of email addresses
+do validate with a simple regex, and the vast, vast majority of failures against
+the regex represent real mistakes, not obscure but valid email addresses.
+Catching user mistakes early is a good thing. Having the user wait for an email
+that will never come, then go back to enter their email address again is a pain.</p>
+
+<p>This is the regex I used:</p>
+
+<code>
+/^[^@ ]+@[^@ ]+\.[^@ ]+$/
+</code>
+
+<p>In other words, an email address has to have stuff, at-sign, stuff, dot, stuff.
+The stuff can have dots in it, but can't have at-signs or spaces. And by the way,
+before matching against the regex, trim whitespace from the ends of the address.</p>
+
+<p>As a gesture of reconciliation with the purists, I propose this: check the user-entered
+email address against this regex.  If it matches, it's valid.  If it doesn't match,
+show the user an "invalid email address" error box that has two buttons:
+"Fix mistake" which lets the user re-enter an email address, and "Use it anyway"
+which takes the email address as-is even though it failed the match.</p>
+
+<p>This is the best of both worlds, since the common case of a catchable typo in
+an email address will force the user to double-check their entry, but any address
+can be used if the user knows what they are doing.  Most users will never see
+the error box, since they'll enter their address correctly.</p>
+
+<p>I've never seen a work flow like this, but it seems like a really simple solution
+to the problem.  Is there something I'm over-looking?  Is it too geeky?</p>
+
+</body>
+</entry>
+</blog>

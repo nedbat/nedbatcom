@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100112T211719'>
+<title>IE8's unpopular XSS filter</title>
+<category>browsers</category>
+<category>malware</category>
+<body>
+<p>I've been struggling with the <a href='http://msdn.microsoft.com/en-us/library/dd565647%28VS.85%29.aspx'>XSS filter in IE8</a>.
+It seems capricious and secretive, and is getting in the way of an application
+we're running on AOL.com.  I <a href='http://stackoverflow.com/questions/2051632/ie8-xss-filter-what-does-it-really-do'>asked about it on stackoverflow</a>,
+and got some more information, but still not enough to get it out of my hair.
+</p>
+
+<p>Anyone have any experience with this beast?</p>
+
+</body>
+</entry>
+</blog>

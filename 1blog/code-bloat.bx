@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040813T144653'>
+<title>Code bloat</title>
+<category>development</category>
+<via />
+<body>
+<p>
+<a href='http://www.bobcongdon.net/blog/2004/08/code-bloat-begets-code-bloat.html'>Bob links</a>
+to Jason Marshall's
+<a href='http://jroller.com/page/jdmarshall/20040520#the_exponential_nature_of_lines'>The Exponential Nature of Lines of Code</a>:</p>
+
+<quote><p>There's more here than just a vague fuzzy warm feeling that the code is 'tight'.
+It means longer code-build-test cycles, more resource requirements from the code,
+and harder-to-solve optimization issues.
+Worst of all, replicated code means replicated bugs.
+It means developers are spending a lot of time doing the same work over and over again,
+with slightly different details.
+Slogging the same boring code over and over again is essentially menial labor, and is bad for morale.
+</p></quote>
+
+</body>
+</entry>
+</blog>

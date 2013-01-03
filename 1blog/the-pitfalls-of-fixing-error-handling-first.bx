@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041215T061308'>
+<title>The pitfalls of fixing error handling first</title>
+<category>debugging</category>
+<category>development</category>
+<via />
+<body>
+<p>One of my favorite essays is
+<a href='text/fix-err-hand.html'>Fix error handling first</a>,
+which argues that if something goes wrong in your code, and then
+something goes wrong while handling the error, you have to fix
+the error handling before you fix the problem (because fixing the
+problem will eliminate the possibility of reproducing the error
+handling bug).
+An example of this is that if an error message is logged which
+doesn't tell you all you need to know, you should beef up the
+error message to add more information before you do the work
+to avoid the error condition.
+</p>
+
+<p>But suppose it's impossible to tell if you've
+done everything you can do? When do you stop?</p>
+
+<more>
+
+<p>I just spent a full working day beating my head against
+one of OLE DB's many brick walls trying to get an error message
+that I thought for sure must be in there somewhere.
+I added a call to a SQL Server system stored procedure
+(sp_rename, if you must know), and the execution of the statement
+produced this error message:</p>
+
+<code><![CDATA[
+Multiple-step OLE DB operation generated errors.
+Check each OLE DB status value, if available. No work was done.
+]]></code>
+
+<p>Like a good boy, I went in search of the OLE DB status values.
+The difficulty was, OLE DB is very complex, and I'm using the
+consumer templates, which add another layer of complexity.
+I already had a complicated routine for digging out error information using
+CDBErrorInfo, GetErrorRecords, GetBasicErrorInfo, GetAllErrorInfo,
+GetErrorParameters, GetCustomErrorObject(IID_ISQLErrorInfo) and
+GetCustomErrorObject(IID_ISQLServerErrorInfo).
+None of them produced more information.
+</p>
+
+<p>I tried checking the statuses of my command parameters
+after the fact with GetParamStatus.  Nothing came out.
+I tried pasing an Unknown* into GetErrorRecords, but it
+didn't change the behavior at all.</p>
+
+<p>A co-worker who knows a hundred times more about any given
+Microsoft technology than I do helped me find places to look,
+helped my pore over the OLE DB tomes, helped write scripts
+to try to reproduce the scenario to see what errors ADO produced.</p>
+
+<p>This last was the most tantalizing of all, because executing the
+same statement in ADO from VB produced different messages
+than using OLE DB in C++.  Obviously, they were doing something
+different than we were.  We put intentionally erroneous stored
+procedure calls into both programs, and the VB script would return
+nice messages, while the C++ code would say, "Errors occurred". Arggh!</p>
+
+<p>I wanted to give up a number of times, but the mantra of
+"fixing error handling first" was strong with both of us, and
+we pushed on.
+It was more than just dogma that drove us, though.
+We really didn't know why the stored procedure wasn't working.
+We thought those missing error messages would tell us.
+And we didn't want to end up with a problem at a customer site
+where the only information was "errors occurred".  It might as well
+have said, "Shit happens".
+So we really wanted to get all the information we could, and get
+it automatically, and have it well presented.
+But that "if available" in the error message was
+taunting me with the possibility that there was nothing
+more to be found.</p>
+
+<p>We continued to experiment.  We pursued a strenous course of talmudic
+reading and interpretation of the occasionally inscrutable documentation.
+We tried to reason out how the system must behave.</p>
+
+<p>Finally, we found this Microsoft support article:
+<a href='http://support.microsoft.com/kb/241639'>"Errors Occurred" Error When Calling Stored Procedure with More than a SELECT Statement</a>,
+which says (in part):</p>
+
+<quote>
+<p>SYMPTOMS</p>
+<p>When calling ICommand::Execute to execute a Microsoft SQL Server stored procedure using the Microsoft SQL Server OLE DB Provider, DB_E_ERRORSOCCURRED is returned and the IErrorInfo description information states "Errors Occurred."</p>
+<p>CAUSE</p>
+<p>The stored procedure contains more than a simple SELECT statement. A client side cursor is required.</p>
+<p>RESOLUTION</p>
+<p>In order to resolve this, you will have to use client side cursors.</p>
+<p>STATUS</p>
+<p>This behavior is by design (although Microsoft is investigating whether a more informative error message can be returned). </p>
+</quote>
+
+<p>Sure enough, we were using server-side cursors.  Switching to client-side
+cursors caused our stored procedure to work, and made our intentionally-wrong
+statements produce the same error messages as ADO's.
+That parenthetical admission that the error message was not informative finally
+told us for sure that there was no more information to be found.
+Our error handling was not at fault.
+</p>
+
+<p>If we hadn't found that admission, how much longer would we have tried?
+I don't know.  I still believe firmly in fixing error handling first.
+But often it comes down to trying to get information from other components,
+and it can be impossible to tell when you've bullied them into telling all they know.</p>
+
+<p>The good thing that came out of the whole experience is that we gained confidence that
+the error handling for these messages is as good as it can get.
+The stored procedure is working now, and we had a few laughs along the way, so, all in all,
+a good day's work.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

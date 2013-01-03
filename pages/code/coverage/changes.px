@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<page title='Major change history for coverage.py' >
+
+  <history>
+<what when='20090524T134300'>brand new docs.</what>
+<what when='20090613T164000'>final touches for 3.0</what>
+<what when='20090706T205000'>changes for 3.0.1</what>
+<what when='20091004T170700'>changes for 3.1</what>
+<what when='20091128T072200'>changes for 3.2</what>
+<what when='20091205T161525'>3.2 final</what>
+<what when='20100221T151900'>changes for 3.3</what>
+<what when='20100306T181400'>changes for 3.3.1</what>
+<what when='20100725T211700'>updated for 3.4.</what>
+<what when='20100820T151500'>updated for 3.4b1</what>
+<what when='20100906T133800'>updated for 3.4b2</what>
+<what when='20100919T163400'>updated for 3.4 release.</what>
+<what when='20110604T214100'>updated for 3.5b1</what>
+<what when='20110629T082200'>updated for 3.5</what>
+<what when='20110923T081600'>updated for 3.5.1</what>
+<what when='20120429T162100'>updated for 3.5.2b1</what>
+<what when='20120503T233700'>updated for 3.5.2</what>
+<what when='20120929T093100'>updated for 3.5.3</what>
+</history>
+<p>These are the major changes for coverage.py.  For a more complete change
+history, see the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/CHANGES.txt">CHANGES.txt</a> file in the source tree.</p>
+<h1>Version 3.5.3 &#8212; 29 September 2012</h1>
+<ul class="simple">
+<li>Line numbers in the HTML report line up better with the source lines, fixing
+<cite>issue 197</cite>, thanks Marius Gedminas.</li>
+<li>When specifying a directory as the source= option, the directory itself no
+longer needs to have a <tt class="docutils literal"><span class="pre">__init__.py</span></tt> file, though its subdirectories do, to
+be considered as source files.</li>
+<li>Files encoded as UTF-8 with a BOM are now properly handled, fixing
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/179/htmlreporter-fails-when-source-file-is">issue 179</a>.  Thanks, Pablo Carballo.</li>
+<li>Fixed more cases of non-Python files being reported as Python source, and
+then not being able to parse them as Python.  Closes <cite>issue 82</cite> (again).
+Thanks, Julian Berman.</li>
+<li>Fixed memory leaks under Python 3, thanks, Brett Cannon. Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/147/massive-memory-usage-by-ctracer">issue 147</a>.</li>
+<li>Optimized .pyo files may not have been handled correctly, <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/195/pyo-file-handling-in-codeunit">issue 195</a>.
+Thanks, Marius Gedminas.</li>
+<li>Certain unusually named file paths could have been mangled during reporting,
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/194/filelocatorrelative_filename-could-mangle">issue 194</a>.  Thanks, Marius Gedminas.</li>
+<li>Try to do a better job of the impossible task of detecting when we can&#8217;t
+build the C extension, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/183/install-fails-for-python-23">issue 183</a>.</li>
+</ul>
+<h1>Version 3.5.2 &#8212; 4 May 2012</h1>
+<ul class="simple">
+<li>The HTML report has slightly tweaked controls: the buttons at the top of
+the page are color-coded to the source lines they affect.</li>
+<li>Custom CSS can be applied to the HTML report by specifying a CSS file as
+the extra_css configuration value in the [html] section.</li>
+<li>Source files with custom encodings declared in a comment at the top are now
+properly handled during reporting on Python 2.  Python 3 always handled them
+properly.  This fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/157/chokes-on-source-files-with-non-utf-8">issue 157</a>.</li>
+<li>Backup files left behind by editors are no longer collected by the source=
+option, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/168/dont-be-alarmed-by-emacs-droppings">issue 168</a>.</li>
+<li>If a file doesn&#8217;t parse properly as Python, we don&#8217;t report it as an error
+if the filename seems like maybe it wasn&#8217;t meant to be Python.  This is a
+pragmatic fix for <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/82/tokenerror-when-generating-html-report">issue 82</a>.</li>
+<li>The <tt class="docutils literal"><span class="pre">-m</span></tt> switch on <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">report</span></tt>, which includes missing line numbers
+in the summary report, can now be specifed as <tt class="docutils literal"><span class="pre">show_missing</span></tt> in the
+config file.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/173/theres-no-way-to-specify-show-missing-in">issue 173</a>.</li>
+<li>When running a module with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-m</span> <span class="pre">&lt;modulename&gt;</span></tt>, certain details
+of the execution environment weren&#8217;t the same as for
+<tt class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">&lt;modulename&gt;</span></tt>.  This had the unfortunate side-effect of making
+<tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-m</span> <span class="pre">unittest</span> <span class="pre">discover</span></tt> not work if you had tests in a
+directory named &#8220;test&#8221;.  This fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/155/cant-use-coverage-run-m-unittest-discover">issue 155</a>.</li>
+<li>Now the exit status of your product code is properly used as the process
+status when running <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">...</span></tt>.  Thanks, JT Olds.</li>
+<li>When installing into pypy, we no longer attempt (and fail) to compile
+the C tracer function, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/166/dont-try-to-compile-c-extension-on-pypy">issue 166</a>.</li>
+</ul>
+<h1>Version 3.5.1 &#8212; 23 September 2011</h1>
+<ul class="simple">
+<li>When combining data files from parallel runs, you can now instruct coverage
+about which directories are equivalent on different machines.  A <tt class="docutils literal"><span class="pre">[paths]</span></tt>
+section in the configuration file lists paths that are to be considered
+equivalent.  Finishes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/17/support-combining-coverage-data-from">issue 17</a>.</li>
+<li>for-else constructs are understood better, and don&#8217;t cause erroneous partial
+branch warnings.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/122/for-else-always-reports-missing-branch">issue 122</a>.</li>
+<li>Branch coverage for <tt class="docutils literal"><span class="pre">with</span></tt> statements is improved, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/128/branch-coverage-of-with-statement-in-27">issue 128</a>.</li>
+<li>The number of partial branches reported on the HTML summary page was
+different than the number reported on the individual file pages.  This is
+now fixed.</li>
+<li>An explicit include directive to measure files in the Python installation
+wouldn&#8217;t work because of the standard library exclusion.  Now the include
+directive takes precendence, and the files will be measured.  Fixes
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/138/include-should-take-precedence-over-is">issue 138</a>.</li>
+<li>The HTML report now handles Unicode characters in Python source files
+properly.  This fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/124/no-arbitrary-unicode-in-html-reports-in">issue 124</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/144/failure-generating-html-output-for">issue 144</a>. Thanks, Devin
+Jeanpierre.</li>
+<li>In order to help the core developers measure the test coverage of the
+standard library, Brandon Rhodes devised an aggressive hack to trick Python
+into running some coverage code before anything else in the process.
+See the coverage/fullcoverage directory if you are interested.</li>
+</ul>
+<h1>Version 3.5 &#8212; 29 June 2011</h1>
+<p>HTML reporting:</p>
+<ul class="simple">
+<li>The HTML report now has hotkeys.  Try <tt class="docutils literal"><span class="pre">n</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">m</span></tt>, <tt class="docutils literal"><span class="pre">x</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt>,
+<tt class="docutils literal"><span class="pre">p</span></tt>, and <tt class="docutils literal"><span class="pre">c</span></tt> on the overview page to change the column sorting.
+On a file page, <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="docutils literal"><span class="pre">m</span></tt>, <tt class="docutils literal"><span class="pre">x</span></tt>, and <tt class="docutils literal"><span class="pre">p</span></tt> toggle the run, missing,
+excluded, and partial line markings.  You can navigate the highlighted
+sections of code by using the <tt class="docutils literal"><span class="pre">j</span></tt> and <tt class="docutils literal"><span class="pre">k</span></tt> keys for next and previous.
+The <tt class="docutils literal"><span class="pre">1</span></tt> (one) key jumps to the first highlighted section in the file,
+and <tt class="docutils literal"><span class="pre">0</span></tt> (zero) scrolls to the top of the file.</li>
+<li>HTML reporting is now incremental: a record is kept of the data that
+produced the HTML reports, and only files whose data has changed will
+be generated.  This should make most HTML reporting faster.</li>
+</ul>
+<p>Running Python files</p>
+<ul class="simple">
+<li>Modules can now be run directly using <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-m</span> <span class="pre">modulename</span></tt>, to
+mirror Python&#8217;s <tt class="docutils literal"><span class="pre">-m</span></tt> flag.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/95/run-subcommand-should-take-a-module-name">issue 95</a>, thanks, Brandon Rhodes.</li>
+<li><tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> didn&#8217;t emulate Python accurately in one detail: the
+current directory inserted into <tt class="docutils literal"><span class="pre">sys.path</span></tt> was relative rather than
+absolute. This is now fixed.</li>
+<li>Pathological code execution could disable the trace function behind our
+backs, leading to incorrect code measurement.  Now if this happens,
+coverage.py will issue a warning, at least alerting you to the problem.
+Closes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/93/copying-a-mock-object-breaks-coverage">issue 93</a>.  Thanks to Marius Gedminas for the idea.</li>
+<li>The C-based trace function now behaves properly when saved and restored
+with <tt class="docutils literal"><span class="pre">sys.gettrace()</span></tt> and <tt class="docutils literal"><span class="pre">sys.settrace()</span></tt>.  This fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/125/coverage-removes-decoratortoolss-tracing">issue 125</a>
+and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/123/pyeval_settrace-used-in-way-that-breaks">issue 123</a>.  Thanks, Devin Jeanpierre.</li>
+<li>Coverage.py can now be run directly from a working tree by specifying
+the directory name to python:  <tt class="docutils literal"><span class="pre">python</span> <span class="pre">coverage_py_working_dir</span> <span class="pre">run</span> <span class="pre">...</span></tt>.
+Thanks, Brett Cannon.</li>
+<li>A little bit of Jython support: <cite>coverage run</cite> can now measure Jython
+execution by adapting when $py.class files are traced. Thanks, Adi Roiban.</li>
+</ul>
+<p>Reporting</p>
+<ul class="simple">
+<li>Partial branch warnings can now be pragma&#8217;d away.  The configuration option
+<tt class="docutils literal"><span class="pre">partial_branches</span></tt> is a list of regular expressions.  Lines matching any of
+those expressions will never be marked as a partial branch.  In addition,
+there&#8217;s a built-in list of regular expressions marking statements which should
+never be marked as partial.  This list includes <tt class="docutils literal"><span class="pre">while</span> <span class="pre">True:</span></tt>, <tt class="docutils literal"><span class="pre">while</span> <span class="pre">1:</span></tt>,
+<tt class="docutils literal"><span class="pre">if</span> <span class="pre">1:</span></tt>, and <tt class="docutils literal"><span class="pre">if</span> <span class="pre">0:</span></tt>.</li>
+<li>The <tt class="docutils literal"><span class="pre">--omit</span></tt> and <tt class="docutils literal"><span class="pre">--include</span></tt> switches now interpret their values more
+usefully.  If the value starts with a wildcard character, it is used as-is.
+If it does not, it is interpreted relative to the current directory.
+Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/121/filename-patterns-are-applied-stupidly">issue 121</a>.</li>
+<li>Syntax errors in supposed Python files can now be ignored during reporting
+with the <tt class="docutils literal"><span class="pre">-i</span></tt> switch just like other source errors.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/115/fail-gracefully-when-reporting-on-file">issue 115</a>.</li>
+</ul>
+<h1>Version 3.4 &#8212; 19 September 2010</h1>
+<p>Controlling source:</p>
+<ul class="simple">
+<li>BACKWARD INCOMPATIBILITY: the <tt class="docutils literal"><span class="pre">--omit</span></tt> and <tt class="docutils literal"><span class="pre">--include</span></tt> switches now take
+file patterns rather than file prefixes, closing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/34/enhanced-omit-globbing-handling">issue 34</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/36/provide-regex-style-omit">issue 36</a>.</li>
+<li>BACKWARD INCOMPATIBILITY: the <cite>omit_prefixes</cite> argument is gone throughout
+coverage.py, replaced with <cite>omit</cite>, a list of filename patterns suitable for
+<cite>fnmatch</cite>.  A parallel argument <cite>include</cite> controls what files are included.</li>
+<li>The run command now has a <tt class="docutils literal"><span class="pre">--source</span></tt> switch, a list of directories or
+module names.  If provided, coverage.py will only measure execution in those
+source files.  The run command also now supports <tt class="docutils literal"><span class="pre">--include</span></tt> and <tt class="docutils literal"><span class="pre">--omit</span></tt>
+to control what modules it measures.  This can speed execution and reduce the
+amount of data during reporting. Thanks Zooko.</li>
+<li>The reporting commands (report, annotate, html, and xml) now have an
+<tt class="docutils literal"><span class="pre">--include</span></tt> switch to restrict reporting to modules matching those file
+patterns, similar to the existing <tt class="docutils literal"><span class="pre">--omit</span></tt> switch. Thanks, Zooko.</li>
+</ul>
+<p>Reporting:</p>
+<ul class="simple">
+<li>Completely unexecuted files can now be included in coverage results, reported
+as 0% covered.  This only happens if the &#8211;source option is specified, since
+coverage.py needs guidance about where to look for source files.</li>
+<li>Python files with no statements, for example, empty <tt class="docutils literal"><span class="pre">__init__.py</span></tt> files,
+are now reported as having zero statements instead of one.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/1/empty-__init__py-files-are-reported-as-1-executable">issue 1</a>.</li>
+<li>Reports now have a column of missed line counts rather than executed line
+counts, since developers should focus on reducing the missed lines to zero,
+rather than increasing the executed lines to varying targets.  Once
+suggested, this seemed blindingly obvious.</li>
+<li>Coverage percentages are now displayed uniformly across reporting methods.
+Previously, different reports could round percentages differently.  Also,
+percentages are only reported as 0% or 100% if they are truly 0 or 100, and
+are rounded otherwise.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/41/report-says-100-when-it-isnt-quite-there">issue 41</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/70/text-report-and-html-report-disagree-on-coverage">issue 70</a>.</li>
+<li>The XML report output now properly includes a percentage for branch coverage,
+fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/65/branch-option-not-reported-in-cobertura">issue 65</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/81/xml-report-does-not-have-condition-coverage-attribute-for-lines-with-a">issue 81</a>, and the report is sorted by package
+name, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/88/xml-report-lists-packages-in-random-order">issue 88</a>.</li>
+<li>The XML report is now sorted by package name, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/88/xml-report-lists-packages-in-random-order">issue 88</a>.</li>
+<li>The precision of reported coverage percentages can be set with the
+<tt class="docutils literal"><span class="pre">[report]</span> <span class="pre">precision</span></tt> config file setting.  Completes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/16/allow-configuration-of-accuracy-of-percentage-totals">issue 16</a>.</li>
+<li>Line numbers in HTML source pages are clickable, linking directly to that
+line, which is highlighted on arrival.  Added a link back to the index page
+at the bottom of each HTML page.</li>
+</ul>
+<p>Execution and measurement:</p>
+<ul class="simple">
+<li>Various warnings are printed to stderr for problems encountered during data
+measurement: if a <tt class="docutils literal"><span class="pre">--source</span></tt> module has no Python source to measure, or is
+never encountered at all, or if no data is collected.</li>
+<li>Doctest text files are no longer recorded in the coverage data, since they
+can&#8217;t be reported anyway.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/52/doctesttestfile-confuses-source-detection">issue 52</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/61/annotate-i-doesnt-work">issue 61</a>.</li>
+<li>Threads derived from <tt class="docutils literal"><span class="pre">threading.Thread</span></tt> with an overridden <cite>run</cite> method
+would report no coverage for the <cite>run</cite> method.  This is now fixed, closing
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/85/threadrun-isnt-measured">issue 85</a>.</li>
+<li>Programs that exited with <tt class="docutils literal"><span class="pre">sys.exit()</span></tt> with no argument weren&#8217;t handled
+properly, producing a coverage.py stack trace.  This is now fixed.</li>
+<li>Programs that call <tt class="docutils literal"><span class="pre">os.fork</span></tt> will properly collect data from both the child
+and parent processes.  Use <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-p</span></tt> to get two data files that can
+be combined with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">combine</span></tt>.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/56/coveragepy-cant-trace-child-processes-of-a">issue 56</a>.</li>
+<li>When measuring code running in a virtualenv, most of the system library was
+being measured when it shouldn&#8217;t have been.  This is now fixed.</li>
+<li>Coverage can now be run as a module: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">coverage</span></tt>.  Thanks,
+Brett Cannon.</li>
+</ul>
+<h1>Version 3.3.1 &#8212; 6 March 2010</h1>
+<ul class="simple">
+<li>Using <tt class="docutils literal"><span class="pre">parallel=True</span></tt> in a .coveragerc file prevented reporting, but now
+does not, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/49">issue 49</a>.</li>
+<li>When running your code with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt>, if you call <tt class="docutils literal"><span class="pre">sys.exit()</span></tt>,
+coverage.py will exit with that status code, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/50">issue 50</a>.</li>
+</ul>
+<h1>Version 3.3 &#8212; 24 February 2010</h1>
+<ul class="simple">
+<li>Settings are now read from a .coveragerc file.  A specific file can be
+specified on the command line with <tt class="docutils literal"><span class="pre">--rcfile=FILE</span></tt>.  The name of the file
+can be programmatically set with the <tt class="docutils literal"><span class="pre">config_file</span></tt> argument to the
+coverage() constructor, or reading a config file can be disabled with
+<tt class="docutils literal"><span class="pre">config_file=False</span></tt>.</li>
+<li>Added coverage.process_start to enable coverage measurement when Python
+starts.</li>
+<li>Parallel data file names now have a random number appended to them in
+addition to the machine name and process id. Also, parallel data files
+combined with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">combine</span></tt> are deleted after they&#8217;re combined, to
+clean up unneeded files. Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/40">issue 40</a>.</li>
+<li>Exceptions thrown from product code run with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> are now
+displayed without internal coverage.py frames, so the output is the same as
+when the code is run without coverage.py.</li>
+<li>Fixed <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/39">issue 39</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/47">issue 47</a>.</li>
+</ul>
+<h1>Version 3.2 &#8212; 5 December 2009</h1>
+<ul class="simple">
+<li>Branch coverage: coverage.py can tell you which branches didn&#8217;t have both (or
+all) choices executed, even where the choice doesn&#8217;t affect which lines were
+executed.  See <a class="reference internal" href="/code/coverage/branch.html#branch"><em>Branch coverage measurement</em></a> for more details.</li>
+<li>The table of contents in the HTML report is now sortable: click the headers
+on any column.  The sorting is persisted so that subsequent reports are
+sorted as you wish.  Thanks, <a class="reference external" href="http://improbable.org/chris/">Chris Adams</a>.</li>
+<li>XML reporting has file paths that let Cobertura find the source code, fixing
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/21">issue 21</a>.</li>
+<li>The <tt class="docutils literal"><span class="pre">--omit</span></tt> option now works much better than before, fixing <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/14">issue 14</a>
+and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/33">issue 33</a>.  Thanks, Danek Duvall.</li>
+<li>Added a <tt class="docutils literal"><span class="pre">--version</span></tt> option on the command line.</li>
+<li>Program execution under coverage is a few percent faster.</li>
+<li>Some exceptions reported by the command line interface have been cleaned up
+so that tracebacks inside coverage.py aren&#8217;t shown.  Fixes <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/23">issue 23</a>.</li>
+<li>Fixed some problems syntax coloring sources with line continuations and
+source with tabs: <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/30">issue 30</a> and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/31">issue 31</a>.</li>
+</ul>
+<h1>Version 3.1 &#8212; 4 October 2009</h1>
+<ul class="simple">
+<li>Python 3.1 is now supported.</li>
+<li>Coverage.py has a new command line syntax with sub-commands.  This expands
+the possibilities for adding features and options in the future.  The old
+syntax is still supported.  Try <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">help</span></tt> to see the new commands.
+Thanks to Ben Finney for early help.</li>
+<li>Added an experimental <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">xml</span></tt> command for producing coverage reports
+in a Cobertura-compatible XML format.  Thanks, Bill Hart.</li>
+<li>Added the <tt class="docutils literal"><span class="pre">--timid</span></tt> option to enable a simpler slower trace function that
+works for DecoratorTools projects, including TurboGears.  Fixed <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/12">issue 12</a>
+and <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/13">issue 13</a>.</li>
+<li>HTML reports now display syntax-colored Python source.</li>
+<li>Added a <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">debug</span></tt> command for getting diagnostic information about
+the coverage.py installation.</li>
+<li>Source code can now be read from eggs.  Thanks, <a class="reference external" href="http://agileweb.org/">Ross Lawley</a>.  Fixes
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/25">issue 25</a>.</li>
+</ul>
+<h1>Version 3.0.1 &#8212; 7 July 2009</h1>
+<ul class="simple">
+<li>Removed the recursion limit in the tracer function.  Previously, code that
+ran more than 500 frames deep would crash.</li>
+<li>Fixed a bizarre problem involving pyexpat, whereby lines following XML parser
+invocations could be overlooked.</li>
+<li>On Python 2.3, coverage.py could mis-measure code with exceptions being
+raised.  This is now fixed.</li>
+<li>The coverage.py code itself will now not be measured by coverage.py, and no
+coverage modules will be mentioned in the nose <tt class="docutils literal"><span class="pre">--with-cover</span></tt> plugin.</li>
+<li>When running source files, coverage.py now opens them in universal newline
+mode just like Python does.  This lets it run Windows files on Mac, for
+example.</li>
+</ul>
+<h1>Version 3.0 &#8212; 13 June 2009</h1>
+<ul class="simple">
+<li>Coverage is now a package rather than a module.  Functionality has been split
+into classes.</li>
+<li>HTML reports and annotation of source files: use the new <tt class="docutils literal"><span class="pre">-b</span></tt> (browser)
+switch.  Thanks to George Song for code, inspiration and guidance.</li>
+<li>The trace function is implemented in C for speed.  Coverage runs are now
+much faster.  Thanks to David Christian for productive micro-sprints and
+other encouragement.</li>
+<li>The minimum supported Python version is 2.3.</li>
+<li>When using the object api (that is, constructing a coverage() object), data
+is no longer saved automatically on process exit.  You can re-enable it with
+the <tt class="docutils literal"><span class="pre">auto_data=True</span></tt> parameter on the coverage() constructor.
+The module-level interface still uses automatic saving.</li>
+<li>Code in the Python standard library is not measured by default.  If you need
+to measure standard library code, use the <tt class="docutils literal"><span class="pre">-L</span></tt> command-line switch during
+execution, or the <tt class="docutils literal"><span class="pre">cover_pylib=True</span></tt> argument to the coverage()
+constructor.</li>
+<li>API changes:<ul>
+<li>Added parameters to coverage.__init__ for options that had been set on
+the coverage object itself.</li>
+<li>Added clear_exclude() and get_exclude_list() methods for programmatic
+manipulation of the exclude regexes.</li>
+<li>Added coverage.load() to read previously-saved data from the data file.</li>
+<li>coverage.annotate_file is no longer available.</li>
+<li>Removed the undocumented cache_file argument to coverage.usecache().</li>
+</ul>
+</li>
+</ul>
+
+
+<p class='pmn pmnbot'>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/faq.html" title="previous topic">FAQ and other help</a></span>
+    
+</p>
+
+</page>

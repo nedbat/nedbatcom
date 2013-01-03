@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061003T063818'>
+<title>Iterator merge in Python</title>
+<category>python</category>
+<via />
+<body>
+<p>Although I've been working in Python for a long time, every once in a while
+I come across a chunk of code that makes me stop and think, and admire its
+elegance and Pythonic nature.  Raymond Hettinger's 
+<a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/491285'>recipe for merging multiple sorted iterators</a>
+is one of those pieces of code.  It's only 29 lines including the supporting stuff, but it opened my eyes in these ways:
+</p>
+
+<ul>
+<li>It works with iterators in unusual ways, including taking a list of objects, turning them into iterators
+by mapping iter over them, and then iterating over the list of iterators.</li>
+<li>It manipulates the iterators directly, by calling the next() function explicitly.  Usually I'd think about
+the implementation of iterators involving the next() method only when considering writing an unusual iterator,
+not when using an iterator.
+</li>
+<li>It uses a standard module that had escaped my attention, 
+<a href='http://docs.python.org/lib/module-heapq.html'>heapq</a> for using a list as a sorted heap.</li>
+<li>It uses object methods as first-class objects that can be pushed into the heap along with the
+data to be sorted.</li>
+</ul>
+
+<p>There's nothing like a succinct thought-provoking snippet to start your day.</p>
+
+</body>
+</entry>
+</blog>

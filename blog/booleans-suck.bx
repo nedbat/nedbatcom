@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050731T101949'>
+<title>Booleans suck</title>
+<category>arch</category>
+<via />
+<body>
+<p>When designing a data format that has to last a long time and be extensible,
+for goodness sake, think twice (or even three times) before using booleans.
+Too often, I've represented what seemed like a simple yes or no choice as a boolean,
+only to see it eventually fracturing into a range of choices.
+The simple and optimistically chosen boolean ends up being deprecated in favor of a multi-faceted
+enumeration, but the old code is stuck in its simplistic this-or-that view of the world.
+</p>
+
+<p>This applies to all sorts of interfaces: protocols, APIs, file formats, and so on.
+Any time you have data shared by two pieces of code, and you can't change both
+chunks of code any time you want to, you have to worry about backward compatibility.
+If one of those pieces of data is a boolean, you will eventually need to change it, take my word for it.
+</p>
+
+<p>Actually, even choosing an enumeration in the first place doesn't save you from the
+difficulty of upgrading.  For example, suppose you have two types of Things, regular and special.
+Queries in the code will look like this:</p>
+
+<code lang='sql'><![CDATA[
+select * from Things where type = 'regular'
+select * from Things where type = 'special'
+]]></code>
+
+<p>Then in version 2, you add a third type of Thing, call it "unusual".  What happens to the queries?
+Are they still correct?  You'll have to look carefully at what the data is used for, and figure
+out whether unusual Things should have been included or not.
+Maybe selecting all the special Things should really have been selecting all
+the non-regular Things:</p>
+
+<code lang='sql'><![CDATA[
+select * from Things where type != 'regular'
+]]></code>
+
+<p>If you have the luxury of changing the queries, you are in good shape, you only have to change
+a bunch of code.  If you can't change the queries, perhaps because they are fossilized in previous
+versions of your product that are deployed in the wild, then you have a real problem.</p>
+
+<p>I don't know what the best answer to this conundrum is.  Unless you can truly plan your semantics
+for all future versions at the very beginning, you are going to end up splitting concepts like
+this.  One option is to do ugly tricks like have the "unusual" Things not appear in the Things
+table at all, and instead put them in a new table altogether.  Then old code will still work (the
+new incomprehensible Things won't appear to them), and new code can be written to find them where
+they are.  But you have an ugly data model now, and all future users of it are burdened with
+strangenesses like Things and UnusualThings.  Ick.
+</p>
+
+</body>
+</entry>
+</blog>

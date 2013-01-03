@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070405T072424'>
+<title>CSS naked day</title>
+<category>css</category>
+<category>site</category>
+<body>
+<p>Today is <a href='http://naked.dustindiaz.com/'>CSS Naked Day</a>, so I've
+removed the CSS stylesheets from this site.  It's a demonstration of both the
+power of CSS (look how plain the site looks without it), and its flexibility
+(see how the pages are still usable).  
+</p>
+
+<p>Looking at these pages without their styles, there's a number of infelicities,
+but they're good enough, and the styles will be back tomorrow.</p>
+
+<p>Technicality: there are a few style= attributes on these pages still, and
+the comment form has styles aplenty. Tough.</p>
+
+</body>
+</entry>
+</blog>

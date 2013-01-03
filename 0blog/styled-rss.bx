@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031106T222129'>
+<title>Styled RSS</title>
+<category>feeds</category>
+<via />
+<body>
+<p>Dave Shea at Mezzoblue wrote today about
+<a href='http://www.mezzoblue.com/archives/2003/11/05/plugging_the/'>Plugging the RSS Usability Hole</a>,
+where he finally gave a good reason for
+<a href='blog/200309.html#e20030920T142354'>styling RSS feeds</a>:
+so that unsuspecting users who click an RSS link see something intelligible.
+It's good idea, so I did it on this site.  I also wrote a page to help
+<a href='site/whatisrss.html'>explain RSS</a> while I was at it.
+</p>
+
+<p>If you haven't heard of this idea yet: the RSS feed includes an XSLT
+stylesheet reference, so if it is loaded into a browser, the XSLT will transform
+the XML gibberish into pleasantly laid out readable HTML.
+RSS readers ignore the stylesheet reference, so they continue to read the
+XML directly as before.</p>
+
+</body>
+</entry>
+</blog>

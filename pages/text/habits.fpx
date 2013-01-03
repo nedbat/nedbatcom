@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Seven Habits of Highly Effective Developers'>
+<history>
+<what when='20060323T202153'>Created.</what>
+<what when='20060416T095300'>Turned into a text page.</what>
+</history>
+
+<!-- XPlane linked to the original junk: keaggy@gmail.com -->
+
+<p>I've found that good developers share certain characteristics.
+Being a great developer isn't about any particular skill set or toolbox.
+It's more about an approach to the work, and a mind set.</p>
+
+<p>These are the attributes great developers share:</p>
+
+<h2>Lazy</h2>
+
+<p>The essence of writing software is getting a computer to do something a person could have done.
+That applies to your own work.  Automate everything you can.  Don't write two functions when one
+would do.
+Be stingy with code. Don't repeat yourself.
+Subroutines, modules, code generation, all are good.
+Always be looking to make the computer do more work so that you can do less.
+</p>
+
+<h2>Secretive</h2>
+
+<p>Value modularity.
+</p>
+
+<h2>Focused</h2>
+
+<p>Be flexible with your perspective.  Sometimes you need to think about 10 lines of code, sometimes 10,000.
+Sometimes you need to consider a multi-server node architecture, sometimes just a single data structure.
+</p>
+
+<p>Know your goals.  Remember the big picture.  Everything should be done intentionally.
+</p>
+
+<p>Stay balanced.
+</p>
+
+
+<h2>Optimistic</h2>
+
+
+<p>Expect to understand things.  Believe that the API will work.  If it doesn't seem to, dig harder.
+When something doesn't make sense, learn more about it.
+</p>
+
+<p>Be open-minded.
+</p>
+
+
+<h2>Pessimistic</h2>
+
+<p>Be relentless about error handling.  Plan for what happens when the wheels come off.
+</p>
+
+<p>Plan for testing.
+This brings unexpected benefits.
+</p>
+
+<p>Expect the unexpected.
+</p>
+
+<h2>Obsessive</h2>
+
+<p>Be ruthless with yourself. Be a perfectionist.
+</p>
+
+<h2>Curious</h2>
+
+<p>Learn new things.
+</p>
+
+<p>Get good tools, and take care of them.
+</p>
+
+<p>
+Contribute to the community. Stand on the shoulders of giants.
+
+Read.
+
+Teach.
+
+Write.
+
+Try to solve new problems on your own. Don't research how a problem is commonly
+solved, think about the ways you'd solve it. It readys you mind for the problem
+domain
+
+Enjoy yourself. If you aren't having fun writing software, you'll never rise
+above mediocre. Find the job, project, environment or whatever that makes you
+want to go to work everyday.
+</p>
+
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/fix-err-hand.px'/>, about ensuring your error handling
+code is running its best.
+</li>
+<li><apage pref='text/log-style-guide.px'/>, about writing good log messages.
+</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

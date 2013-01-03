@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110217T075200'>
+<title>How to not get reputation points on Stack Overflow</title>
+<category>online</category>
+<category>howto</category>
+<body>
+<p>I love <a href="http://stackoverflow.com">Stack Overflow</a>,
+    for a number of reasons.  First, they have great answers to programming
+    questions.  When I need an answer to a detailed issue I'm having with code,
+    the answer is usually on Stack Overflow, and with the 
+    <a href="http://smackdown.blogsblogsblogs.com/2011/01/31/how-matt-cutts-leveraged-the-stack-overflow-and-hacker-news-communities-in-redefining-the-phrase-content-farms/">recent
+        Google tweak to tamp down content farms in search results</a>, 
+    it's usually the first hit on Google as well.
+</p>
+
+<p>But the reason they have the best answers is because Stack Overflow is essentially
+    a <a href="http://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game">MMORPG</a>
+    that awards points for expertise and other valued behavior.  I understand well the incentives
+    the site offers for answering questions, because I've accumulated a lot of reputation there:</p>
+
+<figurep href="http://stackoverflow.com/users/14343/ned-batchelder">
+    <img src="pix/so-flair-20110225.png" width="208" height="58" alt="My rep"/>
+</figurep>
+
+<p>The combination of being awarded points, and debating with other
+    knowledgable experts, plus being able to learn along the way, and help
+    people, is very compelling.  But it can get obsessive.  Joel Spolsky
+    claims that tons of rep means you are a superstar developer, but it
+    also implies that you've spent a lot of energy chasing reputation
+    points.</p>
+
+<p>After a recent too-long session of <a href='http://xkcd.com/386/'>someone's wrong on the internet</a>,
+    I decided to kick the habit.  And like any addict, I needed a little help.</p>
+
+<p>A simple <a href='http://www.greasespot.net/'>Greasemonkey</a> script was
+    just the thing.  It just hides the form that allows for answering
+    questions:</p>
+
+<code lang="js"><![CDATA[
+// ==UserScript==
+// @name           No answering on Stackoverflow
+// @namespace      http://nedbatchelder.com/greasemonkey
+// @description    Hide the answer box on Stack Overflow 
+//                 to stop obsessive behavior
+// @include        http://stackoverflow.com/*
+// ==/UserScript==
+
+GM_addStyle(
+    "@namespace url(http://www.w3.org/1999/xhtml); " +
+    ".question-page #post-form { display: none; }"
+    );
+]]></code>
+
+<p>The great thing about this solution is that it's effective, without meaning
+    I have to avoid the site altogether, and if there's an question I really
+    should answer, I can just disable the script, which is enough of an action
+    to make me think twice.</p>
+
+<p>You can install <a href='code/misc/no_so_answers.user.js'>no_so_answers.user.js</a> yourself if you find yourself similarly afflicted.</p>
+
+</body>
+</entry>
+</blog>

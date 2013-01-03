@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050316T110931'>
+<title>SQLFairy</title>
+<category>db</category>
+<category>perl</category>
+<via href='http://www.mail-archive.com/sqlite-users%40sqlite.org/'>SQLite mailing list</via>
+<body>
+<p>I haven't tried it, but <a href='http://sqlfairy.sourceforge.net/'>SQLFairy</a>
+looks useful.  It's a set of Perl modules that
+</p>
+
+<quote>
+<p>manipulate structure data definitions (mostly database schemas) in interesting ways,
+such as converting among different dialects of CREATE syntax (e.g., MySQL-to-Oracle),
+visualizations of schemas (pseudo-ER diagrams GraphViz or GD),
+automatic code generation (using Class::DBI),
+converting non-RDBMS files to SQL schemas (xSV text files, Excel spreadsheets),
+serializing parsed schemas (via Storable, YAML and XML),
+creating documentation (HTML and POD), and more.</p></quote>
+
+</body>
+</entry>
+</blog>

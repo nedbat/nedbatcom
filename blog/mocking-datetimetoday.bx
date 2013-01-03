@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120913T182138'>
+<title>Mocking datetime.today</title>
+<category>python</category>
+<category>testing</category>
+<body>
+
+    <p>Mocking is a great way to isolate your code from distracting
+        dependencies while testing.  But, it can be an arcane art unto itself.
+        Today I wrote a test for code that uses the current date.  While
+        testing, it can't use the actual current date, because the test will
+        produce different results on different days.</p>
+
+    <p>A solution is to mock out the datetime.datetime.today() function to
+        return a known fixed date.  But a few factors complicate matters.  First,
+        datetime.datetime is written in C, so Mock can't replace attributes on
+        the class, so you can't simply mock out just the today() function.</p>
+
+    <p>Second, I want to mock just one function in the module, not the whole module.  There
+        are a few suggestions of how to do this out there:
+        Michael Foord wrote about <a href='http://www.voidspace.org.uk/python/mock/examples.html#partial-mocking'>Partial mocking</a> in the Mock docs,
+        William John Bert <a href='http://williamjohnbert.com/2011/07/how-to-unit-testing-in-django-with-mocking-and-patching/'>showed another way</a>,
+        and of course, a <a href='http://stackoverflow.com/questions/4481954/python-trying-to-mock-datetime-date-today-but-not-working'>Stack Overflow question about it</a>.
+    </p>
+
+    <p>None of these worked for me, perhaps because of subtle differences
+        between my code under test and theirs.  When mocking, it's
+        critical to mock at the appropriate place.  If your module has "import
+        datetime", then you need to mock "mymodule.datetime" as a module.  If
+        instead you have "from datetime import datetime", then you need to mock
+        "mymodule.datetime" as a class.  Datetime's eponymous class structure
+        only adds to the confusion.</p>
+
+    <p>I ended up with help from tos9 (Julian Berman) on the #python-testing
+        IRC channel, and used this code in my test class:</p>
+
+<code lang="python"><![CDATA[
+def setUp(self):
+    datetime_patcher = mock.patch.object(
+        my_module.datetime, 'datetime', 
+        mock.Mock(wraps=datetime.datetime)
+    )
+    mocked_datetime = datetime_patcher.start()
+    mocked_datetime.today.return_value = datetime.datetime(2012, 6, 16)
+    self.addCleanup(datetime_patcher.stop)
+]]></code>
+
+    <p>Here, mock.patch.object is being used to patch the datetime attribute
+        (the class) of the datetime import in my module.  It replaces it with a
+        mock, one that wraps the real datetime class.  Here, "wraps" means that
+        anything not explicitly changed on the mock is proxied to the real
+        datetime class, so most of our functionality is in place.  We
+        change the return value of today() to be a specific date, accomplishing
+        our goal.</p>
+
+    <p>If you haven't seen it before, addCleanup() is a new feature of unittest
+        in 2.7.  Instead of writing a tearDown method in which you clean up all
+        the stuff you did in setUp, you can register callables with addCleanup,
+        and they will be called to clean up at the end of tests.  Because you
+        can register as many as you like, it's easier to modularize your setup
+        and teardown code.</p>
+
+    <p>BTW, Julian also has a clever decorator to auto-register the cleanup
+        functions for patches, and has packaged it into a mixin: <a href='https://github.com/Julian/Ivoire/blob/master/ivoire/tests/util.py'>ivoire/tests/util.py</a>.
+        Check it out.
+    </p>
+
+</body>
+</entry>
+</blog>

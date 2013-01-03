@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071012T224929'>
+<title>Aptus</title>
+<category>mycode</category>
+<category>math</category>
+<category>art</category>
+<body>
+<p><a href='code/aptus'>Aptus</a> is a side project I've been tinkering with
+the last few months.  It's a Mandelbrot set explorer and renderer.
+</p>
+
+<figurep href='code/aptus'>
+    <img src='pix/CandyPinwheel.png' alt='A portion of the Mandelbrot set' />
+</figurep>
+
+<p>Aptus is written in Python with a wxPython user interface.  It runs on Windows,
+Mac, and Linux.  It has a computation engine in C for speed, with boundary
+tracing and cycle detection for more speed. There's also command-line renderer 
+for making higher-quality renderings by supersampling pixels to get smoother
+contours and more detail.</p>
+
+<p>There are other Mandelbrot explorers of course. <a href='blog/200206.html#e20020611T084735'>Xaos</a>
+is particularly good at interactivity, but is poor at controlling the look of
+the image.  I wrote Aptus partly to improve the look of the final rendering,
+and partly to have fun on a side project.</p>
+
+<p>This is one of those side projects with a number of different facets to hold
+my attention as my interests shift.  In a visual mood, I can extend the graphic
+options, in a quantitative mood, I can dig out a little more speed from the
+engine, and so on.</p>
+
+<p>Side projects have always been a good way for me to extend my skills.  For example,
+this is the first time I have undertaken a C extension for Python. Writing Aptus
+has also forced me to examine and deepen my understanding of floating point numbers,
+and GUI programming is always a challenge.</p>
+
+<p>Plus, I like looking at the pretty pictures...</p>
+
+</body>
+</entry>
+</blog>

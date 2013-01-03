@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='showfiles.py'>
+<history>
+<what when='20020514T061000'>Created.</what>
+<what when='20021124T193800'>Added the -r option.</what>
+</history>
+
+<p>This is a replacement for 'dir'.
+I wrote it for one reason: I didn't see the point of using one command (dir) to see the names,
+sizes, and modification dates of files, and another command (attrib) to see the readonly (and other)
+attributes.  So I wrote showfiles.py to do basic 'dir'-like things, but with the attribute bits
+displayed as well.</p>
+
+<p>The output looks pretty much like dir, but I've removed all of the excess noise
+(why on earth is the volume identification shown to me every time?), and made the
+output a little cleaner ("&lt;DIR&gt;"?).  I've also sacrificed century for seconds
+(we live in a fast-paced world!), and added the attributes while making the output
+narrower:</p>
+
+<code><![CDATA[
+$ dir
+ Volume in drive C is Local Disk
+ Volume Serial Number is 20AC-2FF4
+
+ Directory of C:\
+
+04/20/2002  01:53p      <DIR>          _gimp1.2
+02/11/2002  09:28a      <DIR>          doc
+01/04/2002  02:27p      <DIR>          Documents and Settings
+04/12/2002  08:27p      <DIR>          Program Files
+04/10/2002  10:39a      <DIR>          temp
+05/03/2002  06:09p      <DIR>          WINNT
+04/07/2002  07:51p          13,061,000 all.txt
+04/09/2002  08:47a                  96 aplist.txt
+05/02/2002  07:14p               3,826 greedypig.jpg
+               8 File(s)     17,583,051 bytes
+              19 Dir(s)   4,030,781,952 bytes free
+
+$ showfiles
+04/20/02 01:53:20p               / _gimp1.2
+02/11/02 09:28:50a               / doc
+01/04/02 02:27:20p               / Documents and Settings
+04/12/02 08:27:21p               / Program Files
+09/27/01 01:48:24p  hs           / RECYCLED
+10/02/01 03:13:36p  hs           / RECYCLER
+12/20/01 03:31:20p  hs           / System Volume Information
+04/10/02 10:39:34a               / temp
+05/03/02 06:09:36p               / WINNT
+04/07/02 07:51:04p      13,061,000 all.txt
+04/09/02 08:47:35a              96 aplist.txt
+10/02/01 12:17:40p  hs         194 BOOT.INI
+10/02/01 12:14:42p  hs           0 BOOTLOG.TXT
+09/27/01 01:49:06p  hs         512 BOOTSECT.DOS
+09/27/01 01:55:56p rh        3,027 DELL.SDR
+05/02/02 07:14:22p           3,826 greedypig.jpg
+10/02/01 02:31:06p rhs           0 IO.SYS
+09/27/01 02:27:48p  h          125 IPH.PH
+10/02/01 02:31:06p rhs           0 MSDOS.SYS
+05/28/01 09:24:16p rhs      34,756 NTDETECT.COM
+10/02/01 03:26:46p rhs     214,432 NTLDR
+04/30/02 11:26:43a rhs 805,306,368 pagefile.sys
+= 823,142,465 bytes, 41 files
+]]></code>
+
+<p>(For the detail-oriented: I've edited down the directory listings above, so the totals are wrong.)</p>
+
+<p>There are only a few options to showfiles: -d (or -od) sorts by date, and -s (or -os) sorts by size.
+The default is to sort by name.  As you can see from the listings, it always shows all files, even
+those with the hidden or system attribute set.  With no arguments, showfiles lists the files in the
+current directory.  Arguments can either be files, directories, or standard wildcards.  You can
+name as many of these in a single go as you want, all the results get shuffled together in the sort.</p>
+
+<p>The -r option makes showfiles work recursively on subdirectories.  The sorting options
+are applied to the entire list of files, regardless of where in the tree they were found,
+and the path name (rather than just the file name) is shown.  This recursive mode is
+implemented in a stupid inefficient way.  I apologize.</p>
+
+<p>I don't actually type 'showfiles' at the command line.  I use a doskey macro instead:
+</p>
+
+<code>doskey l=showfiles $*</code>
+
+<p>so I can just type 'l' (I like commonly-used commands to have short names).</p>
+
+<p>The main reason I still use "dir" occasionally is to list all files in a tree, but I'm planning
+to add that to showfiles as well.  The last reason I still use "dir" (ironically) is for the extra
+bit of noise it always throws in: the space free on the disk.</p>
+
+<download file='showfiles.py' path='code/utilities/showfiles.py' />
+
+<pagecomments/>
+
+</page>

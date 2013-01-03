@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120708T100500'>
+<title>Julython</title>
+<category>python</category>
+<body>
+    <p>As anyone knows who has heard me lament the time I spend on <a href='http://stackoverflow.com/users/14343/ned-batchelder'>Stack Overflow</a>,
+        I am a sucker for silly artificial point systems.  And if you know me from <a href='http://bostonpython.com'>Boston Python</a>,
+        you know I am also a huge champion of local Python efforts.</p>
+
+    <p>So <a href='http://julython.org'>Julython</a> is a double-whammy: you get points for making commits to your
+        Python-project repos, and there's a <a href='http://www.julython.org/location/'>location-based scoreboard</a>
+        to see which cities are making the most commits.  Boston is currently second!</p>
+
+    <p>However artificial it is to count commits per-city, it has gotten me to blow the dust off a few repos and
+        make some commits to keep the state of the world moving forward, and that was the whole point. 
+        I closed all the tickets (both!) in <a href='https://bitbucket.org/ned/cog'>Cog</a>.  That forced me
+        to finally figure out the docs for how to register a custom setup command in <a href='https://bitbucket.org/ned/fixtar'>fixtar</a>,
+        though I am still fuzzy on some details there.  
+        And I am trying to get <a href='https://bitbucket.org/ned/coveragepy'>coverage.py</a> onto a more-standard
+        testing paradigm.</p>
+
+    <p>Go register your repos with <a href='http://julython.org'>Julython</a>, especially if you live in Boston! :)</p>
+
+</body>
+</entry>
+</blog>

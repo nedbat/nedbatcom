@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051005T171010'>
+<title>CSS-only RSS badge</title>
+<category>css</category>
+<via />
+<body>
+<p>Sometimes I get stuck obsessing about tiny details.
+Recently I decided to give my <a href='blog/rss.xml'>RSS link</a> a standard orange badge.
+But instead of using an image, I did it with CSS.  I'd seen it done before, but I couldn't find the example
+I'd seen, so I cobbled it together from some other bits and pieces:
+</p>
+
+<p align='center'>
+<a
+    href='blog/rss.xml'
+    type='application/rss+xml'
+    style='
+        padding: 0 .4em;
+        background: #F60;
+        color: white;
+        border: 1px solid;
+        border-color: #FC9 #630 #330 #F96;
+        font-weight: bold;
+        text-decoration: none;
+        '
+    >RSS</a>
+</p>
+
+<p>The final code is:
+</p>
+
+<code><![CDATA[
+<a
+    href='blog/rss.xml'
+    type='application/rss+xml'
+    style='
+        padding: 0 .4em;
+        background: #F60;
+        color: white;
+        border: 1px solid;
+        border-color: #FC9 #630 #330 #F96;
+        font-weight: bold;
+        text-decoration: none;
+        '
+    >RSS</a>
+]]></code>
+</body>
+</entry>
+</blog>

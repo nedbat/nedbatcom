@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020321T104938'>
+<title>EXSLT</title>
+<category>xslt</category>
+<category>libs</category>
+<category>js</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>If you are trying to perform complex operations in XSLT (as I am in building this
+site), you may want to have a look at <a href='http://www.exslt.org'>EXSLT</a>, which
+is trying to define standard extensions to XSLT.  They have a useful set of functions
+defined, and implementations in JavaScript and plain-old XSLT.  I'm using their day of
+the week transform to help with the dates on this blog.
+</p>
+</body>
+<link href='http://www.exslt.org'>
+<title>EXSLT</title>
+<category>XSLT</category>
+<comment>A set of "standard" extensions to XSLT, implemented in a variety of ways.</comment>
+</link>
+</entry>
+</blog>

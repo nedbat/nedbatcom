@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100727T074033'>
+<title>Whitespace in Ruby and searching for code</title>
+<category>ruby</category>
+<category>google</category>
+<body>
+<p>Armin's post about <a href='http://lucumr.pocoo.org/2008/7/1/whitespace-sensitivity'>Whitespace sensitivity</a>
+in Ruby piqued my interest.  It points out that in Ruby, <codeword>foo[42]</codeword>
+is different than <codeword>foo [42]</codeword> and that <codeword>foo/bar</codeword>
+is the same as <codeword>foo / bar</codeword> but different than <codeword>foo /bar</codeword>.
+</p>
+
+<p>So I wanted to learn more about Ruby, and looked at a bunch of tutorials,
+finally ending up at Mitch Fincher's <a href='http://www.fincher.org/tips/Languages/Ruby/'>Ruby Tutorial with Code Samples</a>,
+which had the right breezy pace with no, "a variable is like a box for your numbers" stuff in it.</p>
+
+<p>But I had originally gotten to Mitch's page from a Google search for
+<a href='http://www.google.com/search?q=ruby%20puts%20gets'>ruby puts gets</a>.
+If you try it, you'll see that when you get to Mitch's page, a small box appears
+near the top, saying,</p>
+
+<box>Welcome. You seem to have come here from a search engine. Your search words (ruby puts gets) are highlighted on this page for your reading pleasure.</box>
+
+<p>I thought "nice,"  then I thought, "that looks familiar," then I realized it
+was almost exactly the box that appears at the top of my pages when you visit
+from a search engine (try it: <a href='http://www.google.com/search?q=batchelder+white+house+adventure'>batchelder white house adventure</a>).
+In fact, it used the same colors.  I looked at his page, and it used near-verbatim
+copies of my three Javascript files, though a few years ago I consolidated them
+into one.</p>
+
+<p>I was amused, and wondered where else the code is being used.  But the search
+engines are smart enough not to index comments in Javascript files, or names of
+Javascript files referenced in HTML pages, unless there's some tricky syntax I
+don't know about.
+</p>
+
+<p>PS: about whitespace sensitivity: I've decided that phrase means a programming
+language needs tokens consisting of only whitespace in order to be parsed
+properly.  Python and Ruby are whitespace-sensitive, and C is not, for example.
+</p>
+
+</body>
+</entry>
+</blog>

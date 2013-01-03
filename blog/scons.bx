@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050319T064540'>
+<title>SCons</title>
+<category>development</category>
+<category>cog</category>
+<via />
+<body>
+<p>A Cog email correspondent asked a question about using Cog with
+<a href='http://www.scons.org/'>SCons</a>, so I read up on it.
+It's very interesting: A "make" replacement for building software,
+but uses full Python scripts instead of declarative Makefiles.
+But don't worry: most build tasks are handled in declarative style.
+For example, building hello.exe from hello.c is simply:</p>
+
+<code><![CDATA[
+Program('hello.c')
+]]></code>
+
+<p>Another interesting feature is that SCons determines the need for
+building using an MD5 checksum of the file, so the need to build is
+determined more accurately.  For example, a C file may change, but
+if the .o file it produces hasn't (because the C file only changed a comment),
+then there's no need to execute the link step.</p>
+
+<p>BTW: the Cog question had to do with using Cog in an SCons environment,
+where the same file is both the input and output for Cog, and how to get
+SCons to do the right thing.  Anyone know?</p>
+
+</body>
+</entry>
+</blog>

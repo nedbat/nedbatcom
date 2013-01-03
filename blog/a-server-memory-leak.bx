@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080927T103044'>
+<title>A server memory leak</title>
+<category>debugging</category>
+<category>django</category>
+<body>
+
+<p>We pushed new code to our <a href='http://www.tabblo.com'>production
+servers</a> last week. There were a lot of changes, including our upgrade to
+<a href='http://www.djangoproject.com/weblog/2008/sep/03/1/'>Django 1.0</a>. As soon
+as the servers restarted, they immediately suffered, with Python processes bloated
+to 2Gb or more memory each. Yikes! We reverted to the old code, and began the process of finding the
+leak.</p>
+
+<p>These are details on what we (<a href='http://www.tabblo.com/studio/person/dcs'>Dave</a>,
+<a href='http://www.tabblo.com/studio/person/PeterAJP/'>Peter</a>, and I, mostly them)
+did to find and fix the problem.</p>
+
+<more>
+    
+<p>We used <a href='http://guppy-pe.sourceforge.net/'>Guppy</a>, a very capable
+Python memory diagnostic tool. It showed that the Python heap was much smaller than
+the memory footprint of the server process, so the leak seemed to be in memory
+managed by C extensions.</p>
+
+<p>We identified these C extensions:</p>
+
+<ul>
+<li><a href='http://www.pythonware.com/library/pil/handbook/index.htm'>Python Imaging Library</a></li>
+<li><a href='http://www.pdflib.com/'>PDFlib</a></li>
+<li><a href='http://numpy.scipy.org/'>numpy</a></li>
+</ul>
+
+<p>We tried to keep these possibilities in mind as we worked through our next steps.
+PIL and PDFlib in particular seemed likely given how heavily we use them, and because
+they traffic in large data (high-res images).</p>
+
+<p>We had some unit tests that showed fat memory behavior.  We ran
+<a href='http://valgrind.org/'>valgrind</a> on them hoping they would demonstrate
+a leak that we could fix.  Valgrind is a very heavy-weight tool, requiring
+<a href='http://svn.python.org/projects/python/trunk/Misc/README.valgrind'>re-compiling
+the Python interpreter</a> to get good results, and even so, we were overwhelmed
+with data and noise. The tests took long enough to run that other techniques
+proved more productive.</p>
+
+<p>Our staging server had been running the code for over a week, and showed no ill
+effects.  We tried to reason out what is the important difference between the staging server and the production
+server? We figured the biggest difference is the traffic they each receive. We
+tried to load up the staging server with traffic. An aggressive test downloading
+many dynamic PDFs quickly ballooned the memory on the staging server, so we suspected PDFlib
+as the culprit.</p>
+
+<p>Closely reading the relevant code, we realized we had a memory leak if an exception occurred:</p>
+
+<code lang='python'><![CDATA[
+p = PDF_new()
+# Lots of stuff, including an exception
+PDF_delete(p)   # Not called: leak!
+]]></code>
+
+<p>We felt pretty good about finding that, and fixed it up with a lot of unfortunate
+try/finally clauses.  We put the code on our staging server, and it behaved much
+better.  Lots of PDF downloads would still cause the memory to grow, but when the
+requests were done, it would settle back down again. So we liked the theory that
+this was the fix.  The only flaw in the theory was it didn't provide a reason why
+our old code was good and our new code was bad.  We put the fixed code on
+the production server: boom, the app server processes ballooned immediately.
+Apparently as good as this exception fix was for our PDFlib code, it wasn't the real problem.</p>
+
+<p>We tried chopping out functionality to isolate the problem.  Certain subsets of URLs
+were removed from the URL map to remove the traffic from the server. We ran the code
+for short five-minute bursts to see the behavior under real traffic, and it was no better.
+To be sure it wasn't still PDFlib somehow, we tried removing PDFlib by raising an
+exception at the one place in our code where PDF contexts are allocated. Memory
+still exploded. We tried removing PIL by writing a dummy Image.py that raises
+exceptions unconditionally. It didn't help.</p>
+
+<p>We tried logging requests and memory footprints, but correlations elusive. We
+tried changing the process architecture to use only one thread per process, no luck.</p>
+
+<p>We tried reverting all the Django 1.0 changes, to move back to the Django version
+we had been using before.  This changed back the Django code, and the adaptations
+we'd made to that code, but (in theory) left in place all of the feature work
+and bug fixes we had done.</p>
+
+<p>We pushed that to the servers, and everything performed beautifully, the
+server processes used reasonable amounts of memory, and didn't grow and shrink.
+So now we know the leak is either in the Django 1.0 code, or in our botched
+adaptation to it, or in some combination of the two. Many people are using
+Django 1.0, so it seemed unlikely to be as simple as a Django leak, so we
+focused on our Django-intensive code.</p>
+
+<p>Now that we'd narrowed it down to the Django upgrade, how to find it?  We went
+back to the request logs, examining them more closely for any clues. We found
+one innocuous-seeming URL that appeared near a number of the memory explosions.</p>
+
+<p>We took one app server out of rotation, so that it wasn't serving any live requests.
+Our nginx load balancer is configured so that a URL parameter can direct a request
+to a particular app server.  We used that to hit the isolated app server once with the
+suspect request.  Sure enough, the process ballooned to 1Gb, and stayed there.
+Then we killed that process, and did it again.  The Python process grew
+to 1Gb again.  Yay! We had a single URL that reproduced the problem!</p>
+
+<p>Now we could review the code that handled that URL, and eyeball everything for
+suspects.  We found this:</p>
+
+<code lang='python'><![CDATA[
+@memoize()
+def getRecentStories(num=5):
+    """ Return num most recent stories. Only public stories are returned.
+    """
+    stories = Story.objects.published(access=kAccess.public).\
+                exclude(type=kStoryType.personal).\
+                order_by('-published_date')
+    if num:
+        stories = stories[:num]
+    return stories
+]]></code>
+
+<p>Our @memoize decorator here caches the result of the function, based on its
+argument values.  The result of the function is a QuerySet.  Most of the code that
+calls getRecentStories uses a specific num value, so it returns a QuerySet for a small
+number of stories, and the caller simply uses that value (for example, in a template
+context variable).</p>
+
+<p>However, in this case, the getRecentStories function is called like this:</p>
+
+<code lang='python'><![CDATA[
+next_story = getRecentStories(0).filter(published_date__lt=the_date)[0]
+]]></code>
+
+<p>The QuerySet is left unlimited until after it is filtered by published_date,
+and then the first story is limited off.</p>
+
+<p>Now we're getting to the heart of one of our mysteries: why was the old
+Django code good, and the new Django code bad? The Django ORM changed a great
+deal in 1.0, and one of the changes was in what happened when you pickle a QuerySet.</p>
+
+<p>To cache a QuerySet, you have to pickle it.  Django's QuerySets are lazy: they
+only actually query the database when they need to.  For as long as possible, they simply
+collect up the parameters that define the query.  In Django 0.96, pickling a
+QuerySet didn't force the query to execute, you simply got a pickled version
+of the query parameters.  In Django 1.0, pickling the query causes it to query the database,
+and the results of the query are part of the pickle.</p>
+
+<p>Looking at how the getRecentStories function is called, you see that it returns
+a QuerySet for all the public stories in the database, which is then narrowed by
+the caller first on the published_date, but more importantly, with the [0] slice.</p>
+
+<p>In Django 0.96, the query wasn't executed against the database until the [0] had
+been applied, meaning the SQL query had a "LIMIT 1" clause added.  In Django 1.0,
+the query is executed when cached, meaning we request a list of all public stories
+from the database, then cache that result list.  Then the caller further filters
+the query, and executes it again to get just one result.</p>
+
+<p>So in Django 0.96, this code resulted in one query to the database, with a LIMIT 1
+clause included, but in Django 1.0, this code resulted in two queries.  The first
+was executed when the result was cached by the @memoize decorator, the second
+when that result was further refined in the caller. The second query is the same
+one the old code ran, but the first query is new, and it returns a <em>lot</em>
+of results because it has no LIMIT clause at all.</p>
+
+<p>The fix to reduce the database query was to split getRecentStories 
+into two functions: one that caches its result, and is used when the result will not be
+filtered further, and another uncached function to use when it will be filtered:</p>
+
+<code lang='python'><![CDATA[
+def getRecentStories(num=5):
+    """ Return num most recent stories. Only public stories are returned.
+        Use this function if you want to filter the results yourself.
+        Otherwise use getCachedRecentStories.
+    """
+    stories = Story.objects.published(access=kAccess.public).\
+                exclude(type=kStoryType.personal).\
+                order_by('-published_date')
+    if num:
+        stories = stories[:num]
+    return stories
+    
+@memoize()
+def getCachedRecentStories(num=5):
+    """ Return num most recent stories. Only public stories are returned.
+        If you need to filter the results further, use getRecentStories.
+    """
+    return list(getRecentStories(num=num))
+]]></code>
+
+<p>One last point about the Django change: should we have known this from reading
+the docs?  Neither the 
+<a href='http://code.djangoproject.com/wiki/QuerysetRefactorBranch'>QuerySet refactoring notes</a>
+nor the <a href='http://code.djangoproject.com/wiki/BackwardsIncompatibleChanges'>1.0 backwards incompatible changes</a>
+pages mention this change, or address the question of pickled QuerySets directly.
+Interestingly, an <a href='http://google.com/search?q=cache:A__91wTdVPYJ:www.djangoproject.com/documentation/db-api/+django+pickle+queryset&amp;hl=en&amp;ct=clnk&amp;cd=1&amp;gl=us'>older version of the docs</a>
+does describe this exact behavior. This changes was explicitly made and <a href='http://blog.michaeltrier.com/2008/5/6/this-week-in-django-21-2008-05-04'>discussed</a>,
+but seems to have been misplaced in the 1.0 doc refactoring. Of course, we may not
+have realized we had this behavior even if we had read about the change.</p>
+
+<p>So we've found a big difference in the queries made using the old code and the
+new code.  But why the leak?  The theory is that
+<a href='http://jjinux.blogspot.com/2008/09/python-debugging-memory-leaks.html'>MySQLdb has a leak which has been fixed on its trunk</a>.
+Looking at the MySQLdb code, it's pretty clear that they've been developing for
+a while since releasing version 1.2.2. Unfortunately, the MySQLdb trunk doesn't
+work under Django yet, so we can't verify the theory that MySQLdb is the source
+of the leak.</p>
+
+<p>Ironically, MySQLdb was not on our list of C extensions to look at.  If it had been,
+we might have identified it as the culprit with a Google search.  Since the MySQLdb
+trunk doesn't work under Django, I guess we would have hacked MySQLdb or Django
+to get them to work together. We would have run leak-free, but would be
+unknowingly executing the giant database query.</p>
+
+<p>The last mystery: why didn't the problem appear on our staging server?  Because it was running
+with a much smaller database than our production servers, so the "all public stories"
+query wasn't a big deal.  We learned a lesson there: sometimes subtle difference
+can make all the difference.  We need to keep the staging server's database as
+current as we can to make sure it's replicating the production environment as
+much as possible.  It's impossible to make them identical (for example, the staging
+server doesn't get traffic from search bots), but at times like this, it's important
+to understand what all the differences are, and minimize them where you can.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

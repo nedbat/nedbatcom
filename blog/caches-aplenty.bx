@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080904T214937'>
+<title>Caches aplenty</title>
+<body>
+<p>My laptop has a 100Gb drive, and recently it was 98% or so full!  As part of
+the job of cleaning it up, I used <a href='http://www.sixty-five.cc/sm/'>SpaceMonger</a>
+to see where it the space was going.  I noticed a few largish directories whose
+names indicated they were caches of some sort, and wondered how much disk was
+being lost to copies of files that I didn't really need to keep around.
+</p>
+
+<p>I cobbled together this Python script to recursively list the size of folders
+and files, but only if they exceed specified minimums:</p>
+
+<code lang='python'><![CDATA[
+""" List file sizes recursively, but only if they exceed
+    certain minimums.
+"""
+
+import stat, os
+
+# Minimum size for a file or directory to be listed.
+min_file = 10000000
+min_dir = 1000000
+
+format = "%15d   %s"
+dir_format = "%15d / %s"
+err_format = "            !!! ! %s"
+
+def do_dir(d):
+    """ Process a single directory, return its total size,
+        and print intermediate results along the way.
+    """
+
+    try:
+        files = os.listdir(d)
+    except KeyboardInterrupt:
+        raise
+    except Exception, e:
+        print err_format % str(e)
+        return 0
+
+    files.sort()
+    total = 0
+
+    for f in files:
+        f = os.path.join(d, f)
+        st = os.stat(f)
+        size = st[stat.ST_SIZE]
+        is_dir = stat.S_ISDIR(st[stat.ST_MODE])
+        if is_dir:
+            size = do_dir(f)
+        else:
+            if size >= min_file:
+                print format % (size, f)
+        total += size
+
+    if total >= min_dir:
+        print dir_format % (total, d)
+
+    return total
+
+if __name__ == '__main__':
+    do_dir(".")
+]]></code>
+
+<p>Running this on my disk, and grep'ing for "cache", I came up with this list of cache directories:</p>
+
+<code><![CDATA[
+       77428736 / .\Documents and Settings\All Users\Application Data\Apple\Installer Cache
+      193088296 / .\Documents and Settings\All Users\Application Data\Apple Computer\Installer Cache
+      127431856 / .\Documents and Settings\All Users\Application Data\Symantec\Cached Installs
+        1283586 / .\Documents and Settings\All Users\DRM\Cache
+        8904444 / .\Documents and Settings\batcheln\Application Data\Adobe\CameraRaw\Cache
+        3109555 / .\Documents and Settings\batcheln\Application Data\Dropbox\cache
+        9141658 / .\Documents and Settings\batcheln\Application Data\Microsoft\CryptnetUrlCache
+        6639905 / .\Documents and Settings\batcheln\Application Data\Sun\Java\Deployment\cache
+      244047364 / .\Documents and Settings\batcheln\Local Settings\Application Data\Adobe\CameraRaw\Cache
+       35706839 / .\Documents and Settings\batcheln\Local Settings\Application Data\Mozilla\Firefox\Profiles\0ou4abpz.default\Cache
+        1559441 / .\Documents and Settings\batcheln\Local Settings\Application Data\johnsadventures.com\Background Switcher\FolderQuarterScreenCache
+      381984768   .\Documents and Settings\batcheln\My Documents\My Pictures\Lightroom\Lightroom Catalog Previews.lrdata\thumbnail-cache.db
+       44671279 / .\Program Files\Adobe\Adobe Help Center\AdobeHelpData\Cache
+        1093120 / .\Program Files\Common Files\Microsoft Shared\SFPCA Cache
+     1139888470 / .\Program Files\Cyan Worlds\Myst Uru Complete Chronicles\sfx\streamingCache
+       73237698 / .\Program Files\Hewlett-Packard\PC COE 3\OV CMS\Lib\Cache
+       46559334 / .\WINDOWS\assembly\GAC
+       20606686 / .\WINDOWS\assembly\GAC_32
+       55143608 / .\WINDOWS\assembly\GAC_MSIL
+      105975390 / .\WINDOWS\Driver Cache
+       96353450 / .\WINDOWS\Installer\$PatchCache$
+        1898024 / .\WINDOWS\SchCache
+        1174871 / .\WINDOWS\pchealth\helpctr\OfflineCache
+      451465998 / .\WINDOWS\system32\dllcache
+]]></code>
+
+<p>(I also included the GAC directories: .net Global Assembly Caches).  Summing
+these sizes, I see that 3 Gb or so of space is occupied by self-declared caches.
+For many of these I don't know whether it is safe to delete them.  Luckily the
+largest was a game I installed for Max and could completely uninstall.
+</p>
+
+<p>Windows provides the Disk Cleanup utility, which knows how to get rid of a bunch
+of stuff you don't really need.  Application developers can even
+<a href='http://msdn.microsoft.com/en-us/library/bb776782(VS.85).aspx'>write a handler</a>
+to clean up their own unneeded files, but it seems application developers don't,
+as I don't have any custom handlers on my machine.</p>
+
+<p><a href='http://www.ccleaner.com/'>CCleaner</a> is a Windows utility to scrub
+a little harder at your disk, but even it missed some of these folders: for example,
+it removed the smaller of the CameraRaw caches (8 Mb), but left the larger (244 Mb).
+I read online that CameraRaw really doesn't need those files, so I removed them by hand.</p>
+
+<p>I'm all for applications making use of disk space to improve the user experience,
+but they should do it responsibly: give me a way to see what's being used,
+and give me a way to get it back.  And only keep what makes sense: why do my Apple
+Installer Cache directories have kits for three different versions each of iTunes,
+QuickTime, and Safari, and seven kits for Apple Mobile Device Support?  Why do I
+need to keep installers for versions that have already been superceded?</p>
+
+</body>
+</entry>
+</blog>

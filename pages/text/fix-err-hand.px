@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<page title='Fix error handling first'>
+<history>
+<what when='20030206T063100'>Created.</what>
+<what when='20070124T075400'>Edits for style, etc.</what>
+</history>
+
+<p>Often when unexpected errors first occur, I've found problems in the way
+the error is handled.  This isn't surprising: error handling code is often
+the least-exercised part of your system, so it's natural that there are bugs
+in it.
+It is important to fix the error handling problems first, then the original
+error.</p>
+
+<p>Sometimes there is a whole chaing of problems started by the original error condition,
+then compounded as layers of error handling code mis-handle the condition.
+Fix all the problems, backwards.
+</p>
+
+
+<h1>Error handling code</h1>
+
+<p>In any program, there will be code specifically designed to handle unusual
+situations, whether they be errors, exceptions,
+<a href='text/assert.html'>failed assertions</a>, edge conditions, odd input,
+whatever.  The important thing about this "anomaly code" is that it is not
+often executed, making it a good hiding place for bugs. Often it can be
+difficult to test: how can you make sure there's a bad block in a disk file
+to test your error handling logic?
+</p>
+
+<p>Estimates vary about what fraction of a large program is devoted to error
+handling, especially when different error handling techniques (status codes
+vs. exceptions, for instance) are taken into account.  I think five to ten
+percent is a reasonable estimate in a large well-developed application.
+That's a good slice of code that doesn't get regularly tested.
+</p>
+
+
+
+<h1>Fix error handling first</h1>
+
+<p>When a problem occurs in your application, always check first that the
+error was handled appropriately.  If it wasn't, always fix the handling code
+first.
+</p>
+
+	<box>Always fix error handling before fixing errors.</box>
+
+<p>This rule is like the airline rule of putting an oxygen mask on yourself
+before putting one on your child. There are a few reasons for insisting on
+this order of work:</p>
+
+<ol>
+<li>With the original error in place, you have a perfect test case for the bug
+in your error handling code.  Once you fix the original problem, how will you
+test the error handling? Remember, one of the reasons there was a bug there
+in the first place is that it is hard to test it.
+</li>
+
+<li>Once the original problem is fixed, the urgency for fixing the error
+handling code is gone.  You can say you'll get to it, but what's the rush?
+You'll be like the guy with the leaky roof.  When it's raining, he can't
+fix it because it's raining out, and when it isn't raining, there's
+no leak!</li>
+</ol>
+
+
+
+<h1>Cascading errors</h1>
+
+<p>In complex systems, we might be talking here about a whole chain of hidden
+bugs, all hidden until one problem triggers them, displaying them to you all
+at once.
+When that happens, analyze the chain, understand what went wrong at each step,
+and then fix the problems backwards.
+</p>
+
+	<box>Fix a chain of bugs backwards, from last observed problem back to the
+	original cause.</box>
+
+<p>This is the general statement of my original rule.  In each cause-and-effect
+pair, don't fix the cause until the effect is correct.  With a chain, the only
+effect you can fix first is the last one, because every other one is another
+effect's cause.</p>
+
+
+
+
+<h1>A real example</h1>
+
+<p>Here's an actual example that happened just the other day.
+The details have been changed for simplification (and to protect the innocent).
+Here's the log file:</p>
+
+<code>
+1 [trace] Getting user id...
+2 [crit!] Assertion failed: strlen(pUser->GetUserId()) > 0
+3 [error] No handler for failed assertion
+4 [trace] Prefs lookup: cache for  is empty
+5 [trace] Querying full user info...
+6 [trace] User  using  skin
+</code>
+
+<p>The first thing wrong here is at line 2, where a critical error occurs:
+a <a href='text/assert.html'>failed assertion</a>.  The programmer thought
+it was impossible to have an empty string for a user id.  He was wrong.</p>
+
+	<box>If it happens, it must be possible.</box>
+
+<p>In the real bug this is based on, the cause was another server that was
+unavailable, but it doesn't matter: clearly somehow the user id was
+an empty string, so an assertion is the wrong way to deal with it. Bug 1.
+</p>
+
+<p>At line 3, we see that the assertion infrastructure is not properly
+initialized, and there is no handler for failed assertions, so it is ignored.
+Bug 2.
+</p>
+
+<p>At line 4, the preferences cache is being asked for information about the user,
+using the empty string as an id, and the cache is trying to find the user
+(see the double space in the phrase "cache for&#160;&#160; is empty"? That's the empty
+user id in that message).
+The cache should know enough not to accept an empty string as a user id.  Bug 3.
+</p>
+
+<p>At line 5, the user's full information is queried, and at line 6, the results
+of the user query are back, and they aren't good.  Not only has the user
+database gladly accepted an empty string as a user id, but it has returned empty
+strings back as the results.
+The log message here has two cases of double-space, showing the two places where
+empty strings are being used as words.
+Bug 4.
+</p>
+
+
+
+<h1>The wrong way to fix it</h1>
+
+<p>In this example, the simple thing to do is to find the server that was down,
+bring it back up and try again.  The server will be available, the user
+id will be properly retrieved, it will find real results in the cache and the
+database, and all will be well. Right?
+</p>
+
+<p>Wrong. You won't have fixed any bugs <emdash/> our first bug wasn't that the server was down,
+it was that we mis-handled the server being down.
+The next time the server is unavailable, everything will go wrong again.
+</p>
+
+
+
+<h1>The right way to fix it</h1>
+
+<p>Work backwards, starting with the last problem.  Fix the database so that
+it detects bogus ids, and returns some sort of error.  Run the application again,
+and see that bugs 1 through 3 still happen, but number 4 has been fixed.</p>
+
+<p>Work on bug 3: fix the cache so that it detects bogus ids, and returns
+some sort of error (perhaps throwing an exception).  Run the app again, and see that
+bugs 1 and 2 still happen, but number 3 has been fixed.  Notice that at this point,
+you can't tell if bug 4 is fixed or not: the bogus user id never gets to the
+database, so it never gets a chance to show that it can detect it.  This is why
+we had to fix (and test!) bug 4 first.  Bug 4 only happens when bugs 1 through 3
+are still in the system.</p>
+
+<p>Fix bug 2: make sure the assertion handler is properly initialized,
+or make sure that if it is not, something dramatic (like a dialog box or a thrown
+exception) happens.</p>
+
+<p>Fix bug 1: don't assert that the user id can't be the empty string. Clearly it can.
+Throw an exception instead.</p>
+
+<p>Now that all four of the bugs are fixed, you can do something about the <em>real</em>
+problem: the application didn't handle an unavailable server well.  There's tons of
+ways to deal with this (retries, fail over, caches, redundant sources), but that's
+off the topic.
+</p>
+
+
+
+<h1>Putting it into practice</h1>
+
+<p>Working strictly backward like this can be difficult.  For one thing, the four bugs
+could have ended up with different developers, and coordinating their efforts to be sure
+the bugs were fixed (and tested) in reverse order would have been too constraining.
+(In the real bugs my example was based on, the four bugs were handled by three different
+developers).
+</p>
+
+<p>You may be under time pressure, and don't have the luxury of fixing all four bugs in
+turn.  The boss is screaming for the system to start working again, and won't want to
+hear about some "theoretical" improvement.  As far as he's concerned, everything's broken
+until the system is running again.</p>
+
+<p>Some people would even argue that fixing all four bugs was unnecessary.
+Consider bug 4.  Once
+the database client is fixed so that it never requests data about the empty user id,
+why does it matter what the database server does with an empty user id?
+So it's not a bug any more, right?</p>
+
+<p>In the real world,
+there are all sorts of constraints and pressures (time, ownership, expertise, etc)
+that may convince you not to fix bugs.  I understand that <emdash/> we all have to ship product,
+and we're all only human.  But the fact remains that bug 4 was a real bug. It
+may be latent, it may be hard to fix, it may be expedient not to fix it, but let's not
+kid ourselves: it is a bug.  A bug you can't see is still a bug.
+</p>
+
+<p>Fixing code is easiest when you can run it, and error handling code is only run when there
+are errors happening for it to handle.  Broken error handling code is just a future mysterious
+accident waiting to happen.  Fix error handling code before fixing errors.
+</p>
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/assert.px'/>, about the theory and practice of assertions.</li>
+<li><apage pref='text/log-style-guide.px'/>, about good practice in writing log messages.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed,
+including <a href='blog/20041215T061308.html'>the pitfalls of fixing error handling first</a>.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

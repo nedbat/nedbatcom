@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060105T073557'>
+<title>Email validation in PHP</title>
+<category>php</category>
+<category>email</category>
+<body>
+<p>Naturally, fixing a bug in my comment system and mentioning it here yesterday merely encouraged
+the quiet malcontents to bring up their petty annoyances! I'm kidding: keep the bug reports coming.
+<a href='http://pl.atyp.us'>Platypus</a>
+pointed out that the email validation didn't deal properly with his domain name.
+</p>
+
+<more text='See the code'>
+
+<p>So I've improved the email validation code.  I know what a lot of you are thinking: why validate
+the email at all? I do it because it's a good way to prevent spam.  Maybe someday I'll get rid of it,
+but for now it stays.
+</p>
+
+<p>The problem in Platypus's case is that
+I look up MX records for the domain, and pl.atyp.us doesn't have one, but atup.us does.
+This is the code I'm now using:</p>
+
+<code lang='php'><![CDATA[
+function IsValidEmail($email)
+{
+    // I got this originally from
+    // http://www.developer.com/lang/php/article.php/10941_3290141_2
+    // Create the syntactical validation regular expression
+    $atom_re = "[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+";
+    $regexp = "/^(" . $atom_re . ")(\\." . $atom_re .
+                ")*@([a-z0-9-]+)(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$/i";
+
+    // Presume that the email is invalid
+    $valid = 0;
+
+    // Validate the syntax
+    if (preg_match($regexp, $email)) {
+        if (function_exists("getmxrr")) {
+            list($username, $domaintld) = split("@", $email);
+            while (substr_count($domaintld, ".") > 0) {
+                // Validate the domain
+                if (getmxrr($domaintld, $mxrecords)) {
+                    $valid = 1;
+                    break;
+                }
+
+                // Didn't find an MX record.
+                // If we have a subdomain, move up the hierarchy.
+                list($dummy, $domaintld) = split(".", $domaintld, 2);
+            }
+        }
+        else {
+            // Couldn't check the domain with getmxrr, assume the best.
+            $valid = 1;
+        }
+    }
+
+    return $valid;
+}
+]]></code>
+
+</more>
+
+<p>Anyone else have a complaint?</p>
+
+<p><i>Updated:</i> I've since improved the code to deal with some of the issues
+in the comment thread here: <a href='blog/20060107T093734.html'>Email validation again</a>.
+</p>
+
+</body>
+</entry>
+</blog>

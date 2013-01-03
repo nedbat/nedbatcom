@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110710T085252'>
+<title>Caged python</title>
+<category>python</category>
+<body>
+    <p>For a presentation, I wanted to produce samples of Python interactive sessions.  
+        I could have opened a terminal window and typed my input, and copied the
+        resulting session and pasted it into a text file, but that's not repeatable,
+        and is labor intensive and error-prone.</p>
+
+    <p>I looked for ways people had done this in the past, and didn't find the
+        thing that I'm sure is out there, but it's fun to do it yourself
+        anyway.  The <a href='http://docs.python.org/library/code.html'>code
+            module</a> in the standard library provides most of the heavy
+        lifting, but there's a little input and output grabbing and tweaking to
+        be done.  Here's what I ended up with:</p>
+
+<code lang='py'><![CDATA[
+"""A python prompt in a cage, for producing prompt sessions."""
+
+import code
+import cStringIO as StringIO
+import sys
+import textwrap 
+
+class CagedPrompt(code.InteractiveConsole):
+    def __init__(self):
+        env = {'__name__': '__main__'}
+        code.InteractiveConsole.__init__(self, env)
+        self.out = StringIO.StringIO()
+
+    def run(self, input):
+        self.inlines = textwrap.dedent(input).splitlines()
+        old_stdout = sys.stdout
+        sys.stdout = self.out
+        self.interact("Python " + sys.version.split("[")[0])
+        sys.stdout = old_stdout
+        self.output = self.out.getvalue()
+
+    def raw_input(self, prompt):
+        try:
+            line = self.inlines.pop(0)
+        except IndexError:
+            raise EOFError
+        if line or prompt == sys.ps2:
+            self.write("%s%s\n" % (prompt, line))
+        else:
+            self.write("\n")
+        return line
+
+    def write(self, data):
+        self.out.write(data)
+
+def prompt_session(input):
+    cp = CagedPrompt()
+    cp.run(input)
+    return cp.output
+
+if __name__ == '__main__':
+    TEST_INPUT = """\
+        2+2
+        import random
+        random.random()
+        class Foo:
+            pass
+
+
+        f = Foo()
+        f
+        """
+
+    print prompt_session(TEST_INPUT)
+]]></code>
+
+<p>Running it produces:</p>
+
+<code><![CDATA[
+$ python cagedprompt.py
+Python 2.6.6 (r266:84297, Aug 24 2010, 18:13:38)
+>>> 2+2
+4
+>>> import random
+>>> random.random()
+0.48519166487066712
+>>> class Foo:
+...     pass
+...
+
+>>> f = Foo()
+>>> f
+<__main__.Foo instance at 0x00000000025B6448>
+]]></code>
+
+<p>There's a few small ways the output differs from a real interactive session:
+    the initial banner is shorter, and a blank line in the input will produce a
+    true blank line in the output.  These make the output nicer to use for
+    presentations.  Now I can use the prompt_session function to get the
+    textual output of a Python prompt fed with a particular input. Nice.</p>
+
+</body>
+</entry>
+</blog>

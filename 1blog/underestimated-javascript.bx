@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040527T075652'>
+<title>Under-estimated javascript</title>
+<category>js</category>
+<via />
+<body>
+<p>I keep re-discovering the same thing about JavaScript:
+it's deeper and sturdier than its reputation.
+Because it is mostly used by HTML gurus, and often for small effects,
+it is easy to see JavaScript as a simple shallow language for adding
+just a little bit of code to web pages.
+But it really is a full-featured powerful functional programming language.
+</p>
+
+<p>Simon brought it home once more with
+<a href='http://simon.incutio.com/archive/2004/05/26/addLoadEvent'>Executing JavaScript on page load</a>,
+where he uses closures and functions as first class objects
+to solve a web page modularity problem:</p>
+
+<code lang='javascript'><![CDATA[
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      oldonload();
+      func();
+    }
+  }
+}
+]]></code>
+
+</body>
+</entry>
+</blog>

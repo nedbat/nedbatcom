@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100327T101741'>
+<title>A real Turing machine</title>
+<category>machinery</category>
+<category>hardware</category>
+<category>history</category>
+<body>
+<p>In 1936, Alan Turing wrote a landmark paper about what kinds of numbers could be
+computed: <a href='http://www.thocp.net/biographies/papers/turing_oncomputablenumbers_1936.pdf'>On Computable Numbers</a>.
+In it, he described what's now known as a Turing machine, which computes with 
+a tape it can scroll back and forth, reading and writing ones and zeros,
+and transitioning among internal states based on a program.
+</p>
+
+<p>It was only a thought experiment, a hypothetical machine meant to explore the
+possibilities of an ultra-simple computer.  That is, it was, until Mike Davey
+built <a href="http://aturingmachine.com/index.php">an actual Turing machine</a>.
+Not an electronic one, but an actual mechanical device that reads and writes ones
+and zeros on a scrolling tape:</p>
+
+<figurep>
+    <object width="480" height="295">
+        <param name="movie" value="http://www.youtube.com/v/WJ-ODmFjmrU&amp;hl=en_US&amp;fs=1&amp;"></param>
+        <param name="allowFullScreen" value="true"></param>
+        <param name="allowscriptaccess" value="always"></param>
+        <embed src="http://www.youtube.com/v/WJ-ODmFjmrU&amp;hl=en_US&amp;fs=1&amp;"
+               type="application/x-shockwave-flash" allowscriptaccess="always"
+               allowfullscreen="true" width="480" height="295">
+            
+        </embed>
+    </object>    
+</figurep>
+
+<p>It's a great piece of work, complete with a single-step debugger.  The
+craftsmanship and dedication to the original description are remarkable.
+And it's amazing to see the juxtaposition of the spool of primitive tape,
+being driven by an SD card which is commonplace now, but has millions of times
+the capacity and accessibility.
+</p>
+
+</body>
+</entry>
+</blog>

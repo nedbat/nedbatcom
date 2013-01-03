@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060506T132734'>
+<title>Search engine indexing limits</title>
+<category>search</category>
+<via />
+<body>
+<p>Serge Bondar did a controlled experiment to see how much text on a page
+matters to the big three search engines.  He created very long pages with
+unique made-up words inserted into them at regular intervals.  Then he
+watched the server logs to see how much data the search engines actually
+pulled down.  Then he waited for his unique marker words to turn up in
+search results.</p>
+
+<p>He found that Yahoo only cares about the first 210Kb, Google gets bored
+after 520Kb, and MSN persists through 1.1Mb.  Read about the entire
+experiment: 
+<a href='http://www.sitepoint.com/article/indexing-limits-where-bots-stop'>Search Engine Indexing Limits: Where Do the Bots Stop?</a>
+</p>
+
+<p>When I read the results, I worried because my blog archives are organized
+into monthly pages.  I thought maybe they were long enough that some content
+wasn't getting indexed properly.  Turns out, no need to worry. 
+My longest archive page is 
+<a href='blog/200311.html'>November 2003</a>, at 119Kb.
+My <a href='blog/archiveall.html'>complete archive listing</a> is longer,
+just at Yahoo's limit of 210Kb, but that I prevent that page from being 
+indexed anyway, since it is just a long list of post titles.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<page title='Fingerprinting a SQL database schema'>
+
+<p>A relational database provides a very powerful underpinning for data-rich 
+applications or servers, but it means that some part of your application is
+represented in the database schema.  How can you guarantee that your application
+is using the schema it should?</p>
+
+<h1>The Problem: Two Worlds</h1>
+
+<p>Part of building an application (or server - I'll use the word "application" to
+mean any code making use of the database) on a relational database is designing the
+schema: the tables, triggers, and stored procedures used to structure and manipulate
+your data.  Depending on the complexity of your application, significant work can go
+into the schema, and it can be responsible for important functionality.</p>
+
+<p>These applications must bridge two different worlds: the Java (or C++, or whatever)
+code in the application itself, and the SQL code in the schema.  Each world has its
+own customs and conventions.  For example, in the Java world, code is compiled, and the custom
+is to store the source code in a versioned repository such as CVS.  To a Java developer,
+the "real" code is whatever is stored in CVS.  When a Java developer says something is fixed, she
+means that the fix has been checked into CVS.</p>
+
+<p>In the SQL world, on the other hand, there is no strong culture for how to maintain
+schemas: each shop does it differently, relying heavily on the skills and preferences
+of the database administrator or designer.  To a SQL admin, the "real" code may be
+whatever is running on the production server.  When a SQL admin says something is fixed, he may
+mean that he has applied the change to the main server.</p>
+
+<p>Even in a SQL environment with tightly controlled schemas, the
+database schema can be changed dynamically.  Maybe a developer missed an update on his
+development machine.  Maybe someone was experimenting with new features, and forgot to
+reset the database to the correct state.  The fact that the schema is dynamically changable
+means that in practice, it will be changed.</p>
+
+<h1>What Can Go Wrong</h1>
+
+<p>The Java code will have been written assuming a certain database schema.  For example,
+a SQL query like this one may be built in:
+<code>SELECT name, ssnum, mgr FROM people</code>
+If the PEOPLE table has these three columns, everything is fine.  If someone 
+changed the column name to MANAGER because they liked the full spelling better, the query will fail.</p>
+
+<p>Now you may say, "But this is the same as if a Java developer changed a variable name:
+the developer has to know to change the name everywhere."
+To an extent, it is the same, except: in the Java case, the compiler will catch the problem, 
+and you won't have a runnable application.  Any change like this in any line of Java code will be
+caught as soon as it is compiled.  In the SQL case, the problem isn't caught until
+the query is run.  What if the query is rarely used? How many hours of testing will it take
+to find it?</p>
+
+<p>And there are more subtle problems as well: suppose a column's default value changes (for
+example, from an empty string to "None").  Now new data in the database will have different
+values than they used to.  Perhaps the code using the values will work properly, but perhaps
+it won't.  Now if the code fails, it doesn't even fail near the changed schema, but much later
+when the data is used by an unsuspecting chunk of code.</p>
+
+<h1>Asserts</h1>
+
+<p>A standard technique for dealing with these sorts of problems is an assert.  A condition
+that should always be true is tested, and if found to be false, an alert is raised so that
+a developer can debug the problem and fix it.</p>
+
+<p>For example, if a routine takes an argument that must be less than 10,
+an assert can be used to be sure the condition is satisfied:
+
+<code><![CDATA[/**
+ * Do something cool.
+ * @param num how many, must be less than 10.
+ */
+public void DoSomethingCool(int num)
+{
+    Assert.isTrue(num < 10, "Can't do more than nine!");
+    // Do something cool.
+}
+]]></code></p>
+
+<p>What we'd like to do in the relational schema case is to come up with some way to write:
+
+<code>Assert.isTrue(the schema is correct);</code>
+</p>
+
+<h1>Queryable Schemas</h1>
+
+<p>Luckily, most relational databases (maybe all) allow you to query the database not only about
+the data, but about the schema itself.  For example, this query:
+
+<code>SELECT object_name, object_type FROM user_objects</code>
+
+produces a list of the names and types of all the user-defined objects in the schema.</p>
+
+<p>We can use this "queriability" of the schema to build our assert.  The idea is to execute
+a series of queries against the schema, producing something like a report about the schema.
+Once the schema has been expressed in this text form, we can verify that it is correct.</p>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<h1>The Problem</h1>
+
+<p>When working on a Java-based Oracle-backed web service not long ago, I learned
+a thing or two about software engineering simultaneously in these two worlds (Java and SQL):
+
+<ul>
+<li>The role of database adminstrator (the person who keeps a database running optimally,
+doing backups, guaranteeing availability, and so on), and the role of database designer
+(the person who decides on the database schema, the tables, columns, and so on) are not 
+always clearly distinguished.  For example, while everyone may agree that tables should
+only be changed by the designer, there may be disagreement about how gets to fiddle with
+indexes.</li>
+
+<li>Java developers (or C++, for that matter) are accustomed to using a source-code control
+system (like CVS) to store their code.  To a Java developer, "the truth" about the code is
+whatever is in CVS.  For a database administrator or designer, "the truth" may be what is
+running on the main database.  For example, when a Java developer says something is fixed, 
+they mean that the code has been modified and checked into CVS.  When a database admin
+says something is fixed, they probably mean the change has been applied to the database.</li>
+
+</ul>
+</p>
+
+<p>Db Admins suck.</p>
+<p>Managing SQL schemas sucks.</p>
+
+<h1>THe solution</h1>
+
+<p>MD5 over SQL schema tables.</p>
+ -->
+ 
+</page>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040514T065359'>
+<title>How not to deal with exceptions</title>
+<category>howto</category>
+<category>coding</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>This is not how to deal with exceptions:</p>
+
+<quotep>
+<a href="http://www.nedbatchelder.com/text/exceptions-in-the-rainforest.html">Ned</a>
+continues a discussion
+<a href="http://www.joelonsoftware.com/items/2003/10/13.html">Joel started</a>
+about exceptions in software.
+Fortunately for me I mostly ignore exceptions because
+I don't really give a damn how well my software works -
+just that I get paid (and quick!).
+Its possible this is wrong.
+[Force moral quandry to bottom of mental stack (*grunt*)... aaaannnnddd... its gone. Much better.]
+</quotep>
+
+<p>[Note: Normally I wouldn't copy the entry here, but a number of readers reported that following
+the <a href='http://six-fourteen.blogspot.com/#106642385892403242'>original link</a>
+crashed their Mozilla browser.  I also saw strange intermittent behavior on that page,
+where at some point, the text becomes a garbled mess.
+Perhaps there's a server problem?  Perhaps the author of the entry wrote the software?]
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041018T170156'>
+<title>Where XML goes astray</title>
+<category>xml</category>
+<via id='keithdevens'/>
+<body>
+<p>Derek (no last name) is a lead developer at Microsoft on their XML libraries
+(first MSXML and now System.Xml).  He's just started a blog, and he seems to know
+what he's talking about.
+His post <a href='http://nothing-more.blogspot.com/2004/10/where-xml-goes-astray.html'>Where XML Goes Astray</a>
+correctly hits some of the dark corners of XML.
+He especially gets right the difference between documents and data, and understands
+that XML was fundamentally aimed at documents, which is what makes data difficult sometimes.
+</p>
+
+<p>The problem with XML is the M.  The X and the L are just fine.
+Remember, the M stands for Markup, which means adding meta-information (tags)
+in and around a body of text.
+</p>
+
+</body>
+</entry>
+</blog>

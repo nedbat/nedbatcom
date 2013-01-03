@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050525T184320'>
+<title>Bad hardware</title>
+<category>admin</category>
+<category>networks</category>
+<via />
+<body>
+<p>Yesterday, I had a bad morning at work. Nothing was working right.
+It's working now, and I guess I learned something.</p>
+
+<more>
+
+<p>I was working on a new feature in our product that required changes in both the client
+and server.  The server runs on Windows 2003, but the Dell desktop computers we
+have won't run that OS for some reason to do with network card drivers, so I've
+installed the server on a Virtual PC.  So I have the server and the client on the
+same box, the client running on Windows XP on the physical hardware, and the
+server on Windows 2003 in the Virtual PC.  To add to the Alice-In-Wonderland
+confusion, I typically use this machine through a Remote Desktop Connection
+from my laptop.
+</p>
+
+<p>Yesterday morning, the client and the server wouldn't talk to each other.
+Or, they would, but only intermittently.
+Other times, SOAP requests would time out, with no other error information displayed.</p>
+
+<p>I checked the server's log files.  No info.
+I checked the web server log files: nothing strange, though sometimes there seemed
+to be no evidence of the client connecting at all, which in itself was strange.</p>
+
+<p>Maybe it was a Virtual PC thing.  I applied a recently released service pack.
+Nothing improved.  I applied Windows Updates to the operating system.  No better.</p>
+
+<p>I used <a href='http://www.ethereal.com/'>Ethereal</a> to examine the network traffic.
+There were many strange things happening there, but I don't understand most of that
+packet stuff even when everything is going right.
+It was telling us that TCP checksums were wrong, for example.</p>
+
+<p>At this point, the Remote Desktop began acting up, so I had to haul in a monitor
+and keyboard to use on the box.  The network was getting flakier by the minute.
+I finally gave up and asked our part-time IT guy for help.  He gave a cursory glance
+over the situation, and said, "I don't know, maybe it's a bad NIC card. Let's try a new one."
+</p>
+
+<p>As a software engineer, the tempation is always great to assign blame to other components:
+the compiler, the operating system, the libraries, the hardware, the network.  I've
+learned through hard experience that it is almost never one of those things.
+When you are running your own software, and especially when you are debugging your own
+software, don't be fooled: no matter how strange things are behaving, the fault lies in
+your software.  So when IT guy shrugged and said it might be a bad NIC, I didn't hold
+out much hope.  On the other hand, nothing else I had tried was working, and at least
+someone else was working on it.
+</p>
+
+<p>So IT guy plugged in a new network card, and everything worked flawlessly!
+It was as if SOAP timeouts had never existed.
+I guess in retrospect the Ethereal traces should have put up a red flag.
+This machine had been working fine for months.  Now all of a sudden it doesn't work?
+Who can explain such a thing?
+</p>
+
+<p>Sometimes, it really is the hardware.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='utf-8'?>
+<page title='Erroneously empty code paths'>
+<history>
+<what when='20020410T203603'>Created as a blog entry.</what>
+<what when='20021121T213700'>Updated with more examples.</what>
+<what when='20030110T200400'>Edited.</what>
+<what when='20030215T112700'>Added the See Also section.</what>
+<what when='20040828T154300'>Clarified the code samples to use the right ASSERT macro</what>
+</history>
+
+<p>When writing code, if you want to leave a code path
+empty (for example, because it's a placeholder for more code to be written in the future,
+or because you think it isn't a case that can arise, or you just don't feel like writing
+it), don't leave it empty.</p>
+
+
+
+<h1>Don't do nothing if nothing isn't the correct thing to do</h1>
+
+<p>An empty code path should only exist for cases where truly nothing should happen.
+If nothing isn't the right thing, then don't leave the code path empty.
+I'll state it again, as a strict rule:</p>
+
+	<box>
+	Your code should only do nothing if nothing is the correct thing to do.
+	</box>
+
+
+<p>The reason is this: it is very hard to debug a problem if the root cause is that nothing
+happened when something should have.</p>
+
+<p>Rather than leave an empty code path, write an <a href='text/assert.html'>assert</a>
+that expresses your intentions.
+For example, if you simply haven't written the code yet, then instead of this:</p>
+
+<code lang='c++'><![CDATA[
+if (IsThisATrickyFutureCase()) {
+    // todo: write some code...
+}
+]]></code>
+
+<p>do this:</p>
+
+<code lang='c++'><![CDATA[
+if (IsThisATrickyFutureCase()) {
+    // todo: write some code...
+    ASSERTMSG(FALSE, "Not yet implemented");
+}
+]]></code>
+
+<p>(ASSERTMSG is a macro with two arguments: an expression which must be true,
+and a message to display if somehow the expression is not true.
+Using an assert expression of FALSE means the message will always be displayed if
+execution reaches that point.)</p>
+
+<p>Now when the tricky future case finally arrives, instead of nothing happening,
+and possibly making your whole system behave mysteriously,
+an assert will be raised,
+and it will be very clear that some code needs to be written.</p>
+
+
+
+<h1>Overly defensive coding</h1>
+
+<p>I've seen this kind of code too much:</p>
+
+<code lang='c++'><![CDATA[
+CFoo * pFoo = CreateNewFoo();
+if (pFoo != NULL) {
+    pFoo->DoSomethingWithFoo();
+}
+]]></code>
+
+<p>In this case, CreateNewFoo() is a function that never returns NULL.
+The coder was torturing himself with "what-if" scenarios.
+By only using pFoo if it is not NULL, he avoided a crash in the dereferencing operator.
+But he hasn't done anything useful about the problem of pFoo being NULL:
+nothing happens, no message is displayed, and the code continues on.
+Who knows how far it will continue before a symptom finally appears?</p>
+
+<p>In this case, the bogusly-empty path is the missing else clause.
+But rather than add the else clause, let's choose a different way to express our
+paranoid concern that somehow pFoo might be NULL.</p>
+
+<p>Much better would be:</p>
+
+<code lang='c++'><![CDATA[
+CFoo * pFoo = CreateNewFoo();
+ASSERT(pFoo != NULL);
+pFoo->DoSomethingWithFoo();
+]]></code>
+
+<p>Now if pFoo is NULL, a failed assertion is raised.  And the next developer
+reading this code understands what is going on: pFoo should never be NULL.
+In the earlier code, the next reader of the code will be led to believe (erroneously)
+that sometimes pFoo might be NULL.</p>
+
+
+
+<h1>Too much?</h1>
+
+<p>Some would claim that leaving these asserts all over is too compulsive.
+It may be, and there will be plenty of them that are never triggered,
+or that are removed (to be replaced by real code) a short time later.
+But, it is not hard to put these asserts in, especially once you get in the habit,
+and if even one of them fires, it will save you fifteen minutes (or more)
+of head scratching to figure out how everything got into some "impossible" state.</p>
+
+<p>And if you provide yourself with a rich set of tools ahead of time:</p>
+
+<code lang='c++'>
+#define NOT_YET_IMPLEMENTED() ASSERTMSG(FALSE, "Not yet implemented")
+#define SHOULD_NOT_HAPPEN()   ASSERTMSG(FALSE, "Should not happen")
+#define CANT_BE_NULL(p)       ASSERTMSG((p) != NULL, "NULL pointer!")
+</code>
+
+<p>you can have expressive, strict code with very little trouble.  These examples are in C++,
+where the preprocessor helps a bit, but the same is true in any language: your code should
+only do nothing if nothing is the correct thing to do.</p>
+
+
+
+
+<h1>Other examples</h1>
+
+<p>There are plenty of opportunities for bad empty code paths.</p>
+
+<h2>Switch defaults</h2>
+
+<p> Consider a switch over an enumeration.
+If you have an explicit case label for every defined value of
+the enumeration, what should the default clause be?</p>
+
+<code lang='c++'><![CDATA[
+switch (type) {
+    case kTypeA:
+        HandleTypeA();
+        break;
+    case kTypeB:
+        HandleTypeB();
+        break;
+    default:
+        SHOULD_NOT_HAPPEN();
+        break;
+}
+]]></code>
+
+<p>The default clause of a "complete" switch is a classic example of an empty code path
+(and a tricky one, since it is an invisible code path if there is no explicit "default" clause).
+But by putting a SHOULD_NOT_HAPPEN in the default clause, you have an early warning system
+for incorrect changes to the code.</p>
+
+<p>We've all worked on systems that have grown to the point
+that to add a new "thing", you have to modify ten different places to add the new thing to
+the list of cases.  If you miss one, how will the system behave? How will you discover that
+you missed one?  You could write a document that explained how to add a new thing, and having
+that document is unquestionably a Good Thing.  But the document falls out of date, or is lost,
+or is simply not trusted by the code-hardened developer.  By plugging the empty code path
+holes with asserts, missed cases become immediately obvious.</p>
+
+
+<h2>Stub implementations</h2>
+
+<p>When working with abstract <a href='text/interfaces.html'>interfaces</a>,
+there may be many implementations of a single interface.
+These implementations may be owned by different groups, or require
+different skills to extend.  What happens when a new method is added to the interface?
+</p>
+
+<p>If an implementation of the interface is missing the new method, then that
+implementation will not compile.  So the creator of the new method has to provide stub
+code in all of the implementations, or leave the code in an uncompilable state.
+What's the right way to stub out a method you can't yet implement?
+</p>
+
+<code lang='c++'><![CDATA[
+void
+CNotMyImplementation::NewMethod()
+{
+    // Didn't know how to write the code, Joe will have to do it.
+    NOT_YET_IMPLEMENTED();
+}
+]]></code>
+
+<p>This way the missing method announces itself (loudly) so that it won't go forgotten.</p>
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/fix-err-hand.px'/>, about making sure
+your entire system is as robust as it can be.</li>
+<li><apage pref='text/assert.px'/>, about the theory and practice of assertions.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

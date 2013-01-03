@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030429T222943'>
+<title>Looking for heap tools</title>
+<category>help</category>
+<category>tools</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I'm looking for tools for understanding how memory is being allocated and freed
+in my C++ heap.
+<a href='http://www.cbmamiga.demon.co.uk/mpatrol/index.html'>mpatrol</a> looks very
+full-featured, but perhaps a bit too grungy to get going.  I like that it is free,
+but would feel more optimistic about my chances with it if it mentioned Visual C++
+anywhere in its documentation (it's very GNU-centric).
+</p>
+
+<p>Does anyone have any recommendations for good tools that aren't too expensive
+(free is ideal!), can report on leaks, fragmentation, etc, and is fairly painless
+to get started with?
+</p>
+
+<p><a href='http://www.cs.colorado.edu/homes/zorn/public_html/MallocDebug.html'>Here's a list of such tools</a>,
+though I get the sense that it is a few years out-of-date.
+</p>
+
+</body>
+</entry>
+</blog>

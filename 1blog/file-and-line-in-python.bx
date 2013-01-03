@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041003T074926'>
+<title>__FILE__ and __LINE__ in Python</title>
+<category>python</category>
+<category>coding</category>
+<via />
+<body>
+<p>In C++, if you want your code to talk about itself, you often use the predefined
+magic macros __FILE__ and __LINE__ to get the filename and line number of the current
+line:
+</p>
+
+<code lang='cpp'><![CDATA[
+// Use this macro if you can't write the code yet.
+#define NOTYET()    NoCodeYet(__FILE__, __LINE__);
+
+void NoCodeYet(const char * pszFile, int nLine)
+{
+    fprintf(stderr, "No code yet at %s(%d)\n", pszFile, nLine);
+}
+
+//...
+
+void ComplicatedFunctionFromTheFuture()
+{
+    NOTYET()       // I'll get to this later.
+}
+]]></code>
+
+<p>This provides a convenient way to leave breadcrumbs that will direct you to the
+spot in the code later.</p>
+
+<p>How to do it in Python?  With help from the
+<a href="http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/0596001673/qid=1096805059/sr=8-1/ref=pd_csp_1/103-3324532-4573467?v=glance&amp;s=books&amp;n=507846">Python Cookbook</a>,
+I created this.  It uses scary functions from sys
+(_getframe has a leading underscore and is described as "for internal and specialized uses only"):</p>
+
+<code lang='python'><![CDATA[
+def _functionId(nFramesUp):
+    """ Create a string naming the function n frames up on the stack.
+    """
+    co = sys._getframe(nFramesUp+1).f_code
+    return "%s (%s @ %d)" % (co.co_name, co.co_filename, co.co_firstlineno)
+
+def notYetImplemented():
+    """ Call this function to indicate that a method isn't implemented yet.
+    """
+    raise Exception("Not yet implemented: %s" % _functionId(1))
+
+#...
+
+def complicatedFunctionFromTheFuture():
+    notYetImplemented()
+]]></code>
+
+<p>This goes one further than the C++ technique, by providing the function name
+as well as the file and line.
+</p>
+
+</body>
+</entry>
+</blog>

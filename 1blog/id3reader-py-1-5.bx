@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040803T074143'>
+<title>Id3reader.py, 1.5</title>
+<category>mycode</category>
+<category>music</category>
+<via />
+<body>
+<p>I've updated my Python module <a href='code/modules/id3reader.html'>id3reader.py</a>
+to version 1.5.  It now supports genre information (although genres are stupid),
+and does a better job handling the vast variety of character encodings.
+</p>
+
+<p>I feel kind of silly about this update, because I did the coding back in
+February.  It took an email from a dissatisfied user before I realized that
+I had useful changes that I had not posted here.  Mea culpa.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100522T161837'>
+<title>Coverage.py on Jython</title>
+<category>coverage</category>
+<category>python</category>
+<body>
+<p>Someone asked me recently whether <a href='/code/coverage'>coverage.py</a>
+works on <a href='http://jython.org/'>Jython</a>.  I had never tried it before,
+so I took a look.
+</p>
+
+<p>Coverage.py works in two steps: first, execute the code and record line
+numbers executed.  Then analyze the code to identify parts that could have been
+executed but weren't.  It turns out Jython provides the tool needed for the
+first (sys.settrace), but not the tools needed for the second (code.co_consts,
+and other internal representations of compiled code).</p>
+
+<p>I was able to measure a Jython execution by running "coverage run" under
+Jython 2.5.1 to do the first step.  Then I ran "coverage html" under CPython to
+complete the second step and get a report.</p>
+
+<p>But I don't know if the line numbers will match up perfectly if the two steps
+are run under different interpreters.  I'm looking for someone with a real Jython
+code base who'd like to try this technique and tell me what they find.  Take
+the tip of the <a href='http://bitbucket.org/ned/coveragepy'>bitbucket repository</a>,
+install it into your Jython and CPython installations, and run the two commands
+under the two different interpreters.</p>
+
+<p>Drop me a line if you try this out, I'd love to be able to support Jython
+with coverage.py.</p>
+
+</body>
+</entry>
+</blog>

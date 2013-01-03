@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041015T173142'>
+<title>PHP/SWF Charts</title>
+<category>php</category>
+<via href='http://del.icio.us/jimfl'>Jim Flanagan's links</via>
+<body>
+<p><a href='http://www.maani.us/charts/index.php'>PHP/SWF Charts</a> is a slick
+PHP package for dynamically generating charts as Flash files. The results are good looking
+and full-featured.
+I especially liked the idea that <i>everything</i> is defaultable.
+As the <a href='http://www.maani.us/charts/index.php?menu=Tutorial'>tutorial</a>
+shows, this code:
+</p>
+
+<code lang='php'><![CDATA[
+<?php
+
+//include charts.php in your script
+include "charts.php";
+
+//draw a chart using the default values
+DrawChart ();
+
+?>
+]]></code>
+
+<p>will draw a bar chart with bogus defaulted data.
+Of course, the resulting chart is useless, but it makes it extremely easy to get
+off the ground with the package.</p>
+
+</body>
+</entry>
+</blog>

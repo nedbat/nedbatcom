@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030831T065507'>
+<title>Comments say why</title>
+<category>coding</category>
+<via id='tedleung'/> <!-- id= or href= -->
+<body>
+<p>There's a thread going around about comments in source code.
+<a href='http://christiansepulveda.com/blog/archives/000028.html'>Christian said</a>:</p>
+
+<quotep>
+Not all comments are bad.
+But they are generally deodorant; they cover up mistakes in the code.
+Each time a comment is written to explain what the code is doing,
+the code should be re-written to be more clean and self explanatory.
+</quotep>
+
+<p><a href='http://www.osteele.com/archives/2003/08/a_taxonomy_of_comments.html'>Oliver Steele responded</a>:</p>
+
+<quotep>
+Comments are an escape hatch for expressing everything about the program that the programming language can't.
+</quotep>
+
+<p>Opening shots notwithstanding, the essays agree more than they disagree. Both decide
+that there are lots of important uses for comments. In my experience, it boils down to
+a simple distinction:</p>
+
+<box>
+Code says what to do, comments say why.
+</box>
+
+<p>The comments Christian is railing about in his post are probably comments that
+tell you what is happening.  We've all seen the classic:</p>
+
+<code lang='c++'>
+i++; // increment i
+</code>
+
+<p>This is bad because the code already described what is happening, and the comment
+is simply describing it again. No new information has been added to the system.
+Of course in the real world, the examples are usually not so blatant.</p>
+
+<p>If you find yourself writing comments that describe the "what", think about whether
+you have an expressive-enough coding style, or whether you need richer primitives,
+or a more directly applicable framework.  There may be ways to change your coding
+so that the "what" is adequately covered by the code.  Then you can focus on the
+"why" in your comments.</p>
+
+<p>BTW: Christian also covers the writer's difficulty of understanding their
+audience from a commenter's point of view in his
+<a href='http://christiansepulveda.com/blog/archives/000030.html'>followup post</a>.</p>
+
+</body>
+</entry>
+</blog>

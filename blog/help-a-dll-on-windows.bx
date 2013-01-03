@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080203T143355'>
+<title>Help: Building PIL on Windows (.a &#x21D2; .dll)?</title>
+<category>help</category>
+<category>windows</category>
+<body>
+<p>I'm trying to build <a href='http://www.pythonware.com/products/pil/index.htm'>PIL</a>
+from sources on Windows, and I'm stuck.  I hope someone will have a nugget of
+info that will get me going again.</p>
+
+<p>The README in the PIL tarball says to download three prerequisites
+from <a href='http://gnuwin32.sourceforge.net/'>GnuWin32</a>: zlib, jpeg, and freetype,
+so I downloaded the -bin and -lib for each of those.
+</p>
+
+<p>I added the GnuWin32 directories to the setup.py, and run it to build
+the extension.  The PIL setup.py tries to sniff out the libraries it needs,
+and disables features that need missing libraries.  It decides that zlib is
+present, but that jpeg and freetype are not.</p>
+
+<p>Debugging through the setup.py code, it's finding libz.a in the GnuWin32 lib
+directory.  There is no libjpeg.a or libfreetype.a, so it claims they are not
+available.  In fact, it looks for any of these names for jpeg: libjpeg.dylib, 
+jpeg.dll, libjpeg.a, liblibjpeg.dylib, libjpeg.dll, or liblibjpeg.a.  None of
+these are present.</p>
+
+<p>In the bin directory, I have freetype6.dll and jpeg62.dll, but it won't know
+to look for those numeric suffixes.  Just copying files around and renaming them
+seems like the wrong way to go.</p>
+
+<p>Searching for information, I find
+<a href='http://www.pygame.org/wiki/sandbox'>many</a>
+<a href='http://www.cygwin.com/cygwin-ug-net/dll.html'>cryptic</a>
+<a href='http://gnuwin32.sourceforge.net/compile.html'>pages</a>
+discussing a2dll, 
+o2dll, dlltool, and so on.  I don't understand them.  Each time I try a 
+new set of instructions, it points me to another piece of software I 
+don't think I have, and don't know how to get.  I feel like a total 
+n00b.  Can someone help?</p>
+
+</body>
+</entry>
+</blog>

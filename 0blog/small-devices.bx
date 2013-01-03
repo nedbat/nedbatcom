@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021107T093005'>
+<title>Doom for the Nokia 7650</title>
+<category>games</category>
+<category>hardware</category>
+<via href='http://www.goldenfoof.com'>Majk</via> <!-- id= or href= -->
+<body>
+<p>Technology marches on: now you can play
+<a href='http://www.wildpalm.co.uk/Doom7650.html'>Doom on a cell phone</a>
+(just so long as you don't play it on the cell phone while driving!).  This tops
+<a href='http://www.palmblvd.com/articles/2000/6/2000-06-06-Sim-City-Reviewed.html'>SimCity on the Palm</a>
+for the "least-likely desktop app squeezed into the smallest device" award.
+</p>
+
+<p>These two ports point up an interesting point for software developers, though.
+Desktop machines become more and more powerful.
+Developers who write for those machines have become accustomed to having their minimum
+platform specs improving over the years (used to be 640&#xd7;480, 256 colors; now it's
+1024&#xd7;768, 32k colors), letting them assume more- and more-capable infrastructure for
+their apps.  But as the range of devices broadens (desktops to hand-helds to cell phones),
+the minimum capabilities will remain
+low, perhaps even get lower.  And it isn't just new whizzy gadgets that show this effect.
+Even running an application on a desktop, if the app is accessed over a remote-access
+program (like
+<a href='http://www.uk.research.att.com/vnc/'>VNC</a> or Microsoft's Terminal Services),
+the capabilities of the "device" will be reduced for bandwidth reasons.
+</p>
+
+<p>As much as developers would like to believe that they can count on richer platforms,
+it is still valuable to be flexible in what you assume about your hardware.</p>
+
+</body>
+</entry>
+</blog>

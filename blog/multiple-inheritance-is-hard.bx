@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121028T085509'>
+<title>Multiple inheritance is hard</title>
+<category>python</category>
+<body>
+
+<p>Multiple inheritance is hard, we all know it, but even after warning
+    people about it myself, I found myself tripped up by it yesterday. All
+    I wanted was a mixin for my unittest.TestCase class.</p>
+
+<p>Unittest's TestCases use setUp and tearDown to affect the test state,
+    and I wanted a way to share setUp and tearDown implementations between two
+    different test classes.  A mixin seemed like a good solution.  I already
+    have a BaseTestCase of my own that inherits from unittest.TestCase, so my
+    mixin looked like this:</p>
+
+<code lang='py'><![CDATA[
+class BaseTestCase(unittest.TestCase):
+    def setUp(self):
+        super(BaseTestCase, self).setUp()
+        #.. set up that everyone needs ..
+
+    def tearDown(self):
+        #.. tear down that everyone needs ..
+        super(BaseTestCase, self).tearDown()
+
+class MyMixin(object):
+    def setUp(self):
+        super(MyMixin, self).setUp()
+        #.. do something here ..
+
+    def tearDown(self):
+        #.. do something here ..
+        super(MyMixin, self).tearDown()
+
+class RealTestCase(BaseTestCase, MyMixin):
+    # I didn't need setUp and tearDown here..
+
+    def test_foo(self):
+        #.. etc ..
+]]></code>
+
+<p>The theory is that mixins avoid some complications of multiple inheritance:
+    they provide methods, but no attributes, and don't inherit in a way that
+    produces diamonds in the inheritance hierarchy.  And I did the right things
+    here, using super to keep the MRO (method resolution order) intact.</p>
+
+<p>But this code doesn't work, MyMixin.setUp is never invoked.  Why? It's 
+    because TestCase in unittest doesn't invoke super():</p>
+
+<code lang='py'><![CDATA[
+# unittest.py (some details omitted :)
+class TestCase(object):
+    def setUp(self):
+        pass
+]]></code>
+
+<p>The method resolution order of RealTestCase is:</p>
+<ul>
+    <li>RealTestCase</li>
+    <li>BaseTestCase</li>
+    <li>unittest.TestCase</li>
+    <li>MyMixin</li>
+    <li>object</li>
+</ul>
+
+<p>Since TestCase.setUp doesn't use super, the sequence stops there,
+    and MyMixin is never consulted. At first I thought, "TestCase.setup should
+    use super!" But, if it did, it would fail in simpler hierarchies that don't
+    use a mixin, because it would try to invoke object.setUp(), which doesn't
+    exist.</p>
+
+<p>I suppose TestCase could be re-written like this:</p>
+
+<code lang='py'><![CDATA[
+# unittest.py (hypothetical)
+class TestCase(object):
+    def setUp(self):
+        parent = super(Base, self)
+        if hasattr(parent, "setUp"):
+            parent.setUp()
+]]></code>
+
+<p>This works, and now MyMixin.setUp() is invoked, but then it fails for the
+    same reason: it tries to invoke object.setUp, which doesn't exist, so
+    MyMixin also needs to have the defensive check of its parent. Yuk.</p>
+
+<p>The simple solution is to swap the order of the mixin and the base class:</p>
+
+<code lang='py'><![CDATA[
+class RealTestCase(MyMixin, BaseTestCase):
+    #...
+]]></code>
+
+<p>With this class declaration, the MRO is: RealTestCase, MyMixin,
+    BaseTestCase, TestCase, object.  All the setUp's are invoked, and it ends
+    cleanly with no complicated parentage check.</p>
+
+<p>But I can't help feeling this isn't great.  For one thing,
+    conceptually, BaseTestCase is the real parent, and the mixin is just tossed
+    in, so I would rather be able to write my base classes in the other order.
+    But more worrying, this solution also means that I have to be very careful
+    to know the lineage of all my classes all the way up to object.  </p>
+
+<p>Maybe this is the fundamental truth about Multiple Inheritance, and why it
+    is so difficult: details about base classes that you thought were abstracted
+    away from you can suddenly be critical to understand.  Like all action at a
+    distance, this is mysterious and confusing.</p>
+
+<p>My take-aways from this:</p>
+
+<ul>
+
+    <li>Mixins come first even though it looks odd.</li>
+    <li>Multiple inheritance is hard.</li>
+    <li>There are yet more Python details to master.</li>
+
+</ul>
+
+<p>The question remaining in my mind: would class hierarchies be better if the
+    top-most classes (derived from object) used the defensive super style? Or
+    is that overkill that defers rather than removes the pain? Would something
+    else bite me later?</p>
+
+</body>
+</entry>
+</blog>

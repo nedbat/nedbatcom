@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040313T202226'>
+<title>Mathematical background</title>
+<category>math</category>
+<category>reference</category>
+<via />
+<body>
+<p>I was a real math geek in high school, and was taught "new math" at the time,
+so I got a pretty good introduction to math at a theoretical level.
+Still,
+<a href='http://www.jfsowa.com/logic/math.htm'>Mathematical Background</a>
+by John Sowa is a good overview of math concepts.
+He doesn't cover the connection to computer science directly,
+but a lot of this stuff underlies software concepts we engineers encounter
+everyday.</p>
+
+<p>You can get along without the math background, but it helps to
+have it under your belt.
+For example,
+did you know relational databases are called that because they are
+based on the mathematical concept of relations? See section 5.
+</p>
+
+<p>In some places, he uses terms only in their mathematical sense, without
+touching on the more common computer science uses.
+For example, "idempotency" referring to operations, but not to
+functions: a function f is idempotent if f(f(x)) = f(x) for all x.
+</p>
+
+</body>
+</entry>
+</blog>

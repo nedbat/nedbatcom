@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100307T072346'>
+<title>Different, good and bad</title>
+<category>webpage</category>
+<category>design</category>
+<body>
+<p>One of the challenges in building web sites is coming up with interesting
+ways of presenting functionality that aren't the same old thing, but are still
+usable.  I came across two sites recently that met this challenge, one well,
+one badly.
+</p>
+
+<p><a href='http://glyde.com'>Glyde</a> lets you buy and sell books and DVDs,
+kind of a cross between Amazon and eBay.  Their site is clean and elegant,
+and although they've chosen a number of unusual presentation techniques,
+everything works intuitively, sometimes better than you expect.</p>
+
+<p>The home page shows a single horizontal list of popular items.  Click one,
+and you get detail, but the image glides smoothly from its place in the list to
+the detail box that pops up.  Type in the search box, and you get instant
+feedback in a drop-down list, but it's a complex categorized list that looks
+more like a product list than a drop-down.  Wait around on the page without
+doing anything, and the horizontal list will scroll along by itself, offering
+more items for you to consider.</p>
+
+<p>The whole site has a crisp well-thought-out design that's a pleasure to use.</p>
+
+<p>On the other hand, I found <a href='http://www.hbo.com/'>HBO's site</a> a
+confusing mess.  The whole thing is in Flash, so it's difficult to link to
+individual pages.  The <a href='http://www.hbo.com/#/schedule'>schedule grid</a>
+pops up as a window on the page, and then confounds me at every turn.  The
+current time is displayed on a scroll thumb, which confusingly has arrows on it.
+Click the arrows, and the entire grid is replaced with a spinner progress wheel,
+and re-displays.  Except the time hasn't changed.  You have to drag the thumb,
+but no matter how little you drag it, the entire window refreshes rather than
+smoothly scrolling, so you have to re-orient yourself each time.  The scroll bar
+has other times and dates displayed on it, but those aren't clickable either,
+they're just positions you can drag the thumb to.</p>
+
+<p>Click into a particular show, and the description is displayed in too-small
+an area, requiring scrolling, except there are no scroll bars.  Turns out if
+you hover over the description, it will start scrolling, but you can't control
+the speed or direction, it just moves.  Maybe moving the cursor out of the
+description will stop it so I can read it?  No, that resets the text back to
+its top position.</p>
+
+<p>Even when playing videos, I'm confused. There's a progress bar that reads 0%
+when I'm part-way through the clip, and the middle third of the bar is
+highlighted. The entire site looks to me like a highly-paid designer made a pile
+of gorgeous Photoshop files, and never considered the dynamic interactions on
+the site.</p>
+
+</body>
+</entry>
+</blog>

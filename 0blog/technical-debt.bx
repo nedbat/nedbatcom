@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030918T211915'>
+<title>Technical debt</title>
+<category>management</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Martin Fowler discusses
+<a href='http://martinfowler.com/bliki/TechnicalDebt.html'>Technical Debt</a>.
+Taking shortcuts in design or development is like borrowing from the future.
+You save time now, but will have to pay later.
+Eventually you'll have to put in extra effort to deal with your old hacks.
+This extra effort is the interest you pay on your technical debt.
+You can take time later to fix everything, which is analogous to paying down
+the principal on your technical debt. It costs real time now, but saves you
+interest payments in the future.
+</p>
+
+<p>As with most interesting ideas about software engineering as a discipline,
+Ward Cunningham's apparently infinite wiki has a
+<a href='http://www.c2.com/cgi/wiki?TechnicalDebt'>page about Technical Debt</a>.
+</p>
+
+</body>
+</entry>
+</blog>

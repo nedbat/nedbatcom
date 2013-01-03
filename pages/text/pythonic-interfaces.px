@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<page title='A quest for pythonic interfaces'>
+<history>
+<what when='20041018T131500'>Created.</what>
+</history>
+
+<p>As I said in <apage pref='text/interfaces.px'/>, the most important concept in
+designing software systems is the interface.
+Yet Python has no support for them.  Here's a story about my quest for Pythonic interfaces.
+</p>
+
+<h1>One way to do interfaces in Python</h1>
+
+<p>I like interfaces.  They let me create a concrete representation of the behavior of a class,
+separate from the implementation of that behavior.
+I also like Python, which has no language support for interfaces as such.
+I've been building a system in Python, and wanted to use interfaces as an organizing principle.
+I figured it would be simple to simulate interfaces in Python.
+They are just completely abstract base classes:</p>
+
+<code lang='python'><![CDATA[
+class Executable:
+    """ A thing which can be executed.
+    """
+    def execute(self, environment):
+        """ Executes itself in the given environment.
+        """
+        pass
+]]></code>
+
+<p>Now a class that implements the Executable interface simply inherits from Executable:
+</p>
+
+<code lang='python'><![CDATA[
+class Statement(Executable):
+    """ A programming language statement.
+    """
+    def execute(self, environment):
+        """ A concrete implementation of execute for statements.
+        """
+        # .. Do whatever it is you need to do ..
+]]></code>
+
+<p>This works well, and serves some of the goals of interfaces:</p>
+
+<ul>
+<li>The interface is expressed as a first-class entity in the system.
+It has a name, and documentation just like any other piece of code.</li>
+<li>The implementation class has a concrete indication that it is related
+to the interface: it derives from it.</li>
+<li>The interface can be used in code.  For example, Statement is an Executable,
+and instanceof will report it as such.</li>
+</ul>
+
+
+<h1>Slicker Python interfaces</h1>
+
+<p>While the simple Executable interface above will work, it has a problem:
+if an implementing class makes the mistake of not implementing a method,
+the interface's method will be used instead,
+and the interface's method silently does nothing.
+Leaving empty code paths is an invitation to mysterious bugs.
+This is a particular annoyance of mine:
+see <apage pref='text/empty-code-paths.px'/> for more on this.</p>
+
+<p>To close that hole, I created a function to use as the body of interfaces' methods.
+If called, it will raise an exception:</p>
+
+<code lang='python'><![CDATA[
+import sys
+
+def _functionId(obj, nFramesUp):
+    """ Create a string naming the function n frames up on the stack. """
+    fr = sys._getframe(nFramesUp+1)
+    co = fr.f_code
+    return "%s.%s" % (obj.__class__, co.co_name)
+
+def abstractMethod(obj=None):
+    """ Use this instead of 'pass' for the body of abstract methods. """
+    raise Exception("Unimplemented abstract method: %s" % _functionId(obj, 1))
+
+class Executable:
+    def execute(self, environment):
+        """ Executes itself in the given environment.
+        """
+        abstractMethod(self)
+]]></code>
+
+<p>We've used some helper methods here to get helpful reporting.
+Now if a class doesn't implement a method, an exception is raised with the name
+of the missing method:</p>
+
+<code><![CDATA[
+Exception: Unimplemented abstract method: __main__.Statement.execute
+]]></code>
+
+
+<h1>Complications</h1>
+
+<p>But all this Python hacking to emulate Java interfaces may be missing the point:
+As I mentioned in <apage pref='text/interfaces.px'/>, Python doesn't have interfaces
+partly because interfaces are an artifact of staticly typed languages.
+Python's dynamic nature makes interfaces far less important.
+And interfaces don't have as much flexibility as Python offers in the first place.
+</p>
+
+<p>As my system grew, I wanted to have an interface with many required methods,
+but then two methods, only one of which would ever be implemented by a base class:</p>
+
+<code lang='python'><![CDATA[
+class Executable:
+    # .. (many methods) ..
+
+    def executeOneWay(self, environment):
+        """ Executes itself in the given environment.
+        """
+        abstractMethod(self)
+
+    def executeTheOtherWay(self, globals, locals, services):
+        """ Executes itself with globals, locals, and services.
+        """
+        abstractMethod(self)
+]]></code>
+
+<p>Once we've done this, though, how do we tell which method to call?
+Because of the interface as a base class,
+there is no way to distinguish between a OneWay Executable and a TheOtherWay Executable.
+Both instances have both methods.</p>
+
+<p>The statically typed way would be to extend Executable into the two interfaces
+we really want to discuss:</p>
+
+<code lang='python'><![CDATA[
+class Executable:
+    # .. (many methods) ..
+
+class ExecutableOneWay(Executable):
+    def executeOneWay(self, environment):
+        """ Executes itself in the given environment.
+        """
+        abstractMethod(self)
+
+class ExecutableTheOtherWay(Executable):
+    def executeTheOtherWay(self, globals, locals, services):
+        """ Executes itself with globals, locals, and services.
+        """
+        abstractMethod(self)
+]]></code>
+
+<p>But now we're getting complicated, and if another method with two possibilities
+arises, we have to fracture our interfaces yet again.  The extreme end of this
+scenario is many interfaces with very few methods each.  This is the way
+some of the Java library is beginning to look.</p>
+
+<h1>Does-a</h1>
+
+<p>The thing about dynamic languages like Python is that you don't have to
+limit yourself to declaring groups of methods via interfaces.
+Traditional object-oriented language give programmers two building blocks to choose from:
+inheritance (is-a) and delegation (has-a).
+Interfaces are a tool to use is-a for figuring out what an object can do.
+With Python, there's a better way to figure out what an object can do: you ask it.
+Introspection lets you ask about the availability of a method (lets call this does-a).
+</p>
+
+<p>The Pythonic way to handle the dual-natured Executable is to ask the object if it can
+do executeOneWay, and if it can't, to do executeTheOtherWay:</p>
+
+<code lang='python'><![CDATA[
+if hasattr(ex, 'executeOneWay'):
+    ex.executeOneWay(...)
+else:
+    ex.executeTheOtherWay(...)
+]]></code>
+
+<p>But consider the interfaces I've implemented above.
+My fancy all-in-one interface has truly let me down: because my object derives from
+Executable, and Executable implements both executeOneWay and executeTheOtherWay,
+there's nothing a derived class can do to control its destiny.  All Executable objects
+implement both methods, just not in a useful way.  The stub exception-raising methods in
+the interface have neutralized the power of the Python "does-a" mechanism.</p>
+
+<p>I could add methods to the interface to answer the question about the methods:</p>
+
+<code lang='python'><![CDATA[
+class Executable:
+    # .. (many methods) ..
+    def doesTheOtherWay(self):
+        """ Returns True if executeTheOtherWay should be used.
+        """
+        abstractMethod(self)
+]]></code>
+
+<p>but now we're really duplicating the Pythonic hasattr approach, and building a
+whole parallel system for talking about methods.</p>
+
+<p>The double ExecutableOneWay and ExecutableTheOtherWay interfaces could handle
+this split, but then I'm just moseying down the path to having an interface per method.
+</p>
+
+
+<h1>What to do?</h1>
+
+<p>So I'm stuck: I don't know how I want to move forward.
+I like interfaces when they work well: a shorthand name for a whole set of behaviors.
+But once the behaviors become more complex, the interface shorthand breaks down.
+</p>
+
+<p>Python makes it simple to ask about particular methods, but then fails me when
+I really do want to talk about a whole set of behaviors.  There's a line here,
+with methods on one side, and interfaces on the other.  Some problems are solved
+more naturally on one side, others on the other, but it doesn't feel line a
+smooth transition between the two.</p>
+
+<p>I'll have to keep trying out possibilities, I guess.</p>
+
+
+<h1>Ways out</h1>
+
+<p>Of course this topic has a long and distinguished history:</p>
+
+<ul>
+<li>There is a Python Extension Proposal for interfaces:
+<a href='http://python.org/peps/pep-0245.html'>PEP 245 <emdash/> Python Interface Syntax</a>,
+but I don't know what its implementation status is.</li>
+
+<li>I don't yet understand <a href='http://www.python.org/moin/MetaClasses'>meta-classes</a>,
+but they of course are used to
+<a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/164901'>solve</a>
+<a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/204349'>these</a>
+<a href='http://www.zope.org/Wikis/Interfaces/InterfaceUserDocumentation'>problems</a>
+as well.</li>
+</ul>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/interfaces.px'/>, about the theory and practice of interfaces.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

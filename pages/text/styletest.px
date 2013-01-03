@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<page title='Style test' sitemap='no'>
+<history>
+<what when='20030615T122200'>Created.</what>
+</history>
+
+<p>The first paragraph.
+Now is the time for all good men to come to the aid of their country.
+Now is the time for all good men to come to the aid of their country.
+</p>
+
+<h1>First header.</h1>
+
+<p>This is a paragraph in the first header.
+Now is the time for all good men to come to the aid of their country.
+Now is the time for all good men to come to the aid of their country.
+A quote:</p>
+
+<quote>
+<p>Twas brillig and the slithy toves did gyre and gimbel in the wabe.
+All mimsy were the borogroves, and the mome wrath outgrabe.
+</p></quote>
+
+<p>A multi-paragraph quote:</p>
+
+<quote>
+<p>Twas brillig and the slithy toves did gyre and gimbel in the wabe.
+All mimsy were the borogroves, and the mome wrath outgrabe.</p>
+<p>Lewis Carroll wrote that.
+</p></quote>
+
+<p>Here's a 	quoted list:</p>
+
+<quote>
+<ol><li>One</li>
+<li>Two</li>
+<li>Three</li>
+</ol></quote>
+
+<p>Here is some code:</p>
+
+<code><![CDATA[
+int main(int argc, char *argv[])
+{
+    printf("Hello, world!\n");
+}
+]]></code>
+
+<p>That was fun.</p>
+
+<h1>Another first header.</h1>
+
+<p>This is a section with other headers.</p>
+
+<h2>This is the second header.</h2>
+
+<p>A sub-section. Here I make an important point in a box:</p>
+
+<box>This is my very important point.</box>
+
+<p>Now lists:</p>
+
+<ul>
+<li>First thing.</li>
+<li>Second thing.</li>
+<li>Third thing.</li>
+</ul>
+
+<p>Ordered list:</p>
+
+<ol>
+<li>First thing.</li>
+<li>Second thing.</li>
+<li>Third thing.</li>
+</ol>
+
+<p>Nested lists (also check the <a href='site/sitemap.html'>sitemap</a>):</p>
+
+<ul>
+<li>First list:
+    <ul>
+    <li>First one</li>
+    <li>First two</li>
+    </ul>
+</li>
+<li>Second list:
+    <ul>
+    <li>Second one</li>
+    <li>Second two list:
+        <ul>
+        <li>Second two one</li>
+        <li>Second two two</li>
+        </ul>
+    </li>
+    </ul>
+</li>
+<li>Third list:
+    <ul>
+    <li>Third one</li>
+    <li>Third two</li>
+    </ul>
+</li>
+</ul>
+
+<h1>Head one</h1>
+
+<p>This is the top-level paragraph.
+Now is the time for all good men to come to the aid of their country.
+Four score and seven years ago, our forefathers brought forth on this
+continent a great nation.
+</p>
+
+<h2>Head two</h2>
+
+<p>This is the sub-section paragraph.
+Now is the time for all good men to come to the aid of their country.
+Four score and seven years ago, our forefathers brought forth on this
+continent a great nation.
+</p>
+
+<h3>Head three</h3>
+
+<p>This is the sub-sub-section paragraph.
+Now is the time for all good men to come to the aid of their country.
+Four score and seven years ago, our forefathers brought forth on this
+continent a great nation.
+</p>
+
+<p>All done.</p>
+
+</page>

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040429T220846'>
+<title>Diamond cutting</title>
+<category>devmindset</category>
+<via />
+<body>
+<p>I was talking with a fellow software engineer the other day about the process
+of designing software, and we got around to the diamond cutter analogy.
+</p>
+
+<p>A diamond cutter (so I am told) takes a raw lump of diamond and has to cut it
+in just the right way to make a properly cut finished diamond.  With large
+diamonds, the first cut is crucial, and can be an all-or-nothing proposition.
+Strike the diamond properly, and it is worth millions.  Strike it wrong, and you
+have a pile of cheap industrial chips.  There are stories of diamond cutters
+staring at rough diamonds for weeks trying to discern the right place and angle
+to strike.</p>
+
+<p>Sometimes software design is like that.  How should a pile of functionality be
+divided into modules and classes?  What's the right separation of concerns?
+Which patterns will provide the best leverage over the forces of chaos?
+As with diamond cutting, the best answer may not be immediately obvious.
+Make the first cut incorrectly, and you could be struggling hard against a ragged grain
+for the whole rest of the project.
+Strike it right, and you could have a smooth, strong, easily-implemented interface.
+</p>
+
+<p>When designing software, sometimes we have to mull a problem over,
+examine it from every angle.  Simply starting out and figuring you'll hack your way
+through it may leave you with an unmanageable mess.
+Next time you're in this position, try letting it sit.
+The proper grain may become apparent to you over time.
+You may end up with a beautiful diamond instead.</p>
+
+</body>
+</entry>
+</blog>

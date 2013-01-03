@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031023T223042'>
+<title>Amazon full text search</title>
+<category>search</category>
+<category>amazon</category>
+<via />
+<body>
+<p>Now Amazon lets you search the full text of its books.
+This is astounding, not only because of the further differences it highlights
+between Amazon and traditional bookstores, but because of the effort it must have
+taken to accomplish.
+The text seems to be from scans of pages, subjected to an OCR process.
+And not just the bulk of popular books, either. They've got all sorts of wild
+and wooly volumes available this way.
+</p>
+
+<p>I don't know how truly useful it will be, since full text searching can be
+extremely noisy, even before the OCR noise is factored in.
+Searching for "Ned Batchelder" (what else do people test searches first with?)
+found this:
+</p>
+
+<quotep>
+received a preliminary version of the 2001 decommissfonfng study,
+which deferm(<b>ned</b> that EE wiff have to fund about $312 million
+</quotep>
+
+<p>Still and all, a remarkable feature, in an overwhelming brute force kind of way.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051213T095129'>
+<title>Bliss</title>
+<category>proglang</category>
+<via />
+<body>
+<p>When I was at Digital, I did a little bit of maintenance work in a language called
+<a href='http://en.wikipedia.org/wiki/BLISS'>Bliss</a>.
+Like C, Bliss was a low-level high level language.  It was designed for systems programming
+(for example, implementing parts of VAX/VMS).  It had a strange macro facility which I don't remember
+anything about, and was typeless: you dealt with memory layout similarly to how you would in assembler.
+The defining characteristic, though, was its use of variable names.
+</p>
+
+<p>In most languages, what a variable name means depends on where it is used, but in a subtle
+way that programmers typically don't even realize.  For example, in this C statement:</p>
+
+<code lang='cpp'><![CDATA[
+a = b;
+]]></code>
+
+<p>The "a" means the address of the variable a, and the "b" means the value of the variable b.
+The statement means: take the value of b, and store it in a.
+</p>
+
+<p>Bliss didn't make this distinction.  For uniformity, variable names meant the same thing
+everywhere.  And since the left-hand side of the assignment operator needed the address of a
+variable, that's what variable names meant everywhere.  To get the value at an address, you used
+the dot operator, which is the equivalent of C's * operator.
+So in Bliss, the above statement would be written:
+</p>
+
+<code lang='cpp'><![CDATA[
+a = .b;
+]]></code>
+
+<p>The most common error in Bliss was forgetting a dot.  "a = b" meant store the address of b in a.
+Dealing with pointer variables meant double dots:</p>
+
+<code lang='cpp'><![CDATA[
+val = ..pVal;
+]]></code>
+
+<p>What a headache.
+If you are really curious, the
+<a href='http://decus.decus.de:8080/htbin/webbook/PUBLIC$ROOT%3a%5bUTIL.BLISS%5d4358pro.p7.#1'>Bliss Reference Manual</a>
+is online.
+</p>
+
+</body>
+</entry>
+</blog>

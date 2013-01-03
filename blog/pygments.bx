@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061021T164439'>
+<title>Pygments</title>
+<category>python</category>
+<via />
+<body>
+<p><a href='http://pygments.pocoo.org/'>Pygments</a> is a new pure-Python package for
+syntax highlighting source code.  It seems very well done, and quite full-featured.
+Not only does it lex and color a <a href='http://pygments.pocoo.org/languages/'>bunch of languages</a>,
+but it handles embeddings too, like <a href='http://pygments.pocoo.org/demo/52/'>Django templates in HTML</a>.
+I use <a href='http://www.nedbatchelder.com/blog/200406.html#e20040612T194017'>SilverCity</a> on this blog,
+but have never liked that it calls into Scintilla DLLs to do the hard work, and isn't up to the task
+of two languages shuffled together.  Pygments seems like a good alternative.
+</p>
+</body>
+</entry>
+</blog>

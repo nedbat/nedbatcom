@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<page title='Specifying source files' >
+
+  <history>
+<what when='20100725T172000'>new in 3.4</what>
+</history>
+<p>When coverage.py is running your program and measuring its execution, it needs
+to know what code to measure and what code not to.  Measurement imposes a speed
+penalty, and the collected data must be stored in memory and then on disk.
+More importantly, when reviewing your coverage reports, you don&#8217;t want to be
+distracted with modules that aren&#8217;t your concern.</p>
+<p>Coverage.py has a number of ways you can focus it in on the code you care
+about.</p>
+<h1 id="source-execution">Execution</h1>
+<p>When running your code, the <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> command will by default measure
+all code, unless it is part of the Python standard library.</p>
+<p>You can specify source to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt> command-line switch,
+or the <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">source</span></tt> configuration value.  The value is a list of directories
+or package names.  If specified, only source inside these directories or
+packages will be measured.  Specifying the source option also enables
+coverage.py to report on unexecuted files, since it can search the source tree
+for files that haven&#8217;t been measured at all.</p>
+<p>You can further fine-tune coverage.py&#8217;s attention with the <tt class="docutils literal"><span class="pre">--include</span></tt> and
+<tt class="docutils literal"><span class="pre">--omit</span></tt> switches (or <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">include</span></tt> and <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">omit</span></tt> configuration
+values). <tt class="docutils literal"><span class="pre">--include</span></tt> is a list of filename patterns. If specified, only files
+matching those patterns will be measured. <tt class="docutils literal"><span class="pre">--omit</span></tt> is also a list of filename
+patterns, specifying files not to measure.  If both <tt class="docutils literal"><span class="pre">include</span></tt> and <tt class="docutils literal"><span class="pre">omit</span></tt>
+are specified, first the set of files is reduced to only those that match the
+include patterns, then any files that match the omit pattern are removed from
+the set.</p>
+<p>The <tt class="docutils literal"><span class="pre">include</span></tt> and <tt class="docutils literal"><span class="pre">omit</span></tt> filename patterns follow typical shell syntax:
+<tt class="docutils literal"><span class="pre">*</span></tt> matches any number of characters and <tt class="docutils literal"><span class="pre">?</span></tt> matches a single character.
+Patterns that start with a wildcard character are used as-is, other patterns
+are interpreted relative to the current directory.</p>
+<p>The <tt class="docutils literal"><span class="pre">source</span></tt>, <tt class="docutils literal"><span class="pre">include</span></tt>, and <tt class="docutils literal"><span class="pre">omit</span></tt> values all work together to determine
+the source that will be measured.</p>
+<h1 id="source-reporting">Reporting</h1>
+<p>Once your program is measured, you can specify the source files you want
+reported.  Usually you want to see all the code that was measured, but if you
+are measuring a large project, you may want to get reports for just certain
+parts.</p>
+<p>The report commands (<tt class="docutils literal"><span class="pre">report</span></tt>, <tt class="docutils literal"><span class="pre">html</span></tt>, <tt class="docutils literal"><span class="pre">annotate</span></tt>, and <tt class="docutils literal"><span class="pre">xml</span></tt>) all take
+optional <tt class="docutils literal"><span class="pre">modules</span></tt> arguments, and <tt class="docutils literal"><span class="pre">--include</span></tt> and <tt class="docutils literal"><span class="pre">--omit</span></tt> switches. The
+<tt class="docutils literal"><span class="pre">modules</span></tt> arguments specify particular modules to report on.  The <tt class="docutils literal"><span class="pre">include</span></tt>
+and <tt class="docutils literal"><span class="pre">omit</span></tt> values are lists of filename patterns, just as with the <tt class="docutils literal"><span class="pre">run</span></tt>
+command.</p>
+<p>Remember that the reporting commands can only report on the data that has been
+collected, so the data you&#8217;re looking for may not be in the data available for
+reporting.</p>
+<p>Note that these are ways of specifying files to measure.  You can also exclude
+individual source lines.  See <a class="reference internal" href="/code/coverage/excluding.html#excluding"><em>Excluding code from coverage</em></a> for details.</p>
+
+
+<p class='pmn pmnbot'>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/config.html" title="previous topic">Configuration files</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/excluding.html" title="next topic">Excluding code from coverage</a>&#xa0;&#xbb;</span>
+</p>
+
+</page>

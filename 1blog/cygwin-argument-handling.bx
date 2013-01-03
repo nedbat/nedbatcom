@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040804T061420'>
+<title>Cygwin argument handling?</title>
+<category>shells</category>
+<via />
+<body>
+<p>So, I love <a href='http://www.cygwin.com'>cygwin</a>, because it gives me
+powerful Unix command line tools for my Windows machine.  Thank you. I love it.
+But: would it kill them to accept -? as a request for help?
+</p>
+
+<code><![CDATA[
+$ diff -?
+diff: invalid option -- ?
+diff: Try `diff --help' for more information.
+]]></code>
+
+<p>Why?  What would be so terrible about understanding dash-query?
+I type it <em>every time</em> I want help, and have to look at that
+stupid error message every time.  Grr...</p>
+
+</body>
+</entry>
+</blog>

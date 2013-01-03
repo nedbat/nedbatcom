@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<page title='How To Write Comments'>
+
+
+<p>Use a period after sentences. This way, one-sentence comments and two-sentence comments
+will look the same.</p>
+<p>Don't repeat the name of the function in the comment for the function.</p>
+<p>Don't start the brief description with "This is a method that.." or 
+"DoSomethingWell() is a function that you call when.."</p>
+<p>Don't use "First we do this", or "The third step is blah", since the numbering will
+all be off when the code changes.</p>
+<p>Comments should be modular (don't make them unnecessarily dependent on other chunks
+of code or comments).</p>
+<p>Reduce the noise in comments.</p>
+<p>Use a tool like javadoc or doxygen to pull your comments into cohesive documentation.</p>
+
+
+<p>Tell what a class is, or knows.</p>
+<p>Tell when a class or method would be used.</p>
+<p>Tell what a method does.</p>
+<p>Tell how a method will behave in edge conditions (throw exception, return NULL, exit)?</p>
+<p>Tell how the state of the object is changed by the method.</p>
+<p>Don't state the obvious.</p>
+<p>Use your judgement.</p>
+
+</page>

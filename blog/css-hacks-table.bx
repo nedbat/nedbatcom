@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051110T080602'>
+<title>CSS Hacks table</title>
+<category>css</category>
+<via href='http://blog.dreamprojections.com/'>blog.dreampro</via>
+<body>
+<p>An awesome table of all of the known
+<a href='http://centricle.com/ref/css/filters/'>CSS Hacks</a>, and which browsers see which.
+If you don't know what I'm talking about: CSS Hacks are the dirty underbelly of Cascading Style Sheets,
+where the differences in CSS implementation in the different browsers are worked around by exploiting
+differences in the parsers to have certain rules exposed only to certain browsers.  Yuk!
+</p>
+</body>
+</entry>
+</blog>

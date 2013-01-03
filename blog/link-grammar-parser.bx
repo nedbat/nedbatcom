@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050827T084230'>
+<title>Link grammar parser</title>
+<category>ling</category>
+<category>tools</category>
+<via id='keithdevens'/>
+<body>
+<p><a href='http://bobo.link.cs.cmu.edu/link/'>Link Grammar Parser</a> seems like a really cool library:
+it parses English sentences, and seems to be quite capable.
+Looking at the <a href='http://bobo.link.cs.cmu.edu/link/batch.html'>sample parsed sentences</a>,
+it can distinguish good and bad sentences that have completely similar structure
+(asterisk means it doesn't parse):
+</p>
+
+<quote>
+<p>The big question on everybody's mind is who killed OJ.</p>
+<p>*The big mind on everybody's question is who killed OJ.</p>
+<p>Millions attended.</p>
+<p>*5 millions attended.</p>
+<p>Millions of people attended.</p>
+</quote>
+
+<p>I don't have a need for parsing English like this, but reading about a tool like this
+makes me want to try it out.</p>
+
+<p>Small world: One of the authors of the parser is <a href='http://www.cs.cmu.edu/~sleator/'>Daniel Sleator</a>,
+whose brother is <a href='http://www.cs.cmu.edu/~sleator/billy/index.html'>William Sleator</a>,
+who has written many kid's books, including an awesome one I read in school,
+<a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/0140345809'>House of Stairs</a>.</p>
+
+</body>
+</entry>
+</blog>

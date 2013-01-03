@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110314T205124'>
+<title>Two Pi Day puzzles from PyCon</title>
+<category>math</category>
+<category>pycon</category>
+<body>
+    <p>Happy Pi Day, everyone! (3/14, get it?)  I got back from PyCon last night and have been 
+        trying to figure out how to integrate the energy and direction from the conference
+        into my regular life here in Boston.  It's a challenge, but PyCon is always an 
+        invigorating experience, and I'm really glad to have gone.</p>
+
+    <p>In honor of Pi Day, I'll present you with two puzzles I heard at PyCon,
+        one as part of Google's recruiting efforts, and one as part of a panel
+        about Python in middle school.</p>
+
+    <p>Google's puzzle: A number is a palindrome if the digits read the same
+        backwards as forwards: 1, 88, 343, 234565432, and so on.  What is the
+        sum of the digits in the number of palindromes less than a googol
+        (10<sup>100</sup>)?  That is, count all the palindromes greater than
+        zero and less than a googol, then sum all the digits in that number,
+        not the sum of the digits in all the palindromes.
+        What's your answer?  They actually posed it as "write a program to
+        compute the sum of the digits, etc," and were interested in the
+        shortest program, but I prefer it as a pure math question.</p> 
+
+    <p>The education question was a puzzle presented to middle-school kids, who
+        were asked to write programs to find the answer.  Imagine a set of
+        stairs with n steps from bottom to top.  You can walk up the stairs by
+        taking every step, or by skipping a single step any time you want.  You
+        can't skip more than one step at a time.  How many different ways are
+        there to walk up a flight of n steps?  For example, representing a step
+        as t and a skip as k, you could do a flight of 3 steps as ttt, tk, kt,
+        and 4 steps could be tttt, ttk, tkt, ktt, or kk.</p>
+
+    <p>Update: I <a href='blog/201103/pi_day_puzzle_solutions.html'>posted my solutions</a>.</p>
+</body>
+</entry>
+
+<entry when='20110319T161300'>
+<title>Pi Day puzzle solutions</title>
+<category>math</category>
+<body>
+    <p>On Monday, I <a href='blog/201103/two_pi_day_puzzles_from_pycon.html'>posed two puzzles</a> from PyCon.
+        The commenters there have pretty much covered everything, but I wanted to post my own approach.</p>
+
+    <p>For the sum of the digits in the number of palindromes between zero and a googol, first think about
+        how many palindromes there are with 2n digits.  Each is formed by joining an n-digit number with its
+        reverse, so there are as many 2n-digit palindromes as there are n-digit numbers.  The number of n-digit
+        numbers is all combinations of n digits, 10<sup>n</sup>, except you can't have a leading zero, so remove
+        all those, for a total of 10<sup>n</sup> - 10<sup>n-1</sup>.</p>
+
+    <p>The number of palindromes with 2n-1 digits is the same, since you just remove one of the doubled center
+        digits.</p>
+
+    <p>The number of palindromes between zero and 10<sup>100</sup> is then:</p>
+
+    <quote>for n = 1 to 50, sum 2 <times/> (10<sup>n</sup> - 10<sup>n-1</sup>)</quote>
+
+    <p>Refactoring and expanding the summation:</p>
+
+    <quote>2 <times/> (10<sup>50</sup> - 10<sup>49</sup> + 10<sup>49</sup> - 10<sup>48</sup> + ... + 10<sup>1</sup> - 10<sup>0</sup>)</quote>
+
+    <p>Most of the terms in the summation cancel each other out, leaving:</p>
+
+    <quote>2 <times/> (10<sup>50</sup> - 1)</quote>
+
+    <p>This is 199999999999999999999999999999999999999999999999998, the number of palindromes between 0 and 10<sup>100</sup>.
+        It has 49 9's, for a digit sum of 1+49<times/>9+8, or 450.</p>
+
+    <p>For the stairs problem, let's call the number of ways to walk up a flight of n stairs, S(n).  We know that S(1) is 1, and S(2) is 2.
+        For the arbitrary case n, there are two possible ways to start up the stairs, you can take the first step, 
+        or you can skip the first step.  If you take the first, there are S(n-1) ways to finish your walk.  If you skip the
+        first, there are S(n-2) ways to finish it.  So S(n) = S(n-1) + S(n-2). Combined with our values for S(1) and S(2), 
+        we see that S is the classic Fibonacci series: 1, 2, 3, 5, 8, 13, 21, 34, etc.</p>
+
+</body>
+</entry>
+</blog>

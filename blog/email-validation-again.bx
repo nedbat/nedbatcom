@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060107T093734'>
+<title>Email validation again</title>
+<category>php</category>
+<category>email</category>
+<category>regex</category>
+<body>
+<p>OK, so I'm a liar.</p>
+
+<p>On Thursday, I <a href='blog/20060105T073557.html'>updated my email validation code</a>
+in response to an problem a reader was having with it.
+In the comments, as I expected, I was chastised for excluding some valid but unlikely addresses.
+I explained why I was not going to support those addresses.  Then I went ahead and supported them.
+</p>
+
+<more>
+
+<p>
+Here's what I said to defend not supporting address with spaces in them:
+</p>
+
+    <quote>
+    <p>I know the value of following a standard to the letter, and how it improves
+    interoperability, and so on. I also know the value of spending time on the
+    things that will truly make a difference. When people have complained here about
+    actual email addresses that didn't work, I fixed the validation. I'm a little
+    interested in supporting esoteric forms, but not much.</p>
+    </quote>
+
+<p>As it turns out, I am interested enough in supporting esoteric forms that I
+went ahead and did it.
+I guess once the idea of doing a better job was planted by Rik and Ben, I couldn't resist.
+It was like an Everest to climb because it was there.
+So now quoted email addresses and escaped characters are accepted.
+Here's the current code:
+</p>
+
+<code lang='php'><![CDATA[
+/**
+ * Match an email address.  Return 1 if it's a syntactically valid
+ * address, 0 otherwise. The $matches output parameter is an array
+ * with 'local' and 'domain' entries if the address was valid.
+ */
+function MatchEmail($email, &$matches)
+{
+    $atomchar_re = "[a-z0-9!#$%&'*+\\/=?^_`{|}~-]";
+    $escape_re = "(\\\\.)";
+    $word_re = "(" . $atomchar_re . "|" . $escape_re . ")+";
+    $local_re = $word_re . "(\\." . $word_re . ")*";
+    $email_re =
+        "/^" .
+        "(?P<local>" .
+            // Local part is atoms or escaped chars, separated by dots
+            $local_re . "|" .
+            // or a quoted string
+            "\"[^\"]*\"" .
+        ")" .
+        // Need an at-sign!
+        "@" .
+        "(?P<domain>" .
+            // Domain is anything ending with a dot and 2-4 letters.
+            "([a-z0-9.-]+)(\\.[a-z]{2,4})" .
+        ")" .
+        "$/i";
+
+    // Try to match the email address
+    return preg_match($email_re, $email, $matches);
+}
+
+/**
+ * Determine (as best as possible) whether the email address is valid.
+ */
+function IsValidEmail($email)
+{
+    // Presume that the email is invalid
+    $valid = 0;
+
+    // Validate the syntax
+    if (MatchEmail($email, $matches)) {
+        if (function_exists("getmxrr")) {
+            $domaintld = $matches['domain'];
+            while (substr_count($domaintld, ".") > 0) {
+                // Validate the domain
+                if (getmxrr($domaintld, $mxrecords)) {
+                    $valid = 1;
+                    break;
+                }
+
+                // Didn't find an MX record.
+                // If we have a subdomain, move up the hierarchy.
+                list($dummy, $domaintld) = split(".", $domaintld, 2);
+            }
+        }
+        else {
+            // Couldn't check the domain with getmxrr, assume the best.
+            $valid = 1;
+        }
+    }
+    else {
+        $valid = 0;
+    }
+
+    return $valid;
+}
+]]></code>
+
+<p>One of the difficulties in writing code like this is just wading through the dense
+RFC's that define the syntax.  A document pointed to in the comments by Ben Finney was very
+helpful: <a href='http://www.apps.ietf.org/rfc/rfc3696.html#sec-3'>RFC 3696</a>
+summarizes the rules in English.</p>
+
+<p>Invaluable while making changes to impenetrable regular expressions are unit tests
+which both prove that the code works properly, and prove that the code <em>still</em>
+works properly.  That is, they serve both as functional tests and regression tests.
+I wrote some of those too, so I really think this code works:
+</p>
+
+<code><![CDATA[
+OK: joe@example.com matches: local is joe, domain is example.com
+OK: joe@sub.example.com matches: local is joe, domain is sub.example.com
+OK: joe.shmoe@example.com matches: local is joe.shmoe, domain is example.com
+OK: joe+shmoe@example.com matches: local is joe+shmoe, domain is example.com
+OK: joe.shmoe.hello_there@example.com matches: local is joe.shmoe.hello_there, domain is example.com
+OK: joe.@example.com doesn't match.
+OK: joe..shmoe@example.com doesn't match.
+OK: .joe@example.com doesn't match.
+OK: joe doesn't match.
+OK: joe@joe@example.com doesn't match.
+OK: joe shmoe@example.com doesn't match.
+OK: joe\shmoe@example.com matches: local is joe\shmoe, domain is example.com
+OK: doesn't match.
+OK: @@ doesn't match.
+OK: @example.com doesn't match.
+OK: joe@ doesn't match.
+OK: joe@127.0.0.1 doesn't match.
+OK: joe'shmoe@example.com matches: local is joe'shmoe, domain is example.com
+OK: joe\ shmoe@example.com matches: local is joe\ shmoe, domain is example.com
+OK: joe\@shmoe@example.com matches: local is joe\@shmoe, domain is example.com
+OK: "joe shmoe"@example.com matches: local is "joe shmoe", domain is example.com
+OK: "joe@shmoe"@example.com matches: local is "joe@shmoe", domain is example.com
+OK: ""@example.com matches: local is "", domain is example.com
+OK: joe@[72.9.232.138] doesn't match.
+OK: joe@joe\@com doesn't match.
+
+25 tests, 0 failures
+]]></code>
+
+<p>By the way: I am not validating these email address so that I can be sure mail will be delivered.
+Unless you ask for email notifications, I never send email to these addresses.  I validate them
+to prevent spam and discourage anonymous comments.  And yes, I know lame-o validation is a weak
+defense.</p>
+
+<p>Any <em>more</em> complaints?</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

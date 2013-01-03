@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030908T084842'>
+<title>Lines of code per month</title>
+<category>management</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>A friend (and former boss) wrote to me asking for an
+estimate of my average productivity per month in terms of
+raw lines of source code.  I complied (source code control
+systems are great for mining this sort of information), but
+also started thinking about this metric.
+</p>
+
+<more>
+
+<p>We all know it's a blunt instrument, full of caveats and gotchas:</p>
+<ul>
+<li>How do you compare different languages?
+100 lines of COBOL equals 5 lines of Python.</li>
+<li>How do you compare different programming tasks?
+Implementing multithreaded database access with transaction support takes more care
+than writing diagnostic logging utilities.</li>
+<li>How do you compare different phases of the project?
+The end game requires slowing down the coding and taking far more care with every
+change.</li>
+<li>Do you only count lines created, or do you include lines changed?  The same
+line can be edited many times in a month.  Which programmer gets the credit?</li>
+<li>How do you deal with someone who spends a good chunk of time mentoring?</li>
+<li>Do you count comment lines? (Of course you do: they are an important part
+of writing software.) Do you count blank lines?</li>
+</ul>
+
+<p>Even once you get past all these details, do you even want higher numbers?
+I once worked with an engineer who was clearly the most productive guy on the team in
+terms of lines per month.  He also had a reputation for writing buggy, poorly designed
+code, and was difficult to communicate with.
+The whole team would have been better off if he had slowed down, thought
+about each line a little bit more, written fewer lines each month, and talked
+to everyone more often.</p>
+
+<p>You have to be careful what you wish for.  We all know that if you impose
+strict metrics on people, they will organize their work to maximize the metric.
+An extreme example: I heard a horror story years ago about a disk drive manufacturer
+that was having difficulty meeting their shipment quotas.  The manager made it
+clear that he wanted the quotas met, and didn't want to hear any bad news.
+In desperation, they started shipping boxes with bricks in them instead of drives,
+or so I was told.  Maybe it's an apocryphal story.  But it has the ring of truth to it,
+and all of us have been in situations that smelled a little bit like that.
+</p>
+
+<p>I don't think we'll ever get away from the lines per month metric.  It's just
+too easy to compute.  The best we can do is take it all with a huge grain of salt,
+and use it as one piece of information alongside many others.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

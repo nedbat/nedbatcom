@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<page title='Exceptions in the rainforest'>
+<history>
+<what when='20031016T081400'>Created.</what>
+</history>
+
+
+<p>As part of a
+<a href='blog/200310.html#e20031013T222251'>debate</a> about exceptions and status returns,
+<a href='http://www.joelonsoftware.com/items/2003/10/15.html'>Joel asked for an example</a>
+of exception handling using a particular chunk of code.
+Before jumping to the code, I want to talk about rainforests for a little bit.
+If you haven't read my previous article about
+<apage pref='text/exceptions-vs-status.px'>exceptions and status returns</apage>,
+you might want to start there.
+</p>
+
+
+<h1>Rainforests</h1>
+
+<p>If you've ever studied the rainforest, you know that it is not a simple place.
+A simplistic model of it would be that there are lots of trees, and lots of
+animals, and they all live together.  It's more interesting than that:
+The forest is <a href='http://www.mongabay.com/0401.htm'>divided horizontally into layers</a>,
+and each layer has its own ecosystem, with different inhabitants.
+To understand how the rainforest works, you have to consider the layers
+separately, and see how they differ from each other.
+</p>
+
+<p>Complex software is the same way: there are different layers, and the error handling
+they perform is different.  If we want to discuss what exception handling looks like
+in real code, we have to talk about the layers.</p>
+
+<h1>Three layers of code</h1>
+
+<p>In my experience, there are three layers to real code
+(from bottom to top, so this list might look upside-down):</p>
+
+<ul>
+<li><b>A</b>dapting the software beneath you.</li>
+<li><b>B</b>uilding pieces of your system.</li>
+<li><b>C</b>ombining it all together.</li>
+</ul>
+
+<p>Keep in mind, this is a simple model, and real software is fractal in most of its
+aspects.  A 100,000-line system will have layers within layers within layers.
+But this three-layer model closely matches the way I've seen a number of real
+systems evolve.
+Let's look at each of these layers in detail.
+</p>
+
+
+<h2>Adapting the software beneath you</h2>
+
+<p>Beneath every piece of software is more software.
+Your Windows application sits on top of the Win32 API, or ATL.
+Your PHP web site sits on top of MySQL calls, and PHP primitives.
+Your Java system sits on top of the JDK, the J2EE facilities.
+Even if you are writing a device driver, your code is sitting on top of the actual
+I/O operations that write bits to the disk, or whatever it is your driver does.</p>
+
+<p>At the lowest layer of your system, your code deals with your particular underlying
+software.  It makes its calls, and interprets the results.
+This layer is where you convert cultures, making the underlying software more the way
+you'd like it to be: operations become more convenient, concepts are presented more
+palatably to the rest of the system, ugly workarounds are hidden.
+</p>
+
+
+<h2>Building pieces of your system</h2>
+
+<p>The middle layer of your code is where you construct the pieces of your world.
+Are you writing a spreadsheet? You'll need a cell engine, and some way to read and
+write data files, and connectors to databases, and charting modules.
+In some worlds this is called business logic.</p>
+
+<p>This is where the bulk of the code will be, and where you are likely to be adding
+value.  Few applications compete on how well they read and write the registry.
+The interesting technology is in the cell engines, or drawing paradigms,
+or database intelligence, or logical inference algorithms.
+This is the interesting part.  The more time you can spend here productively,
+the better off you will be.</p>
+
+
+<h2>Combining it all together</h2>
+
+<p>At the top of your system is the big picture.
+For example: when the application starts, we need to create an empty document,
+initialize the database layer, and show the GUI.
+This is where you can see the main flow of the application.
+If you had to explain what your system did in detail to a knowledgeable user,
+this layer is the one you'd be talking about.
+This is the stage manager layer, coordinating pieces, making the whole thing
+hang together into a cohesive whole.
+</p>
+
+
+
+<h1>How exceptions are used in the layers</h1>
+
+<p>At the bottom layer (Adapting), there's a lot of throwing exceptions.
+Unless you are coding in Java or C#, where the system toolkits throw exceptions
+(in which case, I'm preaching to the choir),
+the layer beneath you more than likely is returning statuses to you.
+Each call will have its return value checked, and converted into an appropriate
+exception, and thrown.  Sometimes, error values will be dealt with immediately.
+For example, this layer may implement some simple retrying mechanism for some operations,
+or it may decide that some error returns are really not errors.</p>
+
+<p>At the middle layer (Building), things are flowing pretty smoothly.
+Typically, there's not a lot of exceptions being thrown, and not a lot being caught
+either. This is where you often get to just think about the ideal case, and
+focus on the algorithms and data structures at hand.
+Of course, exceptions can happen, especially in the A-layer calls you make.
+But for the most part, you can let those exceptions fly.
+An upper layer will deal with them.</p>
+
+<p>At the top layer (Combining), there's a lot of catching exceptions happening.
+Couldn't open a file?  Now you have to decide what to do about it.
+You can alert the user, try a different file name, exit the application, whatever
+you as the system designer decide is the best approach.
+</p>
+
+<p>This C-layer code can actually be quite pre-occupied with dealing with exceptions.
+This makes sense: this is the layer where the code really knows what's going on.
+If you have an A-layer function to open a file, what should it do when the file
+can't be opened? How can you possibly say?  This function will be used to open
+all sorts of files for all sorts of reasons.  Maybe the C-layer caller knows that
+the file could be missing, and has a plan for what to do in that case, so alerting
+the user would be wrong.  It's the C-layer that understands the big picture, so
+it's the C-layer that should be dealing with the exceptions.
+</p>
+
+
+
+<h1>Exceptions vs. status returns again</h1>
+
+<p>Now for Joel's example.
+He <a href='http://www.joelonsoftware.com/items/2003/10/15.html'>asked</a>
+that we discuss this code:</p>
+
+<code lang='c++'><![CDATA[
+void InstallSoftware()
+{
+    CopyFiles();
+    MakeRegistryEntries();
+}
+]]></code>
+
+<p>Using the three-layer model above, this is clearly C-layer code. I know Joel asked for
+this example because he knew that even with exceptions the code would be cluttered with error
+handling, just as it would be with status returns.  He's right.  It's C-layer code, so it
+will have to deal with unusual cases.  There's no way around that.</p>
+
+<p><a href='blog/200310.html#e20031016T085405'>Others</a> have taken up this challenge,
+and come up with some nice ways to deal with it cleanly, using C++ destructor semantics
+to ensure that operations are rolled back.
+To be perfectly honest, I don't know that I would have been as clever as these writers,
+though they have given me some good ideas.
+I might have done it like this:</p>
+
+<code lang='c++'><![CDATA[
+void InstallSoftware()
+{
+    try {
+        CopyFiles();
+        MakeRegistryEntries();
+    }
+    catch (CException & ex) {
+        RemoveFiles();
+        DeleteRegistryEntries();
+        throw ex;
+    }
+}
+]]></code>
+
+<p>This function either succeeds, in which case the files are copied and the registry
+entries are written, or it throws an exception, and the files and registry entries are
+cleaned up.  Is this sufficient?  I don't really know, and in a real implementation
+I can imagine it getting much hairier than this.
+</p>
+
+<p>The status return folks may well be crowing about this code, that it is either
+not handling the problems completely, or that it is just as ugly as status return code.
+They're missing the point.  I'm not claiming that exceptions make all code prettier,
+or that they somehow remove the burden of thinking through what should happen when
+something goes wrong.
+</p>
+
+<p>The debate over exceptions and status returns is not about whether error handling is
+hard to do well.  We all agree on that.
+It's not about whether exceptions make it magically better.  They don't, and if someone
+says they do, they haven't written large systems in the real world.
+</p>
+
+<p>The debate is about how errors should be communicated through the code.
+The C-layer code we're talking about is going to be complicated no matter which technique
+you use to communicate errors around.</p>
+
+<p>But what does the B-layer code look like?</p>
+
+<code lang='c++'><![CDATA[
+void MakeRegistryEntries()
+{
+    CRegistry reg;
+
+    reg.WriteString("ProductName", "Ned's FooBar");
+    reg.WriteString("Version", "1.2b");
+    reg.WriteDword("WebUpdateInterval", 7*24*60*60);
+}
+]]></code>
+
+<p>Here at the B-layer, we can get into the zone and just write registry entries.
+How would this look with status returns? Either cluttered with if statements, or
+hidden behind macros that simply pull your code into the "hidden function return" camp
+that are supposed to make exceptions evil.</p>
+
+<p>The A-layer code looks like this:</p>
+
+<code lang='c++'><![CDATA[
+void CRegistry::WriteString(
+    const char * pszValueName,
+    const char * pszValue
+    )
+{
+    ASSERT(m_hKey != NULL);
+
+    DWORD cbData = (DWORD)(strlen(pszValue)+1);
+
+    LONG lRet = ::RegSetValueEx(m_hKey, pszValueName, NULL, REG_SZ, (BYTE*)pszValue, cbData);
+    if (lRet != ERROR_SUCCESS) {
+        CWin32Exception ex(lRet);
+        throw ex;
+    }
+}
+]]></code>
+
+<p>Here we're adapting to the Win32 registry functions, converting their status returns
+into exceptions (which carries the actual status return as data so that it can be
+used for error messages, or analysis).
+</p>
+
+<p>These example are all too brief to be real code, but demonstrate the concepts.
+Broadly speaking:</p>
+
+<ul>
+<li>A-layer generates exceptions,</li>
+<li>B-layer can often ignore the whole issue, and</li>
+<li>C-layer decides what to do</li>
+</ul>
+
+
+<h1>Exceptions are better at communicating errors</h1>
+
+<p>The challenge in building a large system is making sure errors get communicated around.
+Exceptions are a better way to do that than status returns:</p>
+
+<ul>
+<li>Exceptions can carry richer information.  If error handling is so important,
+why try to cram it all into a DWORD?</li>
+<li>Exceptions let the B-layer get on with its work without being a mindless
+bucket brigade for status returns.</li>
+<li>Exceptions make human error (failure to catch) visible, while error returns
+make human error (failure to check) invisible.</li>
+<li>Exceptions leave the primary channel (function returns) available for the
+primary work.</li>
+</ul>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/exceptions-vs-status.px'/>,
+which lays out the arguments in favor of exceptions.</li>
+<li><apage pref='text/fix-err-hand.px'/>,
+about ensuring your error handling code is running its best.</li>
+<li><a href='blog/index.html'>My blog</a>,
+where other similar topics are occasionally discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

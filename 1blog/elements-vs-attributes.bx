@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041218T173942'>
+<title>Elements vs. attributes</title>
+<category>xml</category>
+<category>arch</category>
+<via />
+<body>
+<p>The classic XML design question came up the other day: whether to use elements or
+attributes.  During the discussion I became somewhat heated, for a few reasons:
+</p>
+
+<p>First, we weren't debating whether to create a design using elements or attributes,
+we were talking about changing an existing design using attributes to a new
+one using elements.  To my mind, the reasons for switching had better be pretty
+good to change an existing system.</p>
+
+<p>Second, I had designed the system in question, and I thought the attribute
+decision was a sound one.  They were all simple datatypes, and were order-less,
+and could appear only once.  In this case, attributes are perfectly reasonable,
+and mean that you can avoid the overhead of end tags.</p>
+
+<p>Third, I sensed ill-reason, or worse, dogma, approaching.</p>
+
+<more>
+
+<p>The
+<a href='http://www.x12.org/x12org/comments/X12Reference_Model_For_XML_Design.pdf'>X12 Reference Model for XML Design</a>
+was offered as guidance for the decision.  This is a long and detailed document
+that describes many things I don't understand.  Like many documents of its ilk,
+it generalizes concepts and terms to the point that I no longer know what they refer to.
+</p>
+
+<p>But section 7.2.5 (Elements vs. Attributes) applied, and
+for the most part consists of a clear explanation of the pros and cons of elements
+and attributes.  Here it is (used without permission, mea culpa):</p>
+
+<quote>
+<h3>7.2.5 Elements vs. Attributes</h3>
+<p><b>Description:</b> Often it is possible to model a data item as a child element or an attribute.</p>
+
+<h4>Benefits of Using Elements</h4>
+<ul>
+<li>They are more extensible because attributes can later be added to them without
+affecting a processing application.</li>
+<li>They can contain other elements. For example, if you want to express a textual
+description using XHTML tags, this is not possible if description is an attribute.</li>
+<li>They can be repeated. An element may only appear once now, but later you
+may wish to extend it to appear multiple times.</li>
+<li>You have more control over the rules of their appearance. For example, you can
+say that a product can either have a number or a productCode child. This is not
+possible for attributes.</li>
+<li>Their order is significant if specified as part of a sequence, while the order of
+attributes is not. Obviously, this is only an advantage if you care about the order.</li>
+<li>When the values are lengthy, elements tend to be more readable than attributes.</li>
+</ul>
+
+<h4>Disadvantages of Using Elements</h4>
+<ul>
+<li>Elements require start and end tags, so are therefore more verbose. (NOTE: not
+all elements require a start and end tag <emdash/> elements can be declared in a
+single line.)</li>
+</ul>
+
+<h4>Benefits of Using Attributes</h4>
+<ul>
+<li>They are less verbose.</li>
+<li>Attributes can be added to the instance by specifying default values. Elements
+cannot (they must appear to receive a default value).</li>
+<li>Attributes are atomic and cannot be extended and its existence should serve to
+remove any and all possible ambiguity of the element it describes. They are
+“adjectives” to the element “noun”.</li>
+</ul>
+
+<h4>Disadvantages of Using Attributes</h4>
+<ul>
+<li>Attributes may not be extended by adding children, whereas a complex element
+may be extended by adding additional child elements or attributes.</li>
+<li>If attributes are to be used in addition to elements for conveying business data,
+rules are required for specifying when a specific data item shall be an element or
+an attribute.</li>
+</ul>
+</quote>
+
+<p>All is well and good.  These are the pros and cons based on the XML semantics of
+elements and attributes.  But then it continues with this recommendation:</p>
+
+<quote>
+<p><b>Recommendation:</b> Use elements for data that will be produced or consumed by
+a business application, and attributes for metadata.</p>
+</quote>
+
+<p>What?!  How does that relate to all the pros and cons?
+This recommendation is a commonly-repeated mantra about elements and attributes,
+and is nearly meaningless.
+What if I have "metadata" that has order significance or needs to be repeated,
+or is itself structured?
+And what do they mean by "metadata" anyway?  One man's data is another man's metadata.
+It's impossible to separate the two without specifying the audience for the
+information.</p>
+
+<p>In the HTML world, there's a handy rule of thumb: element content gets
+put on the screen, and attributes do not.  That's basically the metadata rule,
+but it only works in this case because HTML has a very clear consumer (a browser)
+with a very clear processing model (render the HTML for display).
+Most other XML dialects don't have such clear processing models.
+The particular case I'm dealing with is data served by an API,
+with dozens of potential consumers, doing a dozen different things with the data.
+The metadata rule is useless to me.</p>
+
+</more>
+
+<p>I say: Use attributes unless you truly need elements.  You need elements for
+a thing if the thing can be repeated, or is itself structured, or has semantics
+based on its order among its peers.</p>
+
+</body>
+</entry>
+</blog>

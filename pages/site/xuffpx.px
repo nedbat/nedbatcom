@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Xuff, px, bx, etc.'>
+
+<history>
+<what when='20051128T201000'>Created.</what>
+<what when='20080116T183700'>Mostly obsolete.</what>
+</history>
+
+<box>As of January 2008, half of this page is out-of-date.  The input files are
+the same, but the process for turning them into HTML is completely different.
+See
+<a href='blog/200801/permalinks_gravatars_and_django.html'>Permalinks, Gravatars, and Django</a>
+for details.</box>
+
+<p>I create this site with custom tools.  They've grown organically over time.
+The end result is idiosyncratic, and I wouldn't recommend them to anyone, but they
+work for me.</p>
+
+<p>Briefly, my requirements were:</p>
+
+<ul>
+<li>All source must be in plain text files.  This allows me the most flexibility to edit my pages,
+and change my mind later about how to process them.</li>
+<li>The site itself must be static HTML pages.  When I started, I had no experience with LAMP or
+hosting providers, and I wanted as little infrastructure on the web host as possible.</li>
+<li>I had to be able to produce a staging version of the site on my own computer.  This made it
+possible for me to fiddle with the site while not connected to the Internet.</li>
+</ul>
+
+<p>I've used and grown these tools over the last four years.  Things I like about them:</p>
+
+<ul>
+<li>I've been able to make incremental changes.</li>
+<li>They work.</li>
+</ul>
+
+<p>Things I don't like about them:</p>
+
+<ul>
+<li>XSLT can be an awkward way to produce HTML files, since it is declarative rather than procedural.</li>
+<li>I don't get a chance to work with some cooler technologies.</li>
+<li>I can't do truly dynamic rendering of content, for example, I have no way to produce a single blog
+entry per page.</li>
+</ul>
+
+<h1>Input files: px, bx, etc</h1>
+
+<p>My input files are all XML, in a handful of custom dialects.  Pages start life as .px files;
+they look like this:</p>
+
+<code><![CDATA[
+<?xml version='1.0' encoding='utf-8'?>
+<page title='Xuff, px, bx, etc.'>
+
+<history>
+<what when='20051128T201000'>Created.</what>
+</history>
+
+<p>I create this site with custom tools.  They've grown organically over time.
+The end result is idiosyncratic, and I wouldn't recommend them to anyone, but they
+work for me.</p>
+...
+</page>
+]]></code>
+
+<p>The dialect borrows liberally from XHTML, since that is a natural tagset to use when creating pages.
+For semantic constructs (such as the edit history of the page), I created my own tags.
+Each .px file eventually becomes a .html page on the site.</p>
+
+<p>Blog entries are created in .bx files.  Here's a complete file:</p>
+
+<code><![CDATA[
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050726T083044'>
+<title>IPod Flea</title>
+<category>funny</category>
+<category>music</category>
+<via />
+<body>
+<p>Awesome:
+<a href='http://www.layersmagazine.com/features/feature_cs2/flea.htm'>iPod Flea</a>.
+</p>
+</body>
+</entry>
+</blog>
+]]></code>
+
+<p>The .bx files are converted into .px files in various ways to become pages on the site.</p>
+
+<h1>Processing: Xuff</h1>
+
+<p>The conversion of files is done with XSLT transforms, run by a tool called Xuff.
+It's an XML script engine.
+It knows how to perform tasks such as copying trees of files,
+collecting together a number of files into one XML file,
+running XSLT transforms over sets of files, splitting an XML file into a number of files,
+uploading files via FTP, and so on.</p>
+
+<p>For example, here is a shortened snippet of all.xuff:</p>
+
+<code><![CDATA[
+<treefile out='temp/all-blog.xml'>
+    <files src='blog' include='*.bx' />
+</treefile>
+
+<xsl in='temp/all-blog.xml' style='blogmain.xslt' out='temp/blog/index.px' />
+
+<xsl in='temp/all-blog.xml' style='feedentries.xslt' out='temp/blogfeed.xml' />
+<xsl in='temp/blogfeed.xml' style='blogrss.xslt' out='html/blog/rss.xml'>
+    <param name='brief' value='y'/>
+</xsl>
+
+<xsltree
+    src='temp' include='*.px'
+    style='subpage.xslt'
+    dst='html' outext='.html'
+    />
+]]></code>
+
+<p>This code:</p>
+
+<ul>
+<li>creates a file all-blog.xml containing the contents of all the .bx files in the blog
+directory.</li>
+<li>transforms all-blog.xml with blogmain.xslt to produce blog/index.px</li>
+<li>transforms all-blog.xml with feedentries.xslt to produce blogfeed.xml</li>
+<li>transforms blogfeed.xml with blogrss.xslt to produce rss.xml, setting an XSLT parameter.</li>
+<li>transforms all of the .px files in the temp directory with subpage.xslt, producing .html
+files in the html directory as a result.</li>
+</ul>
+
+<p>Whenever I change a file comprising my site, I run a Xuff file to create the entire site
+as HTML files and upload the changed files to my host.  There's no attempt to generate only
+part of the site.  This isn't fast (it takes about two minutes on my computer), but it is simple.</p>
+
+<h1>Download</h1>
+
+<p>If you'd like to take a look at the tools or try them out,
+you can download a snapshot of a subset of my site.  To use it:</p>
+
+<ol>
+<li>Install some prerequisite Python modules:
+<a href='http://pyxml.sourceforge.net/'>PyXML</a>,
+<a href='http://pyana.sourceforge.net/'>Pyana</a>,
+and
+<a href='http://silvercity.sourceforge.net/'>SilverCity</a>.</li>
+
+<li>Unpack the snapshot (<a href='site/nedsite.zip'>nedsite.zip</a>) somewhere (let's call it c:\nedsite)</li>
+
+<li>Edit try.xuff to set the base param:
+<code><![CDATA[
+<param name='base' value='file:///c:/nedsite/html/' />
+]]></code></li>
+
+<li>In the nedsite directory, execute:
+<code><![CDATA[
+python xuff.py try.xuff
+]]></code>
+This creates a local staging copy of the site.
+</li>
+
+<li>Launch a browser to c:\nedsite\html\index.html to see what you made.</li>
+</ol>
+
+<p>If you use "python xuff.py tch.xuff" instead,
+it builds the files for the real site and uploads them to my host
+(except it won't upload because it's been neutered).</p>
+
+<p>The snapshot zip file only includes a small subset of the blog entries
+(you'll notice they all start with 'a'),
+and some other large files are omitted, but the site should basically work.</p>
+
+<h1>See also</h1>
+
+<ul>
+<li>The <a href='site/colophon.html'>Colophon</a> for this site, which discusses other aspects of its
+production.</li>
+<li>My <a href='blog/index.html'>blog</a>, where topics like this come and go as my interests dictate.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

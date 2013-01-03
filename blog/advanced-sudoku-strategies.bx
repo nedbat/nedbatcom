@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060423T074012'>
+<title>Advanced sudoku strategies</title>
+<category>games</category>
+<via href='http://reddit.com'>reddit</via>
+<body>
+<p>This past December, I was given a book of Sudoku puzzles, and it consumed a significant chunk of my
+spare time.  The puzzles are addictive, partly because at a certain difficulty level,
+they are easy to start, and then hard to finish.
+So once I finally completed a puzzle, my eye would move on to the next, and I'd see a number to scribble in,
+and then I had to finish <em>that</em> puzzle, and the cycle would continue.
+</p>
+
+<p>Andrew Stuart has an extensive and detailed list of Sudoku strategies:
+<a href='http://www.scanraid.com/AdvanStrategies.htm'>Advanced Sudoku Strategies</a>.
+Some of these are so complicated, I can't quite imagine being able to put them into practice in the wild,
+but it is fascinating to see how elaborate the solving technique can become.
+</p>
+
+<p>BTW: I can't understand why everyone uses the classic marking technique of writing teeny numerals
+indicating what a cell could be.  Much easier in a number of ways is the dot technique
+(illustrated in the <a href='http://en.wikipedia.org/wiki/Sudoku'>Sudoku</a> entry at Wikipedia)
+whereby a dot in a cell indicates what number it <em>cannot</em> be.  The placement of the dot indicates
+its numeral.  The dots are easier to enter than tiny numbers, and as more constraints are discovered (that is,
+as you progress toward the solution), you write more dots, rather than erase numbers.  If no mistakes are made,
+and you don't mind writing the answer numeral over existing dots, you never need to erase.
+Also, sometimes single-number constraints are discovered quite early in the solving process.  A dot can be
+made to indicate this, while you'd never write seven or eight tiny numerals to remember which numbers are
+left as possibilities.  I don't get why the nine-dot marking technique isn't more popular.
+</p>
+
+</body>
+</entry>
+</blog>

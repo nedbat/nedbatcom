@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031004T212917'>
+<title>Resign patterns</title>
+<category>development</category>
+<category>funny</category>
+<via href='http://www.benpoole.com/'>Ben Poole</via> <!-- id= or href= -->
+<body>
+<p>Michael Duell has come up with 23
+<a href='http://www.agcs.com/supportv2/techpapers/patterns/papers/respat.htm'>Resign Patterns</a>,
+including five Cremational patterns, seven Destructural patterns,
+and eleven Misbehavioral patterns:</p>
+
+<quote>
+<p>3.11 Visitor From Hell</p>
+<p>The Visitor From Hell Pattern is coincident with the absence of
+run time bounds checking on arrays.
+Inevitably, at least one control loop per system will have a
+Visitor From Hell Pattern that will overwrite critical data.
+</p>
+</quote>
+
+</body>
+</entry>
+</blog>

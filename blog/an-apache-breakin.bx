@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100413T192215'>
+<title>An Apache break in</title>
+<category>security</category>
+<via>aron</via>
+<body>
+<p>Apache.org had an <a href='https://blogs.apache.org/infra/entry/apache_org_04_09_2010'>incident last week</a>
+which started as a cross-site scripting attack and ended with the attackers
+gaining root access to their servers.  The <a href='https://blogs.apache.org/infra/entry/apache_org_04_09_2010'>full story</a>
+is worth a read because it's instructional to see how the mistakes compound and
+the attackers used each new foothold to gain access to another deeper level in
+the system.  It reads like a laundry list of simple security mistakes, but strung
+together in a real world scenario that resulted in a serious breach of security.
+</p>
+
+<p>And it ends with a great honest example of the open source philosophy:</p>
+
+<quote><p>We hope our disclosure has been as open as possible and true to the ASF spirit. Hopefully others can learn from our mistakes.</p></quote>
+
+</body>
+</entry>
+</blog>

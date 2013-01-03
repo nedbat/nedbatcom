@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090910T204433'>
+<title>Why numbering should start at zero</title>
+<category>compsci</category>
+<category>history</category>
+<body>
+<p>My son Max is taking a computer class in high school, and described a class
+exercise involving a deck of cards numbered 0 to 51.  I asked him if there was
+any discussion in class about why it wasn't 1 to 52.  He said the teacher told
+them that if they learned C++, they'd understand why it started from zero.
+</p>
+
+<p>I guess the teacher meant pointer arithmetic makes it obvious, but I
+remembered a more scholarly exposition: Edsger Dijkstra wrote a brief paper
+called <a href='http://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF'>Why
+Numbering Should Start at Zero</a>.  He lays out a mathematical explanation
+that has nothing directly to do with pointers.</p>
+
+<p>I'm impressed by Dijkstra because of his methodical approach to even the
+seemingly most trivial detail of computing.  He was willing to stop, think through,
+and explain why something should be done a certain way, no matter how small.</p>
+
+<p>Earlier today over lunch, we discussed the amazing foresight of the AT&amp;T
+engineers who laid out the
+<a href='http://en.wikipedia.org/wiki/North_American_Numbering_Plan'>North American
+area codes</a>.  We marvelled at the care they took with designing a solution
+to a problem that wouldn't hit for a decade or so.  How often do we see that kind
+of care and attention to detail in day-to-day work?</p>
+
+<p>Both examples made me stop and admire true professionals, engineers building
+carefully, making sure to get it right no matter how far off the consequences.
+Thanks, guys.  We should each try to channel your spirit in our own work.</p>
+
+</body>
+</entry>
+</blog>

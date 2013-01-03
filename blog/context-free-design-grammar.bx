@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050517T200542'>
+<title>Context Free Design Grammar</title>
+<category>art</category>
+<via href='http://www.news.betaland.net/'>Betaland</via>
+<body>
+<p>Chris Coyne has built a simple language for creating visual generative grammars:
+<a href='http://chriscoyne.com/cfdg/'>Context Free Design Grammar</a>.
+The pictures show the typical complexity and subtlety that can arise from simple rules recursively
+applied.  They are also beautiful.  A number of implementations are available:
+Unix, <a href='http://www.ozonehouse.com/ContextFree/'>Mac and Windows</a>,
+<a href='http://korsh.com/cfdg/'>Web page</a>.
+</p>
+
+<figurep href='http://chriscoyne.com/cfdg/'>
+<img src='pix/cfdg-treeroots.gif' alt='Beautiful trees, algorithmically generated'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

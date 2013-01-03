@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051202T161609'>
+<title>Python Testing Tools Taxonomy and Jester</title>
+<category>python</category>
+<category>testing</category>
+<category>tools</category>
+<body>
+<p>Grig Gheorghiu blogs about <a href='http://agiletesting.blogspot.com/'>Agile Testing</a>,
+mostly concerning Python technologies.  He has a wiki page where he tries to make sense of Python testing tools:
+<a href='http://www.pycheesecake.org/wiki/PythonTestingToolsTaxonomy'>Python Testing Tools Taxonomy</a>.</p>
+
+<p>I added a link to <a href='http://jester.sourceforge.net/'>Jester</a>, a mutation testing tool.
+It makes changes to your source code, then runs your test suite on the result.  If all the tests pass,
+you missed a test case.  Jester works on Java code, but a sidecar tool called Pester provides the same
+service for Python.
+It's a fascinating idea, but I've never had the fortitude to try it out (it needs
+Java and Python, and modified versions of unit test frameworks in both languages).
+</p>
+
+<p>BTW, my adding that link to that wiki page proves that I
+<a href='blog/200511.html#e20051114T204716'>don't always have to control the data</a>.
+</p>
+
+</body>
+</entry>
+</blog>

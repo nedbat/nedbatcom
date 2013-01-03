@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080731T064136'>
+<title>Date Difference and different dates</title>
+<category>friendfam</category>
+<category>tools</category>
+<body>
+<p><a href='http://zibland.com/blog/?cat=419'><img src='pix/ddif.png' class='floatimg' alt='Date Difference'/></a>
+My son Max released his first app last week: <a href='http://zibland.com/blog/?cat=419'>Date Difference</a>
+is a small OS X application that simply gives you the time delta between two
+dates.  It's been fun helping him puzzle through Objective-C, Cocoa, dates, and
+all the rest of the details that go into even a very small application.
+Go give it a try.  With it, we realized that Max is coming up on his 6000-day birthday.
+</p>
+
+<p>It's also been an interesting jumping off point for talking about all of the
+weirdnesses with time and dates.  First off: time zones.  Although motivated by physical reality,
+time zones are really political creations, and so can be very random.  Some are
+not even whole numbers of hours.
+In fact, <a href='http://en.wikipedia.org/wiki/List_of_time_zones'>Iran, Afghanistan and Myanmar</a>
+are all in the small club of countries a half-hour out of step.  Perhaps an explanation
+for bad behavior?  Think about it...
+</p>
+
+<p>Another date anomaly: switching from the old-style Julian calendar to the
+more accurate <a href='http://en.wikipedia.org/wiki/Gregorian_calendar'>Gregorian calendar</a>
+meant correcting accumulated error by skipping days.  For example, in Britain and its colonies,
+the day after Sept 2, 1752 was Sept 14, and in Russia, Jan 31, 1918 was followed by
+Feb 14.  Hard to imagine the logistics of making that happen.</p>
+
+</body>
+</entry>
+</blog>

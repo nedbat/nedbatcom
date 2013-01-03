@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051006T065335'>
+<title>Stack traces on windows</title>
+<category>windows</category>
+<via />
+<body>
+<p>For ages, we've had stack trace code in our product at work.
+I picked it up from a sample someplace, and it gave me a good feeling: I had a powerful
+diagnostic tool built into the product, and we could use it to pinpoint fleeting problems.
+It had only one flaw: it didn't work.
+</p>
+
+<more>
+
+<p>At least, it didn't work reliably.
+Sometimes, it would give a beautiful deep stack trace, complete with symbols and line numbers.
+Sometimes it would list only two functions, KiFastCallSomethingOrOther and DumpUserModeThingaMaJig.
+</p>
+
+<p>My code used
+<a href='http://msdn.microsoft.com/library/en-us/debug/base/getthreadcontext.asp'>GetThreadContext</a>
+to load up the program counter and frame pointer for the current thread.
+It looked something like this:</p>
+
+<code lang='cpp'><![CDATA[
+CONTEXT c;
+
+memset(&c, 0, sizeof(c));
+c.ContextFlags = CONTEXT_FULL;
+
+if (!::GetThreadContext(::GetCurrentThread(), &c)) {
+    return;
+}
+
+STACKFRAME s; // in/out stackframe
+memset(&s, 0, sizeof(s));
+
+// Init STACKFRAME for first call
+s.AddrPC.Offset = c.Eip;
+s.AddrPC.Mode = AddrModeFlat;
+s.AddrFrame.Offset = c.Ebp;
+s.AddrFrame.Mode = AddrModeFlat;
+s.AddrStack.Offset = c.Esp;
+s.AddrStack.Mode = AddrModeFlat;
+
+// .. now use StackWalk to walk the stack ..
+]]></code>
+
+<p>There seem to be lots
+of people out there advocating this method.  But the docs for GetThreadContext say,</p>
+
+<quote><p>
+You cannot get a valid context for a running thread.
+Use the <a href='http://msdn.microsoft.com/library/en-us/dllproc/base/suspendthread.asp'>SuspendThread</a>
+function to suspend the thread before calling <b>GetThreadContext</b>.
+</p></quote>
+
+<p>But that's just what I wanted: a stack trace for the current thread.
+It seemed like a lot of bother to spawn another thread just to suspend the current one,
+get a context, and restart it.  And judging from my empirical data, it seemed like the docs were right:
+getting a context on the current thread didn't work too well.
+</p>
+
+<p>Yesterday I dug around some more and found <a href='http://www.codeproject.com/tools/visualleakdetector.asp'>Visual Leak Detector</a>
+at <a href='http://codeproject.com'>The Code Project</a>.  It included stack tracing code that
+doesn't use GetThreadContext.  Instead it does this:</p>
+
+<code lang='cpp'><![CDATA[
+#pragma auto_inline(off)
+DWORD_PTR VisualLeakDetector::getprogramcounterx86x64()
+{
+    DWORD_PTR programcounter;
+
+    // Get the return address out of the current stack frame
+    __asm mov eax, [ebp + 4]
+    // Put the return address into the variable we'll return
+    __asm mov [programcounter], eax
+
+    return programcounter;
+}
+#pragma auto_inline(on)
+
+void VisualLeakDetector::getstacktrace (CallStack *callstack)
+{
+    CONTEXT      context;
+    STACKFRAME64 frame;
+    DWORD_PTR    framepointer;
+    DWORD_PTR    programcounter;
+
+    // Get the required values for initialization of the STACKFRAME64
+    // structure to be passed to StackWalk64(). Required fields are
+    // AddrPC and AddrFrame.
+    programcounter = getprogramcounterx86x64();
+    // Get the frame pointer (aka base pointer)
+    __asm mov [framepointer], BPREG
+
+    // Initialize the STACKFRAME64 structure.
+    memset(&frame, 0, sizeof(frame));
+    frame.AddrPC.Offset    = programcounter;
+    frame.AddrPC.Mode      = AddrModeFlat;
+    frame.AddrFrame.Offset = framepointer;
+    frame.AddrFrame.Mode   = AddrModeFlat;
+
+    // .. use StackWalk to walk the stack ..
+]]></code>
+
+<p>Holy moly.  In the words of a colleague, "If it uses inline assembly code, it's got to be good!".
+I tried out the code, and it worked really well, until I built a Release version, when it seemed to be worse
+than the old GetThreadContext code.  I stepped through it, and read about stack frames,
+and discovered that the "ebp + 4" line should really be "esp + 4".
+After that change, the code worked perfectly.
+</p>
+
+<p>But while I was researching the __asm keyword, I discovered a Microsoft built-in
+function: <a href='msdn.microsoft.com/library/en-us/vclang/html/vclrf_ReturnAddress.asp'>_ReturnAddress</a>.
+Using this, I could get rid of some of the inline assembly language, including the bit that
+I had to fix:</p>
+
+<code lang='cpp'><![CDATA[
+// _ReturnAddress should be prototyped before use
+extern "C" void * _ReturnAddress(void);
+
+#pragma intrinsic(_ReturnAddress)
+
+#pragma auto_inline(off)
+DWORD_PTR
+GetProgramCounter()
+{
+    return (DWORD_PTR)_ReturnAddress();
+}
+#pragma auto_inline(on)
+]]></code>
+
+<p>Funny thing about _ReturnAddress: everyone seems to agree that it's designed for figuring out
+who's calling you so you can decide whether to trust them, and everyone also agress
+<a href='http://blogs.msdn.com/roberthorvick/archive/2004/01/15/59014.aspx'>that's a really bad thing to try to do</a>.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

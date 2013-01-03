@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021109T174541'>
+<title>UBF: universal binary format</title>
+<via id='ltu'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.sics.se/~joe/ubf/site/ubfa.html'>UBF(A)</a>
+is a simple binary-friendly
+data format that allows for creating structured data, similar to XML, but much easier
+to parse.  There are actually three levels to UBF, and I think I'm only interested in the
+first (because I don't really understand the other two).  Don't be scared off by the
+Erlang programming language: UBF is just a data format.
+If I had found this sooner, things might have gone a little differently on a
+recent project...
+</p>
+
+<p>In a similarish vein,
+<a href='http://www.ietf.org/internet-drafts/draft-nielsen-dime-02.txt'>DIME</a>
+(Direct Internet Message Encapsulation)
+is a MIME-like thing for putting binary data chunks together.  It doesn't do structured
+data the way UBF does, but it lets you agglomerate binary data the way MIME lets you
+agglomerate textual data.
+</p>
+
+</body>
+</entry>
+</blog>

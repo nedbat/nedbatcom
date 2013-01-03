@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111203T085544'>
+<title>Maintenance hatches</title>
+<category>django</category>
+<body>
+    <p>Here's a pattern I've repeated too many times to count: build some software, 
+        deploy the software, software doesn't work, wish I had more data points to figure out why.
+        This is typical, and is often remedied after the fact by adding more logging.
+        Everyone knows: you want tons of logging.
+    </p>
+
+    <p>There's another tool that I don't use enough until I need it: maintenance
+        hatches.  On a physical machine, you need to be able to get at the inner workings
+        of the thing to observe it, fiddle with it, and so on.  The same is true for
+        your software.</p>
+
+    <p>On a web site, these hatches take the form of URLs intended only for the developers
+        and maintainers of the site to use.  As a simple example, do you have a way to
+        test the error handling on your live production server?  If you want to see what happens
+        when an exception occurs, you need a way to raise an exception on your live site.
+        But you've tried hard to make sure that never happens in your code.  Here's a view that will
+        do it for you:</p>
+
+<code lang='py'><![CDATA[
+@staff_member_required
+def raise_error(request):
+    """Raise an exception.  How else will we know our stack traces work?"""
+    msg = request.GET.get("msg", "Something bad happened! (on purpose)")
+    raise Exception(msg)
+]]></code>
+
+    <p>When you visit this URL, it raises an exception, simple.  The message defaults to something
+        that indicates it was intentional, but for convenience, you can provide your own
+        message as a parameter on the URL.  I've made it available only to staff members
+        so that it can't become a nuisance doorbell, and so that search engines won't
+        accidentally trigger it.</p>
+
+    <p>Once this view is in place, you'll have a maintenance hatch that lets you look directly
+        at a small part of your complex machinery. There are lots of other diagnostic tools 
+        that are possible:</p>
+
+<code lang='py'><![CDATA[
+@staff_member_required
+def send_email(request):
+    """Send an email to test the mail-sending infrastructure."""
+    msg = request.GET.get("msg", "Test of sending email")
+    send_mail(
+        msg, 
+        'The body also says "%s"' % msg, 
+        settings.DEFAULT_FROM_EMAIL, 
+        [request.user.email], 
+        fail_silently=False
+        )
+    return HttpResponse("An email was sent to %s" % request.user.email)
+
+@staff_member_required
+def dump_settings(request):
+    """Dump all the settings to the log file."""
+    log.info("----- Django settings:")
+    for a in dir(settings):
+        if a.startswith('__'):
+            continue
+        log.info("%s: %r" % (a, getattr(settings, a)))
+    return HttpResponse("Settings have been logged.")
+]]></code>
+
+    <p>As you get deeper into your product-specific code, you'll get away from simple
+        general views like this into things that will only be useful to you, which
+        is why you have to build them yourself rather than finding an off-the-shelf
+        application.</p>
+
+    <p>These examples are for Django, but the principle is the same for any
+        software, it isn't limited to web applications.</p>
+
+    <p>One more I've found very useful: spawn a Celery task, to figure out if that
+        machinery is properly configured:</p>
+
+<code lang='py'><![CDATA[
+@staff_member_required
+def task_ping(request):
+    """Send a simple task to a worker queue."""
+    msg = request.GET.get("msg", "Task ping!")
+    pingtask.delay(msg)
+    return HttpResponse("Sent a task with message, '%s'" % msg)
+
+@task
+def pingtask(msg):
+    print "Ping: %s" % msg
+]]></code>
+
+    <p>Often these views are written as a reaction to a specific problem, and then
+        are forgotten, but they can be useful tools in the trenches.  Write them
+        for keeps, and document them so your staff knows they're at their disposal,
+        and they'll be useful to you in the future.</p>
+
+</body>
+</entry>
+</blog>

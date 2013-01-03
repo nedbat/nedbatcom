@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030911T210325'>
+<title>Simple virtual hosts with PHP</title>
+<category>php</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I chose my <a href='http://jumpdomain.com'>hosting provider</a> based largely
+on price.  I got the least expensive plan that would serve my purposes.
+One thing I did not buy was true virtual hosting, which is serving more than
+one web site from the same machine.  I can park as many domains as I want on
+my account, but their home URLs all served the same page.
+Until I wrote this PHP script.
+</p>
+
+<more>
+
+<p>The idea is very simple, and is the sort of task that PHP excels at.
+Look at the browser's request to determine the host name requested.
+Then use that host name to choose the page to serve.</p>
+
+<p>This doesn't provide true virtual hosting, it just makes the home URL
+of each parked domain serve different content.  Pages within the hosts
+still overlap, so the URLs must be separated, for example, in subdirectories.
+</p>
+
+<p>I'm no PHP expert, but I'm learning.  For all I know, there are much
+simpler ways to do this.  What I know is that this works, and I know why
+it works, so it was a good learning exercise.
+</p>
+
+<code lang='php'><![CDATA[
+<?php
+//
+// Serve different home pages for different host names.
+// Ned Batchelder, http://www.nedbatchelder.com
+//
+
+// This file is the default home page.
+$defaulthome = "index.html";
+
+// Change this array to associate pages with domains.
+$homes = array(
+    "host1.com" => "host1/index.html",
+    "otherhost.com" => "otherhost.html"
+);
+
+$host = $_SERVER["HTTP_HOST"];
+$host = preg_replace("/^www[.]/", "", $host);   // strip leading www.
+
+$homepage = $homes[$host];
+if ($homepage == "") {
+    $homepage = $defaulthome;
+}
+
+include('./'.$homepage);    // pull in the real homepage content.
+
+?>
+]]></code>
+
+<p>Save this script as "index.php", and make sure "index.php" is served as
+the default page in your root directory.  For example, on an Apache server,
+put these lines in your .htaccess file:</p>
+
+<code lang='htaccess'>
+# Serving a directory should try these files in turn.
+DirectoryIndex index.php index.html index.htm
+</code>
+
+<p>Now visiting your home page will load index.php, which will examine the
+host name requested, and serve different page content for each one.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

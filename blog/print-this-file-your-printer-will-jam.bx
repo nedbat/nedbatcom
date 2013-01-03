@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081124T202830'>
+<title>Print this file, your printer will jam</title>
+<category>printing</category>
+<category>debugging</category>
+<category>history</category>
+<body>
+<p>Another story from printer-land of 20 years ago: this time about a seemingly
+impossible bug.
+</p>
+
+<p>While working on the LPS-20 PostScript software, a bug was filed that said roughly,</p>
+
+<quote><p>Print the attached file.  The LPS-20 will jam.  You'll have to open
+the printer to remove the scrunched up paper.</p></quote>
+
+<p>We were no strangers to jammed printers, but a particular file that could jam
+the printer?  Yeah, right.  It was crazy.</p>
+
+<p>I printed the file.  The printer jammed!  I cleared the jam, printed the file
+again, it jammed again.  I printed a different file, it printed fine.  I printed
+a third file, it printed fine.  Printed the bug report file again, the printer
+jammed, WTF!? How can a file reliably cause a printer to jam?</p>
+
+<p>The mystery in this case was solved by the hardware team, because while we
+software guys were working on the software that fed PostScript files to the printer,
+the hardware guys were still getting the kinks out of the printer itself.</p>
+
+<p>A laser printer has a drum on which the image is formed, and then used to
+transfer the image to the paper.  In a 20 ppm printer like the LPS-20,
+the drum rotates once every three seconds.  With a PostScript printer, a page
+could take an arbitrary amount of time to render.  If the page takes less than
+three seconds to render, then the drum will rotate at full speed, with no pauses.
+</p>
+
+<p>But if the PostScript interpreter takes longer than three seconds to finish a page,
+then the drum has to stop and wait for the image to be ready.  Starting and stopping
+the drum and all the associated feed machinery is not trivial to get right.</p>
+
+<p>In the case of the bug report file, the page took longer than three seconds,
+but only slightly longer, so not only did the drum have to stop, but it hadn't
+quite totally stopped before it was started again.  That mechanical edge case
+is what made the printer jam.  The file had pages that took just the right
+amount of time to hit a bad timing window in the drive train firmware, and the
+printer jammed every time. Once the hardware guys adjusted the firmware, the
+problem went away.</p>
+
+<p>Lessons:</p>
+
+<ul>
+<li>Just because a bug seems impossible doesn't mean it is.</li>
+<li>Abstractions are everywhere, and they can be broken.  As a software guy, I
+believed that getting the paper into the output tray was a solved problem.</li>
+</ul>
+
+
+</body>
+</entry>
+</blog>

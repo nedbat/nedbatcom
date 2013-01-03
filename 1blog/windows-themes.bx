@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040716T065847'>
+<title>Windows themes</title>
+<category>windows</category>
+<via />
+<body>
+<p>With all of the new laptops in my life recently, one thing I've gotten good
+at is changing the Display properties to get the Windows desktop to look the
+way I want it.  The key change is to set every font (window title, message box, icon,
+everything) to Verdana 10.
+</p>
+
+<more>
+
+<p>When I got all through with the changes, I saved my theme into a .theme file.
+Being curious, I examined it.  Despite its new-age 5-letter file extension,
+it's a text file, formatted like a classic .ini file.
+But the word "Verdana" didn't appear anywhere in it. Odd.</p>
+
+<p>The only part of the file I didn't understand was the Metrics section
+which contains long strings of numbers:
+</p>
+
+<code>
+[Metrics]
+IconMetrics=76 0 0 0 132 0 0 0 92 0 0 0 1 0 0 0 243 255 255 255
+0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 0 0 0 0 0 86 101 114 100
+97 110 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+NonclientMetrics=84 1 0 0 1 0 0 0 17 0 0 0 17 0 0 0 19 0 0 0 19
+0 0 0 243 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 188 2 0 0 0 0 0 0
+0 0 0 0 86 101 114 100 97 110 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 18 0 0 0 18 0 0 0 243 255 255 255 0 0 0 0 0
+0 0 0 0 0 0 0 188 2 0 0 0 0 0 0 0 0 0 0 86 101 114 100 97 110 97
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 18 0 0 0 18 0
+0 0 243 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 0 0
+0 0 0 86 101 114 100 97 110 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 243 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1
+0 0 0 0 0 0 0 0 0 0 86 101 114 100 97 110 97 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 243 255 255 255 0 0 0 0 0 0 0 0 0
+0 0 0 144 1 0 0 0 0 0 0 0 0 0 0 86 101 114 100 97 110 97 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+</code>
+
+<p>That's when the repeated sequence "86 101 114 100 97 110 97" caught my eye.
+Too many years of debugging have taught me to notice numbers that smell
+suspiciously like ASCII.  Sure enough, that's "Verdana" in ASCII.
+</p>
+
+<p>What's going on here?
+The names of the entries are the tip off:
+these are simple decimal byte-for-byte dumps of the windows structures
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/resources/icons/iconreference/iconstructures/iconmetrics.asp'>ICONMETRICS</a>,
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/nonclientmetrics_str.asp'>NONCLIENTMETRICS</a>,
+and the font information is the nested
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/fontext_1wmq.asp'>LOGFONT</a> structure.
+</p>
+
+<p>Anyway, back to the theme.  If you want a Windows desktop done right, the information is all
+in the numbers above.  Manual instructions: set</p>
+<ul>
+<li>all the fonts to Verdana 10,</li>
+<li>the caption button size to 19,</li>
+<li>the icon spacing to 100 horizontal and 60 vertical,</li>
+<li>the tooltip color to a little yellower than the default.</li>
+</ul>
+
+</more>
+</body>
+</entry>
+</blog>

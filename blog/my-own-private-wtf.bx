@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050331T200149'>
+<title>My own private WTF?</title>
+<category>coding</category>
+<category>csharp</category>
+<via />
+<body>
+<p>As I've mentioned, I've taken over responsibility for a body of C# code.
+The layout code is filled with stuff like this:
+</p>
+
+<code lang='cs'><![CDATA[
+this.Size = new Size(this.Size.Width,
+   this.widgetsLabel.Location.Y + this.widgetsLabel.Size.Height);
+]]></code>
+
+<p>To paraphrase Tevye, would it have spoiled some vast eternal plan to write this instead?:</p>
+
+<code lang='cs'><![CDATA[
+this.Height = this.widgetsLabel.Bottom;
+]]></code>
+
+<p>I spent quite some time today applying shrinking transformations:</p>
+
+<code lang='cs'><![CDATA[
+x.Size.Height                             -->  x.Height
+x.Location.Y                              -->  x.Top
+x.Top + x.Height                          -->  x.Bottom
+x.Size = new Size(x.Width, y);            -->  x.Height = y;
+x.Location = new Point(x.Location.X, y);  -->  x.Top = y;
+]]></code>
+
+<p>Believe me, it's much more readable afterwards!
+Of course, I've a sneaking suspicion that a lot of this layout
+code could just be chucked by setting proper constraints in the forms designer!
+To quote another movie character, I can't think about that today, I'll think about that tomorrow.</p>
+
+<p><i>I've slightly edited this post to remove asides about developers that
+were distracting from my point.  Reactions from readers about those comments have also been
+removed.</i></p>
+
+</body>
+</entry>
+</blog>

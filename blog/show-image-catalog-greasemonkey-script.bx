@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060910T144445'>
+<title>Show image catalog Greasemonkey script</title>
+<category>js</category>
+<category>webpage</category>
+<via />
+<body>
+<p>I'm a late-comer to the magic of <a href='http://greasemonkey.mozdev.org/'>Greasemonkey</a>.
+It's a powerful Firefox add-in that lets you run bits of JavaScript on 
+pages.  There are a ton of <a href='http://userscripts.org'>Greasemonkey scripts available</a>,
+many designed to fix or add features to particular sites.</p>
+
+<p>Here's my first script: it provides a menu command to display a catalog
+of the images on a page.  It can be very helpful for picking apart a page
+for debugging, for example.  It's kind of basic.  
+For example, if the same image is used more than once on the page, 
+it will be listed more than once.</p>
+
+<p>It's short:</p>
+
+<code lang='javascript'><![CDATA[
+// ==UserScript==
+// @name          Image Catalog
+// @namespace     http://nedbatchelder.com/
+// @description   Shows a catalog of the images on a page.
+// @include       http://*
+// @include       https://*
+// @include       file://*
+// ==/UserScript==
+
+GM_registerMenuCommand("Show image catalog", show_image_catalog);
+
+function show_image_catalog() {
+    var img_display = document.createElement("div");
+    ihtml = "<div style='margin: 10px auto 0 auto; border-top: 2px dotted black; background-color: white;'>";
+
+    var imgs = document.getElementsByTagName("img");
+    for (var i = 0; i < imgs.length; i++) {
+        img = imgs[i];
+        ihtml += "<div style='margin: 5px 10px'>";
+        ihtml += "<img src='" + img.src + "'/>";
+        ihtml += "<br/>";
+        ihtml += "src = <a href='" + img.src + "'>" + img.src + "</a>";
+        ihtml += "<br/>";
+        ihtml += "width = " + img.width + ", height = " + img.height;
+        if (img.width != img.naturalWidth || img.height != img.naturalHeight) {
+            ihtml += ", <span style='color:red; font-weight: bold'>";
+            ihtml += "naturalWidth = " + img.naturalWidth;
+            ihtml += ", naturalHeight = " + img.naturalHeight;
+            ihtml += "</span>";
+        }
+        ihtml += "</div>";
+    }
+    ihtml += "</div>";
+    img_display.innerHTML = ihtml;
+    document.body.insertBefore(img_display, null);
+}
+]]></code>
+
+<p>Here's a direct link to the script: <a href='code/misc/image_catalog.user.js'>image_catalog.user.js</a>.
+If you have Greasemonkey installed, clicking the link will install it.</p>
+
+<p></p>
+
+</body>
+</entry>
+</blog>

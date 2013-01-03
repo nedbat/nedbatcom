@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030329T081334'>
+<title>AmphetaDesk customizability</title>
+<via /> <!-- id= or href= -->
+<body>
+<p>In response to my
+<a href='blog/200303.html#e20030325T212302'>post about webservers as applications</a>,
+Morbus Iff, author of <a href='http://www.disobey.com/amphetadesk/'>AmphetaDesk</a>
+emailed me with another advantage of
+local webservers as applications.
+
+Morbus (if that is his real name!)
+pointed out that if the code is written in an interpreted language,
+then patches and hacks are very simple.
+This isn't strictly an advantage of a local webserver
+(since a traditionally-constructed GUI application could be easily patched as well),
+but given that the webserver app has a GUI built in HTML, it is much easier for others
+to hack.
+</p>
+
+<p>For example, AmphetaDesk is written in Perl, and a number of enhancements have
+cropped up:</p>
+
+<ul>
+<li><a href='http://www.decafbad.com/twiki/bin/view/Main/AmphetaOutlines'>AmphetaOutlines</a></li>
+<li><a href='http://www.sunpig.com/martin/projects/amphetadesk/amphetaframes/'>AmphetaFrames</a></li>
+<li><a href='http://www.cantoni.org/projects/AmphetaDesk.html'>AmphetaDesk Enhancements</a></li>
+</ul>
+
+<p>These are more than just simple skins over the existing code.
+The first two are radically different UIs for the underlying RSS engine.</p>
+
+<p>For me personally, the promise of being able to change the underlying application is
+a two-edged sword.  Because I'm tempted to make changes, but who's got the time and
+focus to successfully carry it through, especially in <i>(shiver)</i> Perl?
+</p>
+
+</body>
+</entry>
+</blog>

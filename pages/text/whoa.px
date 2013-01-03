@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<page title='About WHOA'>
+<history>
+<what when='20051011T072600'>Created.</what>
+</history>
+
+<p>WHOA is the Writer's Homepage for Obsessing about Amazon.</p>
+
+<h1links/>
+
+<h1>What is WHOA?</h1>
+
+<p>My wife wrote a book, and we wanted to know how it was doing on Amazon.
+Reloading the Amazon page and scrolling down to the sales rank was a pain.
+If we wanted to look up other books (by friends, for example) we had to load their pages,
+and scroll down to their sales ranks.</p>
+
+<p>So I created <a href='whoa'>WHOA</a>, the Writer's Homepage for Obsessing about Amazon.
+It displays statistics for a number of books simultaneously.</p>
+
+<p>Although it's called a "Writer's Homepage", it's handy for anyone who want to track
+a number of books. Publishers can see how their books are doing
+(<a href='http://www.nedbatchelder.com/whoa/?ids=0877731934,1590301129,1590300114,1590302745,1590302915,1590302753,1590302443'>recent Shambhala promotions</a>),
+Political junkies can track trends
+(<a href='http://www.nedbatchelder.com/whoa/?ids=0671751506,0440508649,0525947647,0671871218,0525949062,0767905288,0767913795'>Franken vs Limbaugh and O'Reilly smackdown</a>).
+Harry Potter fans can wonder why book #1 is more popular than books 2, 3, and 4
+(<a href='http://www.nedbatchelder.com/whoa/?ids=0439064864,043935806X,0439136350,0590353403,0439139597,0439784549'>Harry Potter hardcovers</a>).
+You can create any book list you want, and share the URL with like-minded others.
+</p>
+
+<h1>Using WHOA</h1>
+
+<p>When you first launch <a href='/whoa'>WHOA</a>, it displays a handful of books, but you
+can customize it to display whatever books you like:</p>
+
+<ol>
+<li>Click the Customize button.</li>
+<li>Add books by entering their ISBN numbers into the "ISBN numbers" section.  Click "Add books".
+You can find ISBN numbers on the Amazon page for the book, in the "Product Detail" section.
+You can paste in a number of ISBN numbers, separated however you like.
+</li>
+<li>Remove books by clicking the individual "Remove this book" buttons.
+You can't remove all the books, so add one of your own books before you remove all the default ones.</li>
+<li>When you have the set of books you like, click "Done".</li>
+<li>Bookmark your page.</li>
+</ol>
+
+<p>The books are listed in sales rank order, so the best-selling book in your list is first.
+A handful of different statistics are presented:</p>
+
+<ul>
+<li>The title of the book is a link to the Amazon page about the book.</li>
+<li>The sales rank is your book's position in the list of all books sold at Amazon.</li>
+<li>Reviews are summarized, and then the most recent 5 reviews are listed.</li>
+<li>If the books is included in any Listmania lists, up to 10 of them are displayed, with
+links to the lists.</li>
+<li>The subject categorizations are displayed, with links to the best-sellers in those subjects.</li>
+</ul>
+
+
+<h1>How it works</h1>
+
+<p>WHOA uses
+<a href='http://www.amazon.com/gp/browse.html/ref=sc_fe_l_0_3435361_3/002-8597643-9070452?%5Fencoding=UTF8&amp;node=3487571&amp;no=3435361&amp;me=A36L942TSJ2AJA'>Amazon Web Services</a>
+to pull information from Amazon.  The raw XML returned is transformed with an XSLT stylesheet into
+the beautiful and useful page you see.
+A little bit of PHP code glues it all together.</p>
+
+<p>If you really want to dig in, here's the code: <a href='whoa/whoa-1.0.zip'>whoa-1.0.zip</a>.
+</p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where similar tools and technologies are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

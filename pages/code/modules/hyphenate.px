@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='hyphenate'>
+<history>
+<what when='20070709T210400'>Created.</what>
+<what when='20070712T070400'>Disclaimer about completeness.</what>
+</history>
+
+<p>Hyphenate.py implements <a href='http://www.tug.org/docs/liang/'>Frank Liang's hyphenation algorithm</a>
+(the one used in TeX) in Python.</p>
+
+<p>This module provides a single function to hyphenate words.  hyphenate_word takes
+a string (the word), and returns a list of parts that can be separated by hyphens:</p>
+    
+<code lang='python'>
+>>> hyphenate_word("hyphenation")
+['hy', 'phen', 'ation']
+>>> hyphenate_word("supercalifragilisticexpialidocious")
+['su', 'per', 'cal', 'ifrag', 'ilis', 'tic', 'ex', 'pi', 'ali', 'do', 'cious']
+>>> hyphenate_word("project")
+['project']
+</code>
+
+<p>This Python code is in the public domain.</p>
+
+<p>The module as provided only hyphenates English words, but if you can find
+TeX hyphenation patterns for another language (and can deal with the character
+encoding issues you'll encounter in them), the same algorithm will work for
+other languages.</p>
+
+<p>The Liang algorithm does not provide all possible hyphenation points.
+It merely tries to provide some of them, without providing any wrong ones.
+So the set of breaks from hyphenate.py will be a subset of the full set of
+break points.
+</p>
+
+<download file='hyphenate.py' path='code/modules/hyphenate.py' />
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='http://en.wikipedia.org/wiki/Hyphenation_algorithm'>Hyphenation algorithm</a>
+at Wikipedia, with links to other implementations of this same algorithm.</li>
+<li><a href='blog'>My blog</a>, where other topics of interest to Python
+hyphenators are likely to appear.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

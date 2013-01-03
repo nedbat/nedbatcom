@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050414T101743'>
+<title>Temporary internet files and my recent documents</title>
+<category>windows</category>
+<via />
+<body>
+<p>I'm trying to get some info on a bit of Windows minutiae, and I can't find any.
+If you open a document (for example, a Word .doc file), it will appear both in
+the global My Recent Documents list (for example, off of the Start menu),
+and in the Word recent documents list (at the bottom of the File menu).
+But if the document is in the Temporary Internet Files directory (or any subdirectory thereof),
+then it doesn't appear in the list.  For example, if you launch an attachment from Outlook,
+the file is detached to an Outlook subdirectory of the Temporary Internet Files directory,
+so that the temporary file doesn't appear in menus after you are done editing it.
+</p>
+
+<p>The question is, why doesn't it appear in the list?
+I guessed things like "files in hidden directories aren't shown", but I've disproved all of them
+with empirical testing.  The architect in me would like there to be an answer other than
+"That specific directory is treated specially by the recent documents code".  I want to find
+a characteristic of that directory that can be applied to other directories of my creation.
+</p>
+
+<p>Just to further confuse the issue, if you open a document from the ordinary temp directory
+(\Documents and Settings\ned\Local Settings\Temp), it appears in Word's recent document list,
+but not the system list!</p>
+
+<p>And, I understand that these directories are not hardcoded, but are stored in the registry
+to acheive a level of indirection and customizability.
+So when I say "Temporary Internet Files" directory, I really mean the directory returned by
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/shell/reference/functions/shgetfolderpath.asp'>SHGetFolderPath</a>(<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/shell/reference/enums/csidl.asp'>CSIDL_INTERNET_CACHE</a>).
+</p>
+
+</body>
+</entry>
+</blog>

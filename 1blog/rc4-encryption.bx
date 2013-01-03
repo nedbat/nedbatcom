@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040629T165237'>
+<title>Web walk: RC4 encryption</title>
+<category>security</category>
+<category>algorithms</category>
+<via />
+<body>
+<p>I found an implementation of a random number generator today,
+and the comments said it was using the RC4 algorithm, not to encrypt,
+but just as a source of randomness.  I was intrigued.</p>
+
+<p><a href='http://www.rsasecurity.com/rsalabs/node.asp?id=2250'>RC4</a>
+is a symmetric encryption algorithm developed by RSA Security.
+A key is used to initialize a random number generator.  The output of the
+generator is XOR-ed with the cleartext to produce the cipher.
+The strength of the cipher is dependent on the "strength" of the randomness,
+that is, how hard it is to predict what the next random byte will be.
+(The name is because it was the fourth Rivest Cipher).</p>
+
+<p>The <a href='http://www.cebrasoft.co.uk/encryption/rc4.htm'>algorithm</a>
+was proprietary until it was leaked in 1994.
+Since then, it has been subjected to a
+<a href='http://www.wisdom.weizmann.ac.il/~itsik/RC4/rc4.html'>great deal of analysis</a>,
+some of it quite abstruse.</p>
+
+<p>The analysis shows certain subtle weaknesses in RC4.  Others have tried to create
+new similar algorithms without the same weaknesses.
+For example, Bob Jenkins created <a href='http://burtleburtle.net/bob/rand/isaac.html'>ISAAC</a>.
+Until the mathematicians have spent a decade poring over ISAAC output, there's really no
+way to know if it has other unidentified weaknesses.</p>
+
+<p>By the way: <a href='http://burtleburtle.net/bob/'>Bob Jenkin's web site</a>
+is full of all sorts of other interesting stuff, including
+<a href='http://burtleburtle.net/bob/hash/index.html'>hashing</a>,
+<a href='http://burtleburtle.net/bob/physics/whythere.html'>perpetual motion machines</a>,
+and <a href='http://burtleburtle.net/bob/math/jenny.html'>jenny</a>,
+the combinatorial testing tool I
+<a href='blog/200405.html#e20040501T222035'>mentioned last month</a>.
+</p>
+
+</body>
+</entry>
+</blog>

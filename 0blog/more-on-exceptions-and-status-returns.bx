@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031016T085405'>
+<title>More on exceptions and status returns</title>
+<category>exceptions</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Well, ever since
+<a href='http://www.joelonsoftware.com/items/2003/10/15.html'>Joel took notice of my article</a>
+about exceptions and status returns, the weblog joint has really been jumping.
+Joel asks me to give real examples rather than "DoSomething" for function names.
+It's kind of a funny request, since his example used functions named "f" and "g",
+but it makes sense to ground this in reality.</p>
+
+<p>In response, I wrote another article laying out my view of how exceptions fit into real code:
+<a href='text/exceptions-in-the-rainforest.html'>Exceptions in the rainforest</a>.</p>
+
+<p>A number of people rose to Joel's challenge before I could:</p>
+
+<ul>
+<li><a href='http://www.lenholgate.com/archives/000192.html'>Len Holgate</a>
+has a good example of how to handle the "failure during installation" scenario.</li>
+<li><a href='http://weblogs.asp.net/jezell/posts/32095.aspx'>Jesse Ezell</a>
+tries his hand at it, though I don't think I like his first try: checking the class of the
+exception seems a particularly awkward defense of exceptions.</li>
+<li><a href='http://www.stevex.org/dottext/posts/148.aspx'>Steve Tibbett</a>
+shows some other ways to slice it (though I don't approve of "catch (...)").</li>
+</ul>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090201T091834'>
+<title>Infrastructure for modern web sites</title>
+<category>django</category>
+<body>
+<p>Leonard Lin jotted down a list of facilities web frameworks aren't yet providing:
+<a href='http://randomfoo.net/2009/01/28/infrastructure-for-modern-web-sites'>Infrastructure for modern web sites</a>,
+divided into user-visible (comments, tagging, chat), and foundational (sharding,
+counters, bucket testing). It's interesting to read his inventory, because at
+<a href='http://www.tabblo.com'>Tabblo</a>, I'd say we've tackled about 30-40% of
+each list.</p>
+
+<p>Like any product, web frameworks have to decide what audience they'll cater to.
+Watching Django's progress, it's clear that the tension is between helping new
+users get on board and helping the advanced users scale up their sites to handle
+success.  As an example, consider database schema migration.  A number of the
+solutions being built are working hard to let developers avoid writing SQL for
+migrations.  This is an on-boarding feature.</p>
+
+<p>In our database schema tools at work, what we're grappling with now  is how
+to carefully arrange upgrades so that the servers are offline as little as possible.
+Some database changes can be made before the new code is running (create table),
+some can be made after the new code is running (drop table), and some have to
+be made while the server is offline (rename column).  It's tricky to get right,
+but important if you want to maximize server availability.  This is a scaling-up
+issue.
+</p>
+
+<p>Web frameworks can become more successful by adding either kind of feature.
+More on-boarding features will grow the usage of the framework, but may mean
+more people get to the point of needing scaling-up features, and get frustrated.
+More scaling-up features will satisfy the big sites, but may make the framework
+harder for the newbies to get their heads around.  In the end, both are needed.</p>
+
+<p>Jacob Kaplan-Moss commented on Leonard's post arguing that implementations of
+items on the list will be so site-specific, that so much domain knowledge will
+creep in, that there won't be much to share, and so adding them to web
+frameworks may not be practical. That may be true for some items (sharding), but
+not for others (counters).</p>
+
+<p>In any case, it's a good manifesto for the things people have to build on top
+of web frameworks like Django, and are built over and over for each site.
+It'll be interesting to see what parts can be provided as general-purpose solutions.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031026T084001'>
+<title>re.split</title>
+<category>python</category>
+<via />
+<body>
+<p>Simon
+<a href='http://simon.incutio.com/archive/2003/10/26/reSplit'>discovers Python's re.split()</a>.
+About one particular aspect of it (parenthesized groups are returned in the list),
+he says, "I'm probably the last person to find out about this", but in fact,
+I never even knew re.split() existed at all!
+I think I've wanted this functionality a half-dozen times in the past, and never
+thought to look in the re module to find it.
+Python's standard library is incredibly rich, and often solutions are hiding in places
+waiting for you to discover them.
+</p>
+</body>
+</entry>
+</blog>

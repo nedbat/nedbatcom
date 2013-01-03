@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<page title='Painless bug triaging'>
+<history>
+<what when='20060503T194200'>Created.</what>
+</history>
+
+<p>Triaging bugs is an important part of any development process.
+It's the simple but treacherous process of deciding what bugs should
+get fixed when.  Simple because there's only one thing to decide: when
+should we fix this bug?  Treacherous because it is tempting to turn the 
+triage process into a long drawn-out affair with many people in a
+conference room.  I've often seen triages like that, but it doesn't
+have to be.</p>
+
+
+<h1>Basics</h1>
+
+<p>The important thing about triaging is to do it efficiently.  Too often
+I've seen triaging become a weekly half-day process involving more than five
+people.  That's too much time spent by too many people, and it's too infrequent.  
+If you can get triaging down to a quick decision
+process, it can be done daily by a few people, rather than be an all-team
+meeting that begins to feel like the opposite of progress.</p>
+
+<p>Triaging doesn't have to be a complicated process.  Yes, a simple
+process may be less accurate, but the expense of additional accuracy
+simply isn't worth it.  Here's the simple triaging process.</p>
+
+
+<h1>Milestones</h1>
+
+<p>Identify a number of milestones in your development. 
+A milestone might be shipping 1.0, or releasing a public beta, or having something 
+to demo to the board of directors.  Maybe it's simply What We Want To 
+Finish This Week.  It doesn't really matter what the milestone is, so 
+long as you name it and define it.</p>
+
+<p>The definition of a milestone is a description of the milestone,
+with some tangible description of its goals.  The goals will guide the 
+triaging process, so try to make them concrete.  Here are some examples of
+goals that help with triaging:</p>
+
+<ul>
+<li>The product is stable enough for directed reviewers to get
+a good impression.</li>
+<li>The product is robust enough that no matter what, there
+are no unexpected errors displayed to the user.</li>
+<li>The product has all of the features we need for the demo, but only
+Bill will be using it, so it's OK if it's a little fragile.</li>
+<li>The product has to compare favorably to our big competitor so that
+we can grab some more market share.</li>
+</ul>
+
+
+
+<h1>Bug tracking</h1>
+
+<p>Set up your bug tracking system to allow you
+to assign bugs to milestones.  If it doesn't have a field like this,
+you can hijack some other field, so long as everyone agrees what it means.</p>
+
+<p>Create a milestone in your bug tracker for all of your foreseeable
+milestones.  Make it so that the milestone values sort according to their
+date order.</p>
+
+<p>Make the default for this field be "unknown".  This is 
+important: "unknown" milestone means that the bug has to be triaged, and
+a milestone chosen for it.  People often want to default to the next
+milestone.  This is bad, because it clogs the next milestone with all the
+most-recently found bugs.  It also means that you can't tell the difference 
+between bugs you decided to fix next, and bugs that were simply found recently.  
+To keep the triage process efficient, you need
+to clearly identify which bugs need triaging.  That's what the "unknown"
+milestone is for.</p>
+
+<box>The default value for Milestone must be "unknown".</box>
+
+<p>If you want developers to pounce on newly-found bugs, just instruct
+them to keep an eye on the "unknown" milestone category to get a jump on
+the triage process.</p>
+
+<p>Similarly, it's a good idea to have a "someday" milestone.  There's 
+always bugs in the tracker that are going to be hard to get to.  A "someday"
+milestone lets you keep those bugs, but not distract you from the near-term
+work at hand.</p>
+
+
+
+<h1>The triage team</h1>
+
+<p>Getting the right mix of people to triage is
+important.  A common mistake is to get everyone involved.  That's too many!
+The simplest triage team is one person, and often this is enough. 
+One intelligent person who clearly understands the goals of the milestones
+can make a pass through a list of bugs, and triage at least some of them.  
+This can be a good way to make the process more efficient.  
+Some bugs simply don't need more than one pair of eyes to make a decision.</p>
+
+<p>Adding more people is helpful because different people bring different
+expertise, and simply because a pair of people will make it possible to 
+discuss matters, and come to a decision that one person couldn't make by 
+themselves.  If you have two people triaging, the best pair are a customer-focused
+person, and a technology-focused person.  This allows for each to advocate
+for their own constituents.</p>
+
+<p>It's tempting to add more people.  Everyone in the organization has a
+unique insight into the bugs, and everyone cares about the direction the
+product is taking.  That doesn't mean they should all be present during
+triaging.  Have a few people do the triaging.  If they need information,
+they can ask for it.  If they triage some bugs wrong, it's OK, it'll get
+fixed.</p>
+
+<p>Adding people to the team is the single surest way to spend too many 
+resources on bug triaging.</p>
+
+
+
+<h1>Triaging</h1>
+
+<p>Once you have your milestones, and a few people with differing viewpoints
+on the triage team, triaging is now a simple process: Look at all the bugs
+in the "unknown" milestone, and pick a different milestone for them.
+It's not always an easy task, but if you remember that all you
+have to do is choose a milestone for each bug, it's much easier.</p>
+
+<p>One common mistake that slows down triaging: trying to decide
+if the bug is really a bug.  Here's a familiar conversation at a triage:</p>
+
+<quote>
+<p>Alice: "I think Joe already fixed this one."</p>
+<p>Bob: "Really?  Let's get Joe in here, if he already fixed it, we shouldn't
+put it in his queue."</p>
+<p><i>(They call in Joe)</i></p>
+<p>Bob: "Joe, did you fix this already?"</p>
+<p>Joe: "I think so, but I'm not sure, I can double-check."</p>
+<p>Alice: "OK, we'll wait to hear from you before we triage it."</p>
+</quote>
+
+<p>This is silly.  What's the harm in triaging it?  Alice is probably trying
+not to burden Joe with another bug in his queue, but her kindness has 
+resulted in a distraction for Joe, and the rest of the triage team had to
+sit and wait while Joe came down and thought about it. 
+What she should have done was put the
+bug in Joe's queue and let him figure out if it was already fixed when
+he got around to looking at the bug.</p>
+
+<p>The triage team doesn't have to decide if bugs are really bugs.  Another
+common tangent is doubting that the bug really happens, or under what
+circumstances.  None of this can be determined efficiently in a triage 
+meeting.  If you have enough people to discuss bugs at this depth, then
+you have too many people, and if you have the right number of people,
+then you can't get to the bottom of questions like this.</p>
+
+<p>The triage team should be answering this question:</p>
+
+<box>Assuming this really is a bug, when do we want it fixed?</box>
+
+<p>All the other side conversations about the nature of the bug, its
+current status, and so on, can be skipped and left to the developer when
+the bug comes to the front of the queue.  It is necessary to discuss the
+details of the bug, for instance to determine how severe it is, or to
+assess how likely it is to affect the milestone's goals.  But even some
+of those discussions can be avoided.</p>
+
+<p>Rather than digging for an answer to a question during the triage, and then 
+triaging based on it, you can make assumptions, and state them explicitly
+in the bug. Triage the bug pessimistically, explain the decision in the 
+bug report, and let the developer give you the good news that you were 
+wrong later.</p>
+
+<p>For example, you could add this paragraph to a bug report:</p>
+
+<quote><p>It sounds like this bug may corrupt user data, but I can't
+tell from the details here.  If it corrupts user data, fix it for the
+Bittersweet milestone. If it doesn't corrupt data, say so here and kick
+it back for triage.</p></quote>
+
+<p>The decision is made quickly, the bug is in a developers queue, he
+knows when he needs to look at it, and he has instructions about what to
+do.  Move on.</p>
+
+
+<h1>Painless Triaging</h1>
+
+<p>To summarize:</p>
+
+<ol>
+<li>Define milestones</li>
+<li>Set up your bug tracker to record milestones for bugs</li>
+<li>Pick the right few people for the triage team</li>
+<li>Triage briskly</li>
+</ol>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where many software engineering topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080525T074024'>
+<title>Ratatouille and Pixar technology</title>
+<category>movies</category>
+<category>animation</category>
+<category>graphics</category>
+<body>
+<p>I finally saw <a href='http://www.pixar.com/featurefilms/rat/'>Ratatouille</a>
+the other night (having older children means not seeing it in the theaters, and
+having doting in-laws means the kids will first see it on a night when I am out).
+</p>
+
+<p>I liked the movie, but not nearly as much as <a href='http://www.pixar.com/featurefilms/nemo/'>Finding Nemo</a>
+or <a href='http://www.pixar.com/featurefilms/incredibles/'>The Incredibles</a>.
+I thought the plot was a little hard to relate to, and I didn't like the ending.
+It seemed mean (after a great conversion to light, Anton Ego's career is demolished 
+and mentioned almost as an afterthought) and inexplicable (Gusteau's closes
+because of rats, then they open a new restaurant full of rats anyway).</p>
+
+<p>As always, the look of the movie is remarkable.  Most Pixar movies have a
+signature challenge:
+<a href='http://www.pixar.com/featurefilms/inc/'>Monster's Inc</a> had fur,
+<a href='http://www.pixar.com/featurefilms/nemo/'>Finding Nemo</a> had water,
+<a href='http://www.pixar.com/featurefilms/incredibles/'>The Incredibles</a> had clothing and hair.
+Ratatouille has food.  In each case, the goal is to model a familiar component
+of the real world well enough that it can add to the story telling rather than
+detract from it. Meeting those challenges is a huge technical achievement, and
+going behind the scenes to see the effort is eye-opening.
+</p>
+
+<p>Pixar maintains an <a href='http://graphics.pixar.com/'>online library of
+technical papers</a> explaining some of their technology.  Some are single pages,
+others are 100-page course notes.  Browsing through them, you get a sense of the
+obsessive details that have to be dealt with.  As an unexpected example, the
+kitchen scenes in Ratatouille are filled with cooks chopping food.  One approach
+would be to assign some junior animators to animate the process of slices
+peeling off a zucchini. Another is to
+<a href='http://graphics.pixar.com/ChopItUp/paper.pdf'>procedurally model
+a cutting object</a> which can deform and remodel another object. Pixar chose
+this last approach both for its greater fidelity, and also to free the animator
+to focus on the storytelling.
+</p>
+
+<p>The papers in the library offer glimpses of the amount of work required to
+make a movie like this.  Traditional animation required legions of artists to
+draw everything.  CGI animation also requires enormous effort, but finely sliced
+into different disciplines: animators to imbue objects with life, modelers to
+create those objects in ways that simplify the animators' jobs, and technical staff
+to create the universe in which the movie takes place.
+</p>
+
+</body>
+</entry>
+</blog>

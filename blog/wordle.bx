@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080613T081555'>
+<title>Wordle</title>
+<category>art</category>
+<body>
+<p>Jonathan Feinberg has made a cool application: <a href='http://wordle.net'>Wordle</a>.
+You give it a corpus of text, and it creates a word cloud with size based on
+frequency.  Here are the titles of all my blog posts over the years:
+</p>
+
+<figurep href="http://www.wordle.net/gallery/Neds_Titles_3">
+    <img src="pix/titlewordle.png" alt='Wordle'/>
+</figurep>
+
+<p>Wordle automatically nestles all the words together, and when you create one, you
+can set parameters like font and layout algorithm.  Very cool.</p>
+
+<p>The thing that surprised me about my title cloud is that it looks like a tag
+cloud, but these are actually words pulled from the titles, not the names of tags.
+Maybe all that manual tagging isn't worth it after all?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100302T200911'>
+<title>Trace function debugging challenge</title>
+<category>python</category>
+<category>debugging</category>
+<category>help</category>
+<body>
+<p>One of the more challenging aspects of maintaining a tool like
+<a href='code/coverage'>coverage.py</a> is that people use it on complex code
+bases, and something goes wrong, they report it to me, and I have to dig in
+and figure out why.
+</p>
+
+<p>The latest head-scratcher was reported by Christophe Zwerschke as
+<a href='http://bitbucket.org/ned/coveragepy/issue/51/turbogears-15-test-failing-with-coverage'>issue 51</a>
+on the coverage.py bitbucket tracker.  After a few turns to shake out what the
+issue was, it came down to this: Christophe's code gets the right answer when
+run without coverage.py, or when run one way with coverage.py, but computes a
+different answer when run a second way with coverage.py.  This is a real mystery,
+because it is the first report of code actually behaving differently because
+coverage.py is measuring it.</p>
+
+<p>This has all the markings of a bug in Python, but it could be my fault.  In
+any case, we have to find out.  I won't be able to get to it for a bit, and why
+should I have all the fun anyway?  So I'm crowd-sourcing it here: maybe a
+reader will have an insight into what the heck is going on here.</p>
+
+<p>Here is the file, bug51.py (slightly simplified from the ticket):</p>
+
+<code lang='python'><![CDATA[
+class Foo:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return "<Foo %r>" % self.name
+
+
+class MetaFooList(type):
+    def __new__(mcs, cls_name, bases, cls_dict):
+        declared = []
+        for base in bases:
+            declared.extend(getattr(base, 'declared', []))
+        for name, value in cls_dict.items():
+            if isinstance(value, Foo):
+                declared.append(value)
+        declared.sort(key=lambda w: w.name)
+        cls = type.__new__(mcs, cls_name, bases, cls_dict)
+        cls.declared = declared
+        return cls
+
+
+class FooList(list):
+    __metaclass__ = MetaFooList
+
+    def __init__(self):
+        super(FooList, self).__init__(self.declared)
+
+
+def test_foolist():
+    w = Foo(name="foo")
+
+    class W(FooList):
+        foo = w
+
+    w2 = Foo(name="bar")
+
+    class W2(W):
+        bar = w2
+
+    foolist = W2()
+    print "foolist has %d entries" % len(foolist)
+
+if __name__ == '__main__':
+    test_foolist()
+]]></code>
+
+<p>Here are the three runs:</p>
+
+<code><![CDATA[
+$ python bug51.py
+foolist has 2 entries
+
+$ coverage run bug51.py
+foolist has 2 entries
+
+$ coverage run --timid bug51.py
+foolist has 4 entries
+]]></code>
+
+<p>An explanation about that last run: the --timid switch forces coverage.py
+to use a trace function written in Python rather than its fancier one written
+in C.  Ironically, I added the switch as a way to use a gentler tracing mechanism
+that wouldn't interfere so much with other packages using a trace function, to
+prevent bizarre problems. But now, it seems to be the source of a real problem
+itself.</p>
+
+<p>Trace functions can do strange things that can affect the running program,
+but the ones in coverage.py don't, or at least they aren't supposed to.
+This test code has plenty of twisty turns, but still, how can it get different
+answers from two implementations of the same trace function?</p>
+
+<p>Anyone up for the challenge of figuring out what's going on here?  If not,
+I'll get to it eventually, and report back.</p>
+
+</body>
+</entry>
+</blog>

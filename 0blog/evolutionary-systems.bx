@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020929T083136'>
+<title>Evolutionary systems</title>
+<category>science</category>
+<category>lego</category>
+<via href='http://www.machinelake.com/'>Play with the Machine</via> <!-- id= or href= -->
+<body>
+<p>Some fascinating work is being done with automatically evolving systems:
+software that simulates evolution to create systems that would normally be designed
+by people.</p>
+
+<p><a href='http://www.demo.cs.brandeis.edu/pr/buildable/crane/'>Computer Evolution of Buildable Objects</a>
+is designing Lego structures that meet certain real-world constraints
+(for example, be able to lift a certain weight).  The results aren't pretty, but they
+work.</p>
+
+<p>In other recent news,
+<a href='http://www.newscientist.com/news/news.jsp?id=ns99992732'>an evolutionary program "invented" the radio</a>.
+The real shocker is that it was trying to make an oscillator, and the solution it found
+to solve its goal was to become a radio that picked up on a nearby oscillator instead!
+</p>
+
+</body>
+</entry>
+</blog>

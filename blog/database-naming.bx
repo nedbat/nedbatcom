@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080715T071558'>
+<title>Database naming</title>
+<category>db</category>
+<body>
+<p>Jeff Atwood has a good post about database design:
+<a href='http://www.codinghorror.com/blog/archives/001152.html'>Maybe Normalizing Isn't Normal</a>,
+all about data normalization. I like the quip it ends with: normalize until it hurts, denormalize until it works.
+</p>
+
+<p>In the comments, a few people quibble with the naming of his tables and columns.
+It's an age-old debate: are relational database tables named with a singular or
+a plural?  The original proponents of relational design used singular nouns: User, Employee, Manager.
+But conceptually, a table is a set of things, and so should be plural, no?</p>
+
+<p>On the plus side for singulars, it works better in today's ORM-heavy world.
+It simplifies the transition from objects to tables, since
+the class name will be singular.  Typically, database table names have to be
+explicitly specified to make them plural since pluralization is hard to do
+automatically.  At Tabblo, we have a table correctly named stories, but also one
+incorrectly named addresss.</p>
+
+<p>Another minor point for the singular camp is the case where a single row in
+the table is actually described by a plural already.  Suppose you have a class
+called UserFlags.  What's the table called?  If you favor plural table names you'd
+have to pluralize it again to UserFlagses?</p>
+
+<p>An advantage for plurals is that it makes SQL queries sound right.
+The statement "select * from users" simply sounds right.  Although, if you have
+to qualify column names, it sounds odd again:</p>
+
+<code>select users.name from users where blahblah</code>
+
+<p>I suspect which side you lean toward will depend on how you were raised,
+like any religious argument.</p>
+
+<p>On another point, Jeff shows a User table with a user_id column as the primary
+key. At first I recoiled: shouldn't the primary key be named "id"? But as it
+happens, I have often made the mistake when typing ad-hoc SQL queries of using
+user_id in the User table, simply because I've been using it everywhere else.</p>
+
+<p>If I type</p>
+
+<code>select * from stories where user_id = 6</code>
+
+<p>to see user 6's stories, then it's natural to type</p>
+
+<code>select * from users where user_id = 6</code>
+
+<p>to see user 6 himself.  Of course it's natural to use a table-qualified id
+column name for foreign keys, but for a primary key?  I've never tried it, so
+I don't know what pain I might incur further down the road.</p>
+
+<p>BTW: Joel's forum has an <a href='http://discuss.fogcreek.com/joelonsoftware/default.asp?cmd=show&amp;ixPost=5904'>an old thread on the issue</a>.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090902T215902'>
+<title>Threading emails</title>
+<category>email</category>
+<body>
+<p>Trent Mick wrote to me some time ago asking for a feature on this blog:
+could I make it so that email notifications of blog comments would thread
+together nicely?
+</p>
+
+<p>The email subject lines from my notifications look like this:</p>
+
+<quote><p>A comment on "Weird URL data encoding" from Richard Schwartz</p></quote>
+
+<p>I use Thunderbird for email, and don't thread my inbox, so I never considered
+threading. Trent sent along information from a friend which said that "References:"
+headers were the key that would make a set of emails into a single thread.</p>
+
+<p>I hacked for a little while, and could not get them to thread.  I created
+a fake message id from the blog post and had all comment notifications have a
+References header with the id in it.  No threading.  I added unique Message-ID
+headers to each comment, then made subsequent comments have all previous message ids
+in a References header.  No threading.</p>
+
+<p>I tried the same in Gmail, and nothing seemed to thread the messages together.
+Googling around, it seemed others had come to the conclusion that only the subject
+line matters. Apparently if two messages have the same subject (plus or minus
+some "Re:" prefixes), then they are in the same thread.</p>
+
+<p>But what is the actual algorithm?  I know that there can be differences in the
+subject lines ("Re:" and all).  What are these mail clients doing to decide that
+two messages are in a thread?</p>
+
+<p>I like having the author name in the subject line, it makes the Inbox listing
+richer.  But it's also what's keeping these messages from threading.  Is there
+a way to get the best of both worlds?</p>
+
+<p>I know I've seen threads in Thunderbird where the subject line changes completely
+mid-thread.  Is that because they have Reply-To headers?  Comment notifications
+aren't replies to each other, but maybe that's a way to force threading?</p>
+
+</body>
+</entry>
+</blog>

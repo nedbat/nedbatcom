@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031209T094308'>
+<title>Perforce merge sucks</title>
+<category>srcctrl</category>
+<via />
+<body>
+<p>I really like <a href='http://www.perforce.com'>Perforce</a> as a source control
+system.  It is clean, and solid, and has great support.  But its merge tool blows
+giant chunks.  It looks like a Win16 application, and uses an entire
+spectrum of confusing (and ugly) colors.  I could deal with any of that, here's
+the clincher: it occasionally inserts newlines into the merged files!
+Identifiers get split across two lines, and the compile breaks.  What's up with that!?
+</p>
+</body>
+</entry>
+</blog>

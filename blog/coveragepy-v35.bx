@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110605T182300'>
+<title>Coverage.py v3.5 beta 1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage/3.5b1'>Coverage.py v3.5 beta 1</a>
+    is available now.  3.5 adds two long-requested features: convenient navigation
+    in the HTML report to find flagged sections of code, and better control over
+    partial branch warnings.</p>
+
+<p>In the HTML report, there are hotkeys to navigate within your source code.
+    '1' takes you to the first highlighted region, and 'j' and 'k' move up
+    and down through them.  Click the keyboard icon in the upper right of the
+    report to see the complete list of hotkeys.</p>
+
+<p>HTML reporting should now be faster in the common case of re-generating the
+    report after making incremental changes to your code.  Files which haven't
+    changed won't be regenerated, speeding the entire process.</p>
+
+<p>Coverage.py's branch coverage has been a bit simplistic.  For example, it 
+    would complain that a "while True:" was partial, because it never finished
+    the loop.  Now a few simple constructs like that are understood properly
+    right out of the box.  In addition, there is a "no branch" pragma that you
+    can use to mark your own intentionally-partial branches.</p>
+
+<p>There have been lots of
+    <a href="https://bitbucket.org/ned/coveragepy/src/416181cbdd24/CHANGES.txt">other changes</a>,
+    so take it for a spin. Drop me a line if you find any problems.</p>
+
+<p>BTW: I've created a <a href='http://googlegroups.com/group/coveragepy-announce'>coveragepy-announce</a>
+    mailing list for new version announcements.  Subscribe if you'd like an email 
+    when I release new versions.</p>
+
+</body>
+</entry>
+
+<entry when='20110629T092900'>
+<title>Coverage.py v3.5</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p><a href='http://pypi.python.org/pypi/coverage/3.5'>Coverage.py v3.5 for realz</a>
+    is now available.  3.5 adds two long-requested features: convenient navigation
+    in the HTML report to find flagged sections of code, and better control over
+    partial branch warnings.</p>
+
+<p>More details are in the <a href='blog/201106/coveragepy_v35_beta_1.html'>beta blog post</a>
+    from a few weeks ago. Not much has changed since then, I only heard from one
+    user of the beta, but that user was Guido.  As a result, the HTML navigation works
+    properly in more browsers, and behaves better when the current chunk is completely 
+    off the screen.  Enjoy!</p>
+
+</body>
+</entry>
+
+<entry when='20110831T220100'>
+<title>Coverage.py v3.5.1 beta 1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+    <p><a href='http://pypi.python.org/pypi/coverage/3.5.1b1'>Coverage.py v3.5.1 beta 1</a> is ready.
+        There's not much new: the one new feature is for people measuring coverage on a number of
+        different machines, then combining the data together for reporting.  Now you can specify
+        how differently-named source directories on those machines get combined together.</p>
+
+    <p>Branch coverage works better for "for-else" structures, and for the "with" statement, so
+        if you've been experimenting with branch coverage, but have been frustrated by false warnings,
+        give this release a spin.</p>
+
+</body>
+</entry>
+
+<entry when='20110923T083100'>
+<title>Coverage.py v3.5.1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+    <p><a href='http://pypi.python.org/pypi/coverage/3.5.1'>Coverage.py v3.5.1</a> is available.
+        If you haven't tried it before, coverage.py is a code coverage tool for your Python code.
+        Run your tests under it, and it will tell you which parts of your code are not being
+        exercised by your tests.</p>
+
+    <p>As I mentioned in the <a href='blog/201108/coveragepy_v351_beta_1.html'>3.5.1b1 announcement</a>, 
+        there's not much new: the one new feature is for people measuring coverage on a number of
+        different machines, then combining the data together for reporting.  Now you can specify
+        how differently-named source directories on those machines get combined together.
+        The only improvement since 3.5.1b1 is that this feature now works!</p>
+
+    <p>Branch coverage works better on "for-else" structures, and on the "with" statement, so
+        if you've been experimenting with branch coverage, but have been frustrated by false warnings,
+        this release should be much better.</p>
+
+</body>
+</entry>
+
+<entry when='20120429T165000'>
+<title>Coverage.py v3.5.2b1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+
+    <p>I just posted <a href='http://pypi.python.org/pypi/coverage/3.5.2b1'>Coverage.py v3.5.2 beta 1</a>.
+        This release of the foremost code coverage tool for Python includes a number of small fixes:</p>
+
+    <ul>
+        <li>The HTML report has been slightly tweaked.</li>
+        <li>You can now provide custom CSS for the HTML report if you'd like to tweak it further.</li>
+        <li>Source files with encodings declared at the top are properly handled in the HTML report in Python 2.
+            They had always been handled properly in Python 3.</li>
+        <li>Better error handling when a supposed Python file can't be parsed.</li>
+        <li>Better handling of exit status for the coverage command.</li>
+        <li>Better installation in PyPy.</li>
+    </ul>
+
+    <p>The full details, including links to the tickets that were closed, are in the 
+        <a href='/code/coverage/beta/changes.html'>coverage.py beta change history</a>.</p>
+
+    <p>Please give this a try, and let me know of any problems.  Given the nature of the
+        changes, I should be upgrading it to "released" within the week.</p>
+
+</body>
+</entry>
+
+
+<entry when='20120504T093600'>
+<title>Coverage.py v3.5.2</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+
+    <p>Since posting v3.5.2 beta 1 last Sunday, no one has said anything about it, so it must be perfect.
+        The exact same code is now <a href='http://pypi.python.org/pypi/coverage/3.5.2'>Coverage.py v3.5.2</a>.
+        This release of the foremost code coverage tool for Python includes a number of small fixes.
+        The full details, including links to the tickets that were closed, are in the 
+        <a href='/code/coverage/changes.html'>coverage.py change history</a>.</p>
+
+    <p>May all your lines and branches be covered!</p>
+
+</body>
+</entry>
+
+
+<entry when='20120929T223800'>
+<title>Coverage.py v3.5.3</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+
+    <p>The latest bug-fix release of coverage.py is now available: 
+        <a href='http://pypi.python.org/pypi/coverage/3.5.3'>Coverage.py v3.5.3</a>.  
+        Eight bugs were fixed, the most visible of which is that the line numbers
+        in the HTML report now line up better with the source lines (again).  
+        Thanks to a simple CSS fix from Marius Gedminas, this perennial annoyance
+        may finally be eradicated.</p>
+
+    <p>All the details are in the 
+        <a href='/code/coverage/changes.html'>change history</a>, as usual.</p>
+
+    <p>It's getting chilly out there, cover up...</p>
+
+</body>
+</entry>
+
+
+</blog>

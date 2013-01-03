@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030606T002216'>
+<title>Python main() functions</title>
+<category>howto</category>
+<category>python</category>
+<category>shells</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>A few weeks ago, Guido van Rossum wrote about
+<a href='http://www.artima.com/weblogs/viewpost.jsp?thread=4829'>Python main() functions</a>
+in his weblog.
+There are good ideas in there, but I didn't agree with them all.
+In particular, I thought this was odd:
+</p>
+
+<code lang='python'><![CDATA[
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    # etc...
+
+if __name__ == "__main__":
+    sys.exit(main())
+]]></code>
+
+<p>To me, it is better to keep the sys.exit and the sys.argv in one
+place:</p>
+
+<code lang='python'><![CDATA[
+def main(argv):
+    # etc...
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
+]]></code>
+
+<p>The weblog has an
+<a href='http://www.artima.com/forums/flat.jsp?forum=106&amp;thread=4829'>active comment system</a>,
+with Guido responding thoughtfully.
+After I posted my thoughts, he agreed to "compromise" with me!
+</p>
+
+<p>By the way: one trick I've used in main() functions: when converting
+numeric arguments from strings in argv, use eval(), not int().
+That way, you can use any numeric calculations you want in your
+command line arguments.
+</p>
+
+</body>
+</entry>
+</blog>

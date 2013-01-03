@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111018T182823'>
+<title>For/else</title>
+<category>python</category>
+<body>
+<p>Python has an unusual appendix to its looping structures.  A "for" or "while" loop can also have an "else" clause.  It was the topic of this exchange on Twitter:</p>
+<quote><a href='http://twitter.com/#!/raymondh/status/126334281810317313'>@raymondh</a>:
+else-clauses in #python's for/while loops are trivially easy to explain but some minds just rebel at the thought: <a href='http://bit.ly/for_else'>http://bit.ly/for_else</a></quote>
+<quote><a href='http://twitter.com/#!/holdenweb/status/126377825367375872'>@holdenweb</a>: 
+@raymondh I think we can all agree that Guido may have taken his dislike of adding keywords a step too far with for/while ... else. #python</quote>
+<quote><a href='http://twitter.com/#!/raymondh/status/126382481313251328'>@raymondh</a>: 
+@holdenweb In 1991, "else" was the obvious choice because of the traditional way compilers implemented while-loops: <a href='http://pastebin.com/tY35CTJ4'>pastebin.com/tY35CTJ4</a></quote>
+
+<p>If something is trivial to explain, but people aren't getting it, maybe we should put more work into explaining it.  
+    Steve Holden knows a lot about Python, and feels that "else" was a stretch for this purpose, so even he doesn't seem comfortable with for/else.
+    It took me a while to get it too, but now it makes complete sense to me. Let me explain.</p>
+
+<p>The classic (trivial) description of for/else is this:  the "else" clause is executed if the loop completes normally, but not if it was interrupted with a "break".
+    This explanation is technically correct, but is also confusing.  It seems like "else" should instead be "and also", since the else clause isn't an alternative to
+    the loop, it's added on, but only if the entire loop completed. So it seems like the wrong word.  And Raymond's resort
+    to an examination of compiled code doesn't help anyone understand it.  One of the great things about Python is Guido's insistence on usability of
+    the language as a guiding principle in its design.  There should be a user-centric explanation that makes sense.</p>
+
+<p>Consider a common structure of a "for" loop:</p>
+
+<code lang="python"><![CDATA[
+for thing in container:
+    if something_about(thing):
+        # Found it!
+        do_something(thing)
+        break
+else:
+    # Didn't find it..
+    no_such_thing()
+]]></code>
+
+<p>Here you can see something interesting: there's an "if", and there's an "else".  Those two words often go together, but not the
+    way they are used here.  But the pairing is important, and is the whole reason for the "else" keyword.  When this loop is run, the "if" will
+    be evaluated a number of times, and if it is ever true, the loop will break.  A "break" means the "else" isn't executed.  Only
+    if the "break" isn't taken, that is, if the "if" is always false, will the "else" clause be run.</p>
+
+<p>This is where the "else" keyword makes total sense. If you focus on the "if" statement, it is evaluated many times, and only
+    if it is always false, will the "else" clause of the loop run.  As the loop executes, the "if" becomes like a giant if/elif/elif
+    ladder: each time around the loop adds another test of the condition, but only if all previous tests were false.
+    The "else" clause caps it all off, just as it would in an explicit if/elif/else structure.  And it works just like the explicit
+    structure: if all of the conditions are false, then the "else" clause is run.</p>
+
+<p>I think of the code above like this (informally):</p>
+
+<code lang="python"><![CDATA[
+if any(something_about(thing) for thing in container):
+    do_something(that_thing)
+else:
+    no_such_thing()
+]]></code>
+
+<p>This is the explanation that makes sense to me, because the "else" in my conceptual code is just like the "else" in the
+    actual code.  Maybe this isn't a trivial explanation, but it's one that makes sense to me, and I hope, to others.</p>
+
+</body>
+</entry>
+</blog>

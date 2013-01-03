@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030401T073619'>
+<title>Robustness Principle</title>
+<category>arch</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>
+A few kind readers answered my
+<a href='blog/200303.html#e20030330T161125'>implicit plea</a>
+for the classic quote about the differing responsibilities of producers
+and consumers.
+Mark Mascolino was the first to send a pointer to the IETF RFC it first
+appeared in: Jon Postel's
+<a href='http://zvon.org/tmRFC/RFC793/Output/index.html'>RFC 793 - Transimission Control Protocol</a>
+(that's TCP to you and me), where it appeared in a section of its own, and
+was even given a name
+(<a href='http://zvon.org/tmRFC/RFC793/Output/chapter2.html#sub10'>Robustness Principle</a>):
+</p>
+
+<quotep>be conservative in what you do, be liberal in what you accept from others.</quotep>
+
+<p><a href='http://fishbowl.pastiche.org/'>Charles Miller</a> wrote to point out the downside of the
+philosophy: that being liberal in acceptance means bad implementations are
+allowed to flourish, leaving the burden on all future implementations to
+forever pick up the slack. He has written about it before:
+<a href='http://fishbowl.pastiche.org/archives/001205.html'>Grisham trumps Postel</a>.
+</p>
+
+<p>The XML standard took the exact opposite approach: implementation must be
+extremely strict, to prevent the sort of slop that HTML allowed.
+</p>
+
+<p>So what's the right thing to do?
+To paraphrase the witticism about standards,
+
+That's the great thing about design principles: there are so many to choose
+from.</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041019T061420'>
+<title>Guantanamo</title>
+<category>testing</category>
+<via href='http://www.kimbly.com/blog/'>About Kim</via>
+<body>
+<p>I honestly don't know how much of this is a joke, and how much is serious:
+<a href='http://docs.codehaus.org/display/ASH/Guantanamo'>Guantanamo</a> is a tool
+that deletes all lines of code that are untested, as determined by code coverage tools.
+Two questions from the FAQ aptly demonstrate the philosphy:
+</p>
+
+<quote>
+<p>Q: What about good code without tests? Will it be taken away and sent to Guantanamo too?
+<br/>A: Yes. We follow our own rules here. Your code has to prove its innocence through coverage.
+We don't have to prove that the code has bugs, we just assume it has.
+And therefore it must be taken away. It is for your own security.</p>
+
+<p>Q: If good code is removed, doesn't this question the validity of Guantanamo itself?
+<br/>A: You can't prove that untested code is good. Things that cannot be proven good must go.
+</p>
+</quote>
+
+<p>This may take <a href='text/deleting-code.html'>Deleting code</a> too far...</p>
+
+</body>
+</entry>
+</blog>

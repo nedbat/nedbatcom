@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021113T081109'>
+<title>Referrer spam</title>
+<category>malware</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>OK, so spam emails are horrible, we all agree about that.
+There's also been spam in other channels: snail mail, fax, instant messaging.
+Now comes the latest: referrer spam.  This is where spammers visit your website and
+claim the referring URL is their scuzzy site, so your server logs record their URL as
+a referrer.  Then if you're looking at your referrer logs to see who's linking to you,
+you look up their site.
+I've gotten some of these bogus referrers that also set the referrer to a
+Google search for the spam site, so the site name also appears in the
+list of search terms that the log reports (such as
+<a href='http://www.analog.cx/'>Analog</a>) show.
+</p>
+
+<p>What I've never understood is how these people can respect themselves.
+The email spammers can at least work really hard at deluding themselves into thinking
+that they are simply telling the world about their product.
+But how can you set out to write bogus referrers and not see that you are being a
+sleaze-ball?
+</p>
+
+</body>
+</entry>
+</blog>

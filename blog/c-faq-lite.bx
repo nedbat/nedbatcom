@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051209T132144'>
+<title>C++ FAQ Lite</title>
+<category>cpp</category>
+<via />
+<body>
+<p>For the second time in two weeks, I happened upon Marshall Cline's
+<a href='http://www.parashift.com/c++-faq-lite/index.html'>C++ FAQ Lite</a>.
+I'm not sure why it's called "Lite", because it is a huge list of hard questions,
+expertly answered.  I thought I had shone a flashlight into every dark corner
+C++ had to offer, but I learned a few things poking around.
+</p>
+
+<p>For example, in the answer to
+<a href='http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.9'>What does throw; mean? Where would I use it?</a>,
+I learned that you can use throw even when not lexically nested in a catch:</p>
+
+<code lang='cpp'><![CDATA[
+void handleException()
+{
+  try {
+    throw;
+  }
+  catch (MyException& e) {
+    // ...code to handle MyException...
+  }
+  catch (YourException& e) {
+    // ...code to handle YourException...
+  }
+}
+
+void f()
+{
+  try {
+    // ...something that might throw...
+  }
+  catch (...) {
+    handleException();
+  }
+}
+]]></code>
+
+<p>(We can argue over whether this is a good idea: my point is I didn't even know it was possible
+in the language.)
+And in <a href='http://www.parashift.com/c++-faq-lite/misc-technical-issues.html#faq-39.4'>What should
+be done with macros that contain if?</a> (and the three questions that follow it),
+Cline explores all of the fiddly details that you need
+to consider when writing macros of any interesting complexity.
+</p>
+
+<p>The whole FAQ is amazing like this: chock-full of top-notch technical detail.</p>
+
+</body>
+</entry>
+</blog>

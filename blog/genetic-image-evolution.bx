@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081213T073916'>
+<title>Genetic image evolution</title>
+<category>art</category>
+<category>algorithms</category>
+<body>
+<p>Roger Alsing has made a fascinating image hack: reproduce an image with randomly-placed
+translucent polygons:
+<a href='http://rogeralsing.com/2008/12/07/genetic-programming-evolution-of-mona-lisa/'>Genetic Programming: Evolution of Mona Lisa</a>.
+At each step, a random polygon is placed on the image, and a simple image comparison
+function determines whether a new proposed polygon makes it look more or less like the
+goal image.  It's not fast, but the results are kind of startling.  A photo of me and a friend:
+</p>
+
+<figurep>
+    <img src='pix/mattned.jpg' alt='Matt and Ned' style='margin:0;'/>
+</figurep>
+
+<p>And a polygonal reproduction with 108 polygons:</p>
+
+<figurep>
+    <img src='pix/mattned_evolved.jpg' alt='Matt and Ned evolved with polygons' style='margin:0px;'/>
+</figurep>
+
+<p>This reminds me a little of the <a href='blog/200805/css_homer_animated.html'>CSS Homer</a>,
+recreating an image by amassing unlikely components in just the right way.
+BTW: the comments on Roger's post contain a number of AI nerds debating whether
+this is truly genetic programming, and if so what kind, or if it is simply a
+hill-climbing algorithm.  In any case, it's very cool.
+</p>
+
+</body>
+</entry>
+</blog>

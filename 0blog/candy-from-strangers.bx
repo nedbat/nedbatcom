@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030718T172012'>
+<title>Candy from strangers</title>
+<category>arch</category>
+<body>
+<p>When writing software these days, there are tons of tools
+the developer can use to help get his code done.
+These range from clever editors to samples to wizards.
+There are also many types
+of infrastructure that can be deployed as middleware to help
+while the code is running.  These range from libraries to
+classic middleware to callable network services.
+Many of these tools and middleware are very helpful.
+Many really do speed up development by creating abstractions
+and raising the developer's focus from the trivial to the insightful.
+</p>
+
+<p>But you have to be careful: if the abstractions don't match your
+needs, or there are flaws in the implementation, or something important
+is hidden from you, then they can be hindrances rather than helps.
+</p>
+
+<p>Remember what you learned in kindergarten:
+<b>never accept candy from strangers</b>.
+</p>
+
+<more>
+<p>
+If you want to use a tool or a wizard to get some leverage over a thorny
+problem, make sure you know how the tool works.
+Not that you have to understand every line of code generated,
+or how the implementation really functions.
+But you need to understand what the wizard is good at, and what it is not.
+You have to know whether your problem really falls into the solution space
+of the tool. The tool is offering you something very tempting (an easy solution
+to your problem: that's the candy).  But you have to know the tool first
+(it can't be a stranger to you).
+</p>
+
+<p>I spent the better part of the past week struggling to use a rich and promising
+tool that turned out not to be the right solution for the problem I had.
+I'm still not sure whether it was fundamentally ill-suited to my situation,
+or if my misunderstanding of its foundations caused me to approach the solution
+badly, but either way, it was not a pleasant experience.</p>
+
+<p>In the end, I scrapped the FFRT (fancy feature-rich technology) and cobbled
+something together myself in less than 100 lines of Python.  It is low-tech,
+and won't solve all sorts of problems that the FFRT will, but it's perfect
+for what I need, and I couldn't get the FFRT to work.
+Plus: I understand exactly how my code works.
+</p>
+
+<p>This is similar to the advice in Tip 50 from
+<a href='http://www.pragmaticprogrammer.com/ppbook/extracts/rule_list.html'>The Pragmatic Programmer</a>,
+"Don't Use Wizard Code You Don't Understand".
+In the section entitled "Evil Wizards", they acknowledge that this is an
+extreme position, and I don't agree with the finality of their tip.
+I think wizards can be OK if they are shortcuts, but not if they are crutches.
+</p>
+
+<p>Maybe this all boils down to Joel Spolsky's
+<a href='http://www.joelonsoftware.com/articles/LeakyAbstractions.html'>Law of Leaky Abstractions</a>.
+The tool is promising you an abstraction.
+If that abstraction is right for you
+and doesn't leak in bad ways, the tool is good.
+If the abstraction is bad for you (maybe it hides something you want to see),
+or leaks in ways that hurt you, the tool is bad.
+</p>
+
+<p>In any case, before you take the candy, make sure you know what it is
+and who is handing it to you.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050512T191222'>
+<title>More C++ constructor trivia</title>
+<category>cpp</category>
+<via />
+<body>
+<p>Back in December, I wrote about <a href='blog/20041202T070735.html'>C++ constructor trivia</a>.
+There, I said:
+</p>
+
+<quote>(*) C++ semantics state that if a constructor of a heap allocated object throws an exception,
+that the object's destructor is called.</quote>
+
+<p><a href='http://www.joeganley.com/'>Joe Ganley</a> wrote to point out that I had it wrong,
+and indeed I did. (I've used the linguist's convention of starring sentences that are incorrect,
+though they do it for grammatical incorrectness.)</p>
+
+<more>
+
+<p>The correct statement of C++ semantics is:</p>
+
+<ol>
+<li>An object's constructor will call constructors for each base class of the object.</li>
+<li>An object's constructor will call constructors for each member of the object.</li>
+<li>If an exception is thrown at any point in the construction process,
+then a destructor will be called for each constructor that completed successfully.</li>
+</ol>
+
+<p>For example:</p>
+
+<code lang='cpp' number='1'><![CDATA[
+class Base1
+{
+public:
+    Base1()
+    {
+        printf("Base1 in.\n");
+    }
+
+    ~Base1()
+    {
+        printf("Base1 out.\n");
+    }
+};
+
+class Base2
+{
+public:
+    Base2()
+    {
+        printf("Base2 in.\n");
+    }
+
+    ~Base2()
+    {
+        printf("Base2 out.\n");
+    }
+};
+
+class Member1
+{
+public:
+    Member1()
+    {
+        printf("Member1 in.\n");
+    }
+
+    ~Member1()
+    {
+        printf("Member1 out.\n");
+    }
+};
+
+class Derived: Base1, Base2
+{
+public:
+    Derived()
+    {
+        printf("Throwing in Derived.\n");
+        throw "Hello";
+    }
+
+    ~Derived()
+    {
+        printf("In ~Derived\n");
+    }
+
+    Member1 member1;
+};
+]]></code>
+
+<p>If you attempt to construct a Derived object, you will see this output:</p>
+
+<code><![CDATA[
+Base1 in.
+Base2 in.
+Member1 in.
+Throwing in Derived.
+Member1 out.
+Base2 out.
+Base1 out.
+]]></code>
+
+<p>Since the exception was thrown in the Derived constructor, the Derived destructor is not
+called.  But destructors are called for each of the constructors that had completed
+(namely, Member1, Base2, and Base1).</p>
+
+<p>C++ works very hard to keep track of exactly what class an object is.  During the construction
+process, the class changes.  When the Base1 constructor has finished, the object is a Base1.
+When the Base2 constructor has finished, it is also a Base2.  By the time the Derived constructor
+is entered, it is considered a Derived, even though its constructor never finishes.
+This process of evolving the object up through
+its inheritance tree is the programming language equivalent of the now-discredited
+biological theory of recapitulation
+(famous for its tongue-twister slogan of
+<a href='http://en.wikipedia.org/wiki/Recapitulation_theory'>Ontogeny recapitulates phylogeny</a>).
+</p>
+
+<p>During the destruction process, the whole thing happens in reverse. As each destructor
+finishes, the object changes classes reverting back to the mud from which it came.</p>
+
+<p>C++ is very precise about the order of execution of all of these constructors.
+Base classes are constructed in the order they were declared, then members are constructed
+in the order they were declared.  Destruction always happens in the reverse order.
+</p>
+
+<p>By the way, this evolution of classes becomes even more important to understand when
+virtual function calls are considered.  Exactly which function gets called for a virtual function
+depends on the class of the object.  But the class is changing as the object is constructed
+and destructed.
+Calling virtual functions from constructors and destructors can be complicated because of this.</p>
+
+<p>One last twist: if you declare a virtual pure method (with the horrid "= 0" syntax),
+you create a class which cannot be instantiated.  So you'd think there would be no way
+to call the pure virtual.  But think about the recapitulation of classes again.
+While an object is being constructed or destructed, it passes through those abstract
+classes.  If one of those virtual functions is called when the object belongs to
+an abstract class, you will get the dreaded "pure virtual function call" error!</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

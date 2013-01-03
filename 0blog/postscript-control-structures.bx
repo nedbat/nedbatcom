@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031216T074258'>
+<title>PostScript control structures</title>
+<category>proglang</category>
+<via />
+<body>
+<p>Hacking around with
+<a href='http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html'>PostScript</a>,
+I'm being reacquainted with its unusual language structure.
+</p>
+
+<more>
+
+<p>The whole thing is stack oriented, like
+<a href='http://www.forth.org/'>Forth</a>.
+Adding two numbers is done by pushing the two numbers on the stack,
+then invoking the add operator, which pops two numbers, adds them,
+and pushes the result:</p>
+
+<code lang='postscript'><![CDATA[
+2 2 add   % leaves 4 on the stack
+]]></code>
+
+<p>Control structures work the same way.
+The <codeword>ifelse</codeword> operator takes
+three things from the stack: a boolean and two executable blocks.
+If the boolean is true, it executes the first block and discards the
+second.  If the boolean is false, it executes the second block and
+discards the first:</p>
+
+<code lang='postscript'><![CDATA[
+1 2 eq { (y) } { (n) } ifelse   % leaves "n" on the stack
+]]></code>
+
+<p>The <codeword>for</codeword> operator is used for looping.
+It takes a start value, an increment, an end value, and an
+executable block as operands:</p>
+
+<code lang='postscript'><![CDATA[
+% Calls doSomething ten times with 1 through 10 as arguments
+1 1 10 { doSomething } for
+]]></code>
+
+<p>Here's where it gets tricky: these control operators take their
+values from the stack, and it doesn't matter how the values got there.
+Often, as in these examples, they'll have been pushed there by literals just before
+the operator is called. But they can be placed there any other
+way, and the operators will still work:</p>
+
+<code lang='postscript'><![CDATA[
+% Loop up or down, depending on the value of up?
+up? { 1 1 10 } { 10 -1 1 } ifelse
+{ doSomething } for
+]]></code>
+
+<p>This will loop from 1 to 10 if up? is true, and from 10 to 1 if up? is false.</p>
+
+<p>Also, because executable blocks are objects on the stack that can be
+passed around and manipulated like any other object, you can write your
+own control operators:</p>
+
+<code lang='postscript'><![CDATA[
+% probability block 'domaybe' -
+% Excecute the block randomly, determined by the probability.
+/domaybe {
+    exch            % bring the probability to the top
+    1000 mul        % scale the probability to 0-1000
+    rand 1000 mod   % pick a random integer in 0-999
+    lt              % should we execute the procedure?
+    exch            % swap args to make them right for if
+    if              % execute the block if we should
+} def
+
+.01 { veryInfrequently } domaybe
+.95 { almostCertainly } domaybe
+]]></code>
+
+<p>Not that you'd want to build large systems in PostScript, but it's
+good to bend your brain in different ways occasionally.
+<a href='http://www.smalltalk.org/'>Smalltalk</a> has a similar
+build-your-own-control-structures descriptive power,
+though it is not stack based.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

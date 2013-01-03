@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040916T094551'>
+<title>My feeds are fixed</title>
+<category>site</category>
+<category>feeds</category>
+<via />
+<body>
+<p>After much fiddling, my RSS feeds all officially validate, and Firefox seems happy.
+While I was in there, I added my secret Atom feed to the mix, so now I have
+three feeds to choose from:</p>
+
+<ul>
+<li><a href='blog/rss.xml'>RSS 1.0 excerpts</a></li>
+<li><a href='blog/rssfull.xml'>RSS 1.0 full entries</a></li>
+<li><a href='blog/atom.xml'>Atom 0.3 full entries</a></li>
+</ul>
+
+<p>I still think these formats are all a pain.  To make my RSS excerpts feed validate,
+I had to make it 30% larger by adding entirely redundant information to it. Yuk.</p>
+
+</body>
+</entry>
+</blog>

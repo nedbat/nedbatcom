@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030324T142425'>
+<title>Jot</title>
+<category>mycode</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I needed a way to unobtrusively jot XML elements into a file (to keep track of the
+quick links for this blog, if you must know).  So I wrote a
+<a href='http://www.wxpython.org'>wxPython</a> app to do it.  It sits in the systray,
+and cheerfully collects data to be stashed in the XML.
+</p>
+
+<p>Go try <a href='code/winutils/jot_py.html'>Jot</a>.</p>
+
+</body>
+</entry>
+</blog>

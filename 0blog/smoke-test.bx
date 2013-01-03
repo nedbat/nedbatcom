@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030408T062805'>
+<title>Smoke test</title>
+<category>testing</category>
+<category>ling</category>
+<category>printing</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>We software engineers are familiar with the term "smoke test": it's a quick
+test you can run that verifies that the latest changes haven't broken something
+really big.  But where does the term come from?</p>
+
+<p>The most popular guess is from the old days of building electrical equipment,
+where a smoke test consisted of plugging the thing into the wall to see if it
+smoked.  Another possibility comes from duct work, where to check
+air-tight-ness, smoke can be pumped in to see where it comes out.
+These are both reasonable and plausible origins, but I like the typographic
+answer best.</p>
+
+<more>
+
+<p>To get at the dervation, we need a little review of the history of typographic
+technology.  Remember that type was originally (before 200 years ago)
+actual pieces of metal that
+were locked into a press, coated with ink, and pressed on paper.
+To get the correct-reading (forward) letter on the paper, the type had to
+have a reversed, raised image of the letter.  The printer needed many
+identical pieces of type (because a book would have many separate instances
+of each letter), so they were cast in molds.  To form the reversed raised
+image of the letter, the mold had a forward sunken image of the letter at
+the bottom.  This was a piece of metal called a matrix, which was created
+by driving a specially-carved bar (called a punch) into a blank of brass.
+To make the matrix correctly, the punch had to have a reversed raised image of
+the letter (just like the final piece of type was to have).
+I know this is complex: pictures and other explanation are at
+<a href='http://work.colum.edu/~matma/letterpress/lptype.html'>Fireproof Design's Type page</a>.
+</p>
+
+<p>So the punch was the actual source for the shape of the letter.  All the
+rest of the mechanical back-and-forth of punch to matrix to type to paper
+would eventually produce a printed image of many copies of the shape
+that was carved
+into the punch.  But put yourself in the place of the poor punchcutter,
+the guy carving the end of a steel rod to look like a particular letter in a
+particular style.
+There you are, filing away at your "e", trying to achieve a certain effect.
+You're working on it reversed, and at actual size
+(have you ever considered just how tiny an 8-point "e" actually is)?
+</p>
+
+<p>How do you test it?  You can't go through all the steps of
+producing a matrix, casting some type, setting the type in the press, and
+printing off some sheets: it would take too long, and be too expensive, and
+too messy.  You need a quicker test.</p>
+
+<p>What the punchcutter would do is hold the end of the punch in the flame
+of a candle, where the smoke would blacken the end of the punch.  Then he
+could make a simple impression on a piece of paper, and take a look at what
+he had. The original smoke test.</p>
+
+<p>I like this derivation, not just because it involves type history
+(though that is a bonus).  It nicely captures the intent of the smoke test.
+After all, the plug-it-in-and-see-if-it-smokes explanation is just a little
+too crude: that doesn't check the functioning of the equipment at all.
+The punchcutter's smoke test is a better analogy to what we expect from a
+software smoke test: it is quick and easy, and it verifies that the basic stuff
+is working.  The punchcutter could see that the shape was coming out the
+way he wanted, and could even put two or more letters together to see how they
+interacted.  He couldn't set a whole page, and he couldn't get the spacing
+precisely, but that was OK: it was only a smoke test.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

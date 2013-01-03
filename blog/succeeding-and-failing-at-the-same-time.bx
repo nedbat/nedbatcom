@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130101T170431' draft='y'>
+<title>Succeeding and failing at the same time</title>
+<category></category>
+<via />
+<body>
+<p>
+</p>
+
+<!--
+
+     #python, 1/1/2013, 5:00pm
+
+<nelson-> Hi guys, can someone explain me why this snippet of code "x = ([],); x[0]+=[3]" that I just came across throws a TypeError exception but at the same time inserts 3 in the list
+<nelson-> I would have guessed it would just insert 3 to the list without throwing any exceptions, since += is inplace add
+<Squarepy> nelson-, if x[0] is a number adding an array [3] to it won't work
+<nelson-> Squarepy: x[0] is a list
+<newbie__> nelson-: what does x = ([],) do?
+<nedbat> nelson-: that is very odd.
+<Squarepy> newbie__, it defines a tuple
+<Squarepy> nelson-, sry missed that ;)
+<newbie__> Squarepy: yes, I know, it's a rhetoric question :)
+<nelson-> nedbat: I tried it in both 2.7.3, 3.3.0 and pypy 1.9 and they all return the same result
+<Squarepy> newbie__, a newbie with rhetorics ;)
+<nedbat> nelson-: i am mystified
+<nelson-> nedbat: I think this will result in a nice blog post
+<nelson-> nedbat: :)
+<nedbat> nelson-: the disassembled bytecode has clues: http://paste.pound-python.org/show/28805/
+<newbie__> nelson-: what is the difference between a list and a tuple? :)
+<mhite> newbie__: mutability
+<nmadan> lists are mutable, tuples are not
+<nelson-> nedbat: what do instructions 15,26 and 27 do?
+<nedbat> nelson-: x[0] += [3] is really:   x[0] = x[0] + [3]
+<mhite> newbie__: important detail to understand as tuples can be used as keys to dictionaries while lists may not
+<nedbat> nelson-: well,   x[0] = x[0].__iadd__([3])
+<nelson-> nedbat: But their bytecode is different, with x[0]=x[0]+3, instead of inplace_add we get binary_add if I'm not mistaken
+<nedbat> nelson-: yes, and .__iadd__ is different again.
+<nelson-> nedbat: ok, += calls __iadd__ right?
+<nedbat> nelson-: the reason the list is modified in place is instruction 25.  Then the exception happens when instruction 27 tries to put it back into the tuple.
+<deltab> nelson-: calls it *and stores the result*
+<nedbat> nelson-: well, here += seems to just use a bytecode rather than .__iadd__, but the bytecode must call that, yes.
+<nelson-> deltab: ahh, so that explains the exception even though x is modified
+<nedbat> nelson-: it's definitely twisty
+<nelson-> nedbat: I really is!
+<nelson-> nedbat: It*
+<nelson-> Thanks guys for sharing your knowledge :)
+* nedbat considers a blog post...
+<nelson-> nedbat: I'd read it
+<lahwran> what would this blog post be about?
+<nedbat> nelson-: you should write it!
+<nedbat> lahwran: this discussion we just had...
+<lahwran> huh, interesting
+<nelson-> nedbat: I don't have neither a blog nor am I a skillful writer as you
+<nedbat> nelson-: i could have said the same things about myself once... :)
+<bounce> wut, everybuddy gots to hafe a blog dese days
+<nelson-> nedbat: :)
+
+
+
+>>> def foo():
+...  x = ([],); x[0]+=[3]
+...
+>>> import dis
+>>> dis.dis(foo)
+  2           0 BUILD_LIST               0
+              3 BUILD_TUPLE              1
+              6 STORE_FAST               0 (x)
+              9 LOAD_FAST                0 (x)
+             12 LOAD_CONST               1 (0)
+             15 DUP_TOPX                 2
+             18 BINARY_SUBSCR
+             19 LOAD_CONST               2 (3)
+             22 BUILD_LIST               1
+             25 INPLACE_ADD
+             26 ROT_THREE
+             27 STORE_SUBSCR
+             28 LOAD_CONST               0 (None)
+             31 RETURN_VALUE
+
+-->
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030724T174937'>
+<title>When good interfaces go crufty</title>
+<via /> <!-- id= or href= -->
+<body>
+<p>Matthew Thomas has a detailed rant called
+<a href='http://mpt.phrasewise.com/stories/storyReader$374'>When good interfaces go crufty</a>,
+about the historical artifacts we ask users to live with in user interfaces.
+I'm probably too much of a geek to fully appreciate his viewpoint.
+I remember reading Alan Cooper's
+<a href='http://www.cooper.com/content/insights/cooper_books.asp'>About Face</a>,
+which also argued that File - Save was an unnecessary and confusing detail,
+and questioned the wisdom of removing it from UI's.
+</p>
+
+<p>But, some of his point clearly hit their mark, and he is absolutely right:
+interfaces gather cruft and it's the poor user who suffers with it.
+I have my own real-life example of this sort of crufty interface stuff,
+and it's crufty enough to have confused even an old and well-credentialed 
+geek like me.
+</p>
+
+<more>
+<p>
+My wife writes opinion columns in Microsoft Word.  She usually starts a new
+column by opening an old column, deleting all the text in it, and using
+File - Save As to save it as a new file.
+(I have tried to create templates that would let her have the same effect <emdash/>
+the same style and layout for each document <emdash/> but it has never worked
+to our satisfaction, and she "gets" this way of doing it.)
+When she puts in the new file name, she uses the title of the column
+(natch).  Occasionally, when she tries this, nothing happens. Literally.
+Clicking the Save button <i>doesn't do anything</i>.
+</p>
+
+<p>
+Try it for yourself with this title: "Who Will Pay?"
+</p>
+
+<p>Can you guess what's going on here?
+A few things at once:</p>
+
+<ul>
+<li>First, the File - Save As box, because it is a mini-explorer, is helpfully
+letting you look for existing files with that file name field, which is
+counter-intuitive, because the same field is used both to find existing
+files by name, and provide a new name for the current document.
+</li>
+
+<li>Second, because the field will do searching, it is lets you use filename
+wildcards, (like the question mark in "Who Will Pay?"), and the presence
+of the wildcard means this isn't a file name at all, it is a file pattern,
+and no saving will happen because you are stuck in the file-searching personality
+of the Jekyll/Hyde Save/Search field.
+</li>
+</ul>
+
+<p>
+Removing the question mark makes everything work, but there's got to
+be a better way to do this!
+This has happened to us at least three times, and it has baffled me each time.
+</p>
+
+<p>Of all the people who have put question marks in the file name field of
+that box, how many of them wanted to have a question mark in the document 
+name compared to how many of them wanted to do a 
+<a href='http://catb.org/~esr/jargon/html/G/glob.html'>fileglob</a> search for 
+documents with variability in the last character of the name?
+This is definitely a case of screwing regular people because of extreme
+geekiness carried through years of interface changes.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

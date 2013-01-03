@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Jot'>
+<history>
+<what when='20030324T135400'>Created.</what>
+</history>
+
+<p>I needed a quick way to add XML elements to an XML file (to track links to post to
+my <a href='blog/index.html'>blog</a>), so I wrote this small Python tool to do it.</p>
+
+<p>Jot is good at one thing: appending XML elements to a file.  The location and structure
+of the file is configurable at the top of the program.  When run, Jot sits as an icon
+in the Windows notification tray (you know, in the lower-right corner of the screen).
+Double-clicking the icon brings up a dialog box
+so you can fill in the details of the element.
+</p>
+
+<p>For example, this configuration:</p>
+
+<code lang='python'><![CDATA[
+# The path to the XML file.
+jotfile = 'c:/temp/quick.qx'
+
+# The name of the root element in the XML file.
+rootname = 'quickentries'
+
+# The name of each entry in the XML file.
+entryname = 'entry'
+
+# A list of dicts defining the attributes for the entries.
+attrs = [
+    { 'name': 'titleword', 'label': 'Title word:', 'default': 'word' },
+    { 'name': 'href', 'label': 'URL:', 'default': 'http://' },
+    { 'name': 'text', 'label': 'Link text:', 'default': 'text' },
+    { 'name': 'comment', 'label': 'Comment:', 'default': '' },
+]
+]]></code>
+
+<p>will cause this dialog to appear:</p>
+
+<figurep>
+<img src='code/winutils/jot-dialog.png' alt='Jot dialog' />
+</figurep>
+
+<p>After filling in some data, and clicking OK, c:/temp/quick.qx will contain:</p>
+
+<code lang='xml'><![CDATA[
+<?xml version="1.0"?>
+<quickentries>
+  <entry
+    comment=""
+    href="http://www.ericharshbarger.com/lego/milhouse.html"
+    text="Lego Milhouse"
+    titleword="Milhouse"/>
+</quickentries>
+]]></code>
+
+<p>After clicking the icon and entering data in the dialog again, the file will have
+two &lt;entry&gt; elements, and so on.</p>
+
+<p>Jot requires:</p>
+<ul>
+<li><a href='http://www.python.org'>Python</a>,</li>
+<li><a href='http://www.wxpython.org'>wxPython</a>, and</li>
+<li>Jason's <a href='http://www.jorendorff.com/articles/python/path'>path module</a>.</li>
+</ul>
+
+<p>You'll need to find an icon file you like, and name it jot.ico.</p>
+
+<download file='jot.pyw' path='code/winutils/jot.pyw' />
+
+<pagecomments/>
+
+</page>

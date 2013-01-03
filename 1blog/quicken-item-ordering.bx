@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040411T130444'>
+<title>Quicken item ordering</title>
+<category>ui</category>
+<via />
+<body>
+<p>This is a small thing, but it bugs me.
+I use Quicken to balance my checkbook.
+It remembers payees so that if you type the first few characters, it fills in
+the rest.
+But if there are two payees, one a prefix of the other, it chooses the longer one
+rather than the shorter one.
+</p>
+
+<p>For example, I have both "AT+T" and "AT+T Wireless" in my remembered list.
+When I type "AT", it fills in with "AT+T Wireless".
+Shouldn't it choose the first entry in the list,
+and don't dictionary rules say that "AT+T" should come first?
+Is there a good reason for this behavior, or is my annoyance justified?
+</p>
+
+</body>
+</entry>
+</blog>

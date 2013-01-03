@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050106T171935'>
+<title>SQL injection attacks</title>
+<category>db</category>
+<category>security</category>
+<via />
+<body>
+<p>Steve Friedl has written a detailed and comprehensive guide to how to crack into relational-based systems:
+<a href='http://www.unixwiz.net/techtips/sql-injection.html'>SQL Injection Attacks by Example</a>.
+Also included (for those of us on the hook for building these systems) are tips for how to prevent injection attacks.
+</p>
+</body>
+</entry>
+</blog>

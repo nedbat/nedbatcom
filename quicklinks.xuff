@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xuff
+	xmlns='http://www.stellated.com/xuff'
+	>
+
+	<!-- Convert collected quick links to a blog entry. -->
+	<xsl in='blog/quick.qx' style='quicklinks.xslt' out='temp/quicklinks.xml' />
+	<splitfile in='temp/quicklinks.xml' dst='blog' />
+	
+</xuff>

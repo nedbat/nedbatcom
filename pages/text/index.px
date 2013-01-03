@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Text'>
+<pagemenu/> <!-- Don't display the contents again. -->
+<section title='Text'/>
+
+<history>
+<what when='20021010T120000'>Interfaces.</what>
+<what when='20021011T053500'>Asserts.</what>
+<what when='20021121T213700'>Erroneously Empty Code Paths.</what>
+<what when='20021209T052700'>Stringification.</what>
+<what when='20021209T055400'>Log Message Style Guide.</what>
+<what when='20021222T151600'>Deleting Code.</what>
+<what when='20030206T222000'>Fix Error Handling First.</what>
+<what when='20030603T223900'>How to make business card cubes.</what>
+<what when='20030615T125900'>A good thing about autism.</what>
+<what when='20030730T215500'>My boys&apos; robot movie.</what>
+<what when='20030823T121400'>Engineers are people.</what>
+<what when='20030916T092200'>Exceptions vs. status returns.</what>
+<what when='20030921T183800'>Standards misconceptions.</what>
+<what when='20030928T214100'>Metadata is nothing new.</what>
+<what when='20031016T101300'>Exceptions in the rainforest.</what>
+<what when='20031219T081300'>How to make coffee stirrer stars.</what>
+<what when='20040215T174600'>Destructors instead of catches.</what>
+<what when='20040304T064800'>Parents' choices.</what>
+<what when='20040321T173300'>How to make a pop-up scene.</what>
+<what when='20040930T085600'>Python parsing tools.</what>
+<what when='20041019T065100'>A quest for pythonic interfaces.</what>
+<what when='20050205T113200'>Subversion on Windows quick start.</what>
+<what when='20050628T152000'>Lattices.</what>
+<what when='20050731T222500'>Programming Madlibs.</what>
+<what when='20051012T115100'>About WHOA.</what>
+<what when='20060208T064900'>Usability testing.</what>
+<what when='20060505T073600'>Painless bug triaging.</what>
+<what when='20060527T163425'>Own your data: ad-hoc representations</what>
+<what when='20061029T074800'>Subversion branching quick start</what>
+<what when='20070121T121800'>Stopping spambots</what>
+<what when='20070302T072628'>Presentation tips</what>
+<what when='20080121T155300'>Software I use</what>
+<what when='20081118T224626'>Victoria Marcus Olds</what>
+<what when='20090325T224431'>Whirlwind Extensions</what>
+<what when='20090619T110553'>Bare-bones basic Mercurial for Subversion users</what>
+<what when='20091007T200945'>DevDays Python prez.</what>
+<what when='20110312T064400'>Python-Aware Python</what>
+<what when='20110504T102500'>How C trace functions really work</what>
+<what when='20110720T062300'>Getting Started Testing your Python</what>
+<what when='20120315T223600'>Pragmatic Unicode</what>
+<what when='20120425T092600'>Python Iteration</what>
+</history>
+
+<p>These are longer pieces of writing
+("essays" is too stuffy, "articles" too topical and flighty).</p>
+
+<ul>
+<li>Presentations:
+    <ul>
+        <li><a pref='text/whirlext.px'/></li>
+        <li><a pref='text/devdays.px'/></li>
+        <li><a pref='text/aware.px'/></li>
+        <li><a pref='text/starttest.px'/></li>
+        <li><a pref='text/unipain.px'/></li>
+        <li><a pref='text/iter.px'/></li>
+    </ul></li>
+
+
+<li>Software Topics:
+    <ul>
+    <li><a pref='text/assert.px'/></li>
+    <li><a pref='text/interfaces.px'/></li>
+    <li><a pref='text/empty-code-paths.px'/></li>
+    <li><a pref='text/log-style-guide.px'/></li>
+    <li><a pref='text/stringification.px'/></li>
+    <li><a pref='text/deleting-code.px'/></li>
+    <li><a pref='text/fix-err-hand.px'/></li>
+    <li><a pref='text/hexwords.px'/>
+        and <a pref='text/hexcolors.px'/></li>
+    <li><a pref='text/engineers-are-people.px'/></li>
+    <li><a pref='text/exceptions-vs-status.px'/></li>
+    <li><a pref='text/exceptions-in-the-rainforest.px'/></li>
+    <li><a pref='text/standards-misconceptions.px'/></li>
+    <li><a pref='text/metadata-is-nothing-new.px'/></li>
+    <li><a pref='text/destructors-instead-of-catches.px'/></li>
+    <li><a pref='text/python-parsers.px'/></li>
+    <li><a pref='text/pythonic-interfaces.px'/></li>
+    <li><a pref='text/trace-function.px'/></li>
+    <li><a pref='text/quicksvn.px'/></li>
+    <li><a pref='text/quicksvnbranch.px'/></li>
+    <li><a pref='text/hgsvn.px'/></li>
+    <li><a pref='text/stopbots.px'/></li>
+    <li><a pref='text/madlibs.px'/></li>
+    <li><a pref='text/whoa.px'/></li>
+    <li><a pref='text/usability.px'/></li>
+    <li><a pref='text/triaging.px'/></li>
+    <li><a pref='text/own-data.px'/></li>
+    <li><a pref='text/presentationtips.px'/></li>
+    <li><a pref='text/stuffiuse.px'/></li>
+    </ul></li>
+
+
+<li>Hobby Topics:
+    <ul>
+    <li><a pref='text/cardcube.px'/></li>
+    <li><a pref='text/stirstar.px'/></li>
+    <li><a pref='text/popup.px'/></li>
+    <li><a pref='text/lattice.px'/></li>
+    </ul></li>
+
+
+<li>Personal Topics:
+    <ul>
+    <li><a pref='text/wilma-batchelder.px'/></li>
+    <li><a pref='text/autism-examined.px'/></li>
+    <li><a pref='text/boysrobots.px'/></li>
+    <li><a pref='text/parents-choices.px'/></li>
+    <li><a pref='text/victoria-olds.px'/></li>
+    </ul></li>
+
+</ul>
+
+</page>

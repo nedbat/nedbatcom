@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031109T105133'>
+<title>XPointer IE plugin</title>
+<category>webpage</category>
+<category>xml</category>
+<via />
+<body>
+<p>In response to my
+<a href='blog/200311.html#e20031104T085738'>post about linking into documents</a>,
+and the lack of an implementation of
+<a href='http://www.w3.org/TR/xptr-xpointer/'>XPointer</a>,
+Aaron Boodman has built an IE plugin to implement it:
+<a href='http://youngpup.net/?request=/news/2003-11.xml#2003-11-06-2'>RI(bf)WoTP#436</a>.
+</p>
+
+<p>I tried it, and sure enough, it works, at least on the sample URLs he presents.
+I tried other experiments with it, and wasn't able to get the results I wanted.
+I don't where the deficiency lies, in the technology, or my understanding of it.</p>
+
+</body>
+</entry>
+</blog>

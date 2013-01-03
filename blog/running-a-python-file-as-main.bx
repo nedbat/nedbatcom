@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090407T070247'>
+<title>Running a Python file as main</title>
+<category>python</category>
+<body>
+<p>I tried running a set of unit tests from work in the latest version of
+<a href='http://bitbucket.org/ned/coveragepy/'>coverage.py</a>, and was surprised
+to see that the tests failed.  Digging into it, I found that the value of __file__
+was wrong for my main program.  It used that value to find the expected output
+files to compare results against, and since the value was wrong, it didn't find
+any expected output files, so the tests failed.
+</p>
+
+<p>Consider this main program, myprog.py:</p>
+
+<code lang='python'><![CDATA[
+print "__file__ is", __file__
+print "__name__ is", __name__
+]]></code>
+
+<p>When run from the command line as "python myprog.py", it says:</p>
+
+<code><![CDATA[
+__file__ is myprog.py
+__name__ is __main__
+]]></code>
+
+<p>The way coverage.py ran the main program could be boiled down to this:</p>
+
+<code lang='python'><![CDATA[
+# runmain1.py: run its argument as a Python main program.
+import sys
+import __main__
+
+mainfile = sys.argv[1]
+execfile(mainfile, __main__.__dict__)
+]]></code>
+
+<p>Running "python runmain1.py myprog.py" produces:</p>
+
+<code><![CDATA[
+__file__ is runmain1.py
+__name__ is __main__
+]]></code>
+
+<p>Because we imported __main__, and used its globals as myprog's globals, it
+thinks it is runmain1.py instead of myprog1.py.  That's why my unit tests
+failed: they tried to find data files alongside coverage.py, rather than alongside
+the unit test files.</p>
+
+<p>This is a better way to do it:</p>
+
+<code lang='python'><![CDATA[
+# runmain2.py: run its argument as a Python main program.
+import imp, sys
+
+mainfile = sys.argv[1]
+
+src = open(mainfile)
+try:
+    imp.load_module('__main__', src, mainfile, (".py", "r", imp.PY_SOURCE))
+finally:
+    src.close()
+]]></code>
+
+<p>This imports the target file as a real __main__ module, giving it the proper
+__file__ value.</p>
+
+<p>The old execfile __main__ technique is used in lots of tools that
+offer to run your python main files for you, and I'm not sure why more people
+don't have problems with it. Probably because __file__ manipulation is uncommon.
+I've updated <a href='http://bitbucket.org/ned/coveragepy/'>coverage.py</a> to
+use the new technique. I hope there isn't a gotcha I'm overlooking that means
+it's a bad way to do this.</p>
+
+<p>Updated: <a href='blog/200905/running_a_python_file_as_main_take_2.html'>I found the gotcha:</a>
+it creates a compiled file.</p>
+</body>
+</entry>
+
+
+
+<entry when='20090509T213247'>
+<title>Running a Python file as main, take 2</title>
+<category>python</category>
+<body>
+<p>Recently, I tried to
+<a href='blog/200904/running_a_python_file_as_main.html'>simulate the way Python
+runs programs</a>, but I was worried that there was a gotcha.  It turns out
+there is one: when imp.load_module loads a Python source file, it compiles it to
+bytecode, and saves it as a file.
+</p>
+
+<p>Python uses a very simplistic way of naming the compiled file: it adds a 'c'
+to the end of the source file name.  This works well when the file is
+"foo.py" and the compiled file is "foo.pyc".  But if you try to run a
+script in this way, the file may not have a .py extension.  So for example,
+if the python file is named "zzz", then load_module will create a compiled file
+named "zzzc".  This is bad.
+</p>
+
+<p>There was no reasonable way to prevent this compiled file creation, so I went
+back to the execfile technique, instead setting up more of the proper sys
+structures to get the proper execution context.  If you're interested in the
+details, the code is in
+<a href='http://bitbucket.org/ned/coveragepy/src/b5abcee50dbe/coverage/execfile.py'>execfile.py</a>,
+with tests in <a href='http://bitbucket.org/ned/coveragepy/src/b5abcee50dbe/test/test_execfile.py'>test_execfile.py</a>.
+</p>
+
+<p>BTW: This was basically Fredrik's advice from the first post, and he was right.
+Marius suggested I look at <a href='http://docs.python.org/library/runpy.html'>runpy</a>
+in the standard library, and it's similar to what I'm trying to do here, but it
+takes a module name rather than a file, so it isn't quite right.</p>
+
+</body>
+</entry>
+
+</blog>

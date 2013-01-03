@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041125T213810'>
+<title>Frink</title>
+<category>proglang</category>
+<via />
+<body>
+<p><a href='http://futureboy.homeip.net/frinkdocs/'>Frink</a> is a programming language
+by Alan Eliasen.  It is really good at dealing with physical matters, tracking units
+along with numbers, so that physical calculations are really simple.
+</p>
+
+<p>For example, how many gallons of gasoline have
+as much energy as a teaspoon of water (according to Einstein)?
+A line of Frink prints the answer:</p>
+
+<code><![CDATA[
+teaspoon water c^2 -> "gallons gasoline"
+3164209.862836101 gallons gasoline
+]]></code>
+
+<p>The <a href='http://futureboy.homeip.net/frinkdocs/#SampleCalculations'>Sample Calculations</a>
+are a hoot, ranging from frat-house liquor calculations to fart jokes to spam-debunking.
+And of course, the name of the language is from every geek's favorite Simpson's
+character.  Frink will be the topic of one of the talks at the
+<a href='http://ll4.csail.mit.edu/'>Lightweight Languages 2004</a> forum.</p>
+
+</body>
+</entry>
+</blog>

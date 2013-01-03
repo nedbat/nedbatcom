@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100210T072048'>
+<title>AllRGB</title>
+<category>graphics</category>
+<body>
+<p><a href='http://allrgb.com'>AllRGB</a> sets an unusual challenge: create
+a 4096<times/>4096 image such that every possible RGB value is present once and
+only once.  Most of the images look like the gray soup you'd imagine, but a few
+actually depict a real scene surprisingly well, and some are interesting as
+abstract art:
+</p>
+
+<figurep href='http://allrgb.com'>
+    <img src='pix/allrgb-chilly-run.png' alt='allRGB rendering of a natural scene'/>
+    <img src='pix/allrgb-hilbert-curve.png' alt='allRGB portrait of the Hilbert curve'/>
+</figurep>
+
+<p>Eric Burnett <a href='http://www.thelowlyprogrammer.com/2010/01/visualizing-rgb.html'>wrote about his allRGB Mandelbrot</a>,
+which uses Hilbert curve techniques, as does Aldo Cortesi's
+<a href='http://corte.si/posts/code/hilbert/portrait/index.html'>portrait of the Hilbert curve</a>.
+Conflict of interest disclosure: the gray background on my blog is a Hilbert curve. &#x263A;
+</p>
+
+<p>Of course, there's no practical purpose to these techniques, but they're
+interesting explorations of color spaces and image rendering.</p>
+
+</body>
+</entry>
+</blog>

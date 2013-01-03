@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071001T075651'>
+<title>Histogram as image</title>
+<category>graphics</category>
+<via id='simonwillison'/>
+<body>
+<p>David at Ironic Sans had a cool idea:
+<a href='http://www.ironicsans.com/2007/09/idea_the_histogram_as_the_imag.html'>hide an image in the histogram of another image</a>.
+Not a generally useful technique, but a neat hack that demonstrates that a stream
+of data may be interpretable in unusual ways.
+Nick Fisher took it one step further and made an
+<a href='http://fisher.spadgos.com/histo/'>online tool for creating these</a>.
+</p>
+
+<p>A commenter points to <a href='http://www.bastwood.com/aphex.php'>images hidden
+in audio spectrographs</a>, a similar idea.</p>
+
+<p>All these techniques are forms of <a href='http://en.wikipedia.org/wiki/Steganography'>steganography</a>,
+the art of hiding messages inside other messages.  It's a form of secret communication
+complete distinct from cryptography, and has a long, rich and fascinating history.</p>
+
+<p>Completely off-topic: Ironic Sans also has a witty line of
+<a href='http://www.cafepress.com/ironicsans/1843266'>pre-pixelated T-shirts for reality TV</a>.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051218T105947'>
+<title>Database schema upgrades</title>
+<category>db</category>
+<category>django</category>
+<via />
+<body>
+<p>One of the trickier aspects of building applications on relational databases is upgrading the database
+schema.  As features get added to the application, columns and tables get added to the database.
+At some point, you want to install the new code onto an existing installation.  How do you change the
+database schema to add the columns and tables without losing the existing data?
+</p>
+
+<p>In my last two startups, I was put in charge of figuring this out.  The two designs I came up with
+had some differences, because there were different requirements and constraints, but they had these
+aspects in common:</p>
+
+<ul>
+<li>Revisions of the database schema were assigned serial numbers by the developers who made changes.</li>
+<li>The developer had to manually write code (an update clause) to change the database schema,
+though there were helpers to isolate him from as many messy details as possible.</li>
+<li>The database recorded which schema number it currently had.</li>
+<li>When started, the application would compare the current schema number in the database with the
+current schema number in the code.  If they differed,
+it would find and run the proper update clauses in sequence to bring the database up to date.</li>
+</ul>
+
+<p>We'll have this same problem in my next job, though this time it will be
+on top of the Django framework.  The Django dudes understand the issues (the
+<a href='http://www.djangoproject.com/documentation/model_api#comments'>first three comments</a>
+on the Model Reference documentation page are about automatically upgrading databases),
+but <a href='http://groups.google.com/group/django-developers/msg/3fdad951a077c213'>may not tackle it for 1.0</a>.
+</p>
+
+<p>There have been at least a few
+<a href='http://groups.google.com/group/django-developers/browse_thread/thread/d970aacdecb5f8a0/dc030bee6bcbd1ce'>attempts</a>
+at
+<a href='http://groups.google.com/group/django-developers/browse_thread/thread/120624f0a06235c5/e0d7031ec850b36d'>solutions</a>,
+but I think they are heading down the "too automatic" path.
+</p>
+
+<p>What I found doing this in the past in real applications was that database upgrades are too complicated
+to be done automatically.  The simple cases (adding a nullable column, dropping a column) can be made very
+simple. For example, the developer writes an upgrade clause that includes a call to a DropColumn function.
+But the complicated cases are always going to be beyond the reach of automatic generation.
+Real upgrades include things like taking an existing text column and splitting it into rows in a new
+foreign-keyed table, or adding a non-nullable column with existing values being computed from other tables.
+Upgrades also include stuff like realizing your application had been writing invalid data for a while,
+and running update statements to fix the bad rows.</p>
+
+<p>The real world is messy.  There's just no way to leave the developer out of the solution.
+</p>
+
+</body>
+</entry>
+</blog>

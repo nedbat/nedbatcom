@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080330T073817'>
+<!-- Originally when='20080314T052517' : before going to Pycon 08! -->
+<title>Evolutionary ladder</title>
+<category>python</category>
+<category>coding</category>
+<body>
+<p>I've noticed a useful pattern in some Python polymorphic functions.  The bulk
+of the function is written assuming the input is of one preferred type.  But other
+types are also accepted by first converting them (evolving them) up to the preferred
+type.</p>
+
+<p>A common example is a function that operates on an open file, but will also
+accept a file name:</p>
+
+<code lang='python'><![CDATA[
+def doit(f):
+    # If f is a string, it's a filename to be opened
+    if isinstance(f, basestring):
+        f = open(f)
+    # .. do stuff with the file ..
+]]></code>
+
+
+<p>A richer example comes from Jared Kuolt's <a href='http://superjared.com/projects/static-generator/'>StaticGenerator</a>.
+Here the goal is to build a list of URLs, but the function accepts strings as
+well as a variety of Django ORM objects:</p>
+
+<code lang='py'><![CDATA[
+extracted = []
+for resource in resources:
+    # A URL string
+    if isinstance(resource, (str, unicode, Promise)):
+        extracted.append(str(resource))
+        continue
+    
+    # A model instance; requires get_absolute_url method
+    if isinstance(resource, Model):
+        extracted.append(resource.get_absolute_url())
+        continue
+    
+    # If it's a Model, we get the base Manager
+    if isinstance(resource, ModelBase):
+        resource = resource._default_manager
+    
+    # If it's a Manager, we get the QuerySet
+    if isinstance(resource, Manager):
+        resource = resource.all()
+    
+    # Append all paths from obj.get_absolute_url() to list
+    if isinstance(resource, QuerySet):
+        extracted += [obj.get_absolute_url() for obj in resource]
+]]></code>
+
+<p>In this case, there are two cases that branch off to get handled completely,
+and three different types which evolve up through each other.</p>
+
+<p>There's something very satisfying about this style of code.  The polymorphism
+comes not from switching on the type and doing different actions for different
+types, but from evolving types one to the next until you have the type needed
+to operate on.</p>
+
+<p>Statically typed languages can use a similar design, where overloaded functions
+adapt their arguments and call each other.  The dynamic language pattern is 
+more flexible in that different kinds of adaptation can be used, not just
+type-based.  Here's a hypothetical example:</p>
+
+<code lang='py'><![CDATA[
+def doit_with_html(h):
+    if h.startswith('http:'):
+        # Turn a URL into its HTML data.
+        h = urllib2.urlopen(h).read()
+    #.. do something with the HTML ..
+]]></code>
+
+<p>Here we aren't distinguishing between two different types, but between
+two different structures of string.  If the string smells like a URL, we use it
+to fetch HTML to operate on, otherwise we assume the string is HTML to begin with.</p>
+
+<p>This style of coding is a great way to make functions more flexible and useful
+to callers. It's not only concise, but it gives you a natural way to extend
+the function to operate on more types.  Often a new kind of input can be
+accomodated simply by adding an adaptation clause to the top of the existing
+function, rather than proliferating similar functions with similar (but different) names.</p>
+
+</body>
+</entry>
+</blog>

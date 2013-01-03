@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090529T083852'>
+<title>Simon's optfunc</title>
+<category>python</category>
+<body>
+<p>There's a Moore's Law effect in Python command-line processing.  Every 18
+months, it gets 50% easier or 50% more powerful.  Simon Willison is keeping
+the effect going with <a href='http://simonwillison.net/2009/May/28/optfunc/'>optfunc</a>,
+which introspects a function definition and creates the optparse parser needed
+to grab its arguments from the command line.  Very clever.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060110T220438'>
+<title>Inventing XML Languages</title>
+<category>xml</category>
+<via />
+<body>
+<p>Tim Bray has two new posts:
+<a href='http://www.tbray.org/ongoing/When/200x/2006/01/08/No-New-XML-Languages'>Don't Invent XML Languages</a>,
+and if you must,
+<a href='http://www.tbray.org/ongoing/When/200x/2006/01/09/On-XML-Language-Design'>On XML Language Design</a>.
+I have a couple of quick thoughts about them.</p>
+
+<p>Tim is clearly coming at this from a document-centric (rather than data-centric) point of view,
+and from an interoperability rather than convenience point of view.
+Let me explain.</p>
+
+<p>There are two broad camps of XML languages.
+Document-centric languages are for describing rich content, with flexible structure.
+They are often arbitrarily hierarchical, and can have nested namespaces for mixing applications together.
+Data-centric languages are for more structured information.
+There's no clear distinction between the two styles, and there are middling languages that have some flavor
+from both camps, but these are the two ends of the spectrum.
+</p>
+
+<p>There are also, broadly, two reasons for using XML.
+The first is interoperability: you want a data description that can be used for many things, by many different
+systems.  The second is convenience: everyone's already got an XML parser, so why not use XML to describe
+data, it'll be easy to parse, and people will know what they're looking at when they encounter it.
+</p>
+
+<p>The two dimensions are closely coupled: document-centric languages tend to focus on interoperability,
+and XML chosen for convenience tends to be about structured data.
+XML's design center was interoperability of document-centric languages, and Tim is coming from that point
+of view.  But many many XML applications are not.
+The public, highly visible ones are (XHTML and RSS for example), but the base of the iceberg is more about
+convenience parsing of structured data.
+If you are considering using XML, first understand whether yours is an Interoperability solution or a
+Convenience solution.  If yours is Interoperability, then take Tim's words to heart.
+If yours is Convenience, then don't worry about it.
+</p>
+
+<p>But another thing about Tim's screed against inventing XML languages is that it's very pessimistic:</p>
+
+<quote>
+<p>Robin Cover [has] assembled a helpful list of known XML languages, which currently has about 600 members.
+[...] Looking at the list, I have a question: <em>How many of them matter?</em></p>
+
+<p>Have a look at the list; what do you think?
+I think it’s a lot less than 600.
+Let’s rephrase that question: <em>How many achieved their designers’ objectives?</em> Same answer, I think.</p>
+
+<p>The conclusion is obvious;
+if you embark on designing a new XML language,
+there’s a substantial probability that your effort will not be rewarded with success.</p>
+
+<p>So right there is a good reason not to embark on this kind of thing:
+it’s really hard, really time-consuming,
+and there’s an excellent chance that it won’t produce the results you were hoping for.
+</p>
+</quote>
+
+<p>Tim is right about all this of course, but his conclusion ("Don't Invent XML Languages") is I think
+an overreaction to the difficulty.  After all, you could global search and replace the concept "XML language"
+in Tim's paragraphs with "software" or "startup" or "screenplay" or "sculpture", and come to the conclusion
+that no one should undertake those endeavors.</p>
+
+<p>Yes, it's hard, yes, it's undertaken too lightly by many who have no idea what they are getting into.
+"Don't Invent XML Languages" is writerly bravado meant to grab the reader's attention.  Don't take it too
+literally.</p>
+
+<p>One last thing: PDF is not an XML language, and I think Tim may have implied that it was.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040623T082600'>
+<title>Switching to a new laptop</title>
+<category>admin</category>
+<via />
+<body>
+<p>I'm switching over to a new laptop (actually, the same old
+laptop, but with a new disk with new software installed to try
+to run away from the badness the old software had: a long story).
+It's a huge pain to re-install everything I had surrounded myself
+with.  While a fresh start is appealing, I fear leaving something
+behind, or overlooking some crucial data or setting that will be
+difficult to recreate.
+</p>
+
+<p>And of course, the new software will be the latest versions of
+everything, so there's the risk that something will break because
+of those upgrades.  For example, the software that creates this
+web site is broken, I think because of an upgrade to
+<a href='http://pyana.sf.net'>Pyana</a> 0.9.0.
+I'm creating this entry on the old laptop, running the risk of
+getting the two machines out-of-synch after copying my personal
+data.</p>
+
+<p><i>Update:</i> the problem was a difference in how Pyana deals
+with newlines after XML declarations in files, and my Python code
+assumed the declarations would be on their own line.  The problem
+is fixed, and this site is now live from the new laptop!</p>
+
+</body>
+</entry>
+</blog>

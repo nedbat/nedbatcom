@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100606T080546'>
+<title>Localization is a bitch</title>
+<category>webpage</category>
+<category>django</category>
+<body>
+<p>The latest product release at work seems to mostly have been about localization:
+the site is available in 26 languages.  Django provides good tools to manage the
+translations, but there's still an awful lot of detail to attend to.
+</p>
+
+<ul>
+<li>All the different country and language codes are easy to get wrong.
+Did you know that Slovenia's country code is SI, but Slovenian's language code
+is sl?</li>
+
+<li>Language codes get more complicated when dealing with Chinese, which
+comes in both traditional and simplified forms.  Do we use zh-tw, or zh_TW,
+or zh-hant for traditional?</li>
+
+<li>Every visible string has to be marked with a {% trans %} tag, and you
+have to do it in a way that the translators can make use of.  Sentences can't
+be broken into fragments, if you have data to plug in to a sentence, the slot
+has to be part of a single string to translate, with code to plug in the value:
+<code><![CDATA[
+{% trans "There are" %} {{n_things}} {% trans "things here." %} {# BAD #}
+{% trans "There are <span>10</span> things here." %}  {# GOOD, needs code #}
+]]></code>
+</li>
+
+</ul>
+
+<p>On top of these sorts of technical issues, there are huge coordination
+problems to be solved.  You have to add an extra step to your march toward shipping,
+which is waiting for the translations to come in.</p>
+
+<p>And typically, there are last-minute copy tweaks that "have to" go live, and
+there's no time left to get them localized.  We ended up sprinkling conditionals
+into the site, so that English-speaking users would see updated copy, and others
+would see the older, translated copy:</p>
+
+<code>
+{% ifequal LANGUAGE_CODE "en" %}
+    {# We think this is a better way to put it.. #}
+    {% trans "The product is awesome!" %}
+{% else %}
+    {% trans "The product may be satisfactory." %}
+{% endifequal %}
+</code>
+
+<p>The plan was that at the next translation pass, all the new text would be
+translated, and we could remove all these conditionals (about a dozen).</p>
+
+<p>Of course, once we had those tweaks in place, it turns out there were
+ultra-high-priority text changes that had to happen as soon as possible, and
+that had to be translated into all 26 languages in some expensive expedited way.
+Once we made those emergency changes, and ran "messages make" to pull out all
+the strings, we of course also pulled in all the low-priority conditionalized
+tweak strings. We didn't want to clog up the double-secret-probabtion
+translation pass with anything extra, so we hacked some more.</p>
+
+<p>We added a simple no-op template tag called english_trans:</p>
+
+<code lang='python'><![CDATA[
+@register.simple_tag
+def english_trans(s):
+    return s
+]]></code>
+
+<p>and then could change our English-only tweak to:</p>
+
+<code>
+{% ifequal LANGUAGE_CODE "en" %}
+    {# We think this is a better way to put it.. #}
+    {% english_trans "The product is awesome!" %}
+{% else %}
+    {% trans "The product may be satisfactory." %}
+{% endifequal %}
+</code>
+
+<p>Now when we extract the strings from the source, only the emergency changes
+need to be translated, because the string extractor doesn't recognize
+english_trans as an indicator of a translatable string. When we next do a full
+translation pass, we can remove the English customization and change
+english_trans back to trans, and hopefully be out of the craziness for a
+while...</p>
+
+<p>And we haven't even attempted the right-to-left languages...</p>
+
+</body>
+</entry>
+</blog>

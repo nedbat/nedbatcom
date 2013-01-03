@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021103T175433'>
+<title>Serial progress bars</title>
+<category>ui</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I was installing new printer software today, and ran across an old enemy:
+serial progress bars.  This is where a progress bar is shown, but when it hits
+100%, the task isn't over, you just get another progress bar that starts over
+again at 0%.  Sometimes there'll be five or six of them in a row.  Doing this
+completely subverts the original goal of the progress bar.  It was meant to
+give the user some idea of when an operation would be completed.  By making
+the user suffer through a parade of identically-labelled progress bars, the
+user is left almost as baffled as if there were no bar at all (it's marginally
+better, because at least you can tell something is happening), but a spinning
+beachball would communicate the same thing without misleading the user into
+thinking that he's being told something useful.</p>
+
+<p>Even worse, some of these progress bars are the lightning variety: they
+zip immediately to 100%, only to be replaced by another progress bar that
+flashes immediately to 100%, etc.</p>
+
+</body>
+</entry>
+</blog>

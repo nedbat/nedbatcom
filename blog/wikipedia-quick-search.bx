@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071019T080739'>
+<title>Wikipedia quick search</title>
+<category>reference</category>
+<category>search</category>
+<body>
+<p>I love the Firefox <a href='http://www.mozilla.org/docs/end-user/keywords.html'>custom keywords</a>
+feature, and the way it's used to do quick searches.  Firefox comes with one
+for Wikipedia, where "w" is a short-cut like this:
+</p>
+
+<code>http://en.wikipedia.org/wiki/%s</code>
+
+<p>It works pretty well.  The problem is that Wikipedia URLs are case-sensitive.
+So if I type "w jimmy durante", I get to <a href='http://en.wikipedia.org/wiki/Jimmy_durante'>a page</a>
+which has helpfully capitalized Jimmy, but left durante alone, so that the page
+is not found, and I'm stuck at an oh-so-close Not Found page.</p>
+
+<p>But I noticed that if I type "jimmy durante" into the search box, it takes
+me directly to the <a href='http://en.wikipedia.org/wiki/Jimmy_Durante'>Jimmy Durante</a>
+page.  So I redefined my Wikipedia quick search:</p>
+
+<code>http://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go</code>
+
+<p>Now if I have the title correct except for case, I get taken straight to the
+page I want, and if the page doesn't exist, I at least see close matches.
+Much better.</p>
+
+</body>
+</entry>
+</blog>

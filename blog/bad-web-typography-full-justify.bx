@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080615T140311'>
+<title>Bad web typography: full justify</title>
+<category>type</category>
+<category>webpage</category>
+<body>
+<p>Full justification on the web is usually a bad idea.</p>
+
+<p>Typographers use full justification to get an elegant-looking block of
+type.  The straight right edge is a strong visual element on the page, and can
+add to the controlled overall look. But typographers care about more than just
+the outline of the rectangle. They care about the evenness of the type within
+the rectangle, something they call "color". The goal is to get an evenly filled
+area, with no large changes in density.</p>
+
+<p>Because full justification involves stretching word spaces, if a line has to
+be stretched too much, the spaces become wide enough to be noticeable white blobs
+on the page.  The line of text is then "too loose", and interrupts the flow of reading.</p>
+
+<p>In traditional typography, hyphenation is used to reduce the need to make loose
+lines.  By breaking words into smaller chunks, the lines can be filled more
+naturally, and they don't have to be stretched too far.</p>
+
+<p>But web browsers don't hyphenate. As a result, paragraphs often suffer.
+Here are some examples from the <a href='http://openid.net/2008/02/'>OpenID news for February 2008</a>:</p>
+
+<figurep>
+    <img src='pix/justify1.png' alt='A full-justified paragraph'/>
+</figurep>
+
+<p>(I've blurred it a bit to emphasize the color.)  This paragraph is OK, with just
+two problem lines: the fourth ("some of the top ...") and fourth from the bottom ("to support the community ...").
+These lines are loose enough that I stumble when reading them, as if they were typed "some .. of .. the .. top .."</p>
+
+<p>But then we come to the other problem with full justification on the web:</p>
+
+<figurep>
+    <img src='pix/justify2.png' alt='A full-justified paragraph with a URL in it'/>
+</figurep>
+
+<p>Occasionally URLs appear in paragraphs, and these are very large "words" that
+completely screw up the line before them.  Technical writing is especially prone to
+this as other non-word content appears in running text, such as function names.</p>
+
+<p>I think full justification is one of those technology hold-overs: the new technology
+trying to mimic the old.  Books and newspapers use full justification, so we try to
+do it on the web also.  But content on the web rarely appears in a constrained rectangle.
+Full justification in print is appealing partly because the justified right edge of the
+text is a good echo of the right edge of the paper, or of the left edge of the next column
+in a newspaper.  In a single column of text in the middle of a browser window,
+full justification isn't gaining you much, and brings you pain in the form of loose lines.
+</p>
+
+<p>Except in specialized cases, or where you know very clearly what type of content
+will appear, you shouldn't use full justification on the web.  The lack of hyphenation
+is a killer.</p>
+
+<p>As it happens, there are
+<a href='http://ejohn.org/blog/injecting-word-breaks-with-javascript/'>browser-side hyphenation solutions</a>,
+but they also have their drawbacks: code size and execution time.</p>
+
+<p>BTW: it isn't just the web that suffers from hyphen-less justification.
+Amazon's Kindle <a href='http://db.tidbits.com/article/9329'>has the same problem</a>,
+something I noticed right away when I first tried one out. I'm not sure why they wouldn't
+have built hyphenation into a reading device.  And I'm reading a Salman Rushdie
+book published by Penguin which uses no hyphenation.  Why would a traditionally-published
+book forgo the tried and true technology of good-looking pages?</p>
+
+</body>
+</entry>
+</blog>

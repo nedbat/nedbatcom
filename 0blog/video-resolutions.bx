@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021229T093439'>
+<title>VGA, SVGA, XGA, SXGA, UGA, huh?</title>
+<category>hardware</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I find it amazing that after all these years, PC video resolutions are still expressed
+with meaningless acronyms rather than simply specifying the resolution in pixels.
+If the screen can display 1600<times/>1200 pixels, just say so.</p>
+
+<p>Perhaps more remarkable is the difficulty of finding a definition for these acronyms.
+The most straighforward I found was a small note on
+<a href='http://www.keene.co.uk/pages/cat/13con/131-scan.html'>this page about video accessories</a>.
+<a href='http://www.georgehernandez.com/XComputers/zMisc/Video.htm'>George Hernandez</a>
+has a great deal of information, but confusingly lists a number of resolutions for each
+acronym (and doesn't always agree with other sources!).
+<a href='http://wildesweb.com/glossary/displaystd'>Wilde's WWW Online Glossary</a> finally
+proved to be the simplest reference.
+</p>
+
+<p>Here's what I ended up with:
+<table align='center' cellpadding='5'>
+<tr><td>VGA</td>	<td>640<times/>480</td></tr>
+<tr><td>SVGA</td>	<td>800<times/>600</td></tr>
+<tr><td>XGA</td>	<td>1024<times/>768</td></tr>
+<tr><td>SXGA</td>	<td>1280<times/>1024</td></tr>
+<tr><td>SXGA+</td>	<td>1400<times/>1050</td></tr>
+<tr><td>U[X]GA</td>	<td>1600<times/>1200</td></tr>
+<tr><td>QXGA</td>	<td>2048<times/>1536</td></tr>
+</table>
+</p>
+
+</body>
+</entry>
+</blog>

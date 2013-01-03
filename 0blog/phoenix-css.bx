@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021117T090818'>
+<title>Phoenix and CSS</title>
+<category>browsers</category>
+<category>css</category>
+<category>site</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://www.mozilla.org/projects/phoenix/'>Phoenix</a>
+is a new Mozilla-based browser that appeals to me for two
+reasons: it's trimmed down (just a browser, without all the mail/news/address effluvia
+that Netscape and Mozilla want to install), and it adopts little shortcuts from IE
+where they make sense, so my fingers know how to work it.
+The tabbed interface is intriguing, though it isn't second nature to me yet.
+</p>
+
+<p>Using Phoenix finally got me to work on this site's CSS so that it renders the same
+in both browsers.  I understand the theory of CSS, but fiddling with it always feels like
+bits of stuff slipping between my fingers: when I change a padding someplace, I have to
+go change another padding someplace else.  The main things I figured out today are:
+</p>
+
+<ul>
+
+<li>Put explicit margin and padding specs all over the place.</li>
+
+<li>Specify line-height in ems rather than percentage, since IE bases the percentage
+on the current font-size, but Mozilla bases it on the inherited line-height, while both
+base the em unit on current font-size.</li>
+</ul>
+
+</body>
+</entry>
+</blog>

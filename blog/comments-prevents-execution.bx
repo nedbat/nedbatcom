@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051019T160722'>
+<title>Comments prevent execution</title>
+<category>coding</category>
+<via />
+<body>
+<p>Looking for basic information about ASP.NET syntax, I found this description of
+<a href='http://samples.gotdotnet.com/quickstart/aspplus/doc/webformssyntaxref.aspx#comment'>Server-Side Comment Syntax</a>.
+It explains:
+</p>
+
+<quote><p>
+Server-side comments enable page developers to prevent server code (including server controls)
+and static content from executing or rendering.
+The following sample demonstrates how to block content from executing and being sent down to a client.
+</p></quote>
+
+<p>There you have it: the point of a comment is to prevent a chunk of code from executing.
+There's no mention of using comments to communicate with other developers.  This helps explain
+a number of <a href='http://thedailywtf.com'>Daily WTF's</a>!
+</p>
+
+</body>
+</entry>
+</blog>

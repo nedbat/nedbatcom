@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040415T203033'>
+<title>Belgiandip</title>
+<category>admin</category>
+<via />
+<body>
+<p>My home computer and some co-workers' computers have been hit with some
+pernicious adware: obnoxious pop-ups in Internet Explorer, displaying ads
+from belgiandip.com.
+<a href='http://www.safer-networking.org/'>Spybot</a> didn't help get rid of it.
+(I didn't try <a href='http://www.lavasoft.de/'>AdAware</a> until after I'd already dealt with it manually.)
+</p>
+
+<p>I searched Google for "belgiandip" and found
+<a href='http://www.annoyances.org/exec/forum/winxp/1078897592'>this suggestion</a>.
+It seemed to help.  Here's how to do what I did:</p>
+
+<ol>
+<li>Open an explorer window on C:\Windows\System32, set it to the Details view.</li>
+<li>Right-click on the column headers to add another column.
+In the More... list at the bottom is Company. Select it, then sort by that column.</li>
+<li>Scroll down to "totempole" in the Company list.
+I found four .exe files, all 64K in size, all of which said in the properties that
+OriginalFileName was "pup.exe".</li>
+<li>Delete them all (one was running: find it in the Task manager and kill it, then delete the file).</li>
+<li>Do the same thing for the C:\Windows directory.</li>
+<li>In the registry, in HK_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run,
+find the entry corresponding to the exe that was running, and delete the entry.</li>
+</ol>
+
+</body>
+</entry>
+</blog>

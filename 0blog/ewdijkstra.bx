@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020808T082926'>
+<title>Edsger W. Dijkstra: 1930&#x2013;2002</title>
+<category>obits</category>
+<category>compsci</category>
+<via id='pythonownsus'/>
+<body>
+<p>The pioneering software giant Edsger W. Dijkstra
+<a href='http://www.cs.utexas.edu/users/UTCS/notices/dijkstra/ewdobit.html' title='obituary of E. W. Dijkstra'>died</a> this week.
+His career focused primarily on the process of writing programs, and how to make the
+process (and the programs) better.  He was the type of thinker who could set out on his
+own course and create an entire field of study in his wake.</p>
+
+<p>He kept a <a href='http://www.cs.utexas.edu/users/EWD/'>running list of his works</a> over his forty-year career, sequentially numbering
+everything he thought others might be interested in.  Initially, these papers were photocopied and
+passed along.  In a quaint historical touch, even his latest entries are handwritten (and his handwriting
+was classy enough and widely-enough distributed that it inspired a
+<a href='http://www.luca.demon.co.uk/Resources.html'>digital font</a>).
+</p>
+
+<p>His best-known work is quite short:
+<a href='http://www.acm.org/classics/oct95/'>Go-to Statement Considered Harmful</a>.
+The impact of this letter was remarkable: in 1968, it wasn't possible to write programs without
+GOTOs.  An ordinary coder who suggested that you try would have been thought crazy, and if someone
+had attempted it, it would have been a stunt:
+the coding equivalent of stuffing twenty college students into a phone booth.
+</p>
+
+<p>But Dijkstra was right, and now no serious programmer can imagine it any other way.
+Giant software projects are constructed without a single GOTO.
+Many programming languages don't even have the concept.
+Even the title of his letter is a classic: "{something} Considered Harmful" is a meme unto itself, and
+has been <a href='http://www.google.com/search?q=considered+harmful' title='Google search on "Considered Harmful"'>often-used</a>
+to evoke the ground-breaking insight of Dijkstra's work, even if sometimes in jest.
+(Actually, it turns out that he didn't write the title: ironically enough,
+<a href='http://www.considered-harmful.org/2002_08.html#000239'>Considered Harmful: The Weblog</a>
+has the story.)</p>
+
+<p>He wrote many other things over the years.  The earliest English entry in his list of work
+(<a href='http://www.cs.utexas.edu/users/EWD/ewd00xx/EWD37.PDF'>a review of the IBM 1620 computer</a>)
+provided this insightful conclusion:</p>
+
+<quotep>
+The next fact that we have to face is that this machine, despite of its poor qualities,
+has been produced, in this case even by a big firm with a long and considerable experience.
+The straightforward conclusion is, that nor the size nor the experience is a guarantee
+as far as the quality of the product is concerned.
+Well, we can think of various explanations for this apparent inconsistency,
+but the most obvious explanation predicts still more blunders in the more ambitious
+and more complicated products of the manufacturer in question.
+</quotep>
+
+</body>
+</entry>
+</blog>

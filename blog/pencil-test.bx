@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry draft='y' when='20121029T095721'>
+<title>Pencil test</title>
+<category></category>
+<via />
+<body>
+<p>
+</p>
+</body>
+</entry>
+</blog>
+
+<!--
+
+* nedbat is gearing up to write a blog post about pencil tests...
+<zendeavor> write it already
+<norwack> nedbat: pencil test..?
+<nedbat> norwack: get a pencil and paper, and pretend to be the python interpreter. You execute your code, tracking variable values.
+<nedbat> norwack: it helps you to see what the code is really doing, instead of what you intended it to do.
+<norwack> nedbat: no, i have not done that yet
+<nedbat> norwack: do it now. it will be enlightening.
+<alexdoom> nedbat: will it? i feel i have a good understanding how my code runs.
+<alexdoom> nedbat: im asking because maybe you felt the same way but still learned from it
+<nedbat> alexdoom: some people are better at it than others, and pencil tests can help build the skill
+* nedbat learned programming before he had a computer, and got very good at pencil tests...
+<alexdoom> nedbat: so you just pretent to run some code and follow the flow with pen and paper?
+<nedbat> alexdoom: yes, and track the values of variables.  "be the interpreter"
+<sw0rdfish> pencil test?
+<alexdoom> nedbat: alright. will give it a try sometime
+<alexdoom> would be interesting if i hit some unexpected result
+<dash> well, that's pretty much what debugging means
+<Jerub> when i found i was relying on the execution of code to do my work too much, i started doing things like only running my tests/running my code in the first 10 minutes of the hour.
+<dash> alexdoom: it's still possible to write _very_ surprising python code.
+<Jerub> and only reading+understanding my code by looking at it to continue work. it helped considerably with my code comprehsion.
+<nedbat> the key is to see your code for what it really is, rather than being stuck on the idea of what you wanted it to do.
+<alexdoom> yeah. thats why i like to help out with other peoples code
+<sw0rdfish> hi nedbat, good sir.
+<nedbat> sw0rdfish: hello
+<dash> hm. profiling code with recursion is difficult.
+<sw0rdfish> pencil test? nedbat
+<dash> sw0rdfish: he just explained what it is :-)
+<nedbat> sw0rdfish: read the scrollback
+<alexdoom> nedbat: if you remember, and if you want, please link me that blogpost
+<nedbat> sw0rdfish: pretend to be the python interpreter, and run your code on paper.
+<alexdoom> when its done
+<nedbat> alexdoom: i'll post it here, and probably often, since the idea came from me repeating this meme here over the last few days
+<alexdoom> nedbat: cool
+<sw0rdfish> I'm not sure how I can do that at this point nedbat, now I just have to focus on my exam on november 4th
+<dash> Alan Perlis pointed this out a while back. " To understand a program you must become both the machine and the program."
+<nedbat> sw0rdfish: next time you have a piece of code, and you find yourself thinking, "I just don't get why it doesn't do what I think it should do!", try it.
+<sw0rdfish> btw they give us the option to take the exam in any of the days from nov. 1st till 4th, right?
+<dash> (He also said "Perhaps if we wrote programs from childhood on, as adults we'd be able to read them.")
+<nedbat> sw0rdfish: I don't know.
+<sw0rdfish> nedbat, but what are you talking about? hand-simulating the code?
+<sw0rdfish> is it possible with every code
+<nedbat> sw0rdfish: i'm not a good person to get help on edX from.  think of me as an underground gnome at edX.
+<sw0rdfish> let me give you an example give me a second
+<nedbat> sw0rdfish: it is possible to an extent.
+
+-->

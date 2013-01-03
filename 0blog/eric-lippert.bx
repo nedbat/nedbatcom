@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030920T152047'>
+<title>Eric Lippert</title>
+<category>blogs</category>
+<via href='http://blogs.gotdotnet.com/raymondc'>Raymond Chen</via> <!-- id= or href= -->
+<body>
+<p><a href='http://blogs.gotdotnet.com/ericli'>Eric Lippert</a> is a
+developer on the Visual Studio team at Microsoft.
+His blog is full of technical details of things like JScript, VBScript,
+COM, and BSTRs.  Just the kind of deep arcane information that will either be
+fascinating trivia or life-saving know-how, depending on how deeply you
+work with these technologies.
+</p>
+
+<p>He even has a write-up about
+<a href='http://blogs.gotdotnet.com/ericli/PermaLink.aspx/4e6e0747-e32e-4087-bfa1-d58ca434965a'>COM threading models</a>,
+which I may use someday if I need to understand the differences among them.
+Right now you have only to say "apartment threaded" to me, and I start getting cold shivers
+remembering bad experiences I had a few months back...
+</p>
+
+</body>
+</entry>
+</blog>

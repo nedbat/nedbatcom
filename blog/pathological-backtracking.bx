@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081119T081418'>
+<title>Pathological backtracking</title>
+<category>regex</category>
+<category>python</category>
+<body>
+<p>At work we've been using the well-regarded <a href='http://www.feedparser.org/'>feedparser</a>
+module to parse RSS feeds, and it works great for the most part, but we'd occasionally
+get a stuck server process.  The CPU would spike to 100%, and wouldn't make any progress.
+</p>
+
+<p>We discovered a particular feed would cause a particular regular expression in
+the code to spin endlessly.  The regex was intended to determine if a style
+attribute is valid CSS:</p>
+
+<code lang='python'><![CDATA[
+if not re.match("^(\s*[-\w]+\s*:\s*[^:;]*(;|$))*$", style):
+    return ''
+]]></code>
+
+<p>Breaking this out into
+<a href='blog/200304/verbose_python_regular_expressions.html'>verbose regex syntax</a>
+shows how it matches valid CSS:</p>
+
+<code lang='python'><![CDATA[
+"""(?x)             # use verbose regex syntax
+    ^(
+                    # A single CSS clause is:
+    \s*             #   leading whitespace
+    [-\w]+          #   a dash-word, the property name
+    \s*:\s*         #   space, colon, space
+    [^:;]*          #   anything but :;, the value
+    (;|$)           #   ends with a semi or the end of the string
+    
+    )*              # Valid CSS is any number of clauses
+    $
+"""
+]]></code>
+
+<p>And here's the snippet discovered in the feed that spun us hard (with
+whitespace added for readability):</p>
+
+<code><![CDATA[
+<var style="COLOR: #fffafe; coming: ; basket: ; philologist: ; gradually: ;
+encyclic: ; whitechapel: ; left: ; albino: ; lamelliform: ; foment: ;
+adjuvant: ; Room:  ; Milk:  ; buynow: ; wheelwork: ; unseal: ; reasons: ;
+socalled: ; dazed: ; Brain:  ; Kaleidoscope:  ; hardheaded: ; asthenic: ;
+preferred: ;  Barbecue:  ; Comet:  ; Nail:  ; lubberly: ; School:  ;
+Mist:  ; undercurrent: ; intwine: ; isotonic: ; Chief:  ; miscellaneous: ;
+Book:  ; Shoes:  ; Chocolates:  ; deuced: ; you: ; Man:  ; federalize: ;
+Rainbow:  ; Satellite:  ; Printer:  ; amicus: ; tautophony: ; taking: ;
+regrater: ; waggon: ; prescient: ; God:  ; prosing: ; Bank:  ; hariolation: ;
+patriarchs: ; Pyramid:  ; Data Base:  ; PaintBrush:  ; ingenu: ; Rope:  ;
+parenchyma: ; price: ; Alphabet:  ; Circle:  ; seeks: ; frankhearted: ;
+vituperate: ; dysmeromorph: ; Shop:  ; firm: ;  imperforation: ; lane: ;
+Gemstone:  ; slatternly: ; Fire:  ; impudence: ; Carrot:  ; Fan:  ;
+inoccupation: ; uncover: ; Liquid:  ; drawee: ; Pocket:  ;barbacan: ;
+fornicatress: ; chimes: ; Crystal:  ;innovation: ; years: ; untiring: ;
+Freeway:  ;desertful: ; unreined: ; Compass:  ; Hose:  ;prelusive: ;
+impenetrability: ; Fruit:  ; direct: ; "></var>
+]]></code>
+
+<p>(yes, it's garbage, and yes, spam sucks.)</p>
+
+<p>It's hard to see the problem here, but this is not valid CSS because they used
+"Data Base" as a property name about half-way through and spaces aren't allowed
+in property names.</p>
+
+<p>The CPU spins because when the regex encounters the failure to match "Data Base",
+it backtracks to reconsider previous matches in the hopes that it can still make
+the regex work.  In fact, it isn't in an infinite loop, just a very very very long
+one.  Eventually this regex will finish and decide that the string doesn't match.</p>
+
+<p>But we don't need it to backtrack: going back to re-match previous CSS clauses
+isn't going to help.</p>
+
+<p>Some regex libraries offer solutions to this problem.
+<a href='http://www.regular-expressions.info/possessive.html'>Possessive quantifiers</a>
+let you use *+ to mean, match as many as possible, and once matched, don't try
+matching fewer during backtracking.  They're called possessive because once the
+operator claims part of the string, it won't give it back for other operators to
+match later.</p>
+
+<p>But Python doesn't offer possessive quantifiers
+(<a href='http://bugs.python.org/issue2636'>yet</a> <a href='http://bugs.python.org/issue3825'>yet</a>).
+So we have to choose a different technique than trying to match the whole string
+in one large regex. In this case, since we don't need the match data, we're just
+checking that the whole string matches, so we can use re.sub to remove matching
+clauses and then check that there's nothing left over:</p>
+
+<code lang='python'><![CDATA[
+if re.sub("\s*[-\w]+\s*:\s*[^:;]*;?\s*", '', style):
+    return ''
+]]></code>
+
+<p>Because re.sub grabs matches, performs the replacement, and moves on, there's
+no needless backtracking to throw a wrench in the works.  Now our crazy CSS spam
+is speedily dispatched as invalid.</p>
+
+<p>As an interesting side effect, if the string is not empty, what remains is
+the invalid part of the string.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040901T084243'>
+<title>Help with C# calling changing COM interface?</title>
+<category>help</category>
+<category>csharp</category>
+<via />
+<body>
+<p>We've got an aggravating problem with a C# project, and I'm hoping someone out
+there can point me in the right direction.
+</p>
+
+<more>
+
+<p>Working in Dev Studio .NET, we have two projects: a C++ executable that implements a COM
+interface, and a C# executable that calls that interface.
+The C# project has a reference to the C++ executable.
+The COM interface is under development, so it is constantly changing:
+new methods being added, the interface definitions changing, and so on.
+We're seeing a number of bad results.
+</p>
+
+<p>On some developers machines, the projects build fine, but then execution fails:
+COM calls from C# to C++ are going to the wrong entry points (a call to method A
+ends up calling method B instead).
+On the build machine, the code won't compile.  A change in the number of parameters to
+a method results in a compile error, as if the interface definition hadn't changed.
+</p>
+
+<p>We've tried all sorts of combinations of gacutil and COM registration, and haven't
+found the secret handshake that just makes it work.</p>
+
+<p>Does anyone know the elusive answer?</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

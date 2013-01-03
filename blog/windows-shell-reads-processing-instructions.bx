@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050628T173542'>
+<title>Windows shell reads XML processing instructions</title>
+<category>windows</category>
+<category>xml</category>
+<via />
+<body>
+<p>I was looking at a file with an extension of .xml in the Windows explorer today.
+It had an unfamiliar icon associated with it.  I tried dragging it onto Internet Explorer
+to see the XML, and was asked if I wanted to open it.  I answered yes, and Office Infopath
+opened!  "Since when does Infopath own .xml files?" I wondered.  I'd never used Infopath
+before, and hadn't recently installed it or anything.
+</p>
+
+<p>Looking in the XML file, I saw this processing instruction:</p>
+
+<code><![CDATA[
+<?mso-application progid="InfoPath.Document"?>
+]]></code>
+
+<p>Hmmm, this seems to be an application linkage for the file!
+Sure enough, if I edited the progid to make it bogus, the icon in the explorer changed
+to a generic XML file icon, and I could now drop the file on IE and have it show me the
+XML.</p>
+
+<p>I'd never heard of this before, but seems useful, and necessary.  If XML is going to
+be a universal data solvent, then we'll need some way other than file extensions to determine
+how to launch applications from documents.  I just had no idea the shell was willing to
+parse XML to find the application.</p>
+
+<p>Of course, the progid can be any progid, for example, here's an example of
+<a href='http://weblogs.asp.net/cnagel/archive/2004/09/25/234188.aspx'>using XSLT to create Word documents</a>
+that uses this processing instruction to get the data hooked up with the application.</p>
+
+</body>
+</entry>
+</blog>

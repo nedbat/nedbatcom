@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030302T103047'>
+<title>Hex words</title>
+<category>geeky</category>
+<via id='everythingburns'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.geegaw.com'>Geegaw</a> has a new twist on the old
+words-made-from-hex-letters game:
+<a href='http://www.geegaw.com/archives/0303.shtml#001127'>RGB colors made from words made from hex letters</a>.
+</p>
+
+<p>In a typical over-doing vein, I wrote a Python script to munge a large word list,
+and come up with an
+<a href='text/hexwords.html'>805-word list of hex words</a>,
+as well as a list of <a href='text/hexcolors.html'>136 hex color words</a>.
+</p>
+
+</body>
+</entry>
+</blog>

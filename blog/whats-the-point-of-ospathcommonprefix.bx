@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100322T210110'>
+<title>What's the point of os.path.commonprefix?</title>
+<category>python</category>
+<body>
+<p>Most of the Python standard library is great, providing functions and classes
+that do their jobs well, often even before you knew you needed the job done
+(<a href='http://docs.python.org/library/base64.html#base64.urlsafe_b64encode'>urlsafe_b64encode</a> FTW!)
+</p>
+
+<p>Which makes my disappointment with <a href='http://docs.python.org/library/os.path.html#os.path.commonprefix'>os.path.commonprefix</a>
+all the stronger.  This function is worse than useless, it's misleading.
+Although it's in the <a href='http://docs.python.org/library/os.path.html'>os.path</a>
+module, it knows nothing about paths, working instead character-by-character:
+</p>
+
+<code lang='python'><![CDATA[
+>>> os.path.commonprefix(['/home/ned/cog', '/home/ned/coverage'])
+'/home/ned/co'      # That's not an actual path!
+]]></code>
+
+<p>The docs helpfully include the warning:</p>
+
+<quote><p>Note that this may return invalid paths because it works a character at a time.</p></quote>
+
+<p>But it should say:</p>
+
+<quote><p>This function is in the wrong place, and has nothing to do with paths,
+don't use it if you are interested in file paths!</p></quote>
+
+<p>I accepted a patch to coverage.py which used this function, and it looked good.
+But eventually I turned up cases it got wrong, and had to re-discover what
+<a href='http://mail.python.org/pipermail/python-dev/2002-December/030947.html'>people seem to have
+understood this</a> for at least eight years. *Sigh*</p>
+
+</body>
+</entry>
+</blog>

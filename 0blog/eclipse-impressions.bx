@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030808T072956'>
+<title>Eclipse impressions</title>
+<category>ide</category>
+<category>python</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I wrote a while ago that I was
+<a href='blog/200307.html#e20030723T085034'>going to try Eclipse</a> with some new Python
+add-ins.  It was not an entirely smooth ride, for two reasons: one, the python
+add-ins are very bare-bones at the moment,
+and two, <a href='http://www.eclipse.org'>Eclipse</a> has got to get over itself.
+</p>
+
+<more>
+
+<p>On the plug-in front, I tried
+<a href='http://www.xored.com/products.php'>Xored TruStudio</a>.  Its editor support
+of python is not there yet (for example, I couldn't double-click a word to select it).
+One advantage: they also have a PHP plug-in for Eclipse, which worked admirably for me.
+</p>
+
+<p>I downloaded <a href='http://pydev.sourceforge.net/'>pydev</a>, but TruStudio seemed
+to still be the dominant Python plug-in, so I couldn't really evaluate it.  Next time
+I'll try uninstalling TruStudio first.
+</p>
+
+<p>About Eclipse: it is an extremely rich IDE, and is one of the best open-source
+projects I've seen in its support for developers helping out.
+There's even a <a href='http://groups.yahoo.com/group/contributingtoeclipse/files/'>book</a>
+in the works by Kent Beck and Erich Gamma about how to contribute.
+Eclipse's Java support is phenomenal, with automatic refactoring tools that sound like
+research lab stuff.
+</p>
+
+<p>On the downside: Eclipse has so much general purpose IDE infrastructure, that
+(as Steve Martin said about the French), they have a different word for everything.
+What's a "perspective"? What's a "view"?
+I figured out that an "editor" is not the IDE, but instead a document window inside the IDE.
+I'm sure it will become second-nature, but maybe there's a first-nature way to describe
+these things?
+</p>
+
+<p>Where Eclipse really burns my biscuits, though, is file handling.  It's got the
+new-age IDE concept that everything lives in projects, which is all well and good,
+but it has no concept of files outside of projects.  Literally, there is no File - Open
+menu item.  Ctrl+O does nothing.  To edit a file that exists outside of Eclipse, you
+have to:</p>
+
+<ol>
+<li>Use the New - File command (!), </li>
+<li>In the New File dialog, click the Advanced button,</li>
+<li>Check "Link to file in the file system",</li>
+<li>Enter the path of (or browse to) the file,</li>
+<li>Enter the name of the file again at the top, because it doesn't default to the
+actual name of the file in the file system,</li>
+<li>Click OK.</li>
+</ol>
+
+<p>And now the file is in your project forever.  Can't I just edit the freaking file?
+A friend who works at IBM, developing a product based on Eclipse, says, "I use
+emacs when I need to just edit a file". WTF?
+</p>
+
+<p>And yet, at the same time that I have to live with this "everything must be brought
+under the Eclipse umbrella" mentality, Eclipse opens unrecognized files with their
+default system associations, rather than in its own text editor.  Working on a PHP
+project, I created some .sql files to work on the database schema.  Clicking them
+brought up Microsoft Visual Studio!  I finally found the way to change it
+(Window - Preferences - Workbench - File Associations), but it was one more aggravation
+while trying to be productive in my code.</p>
+
+<p>I know, the thinking is that IDEs can do much more for you if you let them own the files,
+and collect meta-data, and organize them for you.  I understand all that.
+But if I just need to work with files outside the Eclipse sphere of influence,
+why can't Eclipse just bring up an editor and disable the stuff that won't work.
+</p>
+
+<p>I don't mean to be down on Eclipse.  I think it has enormous potential.  It's my PHP
+editor at the moment.  I know it will only expand its reach, influence and utility.
+It's well-designed from the ground up to be a federation of contributed components, rather
+than a monolithic project with "extensibility" added on at the end.  I know they will
+work out the usability kinks, and support for other languages will come as the circle
+of contributors grows. They just need to get over themselves a little.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

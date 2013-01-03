@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080803T085948'>
+<title>Mac keyboard symbols</title>
+<category>mac</category>
+<category>ui</category>
+<body>
+<p>Apple computers are beautiful, Apple computers are the pinnacle of usability,
+I grant all of that.  But here's something that for the life of me I cannot figure
+out.  Why don't the menu symbols for modifier keys (control, alt, shift) appear
+on the keyboards?
+</p>
+
+<p>Like any modern operating system, OS X menu items have keyboard short cuts,
+and because there are so many menu items, they occasionally need modifiers other
+than the command key.  Here's a menu from Safari:</p>
+
+<figurep>
+    <img src='pix/macmenu1.png' alt='Safari bookmark menu showing key modifiers'/>
+</figurep>
+
+<p>The command symbol we all understand because it appears on the keyboard, but
+what are those other two modifiers?  Why not print them on the keys?</p>
+
+<figurep href='pix/mackeyboard.jpg'>
+    <img src='pix/mackeyboard_zoom.jpg' alt='Close-up of a Mac keyboard'/>
+</figurep>
+
+<p>The thingy next to "Show All Bookmarks" is for option, which is labelled on
+the keyboard with "option" and, alternately, "alt", but doesn't have the symbol.
+The big up-arrow next to "Add Bookmark Folder" is not the up-arrow on the keyboard,
+but the shift key, which is labelled only with "shift".</p>
+
+<p>And God forbid you should have to ever Force Quit an application. Is that a Quicktime symbol?:</p>
+
+<figurep>
+    <img src='pix/macapplemenu.png' alt='Apple menu, with Force Quit Finder with four modifier keys'/>
+</figurep>
+
+<p>I must not be the only one who is confused, because Dan Rodney started off his
+thorough <a href='http://www.danrodney.com/mac/index.html'>Mac OS X Keyboard Shortcuts</a>
+page with a translation chart:</p>
+
+<figurep href='http://www.danrodney.com/mac/index.html'>
+    <img src='pix/macmenusymbols.png' alt='A translation chart from symbol to key'/>
+</figurep>
+
+<p>Why no symbols on modifier keys? Or, why is the command key special? Why is it
+labelled with its symbol while the others are not.  This seems like a really
+basic usability rule: refer to the same thing the same way in different contexts.
+Is there some logic to this, or is it just that the minimalist hardware design
+gurus win out over the operating system usability guys?</p>
+
+</body>
+</entry>
+</blog>

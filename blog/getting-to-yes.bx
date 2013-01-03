@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120125T125447' draft='y'>
+<title>Getting to Yes</title>
+<body>
+    
+    <p>I've long been interested in how people communicate, and also in how to teach.
+        Lately I've been spending time in the <a href='irc://irc.freenode.net/#python'>#python</a> 
+        channel on freenode, and it's an interesting place to observe and experiment.
+    </p>
+
+    <p>IRC is a really difficult medium:</p>
+    
+    <ul>
+        <li>It is purely textual, so there are no social cues to help lubricate communication.</li>
+        <li>Brevity is valued, so lots of things people usually say to keep the conversation "polite" are skipped.</li>
+        <li>The discussions are about detailed technical topics, and agreement on fine distinctions can be difficult to reach.</li>
+        <li>The participants tend to be strangers to each other so there's little common ground to build on.</li>
+        <li>People join in from around the world, including those with poor English skills.</li>
+        <li>The participants are at wildly varying levels of expertise, so it is difficult to know what is already understood and what is not.</li>
+    </ul>
+
+    <p>When people come into #python with a question, things don't always go smoothly.  I have lots of ideas about 
+        why that is, and how to improve the situation, but I want to mention just one today: say "Yes" more.</p>
+
+    <p>Here's an actual interaction from a few days ago, nicks have been changed:</p>
+
+<quote><![CDATA[
+<raj> also, "if not x" checks if x == none?
+<raj> None
+<asdf`> raj, no, checks if bool(x) == False
+<asdf`> raj, and yeah, that's bool(None), bool(0), '', [] etc.
+<raj> ohh, very interesting
+<raj> thank you
+<nedbat> raj: yes:  "not x"  will be true for None, and False, and 0, and "", etc.
+]]>
+</quote>
+
+</body>
+</entry>
+</blog>

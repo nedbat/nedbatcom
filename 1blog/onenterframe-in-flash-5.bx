@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040201T154057'>
+<title>onEnterFrame in Flash 5?</title>
+<category>help</category>
+<via />
+<body>
+<p>I bought a copy of Flash 5 for my son on eBay,
+and got him a book about making games with Flash.
+The book uses Flash MX.  I always knew that eventually
+we'd run across something in the book that needed MX and
+wouldn't work with 5.
+</p>
+
+<p>We ran across it.  The something is:</p>
+
+<code lang='actionscript'><![CDATA[
+_root.onEnterFrame = myfunc
+]]></code>
+
+<p>How do I do this in Flash 5?
+Please tell me it's possible.</p>
+
+</body>
+</entry>
+</blog>

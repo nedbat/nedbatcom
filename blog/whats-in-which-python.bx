@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110930T204234'>
+<title>What's in which Python?</title>
+<category>python</category>
+<body>
+    <p>I'm teaching a class next week, and in their work environment, the students are limited to using Python 2.4.
+        I wanted to be clear about what features of Python they'd have available, and
+        which they wouldn't.  The "What's New in Python" docs are very comprehensive,
+        but spread out across many pages and full of distracting details.</p>
+
+    <p>So I made this list of the high points, what's in each version of Python 2.x.
+        Items with a star were introduced with a __future__ import.</p>
+
+    <h1>2.1: April 2001</h1>
+    <ul>
+        <li>Nested scopes *</li>
+        <li>"from __future__"</li>
+        <li>Rich comparisons</li>
+        <li>Weak references</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.1.html'>Full list of 2.1 changes</a>.</p>
+
+    <h1>2.2: December 2001</h1>
+    <ul>
+        <li>New-style classes</li>
+        <li>Iterators</li>
+        <li>Generators *</li>
+        <li>// integer division</li>
+        <li>Dividing ints can produce floats *</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.2.html'>Full list of 2.2 changes</a>.</p>
+
+    <h1>2.3: July 2003</h1>
+    <ul>
+        <li>Set datatype module</li>
+        <li>Boolean datatype</li>
+        <li>Importing from zip files</li>
+        <li>enumerate</li>
+        <li>The logging and csv packages</li>
+        <li>Extended list slicing</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.3.html'>Full list of 2.3 changes</a>.</p>
+
+    <h1>2.4: December 2004</h1>
+    <ul>
+        <li>Native set datatype</li>
+        <li>Generator expressions</li>
+        <li>Function decorators</li>
+        <li>string.Template</li>
+        <li>reversed()</li>
+        <li>The subprocess and decimal modules</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.4.html'>Full list of 2.4 changes</a>.</p>
+
+    <h1>2.5: August 2006</h1>
+    <ul>
+        <li>The "with" statement *</li>
+        <li>Conditional expressions</li>
+        <li>The functools module</li>
+        <li>Unified try/except/finally</li>
+        <li>Value passed into generators</li>
+        <li>defaultdict</li>
+        <li>any(), all(), min(key=) and max(key=)</li>
+    </ul>
+    
+    <p><a href='http://docs.python.org/whatsnew/2.5.html'>Full list of 2.5 changes</a>.</p>
+
+    <h1>2.6: October 2008</h1>
+    <ul>
+        <li>The multiprocessing package</li>
+        <li>str.format()</li>
+        <li>3.0 compatibility: print function *, byte literals, io library</li>
+        <li>"except" with "as" keyword</li>
+        <li>Abstract base classes</li>
+        <li>Class decorators</li>
+        <li>The fractions module</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.6.html'>Full list of 2.6 changes</a>.</p>
+
+    <h1>2.7: July 2010</h1>
+    <ul>
+        <li>Set literals syntax</li>
+        <li>Dictionary and set comprehensions</li>
+        <li>OrderedDict and Counter classes</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/whatsnew/2.7.html'>Full list of 2.7 changes</a>.</p>
+
+</body>
+</entry>
+</blog>

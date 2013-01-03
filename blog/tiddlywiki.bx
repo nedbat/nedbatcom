@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050513T134924'>
+<title>TiddlyWiki</title>
+<category>tools</category>
+<category>js</category>
+<via />
+<body>
+<p>This has been out for a while, and I remember glancing at it last fall,
+but I didn't fully appreciate it then.
+<a href='http://tiddlywiki.com'>TiddlyWiki</a> is yet another wiki implementation,
+but with a difference: the entire wiki, including the implementation and all the data,
+is stored in a single HTML file.
+The file is displayed in a browser, where the content can be read and edited.
+A "save changes" button writes the HTML file back to disk.
+</p>
+
+<p>First: this is very clever as an architectural design.  There's no server to worry about,
+and anyone who can open an HTML file (who can't?) can read the content.
+It even allows for unique deployment scenarios like
+<a href='http://www.tiddlywiki.com/#WikiOnAStick'>WikiOnAStick</a>
+(put the HTML file on a thumb drive, and carry it with you anywhere).
+</p>
+
+<p>Second: holy cow, the mad technical skillz displayed in the implementation are awesome!</p>
+
+</body>
+</entry>
+</blog>

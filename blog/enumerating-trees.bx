@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080211T071644'>
+<title>Enumerating trees</title>
+<category>python</category>
+<category>math</category>
+<body>
+<p>I was hacking around with a program that needed tree-structured data, and I
+wanted to generate all possible trees of a certain size.  I searched around 
+and found nothing useful.  After a few experiments involving Python generators,
+postfix expressions, and recursive trees, I've got some code to enumerate binary
+trees.</p>
+
+<more>
+    
+<p>I started with postfix expressions because they are easy to work with,
+and are equivalent to trees, in that trees are like infix notation
+expressions, and they are equivalent to postfix.  After some puzzling on it,
+I saw the recursive light, and came up with this to generate
+all possible postfix expressions:
+</p>
+
+<code lang='py'><![CDATA[
+# Enumerate postfix expressions
+
+def _exprs(expr, stack_depth, vals, ops):
+    """ Generate postfix expressions recursively.
+        `expr` is the expression so far, a list of values and operators.
+        `stack_depth` is the depth of the stack created by expr.
+        `vals` is a list of values remaining to add to the expression.
+        `ops` is a list of possible operators to choose from.
+    """
+    if stack_depth == 1 and not vals:
+        # This is a valid expression.
+        yield expr
+    if stack_depth > 1:
+        # Try using an operator
+        for o in ops:
+            for e in _exprs(expr+[o], stack_depth-1, vals, ops):
+                yield e
+    if vals:
+        # Vals are available, push one on the stack
+        for e in _exprs(expr+[vals[0]], stack_depth+1, vals[1:], ops):
+            yield e
+
+def exprs(vals, ops):
+    """ Generate postfix expressions created from `vals`, the list of values
+        to use, and `ops`, the possible operators to combine them with.
+    """
+    return _exprs([], 0, vals, ops)
+
+def all_exprs(n, ops='+'):
+    vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:n]
+    return [ " ".join(e) for e in exprs(vals, ops) ]
+
+print "\n".join(all_exprs(4, '+*'))
+
+for i in range(2, 15):
+    ndyck = len(all_exprs(i))
+    print "%2d: %7d expressions" % (i, ndyck)
+]]></code>
+
+<p>The nice thing here is the generator is a pretty clear expression of the
+enumeration technique: as you are building an expression:</p>
+
+<ul>
+    <li>if the stack has one item, and there are no more values to squeeze in,
+    you have a valid expression.</li>
+    <li>if the stack is two or more deep, then you can add to expression by
+    using an operator to combine those top two values, and the stack is now
+    one shallower.</li>
+    <li>if you have more values to use, you can append the next one to the
+    expression, and the stack is now one deeper.</li>
+</ul>
+
+<p>The nature of recursive generators requires the for/yield structure:</p>
+
+<code lang='py'><![CDATA[
+# When recurring in generators, you have to loop to pull the values,
+# and yield each one:
+for v in _recursive_generator(blah):
+    yield v
+    
+# Wouldn't it be cool if you could do this instead:
+yield _recursive_generator(blah)
+
+# but that would yield a generator, a style of recursion I can't quite wrap
+# my head around!
+]]></code>
+
+<p>Running the code shows all the expressions of two operators on five values,
+and the counts of expressions of one operator over varying numbers of values:</p>
+
+<code><![CDATA[
+A B + C + D +
+A B + C + D *
+A B + C * D +
+A B + C * D *
+A B + C D + +
+A B + C D + *
+A B + C D * +
+A B + C D * *
+A B * C + D +
+A B * C + D *
+A B * C * D +
+A B * C * D *
+A B * C D + +
+A B * C D + *
+A B * C D * +
+A B * C D * *
+A B C + + D +
+A B C + + D *
+A B C + * D +
+A B C + * D *
+A B C + D + +
+A B C + D + *
+A B C + D * +
+A B C + D * *
+A B C * + D +
+A B C * + D *
+A B C * * D +
+A B C * * D *
+A B C * D + +
+A B C * D + *
+A B C * D * +
+A B C * D * *
+A B C D + + +
+A B C D + + *
+A B C D + * +
+A B C D + * *
+A B C D * + +
+A B C D * + *
+A B C D * * +
+A B C D * * *
+ 2:       1 expressions
+ 3:       2 expressions
+ 4:       5 expressions
+ 5:      14 expressions
+ 6:      42 expressions
+ 7:     132 expressions
+ 8:     429 expressions
+ 9:    1430 expressions
+10:    4862 expressions
+11:   16796 expressions
+12:   58786 expressions
+13:  208012 expressions
+14:  742900 expressions
+]]></code>
+
+<p>I still wanted to find other work on this stuff, and I figured anyone who had
+successfully enumerated trees would also have done a count like I did, so I
+did a search on the last two counts (<a href='http://www.google.com/search?q=208012%20742900'>208012 742900</a>).
+I was directed to a few interesting <a href='http://theory.cs.uvic.ca/inf/tree/BinaryTrees.html'>pages</a>,
+in particular the wikipedia page on
+<a href='http://en.wikipedia.org/wiki/Catalan_number'>Catalan numbers</a>,
+which confirmed that my count of trees is correct, and led to the theory of
+<a href='http://en.wikipedia.org/wiki/Dyck_language'>Dyck languages</a>, which is
+too much math for my purposes, and led to a few interesting papers that I couldn't
+understand.</p>
+
+<p>To make trees, my first impulse was to use my expression generator and then
+execute the expressions to construct trees, but that seemed unnecessary, so I adapted
+the expression code to create trees directly:</p>
+
+<code lang='py'><![CDATA[
+# Enumerate binary trees
+
+class Leaf:
+    def __init__(self, val):
+        self.val = val
+    
+    def __str__(self):
+        return str(self.val)
+
+class Node:
+    def __init__(self, op, left, right):
+        self.op = op
+        self.left, self.right = left, right
+
+    def __str__(self):
+        return "(%s %s %s)" % (self.left, self.op, self.right)
+    
+def _trees(stack, vals, ops):
+    if len(stack) == 1 and not vals:
+        yield stack[0]
+    if len(stack) > 1:
+        for op in ops:
+            left = stack[-2]
+            right = stack[-1]
+            if hasattr(right, 'op') and right.op == op:
+                # Avoid duplicates: our operations are associative,
+                # so we can skip trees like (A+(B+C)), since we'll
+                # get ((A+B)+C) instead on another iteration.
+                continue
+            new_node = Node(op, left, right)
+            new_stack = stack[:-2]
+            new_stack.append(new_node)
+            for t in _trees(new_stack, vals, ops):
+                yield t
+    if vals:
+        stack.append(Leaf(vals[0]))
+        for t in _trees(stack, vals[1:], ops):
+            yield t
+                     
+def trees(vals, ops="+"):
+    return _trees([], vals, ops)
+
+def all_trees(n, ops='+'):
+    vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:n]
+    return trees(vals, ops)
+
+print "\n".join(map(str, all_trees(4, '+*')))
+]]></code>
+
+<p>Which produces:</p>
+
+<code><![CDATA[
+(((A + B) + C) + D)
+(((A + B) + C) * D)
+(((A + B) * C) + D)
+(((A + B) * C) * D)
+((A + B) * (C + D))
+((A + B) + (C * D))
+(((A * B) + C) + D)
+(((A * B) + C) * D)
+(((A * B) * C) + D)
+(((A * B) * C) * D)
+((A * B) * (C + D))
+((A * B) + (C * D))
+((A * (B + C)) + D)
+((A * (B + C)) * D)
+(A * ((B + C) + D))
+(A + ((B + C) * D))
+((A + (B * C)) + D)
+((A + (B * C)) * D)
+(A * ((B * C) + D))
+(A + ((B * C) * D))
+(A + (B * (C + D)))
+(A * (B + (C * D)))
+]]></code>
+
+<p>One tricky thing about this generator: it avoids trees which are structurally
+different, but with associate operators produces the same result, so it won't
+return both ((A+B)+C) and (A+(B+C)).  If you want both of those trees, remove
+the check at line 25 for right associativity.</p>
+
+<p>The number of trees grows very large as the number of leaves becomes big enough
+to be interesting.  I guess I'll have to dig into application-specific ways to
+limit the choices.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

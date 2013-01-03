@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090103T184721'>
+<title>Oldest files meme: PSCom</title>
+<body>
+<p><a href='http://www.b-list.org/weblog/2009/jan/03/meme/'>James shows his oldest files</a>,
+a meme he <a href='http://blog.doughellmann.com/2009/01/new-year-meme-what-are-oldest-files-in.html'>picked up from Doug</a>
+who got it from <a href='http://rhodesmill.org/brandon/2009/new-years-meme/'>Brandon, its creator</a>.
+</p>
+
+<p>See one of the above posts for details, but the idea is to find the oldest file
+in your home directory tree, and tell its story.</p>
+
+<p>I found these:</p>
+
+<code>
+1986-08-20 .\pscom\avl.h
+1986-08-20 .\pscom\avl.c
+</code>
+
+<p>(full files: <a href='files/avl.h'>avl.h</a> and <a href='files/avl.c'>avl.c</a>)</p>
+
+<p>PSCom was a PostScript preprocessor that I wrote while employed at Digital.
+We wrote a lot of PostScript code, and wanted to be able to use conditional
+inclusion, macro replacement, and lexical compression (similar to what jsmin does
+for JavaScript today).  PSCom was the result.  It's a C program, and I'm amazed
+to remember the amount of work that went into providing basic features we take
+for granted now in the Python world, and in any modern programming environment.
+</p>
+
+<p><a href='files/avl.c'>avl.c</a> starts like this:</p>
+
+<code lang='c'><![CDATA[
+/***	
+ ***	avl.c --
+ ***	
+ ***	The AVL height-balanced tree abstraction.
+ ***	Six functions are defined:
+ ***	
+ ***		newavl()
+ ***			returns an empty avl tree.
+ ***		addnode(tree, key, data, compare)
+ ***			Adds a new node to the tree given.
+ ***		node = findnode(tree, key, compare)
+ ***			Finds the node in the tree.
+ ***		modnode(tree, key, data, compare)
+ ***			Modify an existing node.
+ ***		im = startiter(tree)
+ ***			Starts an iteration over the nodes, returning an
+ ***			iteration map.
+ ***		im = nextnode(tree, im, &node)
+ ***			Returns the new map, and writes a pointer to the next
+ ***			node.
+ ***		size = avlsize(tree)
+ ***			Returns the number of nodes in the tree.
+ ***	
+ ***	N.Batchelder, 5/7/85.
+ ***	Adapted 1/13/85.
+ ***/
+]]></code>
+
+<p>Clearly this would simply be a dictionary today, but I had to go and write an
+entire data structure to be able to store the symbol table for PSCom. The
+adapted date must be a typo, it was adapted 1/13/86, based on the comment in
+avl.h If it was truly begun in May of 1985, then it was originally part of a
+different project, perhaps a PostScript-like language implementation I was
+working on while at Penn.
+</p>
+
+<p>One odd feature of PSCom: when shortening identifiers, you could choose the
+set of characters that would be used.  PostScript has very lenient rules regarding
+allowable characters in identifiers, so you could use <b>-_=</b> as the set to choose
+from, and end up with a final file that looked like hardware timing diagrams,
+or <b>,.:;'</b> which would be indistinguishable from chicken scratch.</p>
+
+<p>One thing about the code that strikes me now: I wrote a <em>lot</em> of
+comments back then!  I should get back into that habit...</p>
+
+</body>
+</entry>
+</blog>

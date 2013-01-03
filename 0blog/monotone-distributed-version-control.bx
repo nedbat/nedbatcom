@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030904T093159'>
+<title>Monotone distributed version control</title>
+<category>srcctrl</category>
+<via id='tedleung'/> <!-- id= or href= -->
+<body>
+<p>Here's another take on the problem of version control:
+<a href='http://www.venge.net/monotone/'>Monotone</a> has a different perspective
+than most systems:
+there's no central repository, it's all distributed across the developers' trees;
+and there are no revision numbers, SHA1 fingerprints identify revisions.
+It feels like a P2P system rather than a client/server system.
+</p>
+
+<p>It doesn't look like they're building for Windows, but it doesn't look like there's
+a reason they can't.</p>
+
+</body>
+</entry>
+</blog>

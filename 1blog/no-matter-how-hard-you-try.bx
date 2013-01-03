@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040212T065258'>
+<title>No matter how hard you try...</title>
+<category>cog</category>
+<via />
+<body>
+<p>...it's really hard to get even a small piece of software right without
+a QA team to point out where you screwed up.
+I posted <a href='code/cog/index.html'>Cog</a> on Tuesday,
+but as Simon Steele gently pointed out, it wouldn't install.
+(Is there some reason distutils defaults to not including the scripts you've declared?)
+Darach Ennis directed my attention to a crucial typo in the code example.
+Both problems have been fixed.  Thanks, guys!
+</p>
+</body>
+</entry>
+</blog>

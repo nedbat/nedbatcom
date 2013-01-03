@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040629T211510'>
+<title>Full text RSS feed</title>
+<category>site</category>
+<category>feeds</category>
+<via />
+<body>
+<p>A <a href='http://www.miguelestrada.com/'>friend</a> chided me for not putting
+the full text of my blog entries in my <a href='blog/rss.xml'>RSS feed</a>.
+He made a number of good arguments, including showing me how my site looked on
+his phone (crappy).
+So now I am providing two RSS feeds.  The classic feed, with the first paragraph
+of each entry, and a <a href='blog/rssfull.xml'>full text RSS feed</a> with the
+entire text (and images if any) of the entire post. Enjoy.</p>
+
+<p>The clever XSLT styling trick doesn't work right for the full feed in Firefox,
+though it does in IE.  Oh well.  And the feeds don't
+<a href='http://feedvalidator.org/'>strictly validate</a>, but I don't care.
+Maybe someday.</p>
+
+<p>By the way: does anyone know of an emulator for the phone browsers?
+Another "some day" task: I might also try to make the site look better on those dinky screens.
+</p>
+
+</body>
+</entry>
+</blog>

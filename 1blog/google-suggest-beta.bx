@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041210T101332'>
+<title>Google suggest beta</title>
+<category>google</category>
+<via href='http://www.kottke.org/remainder/'>kottke.org remaindered links</via>
+<body>
+<p>Those clever devils at Google have done it again:
+<a href='http://www.google.com/webhp?complete=1'>Google Suggest</a>
+is just like regular Google, but it auto-completes your search terms as you type,
+complete with an indication of how many hits the search will get.
+</p>
+
+<p>This could lead to a whole new form of <a href='blog/200304.html#e20030410T225043'>self-Googling</a>:
+How many characters of your name do you have to type before you are the suggested search term?
+I have to type "ned bat".</p>
+
+<p>And as is usual with Google, it isn't clear how they decide what to show.
+For example, after typing "ned bat", the suggested list is:
+
+<table align='center'>
+<tr><td>ned batchelder</td><td>&#160;</td><td align='right'>59,900 results</td></tr>
+<tr><td>ned bath and beyond</td><td>&#160;</td><td align='right'>23,100 results</td></tr>
+<tr><td>ned batey</td><td>&#160;</td><td>&#160;</td></tr>
+<tr><td>ned bath beyond</td><td>&#160;</td><td align='right'>11,900 results</td></tr>
+<tr><td>ned batchelder atari 2600</td><td>&#160;</td><td align='right'>17 results</td></tr>
+<tr><td>ned bates</td><td>&#160;</td><td align='right'>94,300 results</td></tr>
+</table>
+</p>
+
+<p>Why those suggestions, and why in that order?
+It isn't alphabetical, and it isn't by the number of search results.
+"ned batey" has no prediction of search results, but searching on it
+shows 660 results, which is more than the absurdly specific
+"ned batchelder atari 2600",
+so why is the right-hand blank for "ned batey"?</p>
+
+<p>Update: Simon Willison has a short piece about some of the
+<a href='http://www.sitepoint.com/blog-post-view.php?id=216588'>browser technology that makes it work</a>.
+</p>
+
+</body>
+</entry>
+</blog>

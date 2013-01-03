@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040109T221204'>
+<title>Memory errors</title>
+<category>debugging</category>
+<via />
+<body>
+<p>Something to keep in mind:
+if a program seems to run out of memory,
+it may not be a memory leak.
+It may be that you have one gigantic allocation larger
+than memory.
+</p>
+</body>
+</entry>
+</blog>

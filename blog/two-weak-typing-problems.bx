@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070809T142025'>
+<title>Two weak typing problems</title>
+<category>proglang</category>
+<category>js</category>
+<body>
+<p>Recently, I had two demonstrations of the pitfalls of weak typing.
+</p>
+
+<p>First, my son Max was working on a simple Flash game.  He asked for my help
+fixing it, because the character would move left, but it wouldn't move right.
+His code looked (roughly) like this:</p>
+
+<code lang='js'><![CDATA[
+if (Key.isDown(Key.LEFT)) {
+    guy._x -= "10";
+}
+if (Key.isDown(Key.RIGHT)) {
+    guy._x += "10";
+}
+]]></code>
+
+<p>The problem here is that the _x attribute is an integer.  When subtracting
+the string "10" from an integer, the weak typing coerces the string to an integer,
+and the subtraction moves the character left.  But when moving right, the integer
+is added to a string, which is a valid string operation, so the integer is coerced
+to a string, and the two strings concatenated.  Setting the _x position to a string
+doesn't move the object, so the character doesn't move right.
+</p>
+
+<p>Apart from the usual mystifying behavior of weak typing, the bizarre thing here
+is how two cases which seem completely symmetric in fact have very different results.
+Strings have a plus operator, but not a minus operator, so the helpful weak typing
+chose different paths for the two cases, resulting in the strange left-but-not-right
+bug.
+</p>
+
+<p>Changing the "10" constants to integer 10's fixed the problem, of course,
+since it meant that all operations were the expected integer operations.</p>
+
+<p>The second example was in some JavaScript code designed to speed up a slow
+calculation.  The cache is a map from strings to lists of objects, but the calculation could return
+nothing, which was also important to cache, so a string object '-' was inserted in
+its place:
+</p>
+
+<code lang='js'><![CDATA[
+var answer = this.cache[question]; 
+if (!answer) { 
+    answer = long_expensive_calculation(question); 
+    if (!answer || (answer.length == 0)) {  
+        this.cache[question] = '-'; 
+        return null; 
+    } 
+    else { 
+        this.cache[question] = answer; 
+        return answer;
+    } 
+} 
+if (answer == '-') {
+    return null;
+} 
+return answer; 
+]]></code>
+        
+<p>This code speeded up the calculations, but still took much longer than it seemed
+like it should.  The cache had a really good hit rate (99%), so we only had to look
+at the path where the cache found the answer.  But all it does is look up a value in a hash,
+compare the value to a string, and return the value.  How can that take too long?
+</p>
+
+<p>The answer lies in the weak typing of that equality check near the bottom.
+The answer from the cache is a list of objects. To compare that against a string,
+JavaScript converts the list to a string, then compares the strings.  That string
+conversion was consuming all the time, and was completely unnecessary.  If the answer
+wasn't a string to begin with, we didn't need to do the comparison at all.</p>
+
+<p>Changing the comparison to:</p>
+
+<code lang='js'><![CDATA[
+if (typeof(answer) == 'string' && answer == '-') {
+]]></code>
+
+<p>sped up the function by a factor of about 10.</p>
+
+<p>BTW: this function is more complicated than it had to be.  The simpler approach,
+which avoids the sentinel value and its string comparison, is:
+</p>
+
+<code lang='js'><![CDATA[
+var answer = this.cache[question];
+if (typeof(answer) == 'undefined') {
+    answer = long_expensive_calculation(question):
+    if (!answer || (answer.length == 0)) {  
+        answer = null; 
+    } 
+    this.cache[question] = answer; 
+}
+return answer; 
+]]></code>
+
+<p>I use Python, which doesn't do these sorts of magic conversions, but it also
+forces me to explicitly convert ints to floats if I want a float answer, which
+is also a pain.  I'd kind of like a middle ground: implicit conversion among numeric
+types is ok, but not between numbers and strings.
+</p>
+
+</body>
+</entry>
+</blog>

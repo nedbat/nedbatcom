@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060428T183923'>
+<title>Why is reliable software so hard?</title>
+<category>exceptions</category>
+<via />
+<body>
+<p>Damien Katz is working on a big project called Couch (a non-relational database, plus a bunch of other
+stuff).  He's given a lot of thought to how to make the software reliable, in particular, how to handle
+unforeseen conditions.  He's just posted a long explanation of his thoughts on the matter:
+<a href='http://damienkatz.net/2006/04/error_code_vs_e.html'>Error codes or Exceptions? Why is Reliable Software so Hard?</a>
+It's very good, includes witty illustrations, and even (in the comments) an admission that the whole
+Hasselhoff thing is a gag.
+</p>
+
+<p>Damien is implementing Couch in
+<a href='http://www.erlang.org/'>Erlang</a>, which is one of those esoteric languages I wish I had the
+time to really understand.  From what Damien has told me about it, it is truly mind-bending, in good ways.
+His article points in the Erlang direction, to give you a taste of how a different programming paradigm
+can change how you think about software.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Subversion on Windows quick start'>
+<history>
+<what when='20050205T101200'>Created.</what>
+<what when='20050712T175800'>Minor tweaks.</what>
+<what when='20050720T215300'>More minor tweaks.</what>
+<what when='20050830T073000'>Made 'working copy' its own section.</what>
+</history>
+
+<p>I have a number of personal projects that I store in
+the <a href='http://subversion.tigris.org/'>Subversion</a> version control system.
+This is my cheat sheet for how to create a new Subversion repository for
+a project.</p>
+
+<h1>Assumptions</h1>
+
+<p>These instructions will be most useful to you if you have the same work style
+as me: projects that only have one developer, the Subversion repository
+is on the same machine accessed as a file, you run on Windows,
+and you like using the command-line.  If you have other needs,
+maybe you can adjust these instructions, maybe not.</p>
+
+<p>Starting assumptions:</p>
+<ol>
+<li>You have Subversion installed, with the binaries on your path.</li>
+<li>You have a tree of project files in a directory called 'c:\myproj'.</li>
+</ol>
+
+<h1>Prepare your project files</h1>
+
+<p>Before putting your project in Subversion, you should prepare the project
+a bit first.</p>
+
+<ol>
+<li>Backup your project files in case something goes wrong.</li>
+<li>Delete files that you don't need, either because they are obsolete,
+or because they are generated files.  For example, editor backup files,
+compiled binary files, or junk you just don't want anymore.</li>
+</ol>
+
+<h1>Setting up the repository</h1>
+
+<p>Now we're ready to put the project into Subversion.
+Here's what you do:</p>
+
+<ol>
+
+<li>If you've never created a local Subversion repository, choose a place to
+put it, and make the directory:
+<code>$ mkdir c:\svn</code>
+</li>
+
+<li>Create a Subversion repository, using the Windows file path to the repository:
+<code>$ svnadmin create c:\svn\myproj</code>
+</li>
+
+<li>Import your existing project files into Subversion, using the URL address of the
+repository:
+<code>$ svn import c:\myproj file:///c:/svn/myproj</code>
+An editor will pop open to collect a comment from you.  This file indicates that just
+c:\myproj is being added, but Subversion will pull in all of the contents of that
+directory too.
+Once you save the file, the existing files will be imported into your new repository.
+</li>
+</ol>
+
+<p>Congratulations, you've created a Subversion repository containing your project.</p>
+
+
+<h1>Getting a working copy</h1>
+
+<p>Now your files are stored in Subversion, but there is no Subversion-aware copy
+of the files for you to work on.  Make that copy by checking out your project from
+Subversion.  You can't checkout over your original files  because Subversion will
+complain that an object of the same name already exists. Either delete your original
+files (you backed them up, right?), or checkout to a new directory:</p>
+
+<code>
+$ rmdir/s/q c:\myproj
+$ svn checkout file:///c:/svn/myproj c:\myproj
+</code>
+
+<p>Now you have your project back where it started, but under Subversion control.</p>
+
+
+<h1>Tweaking the contents of the repository</h1>
+
+<p>Usually, there are files in your project directory that you don't want stored
+in Subversion.  These were files you may have cleaned up above.
+For example, Python produces compiled .pyc files.
+You can instruct Subversion to ignore these files, so that you don't accidentally
+store them in your repository.
+Subversion can store properties on files and directories as well as the contents.
+You tell Subversion which files to ignore by setting the svn:ignore property on
+directories.
+</p>
+
+<ol>
+<li>For files that should be universally ignored, create a text file called
+ignore.txt.  In it, list the file patterns that should be ignored, one per line:
+<code>
+*.pyc
+*.obj
+*.bak
+</code>
+</li>
+
+<li>Then use that file to set the svn:ignore property on all directories in your
+tree:
+<code>
+$ svn propset -R svn:ignore . -F ignore.txt
+property 'svn:ignore' set (recursively) on '.'
+</code>
+</li>
+
+<li>If certain directories should have other files ignored, you can edit the property
+on those directories:
+<code>$ svn propedit svn:ignore .</code>
+A text editor will open, with the list of ignored files.  Edit the list however you
+want, then save the file and close the editor.
+</li>
+
+<li>The changes you've made to the directories now have to be committed back into
+your repository:
+<code>
+$ svn commit -m "Ignoring ignorable files"
+Sending        .
+
+Committed revision 2.
+</code>
+(We used the -m switch to provide a comment, avoiding the editor opening to collect one
+from us.)
+</li>
+</ol>
+
+
+<h1>Working</h1>
+
+<p>Now you work on your project.  You can change files without checking them out first.
+The files are writable, and Subversion has its own copy so it can tell what has changed.</p>
+
+<p>To add a new file to your project, create the file, then tell Subversion about it with
+the add command:</p>
+<code>
+$ svn add a-file-I-added.txt
+A         a-file-I-added.txt
+</code>
+
+<p>See what you've changed with the status (or st for short) command:</p>
+
+<code>
+$ svn st
+A      a-file-I-added.txt
+M      a-file-I-modified.txt
+?      a-file-I-forgot-to-add.txt
+</code>
+
+<p>Changes get committed back to the repository with the commit (or ci) command:</p>
+<code>
+$ svn ci -m "Put a comment here, or an editor opens to get one."
+Adding         a-file-I-added.txt
+Sending        a-file-I-modified.txt
+
+Committed revision 3.
+</code>
+
+<p>Files can be deleted with the remove (or rm) command, and moved or renamed with
+the move (mv) command:</p>
+<code>
+$ svn rm unwanted-file.txt
+D      unwanted-file.txt
+$ svn mv badname.txt goodname.txt
+A      goodname.txt
+D      badname.txt
+</code>
+
+<p>Remember that nothing really happens in the repository until you commit:</p>
+<code>
+$ svn ci -m "Stuff moved around."
+Deleting       unwanted-file.txt
+Adding         goodname.txt
+Deleting       badname.txt
+
+Committed revision 4.
+</code>
+
+<p>Occasionally, you should pull changes from the repository.
+Use the update (or up) command to do this:</p>
+<code>
+$ svn up
+At revision 4.
+</code>
+
+<p>Even though you are the only one working on the project,
+your working copy isn't really at the latest
+revision until you update it from the repository.
+For example, the "svn log" command shows the history of changes,
+but only up to your latest "svn update" revision.</p>
+
+<p>That's all there is to it: now go be productive!</p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li>The online book
+<a href='http://svnbook.red-bean.com'>Version Control with Subversion</a>.
+</li>
+<li><apage pref='text/quicksvnbranch.px'/>, which explains how to branch and merge in Subversion.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

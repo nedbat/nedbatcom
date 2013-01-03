@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041120T185622'>
+<title>Alternatives for Python unit testing</title>
+<category>python</category>
+<category>testing</category>
+<via />
+<body>
+<p>There must be something in the air:
+two bloggers are talking about two alternatives to the standard Python
+<a href='http://python.org/doc/2.3.4/lib/module-unittest.html'>unittest</a> module:
+</p>
+
+<ul>
+
+<li>Phillip Eby
+<a href='http://dirtsimple.org/2004/11/stream-of-consciousness-testing.html'>glowingly reviews doctest</a>,
+which lets you write runnable code in docstrings, and then execute them all as unit tests.</li>
+
+<li>Ian Bicking
+<a href='http://blog.colorstudy.com/ianb/weblog/2004/11/19.html#P183'>likes py.test</a>,
+a lighter-weight alternative to unittest.</li>
+
+</ul>
+
+<p>I've been writing unit tests for my Python projects, and I am definitely hooked.
+The feeling of having the correctness of my code pinned down by extensive unit tests is
+a great security blanket.  I can't imagine working without them (except at work, grrrr...).
+And I've had my own difficulties with unittest, so I'm interested in other possibilities.
+</p>
+
+<p>I haven't tried doctest, and it seems very clever and cool, but I can't see it working
+out in the long run.  The needs of documentation and tests are different, and they will
+necessarily diverge.  For one thing, documentation ideally should be concise, and tests
+ideally should be exhaustive.  And not all methods can be well documented by showing
+execution examples.</p>
+
+<p>In fact, the
+<a href='http://www.python.org/pycon/dc2004/papers/4/PyCon2004DocTestUnit.pdf'>PyCon talk about doctest</a>
+admits to some of these difficulties, and recommends creating functions whose only purpose is
+to carry docstrings full of tests.  To me, this is an admission of failure.  Maybe I'm being
+too harsh and should give it a try.</p>
+
+<p>As to <a href='http://codespeak.net/py/current/doc/test.html'>py.test</a>,
+I'll definitely have to look into it.
+It seems like unittest, but written Pythonically from the start, rather than ported
+from Java.</p>
+
+</body>
+</entry>
+</blog>

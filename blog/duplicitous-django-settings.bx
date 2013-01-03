@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111206T063437'>
+<title>Duplicitous Django settings</title>
+<category>django</category>
+<body>
+    <p>Django is easily the most popular Python web framework these days. 
+        For all of its features, and ease of use, though, sometimes it just seems misleading on purpose.
+        This morning I fixed a mysterious problem, and once again I was reminded of how Django can seem simple
+        until things go wrong, and then it's weirdly complex.</p>
+
+    <p>In particular, how the settings work is just odd.  There are two ways that Django does
+        two things when it would be better to do only one.</p>
+
+    <p>For <a href='http://ibisreader.com/'>Ibis Reader</a>, our settings machinery is elaborate:
+        the settings file imports from product_settings.py, then from a host-specific settings file, then
+        from a local_settings.py which isn't committed to source control:</p>
+
+<code lang='py'><![CDATA[
+# Settings.py
+    
+#.. lots of settings ..
+
+from product_settings import *
+
+# Settings particular to this host.
+# For a host named xyz01.myapp.com, 
+# create a file host_settings/xyz01_myapp_com.py
+import platform
+host_name = platform.node().replace('.', '_').replace('-', '_')
+try:
+    exec "from ibis.host_settings.%s import *" % host_name
+except ImportError:
+    pass
+
+# Last resort (good for dev machines): 
+# import settings that aren't in the repo.
+try:
+    from local_settings import *
+except ImportError:
+    pass
+]]></code>
+
+<p>This scheme works great: you can put settings in the file that corresponds logically
+    to why the setting needs the value.</p>
+
+<p>But something odd was happening: if a setting was
+    in both product_settings.py and the host settings file, then the value in 
+    product_settings won.  How could this be?  The host settings file is applied after
+    product_settings!</p>
+
+<p>Part of the answer is the first thing that Django does twice that should only happen
+    once:  the settings file is imported twice. This flies in the face of everything
+    we know about Python modules, but it happens.  So the actual order of imports for
+    my settings files is:</p>
+
+<ol>
+    <li>from product_settings import *</li>
+    <li>from ibis.host_settings.my_host import *</li>
+    <li>from local_settings import *</li>
+    <li>from product_settings import *</li>
+    <li>from ibis.host_settings.my_host import *</li>
+    <li>from local_settings import *</li>
+</ol>
+
+<p>I don't know why Django imports twice, but it's long been true, and I've had to 
+    rediscover it the hard way a few times.</p>
+
+<p>But this still doesn't explain the mystery: every time product_settings is applied,
+    host settings should then be applied over it, so why would a setting in product_settings
+    take effect over one in host settings?  The answer is in the second thing that
+    Django does twice: adding directories to the Python path.</p>
+
+<p>I don't know if this is really Django's fault, or something about the way people seem
+    to always configure their Django projects, but it seems to very often be true:
+    your source files are available through two different import paths, because your
+    source tree has been added to the Python path twice at two different levels.</p>
+
+<p>A Django project has a top level corresponding to the project ("ibis" in this case),
+    and then apps beneath that.  The Python path is constructed so that you can import
+    a file as "my_project.my_app", or just as "my_app". Except that for some reason,
+    this double-view of the source tree isn't always available, and it isn't during
+    that second series of settings imports!?  The path is being modified between 
+    the two import sequences!</p>
+
+<p>So the import march actually looks like this:</p>
+
+<ol>
+    <li>from product_settings import *</li>
+    <li>from ibis.host_settings.my_host import *</li>
+    <li>from local_settings import *</li>
+    <li>from product_settings import *</li>
+    <li>from ibis.host_settings.my_host import *: Import failed!</li>
+    <li>from local_settings import *</li>
+</ol>
+
+<p>The net result is that settings in both product_settings and host settings will keep the
+    value from product_settings, even though host settings is imported second.</p>
+
+<p>The fix is really easy: remove "ibis." from the host settings import line,
+    taking advantage of the fact that either form will work, and in fact, the second form is more
+    robust since it seems to always be available on the Python path. The settings files still
+    get imported twice, but at least the same thing happens both times.</p>
+
+<p>I still don't understand why all these things happen.  
+    I hope part of this is my fault, because then I can fix it for real.</p>
+
+</body>
+</entry>
+</blog>

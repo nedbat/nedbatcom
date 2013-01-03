@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031022T214659'>
+<title>PHP and magic quotes</title>
+<category>php</category>
+<via />
+<body>
+<p>I just added a preview button to my comment system (try it out!),
+and along the way was reminded about what is good and bad about PHP.
+It isn't two different things, it's one thing: magic.
+</p>
+
+<more>
+
+<p>As I was working on the preview button, I was nagged by something
+which had bothered me before: string quoting with slashes.
+Looking at the data I was getting back from POSTed web forms,
+it already had slashes in it to quote apostrophes, double quotes,
+and so on.  I thought I had added them myself somewhere, but could not
+find the place I had called
+<a href='http://php.net/manual/en/function.addslashes.php'>addslashes</a>.
+It's natural that while passing strings from posted forms to MySQL and back
+to HTML, there's a lot of slash-munging.  I figured I had an old call to
+addslashes somewhere.
+</p>
+
+<p>It turns out I didn't.  There is a configuration setting which
+automatically applies slash-quoting to the values retrieved from GET, POST,
+and COOKIE values. The setting is called
+<a href='http://php.net/manual/en/ref.info.php#ini.magic-quotes-gpc'>magic_quotes_gpc</a>.
+It can be set in the php.ini file, and its value can be checked with the
+<a href='http://php.net/manual/en/function.get-magic-quotes-gpc.php'>get_magic_quotes_gpc</a> function.
+There is no way to programmatically change its setting.
+</p>
+
+<p>There's another similar setting called
+<a href='http://php.net/manual/en/ref.info.php#ini.magic-quotes-runtime'>magic_quotes_runtime</a>
+which applies quoting automatically to external data such as databases and file contents.
+It can be queried with the
+<a href='http://php.net/manual/en/function.get-magic-quotes-runtime.php'>get_magic_quotes_runtime</a> function,
+and also changed programmatically with the
+<a href='http://php.net/manual/en/function.set-magic-quotes-runtime.php'>set_magic_quotes_runtime</a> function.
+Why can one be changed at runtime and the other cannot? I don't know.
+Maybe there's a good reason, maybe not.
+</p>
+
+<p>These magic settings are just the sort of thing PHP is famous for.
+They do exactly the right thing for the beginner who wants to write code to run
+on his web server.
+They are special purpose functions which do a specific web job really well.
+If you are moving up from HTML and JavaScript, and have to write server-side code,
+PHP will fit you like a glove.
+If you approach coding empirically, then magic_quotes_gpc is no problem.
+You try the code, and see that slashes have been applied, and deal with it.
+</p>
+
+<p>But if you have a more analytical approach, then magic_quotes_gpc is the kind
+of thing that will drive you nuts.  I spent twenty minutes today rediscovering
+this magic quoting feature, because I couldn't figure out why there were slashes in my POST data.
+</p>
+
+<p>PHP is not clean.  Its strength is that it is grungy, but in precisely the right ways
+to make simple server-side coding tasks easy.  It provides tight integration between
+the programming language and the web server, it has a rich library for doing lots of
+webby stuff, and it has a simple forgiving feel to it.
+But once you graduate to larger coding projects,
+or delivering software to someone else's server, or structuring your code for more modularity,
+then PHP begins to run out of steam, and its initial strengths become weaknesses.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

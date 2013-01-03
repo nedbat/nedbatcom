@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060129T203230'>
+<title>Fractal Tic-Tac-Toe</title>
+<via href='http://blogs.vertigosoftware.com/jatwood/default.aspx'>Jeff Atwood</via>
+<body>
+<p><a href='http://www.sunysb.edu/philosophy/fractal/2Tic.html'>This page about a fractal representation of tic-tac-toe</a> is from
+Fractal Images of Formal Systems.
+I don't understand the larger work, but the image is very cool: it shows the progress of a game of
+tic-tac-toe by drawing the next state of the board in the square the current player fills.
+Words don't do it justice, go take a look.  Even better is the
+<a href='http://ted.mielczarek.org/code/ticfractoe.html'>animated version</a>
+(clever titled tic-frac-toe), which lets you actually play the game, zooming in to see the branching
+possibilities visually represented.  End states are represented as colored squares showing who won.
+Very clever.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021026T203754'>
+<title>Python discoveries</title>
+<category>python</category>
+<category>perl</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I've been using python for a few years now, but I'm still discovering useful tidbits:</p>
+
+<p>1. The encode method on strings.  Want to quickly see how a Unicode
+string comes out in UTF-8?:</p>
+
+<code lang='python'><![CDATA[
+>>> u"\u201c".encode('utf-8')
+'\xe2\x80\x9c'
+]]></code>
+
+<p>2. The % operator (as in sprintf, not modulo) has a named argument syntax
+(which seems not to be mentioned in the
+<a href='http://python.org/doc/current/ref/ref.html'>Python Language Reference</a>, but I
+discovered it in the
+<a href='http://starship.python.net/crew/da/jak/cookbook.html'>Python/Perl phrasebook</a>):</p>
+
+<code lang='python'><![CDATA[
+>>> d = {'a': 1, 'b': 2}
+>>> "b is %(b)s, a is %(a)s" % d
+'b is 2, a is 1'
+]]></code>
+
+</body>
+</entry>
+</blog>

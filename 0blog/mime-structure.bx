@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030425T165757'>
+<title>MIME message structure</title>
+<category>networks</category>
+<category>email</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>You'd think after 18 months of working on the
+<a href='http://www.kubisoftware.com'>Kubi Client</a>,
+I would be able to do
+<a href='http://zvon.org/tmRFC/RFC2045/Output/index.html'>MIME</a>
+structures in my sleep.
+But I had to look it up again today, so I'm putting this
+here so I can find it again.  Also, I figure if I need to
+look something up, someone else out there may find it
+useful.
+</p>
+
+<p>There are three commonly-used Content-Type headers for
+structuring MIME messages:</p>
+
+<ul>
+<li>multipart/mixed for adding attachments to a message,</li>
+<li>multipart/related for combining inline images with a message, and</li>
+<li>mulitpart/alternative for collecting different representations of a message.</li>
+</ul>
+
+<more>
+
+<p>For example (indentation is just for cosmetic presentation):</p>
+
+<code><![CDATA[
+Content-Type: multipart/mixed; boundary="mixed-boundary"
+
+This is a multipart message in MIME format.
+--mixed-boundary
+   Content-Type: multipart/related; boundary="related-boundary"
+   --related-boundary
+      Content-Type: multipart/alternative; boundary="alternative-boundary"
+      --alternative-boundary
+         Content-Type: text/html
+
+         <html><body><p>This is the HTML message.</p></body></html>
+
+      --alternative-boundary
+         Content-Type: text/plain
+
+         This is the plain text message.
+      --alternative-boundary--
+   --related-boundary
+      Content-Type: image/jpeg
+
+      (.. jpeg data ..)
+   --related-boundary--
+--mixed-boundary
+   Content-Type: application/octet-stream; name="file.dat"
+   Content-Disposition: attachment; name="file.dat"
+
+   (.. file.dat data ..)
+--mixed-boundary--
+]]></code>
+
+<p>There. As <a href='http://us.imdb.com/Quotes?0067185'>Maude said</a>,
+"Now I'll always know where it is."
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

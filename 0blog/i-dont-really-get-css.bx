@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031011T215237'>
+<title>I don't really get CSS</title>
+<category>css</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I've fiddled with the type size on this page.  I wanted it smaller, because frankly,
+I've never liked the shapes of the letters the way it was before. I like larger type
+generally, but I'm trying this smaller type for a while to see what I think.
+</p>
+
+<p>But here's the thing: CSS makes me antsy.  I understand the concept, and separation
+of style from content is a wonderful thing.  Being able to declaratively make changes
+throughout a page with simple edits is tremendous.  Max and I just had some fun making
+my links as wacky as possible:</p>
+
+<code lang='css'><![CDATA[
+a.wacky:hover {
+  text-decoration: underline;
+  font-weight: bold; font-size: 200%;
+  background-color: black; color: white;
+  text-transform: uppercase;
+  border: 3px dotted yellow;
+  margin: 10px;
+  padding: 30px;
+}
+]]></code>
+
+<style>
+a.wacky:hover {
+  text-decoration: underline;
+  font-weight: bold; font-size: 200%;
+  background-color: black; color: white;
+  text-transform: uppercase;
+  border: 3px dotted yellow;
+  margin: 10px;
+  padding: 30px;
+}
+</style>
+
+<p>(try it: <a href='#' onClick='alert("I didn&apos;t say to click it!"); return false;' class='wacky'>hover here</a>).</p>
+
+<p>But when it comes to setting font sizes and line heights in nested elements, I just
+don't get what's happening.  I'm sure some of it is just browser implementation differences,
+but can someone please give me a simple rule for how to get it right?  I've had the same
+problem when it comes to setting padding or margin or whatever on consecutive boxes.
+How do you come up with a system that works, without having to test all possible combinations
+of things?  I want it to look good, but I don't want to fall down a CSS rabbit hole.</p>
+
+</body>
+</entry>
+</blog>

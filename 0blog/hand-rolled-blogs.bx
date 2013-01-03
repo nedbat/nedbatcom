@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030424T085258'>
+<title>Hand-rolled blogs</title>
+<category>blogs</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://tantek.com/log/2003/04.html#L20030423t1659'>Tantek talks about hand-rolled blogs</a>.
+I'm interested, because
+<a href='site/index.html'>I fall</a> into his second category
+("folks who rolled their own blogging content management system").
+<a href='http://photomatt.net/p626'>Photomatt followed on</a>, with insightful comments
+that neatly step over the class warfare between
+the out-of-the-box people and the hand-rolled people,
+to get at the important point:
+</p>
+
+<quotep>
+Whatever you do should put <em>as little as possible</em> between
+yourself and whatever it is you love about
+creating your little corner of the independent web.
+...
+Tantek is <em>happy</em> writing the code for his page,
+just as I get a buzz typing in a box and having everything else happen automagically.
+...
+<em>Do what makes you happy.</em>
+</quotep>
+
+<p>This site is hand-rolled because I love understanding how web sites are built, and
+writing tools to create web sites.  Some days I would like not to have to worry about
+it, but on those days I can just ignore the tools that are in place and working.
+On the days when I want to make something happen differently, I can hack on the tools.
+</p>
+
+<p>BTW: many of the hand-rollers seem to do it because they care passionately about
+the style and structure of the markup (that is, the tags themselves, rather than the
+page they produce).  I can understand that passion, and would like to be able to partake
+in it.  If you look at the HTML that produces this page, it is nothing to be proud of.
+Someday I will get rid of all the tables and 1-pixel gifs and do a real 21st-century
+CSS-driven accessible layout.  But not yet.  I don't have the time, focus, or stomach
+for the multi-browser debugging that would take.
+</p>
+
+<p>The whole thread got started by
+<a href='http://www.zeldman.com/daily/0403a.shtml#ap2303'>Zeldman railing against RSS feeds</a>
+(because they homogenize the web experience), something I myself have felt before.
+Even when I use an RSS reader, I use it more as a bookmark manager with update notification
+than as a way to read the bodies of entries.
+</p>
+
+</body>
+</entry>
+</blog>

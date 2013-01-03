@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030914T210212'>
+<title>Shop Amazon with Treemaps</title>
+<category>ui</category>
+<category>amazon</category>
+<via href='http://kottke.org'>kottke.org</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.cs.umd.edu/hcil/treemap-history/index.shtml'>Treemaps</a> are a powerful data presentation technique that can simplify
+understanding huge volumes of information.
+For example, <a href='http://www.win.tue.nl/sequoiaview/'>Sequoia</a> is a
+disk mapping tool that can show you where your disk space is going.
+SmartMoney's <a href='http://www.smartmoney.com/tools/'>Map of the Market</a>
+shows the performance of the entire stock market.
+Now, The Hive Group uses treemaps to show us products from Amazon:
+<a href='http://www.hivegroup.com/amazon.html'>Honeycomb/Amazon Shopping</a>.
+</p>
+
+<p>Honeycomb's treemaps are very slick, with user-selectable dimensions for grouping,
+color and size.
+I'm not sure if it's useful yet, but it is interesting.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050831T072721'>
+<title>Organizing build trees</title>
+<category>development</category>
+<via />
+<body>
+<p>I've got a pet peeve about the way build trees are organized:  I like to segregate source files from
+build files.  For example, the ideal tree would have a src directory that had all the source, an obj directory
+that had all the intermediate built files (for example, .obj files), and a bin directory that had all
+the finished built files (.exe, .dll, .pdb, .map, and so on).  I think there are a number of benefits
+to this organization:
+</p>
+
+<ul>
+<li>If I want to clean out the built stuff, I just delete the bin and obj directories.  Simple.</li>
+<li>If a build fails, I can compare the bin and/or obj directories to a previous successful build
+to get an overview of what finished and what didn't. Simple.</li>
+<li>If I want to make a copy of just the human-produced files, I know where they are (src).  If I want to
+save off the finished executables, I know where they are (bin).  Simple.</li>
+</ul>
+
+<p>It can be kind of a pain organizing things in this way, but I think the benefits outweigh the costs.
+Usually, it's only a matter of setting up a project properly at the start, there's no maintenance required.
+</p>
+
+<p>Unfortunately, Visual Studio .NET doesn't let me organize things this way for C# projects.
+There's an option for where to put the bin stuff, but the .obj files have to go into a subdirectory
+of the project directory.  Why?  Grrrr, submit to the borg!
+</p>
+
+</body>
+</entry>
+</blog>

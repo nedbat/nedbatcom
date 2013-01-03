@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050726T080754'>
+<title>Sometimes the automation really knows best</title>
+<category>testing</category>
+<category>coverage</category>
+<body>
+<p>Recently I was working on improving the automated test coverage for
+<a href='code/cog'>Cog</a>, preparing for another release of features.
+I was approaching 100% coverage.  There was only one line left
+untested.  It was very simple undocumented function, cog.msg, which simply
+printed its argument to stdout.  I thought about simply yanking it from the code.
+But looking at my own use of Cog, I saw that I had used it a few times,
+and others might want to, so I decided to put in a test for it, for completeness.
+If it weren't the last untested line in the source, I probably would have skipped
+the test.
+</p>
+
+<p>So I put in a simple test, and ran the test suite, and it failed! Turns out I
+had broken the function a while back during a global search and replace to use
+an explicit stdout member rather than sys.stdout.  Go figure.  The test that
+I had put in "just for completeness" found a genuine bug, and one that I would have
+encountered in my own environment once I tried deploying the code.</p>
+
+<p>Now Cog has 100% test coverage (w00t!) and I learned my lesson about automated tests:
+they really work, and often know more than you do.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040919T173936'>
+<title>DXL and NotesPeek</title>
+<category>lotus</category>
+<via />
+<body>
+<p>Ben Poole starts his recent blog posting
+<a href='http://www.benpoole.com/weblog/200409161013'>The DXL buzz</a>
+with "Got to love those freaky coincidences", and I know what he means.
+Suddenly I'm hearing more about these two creations of mine, DXL and
+NotesPeek.
+</p>
+
+<p>For those not from the Notes/Domino world, DXL is an XML representation
+of a Notes database, and
+<a href='http://www-10.lotus.com/ldd/today.nsf/Lookup/NotesPeek'>NotesPeek</a>
+is an interactive viewer for Notes data.
+At a certain level, they are very similar: walk over a Notes database, and
+express everything found in an unambiguous authoritative form.
+For DXL, the form is XML.  For NotesPeek, the form is on-screen display.
+Of course, DXL also allows you to perform the inverse: read XML and
+create Notes data (though I didn't write that half of it, Dave Schlesinger did the original code).
+</p>
+
+<p>So here's some stuff that happened recently about DXL and NotesPeek:</p>
+
+<ul>
+
+<li>Bruce Elgort recently asked <a href='http://www.bruceelgort.com/blogs/be.nsf/plinks/BELT-64UTLJ'>Do you DXL?</a></li>
+
+<li>Damien's thoughts about Domino as the
+<a href='http://damienkatz.net/2004/09/notes-domino-perfect-blogging-tool.html'>perfect blogging tool</a> ended up at building tools with DXL.</li>
+
+<li>Mac Guidera pointed me at his new tool <a href='http://www.dxlpeek.com'>DXLPeek</a>,
+which roughly speaking, is NotesPeek reimplemented on top of DXL.
+It sounds very cool, and I will have to get around to trying it this week.</li>
+
+</ul>
+
+<p>But the thing that happened that struck me most forcefully
+was the most unexpected.
+Recently <a href='http://www.captainoblivious.com/'>Rob McDonagh</a>
+did me a great kindness just because I wrote NotesPeek and DXL.
+I haven't worked on these projects in over four years.
+And suddenly out of the blue, a stranger reached out to me to thank me for that work.
+It's a great feeling to have your work acknowledged in that way.
+Thanks, Rob.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021204T075007'>
+<title>Huffman compression in Notes</title>
+<category>lotus</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>A recent email correspondent asked:</p>
+
+<quotep>How can I decompress the huffman-compressed file attachments in Notes?</quotep>
+
+<p>The answer is: you can't.  The Notes C API provides no facility to do this, and
+Lotus (or IBM or Iris, or whatever they should be called now)
+has never documented the compression algorithm.  The only way to decompress these
+attachments is to use the C API functions NSFNoteExtractFile or NSFNoteExtractFileExt.
+Both of these functions take a filename, and the decompressed data is written to the file.
+</p>
+
+<p>Of course, this is really stupid.  For one thing, when writing high-throughput software,
+the last thing you want to do is write more data to disk.  If I need to process the data
+in a file attachment, I want a way to read the data into memory, and writing it to a
+temp file just to read it back in so I can do whatever to it, is just wasteful.</p>
+
+<p>Of course, IBM (or Lotus or Iris, or whatever) has functions
+to do the decompression, they just haven't been exposed as part of the C API.</p>
+
+<p>I used to work at Iris (or Lotus, or whatever), but I don't know how the compression
+works, or what the functions are to do the decompression.  I'd like to have access to them
+as well, but I'm in the same boat as everyone else.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080116T173933'>
+<title>Permalinks, Gravatars and Django</title>
+<category>site</category>
+<category>django</category>
+<body>
+<p>I've made some changes to this site.  In some ways, they are only small changes,
+but under the hood, they are quite large.
+</p>
+
+<more>
+    
+<p>The first change is that each blog entry here now has its own URL.  We can
+debate whether or not I had permalinks the old way: it depends if you accept the
+fragment identifier in a URL (the part after the hash mark) as part of the permalink.
+<a href='http://programming.reddit.com'>Reddit</a> does not recognize the
+fragment identifier as part of the URL (something that was pointed out to me by
+<a href='http://reddit.com/r/programming/info/5zy95/comments/c02ec1a'>a commenter there</a>),
+and so it was difficult for them (and
+probably other sites) to link accurately here. With the new scheme, I hope we
+can all agree that there are now permalinks.</p>
+
+<p>One of the complexities in writing your own blog software is defending deviations
+from the norm.  The old way of identifying blog posts was different than the
+vast majority of blog systems out there, so it eventually seemed not just different
+but truly odd, and incompatibilities with other important parts of the web ecosystem
+made it actually broken. So now I have one URL per blog post.</p>
+
+<p>The aversion to differences can go too far.  Another commenter on reddit also
+noted that my comment links said "5 reactions" instead of "5 comments", adding, "wtf?".
+Maybe he was kidding.  In any case, tough on that one.  You're a human, you can adapt.</p>
+
+<p>As a result of the page-per-post change, comments are handled differently
+as well.  Gone is the pop-up window for entering or reading comments: they are
+displayed on the page with the post.  This presented a typographic challenge <emdash/>
+how to visually distinguish the comments from the post itself, without overwhelming
+the page with rules and dividers?  I had long admired <a href='http://gravatar.com/'>Gravatar</a>
+as being a clever and lightweight way to let people control their appearance on
+other people's sites.  Adding them to the comments solved the design problem: they
+added a strong visual element to the comments section, and helped divide one comment
+from the next without slicing the page into ribbons.</p>
+
+<p>Because most of my commenters don't have gravatars, I am using
+automatically-assigned pictures when a gravatar is not available. There are a
+couple of hundred of these impersonal avatars, and they are assigned based on a
+hash of your email and site addresses, so you should get the same one each time.
+The photos are either ones I have taken, or from the
+<a href='http://commons.wikimedia.org/wiki/Category:Public_domain'>public domain
+category at Wikimedia Commons</a>.  None of the impersonal avatars show a person,
+so if you see a face next to a comment, it is genuine!</p>
+
+<p>Those are the visible changes.  The invisible change is how this site is
+produced.  The original technique involved <a href='site/xuffpx.html'>a great deal of XSLT</a>.
+I started adding the permalink structure with the old XSLT code, and it became too
+difficult. The old design finally gave out. Now I am using
+<a href='http://djangoproject.com'>Django</a>, but in an unconventional way. I
+don't use a Django-friendly host, and my commenting system is written in PHP.
+Both are obstacles that can be overcome, but I decided not to take them on now.
+</p>
+
+<p>So I use Django, but create static HTML files with it, then upload the files
+to my hosting provider. Jared Kuolt's <a href='http://superjared.com/projects/static-generator/'>StaticGenerator</a>
+was a piece of serendipity that appeared after I decided on a course of action,
+but before I needed to write the code myself.  The site starts with the same pile
+of <a href='site/xuffpx.html'>XML source files</a>, but now they are used to build
+a SQLite database, which is then used by the Django code to produce the HTML files.</p>
+
+<p>So in a few ways, I've smoothed out some of the idiosyncracy behind the scenes
+of this blog, which makes me feel good.  I'm glad to have had a chance to make changes
+on this scale.</p>
+
+</more>
+
+<p>Everything should be working just as before, but there may be some hiccups.
+If you see anything amiss, please let me know!</p>
+
+</body>
+</entry>
+</blog>

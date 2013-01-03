@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040224T212253'>
+<title>Critical font update</title>
+<category>type</category>
+<category>windows</category>
+<via />
+<body>
+<p>Running Windows Update today, I learned of a critical update:
+<a href='http://support.microsoft.com/default.aspx?scid=kb;EN-US;833407'>Update 833407</a>
+removes "unacceptable" symbols from the Bookshelf Symbol 7 font.
+As soon as I read that description, I figured swastikas were involved.
+As it turns out, there is more to it.
+</p>
+
+<p>Three symbols are removed from the font: two swastikas, and one star of David.
+Here's the affected section of the Bookshelf Symbol 7 font before the update:</p>
+
+<figurep>
+<img src='pix/bookshelf-font-before.png' alt='Bookshelf Symbol 7 font before the update' />
+</figurep>
+
+<p>and after:</p>
+
+<figurep>
+<img src='pix/bookshelf-font-after.png' alt='Bookshelf Symbol 7 font before the update' />
+</figurep>
+
+<p>Now I understand that many people are sensitive about swastikas,
+and that despite their thousand-year
+<a href='http://en.wikipedia.org/wiki/Swastika'>history</a>
+they have come to be universally associated with great evil.
+You can agree or disagree with needing to remove them, but no one
+is surprised to see them go.</p>
+
+<p>But who needed the star of David removed?  And who agreed to remove it?</p>
+
+</body>
+</entry>
+</blog>

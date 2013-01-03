@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070204T091938'>
+<title>Get firebug</title>
+<category>tools</category>
+<category>webpage</category>
+<category>css</category>
+<category>js</category>
+<body>
+<p>For the longest time, I've struggled with the CSS that styles this site.
+It has grown organically, which is a nice word that means "without thought".
+It had gotten to the point where there were too many rules affecting too many
+elements, and I couldn't make a change without some unpredicted part of the page
+looking very wrong.  I could see the effect my changes had, but I couldn't see why
+they did.
+</p>
+
+<p>I was using <a href='http://getfirebug.com'>Firebug</a>, an awesome Firefox
+plugin that shows you the CSS in effect for an element.  But I still couldn't
+see the chain of causation that got me where I was.  I was using a recent build
+(0.4.1), but it turns out that Joe Hewitt had been a busy boy, because version 1.0
+of Firebug is now available.</p>
+
+<p>The leap in version numbers from 0.4.1 to 1.0 was entirely justified.  If you'd
+been using Firebug and liked the way it was going, you have to get 1.0, because
+it looks like Firebug times ten.  The killer feature for me is the CSS panel which
+shows what styles are in effect for the selected element, including all of the
+inherited styles, and which rules are overridden.  Using this tool, it was
+straightforward to see what rules were affecting my layout, and to clean things up.</p>
+
+<p>But there are a ton of other tools in Firebug: layout visualizers, rulers,
+Javascript debugger, network analyzer, etc, etc, etc. It really is amazing what's
+packed into it.  If you're doing any sort of web development, you need to
+<a href='http://getfirebug.com'>Get Firebug</a>.
+</p>
+
+</body>
+</entry>
+</blog>

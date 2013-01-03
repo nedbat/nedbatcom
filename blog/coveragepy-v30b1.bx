@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090307T163108'>
+<title>Coverage.py v3.0b1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I'm undertaking a significant overhaul of coverage.py, my Python code
+coverage measurement tool.  The first release of it is ready: coverage.py v3.0b1.
+Changes include:
+</p>
+
+<ul>
+<li>Coverage.py is now a package rather than a module.  The name is now a bit of
+  a misnomer, since there is no longer a file named coverage.py.  Functionality
+  has been split into classes.</li>
+
+<li>The trace function is implemented in C for speed.</li>
+
+<li>Executable lines are identified by reading the line number tables in the
+  compiled code, removing a great deal of complicated analysis code.</li>
+
+<li>The singleton coverage object is only created if the module-level functions
+  are used.  This maintains the old interface while allowing better
+  programmatic use of coverage.py.</li>
+
+<li>The minimum supported Python version is 2.3.  Python 3.0 is not supported.</li>
+
+<li>Precisely which lines are considered executable has changed in some cases.
+  Therefore, your coverage stats may also change slightly compared to
+  earlier versions of coverage.py.</li>
+</ul>
+
+<p>As you can see, very little has changed functionally since v2.85.  So far
+this is a refactoring, reimplementation, and repackaging effort. The new code
+will be a much better foundation for more interesting changes in the future.
+This beta 1 release is so I can find out if I've screwed up anything so far
+or not.</p>
+
+<p>You can download the kit in one of two ways:</p>
+
+<ul>
+    <li>As source: <a href='/code/modules/coverage-3.0b1.tar.gz'>coverage-3.0b1.tar.gz</a>.</li>
+    <li>As a Windows installer for Pythons
+        <a href='/code/modules/coverage-3.0b1.win32-py2.3.exe'>2.3</a>,
+        <a href='/code/modules/coverage-3.0b1.win32-py2.4.exe'>2.4</a>,
+        <a href='/code/modules/coverage-3.0b1.win32-py2.5.exe'>2.5</a>, or
+        <a href='/code/modules/coverage-3.0b1.win32-py2.6.exe'>2.6</a>.
+    </li>
+</ul>
+
+<p>If you find a problem, you can file a bug on
+<a href='http://bitbucket.org/ned/coveragepy/issues/'>bitbucket.org</a>, or send
+me <a href='mailto:ned@nedbatchelder.com'>an email</a>.
+Discussion is welcome on the <a href='http://lists.idyll.org/listinfo/testing-in-python'>Testing In Python</a>
+mailing list.
+</p>
+
+</body>
+</entry>
+</blog>

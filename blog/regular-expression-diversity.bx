@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070810T064924'>
+<title>Regular expression diversity</title>
+<category>regex</category>
+<body>
+<p>I'm amazed at how many regular expression libraries there are, and at how
+each invents new syntax for some new feature.  The 
+<a href='http://www.geocities.jp/kosako3/oniguruma/'>Oniguruma</a>
+library, for example,
+<a href='http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt'>describes character class operators</a>:
+</p>
+
+<code><![CDATA[
+^...    negative class (lowest precedence operator)
+x-y     range from x to y
+[...]   set (character class in character class)
+..&&..  intersection (low precedence at the next of ^)
+        
+  ex. [a-w&&[^c-g]z] ==> ([a-w] AND ([^c-g] OR z)) ==> [abh-w]
+]]></code>
+
+<p>as well as greedy, reluctant, and possessive qualifiers? Yikes.</p>
+
+
+</body>
+</entry>
+</blog>

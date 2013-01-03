@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030324T064209'>
+<title>Error handling in wxPython</title>
+<category>exceptions</category>
+<category>python</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I wrote my first useful <a href='http://www.wxPython.org'>wxPython</a>
+application over the weekend, and here's my number one helpful tip for those of you
+out there who are trying to get started with wxPython.
+</p>
+
+<p>Maybe there's something about my installation that isn't right, but when there was an
+error in my code, I saw a little stderr window pop up, and then disappear before I
+could read what it said.  Very frustrating. Here's what I finally figured out to fix it.
+</p>
+
+<p>Instead of the usual main loop:</p>
+
+<code lang='python'><![CDATA[
+app = MyApp()
+app.MainLoop()
+]]></code>
+
+<p>Use this instead:</p>
+
+<code lang='python'><![CDATA[
+try:
+    app = MyApp()
+    app.MainLoop()
+except:
+    import sys, traceback
+    xc = traceback.format_exception(*sys.exc_info())
+    wxMessageBox(''.join(xc))
+]]></code>
+
+<p>Now errors in executing the main loop will be displayed in a message box,
+where (imagine this) you can read them!</p>
+
+</body>
+</entry>
+</blog>

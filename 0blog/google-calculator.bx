@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030819T054246'>
+<title>Google calculator</title>
+<category>google</category>
+<category>math</category>
+
+<via href='http://bitworking.org/'>BitWorking</via> <!-- id= or href= -->
+<body>
+<p>Google has done it again, with
+<a href='http://www.google.com/help/features.html#calculator'>Google Calculator</a>.
+Want to know what a mathematical expression evaluates to?
+Ask Google: <a href='http://www.google.com/search?q=7+*+11+*+13'>7 * 11 * 13</a>.
+It can do it with words too: <a href='http://www.google.com/search?q=two+plus+two'>two plus two</a>.
+Units of measurement are no problem:
+<a href='http://www.google.com/search?q=radius+of+earth+in+miles'>radius of earth in miles</a>
+or
+<a href='http://www.google.com/search?q=speed+of+light+in+furlongs+per+fortnight'>speed of light in furlongs per fortnight</a>.
+</p>
+
+<p>The thing that amazes me about this is not how useful it is, but how Google has
+implemented it as part of their standard search.  To make this work, they have to sniff out
+calculations in search terms.
+This determination comes up with yes, no, and maybe. You can see this based on whether
+Google gives you search results (<a href='http://www.google.com/search?q=gram'>gram</a>),
+calcuation results (<a href='http://www.google.com/search?q=pound+in+grams'>pound in grams</a>),
+or both (<a href='http://www.google.com/search?q=pound'>pound</a>).
+Because Calculator is not a separate page, but a regular search query interpreted differently,
+Google has to run this calculation sniffer on every search.
+</p>
+
+<p>I know Google has an
+<a href='http://www.internetweek.com/story/INW20010427S0010'>enormous server farm</a>
+devoted to making searching fast, but to have that much confidence in a new feature,
+and one that will only kick in occasionally, is inspiring.  Lesser developers would
+have moved this off to a new page to protect their baby, but would have had a less
+useful feature.  The cool thing about Calculator is not that I as a geek can go to
+Google knowing that it will do a calculation.  The cool thing is that ordinary people
+who don't know any better will get the answer to their question.
+</p>
+
+<p>As it happens, about a month ago, I really did want to know about
+<a href='http://www.google.com/search?q=tablespoons+in+a+cup'>tablespoons in a cup</a>.
+I typed a query into Google to get the answer.  If Calculator had kicked in and
+showed it to me "magically", I would have fallen out of my chair and made offerings to the
+Google gods.
+Of course, in the final irony, being a geek, I knew that "in a" were useless words in
+a search query, and searched on
+<a href='http://www.google.com/search?q=tablespoon+cup+conversion'>tablespoon cup conversion</a>,
+which doesn't invoke the magic of Calculator.
+</p>
+
+</body>
+</entry>
+</blog>

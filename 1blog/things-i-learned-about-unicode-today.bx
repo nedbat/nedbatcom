@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040104T091632'>
+<title>Things I learned about Unicode today</title>
+<category>charset</category>
+<category>python</category>
+<via />
+<body>
+<p>I learned a couple of things about Unicode today:</p>
+
+<p>1. Python has a named character escape in Unicode strings:</p>
+
+<code lang='python'><![CDATA[
+>>> u'\N{MIDDLE DOT}'
+u'\xb7'
+]]></code>
+
+<p>2. The Unicode Consortium maintains authoritative parsable data files
+describing various aspects of Unicode and its myriad characters:
+<a href='http://www.unicode.org/Public/UNIDATA/UCD.html'>Unicode Character Database</a>.
+</p>
+
+</body>
+</entry>
+</blog>

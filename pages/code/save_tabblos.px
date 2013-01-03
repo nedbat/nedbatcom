@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<page title='Tabblo Lifeboat'>
+<history>
+<what when='20120106T194100'>Created.</what>
+<what when='20120120T205300'>Version 2.</what>
+<what when='20120123T212100'>Version 2.1.</what>
+<what when='20120127T223200'>Version 2.2.</what>
+<what when='20120512T185100'>Tabblo shut-down date.</what>
+<what when='20120517T094300'>Version 2.4.</what>
+<what when='20120523T090001'>Version 2.5.</what>
+</history>
+
+<p>This is an application that downloads all your tabblos from <a href='http://tabblo.com'>Tabblo</a>,
+    the photo-sharing story-telling site I helped build, and which is due to be shut down on May 30, 2012.</p>
+
+<h1>Getting the program</h1>
+
+<p>Tabblo Lifeboat runs on either Windows or Mac.  Download the version that's right for you:</p>
+
+<ul>
+    <li>Windows: <a href='/files/Tabblo_Lifeboat.exe'>Tabblo_Lifeboat.exe</a>.  This is not an install
+        kit, it is the program itself.  Run it after downloading it.</li>
+    <li>Mac: <a href='/files/Tabblo_Lifeboat.dmg'>Tabblo_Lifeboat.dmg</a>. Opening this will give you
+        a "Tabblo Lifeboat" disk.  Open that, and you will find a "Tabblo Lifeboat" application.  Double-click
+        it to run it.</li>
+</ul>
+
+
+<h1>Running the program</h1>
+
+<p>When you run Tabblo Lifeboat, a new window appears in your browser.  Enter your Tabblo username and password.
+    Other than that, you have only one choice to make: whether to download full-sized photos or not.  If you do, it will take
+    much longer.  If you don't, you'll only have photos at the size they appear in your tabblo.</p>
+
+<p>Once you've entered your account information, click Start.  
+    It will connect to Tabblo, log you in, get a list of all your tabblos, and then start
+    downloading them one at a time.  This can take a long time.  The green-on-black window shows the geeky
+    stuff happening behind the scenes, and should give you a sense of the progress.</p>
+
+<p>If nothing seems to happen, try disabling your anti-virus program, your firewall, anything that might
+    interfere with its operation.  Run the program again, you'll get a new browser window, and it might
+    work better.</p>
+
+<p>If you need to stop the program, just click Quit, and it will stop.  You can then close the browser window.
+    Re-launch Tabblo Lifeboat when you want to continue downloading.  Once you enter your username and password
+    and click Start again, it will pick up where it left off.</p>
+
+<p>Eventually, all your tabblos will be downloaded, and a message at the top of the browser window will show
+    you the location of your tabblos.</p>
+
+
+<h1>What you get</h1>
+
+<p>When Tabblo Lifeboat is done, in your Documents folder, you will have a folder called Tabblos.
+    In there will be a folder named for your Tabblo username.  You can use Tabblo Lifeboat with a number
+    of different usernames, and each will download into its own folder.  In the username folder
+    will be a sub-folder for each tabblo.  Each sub-folder has two HTML versions of the tabblo:
+</p>
+
+<ul>
+    <li>The page named "index.html" is a self-contained page showing the design of the tabblo. The
+        photos have all been downloaded into the folder. If you chose to download full-size photos,
+        then they are shown when you click a photo on this page.  This version of the tabblo doesn't
+        have comments.</li>
+
+    <li>The page named "tabblo.html" is a copy of the HTML page from Tabblo.  It will have all the text,
+        including the comments, but the photos still refer to tabblo.com, so they will be broken
+        once the site shuts down.</li>
+</ul>
+
+<p>In addition to each tabblo in its own sub-folder, you will have three HTML files that act as a table of contents:</p>
+
+<ul>
+    <li>all.html shows all of your tabblos, regardless of their status.</li>
+    <li>published.html shows all of your published tabblos, regardless of their access setting.</li>
+    <li>public.html shows only public published tabblos.</li>
+</ul>
+
+<p>All of these files are in a form that you could put on a web server so the pages are viewable on the web.  How to do this is
+    complicated, and I'm afraid I can't help with it.  If you do this, keep in mind: the access controls on Tabblo are not 
+    present in these files.  If you put a private tabblo on a web server, anyone will be able to see it.</p>
+
+
+<h1>Change history</h1>
+
+<h2>Version 2.6</h2>
+
+<p>A few minor improvements.</p>
+
+<h2>Version 2.5</h2>
+
+<p>The Lifeboat is now multi-threaded, which means it will download tabblos much faster.</p>
+
+<p>The original HTML from Tabblo is now saved as tabblo.html in each folder.</p>
+
+<h2>Version 2.4</h2>
+
+<p>Some tabblos fail with an "HTTP Error 500."  This is most likely due to a photo with non-English
+    letters or symbols in the filename.  Now those tabblos are skipped, and other tabblos continue
+    to download.  To fix those tabblos, you will either have to remove the photo from the tabblo,
+    or delete the tabblo entirely.  I can't tell you how much I wish this weren't so...</p>
+
+<h2>Version 2.2</h2>
+
+<p>Sometimes, the downloaded tabblo zip file seems OK, but is actually missing some images.  Tabblo Lifeboat now checks
+    for this when the zip file is downloaded, and will retry if parts are missing.  It will also check all your
+    previously downloaded tabblos in case you had downloaded them with an earlier version.</p>
+
+<h2>Version 2.1</h2>
+
+<p>Added a choice about whether to download original photos or not.</p>
+
+<p>You can download from more than one account without getting things tangled up.</p>
+
+<p>Better indications of current status, and better handling of starting and stopping.</p>
+
+<h2>Version 2.0</h2>
+
+<p>Added a browser-based UI.</p>
+
+
+<h1>More help</h1>
+
+<p>If you're having trouble getting your tabblos, let me know.  Maybe there's something I can change to make it work better.</p>
+
+<p>If you know what you're doing with Python, you can hack on <a href='https://bitbucket.org/ned/lifeboat'>the code for Tabblo Lifeboat</a> yourself.</p>
+
+<pagecomments/>
+
+</page>

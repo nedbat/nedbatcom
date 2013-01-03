@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060926T070300'>
+<title>WebInno 8</title>
+<category>gatherings</category>
+<category>webpage</category>
+<via />
+<body>
+<p>I attended <a href='http://www.webinnovatorsgroup.com/blog/'>WebInno 8</a>
+last night in Cambridge.  This was my third WebInno, so it's becoming a regular
+crowd of people now.</p>
+
+<p>There were three companies doing formal presentations:</p>
+
+<ul>
+<li><a href='http://www.fatcalico.com'>FatCalico</a>, doing something with podcasts on phones,
+involving forwarding podcasts to friends, dynamically building podcast shows, and inserting ads.
+I use my phone exclusively for talking to people, so my eyes kind of glaze over during mobile
+demonstrations.  Erik Schwartz was doing a good job working through the difficulties of how to
+show a phone screen to the crowd, and demo'ing in general.  At one point, he had the typical
+demo problems: "um, that didn't work, let me try it again".  He seemed to have a real business
+background, since he was throwing around terms like CPC and CPM, and "call to action" (in the marketing sense).
+</li>
+
+<li><a href='http://traineo.com/'>Traineo</a> came next, but Alasdair McLean-Foreman's laptop
+blue-screened with a parity error when he plugged it into the projector.  I don't know that I've
+ever seen that happen.  The crowd couldn't help but chuckle about the demo gods on that one, though
+I know they all felt for him.</li>
+
+<li><a href='http://echonest.com/'>The Echo Nest</a> gave a very cool demo. Tristan Jehan and Brian Whitman
+are building an automated music intelligence system.  "Automatically knows about all music in the world,
+all the time."  They have software that listens to music and analyzes if for structure, pitch, rhythm,
+instrumentation, and so on.  Their search engine can answer queries like "madonna", but also, "something
+quiet and romantic".  They do language processing on pages that link to songs, so they can associate the
+adjectives and nouns with the songs.  They have a lot of very cool technology, and are building an open
+API to access it.  They showed a video of a friend who made a PSP dj application using the API.</li>
+
+<li><a href='http://traineo.com/'>Traineo</a> came back with a rebooted laptop, and showed their site,
+which helps people set and meet weight loss goals.  It seemed well-designed and would probably help people
+lose weight.  They're very proud of their factoids ("Traineo female members from New Zealand consumed 1503 calories on average today"),
+but they were a little too prominently displayed for my taste, and quickly grew tiresome.
+When asked about how they would make money, Alasdair replied, "We signed up 10,000 users the first day, and the weight loss
+industry is a $10B/year market", which wasn't really answering the question, though we could all see where it 
+was headed: ads.</li>
+
+</ul>
+
+
+<!--
+Fat Calico: podcasts are great, but they're too hard to use, too hard to advertise on,
+and too hard to demo.  The demo didn't work.  Lets you forward podcasts? Advertising 
+inserted into podcasts?
+
+Traineo: parity error!  "Weight Loss & Fitness are about motivation."  Simple software to help people
+set and meet weight goals.
+
+Echo Nest. Automated music intelligence system.  Automatically knows about all music in the world, all the time.
+App: the Echo Nest, streams music, but also plays your local music.  Listens to snippets of music and analyzes
+structure.  Can answer queries like "something quiet and romantic".  Can beat-match to join tracks without 
+trashing the rhythm.  Does language processing on the blog entries that link to the music.
+
+-->
+
+
+</body>
+</entry>
+</blog>

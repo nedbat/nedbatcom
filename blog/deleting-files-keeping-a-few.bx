@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111212T094711'>
+<title>Deleting files, keeping a few</title>
+<category>howto</category>
+<category>unix</category>
+<body>
+    <p>This is one of those conceptually easy tasks that seems frequently required, and yet needs a complex
+        incantation to accomplish.  I have a series of files, and it will grow over time, and I want
+        to clean them up, but keep the most recent N files.</p>
+
+    <p>After poking around the Google, I found this for deleting PATTERN, but keeping the five most recent:</p>
+
+    <code>ls -t1 PATTERN | tail -n +6 | xargs -r rm -r</code>
+
+    <p>That's dash-t-one on the ls command.  Or, in words:</p>
+
+    <ol>
+        <li>List files matching PATTERN, in descending order of modification time, in one column,</li>
+        <li>Pass through all the trailing lines, starting with the sixth from the beginning,</li>
+        <li>Bundle all those filenames into an "rm -r" command, but not if there are none.</li>
+    </ol>
+
+    <p>That wasn't so hard, was it??</p>
+</body>
+</entry>
+</blog>

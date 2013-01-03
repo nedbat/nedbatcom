@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080719T123630'>
+<title>FirePHP</title>
+<category>tools</category>
+<category>debugging</category>
+<body>
+<p><a href='http://www.firephp.org/'>FirePHP</a> is an intriguing
+<a href='http://getfirebug.com'>Firebug</a> plug-in: it uses a server-side
+library to send debugging information in response headers, which are extracted
+and nicely displayed in the browser.
+</p>
+
+<p>One of the complexities of developing web applications is that your server is
+busy with lots of stuff at once.  Load a single page, and there could be dozens
+of requests, once all the scripts, styles, images, and Ajax calls are through.
+If you have some debugging traces in the main page, they'll get buried in all
+the other noise created by the subsequent requests.
+</p>
+
+<p>FirePHP look like it gives a nice compartmentalization: the log messages from
+the main request stay tidy in Firebug.  I haven't used it yet, because I need to
+whipe up some Python server-side code (the name FirePHP doesn't limit it to PHP debugging).
+</p>
+
+</body>
+</entry>
+</blog>

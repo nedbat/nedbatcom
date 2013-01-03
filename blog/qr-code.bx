@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050426T193505'>
+<title>QR Code</title>
+<category>japan</category>
+<via />
+<body>
+<p>A mysterious link from <a href='http://del.icio.us/jimfl'>Jim Flanagan's del.icio.us page</a> led
+me to <a href='http://www.qrcodeblog.com/'>QRコードBlog</a> 
+("Not just about QR code; all the entries are in QR code").
+I encountered a site with many graphics, a little bit of text in Japanese, and many odd-looking
+black and white mosaic images.
+These turned out to be <a href='http://www.denso-wave.com/qrcode/aboutqr-e.html'>QR Code</a>,
+a 2D barcode developed about 10 years ago in Japan and now an international standard. 
+</p>
+
+<p>Nowadays, Japanese cell phones come equipped to scan these code with their built-in cameras, 
+so QR code is extremely popular as a way to get data into cell phones.  For example, business cards
+are printed with QR-encoded versions of personal data, allowing a recipient to simply take a picture
+of the card, and all the info is slurped into the phone.
+</p>
+
+<p>So QRコードBlog is not only about QR code (including such eccentricities as QR implemented as
+<a href='http://www.qrcodeblog.com/archives/2005/02/qr_101.html'>chocolate sauce on a white chocolate bar</a>), 
+but all of the entries are encoded in QR as well.
+Not to be outdone, here's the first paragraph of this entry as QR:
+</p>
+
+<figurep>
+<img src='pix/qrcode.png' alt='A QR code rendition of a paragraph of text'/>
+</figurep>
+
+<p>(The image came from <a href='http://nfg.2y.net/system/qrcodegen.php'>QR Code Generator</a>.)</p>
+
+</body>
+</entry>
+</blog>

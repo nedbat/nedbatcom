@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040901T074132'>
+<title>Crash-only software</title>
+<category>arch</category>
+<via id='damien'/>
+<body>
+<p>George Candea and Armando Fox have an interesting paper entitled
+<a href='http://www.stanford.edu/%7Ecandea/papers/crashonly/crashonly.html'>Crash-Only Software</a>.
+They noticed that it is faster to crash a system and reboot it than it is to shut it down
+cleanly and reboot it (because of the time saved not doing an orderly shutdown).
+And since robust systems have to be prepared to recover properly from crashes anyway,
+why not skip the orderly shutdown and just crash?  I haven't gotten my head around all of the
+implications, but their logic is both counter-intuitive and compelling at the same time.
+</p>
+</body>
+</entry>
+</blog>

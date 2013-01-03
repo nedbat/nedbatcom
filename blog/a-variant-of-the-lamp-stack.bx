@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060407T101139'>
+<title>A variant of the LAMP stack</title>
+<category>webpage</category>
+<via />
+<body>
+<p>I was poking around the <a href='http://www.kiko.com'>Kiko</a> web site, and looked into their
+<a href='http://www.kiko.com/account/about'>about page</a>, which says,
+</p>
+
+<quote><p>Kiko is developed and hosted on a variant of the popular "LAMP" application stack:</p>
+<ul>
+<li>LigHTTPD on Debian GNU/Linux</li>
+<li>the PostgreSQL database</li>
+<li>Ruby on Rails</li>
+<li>and the Dojo and Prototype Javascript toolkits</li>
+</ul>
+</quote>
+
+<p>That's an interesting "variant".  Three of the four components are different than the LAMP
+acronym.  They've changed Linux Apache MySQL PHP to Linux LigHTTPD PostgreSQL RubyOnRails, from
+LAMP to LLPR.
+</p>
+
+<p>LAMP has changed its meaning from four particular technologies (and the P was always ambiguous about
+which of the P languages it was referring to), to mean, "an open-source stack of web technologies".
+</p>
+
+</body>
+</entry>
+</blog>

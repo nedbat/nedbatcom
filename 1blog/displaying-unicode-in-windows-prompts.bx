@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040127T060116'>
+<title>Displaying unicode in windows prompts</title>
+<category>charset</category>
+<category>windows</category>
+<category>shells</category>
+<via />
+<body>
+<p>In a comment to my posting about
+<a href='blog/200401.html#e20040113T064317'>printing Unicode from Python</a>,
+Thijs van der Vossen (who has a <a href='http://www.vandervossen.net/'>nice blog</a> himself)
+asked why I don't use a terminal emulator with UTF-8 support.</p>
+
+<p>Good question.  I looked into it, and I might be using one already:
+the Windows prompt.  It seems to have support for UTF-8, but darned if I
+can figure out for sure.</p>
+
+<more>
+
+<p>Windows has a command called "chcp" to change the active code page.
+The help isn't clear whether this changes how the prompt interprets bytes for display,
+or how the built-in commands generate bytes for output.
+</p>
+
+<p>The default on my laptop is
+<a href='http://www.nefec.org/UPM/sibmext.htm'>code page 437</a>, and when I print
+unusual characters, I often see the line-drawing characters instead.
+Somewhere I read that code page 65001 is UTF-8, and chcp will accept 65001 as a choice,
+but Python behaves oddly when I set it:</p>
+
+<code><![CDATA[
+>>> u = u'\xab\x6b\xfc\xdf\xee\xa7\xf6\x66\x74\xbb'
+>>> print u
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+LookupError: unknown encoding: cp65001
+>>> print u.encode('utf-8')
+..(line drawing gibberish)..
+]]></code>
+
+<p>It seemed to detect the code page automatically, but never heard of 65001.
+When I try to force it to utf-8, it shows the kind of line noise that indicates
+the display isn't interpreting utf-8.</p>
+
+<p>Worse, just using built-in commands doesn't seem to work properly.
+I created two directories, one with upper-half latin1 characters, and one with
+true two-byte Unicode characters. In my main prompt window, the "dir" command
+shows both strings properly no matter what the active code page is.
+Why is that?</p>
+
+<code>
+ascii
+unicode &#x201C;&#x040C;&#x03CD;&#x0411;&#x0407;&#x03B6;&#x03B8;&#x20A3;&#x2020;&#x201D;
+upper &#xAB;&#x6B;&#xFC;&#xDF;&#xEE;&#xA7;&#xF6;&#x66;&#x74;&#xBB;
+</code>
+
+
+<p>With a new command window started with no customizations, I can't figure out
+what it's doing: the code page starts as 437, and it displays kind of what you'd
+expect (although one of the characters it is displaying isn't in code page 437!):</p>
+
+<code>
+ascii
+unicode "????????+"
+upper &#xAB;&#x6B;&#xFC;&#xDF;&#xEE;&#xA7;&#xF6;&#x66;&#x74;&#xBB;
+</code>
+
+<p>After setting the code page to 65001, everything is crap.  I'd show you, but
+although there are
+<a href='http://www.voltaire.ox.ac.uk/x_voltfnd/etc/e-texts/www_xtechs/iso_unicodes/iso-box.htm'>line drawing characters</a>
+in Unicode, it's too much of a pain trying to use them to faithfully reproduce what I
+am seeing.</p>
+
+<p>Somewhere there's a great page that shows the different kinds of gibberish
+you encounter while doing this sort of debugging, and diagnoses what's going wrong.
+Jukka Korpela's <a href='http://www.cs.tut.fi/%7Ejkorpela/chars.html#problems'>Tutorial on Character Set Issues</a>
+may be what I am thinking of, though I thought it had longer examples.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

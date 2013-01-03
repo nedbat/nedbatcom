@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031018T225117'>
+<title>Chain of trust</title>
+<category>security</category>
+<category>malware</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Eric Lippert engages in a paranoid fantasy:
+<a href='http://blogs.gotdotnet.com/ericli/PermaLink.aspx/c40acab4-2215-40c6-999c-2ad2d0d05833'>The Malware of Ultimate Destruction</a>.
+I think he makes a good point here: our digital machines are vulnerable, and much worse
+stuff than Blaster can happen.
+But along the way he seems to believe the Microsoft marketing materials,
+at the same time that he proves their illogic.
+</p>
+
+<more>
+
+<p>In his ultimate worst nightmare scenario, he imagines a virus that replaces
+your operating system with a cleverly written emulator (emphasis his):</p>
+
+<quotep>
+The net result:
+<b>you are not even running Windows anymore so nothing is trustworthy.</b>
+The emulator could be logging every keystroke, sending your files to  Brazil,
+whatever the emulator writer wants.
+...
+You don't own that box anymore.  The chain of trust has been broken.
+</quotep>
+
+<p>This paragraph implies that the essential damage would be that
+Windows isn't taking care of you any more, that your protecting white knight has been
+vanquished.</p>
+
+<p>But later in the same post, he comments on the theft and posting of the
+Half Life source code:</p>
+
+<quotep>
+... what seems likely is that attackers exploited a known vulnerability in Outlook,
+and a high-ranking Valve employee was vulnerable to the attack.
+The malware installed a key press logger, and from that point,
+it was pretty much game over, so to speak.
+</quotep>
+
+<p>In other words, forget the baroque fantasy of an emulator taking Windows
+out of the picture and leaving you vulnerable.
+Windows (and Outlook) left you vulnerable in the first place!
+</p>
+
+<p>I'm not Microsoft bashing here: I don't think Windows is more vulnerable
+than other operating systems.
+I think Windows' higher rate of attack and compromise is
+due to its higher market share and interest for virus-writers.
+But to pretend that Windows is somehow enforcing a pristine chain of trust
+is clearly absurd.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

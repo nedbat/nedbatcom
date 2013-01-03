@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040104T075802'>
+<title>id3reader</title>
+<category>mycode</category>
+<category>music</category>
+<via />
+<body>
+<p>I've posted a new Python module:
+<a href='code/modules/id3reader.html'>id3reader</a>.
+It reads <a href='http://id3.org'>ID3</a> metadata tags from MP3 files.
+I've tried all the other Python modules out there that claim to do this,
+and each failed on one of the few MP3 files I tried it on.
+This one reads ID3v1 and ID3v2 tags, and tries to unify them into a
+simple reader module.
+If you try it and find it doesn't work for a file of yours, please
+drop me a line so I can keep it up-to-date.
+</p>
+</body>
+</entry>
+</blog>

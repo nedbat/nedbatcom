@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031011T184602'>
+<title>XSLT behind the scenes</title>
+<category>xslt</category>
+<body>
+<p>I have the <a href='http://www.britannica.com/'>Encyclopedia Britannica</a>
+Ready Reference pre-installed on my new home computer.
+I was poking around in its directories, and saw a number of familiar technologies:
+<a href='http://www.jython.org/'>jython.jar</a>,
+<a href='http://xml.apache.org/xalan-j/index.html'>xalan.jar</a>,
+and a number of XSL files.
+I'm not exactly surprised to see these things in pre-installed PC software,
+but it's still unexpected, and pleasant to discover.
+</p>
+
+<p>I am surprised to see this template in one of their XSLT files:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:template name="just_output_the_damn_fool_thing_geez_cmon_man">
+  <img>
+    <xsl:attribute name="src">
+      <xsl:value-of select="@src"/>
+    </xsl:attribute>
+  </img>
+</xsl:template>
+]]></code>
+
+<p>This clearly gets the award for Most Emphatically Named XSLT Template.
+Also, keeping in mind the points from
+<a href='blog/200309.html#e20030920T142354'>Streamlined XSLT</a>,
+it could be written thus:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:template name="just_output_the_damn_fool_thing_geez_cmon_man">
+  <img src="{@src}"/>
+</xsl:template>
+]]></code>
+
+</body>
+</entry>
+</blog>

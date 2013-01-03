@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060303T055820'>
+<title>Many features of the product are unavailable</title>
+<via />
+<body>
+<p>I have a copy of Microsoft Office pre-installed on my laptop, but it is a trial version that expired
+a few days ago.  When I launch a .doc file, I get a box that says (in part),
+</p>
+
+<quote>
+<p>Your copy of Microsoft Office Small Business Edition 2003 trial has expired.
+In this state, many features of the product are unavailable until you convert to the full product.
+</p>
+
+<p>To convert the product, blah blah.</p>
+
+<p>If you do not want to convert to the full product, you may use the Add or Remove Programs
+Control Panel to remove the software from your computer.</p>
+
+<p>Click Cancel if you do not want to convert at this time.</p>
+</quote>
+
+<p>Seems to me that "many features are unavailable" is kind of an understatement.
+The one feature left available is uninstall!
+</p>
+
+<p>Actually, it's just a misleading dialog.  If you click Cancel, Word opens the document.
+</p>
+
+</body>
+</entry>
+</blog>

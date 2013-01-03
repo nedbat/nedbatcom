@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070330T160315'>
+<title>LilyPond</title>
+<category>music</category>
+<category>type</category>
+<via id='simonwillison'/>
+<body>
+<p>LilyPond is a music typesetting system.  They take their chosen problem
+domain <em>very</em> seriously.  For example, in
+<a href='http://lilypond.org/web/about/automated-engraving/big-page'>Obsessed
+with putting ink on paper</a>, they explain the challenge.  One of their first examples
+shows two different renditions of the same music, one "good", one "bad".
+To my eyes, they are identical.
+</p>
+
+<p>I don't need to typeset music, but I appreciate the complexity and passion
+of the LilyPond work.  Even simple music is more complicated to set properly
+than text, and complex music is <a href='http://lilypond.org/doc/v2.11/examples'>really complex</a>.
+</p>
+
+</body>
+</entry>
+</blog>

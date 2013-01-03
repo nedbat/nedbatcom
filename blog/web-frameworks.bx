@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060401T052400'>
+<title>Web frameworks: RoR is the winner</title>
+<category>python</category>
+<category>ruby</category>
+<category>django</category>
+<via />
+<body>
+<p>Recently, a lot of people have asked my opinion of the various web frameworks out there, especially
+<a href='http://djangoproject.com'>Django</a>,
+<a href='http://turbogears.com'>Turbogears</a>, and
+<a href='http://www.rubyonrails.org/'>Ruby on Rails</a>.
+I've looked into all three.  I've been using Django at work for three months.
+</p>
+
+<p>After carefully looking them all over, I've decided that Ruby on Rails is the winner, for a few reasons:
+</p>
+
+<ul>
+<li>Rails is the only web development framework in Ruby, so I don't have to decide between competing
+frameworks like I do in Python. And isn't the whole point of a modern web framework to relieve you
+of some of the hard thinking?</li>
+<li>Django is at version 0.91, while Rails just
+<a href='http://weblog.rubyonrails.org/articles/2006/03/28/rails-1-1-rjs-active-record-respond_to-integration-tests-and-500-other-things'>released version 1.1</a>
+a few days ago.  Mathematically, 1.1 is 20% more than 0.91.</li>
+<li>Rails is getting all the <a href='http://www.loudthinking.com/arc/000576.html'>good press</a>.</li>
+<li>Plus, that whole "significant whitespace" thing in Python just finally got to me.</li>
+</ul>
+
+<p>So it's on to Ruby for me, although I've also heard good things about Erlang...</p>
+
+</body>
+</entry>
+</blog>

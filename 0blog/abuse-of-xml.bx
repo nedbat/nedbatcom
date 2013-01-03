@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031030T195824'>
+<title>Abuse of XML</title>
+<category>xml</category>
+<via id='tedleung'/>
+<body>
+<p><a href='http://www.research.microsoft.com/~emeijer/Papers/XML2003/xml2003.html'>Programming with Circles, Triangles and Rectangles</a>
+is an interesting paper about integrating XML and its data model into programming language,
+introducing a language called Xen (good name!) as a demonstration.
+</p>
+
+<p>Unfortunately, the authors have made some very bad XML decisions in making their
+paper available.  If you try to read the paper in Mozilla Firebird, you will get an
+empty page.  Looking at the source shows you why: the paper is served as XML, with a
+client-side XSLT transform to produce a readable page.
+Rather than use a standard mechanism to accomplish this, they've written some JavaScript
+to use Microsoft proprietary objects to perform the transform.
+OK, so this is one of those occasional times where you have to fire up IE to
+view a page so carelessly produced that only IE can display it.</p>
+
+<p>Once you do, you get a long pause while the document is transformed, and then you
+see a page that looks like the state of the art circa 1996.  After all that, I would
+have hoped at least to have some interesting effects, some unusual interaction,
+some truly beautiful typography.  I got none of those things.
+</p>
+
+<p>Why is there a client-side transform here in the first place?
+This is a large paper, 66K of XML, and it's totally static.
+It's the worst possible document to create with a client-side transform.
+Every reader will perform exactly the same computation to produce exactly the same page.
+Why not do the transform once, and then publish the HTML?
+And if you do need a client-side transform, why use a proprietary mechanism?
+Much simpler techniques (no coding required) are available that work in most modern browsers.</p>
+
+<p>So in my effort to read what these clever guys have to say about using XML well in
+programming languages, I'm forced to confront the boneheaded XML decisions they made
+to get their paper on the web.
+Looking at the XSLT transform, it looks like the result of a publishing tool,
+but that doesn't let them off the hook.
+It doesn't bode well for the rest of their ideas...</p>
+
+<p>Updated: <a href='http://www.sauria.com/blog/2003/10/31#655'>Ted Leung</a>
+points to a
+<a href='http://www.cl.cam.ac.uk/~gmb/Papers/vanilla-xml2003.html'>vanilla HTML version</a>
+of the paper.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030204T215420'>
+<title>PragDave</title>
+<category>development</category>
+<category>blogs</category>
+<via href='http://www.benpoole.com'>benpoole.com</via> <!-- id= or href= -->
+<body>
+<p>Dave Thomas, one of the authors of
+<a href='http://www.nedbatchelder.com/blog/200210.html#e20021013T151415'>The Pragmatic Programmer</a>, is running a blog,
+<a href='http://www.pragprog.com/pragdave'>PragDave</a>.  Should be good.
+For example, his
+<a href='http://pragprog.com/pragdave/Bitches/LogicalMarkup.rdoc,v'>take on a snippet of DocBook markup</a>
+is exactly right.
+</p>
+
+<p>I wish his URL scheme were a little more customary.  There doesn't seem to be a way
+to link to a particular entry in the flow of the blog.
+And I've never seen a comma-v file in a URL before!
+Is the blog running on RCS or something?
+</p>
+
+</body>
+</entry>
+</blog>

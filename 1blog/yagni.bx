@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040228T094408'>
+<title>YAGNI</title>
+<category>development</category>
+<via />
+<body>
+<p>A time-honored principle:
+<a href='http://xp.c2.com/YouArentGonnaNeedIt.html'>You Aren't Going to Need It</a>.
+It basically says to only build things when you really need them.
+Too often engineers over-design, adding things to the code (or even the product)
+on the theory that eventually they will need them.
+And more often than not, You Aren't Going to Need It.
+</p>
+
+<p>I just removed the last vestiges of one of these ill-considered appendages.
+I had to touch 24 files to get rid of the empty maybe-we'll-need-it-someday interface,
+all the places we handed one around,
+all the places we provided NULL for the argument,
+and all the places where we ignored the argument passed in.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040322T081604'>
+<title>Exact string matching algorithms</title>
+<category>algorithms</category>
+<via id='bob'/>
+<body>
+<p>One of the things that fascinates me about computer science is that
+the seemingly simple can be studied for long enough to find the non-obvious
+in it.  Consider the problem of finding a small string somewhere inside a larger
+one.  It's easy to do it a simple way: for every character in the larger string,
+see if it is an exact copy of the smaller string.
+Turns out, though, that people have been coming up with better and better ways
+to perform this simple feat, so that now there are dozens of different algorithms.
+</p>
+
+<p>Christian Charras and Thierry Lecroq have gathered them all together, with
+explanations, pictures, and even Java animations of the algorithms at work:
+<a href='http://www-igm.univ-mlv.fr/~lecroq/string/index.html'>Exact String Matching Algorithms</a>.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070118T062812'>
+<title>Color parsing brainteaser</title>
+<category>webpage</category>
+<body>
+<p>I was experimenting with HTML color names the other day.
+This HTML snippet:
+</p>
+
+<code><![CDATA[
+<p><font color='red'>&#x2588; RED</font></p>
+]]></code>
+
+<p>got me some red text:</p>
+
+<quote>
+<p><font color='red'>&#x2588; RED</font></p>
+</quote>
+
+<p>(I'm using the <a href='http://www.iam.uni-bonn.de/~alt/html/unicode_172.html'>Unicode FULL BLOCK 2588</a> character
+to get a solid swatch without having to worry about antialiasing effects).
+Adding a less well-known name got me another color:</p>
+
+<code><![CDATA[
+<p><font color='red'>&#x2588; RED</font></p>
+<p><font color='seagreen'>&#x2588; SEAGREEN</font></p>
+]]></code>
+
+<quote>
+<p><font color='red'>&#x2588; RED</font></p>
+<p><font color='seagreen'>&#x2588; SEAGREEN</font></p>
+</quote>
+
+<p>What if the name had a space in it?</p>
+
+<code><![CDATA[
+<p><font color='red'>&#x2588; RED</font></p>
+<p><font color='seagreen'>&#x2588; SEAGREEN</font></p>
+<p><font color='sea green'>&#x2588; SEA GREEN</font></p>
+]]></code>
+
+<p>To my surprise, the "sea green" line was blue!  It seems the color name
+parser in your typical HTML browser is very forgiving, just like the rest of
+HTML interpretation.  Given a nonsense string like "sxbxxsree", it will decide
+that some subset of the characters indicate a color, and it will use them.</p>
+
+<p>I played around with more
+randomized color names, and ended up with a brainteaser on my hands: how exactly
+does the browser interpret these bogus color names?  Note that IE and Firefox
+don't agree, though they are close.</p>
+
+<p>I can't show the effect inline here, because the bogus colors have no effect
+ if the page has real color specifications someplace else, so have a look at the 
+<a href='sreen.html'>results in a separate page</a>.
+</p>
+
+<p>Here's what different browsers show:</p>
+
+<table align='center' cellpadding='5'>
+<tr><th>Color</th><th>Firefox</th><th>IE7</th><th>Opera</th></tr>
+<tr><td>red</td>
+	<td><span style='color:#ff0000'>&#x2588; #ff0000</span></td>
+	<td><span style='color:#ff0000'>&#x2588; #ff0000</span></td>
+	<td><span style='color:#ff0000'>&#x2588; #ff0000</span></td>
+	</tr>
+<tr><td>seagreen</td>
+	<td><span style='color:#2e8b57'>&#x2588; #2e8b57</span></td>
+	<td><span style='color:#2e8b57'>&#x2588; #2e8b57</span></td>
+	<td><span style='color:#2e8b57'>&#x2588; #2e8b57</span></td>
+	</tr>
+<tr><td>sea green</td>
+	<td><span style='color:#0e00ee'>&#x2588; #0e00ee</span></td>
+	<td><span style='color:#0e00ee'>&#x2588; #0e00ee</span></td>
+	<td><span style='color:#0ea00e'>&#x2588; #0ea00e</span></td>
+	</tr>
+<tr><td>sxbxxsreen</td>
+	<td><span style='color:#0000e0'>&#x2588; #0000e0</span></td>
+	<td><span style='color:#0000e0'>&#x2588; #0000e0</span></td>
+	<td><span style='color:#00b000'>&#x2588; #00b000</span></td>
+	</tr>
+<tr><td>sxbxxsree</td>
+	<td><span style='color:#00000e'>&#x2588; #00000e</span></td>
+	<td><span style='color:#0b00ee'>&#x2588; #0b00ee</span></td>
+	<td><span style='color:#00b000'>&#x2588; #00b000</span></td>
+	</tr>
+<tr><td>sxbxxsrn</td>	
+	<td><span style='color:#000000'>&#x2588; #000000</span></td>
+	<td><span style='color:#0b0000'>&#x2588; #0b0000</span></td>
+	<td><span style='color:#00b000'>&#x2588; #00b000</span></td>
+	</tr>
+<tr><td>sxbxeen</td>
+	<td><span style='color:#000e00'>&#x2588; #000e00</span></td>
+	<td><span style='color:#0bee00'>&#x2588; #0bee00</span></td>
+	<td><span style='color:#00b0ee'>&#x2588; #00b0ee</span></td>
+	</tr>
+<tr><td>sreen</td>
+	<td><span style='color:#00ee00'>&#x2588; #00ee00</span></td>
+	<td><span style='color:#00ee00'>&#x2588; #00ee00</span></td>
+	<td><span style='color:#00ee00'>&#x2588; #00ee00</span></td>
+	</tr>
+<tr><td>ffff00</td>
+	<td><span style='color:#ffff00'>&#x2588; #ffff00</span></td>
+	<td><span style='color:#ffff00'>&#x2588; #ffff00</span></td>
+	<td><span style='color:#ffff00'>&#x2588; #ffff00</span></td>
+	</tr>
+<tr><td>xf8000</td>
+	<td><span style='color:#0f8000'>&#x2588; #0f8000</span></td>
+	<td><span style='color:#0f8000'>&#x2588; #0f8000</span></td>
+	<td><span style='color:#0f8000'>&#x2588; #0f8000</span></td>
+	</tr>
+</table>
+
+<p>At least in the case of Firefox, I could go digging into the source to try
+to find what it is actually doing, but it is a head-scratcher.  Clearly,
+it is interpreting the accidental hex characters, but how does it decide
+which ones to use where?</p>
+
+<p>This is one of those fascinating cases where a black box reveals something
+of its insides through how it behaves when broken.  Neurologists study people
+with head injuries for similar reasons!</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051110T155530'>
+<title>Finding Windows error messages</title>
+<category>windows</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>One of the difficult things about programming in Windows, and especially with COM,
+is that when you receive an error code, it can be difficult to find the message that
+goes with it.
+I was writing some new LDAP code today against Active Directory, and got this message:
+</p>
+
+<code><![CDATA[
+Couldn't read LDAP property member: COM exception 0x80005010
+]]></code>
+
+<p>What does it mean?  The "Couldn't read LDAP property member" was my text, the 0x80005010
+part is the HRESULT.  Our error handling code tries to find a text message, but it couldn't,
+and so made do with just the hex.
+I fired up errlook, the Microsoft error code lookup tool, but it couldn't find a message either.
+Using DevStudio, I searched all of the include files for "80005010".  It found this
+section of adserr.h:
+</p>
+
+<code lang='cpp'><![CDATA[
+//
+// MessageId: E_ADS_COLUMN_NOT_SET
+//
+// MessageText:
+//
+//  The specified column in the directory was not set.
+//
+#define E_ADS_COLUMN_NOT_SET   _HRESULT_TYPEDEF_(0x80005010L)
+]]></code>
+
+<p>OK, now I knew what the error meant, and I had a symbol to use in my code if I wanted
+to handle it specially.  But I'd like to display error messages at run time.
+How can I get that text message automatically?
+The errlook tool couldn't find the message, so it
+was natural that my application couldn't, but could I look further?
+</p>
+
+<p>Windows stores error messages in DLLs, and the FormatMessage function can take an explicit
+module handle to a module containing error messages.  My application already has a list of
+modules it searches when looking for error messages.  If I could find the DLL with this message,
+I could get a nice message next time.</p>
+
+<p>To find the error message, I resorted to the blunt instrument of the command line tool
+<a href='http://unixhelp.ed.ac.uk/CGI/man-cgi?strings'>strings</a>.
+It searches binary files for printable strings. Here I've told it to search the entire file
+(rather than interpret the executable format), look for a minimum string length of 10,
+print the file name along with each string, and look for little-endian 16-bit characters:
+</p>
+
+<code><![CDATA[
+$ cd c:\windows\system32
+$ strings -a -n 10 -f -e l *.dll | grep "specified column"
+activeds.dll: The specified column in the directory was not set.
+$
+]]></code>
+
+<p>Aha! ActiveDS.DLL is my guy.  I registered it into my application's search list of error modules,
+ran the app again, and got a nice error message:
+</p>
+
+<code><![CDATA[
+Couldn't read LDAP property member: COM exception 0x80005010:
+The specified column in the directory was not set.
+]]></code>
+
+<p>Bliss.</p>
+
+</body>
+</entry>
+</blog>

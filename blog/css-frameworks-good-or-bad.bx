@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071119T073336'>
+<title>CSS frameworks, good or bad?</title>
+<category>css</category>
+<body>
+<p>Jeff Croft wrote <a href='http://www2.jeffcroft.com/blog/2007/nov/17/whats-not-love-about-css-frameworks/'>What's not to love about CSS frameworks</a>,
+asking for debate over CSS frameworks like <a href='http://code.google.com/p/blueprintcss/'>Blueprint</a>, and got tons of it.
+Then he <a href='http://www2.jeffcroft.com/blog/2007/nov/18/follow-up-css-frameworks/'>followed it up</a> with some summary (and apology).
+</p>
+
+<p>I don't do a whole lot of CSS work, but I've got some opinions anyway(!):</p>
+
+<ul>
+<li>Calling them frameworks may be a bit much.  "Libraries" seems to fit the scope a bit better.</li>
+<li>Some designers complain of presentational class names.  It's true that Blueprint
+encourages you to use class names like 'span-15'.  The problem here is that CSS
+isn't rich enough to avoid it.  It has no indirection capabilities.  I'd like
+to be ables to say "style span-15 like this, and then style big-figure just like span-15",
+but I can't.</li>
+<li>People are starting to write tools to improve the expressiveness of CSS,
+like <a href='http://moonfall.org/'>Moonfall</a>, which provides variables and some simple margin math.
+Christian Montoya has a proof-of-concept of a tool called <a href='http://www.christianmontoya.com/2007/11/10/semantify-and-css-tools-based-on-blueprint/'>Semantify</a>
+that lets you start with presentational Blueprint class names, and then fix them up to be pure semantic names.</li>
+<li>Some designers complain of inflexibility in Blueprint, but again, tools like
+<a href='http://kematzy.com/blueprint-generator/'>Blueprint Grid CSS Generator</a>
+help there too.</li>
+</ul>
+
+<p>In the end, the biggest issues about the CSS frameworks seemed to be that
+many CSS designers simply prefer to do it all themselves.  That's to be expected
+when sophisticated technologies are made simpler by providing simplifying libraries.
+The experts have climbed the learning curve, and can do more with the raw technology,
+they find the framework limiting.  Non-experts find the raw technology baffling,
+and appreciate that the framework simplifies and organizes their work.</p>
+
+</body>
+</entry>
+</blog>

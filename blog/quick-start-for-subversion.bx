@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050205T100328'>
+<title>Quick start for Subversion</title>
+<category>howto</category>
+<category>srcctrl</category>
+<via />
+<body>
+<p>I use <a href='http://subversion.tigris.org/'>Subversion</a> to store my personal
+projects (including this web site), but every time I need to put a new project into
+Subversion, I have to look at my cheat sheet again.  This time, I decided to write
+it down nicely and put it up here in case other people find it useful:
+<a href='text/quicksvn.html'>Subversion on Windows quick start</a>.
+</p>
+
+<p>And if you are using Subversion on Windows, please, do yourself a favor.
+Go get the exquisite <a href='http://www.scootersoftware.com'>Beyond Compare</a>
+diff program, and
+<a href='http://www.scootersoftware.com/support.php?c=kb_vcs.php'>set it up to be
+the default diff program</a> for Subversion.</p>
+
+</body>
+</entry>
+</blog>

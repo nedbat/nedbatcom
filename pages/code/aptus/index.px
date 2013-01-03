@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<page title='Aptus'>
+<section title='Aptus' order='70'/>
+<history>
+<what when='20071010T061700'>Created.</what>
+<what when='20080329T150400'>Update to 1.5.</what>
+<what when='20080330T150400'>Update to 1.51.</what>
+<what when='20080405T211600'>Update to 1.55.</what>
+<what when='20080420T111000'>Update to 1.56.</what>
+<what when='20081005T142900'>Update to 2.0.</what>
+<what when='20101114T105600'>Added bitbucket link.</what>
+</history>
+
+<p>Aptus is a Mandelbrot set viewer and renderer.  It is written in Python
+with a computation engine in C for speed.
+</p>
+
+<figurep href='code/aptus/JamesGiantPeach.png'>
+    <img src='code/aptus/JamesGiantPeach_med.png' alt='A portion of the Mandelbrot set'/>
+</figurep>
+
+
+<h1>Getting Aptus</h1>
+
+<h2>Pre-requisites</h2>
+<p>Aptus installs like any other Python package.
+Before installing Aptus, you'll need to install these prerequisite Python packages:</p>
+
+<ul>
+    <li><a href='http://wxpython.org/'>wxPython</a>, 2.8 or greater.</li>
+    <li><a href='http://numpy.scipy.org/'>Numpy</a>.</li>
+    <li><a href='http://pythonware.com/products/pil/'>Python Imaging Library</a>, 1.1.6 or greater.</li>
+</ul>
+
+<h2>Installation</h2>
+<p>Download the kit that's right for you.  Linux and Mac use the tar.gz, Windows
+users will probably be happier with the .exe:</p>
+
+<download path='code/aptus/Aptus-2.0.tar.gz' />
+<download path='code/aptus/Aptus-2.0.win32-py2.5.exe' />
+
+<p>Install the kit with the usual command:</p>
+
+<code>python setup.py install</code>
+
+<h2>Source</h2>
+
+<p>The <a href='http://bitbucket.org/ned/aptus/'>source is available on bitbucket</a> if you
+    prefer direct access to the code, including recent changes.</p>
+
+
+<h1>Using Aptus</h1>
+
+<p>There are two ways to use Aptus: a GUI explorer, and a command line renderer.
+The GUI lets you zoom in and out, and change the color palette to find an image
+you like.  The command line renderer produces higher-quality images.
+</p>
+
+<h2>Parameter files</h2>
+
+<p>Aptus stores information about the image to display in a few ways.  Small
+textual .aptus files store all the parameters needed to recreate an image,
+and can be saved from the GUI and fed to the command line renderer.</p>
+
+<p>When saving an image as a .PNG file, Aptus also stores all its parameter
+information in a text block hidden in the image, so that the .PNG can be used
+directly as a parameter file.
+</p>
+
+<p>Aptus can also read <a href='blog/200206.html#e20020611T084735'>Xaos</a>
+.xpf files so that you can use Xaos to explore, and Aptus to render if you like.</p>
+
+<h2>GUI usage</h2>
+
+<p>Start Aptus with aptusgui.py, and start poking around. Left click or drag
+zooms you in, right click zooms you out.  Type 'h' for help on other controls.
+Detailed descriptions of GUI behavior are below.</p>
+
+<p>aptusgui.py also accepts applicable command-line switches so you can start it from a
+parameter file, or specify the size of the window, and so on.</p>
+
+
+<h2>Command line usage</h2>
+
+<p>The command line renderer is called aptuscmd.py.  It will accept a number of
+switches or parameter files:
+</p>
+
+<code>
+Usage: aptuscmd.py [options] [parameterfile]
+
+Aptus renders Mandelbrot set images. Two flavors are available: aptusgui.py
+for interactive exploration, and aptuscmd.py for high-quality rendering.
+
+Options:
+  -h, --help            show this help message and exit
+  -a ANGLE, --angle=ANGLE
+                        set the angle of rotation
+  -b BAILOUT, --bailout=BAILOUT
+                        set the radius of the escape circle
+  --center=RE,IM        set the center of the view
+  -c, --continuous      use continuous coloring
+  --diam=DIAM           set the diameter of the view
+  -i ITER_LIMIT, --iterlimit=ITER_LIMIT
+                        set the limit on the iteration count
+  -o OUTFILE, --output=OUTFILE
+                        set the output filename (aptuscmd.py only)
+  --phase=PHASE         set the palette phase
+  --pscale=SCALE        set the palette scale
+  -s WIDxHGT, --size=WIDxHGT
+                        set the pixel size of the image
+  --super=S             set the supersample rate (aptuscmd.py only)
+</code>
+
+
+<h1>GUI controls</h1>
+
+<p>The Aptus GUI is very bare: there's just an image of the Mandelbrot set, with
+no visible controls.  You use the mouse and keyboard to control Aptus.</p>
+
+<h2>Moving around</h2>
+
+<p>Left-clicking zooms into the set, right-clicking zooms out; clicking while
+holding the Ctrl (or Cmd) key zooms just a little bit. If you drag out a
+rectangle with the left mouse button, you will zoom into that rectangle, so you
+have more control over exactly where you end up.</p>
+
+<p>If you drag with the middle mouse button, you will drag the image, re-centering
+it on a new point of interest.</p>
+
+<p>The 'a' key will prompt you for a new angle of rotation for the image.</p>
+
+<p>The 'n' key will open a new top-level window to explore elsewhere in the set.</p>
+
+<h2>Appearance</h2>
+
+<p>The image of the Mandelbrot set is drawn by calculating a value at each pixel,
+then mapping that value to a color through a palette.  The values can be discrete
+or continuous <emdash/> use the 'c' key to toggle between the two.</p>
+
+<p>The accuracy of the black boundary of the set depends on the number of iterations
+Aptus is permitted to calculate at each point.  The value can be adjusted with
+the 'i' key.</p>
+
+<p>Aptus has handful of different palettes. Cycle through them with the '&lt;'
+(less-than) and '&gt;' (greater-than) keys. A list of all the palettes can be
+displayed with 'p'. The color mapped to each value can be shifted one color with
+the ',' (comma) and '.' (period) keys. If the pixel values are continuous, then
+the palette can also be scaled to change the distance between color bands
+<emdash/> use the ';' (semicolon) and "'" (apostrophe) keys, optionally with the
+Ctrl key to change just a little.</p>
+
+<p>The hue and saturation of the palette can also be shifted.  The '[' and ']'
+(square bracket) keys change the hue, and '{' and '}' (curly braces) change the
+saturation.  Both also use the Ctrl key to change just a little.</p>
+
+<p>The '0' (zero) key will reset all palette adjustments.</p>
+
+<h2>Auxiliary windows</h2>
+
+<p>Aptus has a few tool windows.  Each is toggled with a particular key.</p>
+
+<p>'p' displays a list of all Aptus' palettes.  Clicking one will change
+the display to use it.</p>
+
+<p>'v' displays a list of statistics about the last fractal calculation.</p>
+
+<p>'q' displays information about a point in the display.  Hold the shift key
+and hover over a point in the image to see iteration counts, coordinates, and so on.</p>
+    
+<p>'l' (lowercase L) displays the You Are Here panel.  It shows a series of images,
+zooming in to the currently displayed view of the set.  Each image has a rectangle
+drawn on it corresponding to the next image in the list, so that you can see
+how your close-up view in the main window relates to the larger set.  Any rectangle
+can be dragged to change the main window's view of the set.</p>
+
+
+<h2>Julia set</h2>
+
+<p>The Julia set is closely related to the Mandelbrot set.  Each point in the
+Mandelbrot set corresponds to a Julia set.  To display the Julia set, use the 'J'
+key (with the shift key).  A small tool window appears.  It shows the Julia set
+for the current shift-hovered point in the main window.  Hold the shift key and
+move the mouse over the Mandelbrot set.  The Julia set will change as the mouse
+moves.</p>
+
+<p>To further explore a particular Julia set, double-click in the Julia set window.
+You'll get a new top-level window displaying the Julia set, and you can use all
+the usual Aptus controls to navigate and manipulate the image.</p>
+
+    
+<h1>History</h1>
+
+<h2>Version 2.0, October 2008</h2>
+
+<ul>
+<li>Multiple top-level exploration windows.</li>
+
+<li>Tool panels show supplementary information:
+    <ul>
+    <li>You Are Here shows your location in the Mandelbrot set.</li>
+    <li>Palettes panel shows all the palettes, and the one currently in use.</li>
+    <li>Statistics panel shows statistics about the latest computation.</li>
+    <li>Point Info panel shows information about the current point, shift-hover to indicate point.</li>
+    <li>Julia panel shows Julia set for the current point, shift-hover to indicate point.
+    Double-clicking the Julia panel opens a new exploration window to explore that Julia set.</li>
+    </ul></li>
+    
+<li>Computation improvements:
+    <ul>
+    <li>Faster.</li>
+    <li>The exploration window updates during computation.</li>
+    <li>Continuous coloring is more accurate now: banding artifacts are gone.</li>
+    <li>When dragging the exploration window, pixels still in the window aren't re-calculated.</li>
+    </ul></li>
+    
+<li>Center and diameter can be specified in the command line arguments.</li>
+</ul>
+
+<h2>Version 1.56, April 2008</h2>
+
+<p>More display improvements and simplifications.  Thanks, Paul Ollis.</p>
+
+
+<h2>Version 1.55, April 2008</h2>
+
+<p>The display is now flicker-free.  Thanks, Rob McMullen.</p>
+
+
+<h2>Version 1.51, March 2008</h2>
+
+<p>Fixed a few bugs, including not drawing at all on Mac or Linux!</p>
+
+
+<h2>Version 1.5, March 2008</h2>
+
+<p>A number of improvements:</p>
+
+<ul>
+    <li>Continuous coloring.</li>
+
+    <li>Arbitrary rotation support.</li>
+
+    <li>Middle mouse button drags the image.</li>
+
+    <li>Palette tweaking:
+        <ul>
+        <li>Hue and saturation adjustments.</li>
+        <li>Scaling the palette to adjust distance between colors.</li>
+        </ul></li>
+    
+    <li>Statistics:
+        <ul>
+        <li>More statistics: boundaries traced, boundaries filled, and points computed.</li>
+        <li>Statistics are written into the final .PNG files.</li>
+        </ul></li>
+        
+    <li>Reads .xet files from <a href='http://hbar.servebeer.com/mandelbrot/coordinates.html'>servebeer.com</a>.</li>
+    
+    <li>Some old .aptus files recorded the y coordinate incorrectly,
+        and will now render upside-down: negate the y component of the center to fix this.</li>
+</ul>
+
+
+<h2>Version 1.0, October 2007</h2>
+
+<p>First version.</p>
+
+
+<h1>More samples</h1>
+
+<figurep>
+    <thumbnail href='code/aptus/DragonTails.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <thumbnail href='code/aptus/FringedBabies.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <br/>
+    <thumbnail href='code/aptus/GreenSeahorses.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <thumbnail href='code/aptus/PaisleySpiral.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+</figurep>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/200206.html#e20020611T084735'>Xaos</a>, a full-featured
+fractal explorer which has many more rendering and fractal options than Aptus.</li>
+<li><a href='http://gnofract4d.sourceforge.net/'>Gnofract 4D</a>, a Linux-based
+fractal exploration program.</li>
+<li><a href='blog/index.html'>My blog</a>, where recreational math and Python
+topics intersect from time to time.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

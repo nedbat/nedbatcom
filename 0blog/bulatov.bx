@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020516T224143'>
+<title>Stellations</title>
+<category>math</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I have always been fascinated by stellations (even before I understood them).
+For example, the image in the upper-left corner of this page is the third stellation of
+a regular dodecahedron.</p>
+
+<p><a href='http://www.physics.orst.edu/~bulatov/'>Vladimir Bulatov</a> has written a great
+<a href='http://www.physics.orst.edu/~bulatov/polyhedra/stellation_applet/index.html'>Java application</a>
+for exploring stellations of a wide variety of regular polyhedra.  I've never gotten the applet
+to launch properly from the web page, but after downloading it, it worked great.  And: the
+source is available to tempt me to fiddle with it (must resist, must resist..).</p>
+
+<p>Here's an example of a stellation of the truncated cuboctahedron:</p>
+
+<figurep>
+<img src='pix/trunc_cubo_stell.gif' alt='a stellation of the truncated cuboctahedron'/>
+</figurep>
+
+<p>If you don't know what a stellation is, just poke around anyway.  It's cool.</p>
+
+</body>
+</entry>
+</blog>

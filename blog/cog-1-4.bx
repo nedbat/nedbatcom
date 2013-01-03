@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050225T195343'>
+<title>Cog 1.4</title>
+<category>cog</category>
+<via />
+<body>
+<p>Ryan's <a href='http://blogs.acceleration.net/ryan/articles/577.aspx'>tips on Cog</a>
+got picked up by <a href='http://lambda-the-ultimate.org/node/view/532'>Lambda The Ultimate</a>,
+which brought a number of visitors here indirectly.  A few of them tried cog, and asked
+for some good features.  I've added two of them to cog: the -x switch runs cog to remove
+the generated output without running the generators (to clean out the generated code), and
+the -c switch adds a checksum to the generated output so that manual edits can be detected.
+</p>
+
+<p>Try <a href='code/cog/index.html'>Cog 1.4</a>.</p>
+
+</body>
+</entry>
+</blog>

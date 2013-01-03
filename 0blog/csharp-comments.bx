@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030213T080423'>
+<title>reStructured Text vs. XML</title>
+<category>csharp</category>
+<category>xml</category>
+<via id='dailypython'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www-106.ibm.com/developerworks/library/x-matters24/index.html'>reStructured Text</a> is
+another near-plain-text format for structuring text so that it can be transmogrified
+into a number of other useful formats. This is the right way to go: give people
+something familiar and forgiving to deal with, and have the computers pick up the
+slack.</p>
+
+<p>I think this is one of the reasons
+<a href='http://www.palm.com/products/input/'>Palm Grafitti</a> worked out:
+it was almost ordinary writing, or close enough that people could remember it,
+while also being constrained enough for the computer to deal with.</p>
+
+<p>Java understood this with their
+<a href='http://java.sun.com/j2se/javadoc/'>JavaDoc</a> format:
+just enough extra junk to make it structured for the computer.
+It's one of the things that truly surprised me about C#:
+they use
+<a href='http://msdn.microsoft.com/library/en-us/csref/html/vcwlkXMLDocumentationTutorial.asp?frame=true'>XML tags in comments</a>
+to structure the in-code documentation.  Seems like a high barrier to acceptance to
+me.</p>
+
+<p>It's also one of the things that should get fixed about Ant and XSLT: their
+reliance on XML as an input format.  There are already some
+<a href='http://www.zanthan.com/ajm/xsltxt'>proposals</a> about this.
+XML wasn't meant to be typed by people.
+</p>
+
+<p>(Nerdly Ironic Disclaimer) To produce this website, I write XSLT stylesheets
+(in XML), and all of the content is authored in XML by hand (usually in Notepad).
+That doesn't mean it's the right way to do it!</p>
+
+</body>
+</entry>
+</blog>

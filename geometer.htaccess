@@ -1,0 +1,60 @@
+### nedbatchelder.com .htaccess file for local staging.
+
+# .ico files are image/x-icon MIME type
+AddType image/x-icon ico
+
+# Treat .html files as PHP and .py as plain text
+AddHandler application/x-httpd-php .php .php3 .phtml .html .htm .php4
+AddHandler text/plain .py
+
+
+# Get XML files served properly for interpretation and charset issues.
+AddType text/xml .xslt
+AddType application/xml .xml
+
+# Error 404 should be served with /err404.html
+ErrorDocument 404 /err404.html
+
+# Serving a directory should try these files in turn.
+DirectoryIndex home.php index.php index.html index.htm
+
+# Change the include path to get Reactor to work.
+php_value include_path ".;c:\ned\web\reactor\src;c:\www\reactor;c:\www;C:\app\Pear\pear"
+
+php_value register_globals 0
+
+# Show PHP errors in the browser, but only real errors (E_ALL & ~E_WARNING & ~E_NOTICE)
+# btw: to get the value: C:\www> php -r "echo E_ALL & ~E_WARNING & ~E_NOTICE;"
+php_value display_errors On
+php_value error_reporting 6133
+
+# Compress the output of PHP if the browser is up for it.
+php_flag zlib.output_compression on
+
+## Rewrite rules
+RewriteEngine on 
+
+# Tags moved.
+RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
+RewriteRule ^blog/cat_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
+RewriteRule ^blog/categories\.html$ /blog/tags.html [R=301,L]
+# Blog-more pages moved.
+RewriteRule ^blog/200[0-9]{5}T[0-9]{6}.html /blog/moved.php
+# Feeds all go to rss.xml.
+RewriteRule ^blog/rssfull\.xml /blog/rss.xml [R=301,L]
+RewriteRule ^blog/atom\.xml /blog/rss.xml [R=301,L]
+
+# Partial URLs with no content should find an appropriate page.
+RewriteRule ^blog/([0-9]{6})/?$ /blog/$1.html [R=301,L]
+RewriteRule ^blog/tag/?$ /blog/tags.html [R=301,L]
+
+# Don't serve explicit index.html's, make them shorter.
+#RewriteRule ^index.html$ / [R=301,L]
+#RewriteRule ^(.*)/index.html$ /$1 [R=301,L]
+
+# Some things are gone.  Get Yahoo to stop bugging us about them.
+RewriteRule ^stiki/.* - [G]
+RewriteRule ^reactor/comment.php - [G]
+
+# The coverage.py page has moved
+RewriteRule ^code/modules/coverage.html$ /code/coverage [R=301,L]

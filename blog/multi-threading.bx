@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050728T075028'>
+<title>Multi-threading?</title>
+<category>arch</category>
+<category>concurrency</category>
+<via />
+<body>
+<p>Almost two weeks ago, Roushan Ali
+<a href='http://www.mail-archive.com/sqlite-users%40sqlite.org/msg09074.html'>asked a simple question</a>
+on the sqlite-users mailing list:
+</p>
+
+<quote><p>
+Can we use single sqlite_open handle(global) across threads
+(if all database operations are serialized by using semaphore)?
+Please help.
+</p></quote>
+
+<p>D. Richard Hipp, the author of <a href='http://www.sqlite.org'>SQLite</a>
+(an awesome embedded relational database, by the way) responded:</p>
+
+<quote><p>
+Actually, this seems like a good opportunity to repeat my
+oft-ignored advice to not use more than one thread in a single
+address space.  If you need multiple threads, create multiple
+processes.  This has nothing to do with SQLite = it is just
+good programming advice.  I have worked on countless multi-
+threaded programs over the years, and I have yet to see a
+single one that didn't contain subtle, hard to reproduce,
+and very hard to troubleshoot bugs related to threading issues.
+</p></quote>
+
+<p>And from there, the deluge began.  The discussion is going on 40 responses
+and has turned into a computer science equivalent of a pig-pile smack-down, with
+competing claims, snotty asides, arrogant put downs, references to papers,
+snarly analysis of same, Linux vs Windows sniping, and so on.
+</p>
+
+<p>Sifting through the noise, there's a lot of interesting material about how
+best to develop software which has to "do many things at once". Someone pointed
+to <a href='http://www.kegel.com/c10k.html'>The C10K Problem</a>, which looks
+like an interesting summary of the options for building high-throughput network
+servers.</p>
+
+<p>I've done lots of multi-threaded coding, and it is difficult.  If you can
+keep the cardinal rules in mind (protect shared data and impose a strong
+ordering on locks) and be extremely diligent, you can make it work.  But when it
+doesn't, you have to do some very difficult debugging. I've never used the other
+styles, and the arguments for them sound very compelling.</p>
+
+</body>
+</entry>
+</blog>

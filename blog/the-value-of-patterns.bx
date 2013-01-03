@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050801T090410'>
+<title>The value of patterns</title>
+<category>arch</category>
+<via />
+<body>
+<p>Damien takes the occasion of the 2005
+<a href='http://www.acm.org/sigs/sigplan/awards.htm'>Programming Languages Achievement Award</a>
+to exclaim,
+<a href='http://damienkatz.net/2005/07/design_patterns.html'>"the whole design patterns thing is an over-hyped crock of shit."</a>
+</p>
+
+<p>I respectfully disagree, except with maybe the "over-hyped" bit.
+If you look back at the 50 years or so we have of programming language history,
+and indeed, the 75 years or so of computer science, a large part of it has been
+concerned with naming and then studying ever-larger units of computation.
+</p>
+
+<p>Before Fortran, people wrote programs in assembler.  Fortran's innovation was to say,
+"If you look at assembler code, there are chunks of instructions in there that
+are really units.  Let's call those things statements, and make it possible for you to
+talk about statements instead of instructions."  That was a big step forward.</p>
+
+<p>Algol and its ilk said, "There are chunks of statements that really should be
+isolated as a new unit, let's call them functions." (I know: Fortran had functions,
+but it didn't get them the way that Algol got them.)</p>
+
+<p>Simula and Smalltalk said, "There are chunks of functions and variables that really
+should be considered as a unit, let's call them classes."  And so on.</p>
+
+<p>To the cynics of the time, none of these steps was particularly interesting.
+People still write C code where "object-oriented" means a structure and a collection
+of functions which take a structure pointer as the first argument.  They were doing that
+before OO was big, and they're doing it now.  That doesn't mean that object-oriented
+programming (whatever it means to you) wasn't an important step forward.</p>
+
+<p>Heck, there are people that think Fortran's innovation of writing statements
+was <a href='http://www.grc.com/smgassembly.htm'>no big deal</a>.  But most of us agree that it was.</p>
+
+<p>The Design Patterns insight was that collections of classes, and especially the way
+they interact, are new units that deserve names so we can talk about them explicitly.
+Is this earth shattering?  No, but it can be powerful, and not just because it gives
+us a shorthand in design meetings.  Seeing the interaction between classes as a
+phenomenon deserving of terminology is an important idea for people designing software.
+Sure, people have been getting classes to interact for decades, how else would software
+work?  But recognizing this level of system design, and creating a language for thinking about it,
+reasoning about it, and discussing it, is a big step forward.</p>
+
+<p>Of course, patterns can be <a href='http://www.phppatterns.com/index.php/article/articleview/103'>ridiculed</a>,
+and of course, some people will earnestly credit them with solving world hunger, or something equally ludicrous.
+Just because something is over-hyped doesn't mean it is unworthy of praise.
+</p>
+
+<p>I say, "Congratulations and well done" to Gamma, Helm, Johnson, and Vlissides.</p>
+
+</body>
+</entry>
+</blog>

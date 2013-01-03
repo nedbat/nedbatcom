@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060402T171108'>
+<title>Web frameworks, seriously</title>
+<category>python</category>
+<category>django</category>
+<category>ruby</category>
+<via />
+<body>
+<p>Just to make sure everyone understands: yesterday's post declaring Ruby on Rails the winner in the web
+framework wars was a joke.  I hope no one thinks I might choose between two competing technologies because
+one's version number is numerically greater than the other's, even in part.
+As far as I'm concerned, none of the reasons I gave yesterday is a good reason to choose a technology.
+And I still love Python's significant whitespace.
+</p>
+
+<p>I'm sure Ruby on Rails is deserving of most if not all of its current hype.  I've never used it.
+In truth, my opinion of the different frameworks is that I don't really have one.  I'm a Python guy,
+so I use a Python framework.  I've tried Django and Turbogears, and both seemed like excellent pieces
+of software.  Until I started my current job using Django, my only exposure to both was to complete their
+tutorials.
+Web.py seems lean and hip, but I know nothing about it.
+</p>
+
+<p>Now that I am a full-time professional Django user, I like it very much, but I can't even remember
+how it differs from Turbogears, except for the URL mapper in Django, which I always liked better than
+the object mapping technique Turbogears inherited from CherryPy.</p>
+
+<p>So I use Django, but I had no part in choosing it at work, the code base was well established by the
+time I got there.  I'd love to have an in-depth knowledge of the different frameworks, and a cogent and
+meaningful comparison of Ruby on Rails to the other technologies, but I don't.  Right now I'm quite well
+occupied learning all the corners in Django, and building a product.</p>
+
+</body>
+</entry>
+</blog>

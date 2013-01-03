@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060104T223736'>
+<title>Quoting hell</title>
+<category>php</category>
+<category>development</category>
+<via />
+<body>
+<p>In a comment on a <a href='blog/200512.html#e20051230T160803'>recent post</a>,
+<a href='http://www.bobcongdon.net/blog'>Bob</a> pointed out that the title (which has an apostrophe)
+acquired a backslash in the comment form.  He politely asked,
+</p>
+
+<quote><p>Bug?</p></quote>
+
+<p>I refrained from answering sarcastically, "No, I like the extra backslash.  Doesn't it make me look cool?"
+In any case, I have now fixed the bug.  It took me on a renewed tour of the travesty that is
+<a href='blog/20031022T214659.html'>magic quotes</a>, and led me to find a number of places I wasn't
+doing quoting properly.  I have strings passing from cookies, to PHP, to SQL,
+to HTML or JavaScript embedded in HTML, and finally back
+to cookies again.  There are many handoffs between different quoting regimens, and that means lots of
+chances to do it wrong.</p>
+
+<p>I think I finally have it nailed, but then again, I thought that last time...</p>
+
+</body>
+</entry>
+</blog>

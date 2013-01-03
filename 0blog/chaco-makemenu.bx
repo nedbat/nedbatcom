@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030406T100012'>
+<title>Chaco and MakeMenu</title>
+<category>python</category>
+<category>tools</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://www.scipy.org/site_content/chaco'>Chaco</a>
+is a full-featured plotting package built on Numeric and wxPython.
+It looks very interesting in its own right, but here's the thing
+that caught my eye: MakeMenu.
+</p>
+
+<p>In the demo script (wxdemo_plot.py), I saw this code:</p>
+
+<code lang='python'><![CDATA[
+plot_demo_menu = """
+   &File
+      Open | Ctrl-O:             self.on_open()
+      ---
+      Save as
+         Single page...:         self.create_file(None,0)
+         One canvas per page...: self.create_file(None,1)
+         One value per page...:  self.create_file(None,2)
+      ---
+      Exit | Ctrl-Q:             self.on_exit()
+   &Edit
+      Undo | Ctrl-Z [menu_undo]: self.undo()
+      Redo | Ctrl-Y [menu_redo]: self.redo()
+   #(etc, 30 more lines..)
+"""
+]]></code>
+
+<p>and then later:</p>
+
+<code lang='python'><![CDATA[
+self.menu = chaco.wxMenu.MakeMenu( plot_demo_menu, self )
+]]></code>
+
+<p>Very cool: a single string to define an entire menu tree, including
+the Python code to execute when the item is picked, with the whole
+menu constructed by a single call with the string.</p>
+
+</body>
+</entry>
+</blog>

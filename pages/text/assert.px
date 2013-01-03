@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Asserts'>
+<history>
+<what when='20021011T053500'>Created.</what>
+<what when='20021207T053500'>Added traps section.</what>
+<what when='20030206T221300'>Added See Also.</what>
+</history>
+
+<p>Asserts are a valuable tool for testing code.  They allow you to verify your understanding
+of the system you are building.  A condition that must be true (an assertion)
+is tested to see if it is true.
+</p>
+
+
+
+<h1>Semantics</h1>
+
+<p>In keeping with the importance of well-defined <a href='text/interfaces.html'>interfaces</a>,
+I'm going to separate the caller's view of an assert (its semantics) from its behavior.
+</p>
+
+<p>The assert facility takes the form of a function call with one argument. (Whether it is
+actually a function, a macro, or a built-in depends on the language and the implementation).
+The argument is a condition (an expression) which must be true, for example:
+</p>
+
+<code lang='c++'>ASSERT(pFoo != NULL);</code>
+
+<p>Here is the formal definition of the ASSERT(expr) interface:
+</p>
+
+	<box>
+	ASSERT(expr)
+	<p>Asserts that an expression is true. The expression may or may not be evaluated.</p>
+	<ul>
+		<li>If the expression is true, execution continues normally.</li>
+		<li>If the expression is false, what happens is undefined.</li>
+	</ul>
+	</box>
+
+<p>The false case is the important one: if the condition is false, all bets are off.
+There are two reasons for this.  One, if the expression was never evaluated,
+then execution will continue even if the expression is false.
+Two, how a false assertion should be handled is really a question of the overall behavior of
+the system, not something the programmer can decide (or count on) where the ASSERT was used.
+</p>
+
+<p>It is also important to remember that the expression may not be tested at all.
+It is common for asserts to be removed completely in non-debug builds, so that they add no
+overhead to the final product.
+</p>
+
+<p>A note on terminology: the condition (or expression) being tested is the assertion.
+If the condition is tested and found to be false, that is a failed assertion, although colloquially,
+people often say the system "has asserted". The phrase "raise an assertion" is also used,
+paralleling "raise an exception".
+</p>
+
+
+
+
+<h1>Behavior</h1>
+
+<p>So what should happen if the asserted condition is false?
+Once the semantics are defined as they are above, the behavior can be chosen based on the system
+as a whole.  There are a number of choices:
+</p>
+
+<ul>
+<li><h>Stop abruptly</h>.  Crash the process, or set a global flag that prevents anything else
+from happening, or call exit().
+Ironically, this is chosen when reliability it the most important concern.
+The reason is that once an assert is false, there's no telling what other assumptions are incorrect.
+There's no way to predict what the system will do.  Stopping abruptly will prevent the software
+from doing bad things (like corrupting user data).
+</li>
+
+<li><h>Throw an exception</h>.  If you've used exception handling throughout your application,
+throwing an exception could be a reasonable choice.  The current activity will stop, but the
+overall progress of the application will be unimpeded.
+</li>
+
+<li><h>Print a message and keep on going</h>.  This doesn't seem like a good choice, but if
+you want to try continuing, and don't have an exception infrastructure (why don't you?), this
+may be your best option.
+</li>
+
+<li><h>Present the developer with a dialog of choices</h>.  In a debugging environment, the
+best choice is to defer to the developer.  Put up a dialog that lets the developer choose
+the course of action.  Windows developers are familiar with the Abort/Retry/Ignore box where
+Retry means Debug.
+</li>
+
+</ul>
+
+<p>Once you've chosen a behavior for ASSERT, don't confuse the semantics with the behavior.
+The semantics remain the same: condition may be tested, true condition continues normally,
+false condition is undefined.
+</p>
+
+
+<h1>Traps</h1>
+
+<p>Of course, asserts are not without their pitfalls.  For example,
+if the asserted expression has side-effects, you can end up
+with baffling bugs when the asserts are compiled away.  This is bad:
+</p>
+
+<code lang='c++'>ASSERT(SetImportantValue(3) == true);</code>
+
+<p>Some environments (for example, Microsoft's MFC)
+accommodate the impulse to write these asserts by providing another macro with the same
+semantics as ASSERT, except that the expression is guaranteed to be evaluated:</p>
+
+<code lang='c++'>VERIFY(SetImportantValue(3) == true);</code>
+
+<p>Another trap is that each assert is one more line of code which itself could have bugs.
+Consider this (real) example:</p>
+
+<code lang='c++'>ASSERT(pFoo = NULL);</code>
+
+<p>Not only does the assert not do what it was supposed to do (check that pFoo is NULL),
+but it accidentally fixes the problem it was meant to detect.  If pFoo is wrong (not NULL),
+this assert will set it to NULL, obscuring the problem.  If the ASSERT is compiled away
+in a release build, the code will start working worse than it did in the debug build.</p>
+
+
+<h1>When not to use asserts</h1>
+
+<p>Asserts should be used only where it is "impossible" for the condition to be false.
+Don't use them to:
+</p>
+
+<ul>
+<li>Test input from the user.</li>
+<li>Check the validity of on-disk structures.</li>
+<li>Test that your compiler is working properly (because if it isn't, the assert mechanism itself
+is called into question).</li>
+</ul>
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/fix-err-hand.px'/>, about ensuring your error handling
+code is running its best.
+</li>
+<li><apage pref='text/log-style-guide.px'/>, about writing good log messages.
+</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

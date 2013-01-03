@@ -1,0 +1,589 @@
+<?xml version="1.0"?>
+<page title='Programming madlibs'>
+<history>
+<what when='20050731T214100'>Created.</what>
+<what when='20050810T091000'>Added third and fourth versions.</what>
+</history>
+
+<p>This is a programming project I undertook with my 13 year old son.
+<a href='http://madlibs.com'>Madlibs</a> is a story game for kids:
+a story is written and a few dozen important
+words are taken out, replaced by blanks.  The blanks are labelled with their part
+of speech or other category ("noun", "adjective", "an animal", and so on).
+One kid reads out the categories, another kid (or kids) supply new words without
+knowing the story.  When all the blanks have been filled in, the story is read
+out, usually with comic results.
+</p>
+
+<p>(For more about how we chose Madlibs as a subject, see my blog entry
+<a href='blog/200507.html#e20050731T212652'>Programming with kids: Madlibs</a>.)</p>
+
+<h1>The first program</h1>
+
+<p>I started by talking with my son about how the program would have to work.
+We talked about the structure of the story itself.  It was a list of things.
+He said there were two types of things: static pieces and dynamic pieces.
+We talked about how a story was constructed: by looking at each piece in turn.</p>
+
+<p>"And what should it do with each piece?" The first idea was that for static pieces,
+print the text, and for dynamic pieces, print the category and collect an answer.
+Son realized that this would expose the story as it went along, before the questions
+were answered.  Here he was stuck.
+</p>
+
+<p>I explained that we could build up the story in memory, and print the whole
+thing at the end.  Eventually, we sat down at the computer and created this
+program:
+</p>
+
+<code lang='python'><![CDATA[
+""" The awesome Madlib program.
+"""
+
+import sys, textwrap
+
+def get_input(prompt):
+    print "%s> " % prompt,
+    return sys.stdin.readline().strip()
+
+storylist = [
+    ('static', "Once upon a time there was a "),
+    ('dynamic', "an adjective"),
+    ('static', ", "),
+    ('dynamic', "another adjective"),
+    ('static', " "),
+    ('dynamic', "an animal"),
+    ('static', ". He liked to "),
+    ('dynamic', "a verb in the present tense"),
+    ('static', " all day. One day, he went to "),
+    ('dynamic', "an adjective"),
+    ('static', " "),
+    ('dynamic', "a place"),
+    ('static', " to meet "),
+    ('dynamic', "a person"),
+    ('static', "."),
+    ]
+
+story = ""
+
+def dynamic(kind):
+    return get_input("give me " + kind)
+
+for thing in storylist:
+    if thing[0] == 'static':
+        story += thing[1]
+    elif thing[0] == 'dynamic':
+        story += dynamic(thing[1])
+    else:
+        print "Huh? What's %s?" % thing[0]
+
+print ""
+print textwrap.fill(story)
+]]></code>
+
+<p>I supplied the tricky parts (get_input, and the textwrap business), and suggested
+the technique of making the story list be a list of tuples.  But my son did a lot of
+the thinking through what had to happen.  The "dynamic" function is there because he
+wanted to use a function.</p>
+
+<p>This program worked, and was a source of much joy.  It did something interesting,
+and my son eagerly encouraged everyone to try it out.
+He really seemed pleased by the work he had done, and I was pleased that we could talk
+through some of the coding challenges and find answers together.
+</p>
+
+
+<h1>The object-oriented version</h1>
+
+<p>The first change my son wanted to make was to have the program ask the questions
+in a random order, so that the player had less chance of second-guessing the intent
+of the author.  I had imagined a number of ways to expand on the program, but this
+wasn't one of them, so I was psyched: the Madlibs genre was going to be a fertile one!
+</p>
+
+<p>In preparation for the feature, I thought it would be good to get us onto a more
+modern architectural foundation.  I explained about classes and objects, and refactored
+our program into this:</p>
+
+<code lang='python'><![CDATA[
+""" The awesome Madlib program.
+"""
+
+import sys, textwrap
+
+def get_input(prompt):
+    print "%s> " % prompt,
+    sys.stdout.softspace = 0
+    return sys.stdin.readline().strip()
+
+class static:
+    def __init__(self, text):
+        self.text = text
+
+    def getStoryPiece(self):
+        return self.text
+
+class dynamic:
+    def __init__(self, prompt):
+        self.prompt = prompt
+
+    def getStoryPiece(self):
+        return get_input("give me " + self.prompt)
+
+storylist = [
+    static("Once upon a time there was a "),
+    dynamic("an adjective"),
+    static(", "),
+    dynamic("another adjective"),
+    static(" "),
+    dynamic("an animal"),
+    static(". He liked to "),
+    dynamic("a verb in the present tense"),
+    static(" all day. One day, he went to "),
+    dynamic("an adjective"),
+    static(" "),
+    dynamic("a place"),
+    static(" to meet "),
+    dynamic("a person"),
+    static("."),
+    ]
+
+story = ""
+
+for thing in storylist:
+    story += thing.getStoryPiece()
+
+print ""
+print textwrap.fill(story)
+]]></code>
+
+<p>There was a side discussion that didn't survive in the code.  I showed how to use the same
+storylist variable two ways, first to play dynamically, with the program asking questions and
+producing the finished story, and second to play on paper, with the program printing a play
+sheet suitable for use with pencil and paper.</p>
+
+
+<h1>Random questioning</h1>
+
+<p>To do the random questioning, we'll need to split the main loop into two passes: one to
+get the dynamic pieces, shuffle them, and get the answers, then another to build the story.
+The dynamic pieces will have to store their answers between the two passes.</p>
+
+<p>To store the answers, we talked about member variables.  We had used them to store the prompt
+before, but the __init__ methods seem formal and uninteresting, and their values are constants.
+It wasn't until we got to prompting the user and storing the answer in a member variable that
+we were really talking about variables.</p>
+
+<p>Here's the third version of the program.
+We make two passes over the list, first to collect the pieces that ask questions.  Then we shuffle
+that list and have each slot ask its question.  Then we walk the whole story from beginning to end
+building the finished story.
+It's important to understand the relationship between
+a list and the objects it contains.  The two lists point at the same objects, otherwise the program
+wouldn't work.</p>
+
+<!-- madlibs_2.py -->
+<code lang='python'><![CDATA[
+""" The awesome Madlib program.
+"""
+
+import random, sys, textwrap
+
+def get_input(prompt):
+    answer = ''
+    while not answer:
+        print "%s> " % prompt,
+        sys.stdout.softspace = 0
+        answer = sys.stdin.readline().strip()
+    return answer
+
+class static:
+    def __init__(self, text):
+        self.text = text
+
+    def readStoryPiece(self):
+        return self.text
+
+class dynamic:
+    def __init__(self, prompt):
+        self.prompt = prompt
+
+    def readStoryPiece(self):
+        return self.answer
+
+    def askUser(self):
+        self.answer = get_input("give me " + self.prompt)
+
+storylist = [
+    static("Once upon a time there was a "),
+    dynamic("an adjective"),
+    static(", "),
+    dynamic("an adjective"),
+    static(" "),
+    dynamic("an animal"),
+    static(". He liked to "),
+    dynamic("a verb"),
+    static(" all day. One day, he went to "),
+    dynamic("an adjective"),
+    static(" "),
+    dynamic("a place"),
+    static(" to meet "),
+    dynamic("a person"),
+    static("."),
+    ]
+
+story = ""
+
+dynamiclist = []
+for thing in storylist:
+    if isinstance(thing, dynamic):
+        dynamiclist += [thing]
+
+random.shuffle(dynamiclist)
+
+# Pass one: fills in the words.
+for thing in dynamiclist:
+    thing.askUser()
+
+# Read the story in order.
+for thing in storylist:
+    story += thing.readStoryPiece()
+
+print ""
+print textwrap.fill(story)
+]]></code>
+
+<p>Now the program asks for words in random order, making it more difficult for the
+player to second-guess how his words will be used.</p>
+
+
+<h1>Re-usable slots</h1>
+
+<p>The next feature to tackle was re-usable slots.  For example, after asking for "an adjective",
+the word could be used twice or more in the same story.
+To make this work, we had to expand the types of objects in the storylist.  We could have
+gone two different ways: add two new objects (one for the reusable word, and one for where it was
+reused), or add just one new object (the reused word) while expanding the dynamic slot to be reusable.
+Son decided to go the four-object route.
+</p>
+
+<p>We also had to introduce the concept of dictionaries, so we could name and store the reusable words:</p>
+
+<!-- madlib_3.py -->
+<code lang='python'><![CDATA[
+""" The awesome Madlib program.
+"""
+
+import random, sys, textwrap
+
+def get_input(prompt):
+    answer = ''
+    while not answer:
+        print "%s> " % prompt,
+        sys.stdout.softspace = 0
+        answer = sys.stdin.readline().strip()
+    return answer
+
+class static:
+    def __init__(self, text):
+        self.text = text
+
+    def readStoryPiece(self):
+        return self.text
+
+class dynamic:
+    def __init__(self, prompt):
+        self.prompt = prompt
+
+    def readStoryPiece(self):
+        return self.answer
+
+    def askUser(self):
+        self.answer = get_input("give me " + self.prompt)
+
+
+class reusable:
+    def __init__(self, prompt, callname):
+        self.prompt = prompt
+        self.callname = callname
+
+    def readStoryPiece(self):
+        return self.answer
+
+    def askUser(self):
+        self.answer = get_input("give me " + self.prompt)
+        reusables[self.callname] = self.answer
+
+class reuser:
+    def __init__(self, callname):
+        self.callname = callname
+
+    def readStoryPiece(self):
+        return reusables[self.callname]
+
+storylist = [
+    static("Once upon a time there was a "),
+    reusable("an adjective", "adj1"),
+    static(" "),
+    dynamic("a noun"),
+    static(". It was really "),
+    reuser("adj1"),
+    static(". It liked to "),
+    dynamic("a verb"),
+    static(" all day. One day, it went to "),
+    dynamic("a place"),
+    static(" to meet "),
+    dynamic("a person"),
+    static(". To get there, it rode in a "),
+    reusable("a vehicle", "n1"),
+    static(", but on the way there, the "),
+    reuser("n1"),
+    static(" crashed. It had to walk the rest of the way.")
+    ]
+
+story = ""
+
+reusables = {}
+
+asklist = []
+for thing in storylist:
+    if hasattr(thing, 'askUser'):
+        asklist += [thing]
+
+random.shuffle(asklist)
+
+# Pass one: fills in the words.
+for thing in asklist:
+    thing.askUser()
+
+# Read the story in order.
+for thing in storylist:
+    story += thing.readStoryPiece()
+
+print ""
+print textwrap.fill(story)
+]]></code>
+
+<p>The end result works well, and everyone (mom, brothers, and so on) were pleased with the results.
+Stylistically, the reusable and dynamic classes are too similar.
+Eventually I'll probably encourage a refactoring to reduce the duplication.
+</p>
+
+<p>One interesting feature was how we chose the pieces to shuffle and use in the first pass.
+Originally, the code was:</p>
+
+<code lang='python'><![CDATA[
+dynamiclist = []
+for thing in storylist:
+    if isinstance(thing, dynamic):
+        dynamiclist += [thing]
+    elif isinstance(thing, reusable):
+        dynamiclist += [thing]
+]]></code>
+
+<p>Son asked if we could combine the two clauses (good instinct!).  So we simplified it to:</p>
+
+<code lang='python'><![CDATA[
+dynamiclist = []
+for thing in storylist:
+    if isinstance(thing, dynamic) or isinstance(thing, reusable):
+        dynamiclist += [thing]
+]]></code>
+
+<p>and then, using isinstance more cleverly, to:</p>
+
+<code lang='python'><![CDATA[
+dynamiclist = []
+for thing in storylist:
+    if isinstance(thing, (dynamic, reusable)):
+        dynamiclist += [thing]
+]]></code>
+
+<p>This isn't bad, but I took the opportunity to advocate encapsulation and polymorphism.
+The fewer places we talk explicitly about classes, the more flexible the code will be.
+I pointed out that the only thing we did with the elements of dynamiclist was to call
+askUser on it, so why not just pick out the things that have an askUser method.
+Along the way, we changed the name to asklist to better reflect what it's doing:</p>
+
+<code lang='python'><![CDATA[
+asklist = []
+for thing in storylist:
+    if hasattr(thing, 'askUser'):
+        asklist += [thing]
+]]></code>
+
+
+<h1>External story files</h1>
+
+<p>The last feature was storing the story in an external file.  This makes it possible to
+edit the story without changing the program, and allows us to have a number of stories
+we can choose from at run time.</p>
+
+<p>The story is stored in a text file, usually with a file extension of .mad (the boy was
+very excited about having our own file extension!).  For example:</p>
+
+<code name='story1.mad'><![CDATA[
+Once upon a time there was a [ an adjective : adj1 ] [ a noun ].
+It was really [:adj1].  It liked to [ a verb ] all day. One day,
+it went to [ a place ] to meet [ a person ]. To get there, it
+rode in a [ a vehicle:n1 ], but on the way there, the [:n1]
+crashed.  It had to walk the rest of the way.
+]]></code>
+
+<p>The text is used verbatim.  Slots are in square brackets, with the prompt inside them.
+A colon indicates the internal name of the value provided, which can be reused by a slot
+with no prompt, just a value name.</p>
+
+<p>Here's the next version of the madlib code:</p>
+
+<!-- madlib_6.py -->
+<code lang='python'><![CDATA[
+""" The awesome Madlib program.
+"""
+
+import random, sys, textwrap
+
+def get_input(prompt):
+    answer = ''
+    while not answer:
+        print "%s> " % prompt,
+        sys.stdout.softspace = 0
+        answer = sys.stdin.readline().strip()
+    return answer
+
+class static:
+    def __init__(self, text):
+        self.text = text
+
+    def readStoryPiece(self):
+        return self.text
+
+class dynamic:
+    def __init__(self, prompt, callname=None):
+        self.prompt = prompt
+        self.callname = callname
+
+    def readStoryPiece(self):
+        return self.answer
+
+    def askUser(self):
+        self.answer = get_input("give me " + self.prompt)
+        if self.callname:
+            reusables[self.callname] = self.answer
+
+class reuser:
+    def __init__(self, callname):
+        assert type(callname) == type("")
+        self.callname = callname
+
+    def readStoryPiece(self):
+        return reusables[self.callname]
+
+def getStoryFile():
+    return open(get_input("give me the story file")).read()
+
+def getStoryPieces():
+    story = getStoryFile()
+    startpos = 0
+    while 1:
+        bracket = story.find("[", startpos)
+        if bracket == -1:
+            break
+        storylist.append(static(story[startpos:bracket]))
+        endbracket = story.find("]", bracket)
+        if endbracket == -1:
+            break
+        startpos = endbracket + 1
+        dynamicpart = story[bracket+1:endbracket]
+        dynamicpieces = dynamicpart.split(":")
+        dynamiclength = len(dynamicpieces)
+        if dynamiclength == 1:
+            storylist.append(dynamic(story[bracket+1:endbracket].strip()))
+        elif dynamicpart.find(":") == 0:
+            storylist.append(reuser(dynamicpieces[1].strip()))
+        else:
+            storylist.append(dynamic(dynamicpieces[0].strip(),dynamicpieces[1].strip()))
+
+    storylist.append(static(story[startpos:]))
+
+
+storylist = []
+
+getStoryPieces()
+
+story = ""
+reusables = {}
+
+asklist = []
+for thing in storylist:
+    if hasattr(thing, 'askUser'):
+        asklist += [thing]
+
+random.shuffle(asklist)
+
+# Pass one: fills in the words.
+for thing in asklist:
+    thing.askUser()
+
+# Read the story in order.
+for thing in storylist:
+    story += thing.readStoryPiece()
+
+print
+print textwrap.fill(story)
+]]></code>
+
+<p>The getStoryPieces function does the work of reading the text format.  This could probably
+be cleaned up, but it works.  We had to do a lot of careful thinking about where in the string
+each variable pointed, and about the different forms of slots the parser might encounter.
+Personally, I would have made the story file name be an argument on the
+command line, but the son liked prompting better, so prompting it is.
+Here's a sample run:</p>
+
+<code><![CDATA[
+$ madlib.py
+give me the story file> story1.mad
+give me a verb> juggle
+give me a place> Royal Albert Hall
+give me a person> Alfred E. Neuman
+give me an adjective> lumpy
+give me a vehicle> unicycle
+give me a noun> grapefruit
+
+Once upon a time there was a lumpy grapefruit. It was really lumpy.
+It liked to juggle all day. One day, it went to Royal Albert Hall to
+meet Alfred E. Neuman. To get there, it rode in a unicycle, but on the
+way there, the unicycle crashed.  It had to walk the rest of the way.
+]]></code>
+
+
+<h1>More to come?</h1>
+
+<p>I think we are probably done with madlibs, but there are more possibilities for future work that we've
+talked about:</p>
+
+<ul>
+<li>Having the program choose randomly among a number of such stories (requires directory
+operations).</li>
+<li>Smarter text manipulation, for example, a dynamic piece that knows its answer has to
+be capitalized because it appears at the start of a sentence, or a piece that can supply
+the proper article ("a" or "an") depending on the word supplied by the player.</li>
+<li>What about a kind of dynamic piece that has a built-in list of choices, and the
+program chooses among them itself?  This would give the story a little more randomness,
+without having to ask another question.</li>
+</ul>
+
+<p>I really liked this project: it has enough interest to keep the son motivated,
+but is simple enough that an hour or two of talking and typing produced an interesting
+result.</p>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics
+are occasionally discussed.</li>
+</ul>
+
+<pagecomments/>
+
+</page>

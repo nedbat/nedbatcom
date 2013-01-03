@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120417T083122'>
+<title>Unicode tidbits</title>
+<category>charset</category>
+<body>
+
+<p>Since writing <a href='/text/unipain.html'>Pragmatic Unicode, or, How do I stop the pain?</a>,
+    I've collected a handful of Unicode-related stuff:</p>
+
+<ul>
+
+    <li>Unicode 6.1 came out last year, Andrew West's <a
+            href='http://babelstone.blogspot.com/2011/06/whats-new-in-unicode-61.html'>summary
+            of the latest additions</a> is a view from the trenches.  The
+        commenters on his blog are asking about the status of their favorite
+        exotic script, for example.</li>
+
+    <li>A PDF showing <a
+            href='http://std.dkuug.dk/jtc1/sc2/wg2/docs/n4244.pdf'>what is
+            proposed to be added in Unicode 6.2</a>.  It's very clear that
+        semantic distinctions are not important for new characters! Also, we
+        finally get U+1F5D1, TRASH CAN!  </li>
+    
+    <li>Michael Kaplan has a series of blog posts, <a
+            href='http://blogs.msdn.com/b/michkap/archive/tags/every+character+has+a+story/'>Every
+            character has a story</a>, exploring some of the back-stories of
+        characters in Unicode. His <a
+            href='http://blogs.msdn.com/b/michkap/archive/2012/02/17/10269019.aspx'>musings
+            on the three monkeys</a> are especially erudite.</li>
+
+    <li>Matt Mayer has some interesting stories about <a
+            href='http://www.reigndesign.com/blog/love-hotels-and-unicode/'>Love
+            Hotels and Unicode</a>.  I especially like the reasoning behind the
+        "regional indicator symbols" <a
+            href='http://www.fileformat.info/info/unicode/char/1f1e6/index.htm'>A</a>-<a
+            href='http://www.fileformat.info/info/unicode/char/1f1ff/index.htm'>Z</a>,
+        to avoid having to put flags in Unicode.
+    </li>
+
+    <li>On the lighter side, the <a href='https://plus.google.com/109925364564856140495/posts'>Fake Unicode Consortium</a>
+        presents more creative names for Unicode characters.  Currently, you can't see the characters because of a Google+
+        redesign, but maybe soon... &#x2639;</li>
+
+    <li>Finally, in 1889, when telegraph messages were paid for by the word,
+        "Unicode" was the name for a dictionary of commonly-sent phrases mapped
+        to obscure words so that instead of sending, "Jones dines with us this
+        evening and remains the night - Smith," you could send, "Jones Coctivus
+        Smith."  It's of course no use to us now, but interesting to see how 
+        communications technology was accommodated.  Also a bit shocking to see
+        how maternity has changed: <a
+            href='http://archive.org/stream/unicodeuniversa00unkngoog#page/n23/mode/2up'>flip
+            to page 11</a> to the section labelled "Births" to see the kinds of
+        messages people needed to commonly send.</li>
+
+</ul>
+
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031118T075030'>
+<title>IE difficulties: font size rounding</title>
+<category>css</category>
+<category>windows</category>
+<category>help</category>
+<via />
+<body>
+<p>More web design minutia:
+The second difficulty (see previous blog entry) I was having with IE had to
+do with font sizing, but I finally solved it.</p>
+
+<more>
+
+<p>When I adjusted the font sizes in nested elements, the results would be
+different for IE and Firebird.  I thought it had to do with CSS bugs dealing
+with nested contexts, but none of the
+<a href='http://www.blooberry.com/indexdot/css/index.html'>CSS references</a>
+mentioned it.</p>
+
+<p>Poking around the we're-not-worthy
+<a href='http://css-discuss.incutio.com/'>css-discuss wiki</a>, I stumbled upon
+the answer on the
+<a href='http://css-discuss.incutio.com/?page=UsingEms'>UsingEms</a> page.
+The browser difference is in the rounding of font sizes, and which result of
+rounding is used for further computations in nested contexts.
+It turns out you can trick the browsers into identical algorithms with this rule:</p>
+
+<code lang='css'><![CDATA[
+body { font-size: 101% }
+]]></code>
+
+<p>Now the text on this page is the same size in IE as it has been for months
+in Mozilla. At last!</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

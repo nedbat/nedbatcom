@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080720T153308'>
+<title>On the counter-intuitiveness of speed</title>
+<category>coding</category>
+<body>
+<p>I had an idea this morning that I thought would make my Mandelbrot viewer
+<a href='code/aptus'>Aptus</a> run a little bit faster. The compute engine is
+written in C for speed, but with a Python progress callback function passed in
+to get updates on the state of the computation. The code is structured like
+this:
+</p>
+
+<code>
+// Code A: .1 sec
+for each scanline:
+    compute the pixels
+    call the progress function
+</code>
+
+<p>The progress function is called once per scanline, so for the default
+600<times/>600-pixel view, it is called 600 times. Computing this default view
+takes .1 second.</p>
+
+<p>My idea was to invoke the progress function less often.  There's no need to
+invoke it as often as 600 times in a tenth of a second.  Since the progress function is
+written in Python, I figured I could save some time by avoiding some of that
+Python execution.</p>
+
+<p>As a quick test of my thesis, I commented out the progress call entirely:</p>
+
+<code>
+// Code B: .06 sec
+for each scanline:
+    compute the pixels
+    //call the progress function
+</code>
+
+<p>Now the computation took .06 seconds, a significant improvement! It looks like
+40% of our time is spent reporting progress through a Python function.</p>
+
+<p>The basic unit of computation for the Mandelbrot set is an iteration, and I
+was already counting the total number of iterations. So I changed the code to
+call the progress function only if a minimum number of iterations had been
+calculated since the last progress call:
+</p>
+
+<code>
+// Code C: .1 sec
+for each scanline:
+    compute the pixels
+    if min_progress_delta (1M) exceeded:    
+        call the progress function
+</code>
+
+<p>With this code in place, the computation still took the original .1 seconds.
+That's odd. The total iterations in this case is 1.9 million, so we only exceed
+min_progress_delta once, and the progress function is only called once. How can
+this be?  In Code A, we invoke the progress function 600 times, and in Code C
+we invoke it once, and yet they take the same amount of time. In Code B, we invoke it
+not at all, and it speeds up by 40%.  How can the one call change between Code
+B and Code C make such a difference?</p>
+
+<p>Odder still, suppose we change min_progress_delta to two million, so that the
+progress function is never invoked?:</p>
+
+<code>
+// Code D: .1 sec
+for each scanline:
+    compute the pixels
+    if min_progress_delta (2M) exceeded:    
+        call the progress function
+</code>
+
+<p>It still takes .1 second!  More experimentation: comment out the call of the
+uncalled progress function:</p>
+
+<code>
+// Code E: .06 sec
+for each scanline:
+    compute the pixels
+    if min_progress_delta (2M) exceeded:    
+        //call the progress function
+</code>
+
+<p>Now it takes .06 seconds!  How can commenting out code that is
+never called make a difference?  We're starting to zero in on the issue here:
+we didn't simply comment out uncalled code, we commented out the entire
+body of the if clause.  And that meant that our C compiler eliminated the test
+of the if since it was unneeded.
+</p>
+
+<p>It's beginning to look like the simple act of doing <em>anything</em> at the
+bottom of the loop is taking time.  That's the only explanation for the data we
+have so far.</p>
+
+<p>I'm no expert in these matters, but I've read enough about pipelines and
+caches to know that this is entirely plausible. When the code is uncluttered with
+detours, it goes much faster than when the end of the loop pauses to consider
+whether to invoke the progress function.  Ironically, actually calling the function
+and invoking all of the Python overhead is insignificant compared to the time lost
+to simply deciding (in C!) whether to call it.
+</p>
+
+<p>Or am I missing something here?  Is there a way to invoke my callback function
+without putting hiccups in my pipeline?
+</p>
+
+</body>
+</entry>
+</blog>

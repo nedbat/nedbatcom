@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110512T074632'>
+<title>Running a database from a ramdisk</title>
+<category>db</category>
+<body>
+
+    <p>One project I'm working on these days is a large test suite for a Django
+        project, in particular, trying to make it go faster.  In one subset of
+        16 tests, total execution time is about 250 seconds!  The tests clearly
+        spend a lot of time in the database: 50% of the time is creating the
+        test db, and another 30% is installing test fixtures.</p>
+
+    <p>A classic first step is to run the tests from an in-memory SQLite
+        database.  In this case, it's a Postgres database using GIS features,
+        so changing engines isn't a simple settings change.  Postgres doesn't
+        have an in-memory feature, but I thought, why not force the database
+        into memory without Postgres knowing, simply by
+        creating the database in a ramdisk?</p>
+
+    <p>On Linux, this is a simple matter of creating the database in /dev/shm
+        instead of a real disk-backed filesystem.  And good thing it was
+        simple, too, because it didn't help at all: the test times were
+        completely indistinguishable between the two filesystems.</p>
+
+    <p>Which in retrospect makes perfect sense.  Disk filesystems employ
+        aggressive caching to keep data in memory in the first place, so it was
+        unlikely that my simple trick was going to change things significantly.
+        The test database is small enough to fit into RAM anyway, and for the
+        tests, Postgres was already set to disable fsync.</p>
+
+    <p>The remaining mystery: why is SQLite in-memory faster than other
+        databases on disk?  If it is about the memory, then it should be
+        possible to make other databases faster by forcing them into memory.
+        And if isn't about the memory, then it's just that SQLite is faster no
+        matter what (because it's in-process, for example) and using a
+        disk-based SQLite should be faster than your real database also.</p>
+
+</body>
+</entry>
+</blog>

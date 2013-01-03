@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040612T115712'>
+<title>Ping-o-matic and xml-rpc</title>
+<category>webpage</category>
+<via />
+<body>
+<p>This blog runs on home-grown software, so it usually lags in technology behind
+the usual blog software.  I've been pinging <a href='http://weblogs.com'>weblogs.com</a>
+and <a href='http://blo.gs'>blo.gs</a> for a long time, and figured I could skip the
+other services because I didn't want to track down how to do each one.
+</p>
+
+<p>Today I discovered <a href='http://pingomatic.com/'>Ping-o-Matic</a>, which is a
+meta-pinging service: you ping it, and it pings everyone else. Handy.  But it has
+an XML-RPC interface, and that's one of the things I had never spent the time to
+learn how to do.  Well, it
+<a href='http://diveintomark.org/archives/2002/02/04/ping_weblogscom'>couldn't be easier</a>.
+The Python xmlrpclib module makes the whole thing totally transparent:
+</p>
+
+<code lang='python'><![CDATA[
+import xmlrpclib
+
+remoteServer = xmlrpclib.Server("http://rpc.pingomatic.com/RPC2")
+ret = remoteServer.weblogUpdates.ping(
+    "Ned Batchelder's blog",
+    "http://nedbatchelder.com/blog"
+    )
+print ret['message']
+]]></code>
+
+<p>So now I replaced two HTTP get pings with one XML-RPC ping, and I'm reaching more
+services.  Sweet!</p>
+
+</body>
+</entry>
+</blog>

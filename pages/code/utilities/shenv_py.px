@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='shenv.py'>
+<history>
+<what when='20021124T203500'>Created.</what>
+</history>
+
+<p>This is a simple script to display environment variables.
+If the value is a list (it has semicolons), then each value is on a separate line so you
+can read it.
+</p>
+
+<download file='shenv.py' path='code/utilities/shenv.py' />
+
+<pagecomments/>
+
+</page>

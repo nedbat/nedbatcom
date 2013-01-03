@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120325T105139'>
+<title>Breaking out of two loops at once</title>
+<category>python</category>
+<body>
+
+<p>This is a question that crops up often:</p>
+
+<quote><p>I have two nested loops, and inside, how can I break out of both loops at once?</p></quote>
+
+<p>Python doesn't offer a way to break out of two (or more) loops at once, so the naive approach looks like this:</p>
+
+<code lang="py"><![CDATA[
+done = False
+for x in range(10):
+    for y in range(20):
+        if some_condition(x, y):
+            done = True
+            break
+        do_something(x, y)
+    if done:
+        break
+]]></code>
+
+<p>This works, but seems unfortunate.  A lot of noise here concerns the breaking out of the loop,
+    rather than the work itself.</p>
+
+<p>The sophisticated approach is to get rid of, or at least hide away, the
+    double loop.  Looked at another way, this code is really iterating over one
+    sequence of things, a sequence of pairs.  Using Python generators, we can
+    neatly encapsulate the pair-ness, and get back to one loop:</p>
+
+<code lang="py"><![CDATA[
+def pairs_range(limit1, limit2):
+    """Produce all pairs in (0..`limit1`-1, 0..`limit2`-1)"""
+    for i1 in range(limit1):
+        for i2 in range(limit2):
+            yield i1, i2
+
+for x, y in pairs_range(10, 20):
+    if some_condition(x, y):
+        break
+    do_something(x, y)
+]]></code>
+
+<p>Now our code is nicely focused on the work at hand, and the mechanics of the
+    double loop needed to produce a sequence of pairs is encapsulated in
+    pairs_range.</p>
+
+<p>Naturally, pairs_range could become more complex, more interesting ranges,
+    not just pairs but triples, etc.  Adapt to your own needs.</p>
+
+<p>As with any language, you can approach Python as if it were C/Java/Javascript
+    with different syntax, and many people do at first, relying on concepts
+    they already know. Once you scratch the surface, Python provides rich
+    features that take you off that track.  Iteration is one of the first
+    places you can find your Python wings.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070725T075354'>
+<title>YSlow</title>
+<category>webpage</category>
+<category>tools</category>
+<via id='simonwillison'/>
+<body>
+<p><a href='http://developer.yahoo.com/yslow/'>YSlow</a> is a Firebug plug-in
+for measuring the overall performance of a web page and making recommendations
+to improve its speed. This is cool on a few levels:
+</p>
+
+<ul>
+<li>This is a great way to get an overview of the performance of a page,
+with links to helpful pages explaining what's going on.  It continues Firebug's
+tradition of helpfully summarizing the under-the-hood details.</li>
+<li>I didn't even realize Firebug supported plug-ins! What a wonderful world we
+live in!</li>
+<li>"YSlow" is a really cute name.</li>
+</ul>
+
+<p>On the down side, like all automatic diagnostic tools, the results are a mix
+of really useful pointers, and really stupid "recommendations" that obviously
+don't apply.  For example, on my home page, YSlow recommends that I use a CDN
+(Content Distribution Network) to speed page delivery.  For my blog? I don't think so.
+And like most lint tools, there's a way to fake it out to avoid the recommendation
+(I can use <a href='http://developer.yahoo.com/yslow/faq.html#faq_cdn'>about:config to claim that nedbatchelder.com is a CDN</a>),
+but that's pretty silly. Better would be a way to tell YSlow to shut up about
+CDN's already.</p>
+
+<p>My blog gets a stinging F (56), but maybe I shouldn't feel so bad: the
+<a href='http://developer.yahoo.com/yslow/'>YSlow page</a> itself gets a D (67)!</p>
+
+</body>
+</entry>
+</blog>

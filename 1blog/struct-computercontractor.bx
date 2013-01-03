@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041007T075843'>
+<title>Struct ComputerContractor</title>
+<category>funny</category>
+<category>geeky</category>
+<via />
+<body>
+<p>One of the <a href='text/python-parsers.html'>Python parsing tools</a>
+is <a href='http://www.lava.net/~newsham/pyggy/'>PyGgy</a>
+by <a href='http://lava.net/~newsham/'>Tim Newsham</a>.
+Linked from his home page was this concise definition of a contractor:
+</p>
+
+<code lang='cpp'><![CDATA[
+/* from ali rahimi */
+struct ComputerContractor
+{
+    double    salary;
+    long      lunches;
+    float     jobs;
+    char      unstable;
+    void      work;
+    int       hiring_him_again;
+    const     pain_in_the_arse;
+    unsigned  agreement;
+    short     fuse;
+    volatile  personality;
+    static    progress;
+};  /* and there are no unions in sight */
+]]></code>
+
+<p>Brilliant.</p>
+
+</body>
+</entry>
+</blog>

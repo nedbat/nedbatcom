@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040323T075912'>
+<title>Bloom filters</title>
+<category>compsci</category>
+<category>history</category>
+<category>algorithms</category>
+<category>obits</category>
+<via />
+<body>
+<p>A Bloom filter is a clever data structure that lets you check if an element is
+a member of a set, while storing much less data than the entire set.
+The tradeoff is that there are false positives: you might ask if a member is in the
+set, and get the answer "yes", when it should have been "no".
+</p>
+
+<more>
+
+<p>Li Fan provides a thorough overview of the technique in his paper about a
+<a href='http://www.cs.wisc.edu/~cao/papers/summary-cache/node8.html#SECTION00053000000000000000'>Summary Cache</a>
+that uses the technique, but here it is in a nutshell:</p>
+
+<p>The set is stored as a large bit array (say 2<sup>20</sup> bits).
+To add an element to the set, you hash it a few different ways to produce a
+handful of different 20-bit hashes.  Each hash value is an index into the bit array.
+Set each indexed bit to 1.  Some of these bits will already be 1 (from previous entries).
+</p>
+
+<p>To test if an element is in the set, hash it with all the hash functions, and check
+the indexed bits.  If any of them is 0, then the element is not in the set.
+If all of them are 1, then it probably is in the set.  They are probably all 1
+because the element had been hashed into the set before, but they could be all
+1 because of a collection of other entries which happened to each set some of
+the bits.  This is the false positive.
+Adjusting the number of bits
+in the array and the number of hashes changes the probability that a false positive
+will occur.
+</p>
+
+<p>The Fan paper has more about it all, including tables of false positive probabilities.
+Another source is <a href='http://www.cap-lore.com/code/BloomTheory.html'>Some Motley Bloom Tricks</a>.
+</p>
+
+<p>An aside about discovery: this is one of those web items that would be hard to
+credit properly with a simple "via" reference.
+The other day, <a href='http://www.bobcongdon.net/blog/2004_03_01_congdon_archive.html#107991513845052381'>Bob Congdon</a>
+linked to the
+<a href='http://www.nist.gov/dads/'>Dictionary of Algorithms and Data Structures</a>.
+I poked around a bit, and glanced at their
+<a href='http://www.nist.gov/dads/HTML/bloomfilt.html'>page about Bloom filters</a>
+(which doesn't say much) before eventually finding the subject of yesterday's post
+about exact string matching.</p>
+
+<p>Then today, I was trying to parse Mark Pilgrim's
+<a href='http://diveintomark.org/archives/2004/03/22/you-blow-me'>rant about TypeKey</a>
+(I think he's against it, I can't tell.  Sarcasm doesn't always work), when I saw his
+reference to <a href='http://loaf.cantbedone.org'>LOAF</a> (not the joke
+<a href='http://postneo.com/postwiki/moin.cgi/LoafHome'>LOAF</a>,
+this one seems to be a real proposal).
+The LOAF proposal is a way to securely send your address book with email messages
+so that anyone can check if an address is in your book, but can't actually read your book.
+They do it with a Bloom filter, natch.</p>
+
+<p>That made two references in two days to something I'd never heard of before,
+so I had to look into it more.</p>
+
+<p>Then I wondered about Burton Bloom, the inventor of the technique.
+The citation on his
+<a href='http://portal.acm.org/citation.cfm?id=362692&amp;dl=ACM&amp;coll=portal'>CACM paper</a>
+listed him as working at Computer Usage Company, in nearby Newton Upper Falls,
+and there seems to be little else about him on the web.
+This excursion into
+<a href='http://lists.canonical.org/pipermail/kragen-tol/2000-March/000546.html'>Bloom filters as mimics of human memory</a>
+credits him with AI Memo 47 about chess.</p>
+
+<p>A search on Computer Usage Company (which I had also never heard of) turns up a claim
+that it was
+<a href='http://ieeexplore.ieee.org/xpl/abs_free.jsp?arNumber=279238'>the first software company</a>,
+and that it was founded in
+<a href='http://www.thocp.net/timeline/1955.htm'>1955</a> by Elmer C. Kubie.
+His name struck me, since I work for <a href='http://www.kubisoftware.com'>Kubi Software</a>,
+no relation.
+</p>
+
+<p>In a final coincidence,
+<a href='http://miva.pressconnects.com/miva/cgi-bin/miva/ithndetail.mv?ARCID=245&amp;speak=kubie&amp;fyear=04'>Elmer Kubie died</a>
+just two weeks ago in Ithaca.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

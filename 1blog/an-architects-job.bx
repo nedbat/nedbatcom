@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040910T084614'>
+<title>An architect's job</title>
+<category>arch</category>
+<via />
+<body>
+<p>I was talking to a very interesting software architect the other day,
+and we were discussing a layer he had built on top of .NET.
+I asked if the .NET framework didn't already do whatever it was he was trying to do.
+He said,</p>
+
+<quote><p>An architect's job is to build the framework on top of the framework.
+</p></quote>
+
+<p>On one level, this sounds like re-inventing the wheel.  But I really agree with it.
+In fact, it neatly encapsulates something I've been trying to understand for a long time.
+I've worked with people who were nominally architects, but didn't feel to me like they
+were "doing architecture".  I couldn't put my finger on what was missing.</p>
+
+<p>But now I think I see it: those non-architects weren't thinking in terms of building
+frameworks.  I don't mean "framework" here as "a packaged API that will be offered to people you haven't met".
+Most software is not shipped as a framework.
+But many private layers that no-one will ever see should be designed as if they
+were public frameworks.  The framework mind set forces you to clearly define semantics,
+isolate modules from each other, and prepare for change.
+</p>
+
+<p>The non-architect architects I've worked with had many good skills.
+They were masters of many technologies,
+they learned quickly,
+they could work at many levels of the system,
+they could write a lot of code,
+they could mentor others,
+they cared about the quality of the product,
+and so on.
+But they were lacking the essential framework mentality, and it showed.
+</p>
+
+</body>
+</entry>
+</blog>

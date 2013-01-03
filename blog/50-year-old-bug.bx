@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060603T081223'>
+<title>50-year-old bug</title>
+<category>debugging</category>
+<via />
+<body>
+<p>I've dealt with chunks of code that seemed done, in that nothing had
+changed in them for a long time (years), and they were doing their job
+admirably. Then suddenly one day, a bug turns up in that code that seemed
+so finished.
+</p>
+
+<p>Joshua Bloch has me topped: in 
+<a href='http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html'>Nearly All Binary Searches and Mergesorts are Broken</a>,
+he identifies a bug in binary searches that has been around for 50 or so
+years.  Like the archaeo-bugs I've dealt with, they arise because the
+old code is being used on a slightly new or unusual case.  In the sort
+algorithms, it's arrays with billions of elements.</p>
+ 
+</body>
+</entry>
+</blog>

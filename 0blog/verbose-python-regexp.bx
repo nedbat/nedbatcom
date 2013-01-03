@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030410T210525'>
+<title>Verbose Python regular expressions</title>
+<category>python</category>
+<category>regex</category>
+<body>
+<p>Latest Python tidbit: the re module has an option to write
+regular expressions in re.VERBOSE format.  This means that whitespace
+can be used to layout the regular expression in a more readable style,
+and comments can be included with hash marks.
+</p>
+
+<p>For example, this regular expression:</p>
+
+<code lang='python'><![CDATA[
+logFmt = '\[[0-9]{8}T[0-9]{6}\.[0-9]{3}Z:[0-9](/[0-9]*)?\][ ]*.*'
+logFmtRe = re.compile(logFmt)
+]]></code>
+
+<p>becomes:</p>
+
+<code lang='python'><![CDATA[
+logFmt = '''
+    \[
+    [0-9]{8}T[0-9]{6}\.[0-9]{3}Z          # the date
+    :[0-9]                                # the severity
+    (/[0-9]*)?                            # a possible facility
+    \]
+    [ ]*.*                                # the message
+'''
+
+logFmtRe = re.compile(logFmt, re.VERBOSE)
+]]></code>
+
+<p>Admittedly, regular expressions are pretty dense no matter what
+you do, but at least this way you can try to pull them apart a little
+for future readers of the code (which includes yourself starting tomorrow).
+</p>
+
+</body>
+</entry>
+</blog>

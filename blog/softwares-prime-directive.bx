@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110907T221847'>
+<title>Software's prime directive</title>
+<category>development</category>
+<category>tools</category>
+<body>
+    <p>This morning, a coverage.py user reporting a bug concerning incorrect results said,</p>
+    <quote><p>seeing things other than 100%, even when I know they're 100% in actuality, somehow manages to drive me up the wall</p></quote>
+    <p>I know exactly what he means.  In fact, the whole reason I <a href='blog/200412/coveragepy_updated.html'>started hacking on coverage.py</a>
+        was to keep it from reporting that docstrings weren't executed.  That is, I needed to keep it from being stupid.
+        Why wouldn't it drive you up a wall to have a tool report to you something you know isn't true?
+    </p>
+
+    <p>As a crude breakdown, software does one of three things: performs some work for you, tells you something, or entertains you.
+        It fails when it doesn't do its job, that is, when it doesn't work, tells you something wrong, or is boring.
+        In the case of coverage.py, it's job is the second kind, it tells you things about your code.
+        The worst thing coverage.py can do is to be wrong.</p>
+
+    <p>Writing software involves a huge amount of complexity.  We developers need all the help we can get to
+        master the complexity and conquer the problems we face.  The last thing we need is to call on an assistant to help,
+        and have it become another source of confusion and uncertainty.</p>
+
+    <p>Developer tools that give misleading advice, or warn about non-problems, or put roadblocks in your way, can be
+        worse than no help at all.  The prime directive for tools like this is Don't Be Dumber than the Developer.
+        It's why coverage.py has pragmas for overriding its warnings.  There's no way a tool is going
+        to always get it right, especially with a dynamic language like Python.  The goal is always to make it as
+        smart as possible, but it's bound to have a simplified and limited understanding of the code,
+        especially compared to the developer who can see the big picture.  So giving the developer ways
+        to override the savant is crucial: the developer has to remain in charge.</p>
+
+    <p>If you use coverage.py, and find yourself shaking your head at how stupid it has been, let me know. 
+        I want to make sure that you are in charge, and that it never causes more problems than it solves.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040407T193800'>
+<title>Warning on ignored return?</title>
+<category>cpp</category>
+<via />
+<body>
+<p>A few months back, I wrote about
+<a href='blog/20040224T132719.html'>wanting a warning from C++</a>,
+and not being able to get one. It happened again.</p>
+
+<more>
+<p>We have code like this:
+</p>
+
+<code lang='c++'><![CDATA[
+class CMyString
+{
+    /** Return a copy of the string with outlying spaces removed. */
+    CMyString Trim() const;
+};
+]]></code>
+
+<p>If you read the comments and signature of the Trim() method, you see that it returns
+a copy of the string.  But if you are less careful, you can think that this method
+trims the string in place:</p>
+
+<code lang='c++'><![CDATA[
+CMyString fooey("  this needs trimming.   ");
+
+fooey.Trim();                       // bad
+CMyString good = fooey.Trim();      // good
+]]></code>
+
+<p>I figured, there ought to be a way to get a compiler warning: not only is the
+return value ignored, but the method is declared const, so it conceptually has
+no side effects. I know: the const aspect can be worked around, but still,
+why can't the compiler warn me about this?</p>
+
+<p>There's a warning that can tell me that I've used an enumeration type in
+a switch, and have not provided a case for every enumeration value.  This warning
+will appear even if there is a default clause!  If this is something that can
+be warned about, why not ignoring the return from a const method?</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

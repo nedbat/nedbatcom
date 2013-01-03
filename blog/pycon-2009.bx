@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090330T071142'>
+<title>PyCon 2009 notes</title>
+<category>gatherings</category>
+<category>pycon</category>
+<body>
+<p>I had an amazing three days at PyCon 2009 in Chicago.  I won't have a coherent
+write-up (at least not just yet), so these scattered notes will have to do:
+</p>
+
+<p>The weather was a great example of why not to hold conferences in Chicago:
+cold, wet, even snowy.  Maybe next year we can hold PyCon someplace warm, like
+Siberia (it will actually be in Atlanta). On the other hand, it was great to
+be able to get on the Ell and be in the middle of a vibrant city.</p>
+
+<p>Twitter was much bigger here this year than in the past, certainly for me.
+It helped create a sense of a single hive mind, letting me keep up with the talks
+I wasn't watching, and find out what was going on elsewhere.</p>
+
+<p>I focused a lot of my time on testing topics, both because it's the thing I
+need to learn more about for work, and because of my interest in providing tools
+to other developers.  There was a huge amount of energy devoted to testing at this
+PyCon.  The testing BoF on Saturday night was a combination frat party and lightning
+talk session that went on until 11pm.</p>
+
+<p>I gave two talks, on <a href='http://us.pycon.org/2009/conference/schedule/event/26/'>coverage testing</a>
+and <a href='http://nedbatchelder.com/text/whirlext.html'>C extensions</a>,
+which I think went well, and seemed to be well received, so that was very gratifying.</p>
+
+<p>I took note of good one-liners, newsworthy tidbits, and interesting
+projects to follow-up on:</p>
+
+<ul>
+<li>Barry Hawkins on the Python community: we're like the Elves at Rivendell,
+and hobbits show up and are impressed, and ask, "Why don't you tell more people
+about this?", and Elves/Pythonistas respond, "Meh, we just do what we do."</li>
+
+<li>Brett Cannon is making the choice of what DVCS to use for Python core
+development.  He compared svn to prune-juice: the old standby, but not interesting
+any more.  Git is out of the running, they will choose between Mercurial and Bazaar,
+maybe as early as this week.</li>
+
+<li>Jonathan Ellis lightninged on distributed databases, emphasizing
+<a href='http://code.google.com/p/the-cassandra-project/'>Cassandra</a>,
+which he claims does a good job on scalable writes, unlike many other solutions.</li>
+
+<li><a href='http://jonathanscorner.com/'>Jonathan Hayward</a>: Asimov said,
+"The most exciting phrase to hear in science is not "Eureka!" but, "that's funny.."</li>
+
+<li><a href='http://getwindmill.com'>Windmill</a> deserves another look for
+in-browser web app testing.  It looks really capable.</li>
+
+<li>Mike Fletcher talked about his profiling visualizer called Run Snake Run,
+which I saw a little of in the speaker prep room.  It looked very impressive,
+but I didn't see his talk.</li>
+
+<li><a href='http://www.kevbo.us/'>Kevin Boers</a> demonstrated his approach to
+testing with <a href='http://twill.idyll.org/'>twill</a>.  He had a really
+good approach, building up abstractions to get to a point where each web page
+is represented in the tests by a class that can operate the page, and then building
+scenarios up from there.  Unfortunately, twill won't help with Javascript applications,
+so it's good for basic HTTP testing, but doesn't get to rich applications.</li>
+
+<li>In his GUI testing talk, <a href='http://www.voidspace.org.uk/index2.shtml'>Michael Foord</a>
+offered this quote: "If you write applications without tests then you are a bad person, incapable of love."
+<emdash/>Wilson Bilkovich.</li>
+
+<li>Catherine Devlin did a lightning talk showing off a very cool SQL tool that
+lets you work with tabular SQL data as if it were Unix file data:
+<a href='http://catherinedevlin.blogspot.com/2009/03/sqlpython-lightning-talk-follow-up.html'>sqlpython</a>.
+</li>
+
+<li><a href='http://code.google.com/p/playerpiano/'>playerpiano</a> is a tool for
+better python presentations. It runs doctests in an interactive python session
+so that you don't have to try to type code on stage.</li>
+
+<li><a href='http://pymite.python-hosting.com/'>pymite</a> is a  micro-python
+(subset) for micro-controllers: it runs in 4Kb of RAM!</li>
+
+<li><a href='http://www.web2py.com/'>web2py</a> is another web framework that
+looks very slick, and was used to build the PyCon site.</li>
+
+<li>DVDev is like Trac for Mercurial.</li>
+
+<li><a href='http://www.openplans.org/projects/melkjug/project-home'>Melkjug</a>
+is a tunable news reader.</li>
+    
+<li><a href='https://launchpad.net/txloadbalancer'>txLoadBalancer</a> is a
+Twisted-based load balancer.</li>
+
+<li>Steve Huffman and Alexis Ohanian from Reddit gave an entertaining keynote
+discussing the history of Reddit and some of the interesting things they do now.
+Reddit has been open-sourced, leading to some, shall we say, interesting clones.</li>
+
+<li>Reddit is working on an open-source CSS compiler called C55 to provide
+variables, nesting, and functions in CSS, just like what every procedural
+programmer who writes CSS wants.</li>
+
+<li>Reddit has an interesting thumbnailer that looks for the most interesting
+square of pixels in an image, sometimes with humorous results.</li>
+
+</ul>
+
+<p>I met a lot of great people, some of whom I knew by name, some of whom were
+new to me.  Both knew and new were great to meet face to face:
+<a href='http://redsymbol.net/'>Aaron Maxwell</a>,
+<a href='http://freshfoo.com/blog/'>Menno Smits</a>,
+Ken Whitesell,
+<a href='http://www.pirnat.com/'>Mike Pirnat</a>,
+<a href='http://compoundthinking.com/blog/'>Mark Ramm</a>,
+and Rand Batchelder (!).
+</p>
+
+<p>There was of course a lot of playfulness at PyCon,
+<a href='http://www.flickr.com/photos/termie/sets/72157616044454732/'>Beards of Python</a>
+being my favorite (I was never a pony fan).</p>
+
+<p>I'm already looking ahead to PyCon 2010 in Atlanta!</p>
+
+</body>
+
+<!--
+Friday lightning talks
+
+Barry Hawkins:
+
+    - Pycon is like rivendell.  The elves have all this knowledge, doing cool
+    stuff.  People: "Why don't you tell more people about it?"  Pythonistas:
+    "Meh, we just do what we do."
+    
+Brett Cannon, DVCS for Python
+
+    - SVN is the prune juice of vcs
+    - git is out of the running
+    - like to use a python-based tool
+    
+Jonathan Ellis
+
+    - Cassandra distributed db.  Scalable writes
+    
+Jon Hayward? (jonathancorner.com)
+
+    - Issac Asimov: the best sound in science isn't "Eureka," but "that's funny".
+    - X-rays were an accidental discovery
+    - Debugging is like this.
+
+Windmill testing
+
+    - Test recording in every browser.
+    - Looks very capable
+    - getwindmill.com
+    
+Missed talk: Mike Fletcher on Run Snake Run
+
+Twill Talk
+
+    - stack:
+        nose
+        scenario objects
+        order factory
+        page objects
+        twill
+        
+    - twill has handy methods for automating web browsing
+    - No javascript!
+        - selenium
+    
+    - Page objects:
+        - base class Page, derived classes for different Pages
+        - web pages as objects with methods particular to them.
+    
+- ConfigObj is getting a lot of mention
+
+Testing Ajax
+
+    - modular design encourages testing.
+    - ajax endpoints are simple, data-oriented.
+    
+    1. test data handlers
+    2. test js
+    3. isolate ui for testing
+    4. automate ui tests
+    5. gridify test suite
+    
+    javascriptlint.com
+    
+    rhino for running javascript standalone.
+    No DOM, but env.js from resig may help.
+    
+    Fake controllers for feeding results to isolate the UI for testing.
+    Bypass the server by replacing jQuery.ajax to mock out the entire server!
+
+Functional Testing of Desktop applications, Michael Foord
+
+    - "If you write software without tests, you are a bad person, incapable of love." someone else
+    
+
+
+
+Saturday morning lightning talks
+
+    - Some broken demos. :(
+    
+    - Catherine Devlin:  sqlpython unix-like prompt for treating tables as unix files.
+    
+    - playerpiano: better python presentations: run doctests in an interactive python session.
+
+    - pymite: micro-python (subset) for micrcontrollers: 4k ram!
+    
+    - web2py looks very slick.
+
+Guido BDFL
+
+    - 3.1 will be a different release strategy: replaces 3.0, so no 3.0.2
+
+Sat night lightning
+
+    - DVDev: trac for hg?
+    - Melkjug: tunable news reader
+    
+    - txLoadBalancer: twisted-based load balancer   
+
+
+Reddit keynote
+
+    - open sourced: fuddit
+    - C55 css compiler: code.reddit.com
+    - clever thumbnailer: find square with most entropy.
+
+
+Testing tools panel
+
+    - "We sell dental floss: everyone has it in their medicine cabinet, but how many use it?"
+-->
+
+</entry>
+</blog>

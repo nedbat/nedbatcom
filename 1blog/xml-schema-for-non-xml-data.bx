@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041117T084310'>
+<title>XML Schema for non-XML data?</title>
+<category>xml</category>
+<category>arch</category>
+<category>db</category>
+<via />
+<body>
+<p>I am a software developer working in the opening decade of the 21st century.
+This means that many of the solutions I devise will involve XML.
+Of course, choosing XML is only part of an answer: the exact form of the XML
+must be chosen as well.
+As with many software problems, I can use an existing solution, or I can make
+up something new.
+</p>
+
+<p>The latest problem at hand involves describing the schema of a relational database
+in XML.  The proposed existing solution is
+<a href='http://www.w3.org/TR/xmlschema-0/'>XML Schema</a>.
+The question: is it better to use XML Schema to describe a database, or to use
+a new XML dialect custom-tailored to the job?</p>
+
+<p>In brief, the upside of using XML Schema is that it already exists,
+has been thoroughly thought-out, and may allow us to use existing tools to work
+with our database description.  The downside of XML Schema is that it wasn't
+designed to describe databases, and it is complex.</p>
+
+<more>
+
+<p>Pros of using XML Schema:</p>
+
+<ul>
+<li>Things like data types, including domain restrictions, have been amply
+provided for in XML Schema.
+</li>
+<li>We wouldn't have to teach something new to other developers, they could
+make use of their existing understanding of XML Schema.</li>
+<li>There may be existing tools to use with out Schema definitions.</li>
+<li>It's a good public relations point to say you use XML Schema.</li>
+<li>I could stop spending time defending my decision not to use XML Schema
+and get on with my life.</li>
+</ul>
+
+<p>Cons of using XML Schema:</p>
+
+<ul>
+<li>XML Schema was only designed to describe XML documents.
+Anywhere a relational database doesn't act like an XML document, I'll have to
+stretch Schema to fit, or go ahead and make up something new anyway.
+For example, how are primary keys, indexes, or views described in XML Schema?
+And let's not discuss triggers and stored procedures.
+</li>
+
+<li>Because Schema is fundamentally about XML documents, even the best fitting
+concepts will involve a mental translation layer.  "Tables" have to described
+as "elements", uniqueness constraints involve XPath, and so on.</li>
+
+<li>Although Schema is very powerful, in some ways it's more than I need.
+The problem at hand really is to just describe a relational database, not a larger
+data  model which will be stored in a database.  So the semantics (and much of the
+syntax) are simple and very well understood.</li>
+
+<li>Schema can be verbose, complicating the code I'll have to write to use it.</li>
+</ul>
+
+<p>Other thoughts:</p>
+
+<ul>
+<li>If I don't use XML Schema, I could still generate a Schema definition for the parts
+that make sense, and get some of the benefits of Schema anyway.</li>
+</ul>
+
+</more>
+
+<p>The summary is: I don't want to use XML Schema to describe a relational database.
+Have I missed something? Am I making a mistake?</p>
+
+</body>
+</entry>
+</blog>

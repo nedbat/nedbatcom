@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060823T211020'>
+<title>Coverage.py v2.6</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I've updated <a href='code/modules/coverage.html'>coverage.py</a> with a number of
+(mostly user-contributed) changes:
+</p>
+
+<ul>
+<li>Function decorators no longer confuse it (thanks, Joseph Tate).</li>
+<li>Fixes for argument handling (thanks, Mark van der Wal and Sigve Tjora).</li>
+<li>A new parallel mode lets many processes collect coverage data at once, 
+and then later collate everything together for unified reporting (thanks, Geoff Bache).</li>
+</ul>
+
+</body>
+</entry>
+
+
+<entry when='20070722T155200'>
+<title>Coverage.py v2.75</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I've updated <a href='code/modules/coverage.html'>coverage.py</a> with a
+number of changes.  The biggest is that Python 2.5 is now fully supported.
+Turns out that in a multi-line statement, different Python version report
+different lines being executed.  Oy.
+</p>
+
+<p>I get suggestions for coverage.py in a steady drip over time, and usually
+don't have the concentration bandwidth to attend to them.  An unexpected window
+of time opened up this weekend, so I went through the ideas and put the
+managable ones into the code.  Then I tackled Python 2.5, making some biggish
+changes in the process.</p>
+
+<p>I've felt guilty for delaying on implementing people's ideas, and now I feel
+good that I've done it.  Try out <a href='code/modules/coverage.html'>coverage.py v2.75</a>.
+Let a fresh backlog commence!</p>
+
+</body>
+</entry>
+
+</blog>

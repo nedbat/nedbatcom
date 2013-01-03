@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090822T083949'>
+<title>Plus signs in email addresses</title>
+<category>email</category>
+<category>malware</category>
+<body>
+<p>One common complaint about "bad" email validators is that they don't allow
+plus signs in email addresses.  Sophisticated users use plus signs to have "different"
+email addresses delivered to the same inbox: user+cat@gmail.com and user+dog@gmail.com
+both go to user@gmail.com.</p>
+
+<p>It occurred to me though, that the prohibition against plus signs might not be
+an oversight, but an intentional attempt to prevent one user being able to register
+with multiple email addresses on a single site.  In other words, the very characteristic
+of plus signs that make them appealing to geeks also make them a useful tool for
+spammers.  As CAPTCHAs show, spammers must be thwarted even if it inconveniences
+some honest users.</p>
+
+</body>
+</entry>
+</blog>

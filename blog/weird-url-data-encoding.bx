@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090830T075434'>
+<title>Weird URL data encoding</title>
+<category>webpage</category>
+<body>
+<p>As a builder of web applications, I'm interested to see how others do it.
+This morning I received a promotional email from Snapfish about printing
+Facebook photos, and noticed the "view this email as a web page" link at the
+top. I figured the URL had to be unique enough to identify the campaign and the
+recipient, and it had to be obscure enough to prevent hacking so that I couldn't
+peek in on others' emails.</p>
+
+<p>The typical way to do this is to include some keys in the URL, and then to
+also include a hash of those keys that includes a secret only the server has.
+The URL can be checked for authenticity, and the keys can be used to retrieve
+the data to display.  The URL can't be hacked, because if I fiddle with the keys,
+the hash won't compute properly.</p>
+
+<p>This is the actual URL (broken to fit):</p>
+
+<quote><p>http://email.snapfish.com/servlet/cc6?<br/>
+kgHiMpkoQSUYSQSVgLKxgLKIHlJoLtKLjQJhuVaVSVupjjhjiHnLmjtVolli://<br/>
+LuHptQkgHiMpkoQJhu/kLjNtLl/OLIkplL/yLjkhgHtpFLKzghju?
+tnapfithGze228X27X42XQWRaceboojXPSNX3zeGQTAMBILXBQ<br/>
+TLQTLPQTAFFGnedzgnedbauchekdes9colGthoyGn</p></quote>
+
+<p>The odd thing here are the almost-words that appear in it: "tnapfith", "Racebooj",
+and "nedzgnedbauchekdes9col".  That's almost "Snapfish", "Facebook", 
+and my email address.  And there's the tell-tale "://" sequence with "olli"
+before it, which looks like <a href='http://en.wikipedia.org/wiki/Rot-13'>ROT-13</a>
+"http" but is not.</p>
+
+<p>I understand why the URL is so long: if you can store all of the data about
+the message in the URL itself, then you don't need to store it on your server and
+then retrieve it by key when the link is clicked.  But what's with the grade-school
+encryption going on here?</p>
+
+</body>
+</entry>
+</blog>

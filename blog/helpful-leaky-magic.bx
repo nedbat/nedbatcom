@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060803T080657'>
+<title>Helpful un-helpful magic</title>
+<category>debugging</category>
+<category>db</category>
+<via />
+<body>
+<p>This is one of those debugging tales that reveals multiple layers of
+helpful magic, all of which combine to make things not work, and keep
+you from figuring out why.
+</p>
+
+<p>I was experimenting with a complex query in 
+<a href='http://www.djangoproject.com/documentation/0_91/'>Django 0.91</a>.
+I needed to join through a number of tables, and the last table needed to use
+an IN expression to get results that applied to a number of different users
+at once. The code was something along the lines of:</p>
+
+<!-- Actual query:
+
+           idlist = ','.join([str(i) for i in ids])
+           for s in stories.get_iterator(tables=['studio_storyaces','studio_users'],
+                                    where=['studio_storyaces.story_id=studio_stories.id',
+                                           'studio_stories.user_id = studio_users.id',
+                                           'studio_users.id in (%s)',
+                                           'studio_storyaces.user_id = %s'],
+                                    params=[idlist, requestor.id]):
+
+-->
+
+<code lang='python'><![CDATA[
+idlist = ','.join([str(i) for i in ids])
+tlist = things.get_list(
+			tables=['middle','people'],
+			where=['middle.thing_id = things.id',
+			       'things.owner_id = people.id',
+			       'people.id in (%s)',
+			       'middle.user_id = %s'],
+			params=[idlist, my_id]
+		)
+]]></code>
+
+<p>Running the code wasn't producing all the correct results.  Many were missing.
+Tracing the code and looking at the returned values, I noticed something:
+all the results applied to only one user, rather than to the set that I was
+trying to get.  That realization led me to the problem.</p>
+
+<p>My intent was that a SQL statement would get executed that
+had something like this in the middle:</p>
+
+<code lang='sql'>.. AND people.id in (12,31,62) AND ..</code>
+
+<p>The first piece of unhelpful magic was that the parameters were strings,
+so the ORM helpfully quoted them for me.  So the SQL actually had this:</p>
+
+<code lang='sql'>.. AND people.id in ('12,31,62') AND ..</code>
+
+<p>Then MySQL helpfully converted that string into the needed integer for
+me, so that the SQL executed as if it were:</p>
+
+<code lang='sql'>.. AND people.id in (12) AND ..</code>
+
+<p>So of course the query was returning results for just one user.</p>
+
+<p>The last strange thing (I'm not sure whether to call it helpful magic
+because I don't know why anyone would find this helpful) was that the SQL
+statement tracing provided by the ORM for some reason doesn't display the
+quoting applied by the ORM.  String parameters are displayed without their
+quote marks.  The SQL trace for the original code displayed:</p>
+
+<code lang='sql'>.. AND people.id in (12,31,62) AND ..</code>
+
+<p>which lulled me into believing that the query being executed was the one
+I wanted.</p>
+
+<p>The fix was a simple one: use Python string replacement instead of ORM 
+parameter replacement to build the query:</p>
+
+<code lang='python'><![CDATA[
+idlist = ','.join([str(i) for i in ids])
+tlist = things.get_list(
+			tables=['middle','people'],
+			where=['middle.thing_id = things.id',
+			       'things.owner_id = people.id',
+			       'people.id in (%s)' % idlist,
+			       'middle.user_id = %s'],
+			params=[my_id]
+		)
+]]></code>
+
+<p>This avoided the string quoting, which produced the correct SQL, which
+produced the correct results.</p>
+
+<p>Note: there may have been a better way to express this. One of the difficulties
+in doing complex work with an ORM is having to learn two languages: SQL,
+and the ORM.  The simplified syntax provided functionally by the ORM is
+a good thing when it is slight, but once it gets complicated, I find myself
+thinking in SQL and back-porting to the ORM.</p>
+
+</body>
+</entry>
+</blog>

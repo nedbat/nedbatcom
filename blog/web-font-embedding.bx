@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090510T110050'>
+<title>Web font embedding</title>
+<category>css</category>
+<category>type</category>
+<body>
+<p>There's a lot of talk of web font embedding these days.
+Dave Shea <a href='http://mezzoblue.com/archives/2009/05/07/font_embeddi/'>covers
+the technology and debate</a> pretty well, as well as showing one (flawed) technique
+for accomplishing it today.  Mark Pilgrim has a
+<a href='http://diveintomark.org/archives/2009/04/21/fuck-the-foundries'>much
+more radical opinion</a>, which also serves as a jumping off point for a very
+spirited debate in the comments.
+</p>
+
+<p>Basically, it comes down to this: web designers want to be able to use more
+than just the web-safe fonts in their pages, which means somehow linking to
+interesting fonts.  Font designers want to keep their fonts from becoming free-ware,
+so want some form of control over where the product of their sweat ends up.
+In some ways, it's a classic DRM battle, but over typefaces rather than songs
+or films.
+</p>
+
+<p>There are some <a href='http://www.webfonts.info/wiki/index.php?title=Fonts_available_for_%40font-face_embedding'>good free fonts</a>
+<a href='http://www.fontsquirrel.com/'>out there</a>, (also <a href='http://www.theleagueofmoveabletype.com/'>here</a>
+and <a href='http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/index-en.html'>here</a>),
+but not many. The high-quality faces, which require not only good design but good implementation
+in the form of hinting, cost real money, which money funds their development.</p>
+
+<p>So there's plenty of discussion about this, but no clear resolution. The
+browsers are just beginning to support <a href='http://www.alistapart.com/articles/cssatten'>@font-face</a>,
+so it will become more of an issue in the coming year.  Hopefully we can resolve
+this like civilized people, without the battles the music and movie industries
+have been relishing.
+</p>
+
+</body>
+</entry>
+</blog>

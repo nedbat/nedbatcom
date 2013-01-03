@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051231T204200' >
+<title>Setting up the new laptop</title>
+<category>admin</category>
+<category>windows</category>
+<via />
+<body>
+
+<p>A few days ago I moaned about the difficulty of getting a new machine set up.
+Since then, I've been working through the process, trying to document it fully.
+At this point I have a usable laptop, in fact, I'm producing this blog post with it.
+Here's what I did (so far):</p>
+
+<more text='Read all the gory details'>
+
+<ul>
+<li>Work through the Windows first-time power-on screens.</li>
+<li>Deal with the McAfee anti-virus UI that insists on registering.</li>
+<li>Get the wireless to work.  Windows won't find my wireless network, but the Intel software does. Whatever...</li>
+<li>Windows Update pulls down two updates.  Install them and reboot.</li>
+<li>Windows Update pulls down 25 more updates!  Install them and reboot.</li>
+<li>Install the extra 1GB of memory I ordered.  I saved about $200 by installing it myself.
+After the fourth nearly microscopic screw I had to remove to get to the memory slot, I'm beginning
+to wonder if it was worth it.  The installation goes fine, though.</li>
+<li>Remove some of the systray icons
+(CD/DVD drive acoustic silencer, echo canceller, modem control, zooming utility).
+Finding all of the control panels to turn each of these off is a real challenge.</li>
+<li>Remove "special offer" icons from the desktop (AOL, AT&amp;T Free Internet, AT&amp;T WorldNet,
+ToshibaDirect) and other icons I don't need in my face (User's Guide, Windows Media Player, etc).</li>
+<li>Uninstall software I don't want:
+    <ul>
+    <li>The control panel says I have America Online installed, and it's occupying 68MB.
+    When I click Change/Remove, an AOL-branded uninstaller opens, and tells me that no installed
+    versions of America Online could be found.  Nice.  I did manage to uninstall AOL Coach and
+    AOL Connectvitiy Services.</li>
+    <li>AT&amp;T Connection Services Manager.</li>
+    <li>Napster.</li>
+    </ul>
+</li>
+<li>Activate Microsoft Office.</li>
+<li>Adjust the trackpad settings to turn down the psycho zippy cursor.  Turn off the systray icon for
+the Dual Pointing device.</li>
+<li>Change the Windows theme:
+<a href='http://www.nedbatchelder.com/blog/20040716T065847.html'>everything should be Verdana 10</a>.</li>
+<li>Customize the Start menu: control panel, my computer and my documents as a menu;
+my music and my pictures not displayed, and so on.</li>
+<li>Customize the explorer: Show hidden files, don't hide extensions of known file types, and so on.</li>
+<li>Install:
+    <ul>
+    <li>Firefox 1.5</li>
+    <li>Python 2.4.1</li>
+    <li>SpaceMonger (it's never too early to start worrying about where your disk space is going).</li>
+    <li>Subversion 1.2.3</li>
+    <li>TextPad 4.7.3</li>
+    <li>BeyondCompare 2.3.1</li>
+    <li>SpyBot 1.4</li>
+    <li>AdAware Personal Edition 1.06</li>
+    <li>ICEOWS 4.20b</li>
+    <li>MySQL 4.0.26</li>
+    <li>Apache 2.0.55</li>
+    <li>Sysinternals essentials: Autoruns 8.43 and Process Explorer 9.25</li>
+    <li>iTunes 6.0.1.3</li>
+    <li>cygwin</li>
+    <li>.NET 1.1 SDK</li>
+    <li>FreeLaunchBar</li>
+    </ul>
+</li>
+<li>Copy my startup files (env.cmd, start.cmd), and my bin directory.
+Create a command prompt shortcut, green text, Lucida Console 14, 9999 lines of screen buffer.
+Command is
+<code><![CDATA[
+%SystemRoot%\system32\cmd.exe /k c:\ned\start.cmd
+]]></code>
+</li>
+<li>Modify settings so I can run Python scripts as native commands:
+    <ul>
+    <li>Add ".pyc;.pyo;.pyw;.py;.pys" to the end of the PATHEXT environment variable.</li>
+    <li>Register the .py etc file extensions in the registry.</li>
+    </ul>
+</li>
+<li>Install Python modules:
+    <ul>
+    <li>PyXML 0.8.4</li>
+    <li>Pyana 0.9.2</li>
+    <li>PIL 1.1.5</li>
+    <li>Silvercity</li>
+    <li>pygame 1.7.1</li>
+    <li>MySQL-python 1.2.0</li>
+    </ul>
+</li>
+<li>Install Picasa 2.1.0, and copy over my photos (4.8Gb!), and the Picasa settings from the
+old machine by copying Google directories out of Documents and Settings.</li>
+</ul>
+
+</more>
+
+<p>After all that, I'm able to do real work on it.  I haven't migrated my email yet, but I think
+everything else is on there.
+</p>
+
+<p>BTW: Naturally, I was going to make all of those software and package names above links to the
+home pages, but screw it, that's a lot of links to paste in.  You know where Google is, use it!</p>
+
+<!--
+
+Installed:
+
+Thunderbird 1.0.7
+Trillian 3.1
+VMware Player 1.0.1
+PuTTY 0.58
+Visual C++ 2005 Express
+Gimp (GTK-2 2.8.9, GIMP 2.2.10)
+-->
+
+</body>
+</entry>
+</blog>

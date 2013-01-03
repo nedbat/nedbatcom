@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030511T210235'>
+<title>Structural markup nit: headers</title>
+<category>webpage</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>There's been a lot of talk lately about structural markup and CSS
+(for example,
+<a href='http://simon.incutio.com/archive/2003/05/04/structuralMarkup'>Simon</a>),
+or maybe there always is among web techies.
+In any case, here's my personal pet peeve about structural markup:
+using headers that start at something other than &lt;h1&gt;.
+</p>
+
+<more>
+
+<p>For example, the much-touted
+<a href='http://www.mezzoblue.com/zengarden/'>CSS Zen Garden</a>
+has a clear structure: title (Zen Garden),
+subtitle (The Beauty of CSS Design), and then a series of headings
+(The Road to Enlightenment, So What is This About, etc).
+Yet the title is marked with &lt;h1&gt;, the subtitle with &lt;h2&gt;,
+and the headings with &lt;h3&gt;.
+Now maybe this is strictly speaking correct: they start with
+&lt;h1&gt;, and work their way down, but I don't think it accurately
+reflects the structure of the document.
+</p>
+
+<p>A number of great sites (both in terms of their content, and their
+push for CSS purity) cheat like this with headers:</p>
+
+<ul>
+<li>
+The fabulous <a href='http://www.kryogenix.org'>kryogenix.org</a>
+uses an &lt;h2&gt; for the title and dates, and &lt;h3&gt; for the entry titles.
+</li>
+<li>The utilitarian but beautifully-designed
+<a href='http://www.simplebits.com'>SimpleBits</a> has its first header
+as an &lt;h4&gt; (the entry titles).
+</li>
+</ul>
+
+<p>IMHO, the first header tag can only be an &lt;h1&gt;, an &lt;h2&gt; can
+only appear after an &lt;h1&gt;, and so on.  The only reason I can see
+for doing anything else is that if you turn off stylesheets, you don't
+want enormous screaming &lt;h1&gt; headers in your face.  Without stylesheets,
+the only way to get more reasonable headers is to use higher-numbered header
+tags.  But that's letting cosmetics dictate your tags, which is precisely
+what structured markup is trying to avoid.  So what's up with that?
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

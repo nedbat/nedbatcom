@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070515T070945'>
+<title>Cygwin path pickiness</title>
+<body>
+<p>I use <a href='http://www.cygwin.com'>cygwin</a> to get Unix utilities on
+Windows.  It works remarkably well, allowing me to run Gnu makefiles from a
+Windows command prompt, and so on.  Except when it doesn't work.</p>
+
+<p>After using a makefile successfully for a week or so, I started getting this:</p>
+
+<code>
+$ make tar
+tar -cvf dot.tar --exclude-from=notar.txt .
+make: tar: Command not found
+make: *** [tar] Error 127
+</code>
+
+<p>This was both really aggravating and really familiar.  I know I had this
+exact problem at one point with my last laptop.  I tried searching Google, but
+ended up with a lot of frustrating dead-ends: many people asking similar questions,
+most of which went unanswered, and a few with chicken-waving answers.  They just
+smelled like shots in the dark.  One suggested re-installing cygwin, which I tried,
+but it didn't help.</p>
+
+<p>Then, waking up this morning, I remembered what the problem was last time:
+an empty entry in my PATH environment variable.  It was one of those times when
+I wasn't even trying to remember something, and it popped into my head, this little
+detail of an admin problem from a year ago.  Not just something vague like,
+"maybe it's the path?" but the specific answer of "it's an empty entry on the path."
+And when it struck me, I knew it was right.</p>
+
+<p>My PATH looked something like this (though much longer):</p>
+
+<code>
+$ set path
+Path=.;C:\WINDOWS\system32;C:\Program Files\QuickTime\QTSystem\;;c:\cygwin\bin
+</code>
+
+<p>That double-semicolon is an empty entry in the path, and cygwin doesn't like it.
+Because tar is in c:\cygwin\bin, and that directory is in the path after the empty
+entry, tar is not found.  Fixing PATH to not have the empty entry fixes the problem.
+</p>
+
+<p>Experimenting further, it seems that other kinds of improprieties in the path
+also get cygwin's knickers in a twist.  For example, enclosing an entry in double quotes,
+although allowed in Windows, also stops the path search.
+Having a non-existent directory is fine, though. Go figure.</p>
+
+<p>So, in short: cygwin's programs can't find programs to execute if they are on
+the path after weird entries.  You can either fix the weird entries, or move
+the cygwin directory up the path before the weirdness.</p>
+
+</body>
+</entry>
+</blog>

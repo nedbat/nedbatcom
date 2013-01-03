@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031017T081251'>
+<title>Unicode test strings</title>
+<category>charset</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Joel recently wrote about Unicode:
+<a href='http://www.joelonsoftware.com/articles/Unicode.html'>The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a>,
+and I have posted <a href='blog/200210.html#e20021023T054035'>pointers about this</a> before.
+Here's my own tip, which I learned from the internationalization (i18n) guy at
+<a href='http://www.notes.net'>Iris</a>.
+</p>
+
+<p>Create some test data to use when testing your software for Unicode goodness.
+If you don't speak a language that uses interesting characters, create some
+text that uses those characters, but looks like it's in English.  For example,
+at <a href='http://www.kubisoftware.com'>work</a>, I used these strings
+(the first is single-byte, but upper code page, the second is two-byte):
+</p>
+
+<quote>
+<p>&#xAB;&#x6B;&#xFC;&#xDF;&#xEE;&#xBB;</p>
+<p>&#x201C;&#x040C;&#x03CD;&#x0411;&#x0407;&#x201D;</p>
+</quote>
+
+<p>Obviously, these don't "say" Kubi in any real way.
+They just look to English speakers like they do.
+This solves a problem with testing: if your developers or testers aren't familiar
+with what the right result is, how will they notice the wrong result?
+By using these strings (or actually, ones that are more about your own work),
+it will be clear if the output goes a little bit wrong.
+</p>
+
+</body>
+</entry>
+</blog>

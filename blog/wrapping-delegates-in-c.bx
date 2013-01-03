@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050328T071759'>
+<title>Wrapping delegates in C#</title>
+<category>exceptions</category>
+<category>csharp</category>
+<via />
+<body>
+<p>Continuing my education in C#, I don't understand what happens to exceptions
+in event handlers.  For the most part, when I register an event handler for a UI event
+(like button click), if the handler throws an exception, I get a detailed dialog box
+showing what happened.  But for some events, the exception is eaten silently.
+One of my strongest passions when coding is to know what is going on under the covers,
+and to be absolutely sure that error conditions are at the very least visible.
+</p>
+
+<p>I'm starting to get the hang of events and delegates.  It isn't yet another language
+for me, still a foreign language.  But I figured there ought to be a way to write
+a delegate wrapper, so that I could take an event registration like this:</p>
+
+<code lang='cs'><![CDATA[
+button1.Click += new EventHandler(button1_Click);
+]]></code>
+
+<p>and using some yet-to-be-written class, make it look like this:</p>
+
+<code lang='cs'><![CDATA[
+button1.Click += new WrappedHandler(new EventHandler(button1_Click));
+]]></code>
+
+<p>where WrappedHandler would call the event handler passed into it, but inside a try-catch
+block, so that exceptions could be displayed.</p>
+
+<p>I had to take a few stabs at it, and I ended up with three "new"s rather than the two
+I thought I would need, but here's something that works:</p>
+
+<code lang='cs'><![CDATA[
+public class WrappedHandler
+{
+    private EventHandler handler;
+
+    public WrappedHandler(EventHandler handler)
+    {
+        this.handler += handler;
+    }
+
+    public void Handler(object sender, EventArgs e)
+    {
+        try
+        {
+            handler(sender, e);
+        }
+        catch (Exception ex)
+        {
+            // Our handler threw an exception.
+            // Show it.
+            MessageBox.Show("Exception: " + ex.ToString());
+            // Then re-throw it.
+            throw;
+        }
+    }
+}
+]]></code>
+
+<p>Now the event handler can be registered like this:</p>
+
+<code lang='cs'><![CDATA[
+button1.Click +=
+    new EventHandler(
+        new WrappedHandler(
+            new EventHandler(
+                button1_Click
+            )
+        ).Handler
+    );
+]]></code>
+
+<p>Is this the simplest it could be?  Did I miss a left turn a half mile back?</p>
+
+<p>BTW: as I was making a new tiny project to experiment with this, I noticed that all
+of the event handlers were nicely reporting exceptions.  My real project still has
+exceptions which aren't being reported.  I'll have to track down whether it's because
+they are different handlers, or because of the third-party controls we're using,
+or even because my predecessor is eating exceptions somewhere.  Fun fun.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030508T210553'>
+<title>Streamed Lines</title>
+<category>srcctrl</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>We've just switched from <a href='http://www.cvshome.org'>CVS</a>
+to <a href='http://www.perforce.com'>Perforce</a> for source control at
+work, and the Perforce docs pointed to an amazing paper about branching:
+<a href="http://www.cmcrossroads.com/bradapp/acme/branching/">Streamed Lines: Branching Patterns for Parallel Software Development</a>.
+</p>
+
+<p>It is truly a catalog of patterns, but rather than being about
+<a href='http://www.jacana.org.uk/pattern/P0.htm'>architecture</a> or
+<a href='http://home.earthlink.net/~huston2/dp/patterns.html'>software design</a>,
+they are about how to branch (work simultaneously on more than one
+release of software).
+</p>
+
+<p>It is a stunningly comprehensive paper, laying out 32 patterns
+(eight each for elements, creation, policy and structuring), then
+working through variations of a number of them, and ending with
+traps and pitfalls (13 of them, including merge-a-phobia, branch-a-holic,
+the never-ending branch, and codeline pudding).
+I have not read it in depth, but am certain that there is much to learn
+in it.
+</p>
+
+</body>
+</entry>
+</blog>

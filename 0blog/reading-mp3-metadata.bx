@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031102T135849'>
+<title>Reading mp3 metadata</title>
+<category>music</category>
+<via />
+<body>
+<p>For some time now, I've wished for a simple script that could
+make m3u files (play lists) from a directory tree of mp3 files (songs, of course).
+I figured it would be an easy enough thing to do, but it is not.
+</p>
+
+<p>I looked into the <a href='http://www.id3.org/develop.html'>ID3 2.4 spec</a>,
+and it's not too bad reading the ID3 metadata from an mp3 file, but the data
+varies wildly depending on what ripping tool produced the mp3, and (surprisingly)
+what players have played the file.  Windows Media Player likes to annotate the files
+when they are played.
+</p>
+
+<p>There are a bunch of
+<a href='http://id3-py.sourceforge.net/'>python implementations of ID3 tagging</a> out there,
+but ID3 keeps changing and the ones I could find were for older versions.
+I hacked around with adding the latest stuff, but the disparity of actual tags in my files
+left me discouraged.
+</p>
+
+<p>By the way: the ID3 spec describes itself as "an informal standard".  I guess the
+author means that the standard has not been created under the stewardship of an
+official standards body.  The document itself is the farthest thing from informal
+that I could imagine.</p>
+
+<p>OK, so I could read the ID3 data from the file where it exists, but the m3u file
+also wants the length (in seconds) of the mp3 file.  This information seems to be stored
+nowhere.  I'm guessing most tools compute the length by examining the mp3 frames themselves.
+This theory is boosted by the fact that a few of them get the length wrong for variable
+bit rate files, presumably because they examine the first frame, then assume all other
+frames are the same rate (and that the file is almost all data frames).</p>
+
+<p>At this point, I gave up.  What's the fun in dealing with dirty data?
+Does anyone have a tool that does what I want?
+My mp3's are in directories by artist and album, and I'd love to have a .m3u
+file in each directory that listed all the mp3's beneath it.
+</p>
+
+<p><em>Update:</em> In January 2004 I finally got a
+<a href='blog/200401.html#e20040104T192724'>complete solution</a>
+together.</p>
+</body>
+</entry>
+</blog>

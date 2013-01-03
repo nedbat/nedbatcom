@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030519T162111'>
+<title>The Google Cluster Architecture</title>
+<category>google</category>
+<category>arch</category>
+<via href='http://www.sauria.com/blog'>Ted Leung on the air</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.computer.org/micro/mi2003/m2022.pdf'>Web Search for a Planet</a>
+is an overview of how Google manages their enormous throughput of extremely
+expensive queries.  The answer may surprise you: tons of cheap PCs.
+</p>
+
+<p>A similar paper is
+<a href='http://www-db.stanford.edu/pub/papers/google.pdf'>The Anatomy of a
+Large-Scale Hypertextual Web Search Engine</a>, written by the founders
+themselves while still at Stanford.  I can't vouch for how much of it is
+still accurate, but it's fascinating nonetheless.
+</p>
+
+</body>
+</entry>
+</blog>

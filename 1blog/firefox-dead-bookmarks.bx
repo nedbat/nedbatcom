@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040915T060028'>
+<title>Firefox dead bookmarks</title>
+<category>browsers</category>
+<category>site</category>
+<via />
+<body>
+<p>Mozilla Firefox has released its
+<a href='http://www.mozilla.org/products/firefox/releases/0.10.html'>Preview Release</a>.
+This includes a new feature called
+<a href='http://www.mozilla.org/products/firefox/live-bookmarks.html'>Live Bookmarks</a>,
+which are bookmarked RSS feeds.
+They appear as folders full of bookmarks to the items in the feed.
+A cool idea, but it doesn't work for this site.
+</p>
+
+<p>Firefox displays the orange RSS icon in the status bar on this page,
+and correctly finds my two RSS feeds.  But using the bookmarks just displays
+"Live Bookmark feed failed to load."
+As far as I know, other RSS readers have no problems with my feeds, but there
+could be problems I don't hear about.
+I'll have to dig into it, I guess.
+</p>
+
+<p>Update: <a href='http://feedvalidator.org/'>Feed Validator</a>
+says my feed is invalid.  I fixed a few things, but it still wants me to add more
+redundant information to make the feed 100% valid.
+Can I just say that I hate RDF, I hate RSS, and Atom seems overly complicated as well?
+None of them are simple.  Blah.</p>
+
+</body>
+</entry>
+</blog>

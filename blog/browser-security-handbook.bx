@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090125T091206'>
+<title>Browser security handbook</title>
+<category>browsers</category>
+<category>security</category>
+<via>Jerry Decime</via>
+<body>
+<p>Michal Zalewski is maintaining an incredible document, the
+<a href='http://code.google.com/p/browsersec/wiki/Main'>Browser Security Handbook</a>.
+It catalogs and describes all the browser behaviors related to security concerns
+in web applications.  Everything is covered in astounding detail, with tables of
+browser beaviors, descriptions of the issues involved, links to vendor-specific
+information, code for test cases, etc. It isn't very long, but it's got the
+highest signal-to-noise ratio of anything else covering these issues.</p>
+
+<p>It's a fascinating read on a number of levels.  First, as a web application
+developer, you need to understand the wide variety of possible threats.  Second,
+as a software developer, it's interesting to see the differences in implementation
+at the far edges of a spec. Remarkable through and through.
+</p>
+
+</body>
+</entry>
+</blog>

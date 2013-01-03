@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='readurl.py'>
+<history>
+<what when='20021124T201200'>Created.</what>
+</history>
+
+<p>This script reads and displays the data served at a URL.
+Options let you choose the data to display (headers, content, real URL),
+and if you have <a href='code/utilities/hexdump_py.html'>hexdump.py</a> in your
+python path, you can display the content in hex.
+</p>
+
+<p>For example, readurl can show the headers returned by
+<a href='http://www.slashdot.com'>slashdot</a>:
+</p>
+
+<code><![CDATA[$ readurl -h http://www.slashdot.com
+Date: Mon, 25 Nov 2002 01:23:15 GMT
+Server: Apache/1.3.26 (Unix) mod_gzip/1.3.19.1a mod_perl/1.27 mod_ssl/2.8.10 OpenSSL/0.9.6g
+SLASH_LOG_DATA: shtml
+X-Powered-By: Slash 2.003000
+X-Bender: My life, and by extension everyone else's, is meaningless.
+Cache-Control: private
+Pragma: private
+Content-Type: text/html
+Age: 0
+Via: HTTP/1.1 cluster.sbo.ma (Traffic-Server/4.0.12-A [cMsSf ])
+]]></code>
+
+<p>It can't explain the X-Bender headers,
+(though <a href='http://simonfell.manilasites.com/2001/09/08'>others</a>
+have wondered about them).</p>
+
+<p>Usage:</p>
+<code><![CDATA[
+readurl: read and display the data at a URL
+readurl [OPTS] URL
+URL is a full URL, including the scheme, such as http://cnn.com
+OPTS:
+ -h          show the headers
+ -c          show the page content
+ -x          show the page content in hex
+ -u          show the real URL retrieved
+]]></code>
+
+<download file='readurl.py' path='code/utilities/readurl.py' />
+
+<pagecomments/>
+
+</page>

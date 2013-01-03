@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061229T142445'>
+<title>Account suspended due to spam</title>
+<category>site</category>
+<category>email</category>
+<body>
+<p>The other day I started to get a flood of spam returned to me via bogus
+return addresses.  This has happened every month or so for a while: a day of
+2000 messages in my inbox.  The return addresses are all made-up localparts at
+my domain, like MiltonqWilsoncantelope@nedbatchelder.com.  I thought, oh well,
+I'll have to clean these all up, and I considered turning off the default address
+for my domain, so that these messages wouldn't get delivered in the future.
+</p>
+
+<p>Before I got around to it, though, 
+my hosting provider (TotalChoice) decided to do something for me: 
+they suspended my entire account, including my web hosting.  
+For about 18 hours, this site was offline, and all emails to nedbatchelder.com 
+were  discarded.  I found this to be a bit of an overreaction, and it pissed me off.
+</p>
+
+<p>After some pestering, the support people let me know that my billing had also
+failed.  I use a 
+<a href='blog/200204.html#e20020407T111438'>virtual credit card number</a>,
+and it expires once a year, so this
+had happened a few times before, with no interruption in service.  This time,
+I had to pay up before they would turn the account back on.  After providing 
+a new credit card number, the account was re-enabled.</p>
+
+<p>I went to my email settings, and saw that the default address for nedbatchelder.com
+had been set to discard emails rather than forward them.  This was fine, except
+that I realized that I had been using the custom of providing different emails
+to different sites: bloglines@nedbatchelder.com for Bloglines, digg@nedbatchelder.com
+for Digg, and so on.  So I went through a pile of old emails to see what aliases
+like this I had created.  It turns out there were about 60 different ones over the
+years.  I started to create explicit forwards for the ones I really needed, but
+when I tested them, nothing was being delivered.
+</p>
+
+<p>Turns out ned@nedbatchelder.com was also being delivered only because of the 
+default forwarding, so I had to create a real mail account for myself, 
+change Thunderbird's account settings to access it, and test it.  It worked, so
+mail was at least flowing to me again.  I created the half-dozen more aliases
+I needed, and they seem to work fine.</p>
+
+<p>For some aliases, I figured I didn't need them to be distinct, so why not just
+change them to ned@ and be done with it?  One of these was the email I gave to eBay.
+I logged into eBay, and tried to change it to ned@.  No luck: that email is in use.
+I clicked through to "I forgot my username", and had eBay send me my username in
+an email.  Turns out I am both "nedbatchelder" and "ned_batchelder" on eBay.
+Trying to change the underscore name to use a different email address wouldn't work
+(the form kept claiming the username was invalid?).  OK, let's set my real account
+to point to my Gmail email.  Nope: you need to have a credit card on file to use
+a Gmail address (why?).  OK, I made a generic second email address for me at
+nedbatchelder.com, and pointed eBay at that. Whatever.</p>
+
+<p>At this point, I think my email is working properly again.  If you wrote to
+me Wednesday night or Thursday during the day, and I seemed (unusually) unresponsive,
+the email may have disappeared.  Try me again.</p>
+
+<p>Talking to friends about this incident, I'm told that this is what I can 
+expect from an inexpensive vendor.  One friend told me to switch to Dreamhost,
+they're great.  I mentioned to another friend that I already had an account at
+Dreamhost that I could switch to, and he said, they're worse, don't use them.</p>
+
+<p>Having been through other experiences like this with other hosting providers,
+and reading reviews online of hosts, and talking to friends, I've come to this 
+conclusion: with a commodity like hosting, most people will have a fine experience
+with whatever provider they choose.  There are probably truly bad providers, but
+most are fine, and most people will have a good story to tell.  But some small
+number (1%? 5%?) will have a horror story to tell, and again, it will happen
+with whatever provider they choose.  So I don't know what to expect in the future,
+and I don't know whether to switch or not.</p>
+
+</body>
+</entry>
+</blog>

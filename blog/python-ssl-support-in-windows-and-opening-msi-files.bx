@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070516T210634'>
+<title>Python SSL support in Windows and opening MSI files</title>
+<category>python</category>
+<category>windows</category>
+<body>
+<p>If you install <a href='http://www.activestate.com/products/activepython/'>ActivePython</a>,
+you will not have SSL support installed.  The socket module from the standard
+library will not have the ssl() function defined, because the _ssl.pyd dynamic
+library is missing, at least for Python 2.4.  Maybe they've included it in
+the Python 2.5 kits.</p>
+
+<p>One solution is to install the Python distribution from <a href='http://www.python.org'>python.org</a>,
+but I didn't want to do that because I like the other extras that ActivePython
+gives me.  The other solution is to find the _ssl.pyd file from the Python
+distribution that matches your version of Python:</p>
+
+<ul>
+    <li>Download the .msi from the <a href='http://python.org/download/releases/'>python.org download area</a>.
+    If the exact version you need isn't listed, find a close one and edit the URL:
+    there are older versions that aren't advertised on the main page.</li>
+    
+    <li>Download <a href='http://blogs.pingpoet.com/overflow/archive/2005/11/16/14995.aspx'>lessmsi</a>,
+    a handy tool for opening up .msi files as if they were simple zip files.</li>
+    
+    <li>Find the file _ssl.pyd in the .msi file and place it into your Python\DLLs directory.</li>
+</ul>
+
+<p>You now have SSL support!</p>
+
+</body>
+</entry>
+</blog>

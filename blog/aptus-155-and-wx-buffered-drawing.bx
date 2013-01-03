@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080405T233611'>
+<title>Aptus 1.55 and wx buffered drawing</title>
+<category>mycode</category>
+<category>help</category>
+<body>
+<p>After a pair of releases of <a href='code/aptus'>Aptus</a> (my Mandelbrot viewer)
+last weekend, Rob McMullen wrote to me with a patch to eliminate flickering
+while drawing on Windows. I was thrilled.  I've been hacking on side projects
+with wxPython for a few years now, and the intricacy of paint events, and the
+vagueness of the double-buffering docs, have conspired to leave me feeling uncertain.
+When the code works, I sometimes don't understand why.
+</p>
+
+<p>So I was psyched for Rob's patch.  It worked great, the Windows flicker was gone.
+But on the Mac, nothing was drawing at all! I tried a few simple tweaks, but
+they didn't help. The previous code had worked without flickering on the Mac, so
+in the end I used the old code on the Mac and the new code on Windows and Linux.
+It's not a nice solution, but again, I don't know why it's behaving the way it
+is, so it's hard for me to track down.
+</p>
+
+<p><a href='code/aptus'>Aptus 1.55</a> is now posted, and it doesn't flicker on
+any of the three platforms, but the code still has the ad-hoc platform check in
+it. If anyone out there knows how this stuff works, and wants to help educate a
+poor sinner, take a look at the code and drop me a line. I'll be forever
+grateful.</p>
+
+</body>
+</entry>
+</blog>

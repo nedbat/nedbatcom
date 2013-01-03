@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030330T213505'>
+<title>Perl shivers and AmphetaDesk</title>
+<category>perl</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>In yesterday's post about
+<a href='blog/200303.html#e20030329T081334'>AmphetaDesk's customizability</a>,
+I closed with a glib jab at Perl.
+This (I think) offended some, and I should explain.
+</p>
+
+<p>AmphetaDesk is well-written, and for all I know is a milestone in Perl
+coding.
+<a href='http://www.trmk.org/~adam/blog/archive/000069.html'>Others have thought so</a>.
+I have read some of the code, and I have to say, it is very well documented,
+the comments even including jokes to keep the reader entertained.  It is clear
+that the author knows what he is doing.
+</p>
+
+<p>But for me, Perl remains an opaque language.  To take one example, this
+appears early on in AmphetaDesk.pm:</p>
+
+<code lang='perl'><![CDATA[
+# turn on autoflushing for AmphetaDesk.log
+select(LOG); $|++; select(STDOUT);
+]]></code>
+
+<p>This just turns me off, and more to my original point, is difficult
+for me to read and understand (although AmphetaDesk is way ahead of the pack by
+providing a helpful comment).
+I've used Perl before, and what it does well it does very well.
+I don't mind diving into it to get something done.
+For example, I added some features to
+<a href='http://www.multicians.org/thvv/webtrax-help.html'>Webtrax</a>.
+I may yet be tempted to try to hack AmphetaDesk.
+But there will be more friction for me with Perl than with another
+interpreted language (though clearly much less than a compiled language).
+That's all I meant.
+</p>
+
+</body>
+</entry>
+</blog>

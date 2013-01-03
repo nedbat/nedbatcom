@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040316T070726'>
+<title>MIDI sheet music?</title>
+<category>music</category>
+<via />
+<body>
+<p>I like to play the piano.  Not very well, but I like to.
+The problem is finding sheet music on impulse.  I hear a song,
+and would like to play it, but even if good sheet music exists
+for it, by the time I can get around to finding it somewhere,
+my interest may have wandered off to another song.
+<a href='http://www.musicnotes.com/'>Musicnotes</a> has digital
+sheet music (buy and download a digital file), but their coverage
+isn't complete (what store's is?)
+</p>
+
+<p>But there are tons of MIDI files out on the web.
+For example,
+<a href='http://home-1.tiscali.nl/~elo/midis.htm'>Electric Light Orchestra MIDI files</a>
+(today's song is Mr. Blue Sky).
+Some are good reproductions, some not so much.
+But they all are computer-readable lists of notes to play.
+What if I could convert a MIDI file into printed sheet music?
+There are <a href='http://www.borg.com/~jglatt/progs/software.htm'>MIDI disassemblers</a>
+out there, but their output is hardly something you could play from.
+</p>
+
+<p><a href='http://www.lilypond.org'>Lilypond</a> is a GNU
+music typesetter, and a very powerful one at that. It can turn
+music notation into a MIDI file, but what about the other way
+around? Has anyone heard of something like that?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121129T061151'>
+<title>Coverage.py 3.6b1</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+    
+    <p>The latest beta version of coverage.py is available: I give you 
+        <a href='http://pypi.python.org/pypi/coverage/3.6b1'>coverage.py v3.6b1</a>.  
+        There are lots of changes here.  Somehow I got on a roll, and fixed 22
+        tickets.  The full list of changes is below.</p>
+
+    <p>But before we get to that, there are two bugs I'd like to fix but need some help with:</p>
+
+        <ul>
+            <li><a href='https://bitbucket.org/ned/coveragepy/issue/94/coverage-xml-doesnt-produce-sources'>Coverage xml doesn't produce &lt;sources&gt; element</a>:
+                The XML report is meant to be consumed by Cobertura, particularly as a plugin in Jenkins.
+                This bug says that the links to the source files don't work, but in my tests they do, so
+                I don't understand the conditions that make it fail.  If you have a publicly available
+                repo that demonstrates this problem, let me know so I can use it as a test case.</li>
+            <li><a href='https://bitbucket.org/ned/coveragepy/issue/74/on-linux-packages-get-installed-in-places'>On Linux, packages get installed in places coverage.py doesn't ignore</a>:
+                If you have any good ideas for determining which directories contain "third-party" packages,
+                I'd like to make coverage.py smarter about it.  It doesn't have to be perfect, because 
+                users can always override the defaults, but I'd like it to start with a better guess.</li>
+        </ul>
+
+    <p>Other than the 22 bugs fixed, big changes include:</p>
+
+    <ul>
+        <li>For continuous integration users, coverage.py can now easily indicate whether the
+            total coverage percentage exceeds a given threshold, with the --fail-under switch.
+            Similar information is available through the API as well.</li>
+        <li>HTML reports can now be titled, which helps in multi-project environments.</li>
+        <li>Configuration files now support environment variable substitution.</li>
+    </ul>
+
+    <p><a href='http://pypi.python.org/pypi/coverage/3.6b1'>Try it out</a>
+    (or "give it a burl" as they say down under), and let me know if anything is amiss.</p>
+
+    <p>Full changes:</p>
+
+<!-- Changelist copied from the docs: -->
+<ul class="simple">
+<li>Wildcards in <tt class="docutils literal"><span class="pre">include=</span></tt> and <tt class="docutils literal"><span class="pre">omit=</span></tt> arguments were not handled properly
+in reporting functions, though they were when running.  Now they are handled
+uniformly, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/143/omit-doesnt-seem-to-work-in-coverage">issue 143</a> and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/163/problem-with-include-and-omit-filename">issue 163</a>.  <strong>NOTE</strong>: it is possible
+that your configurations may now be incorrect.  If you use <tt class="docutils literal"><span class="pre">include</span></tt> or
+<tt class="docutils literal"><span class="pre">omit</span></tt> during reporting, whether on the command line, through the API, or
+in a configuration file, please check carefully that you were not relying on
+the old broken behavior.</li>
+<li>The <strong>report</strong>, <strong>html</strong>, and <strong>xml</strong> commands now accept a <tt class="docutils literal"><span class="pre">--fail-under</span></tt>
+switch that indicates in the exit status whether the coverage percentage was
+less than a particular value.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/139/easy-check-for-a-certain-coverage-in-tests">issue 139</a>.</li>
+<li>The reporting functions coverage.report(), coverage.html_report(), and
+coverage.xml_report() now all return a float, the total percentage covered
+measurement.</li>
+<li>The HTML report&#8217;s title can now be set in the configuration file, with the
+<tt class="docutils literal"><span class="pre">--title</span></tt> switch on the command line, or via the API.</li>
+<li>Configuration files now support substitution of environment variables, using
+syntax like <tt class="docutils literal"><span class="pre">${WORD}</span></tt>.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/97/allow-environment-variables-to-be">issue 97</a>.</li>
+<li>Embarrassingly, the <cite>[xml] output=</cite> setting in the .coveragerc file simply
+didn&#8217;t work.  Now it does.</li>
+<li>The XML report now consistently uses filenames for the filename attribute,
+rather than sometimes using module names.  Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/67/xml-report-filenames-may-be-generated">issue 67</a>.
+Thanks, Marcus Cobden.</li>
+<li>Coverage percentage metrics are now computed slightly differently under
+branch coverage.  This means that completely unexecuted files will now
+correctly have 0% coverage, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/156/a-completely-unexecuted-file-shows-14">issue 156</a>.  This also means that your
+total coverage numbers will generally now be lower if you are measuring
+branch coverage.</li>
+<li>When installing, now in addition to creating a &#8220;coverage&#8221; command, two new
+aliases are also installed.  A &#8220;coverage2&#8221; or &#8220;coverage3&#8221; command will be
+created, depending on whether you are installing in Python 2.x or 3.x.
+A &#8220;coverage-X.Y&#8221; command will also be created corresponding to your specific
+version of Python.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/111/when-installing-coverage-with-pip-not">issue 111</a>.</li>
+<li>The coverage.py installer no longer tries to bootstrap setuptools or
+Distribute.  You must have one of them installed first, as <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/202/get-rid-of-ez_setuppy-and">issue 202</a>
+recommended.</li>
+<li>The coverage.py kit now includes docs (closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/137/provide-docs-with-source-distribution">issue 137</a>) and tests.</li>
+<li>On Windows, files are now reported in their correct case, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/89/on-windows-all-packages-are-reported-in">issue 89</a>
+and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/203/duplicate-filenames-reported-when-filename">issue 203</a>.</li>
+<li>If a file is missing during reporting, the path shown in the error message
+is now correct, rather than an incorrect path in the current directory.
+Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/60/incorrect-path-to-orphaned-pyc-files">issue 60</a>.</li>
+<li>Running an HTML report in Python 3 in the same directory as an old Python 2
+HTML report would fail with a UnicodeDecodeError. This issue (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/193/unicodedecodeerror-on-htmlpy">issue 193</a>)
+is now fixed.</li>
+<li>Fixed yet another error trying to parse non-Python files as Python, this
+time an IndentationError, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/82/tokenerror-when-generating-html-report">issue 82</a> for the fourth time...</li>
+<li>If <cite>coverage xml</cite> fails because there is no data to report, it used to
+create a zero-length XML file.  Now it doesn&#8217;t, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/210/if-theres-no-coverage-data-coverage-xml">issue 210</a>.</li>
+<li>Jython files now work with the <tt class="docutils literal"><span class="pre">--source</span></tt> option, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/100/source-directive-doesnt-work-for-packages">issue 100</a>.</li>
+<li>Running coverage under a debugger is unlikely to work, but it shouldn&#8217;t fail
+with &#8220;TypeError: &#8216;NoneType&#8217; object is not iterable&#8221;.  Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/201/coverage-using-django-14-with-pydb-on">issue 201</a>.</li>
+<li>On some Linux distributions, when installed with the OS package manager,
+coverage.py would report its own code as part of the results.  Now it won&#8217;t,
+fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/214/coveragepy-measures-itself-on-precise">issue 214</a>, though this will take some time to be repackaged by the
+operating systems.</li>
+<li>Docstrings for the legacy singleton methods are more helpful.  Thanks Marius
+Gedminas.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/205/make-pydoc-coverage-more-friendly">issue 205</a>.</li>
+<li>The pydoc tool can now show docmentation for the class <cite>coverage.coverage</cite>.
+Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/206/pydoc-coveragecoverage-fails-with-an-error">issue 206</a>.</li>
+<li>Added a page to the docs about contributing to coverage.py, closing
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/171/how-to-contribute-and-run-tests">issue 171</a>.</li>
+<li>When coverage.py ended unsuccessfully, it may have reported odd errors like
+<tt class="docutils literal"><span class="pre">'NoneType'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'isabs'</span></tt>.  It no longer does,
+so kiss <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/153/non-existent-filename-triggers">issue 153</a> goodbye.</li>
+</ul>
+
+
+</body>
+</entry>
+
+
+<entry when='20121223T212600'>
+<title>Coverage.py 3.6b2</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+    
+    <p>The <a href='http://pypi.python.org/pypi/coverage/3.6b2'>second beta version of coverage.py 3.6</a> is ready.
+        There are only a few changes:</p>
+
+<ul class="simple">
+<li>Coverage.py runs on Python 2.3 and 2.4 again. It was broken in 3.6b1.</li>
+<li>The C extension is optionally compiled using a different more widely-used
+technique, taking another stab at fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/80/is-there-a-duck-typing-way-to-know-we-cant">issue 80</a> once and for all.</li>
+<li>Combining data files would create entries for phantom files if used with
+<tt class="docutils literal"><span class="pre">source</span></tt> and path aliases.  It no longer does.</li>
+<li><tt class="docutils literal"><span class="pre">debug</span> <span class="pre">sys</span></tt> now shows the configuration file path that was read.</li>
+<li>If an oddly-behaved package claims that code came from an empty-string
+filename, coverage.py no longer associates it with the directory name,
+fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/221/coveragepy-incompatible-with-pyratemp">issue 221</a>.</li>
+</ul>
+
+<p>I'm not planning any more changes for v3.6.  Try this and let me know if you find any problems.</p>
+
+</body>
+</entry>
+
+<entry when='20121229T120500'>
+<title>Coverage.py 3.6b3</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+    
+    <p>So that happened...  I had just posted 3.6b2 earlier this week, and was
+        quickly informed that it was terribly broken.  The process works!</p>
+
+    <p>The very popular nose coverage plugin uses the coverage.py API in a way
+        that I wasn't testing, shame on me!  Now I have a test of that style,
+        to prevent this in the future.</p>
+
+    <p>The good news is that <a href='http://pypi.python.org/pypi/coverage/3.6b3'>coverage.py 3.6b3</a> 
+        fixes the problem.  I'm not planning any more changes for v3.6.  Try it and let me know if
+        you find any problems.</p>
+
+    <p>Thanks, and sorry for the version-churn.</p>
+
+</body>
+</entry>
+
+</blog>

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031029T085057'>
+<title>Impossible CSS gripe #2</title>
+<category>css</category>
+<via />
+<body>
+<p>Here's another CSS gripe that I don't think we can do anything about.
+What the heck is wrong with tables as a concept?
+I understand why we want to separate content from layout.
+I can see that we don't want to overload the poor &lt;table&gt; tag
+with both tabular data display and grid layout, because that's poor semantics.
+</p>
+
+<p>But everyone understands tables.
+Any designer out there can take any old layout grid, no matter how wild,
+and tell you how to create a table to display it.
+So why can't CSS use those concepts for layout?
+Why did separating the layout from the content requiring using entirely
+new concepts to describe the layout?
+All the HTML authors understood how to write tables, and all the browsers
+understood how to display tables.
+Why did CSS leave tables behind?
+</p>
+
+<more>
+
+<p>CSS could have been designed to separate content from layout and at the
+same time, use table concepts to describe the layout.  There's no incompatibility
+between the two.  Sure, tables wouldn't do everything: you can't do floated pull-quotes
+with tables.  But they are great at page-level grid layouts.  Why couldn't CSS
+have kept those concepts?</p>
+
+<p>Now we have all sorts of clever people outdoing each other to try to describe
+<a href='http://www.ssi-developer.net/main/templates/'>conceptually simple layouts</a> in CSS.
+These people could be putting their energies to productive use, but instead are
+doing the web design equivalent of translating "The Cat in The Hat" into Sanskrit.
+To what end?
+</p>
+
+<p>Why couldn't CSS have let me describe the grid of the page with familiar
+&lt;table&gt;-like constructs?
+<a href='http://dsauder.com/weblog/2003/09/08.html#a223'>Doug Sauder</a> asked these
+same questions, and proposed a &lt;grid&gt; tag.  I'd do the same, but keep it
+separate from the content, to keep the main CSS goodness.
+Three-column layout with a 100 pixel left column, and the other two columns
+splitting the rest 70/30? With a header and two footers? No problem:</p>
+
+<code lang='html'><![CDATA[
+<grid>
+  <tr colspan='3'><td id='head1'/></tr>
+  <tr>
+    <td width='100px' id='left'/>
+    <td width='70%' id='center'/>
+    <td width='30%' id='right'/>
+  </tr>
+  <tr colspan='3'><td id='footer1'/></tr>
+  <tr colspan='3'><td id='footer2'/></tr>
+</grid>
+]]></code>
+
+<p>Even the hippest coolest proponents of modern web design admit that
+<a href='http://www.hotdesign.com/seybold/23snags.html'>tables do some things better than CSS</a>.
+Why did CSS throw the baby out with the bath water?
+</p>
+
+<p>I know this seems like an angry rant, but I really want to know.
+Why are floated divs and the other CSS constructs better than tables as a layout mechanism?
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

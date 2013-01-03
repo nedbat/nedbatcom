@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040223T193019'>
+<title>Gremlins in the code</title>
+<category>testing</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>Not only is error-handling code hard to write, it is hard to test.
+One technique is to intentionally introduce errors into your system.
+I did this again recently, and called it the Gremlin.
+</p>
+
+<more>
+<p>If you've done your job, your code has been written to properly handle
+exceptions at any point in the code.  But most error conditions are
+hard to simulate.  You could identify particular failure modes, and
+figure out how to make them happen, then meticulously test your software
+while creating those failures.  That's a lot of work, and still would
+miss many failure points.</p>
+
+<p>The Gremlin is both simpler and more thorough, though with some
+randomness thrown in.  The idea is to identify a few high traffic points
+in the code, and at those places, randomly throw exceptions.
+I wrote a function called PokeGremlin, and called it from those
+high-traffic points.  PokeGremlin decides randomly whether to return
+or throw an exception.</p>
+
+<p>For example, your memory allocator is called many times during any
+particular operation.  Throwing exceptions randomly from there will
+test all sorts of failure handling that would normally never be invoked.
+There are probably other similar low-level utility methods that would make
+good call points for PokeGremlin.
+</p>
+
+<p>If you try this, you will learn two things:</p>
+
+<ol>
+<li>There are a half-dozen or so places that need to be fortified immediately to
+make your software robust against this sort of onslaught.</li>
+
+<li>It is nearly impossible to make your software completely safe in this
+mode of operation.</li>
+</ol>
+
+
+<p>I found that PokeGremlin had to lie quietly for some number of calls,
+just so the system could initialize itself to the point of performing.
+Make PokeGremlin configurable, both in the likelihood of an exception
+being thrown, and also in the number of initial opportunities it sits dormant.
+Then you'll be able to experiment with different rhythms of torment for
+your system.
+</p>
+
+
+</more>
+
+</body>
+</entry>
+</blog>

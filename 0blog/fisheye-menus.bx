@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031018T234728'>
+<title>Fisheye menus</title>
+<category>ui</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Jon Udell writes about irony in user interfaces:
+<a href='http://www.infoworld.com/article/03/10/17/41OPstrategic_1.html'>How rich is the rich GUI?</a>
+He points out that sometimes native GUIs are richer than web
+interfaces (the common wisdom), but that sometimes the reverse
+is true.  For example, the web has pervasive links and a back button,
+which native GUIs typically don't.
+</p>
+
+<p>As an example of innovation in user interfaces, Jon points to a
+<a href='http://www.samuelwan.com/downloads/com.samuelwan.eidt/fisheyemenu/FisheyeMenuDemo.html'>demo of fisheye menus</a>.
+I'm all for innovation, and thinking outside the box and all, but I don't get this one.
+True, a traditional list box forces you to scroll, but why is that bad?
+With the fisheye box, I can see where I am in the list, but I can only read three of the
+entries at once.  It's like using an ordinary list box that's three entries tall.
+And the standard listbox shows me where I am in the list with the thumb of the scroll bar.
+</p>
+</body>
+</entry>
+</blog>

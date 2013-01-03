@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<page title='How C trace functions really work'>
+<history>
+<what when='20110504T090000'>Created.</what>
+</history>
+
+<p>The heart of <a href='/code/coverage'>coverage.py</a> is a <a href='http://docs.python.org/library/sys.html#sys.settrace'>trace function</a>,
+    a callback that the Python interpreter will invoke for every function call and line of Python executed.  
+    The docs tell the basics, but it can get a little involved once you get into more advanced techniques. 
+    I just closed <a href='https://bitbucket.org/ned/coveragepy/issue/123/pyeval_settrace-used-in-way-that-breaks'>a bug</a> in coverage.py
+    that was due to an incomplete implementation of a trace function, and I learned some more details along the way,
+    including finding a bug in Python itself.</p>
+
+
+
+<h1>The basics</h1>
+
+<p>At its simplest, a trace function is a Python function like this:</p>
+
+<code lang='py'><![CDATA[
+def my_py_trace_fn(frame, event, arg):
+    # .. do something useful ..
+    return my_py_trace_fn
+
+sys.settrace(my_py_trace_fn)
+]]></code>
+
+<p>Once your trace function is registered, it will be invoked on every function call or return, every exception, and every line executed.
+    The frame argument is the current execution frame, event is a string indicating what kind of event it is, 
+    and arg is something useful like the value returned from the function, or the exception being raised.</p>
+
+<p>Notice that the function returns itself.  In every frame, your function is invoked, and whatever it returns is used as
+    the trace function for the next event in that frame.  This can be used to change how frames are traced depending
+    on dynamic conditions, but usually your trace function simply returns itself so that the same function continues 
+    to be invoked.  I'll call this behavior trace chaining. We'll be coming back to it, because it's central to the issues here.</p>
+
+
+
+<h1>Down to C</h1>
+
+<p>At the lowest level, Python's trace facility is implemented in C, of course, just like the rest of the interpreter.  
+    Every thread of execution has two global pointers, 
+    the first is called c_tracefunc, and points to a C trace function to invoke, with this signature:</p>
+
+<code lang='c'><![CDATA[
+int my_trace(PyObject *obj, PyFrameObject *frame, int event, PyObject *arg)
+]]></code>
+
+<p>The second pointer is called c_traceobj, and points to an arbitrary Python object that will be passed as the first argument to the function.
+    The remaining arguments are analogous to the ones in the Python function, except that here event is an int instead of
+    a string.</p>
+
+<p>You register your function and your object by passing them to PyEval_SetTrace(), and then they are invoked
+    for all of the events described above.</p>
+
+<p>At the C level, there is no chaining, the trace function stored in the thread is always invoked.</p>
+
+
+
+<h1>Implementing the Python level on the C level</h1>
+
+<p>Naturally, the Python sys.settrace() function is implemented on top of PyEval_SetTrace(). 
+    Rather than show the exact C code, with all of its error handling and reference counting,
+    I've only included the bare bones to show how it works:</p>
+
+<code lang='c'><![CDATA[
+PyObject *
+sys_settrace(PyObject * py_fn)
+{
+    if (py_fn == Py_None) {
+        PyEval_SetTrace(NULL, NULL);
+    }
+    else {
+        PyEval_SetTrace(trace_trampoline, py_fn);
+    }
+    return Py_None;
+}
+]]></code>
+
+<p>Simply put, sys.settrace(None) will clear the trace function, setting both C pointers to NULL,
+    and sys.settrace(my_py_trace_fn) will install a C function called trace_trampoline as the C function
+    to call, with your Python function as the object to pass to it.</p>
+
+<p>Here's a sketch of trace_trampoline:</p>
+
+<code lang='c'><![CDATA[
+int
+trace_trampoline(
+    PyObject *obj, PyFrameObject *frame, int event, PyObject *arg
+)
+{
+    PyObject *callback;
+
+    if (event == PyTrace_CALL) {
+        /* Remember obj is really my_py_trace_fn */
+        callback = obj; 
+    }
+    else {
+        callback = frame->f_trace;
+    }
+    if (callback == NULL) {
+        return 0;
+    }
+    result = /* Call callback(frame, event as str, arg) */;
+    if (/* error occurred in callback */) {
+        PyEval_SetTrace(NULL, NULL);
+        frame->f_trace = NULL;
+        return -1;
+    }
+    if (result != Py_None) {
+        frame->f_trace = result;
+    }
+    return 0;
+}
+]]></code>
+
+<p>Now we see where the chaining happens: trace_trampoline uses a member of the frame object called
+    f_trace to record the last value returned by the trace function in this frame.  
+    When entering a new frame, the event is CALL, and the registered trace function is
+    called.  But for all other events, f_trace is used.</p>
+
+<p>After calling the trace function, the return value is examined.  If an error occurred,
+    the trace function is unregistered and never called again.  Otherwise, the return
+    value is recorded in f_trace, to be used for the next event in this frame.</p>
+
+
+
+<h1>sys.gettrace()</h1>
+
+<p>As a companion to settrace(), sys.gettrace() returns the currently registered Python trace function.
+    Now that we know that settrace() stores its argument in the c_traceobj pointer, it's clear
+    that gettrace() simply returns whatever is in c_traceobj.</p>
+
+<p>An obvious goal for settrace() and gettrace() is that getting the trace function from gettrace() 
+    and then passing it to settrace() should be a no-op:</p>
+
+<code lang='py'><![CDATA[
+# This should be as if nothing happened:
+sys.settrace(sys.gettrace())
+]]></code>
+
+<p>When the trace function is written in Python, this invariant is true,
+    gettrace() and settrace() round-trip it quite nicely.  When the trace function
+    is written in C, it doesn't just happen, and making it work is kind of a pain.</p>
+
+
+
+<h1>C trace functions</h1>
+
+<p>To make program measurement faster, coverage.py uses a trace function written in C.
+    Writing a trace function in C starts out simply enough:</p>
+
+<ul>
+    <li>Create a class to maintain whatever state you need,</li>
+    <li>Write a function that matches the trace function signature, taking your object as its
+        first argument, and</li>
+    <li>Call PyEval_SetTrace, passing it your function and one of your objects.</li>
+</ul>
+
+<p>Your function will be invoked on calls, lines, and returns, and all is well.</p>
+
+<p>What happens now when someone calls sys.gettrace()?  As we saw, sys.gettrace()
+    returns whatever Python object is stored in c_traceobj.  In the case of a Python trace
+    function, that is the function itself.  But with a C trace function, it's whatever
+    object you registered with PyEval_SetTrace().  Using the description I just gave above,
+    there's no reason for your object to be callable, it simply maintains state for your
+    trace function.</p>
+
+<p>But anyone calling sys.gettrace() will expect a callable Python object, in fact, will
+    expect that it can be passed to sys.settrace() to reinstate it as the trace function.</p>
+
+
+
+<h1>Re-installable C trace functions</h1>
+
+<p>To keep sys.gettrace() working properly, the Python object you create must be callable.
+    Luckily, that is easy to do, you can add the equivalent of a __call__ method to your
+    object.  That method will be invoked as a Python trace function, so it should expect
+    the three arguments a Python trace function takes: a frame object, an event string,
+    and an arbitrary Python value.  You'll need to convert those arguments to the form
+    your C function expects, and call it.</p>
+
+<p>Here's a sketch based on coverage.py's C tracer:</p>
+
+<code lang='c'><![CDATA[
+static PyObject *
+Tracer_call(Tracer *self, PyObject *args, PyObject *kwds_unused)
+{
+    PyFrameObject *frame;
+    PyObject *what_str;
+    PyObject *arg;
+    int what;
+    static char *what_names[] = {
+        "call", "exception", "line", "return",
+        NULL
+        };
+
+    if (!PyArg_ParseTuple(args, "O!O!O:Tracer_call",
+            &PyFrame_Type, &frame, &PyString_Type, &what_str, &arg)) {
+        goto done;
+    }
+
+    /* In Python, the what argument is a string, we need to find an int
+       for the C function. */
+    for (what = 0; what_names[what]; what++) {
+        if (!strcmp(MyText_AS_STRING(what_str), what_names[what])) {
+            break;
+        }
+    }
+
+    /* Invoke the C function, and return ourselves. */
+    if (Tracer_trace(self, frame, what, arg) == RET_OK) {
+        Py_INCREF(self);
+        return (PyObject *)self;
+    }
+
+done:
+    return NULL;
+}
+]]></code>
+
+<p>Here my C class is called Tracer, and my C function is Tracer_trace.  All that happens
+    here is unpacking the Python arguments and converting the string event into an int.</p>
+
+<p>Note that once your function has been round-tripped through sys.settrace(sys.gettrace()), 
+    you end up with a convoluted configuration. At first, right after registering your C trace function, 
+    the two per-thread pointers look like this:</p>
+
+<ul>
+    <li>c_tracefunc points to Tracer_trace</li>
+    <li>c_traceobj points to an instance of Tracer</li>
+</ul>
+
+<p>When a line of code is executed, your Tracer_trace function is invoked, with your Tracer
+    instance as its first argument.</p>
+
+<p>After you execute sys.settrace(sys.gettrace()), the pointers look like this:</p>
+
+<ul>
+    <li>c_tracefunc points to trace_trampoline</li>
+    <li>c_traceobj points to an instance of Tracer</li>
+</ul>
+
+<p>Now when a line of Python is executed, trace_trampoline is invoked.  It will transform
+    its C-friendly arguments into Python-friendly ones, and call the c_traceobj object, that is,
+    your object.  That invokes Tracer_call, which takes the Python values
+    and converts them back into C-friendly values, then calls your original C trace code at Tracer_trace.</p>
+
+<p>The result is a complicated detour through a few levels of adapter code, but your
+    C trace function ends up getting called as it should.</p>
+
+
+
+<h1>The one remaining problem</h1>
+
+<p>OK, now we're all set, right?  Not quite yet.  Here's a simple test of our trace function:</p>
+
+<code lang='py'><![CDATA[
+import sys
+
+def foo():
+    a = 4   # line number 4, etc.
+    sys.settrace(sys.gettrace())
+    a = 6
+
+def bar():
+    a = 9
+    foo()
+    a = 11
+
+a = 13
+bar()
+a = 15
+]]></code>
+
+<p>Here we invoke a function which invokes a function which fiddles with the trace function,
+    and then we return back to the top level.  Line 5 should be a no-op, as discussed earlier.
+    If it is, then our trace function will get events for all of the lines in the file.</p>
+
+<p>If we run this program with a Python-based trace function, it works exactly as you'd 
+    expect, and all the lines are recorded.  But if a C-based trace function is used, 
+    lines 6, 11, and 15 are missing from the trace (the values assigned to a are the line numbers, by the way.)</p>
+
+<p>What's going on?  We went through a lot of trouble to make our C trace function round-trip
+    properly, why isn't it invoked?  In fact, the trace function is properly registered, and
+    if another function call followed bar(), it would be properly traced.</p>
+
+<p>The problem is our old friend trace chaining.  Remember that although our trace function is in C,
+    it's been reinstated as a Python function in disguise, so it's now running under the Python
+    trace function facility trace_trampoline.  That code
+    uses the f_trace member of the frame object to keep a "local trace function".   On entering
+    a new frame, the registered trace function is called, and from then on, the value returned
+    by the trace function is stored in the f_trace member of the frame to be used as the trace
+    function for the next event.</p>
+
+<p>The first half of our program was traced by a C trace function, which didn't touch f_trace.
+    At line 5, our trace function is round-tripped, and as a result, the Python trace implementation
+    layer trace_trampoline is now in place as the C trace function, with our object standing in 
+    as a Python callable function.  When line 6 is executed, the trace_trampoline code looks
+    at f_trace, and sees a NULL pointer, because it's never been updated, and so it doesn't invoke
+    a function at all.</p>
+
+<p>The same thing will happen as each frame finishes execution and returns. The tracing doesn't work
+    properly until the next function call when the registered function is called again, and trace_trampoline starts
+    to record return values in f_trace.</p>
+
+
+
+<h1>The last (?) fix</h1>
+
+<p>The only way I could see to fix this was to have my C function keep f_trace up-to-date just in 
+    case someone round-trips us with gettrace() and settrace().  To do this, every time we are invoked
+    for a new frame (that is, whenever the event is CALL), we set ourselves into the frame's f_trace member.
+    This way, when the round-trip happens and we're under the trace_trampoline regime, the frames
+    will have their f_trace members pre-populated with the proper value to invoke us.</p>
+
+<p>It's unfortunate to have to do work in the C function that's only to anticipate the possibility
+    of a settrace round-trip.  But assigning one pointer (and incrementing the reference count)
+    is a very slight amount of work, and it makes everything work properly.</p>
+
+<p>If you want to see real code that implements all this, 
+    <a href='https://bitbucket.org/ned/coveragepy/src/7a21df153cd0/coverage/tracer.c'>tracer.c</a> in 
+    the coverage.py repo has all of these twists and turns.</p>
+
+
+
+<h1>The biggest surprise: a 10-year bug</h1>
+
+<p>As much head-scratching as this bug took, and as long as it took me to understand the issues and
+    settle on a solution, the biggest surprise didn't come until I began this writeup.  When I started
+    to describe the trace_trampoline code, I was struck by this clause:</p>
+
+<code lang='c'><![CDATA[
+if (result != Py_None) {
+    frame->f_trace = result;
+}
+]]></code>
+
+<p>I didn't understand why it skipped the assignment to f_trace if the result was None.  The docs for sys.settrace
+    state very clearly (emphasis mine):</p>
+
+<quote><p>The local trace function should return a reference to itself (or to another function for further 
+        tracing in that scope), or <em>None to turn off tracing in that scope</em>.</p></quote>
+
+<p>Yet the C code seems very clearly to avoid chaining if the return value is None.  How is it that returning
+    None "turns off tracing in that scope"?  The answer is surprising: it doesn't, the trace_trampoline code
+    has a bug!  Returning None from a local trace function has no effect, and tracing continues anyway, in
+    direct contradiction of the docs.  Apparently no one knew this, and it's been like this ever since 
+    <a href='http://hg.python.org/cpython/rev/e427afb5637f'>trace_trampoline was first written almost 10 years ago</a>.</p>
+
+<p>So now I own Python <a href='http://bugs.python.org/issue11992'>Issue 11992</a> to fix...</p>
+
+
+<h1>See also</h1>
+
+<p>If you liked this, then you'll might also enjoy:</p>
+
+<ul>
+    <li><a href='blog/200907/a_nasty_little_bug.html'>A nasty little bug</a>, about how pyexpat confounded coverage for a short time.</li>
+    <li><a href='/blog/200911/memory_leak_mystery.html'>Memory leak mystery</a>, about why files with 30 lines ran in coverage.py just fine, but 300 lines did not.</li>
+    <li><a href='/blog'>My blog</a>, where a wide variety of software topics flourish.</li>
+</ul>
+
+<pagecomments/>
+
+</page>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081005T205243'>
+<title>Aptus 2.0</title>
+<category>mycode</category>
+<category>math</category>
+<body>
+<p><a href='code/aptus'>Aptus 2.0</a>, the latest version of my Mandelbrot
+explorer, is now available.  It's got a lot of improvements over the previous
+version, including speed improvements, multiple top-level windows, tool windows
+for displaying information and Julia set support.
+</p>
+
+<figurep href='code/aptus'>
+    <img src='pix/CocoonLace2_med.png' alt='fractal image from the Mandelbrot set'/>
+</figurep>
+
+<p>It's built with <a href='http://wxpython.org'>wxPython</a>, so it runs on Windows,
+Linux, and Mac.</p>
+
+</body>
+</entry>
+</blog>

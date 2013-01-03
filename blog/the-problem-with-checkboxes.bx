@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060301T072401'>
+<title>The problem with checkboxes</title>
+<category>ui</category>
+<via />
+<body>
+<p>Checkboxes are a difficult UI element to use properly.  The problem is they are asking a yes/no
+question, but you can only see one of the choices.  This morning I got a perfect example.
+</p>
+
+<p>My son Max is trying to write an installer for a Windows program (<em>sniff, they grow up so fast!</em>).
+I pointed him at <a href='http://www.jrsoftware.org/isinfo.php'>Inno Setup</a> because I had used it in
+the past and found it to be straightforward, and it comes with a helpful wizard.  He came back and said,
+"That wizard is no good, it just makes an empty install file!"</p>
+
+<p>I tried the wizard, and saw the problem.  At the bottom of the first page is a checkbox labeled,</p>
+
+<quote><p>Create a new empty script file.</p></quote>
+
+<p>Max had checked it, because he thought it meant, "I want to make a new
+installer."  If instead, there had been two radio buttons labeled,</p>
+
+<quote>
+<ul>
+<li>I want to start with an empty install script and fill it in myself</li>
+<li>I want the wizard to ask questions, and create a finished script for me</li>
+</ul>
+</quote>
+
+<p>he would have made the proper choice.  He didn't know what the alternative to the checkbox was.
+The key word in the checkbox was "empty", but Max interpreted it as "new", or maybe even "script file".
+Explicitly listing the two alternatives makes the choice very clear.</p>
+
+<p>BTW: This is the UI equivalent of <a href='blog/200507.html#e20050731T101949'>Booleans suck</a>.</p>
+
+</body>
+</entry>
+</blog>

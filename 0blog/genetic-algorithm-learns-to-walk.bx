@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030724T221641'>
+<title>Genetic algorithm learns to walk</title>
+<category>compsci</category>
+<category>animation</category>
+<via href='http://www.gadgetopia.com/'>Gadgetopia</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.discover.com/aug_03/feattech.html'>Darwin in a Box</a>
+is an article about the work of Torsten Reil,
+who created a convincingly
+natural walking animation by constructing a virtual joint system with a
+neural network to control the muscles, and let a genetic algorithm find the
+"best" neural network parameters.
+In 20 generations, he went from random flailing to a smoothly striding figure.
+</p>
+
+<p>Genetic algorithms have long fascinated me as a practical application
+of Darwin's Theory of Evolution.  That they can work so well is delightful,
+as is their subversive creativity (just as in nature): Reil had to modify
+the fitness function from "distance from the origin" to "distance from the
+origin while keeping the center of mass above a certain height", because
+the algorithm discovered weird crawling techniques that were doing pretty
+well otherwise.
+</p>
+
+<p>
+Reil's company
+<a href='http://www.naturalmotion.com/pages/technology_hiw.htm'>naturalmotion</a>
+has a cool
+<a href='http://www.naturalmotion.com/files/simplewalkevolution.mpg'>video</a> of the evolution.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Intro Flash'>
+
+<history>
+<what when='20040302T211000'>Created.</what>
+</history>
+
+<p>My son thought that my site could use a Flash movie introduction,
+so he created this (which he tells me requires Flash 6).
+It explains the heroic origins of this site.</p>
+
+<p align='center'>
+<object
+    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+    codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"
+    width='550' height='400'
+    >
+
+
+    <param name='movie' value="files/stellatedintro.swf"/>
+    <param name='quality' value='high'/>
+    <param name='bgcolor' value='#ffffff'/>
+    <embed
+        src="files/stellatedintro.swf"
+        quality='high'
+        bgcolor='#ffffff'
+        width='550'
+        height='400'
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?p1_prod_version=shockwaveflash"
+        />
+</object>
+</p>
+
+</page>

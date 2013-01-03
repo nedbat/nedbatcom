@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050305T071746'>
+<title>Building a modern computer from first principles</title>
+<category>compsci</category>
+<category>edu</category>
+<via href='http://lambda-the-ultimate.org'>LtU</via>
+<body>
+<p>This looks like an amazing textbook:
+<a href='http://www1.idc.ac.il/tecs/'>Build a Modern Computer from First Principles</a>.
+Judging from the accompanying presentation
+(<a href="http://www1.idc.ac.il/tecs/talks/TECS%20course%20&amp;%20book%20overview.pps">From Nand to Tetris in 12 Steps</a>),
+it presents a wild ride up the entire computing stack, from nand gates to operating systems.
+The authors provide a series of Java-based emulators (hardward, CPU, VM),
+translators (assembler, compiler), and a primitive programming language and operating
+system with which to do the 12 projects.
+I'm not sure how much depth they can provide at their fast pace, but it sure would be interesting
+to try it.
+</p>
+
+</body>
+</entry>
+</blog>

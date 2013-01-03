@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100620T164212'>
+<title>Chrome's email fields</title>
+<category>webpage</category>
+<category>email</category>
+<body>
+<p>In a comment on my last post, <a href='http://drozdyuk.blogspot.com/'>drozzy</a> wrote:</p>
+
+<quote><p>PS: Whenever I try to post a comment on your blog, my email always
+gets @ and . replaced by (at) and (dot) symbols, so that I have to retype it
+before clicking on "add it" button. This is a bug methinks. Fyi I am using
+chrome.</p></quote>
+
+<p>I tried it, and sure enough, Chrome would not let a comment be submitted.</p>
+
+<p>Somewhere in the reptilian brain of my comment code, I was cloaking email
+addresses by changing "." to "(dot)" and "@" to "(at)".  This meant that when
+previewing a comment, the valid email that you had entered now is not a valid
+email address.</p>
+
+<p>This is fine, except in Chrome.  A couple of months ago, I changed the comment
+form's field to use an <a href='blog/201003/dive_into_html5.html'>HTML5 type="email" field</a>.
+I figured it wouldn't hurt anything, and would give iPhone users a nicer email-specific
+keyboard to use.</p>
+
+<p>But it turns out Chrome is being even more "helpful": it won't let a form
+submit if an email field has an invalid email address in it.  And "ned(at)nedbatchelder(dot)com"
+is not a valid email address, no matter how obvious it is to us humans what is meant.</p>
+
+<p>I couldn't remember why I wanted to cloak email addresses like that in the
+first place, since they aren't displayed on the site anyway, and even if they
+were, it should be output like that, not input like that.  So I removed the cloaking,
+and Chrome is working again.</p>
+
+<p>Playing with Chrome a bit, it seems that they're using the same ultra-liberal
+validation I recommended in <a href='blog/200908/humane_email_validation.html'>Humane email validation</a>:
+stuff, at, stuff, dot, stuff, where stuff can't have at-signs or spaces in it,
+although they don't trim the string first, so a leading or trailing space
+will prevent the form submission. I'm a bit surprised that they unilaterally
+perform this validation, since there's no UI to let the user know what's going
+on: the field is given focus, but there's no other indication as to why the form
+didn't work.</p>
+
+<p>It seems browser incompatibilities are inevitable.  This is a big difference
+between the way the browsers work.  And one of the key theories of
+<a href='http://diveintohtml5.org/forms.html#type-email'>HTML5 email fields</a>
+is that they don't break anything, just make it nicer.  Mark Pilgrim closes his
+exhortation on HTML5 email fields with:</p>
+
+<quote><p>To sum up: there’s no downside to converting all your email address
+form fields to type="email" immediately. Virtually no one will even notice,
+except iPhone users, who probably won’t notice either. But the ones who do
+notice will smile quietly and thank you for making their web experience just a
+little easier.</p></quote>
+
+<p>Seems to me like someone noticed...</p>
+
+<p>One more thing: I considered digging into the Chromium source to find the
+validation to see what the real rule was, and whether it could be disabled or
+controlled in some way, but the Chrome project uses all custom tools, and even
+just pulling the source from svn indicates the use of gclient, whatever that is.
+Too much trouble.</p>
+
+</body>
+</entry>
+</blog>

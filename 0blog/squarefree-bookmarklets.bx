@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030409T103202'>
+<title>More Bookmarklets</title>
+<category>browsers</category>
+<category>js</category>
+<category>css</category>
+<via href="http://simon.incutio.com/archive/2003/04/09/#funkyBookmarklets">Simon Willison</via> <!-- id= or href= -->
+<body>
+<p>More amazing bookmarklets from Jesse Ruderman:
+<a href="http://www.squarefree.com/bookmarklets/webdevel.html#ancestors">Web Development Bookmarklets</a>.
+Some of these are astounding, primarily
+<a href="javascript:(function(){function update(){if(!x || x.closed){ta.style.backgroundColor=&quot;#ddd&quot;;return;}try { x.bookmarkletStyleSheet; } catch (er){ta.style.backgroundColor=&quot;#fdc&quot;;setTimeout(update, 150);dead=true;return;}if(dead){dead=false;ta.style.backgroundColor=&quot;&quot;;oldCSS=null;}if(!x.bookmarkletStyleSheet){var newSS;newSS=x.document.createElement(&quot;link&quot;);newSS.rel=&quot;stylesheet&quot;;newSS.type=&quot;text/css&quot;;x.document.documentElement.childNodes[0].appendChild(newSS);x.bookmarkletStyleSheet=newSS;oldCSS=null;x.bookmarkletStyleWindow=window;}if(oldCSS!=ta.value){oldCSS=ta.value;x.bookmarkletStyleSheet.href=&quot;data:text/css,&quot;+ta.value;}setTimeout(update, 150);}if(window.bookmarkletStyleWindow &amp;&amp; !bookmarkletStyleWindow.closed) {bookmarkletStyleWindow.focus();} else { var y;y=window.open('','','resizable,width=450,height=300');y.document.write('&lt;title&gt;New CSS Style Sheet&lt;/title&gt;&lt;body style=&quot;margin: 0px;&quot;&gt;&lt;form name=&quot;f&quot; style=&quot;margin: 0px;&quot;&gt;&lt;textarea name=&quot;ta&quot; wrap=&quot;hard&quot; style=&quot;margin: 0px; border: 0px; width:100%; height:100%;&quot;&gt;/* Type CSS rules here and they will automatically be\napplied to pages from '+location.host+'\nas long as you keep this window open. */\n\n\n&lt;/textarea&gt;&lt;script&gt;'+update+'dead=false; oldCSS=null; x=opener; ta=document.f.ta; if(x.bookmarkletStyleSheet)ta.value=x.bookmarkletStyleSheet.href.slice(14); ta.focus(); update();&lt;'+'/script&gt;');y.document.close();}})();">test styles</a>,
+which puts up a text window where you can type CSS that is applied live to
+the page as you type!
+</p>
+</body>
+</entry>
+</blog>

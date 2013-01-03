@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='FtpUpload'>
+<history>
+<what when='20030413T120300'>Created.</what>
+</history>
+
+<p>FtpUpload.py provides intelligent FTP uploading of files,
+using MD5 hashes to track which files have to be uploaded.
+Each upload is recorded in a local file so that the next upload can skip
+the file if its contents haven't changed.
+File timestamps are ignored, allowing regenerated files to be properly
+uploaded only if their contents have changed.
+</p>
+
+<p>Call <codeword>setHost()</codeword> and <codeword>setMd5File()</codeword>
+to establish the settings for a session,
+then <codeword>upload()</codeword> for each set of files to upload.
+If you want to have
+removed local files automatically delete the remote files, call
+<codeword>deleteOldFiles()</codeword> once,
+then <codeword>finish()</codeword> to perform the closing bookkeeping.
+</p>
+
+<code lang='python'><![CDATA[
+fu = FtpUpload()
+fu.setHost('ftp.myhost.com', 'myusername', 'password')
+fu.setMd5File('myhost.md5')
+fu.upload(
+    hostdir='www', src='.',
+    text='*.html *.css', binary='*.gif *.jpg'
+)
+# more upload() calls can go here..
+fu.deleteOldFiles()
+fu.finish()
+]]></code>
+
+<p>More documentation (but not much more!) is in the doc strings.</p>
+
+<p>FtpUpload requires:</p>
+<ul>
+<li><a href='http://www.python.org'>Python</a>,</li>
+<li>Jason's <a href='http://www.jorendorff.com/articles/python/path'>path module</a>.</li>
+</ul>
+
+<download file='FtpUpload.py' path='code/modules/FtpUpload.py' />
+
+<googleads/>
+<pagecomments/>
+
+</page>

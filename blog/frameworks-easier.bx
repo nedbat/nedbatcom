@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060830T202358'>
+<title>Frameworks make software easier, but only the easy part</title>
+<category>development</category>
+<category>django</category>
+<body>
+<p>There's a lot of talk these days about new web frameworks.
+Django, Turbogears and Ruby on Rails are leading the charge on new ways
+to build web applications.  They undoubtably save time, improve productivity,
+and make developers happier.  It's easier to build sites with these frameworks
+and in these languages than with competing technologies.</p>
+
+<p>Of course, all of the interest and hype will result in some backlash.
+Hacknot has an amusing rant, <a href='http://www.hacknot.info/hacknot/action/showEntry?eid=89'>All Aboard the Gravy Train</a>
+(with a great pun, "Now departing platform one").
+He ultimately dismisses the new frameworks with:</p>
+
+<quote><p>Your time and energy is better invested in improving your 
+abilities and skills than in adding another notch to your technology belt.
+</p></quote>
+
+<p>This is throwing out the baby with the bath water, as 
+Pete Lyons ably argues in <a href='http://www.developingstorm.com/dog/blog/show/106'>Defending Ruby on Rails</a>:
+</p>
+
+<quote><p>The problem with these assertions are that they assume that 
+learning the new technology neither offers new insight into the 
+'principles or techniques of software development' 
+nor would 'improve your ability and skill'.</p></quote>
+
+<p>I've been working in <a href='http://djangoproject.com'>Django</a> for eight months
+now, and it really is faster and better than other ways we could have 
+chosen to build <a href='http://www.tabblo.com'>Tabblo</a>.
+Django and Python have made the job easier, but only the actual writing of 
+the software, which in my mind, is the easy part to begin with.</p>
+
+<p>Building a great product involves a lot of hard work, much of which has 
+nothing to do with coding:</p>
+
+<ul>
+<li>What should the product do?</li>
+<li>Who are the customers? What do they care about?</li>
+<li>Of our two (three?, n?) conflicting goals, which should I work on today?</li>
+<li>How do we architect the software to anticipate the unseen future?</li>
+<li>What's the right architecture to ensure the application performs well?</li>
+<li>What can we do to make sure the site stays running around the clock?</li>
+<li>How do we balance short-term vs. long-term needs?</li> 
+<li>Which add-on libraries and tools are right to incorporate into the product?</li>
+<li>How do we assess the quality of the product?</li>
+<li>What's the right balance between adding features and fixing bugs?</li>
+<li>Which are the bugs that really interfere with the product's success?</li>
+<li>When is the software "done enough"?</li>
+<li>How do we gauge the risk of any decision we make?  How do we mitigate it?
+What's plan B?</li>
+<li>What are the lessons from previous projects that apply here?  
+Is this history repeating itself, or are we in new territory?</li>
+</ul>
+
+<p>And this isn't even covering the larger organizational issues of 
+management, team building, and general inter-personal stuff
+that any software engineer on a real product will have to deal with,
+not to mention whole-business concerns like marketing, sales, support, and so on.</p>
+
+<p>When I worked at Digital in the printer group, there was a joke among
+the software engineers: we claimed the hardware guys looked down on us 
+because they thought that writing software was "just typing".  
+By focusing purely on coding issues, we software
+engineers run the risk of taking the same stupid view of our world.</p>
+
+<p>At a certain simplisitic level, a web app is a straightforward piece of software:
+it has to accept request at URLs, dive into a database to get some data,
+build some results, format them into HTML, and return them to the browser.
+Django and Rails make this process easier, absolutely.  But building a great
+web application involves so much more difficult work.  The frameworks can help
+by simplifying coding so that we can focus on the remaining difficult problems.
+</p>
+
+<p>When the hype-masters claim that their frameworks and languages make 
+coding an application easier, they are absolutely right.  But that's
+already the easy part.</p>
+
+</body>
+</entry>
+</blog>

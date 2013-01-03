@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100428T091650'>
+<title>Stack Exchange 2.0</title>
+<category>online</category>
+<category>business</category>
+<body>
+<p>In the beginning there was <a href='http://stackoverflow.com'>Stack Overflow</a>,
+the programmer's Q&amp;A site.  It's been very successful, easily
+<a href='http://www.google.com/trends?q=stackoverflow,+experts+exchange&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0'>overtaking its competition</a>.
+It's now the clear best choice for a place to ask questions and look for answers
+about programming.</p>
+
+<p>After a few months, Stack Overflow spawned <a href='http://serverfault.com'>Server Fault</a>
+(for system administration topics) and <a href='http://superuser.com'>Super User</a>
+(for computer user topics).  They've been moderately successful, nothing like
+Stack Overflow, though: they've each accumulated 36,000 questions, while Stack
+Overflow has 640,000 so far.</p>
+
+<p>Then they figured, why can't we handle any topics at all, and let anyone
+create their own site? And so <a href='http://stackexchange.com'>Stack Exchange</a>
+was born, a site where anyone could create a Q&amp;A arena on whatever topic
+they wanted.</p>
+
+<p>But it wasn't free, in fact, it seemed kind of expensive: $129/month.  And
+the sites weren't taking off.  It seemed that each step removed from programming
+questions meant a 20x drop-off in traffic.  The Stack Overflow team
+(Joel Spolsky, Jeff Attwood and a bunch of others) are now looking for ways to
+extend their success, including getting some investment.</p>
+
+<p>As part of their new plan, they've announced changes to Stack Exchange:
+<a href='http://blog.stackexchange.com/post/518474918/stack-exchange-2-0'>Stack Exchange 2.0</a>.
+Everything's free now, but the process for creating new sites has become as
+convoluted as a Politburo meeting. Interestingly, the comments on the
+announcement are mostly mad about the loss of the paid option, because a paid
+site is owned by its creator, while the free sites are not.</p>
+
+<p>I think the new community creation process is way too heavyweight, especially
+where they require a certain number of users with a certain number karma points
+on existing sites to commit to a community before it will be created.</p>
+
+<p>Overall, it's a familiar internet story: a startup creates something, people
+start using it, but then the business plan shifts, and users are left feeling
+abandoned. Small startups have to adapt to survive, but they don't want to piss
+off too many people along the way.</p>
+
+<p>One interesting point in this whole thing: Joel has been very direct with
+people, telling them if they think they can do a better job building a community,
+they're welcome to use one of the Stack Overflow clones to do it.  And there are
+a bunch of clones: <a href='http://array-shift.com'>Array Shift</a> is built in Drupal,
+<a href='http://www.osqa.net'>OSQA</a> is a Django app, and <a href='http://shapado.com/'>Shapado</a>
+looks pretty full-featured.  There are probably more.</p>
+
+<p>It'll be interesting to watch the continued evolution of the Stack Overflow
+ecosystem.  I'm not sure any community will get the critical mass that the original
+Stack Overflow did, but it's worth trying a few ways to make it happen.</p>
+
+</body>
+</entry>
+</blog>

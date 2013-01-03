@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081025T135102'>
+<title>Funkload ftw</title>
+<category>testing</category>
+<body>
+<p>We are getting ready to roll out a new service at work, and are particularly
+concerned about the traffic levels it could receive, so we embarked on a quick-and-dirty
+load test.</p>
+
+<p>I took a quick look at the open source tools available, and most
+are only capable of hammering on a URL, or on a list of URLs.
+Because our application is dynamic, with newly-created unique IDs being passed
+from URL to URL, we needed more expressive power than a data file of URLs could
+give us.
+</p>
+
+<p>Then I found <a href='http://funkload.nuxeo.org/'>funkload</a>.  As the name
+(sort of) suggests, it can do both functional and load testing, and that is where
+its power lies.  The functional testing focus means that you write your tests
+as Python unit tests, with the full power of Python and <a href='http://mechanicalcat.net/tech/webunit/'>webunit</a>
+to build the test case.  Funkload can run the tests like functional tests (run each
+once and see if they succeed), or like load tests (run just one, but over and over).</p>
+
+<p>I wrote a test case that runs through the entire experience end-to-end, about
+a dozen URLs, screen-scraping the returned HTML where I needed to extract dynamic
+data for use in the next URL.  Funkload then ran the test on many thread at a measured
+rate, producing a report on tests per second, successes and failures, and so on.
+Looking at the funkload's numbers and the server stats during the test, we could
+determine the traffic load our servers are capable of.</p>
+
+<p>Funkload isn't the fanciest load tester out there, and if you only need to hammer
+on a home page, it's more than you need, but for load testing dynamic applications,
+it's just right.</p>
+
+</body>
+</entry>
+</blog>

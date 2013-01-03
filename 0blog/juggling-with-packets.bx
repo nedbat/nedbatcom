@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031007T063004'>
+<title>Juggling with packets</title>
+<category>networks</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>From deep in the network layer comes
+<a href='http://lcamtuf.coredump.cx/'>Michal Zalewski</a> with news of a novel way to
+greatly extend your storage capacity:
+<a href='http://lcamtuf.coredump.cx/juggling_with_packets.txt'>Juggling with packets</a>.
+Like a juggler with more objects than hands, you can in theory send data out into the
+internet so that it eventually comes back to you, and store data out in orbit.
+With disk prices where they are, I'm not sure why you'd want to, but it's a cool idea anyway.
+</p>
+
+<p>Michal is also one of the authors of
+<a href='http://lcamtuf.coredump.cx/p0f.shtml'>p0f</a>, which is a mysterious
+network-level app that can identify remote systems based on passive observation of TCP packets.
+Poking around on his page reveals many other strange pursuits.
+Dark arts indeed.</p>
+
+</body>
+</entry>
+</blog>

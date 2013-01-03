@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030511T184827'>
+<title>Perforce vs. CVS</title>
+<category>srcctrl</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>My <a href='blog/200305.html#e20030508T210553'>offhand mention</a>
+of switching from <a href='http://www.cvshome.org'>CVS</a>
+to <a href='http://www.perforce.com'>Perforce</a> for source control at
+work brought an email from a friend.
+His company had also just made the same switch, and he wanted to know
+why we switched, how we chose, and what we thought so far.
+</p>
+
+<more>
+
+<p>We switched because our CVS server seemed a little flaky on Windows,
+and because CVS seemed uncertain with complex branch and merge topologies.
+We also knew we would get other benefits from switching, like tracking changes
+to a number of files as a single changelist rather than as a number of
+revisions.</p>
+
+<p>We chose Perforce over ClearCase because our developers who had
+experience with Perforce loved it without reservation, and our
+developers who had experience with ClearCase loved it but said it
+took a lot of work to setup and keep running.  Also, ClearCase
+was very salesperson-heavy, while Perforce would let you download
+the code from their website.</p>
+
+<p>As to my impressions, here are the things I like better
+about Perforce and the things I like better about CVS:
+</p>
+
+<p>First off, keep in mind that I have been using Perforce for
+about two weeks.  I'm usually pretty quick at learning new tools,
+but I could be overlooking things Perforce can do, or ways it can
+do them.  Feel free to teach me!</p>
+
+<p>Perforce's wins:</p>
+
+<ul>
+<li>It's <em>much</em> faster than CVS.</li>
+
+<li>It treats a number of files changing at one checkin as a
+single changelist rather than a number of revisions.  This
+is much easier when propagating changes from branch to branch.</li>
+
+<li>Its architecture is built to accomodate scripting.  You still
+screen scrape a command-line utility, but the utility has been
+designed with that use in mind.</li>
+
+<li>Trent Mick's <a href='http://starship.python.net/~tmick/#px'>p4lib.py</a>
+is marvelous, and has done all the screen-scraping already.</li>
+
+</ul>
+
+<p>CVS's wins:</p>
+
+<ul>
+<li>It's cheaper.</li>
+
+<li>.cvsignore files let me teach CVS about files that were not
+supposed to be stored in CVS.  Perforce has no such concept.</li>
+
+<li>CVS did a better job alerting me to the fact that I had created
+new files which needed to be added to CVS.</li>
+
+<li>CVS would merge files changed by more than one developer
+automatically.  Perforce will do the merge, but only if I tell
+to auto-merge.  If the most merges don't conflict, then why not
+just do it and let me know when conflicts happen?
+Maybe there's a philosophical difference here that I am missing.</li>
+
+<li>CVS was better at off-line work (when you are not connected to
+the server).  Perforce can accomodate it, but it's got more of a
+disconnect-then-work-then-reconnect feel to it.  With CVS, there
+was no need to communicate with the server to get work done, just
+when it was time to check code in, so disconnected work was
+very natural.</li>
+
+</ul>
+
+<p>Things I don't like about Perforce, though I can't claim that
+CVS is better:</p>
+
+<ul>
+<li>The Perforce merge tool is an ugly unwieldy confusing mess.
+Maybe I just have to get used to it.</li>
+</ul>
+
+</more>
+
+</body>
+</entry>
+</blog>

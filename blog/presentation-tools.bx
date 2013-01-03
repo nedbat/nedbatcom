@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081118T062420'>
+<title>Presentation tools</title>
+<category>tools</category>
+<body>
+<p>I've had presentations on my mind lately, and that has caused me to search
+out a good tool for doing them.  I have a Windows laptop, so PowerPoint is always
+an option, but I wanted to try other alternatives first.  Unfortunately, I found
+them all lacking.
+</p>
+
+<p>I want a way to author and show slides, and then a way to export them for
+use in a web page.  I've got a goal of putting the presentations online not just
+as a deck of images, but as a text transcript, illustrated with slides.  I've never
+been able to watch other people's presentations online because I don't have the
+patience to watch an hour-long video in real time, and a slide deck with none
+of the actual talk behind it is pretty spare.</p>
+
+<p><a href='http://meyerweb.com/eric/tools/s5/'>S5</a> (A Simple Standards-Based
+Slide Show System) is all HTML, CSS, and JavaScript, runs in the browser, and
+was created by Eric Meyer, a very nice pedigree.  Remarkably, the thing I like
+least about it is that when I display the slides in a full-screen Firefox, they
+look horrible. The text is either too small or too large, and the line-spacing
+too tight, while the slide title overlaps the text in the wrong way, exposing
+some of the structure of the divs.</p>
+
+<p>I would have hoped that a CSS-based slideshow by the king of CSS
+would be a shining example of how information could be cleanly authored and then
+sparklingly displayed.  S5 seems to miss this mark, especially since there don't
+seem to be many themes available for it, another surprise given how CSS should have
+made it accessible to lots of designers.  Also, although (or perhaps because)
+the format is native to the web, it's not possible to get the slides as illustrations.</p>
+
+<p>I tried <a href='http://www.openoffice.org/product/impress.html'>OpenOffice Impress</a>,
+and was initially impressed.  It's got a lot of presentation features, notably
+all sorts of animations.  When I started using it, though, I ran into some problems:
+there's no way to create a text style, so any code samples have to be tediously
+formatted by hand.  Although there are tons of slide animations, a bullet list
+that reveals one bullet at a time is not among them.  I briefly considered the
+scripting capability, but it seems arcane and under-documented.
+</p>
+
+<p>Also, I have to say that OpenOffice's themes are cheesy, and though I found
+<a href='http://extensions.services.openoffice.org/project/simpletemplateone'>one
+that looked good</a>, when I installed it, it didn't work.</p>
+
+<p>I briefly tried <a href='blog/200806/280slides.html'>280 Slides</a> again,
+and it is very impressive, but too slow to run in my browser.</p>
+
+<p>So I may be using PowerPoint...</p>
+
+</body>
+</entry>
+</blog>

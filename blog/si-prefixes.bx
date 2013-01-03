@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070909T081225'>
+<title>SI prefixes</title>
+<category>science</category>
+<category>reference</category>
+<body>
+<p>Discussion of what size external disk drive to buy (I'm thinking of a 500Gb
+model to put an end to data squeeze for a good long time) lead to a question
+about the meaning of the SI prefix tera-. Wikipedia's
+<a href='http://en.wikipedia.org/wiki/SI_prefix'>SI prefix page</a> explains
+that the prefixes started from Greek roots for large things, then switched
+over to numbers as sources:
+</p>
+
+<ul>
+<li>giga- (G, 10<sup>9</sup>): From the Greek root for giant.</li>
+
+<li>tera- (T, 10<sup>12</sup>): From the Greek root for monster.</li>
+
+<li>peta- (P, 10<sup>15</sup>): Since tera- looks like tetra- (Greek for four with a letter missing), peta-
+is from penta-, Greek for five with a letter missing.</li>
+
+<li>exa- (E, 10<sup>18</sup>): From the Greek prefix hexa- (six), with a letter missing.</li>
+
+<li>zetta- (Z, 10<sup>21</sup>): From the Latin septum (seven), with the p dropped, and the first letter
+changed from s to avoid confusion with existing SI symbols.</li>
+
+<li>yotta- (Y, 10<sup>24</sup>): From the Greek octo- (eight), with the c dropped and a y added to avoid
+having a symbol of O, indistinguishable from zero.</li>
+</ul>
+
+<p>The <a href='http://www.bipm.org/en/si/si_brochure/chapter3/prefixes.html'>official
+Bureau International de Poids et Mesures page about the prefixes</a> is interesting
+because of its links to the <a href='http://www.bipm.org/en/CGPM/db/19/4/'>actual resolutions</a>
+that created the prefixes.  Unlike ISO, BIPM manages to make their official output
+refreshingly brief: their resolutions are only a few paragraphs at most.</p>
+
+<p>One aspect of this I don't understand: why the BIPM approves new prefixes in
+such small increments.  Peta- and exa- appeared in 1975, and zetta- and yotta- in 1991.
+Why dole them out so slowly? Of course, there are proposals, including 
+<a href='http://jimvb.home.mindspring.com/unitsystem.htm'>one that goes all the way</a>
+to 10<sup>63</sup> (luma-).</p>
+
+<p>The scientists take exception to the computer geeks
+using their decimal prefixes for binary amounts. 2<sup>20</sup> is not 10<sup>6</sup>,
+and the inaccuracy gets quite large by the time you are discussing exabytes of data.
+There is a system of <a href='http://physics.nist.gov/cuu/Units/binary.html'>binary prefixes</a>
+(gibibytes, anyone?), but they have not caught on yet, and sound silly, so I
+don't think they ever will.</p>
+
+</body>
+</entry>
+</blog>

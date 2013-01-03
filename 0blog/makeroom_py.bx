@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030911T091231'>
+<title>makeroom.py</title>
+<category>mycode</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>We have a nightly build machine at work, and every night it builds our product,
+which takes up a lot of disk space.  As these builds accumulate, the disk runs
+lower and lower on space, until one night, there's not enough space for the nightly
+build and it fails.  In the morning, someone notices, deletes some old builds, and
+starts the build again.
+</p>
+
+<p>I got sick of this absurdity, and wrote
+<a href='code/utilities/makeroom_py.html'>makeroom.py</a> to clean up the disk automatically.
+</p>
+
+</body>
+</entry>
+</blog>

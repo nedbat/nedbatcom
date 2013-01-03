@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070409T220539'>
+<title>SpeedFan</title>
+<category>tools</category>
+<body>
+<p>My current laptop is getting kind of creaky.  In addition to depleted batteries
+and a failing wireless card, it has a bad habit of overheating.  When it gets
+too hot, it simply decides to shut off.  Why the BIOS kicks in before the
+power management, I have no idea, but it's pretty frustrating.
+</p>
+
+<p>A tool that has definitely helped, though is <a href='http://www.almico.com/speedfan.php'>SpeedFan</a>.
+In one way, it's simply a free temperature monitor, discreetly displaying your computer's
+internal temperature in the system tray.  But it also has a ton of features for
+tracking a number of different temperatures, and graphing them over time, and
+firing alarms for different events, and so on.</p>
+
+<p>Usually I can tell that my computer is in the red zone because the fan will
+go nuts, and it sounds like the poor machine is trying to lift off.  But when
+I work with headphones on, I can't hear the fan.  So I set SpeedFan to pop up
+a warning alert when the temperature reached 70 Celsius.  It's worked great
+to keep me aware of impending doom, and let me avoid sudden shutdowns.</p>
+
+<p>If you have similar issues with overheating, or you're just a CPU geek that
+wants to know how hot things are getting, I recommend SpeedFan.</p>
+
+</body>
+</entry>
+</blog>

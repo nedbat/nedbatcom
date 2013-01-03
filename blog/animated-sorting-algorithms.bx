@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081025T090830'>
+<title>Animated sorting algorithms</title>
+<category>algorithms</category>
+<via id='simonwillison'/>
+<body>
+<p>David Martin has a great page showcasing
+<a href='http://sorting-algorithms.com'>Animated Sorting Algorithms</a>.
+Eight different algorithms are shown sorting four different input sets, animated
+before your very eyes, so that you can see how the different algorithms behave.
+Not only is this a good looking site, but he has the right pedagogical goals:</p>
+
+<quote>
+<p>These visualizations are intended to:</p>
+<ul>
+<li>Show how each algorithm operates.</li>
+<li>Show that there is no best sorting algorithm.</li>
+<li>Show the advantages and disadvantages of each algorithm.</li>
+<li>Show that worse-case asymptotic behavior is not the deciding factor in choosing an algorithm.</li>
+<li>Show that the initial condition (input order and key distribution) affects performance as much as the algorithm choice. </li>
+</ul>
+</quote>
+
+<p>Contrary to <a href='http://simonwillison.net/2008/Oct/21/animated/'>some reports</a>,
+the animations are not coded in Javascript, they are animated gifs, but that's
+a fine tradeoff.  Professor Martin is spending his server's bandwidth to save
+browsers around the world reproducing the same computations over and over again.</p>
+
+</body>
+</entry>
+</blog>

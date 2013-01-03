@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070305T160404' draft='y'>
+<title>XSS</title>
+<category></category>
+<via />
+<body>
+<p>
+
+Persistent: HTML entered by user, displayed to other users.
+
+HTML in query params, displayed on the page.  Need to send the link to someone for them to click it.
+
+HTML in referrer or other HTTP headers, can all be forged.
+
+
+
+
+The question isn't whether HTML should appear in a string, but whether it can.
+
+Javascript constants in URLs: /foo?done=true, var done={{done}}
+
+URL patterns: [^/]+
+
+request.path
+
+
+Vulnerabilities exist when the same character (or byte) sequence is interpreted
+in two different ways by two different layers.
+
+</p>
+
+Toolbox of attacks:
+http://h4k.in/encoding/index.php
+
+</body>
+</entry>
+</blog>

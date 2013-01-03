@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Subversion branching quick start'>
+<history>
+<what when='20061029T074800'>Created.</what>
+</history>
+
+
+<p>Many developers are uneasy about branching and merging, 
+even those who consider source control essential.  
+It can be a very complicated process, but it 
+doesn't have to be, and it is a very powerful way to manage development.
+Here's how to get started with branches in Subversion.</p>
+
+<h1>Principles</h1>
+
+<p>Branching produces a split in a code stream: different developers can be 
+working in alternate universes of the same set of code. Changes are made 
+independently to each stream.  Merging brings changes back together to combine
+the streams. There are a number of reasons why you might want to use branches, 
+and different reasons produce different kinds of branches.
+</p>
+
+<p>Branching is a powerful tool in managing development and releases.
+There are many different styles of branching, but I've only ever needed
+two: Fixes and Features, which I'll describe below.  
+These are simple, and fill 90% of the need for branching.  
+Don't go overboard with elaborate branches. 
+Purists will develop complex theories and algebras of branching,
+with baroque policies and criteria.  It doesn't have to be complicated.</p>
+
+<p>One recurring debate is over what goes on the trunk and what goes on the branch.
+How do you decide what work will happen on the trunk, and what will happen on 
+the branch?  Here is my rule:</p>
+
+<box>Branches are for the minority.</box>
+
+<p>Using a branch is always more involved than using the trunk, so the trunk
+should be used by the majority, and the branch should belong to the minority.
+Subversion is easier than other source control systems in this regard, but the rule still holds: 
+when trying to decide what goes on the trunk and what goes on the branch, put the 
+code that most developers want on the trunk, and put the minority on the branch.
+</p>
+
+
+
+<h1>Branching</h1>
+
+<p>Subversion makes branching a simple process.  If you set up your repository
+following the Subversion guidelines, you have a trunk/ directory and a
+branches/ directory.  There's nothing magical about these directories, 
+so if you don't have them, you can put your branch anywhere you like.</p>
+
+<p>You'll use the svn copy command to copy the trunk as a branch.  
+This doesn't actually copy any files until changes are made, so don't
+worry about disk space.
+</p>
+
+<ol>
+
+<li>Decide on a name for the branch.  It should be short and descriptive, and
+usable as a directory name.  In these examples, it's "mybranch".</li>
+
+<li>Use the svn copy command to create the branch in the repository by copying the trunk.
+The arguments are a destination path and a source path.  The svn info command may
+be helpful to remind yourself what your repository path is.
+Here's an example that creates the mybranch branch from the trunk:
+
+<code>
+$ svn copy http://svn.myrepo.com/trunk http://svn.myrepo.com/branches/mybranch
+Committed revision 1701.
+</code>
+
+The change is committed immediately.  Because this command uses repository
+paths, it changed the repository directly, with no effect on your working 
+directory.</li>
+
+<li>To get a working directory for your branch, you can simply go to your
+branches/ working directory and update to get the new branch:
+
+<code><![CDATA[
+$ cd /work/branches
+$ svn up
+]]></code>
+
+If you haven't checked out the branches directory, you can use the svn 
+checkout command to get it or just the mybranch directory:
+
+<code><![CDATA[
+$ mkdir /work/branches
+$ svn co http://svn.myrepo.com/branches/mybranch
+]]></code>
+
+</li>
+
+</ol>
+
+<p>That's it.  Now you have a directory at /work/branches/mybranch where you
+can do whatever work you need to do.</p>
+
+<p>The example above branched from the tip of the trunk (what Subversion calls
+HEAD).  You can also branch from a particular past revision by specifying the -r
+argument with a revision number. 
+</p>
+
+
+
+<h1>Working</h1>
+
+<p>Working with your branch is exactly the same as working on the trunk.
+You use svn update to get the latest code from the repository, you edit files,
+and you use svn commit to check in code to the repository.</p>
+
+<p>Subversion doesn't make any fundamental distinction between branches and trunk.  
+All changesets go into the same list of changesets, each with its own  
+sequential revision number. This is because a Subversion revision number 
+represents a revision of the entire repository, not of a single file.</p>
+
+
+
+<h1>Merging</h1>
+
+<p>At some point, you will need to bring changes from the trunk over to your branch,
+or from your branch back to the trunk, or even between two branches.  This process
+is called merging.</p>
+
+<p>The svn merge command accomplishes this.  You specify a range of revisions,
+a source path, and a destination path, and Subversion brings all those changes
+from the source onto the destination. For example, suppose we're still working
+with the mybranch branch we created above.
+We can issue a merge command:</p>
+
+<code><![CDATA[
+$ svn merge -r1774:1777 /work/trunk /work/branches/mybranch
+U    mybranch/source/hello.py
+U    mybranch/source/util.py
+]]></code>
+
+<p>This finds all the changes in changesets 1775, 1776, and 1777 that were made 
+in the trunk tree, and re-applies them in the mybranch tree.  It shows which 
+files are being updated as it works.  The changes are made
+in your working directory, and have to be checked in like any other change:
+</p>
+
+<code>
+$ svn ci -m "[mybranch] Merged 1774:1777 from the trunk" mybranch
+Sending        mybranch/source/hello.py
+Sending        mybranch/source/util.py
+Transmitting file data ..
+Committed revision 1810.
+</code>
+
+<p>One thing to note: the svn merge command requires a range of revision numbers.
+If you want to apply the changes from a single changeset, you still have to
+supply two revision numbers.  Merging the changes from changeset 1962 is accomplished
+with -r1961:1962, for example.  Yes, this is silly.  Maybe Subversion will change
+in the future to accept one revision number for a single changeset.</p>
+
+<p>This example shows merging trunk changes to the branch, but the merge
+can also be used to bring branch changes to the trunk, just by swapping the
+source and destination arguments.</p>
+
+<p>When merging, you may encounter conflicts.  These can happen in normal
+development, but are more likely with branches, especially long-lived branches.
+In addition to the usual ways of getting conflicts, where two developers change
+the same part of a file, merging introduces a new way to get a conflict.
+If a file has been modified twice on the trunk, and you try to merge only the
+second of the changes, Subversion may report a conflict.</p>
+
+
+
+<h1>Different branch types</h1>
+
+<p>There are many different ways to use branches in software development.
+In fact, there are enough to fill a
+<a href='http://www.nedbatchelder.com/blog/200305.html#e20030508T210553'>small book devoted to the subject</a>.
+Don't worry about all of that.  There are two branch types which solve most
+development problems:</p>
+
+<ul>
+<li>Fixes Branch: while feature work continues on the trunk, a fixes branch is created
+to hold the fixes to the latest shipped version of the software.  This
+allows you to fix problems without having to wait for the latest crop of 
+features to be finished and stabilized.</li>
+
+<li>Feature Branch: if a particular feature is disruptive enough or speculative
+enough that you don't want the entire development team to have to suffer through
+its early stages, you can create a branch on which to do the work.</li>
+</ul>
+
+<p>These two types of branches have different use patterns involving branch point,
+merge policy, and lifetime.  We'll examine them each in turn.</p>
+
+
+<h1>Fixes branches</h1>
+
+<p>A fixes branch (or maintenance branch) is used to apply bug fixes to a shipped
+version of the code.  It lets you release follow-on versions of the software
+with bug fixes without having to incur the risk of shipping partially finished
+features.</p>
+
+<p><b>Branching</b>: the branch is created from the revision that actually shipped.
+This guarantees that no extra changes have accidentally slipped into your
+maintenance release.  Use the -r argument to the svn copy command to ensure
+that you have the proper starting point.
+The branch should be named with the version number or revision number it branched
+from: fixes_v2_1, or fixes1234, for example.
+</p>
+
+<p><b>Changes</b>: For the most part, fixes are made on the trunk, then merged to the branch.
+This is because most fixes are appropriate to the trunk, and are chosen for
+inclusion in the maintenance release.  Occaisionally, you may have to fix a 
+bug in a maintenance release in a way that differs from how you would fix it
+on the trunk, because of changes in the trunk since you shipped.  In that case,
+make the change directly on the fixes branch.</p>
+
+<p><b>Merging</b>: Only merge from the trunk to the branch.  This is one of the
+reasons to make fixes on the trunk first.  By keeping all the merging in only
+one direction (trunk to branch), you simplify the process and reduce the possibility
+of conflicts.</p>
+
+<p>Merges will be done only for specific changesets, those with the bug
+fixes that should be included in the maintenance release.  The merges will
+therefore be sparse, picking and choosing only those changes needed.  The longer
+the branch is active, the greater possibility that a merge will not be possible
+because of conflicts introduced by missing changes from the trunk.</p>
+
+<p><b>Lifetime</b>: The lifetime of a fixes branch depends on your release model.
+If you are building a web site or other software that is "shipped" to only one place, 
+the fixes branch will be obsoleted the next time you deploy the trunk.
+In a more traditional model, the fixes branch will have to stick around for a long time, 
+until you end support for that version of the product.
+</p>
+
+<p>A popular variant of the fix branch is a release branch: as development
+nears the point of releasing, a branch is created for the final polishing.
+This is fine to do so long as it doesn't violate the trunk-majority rule.
+If everyone is still working on polishing, and all of that work will be merged
+back to the trunk, there's no point branching yet.</p>
+
+
+<h1>Feature branches</h1>
+
+<p>A feature branch is used by developers creating a major feature, or one
+which is speculative, and may not be included in the product.  Using one or
+more feature branch allows your developers to work independently of each other
+while still using Subversion as a way to share their work within the feature
+group.</p>
+
+<p>The feature branch is generally kept up to date with the trunk as work
+progresses.  Once the feature is done, the whole branch is merged back to the 
+trunk.</p>
+
+<p><b>Branching</b>: the starting point of a features branch is less sensitive
+than with a fixes branch.  When feature work begins, branch from the head,
+and dive in.  Give the branch a descriptive name based on the feature, for example, 3d_ui.</p>
+
+<p><b>Changes</b>: the changes on the feature branch are whatever work has to
+happen to implement the feature.  Make the changes on the branch and check them
+in.</p>
+
+<p><b>Merging</b>: the bulk of the merging on the feature branch will be to
+bring trunk changes over to keep the feature branch current with the trunk.
+These merges are a periodic maintenance task on the branch, for example, done
+once a week or so.
+</p>
+
+<p>Subversion doesn't record the history of merging, so to do this periodic
+trunk update, you have to manually note which revision you are current with.
+For example, when the branch is created, note the revision:</p>
+
+<code>
+$ svn copy http://svn.myrepo.com/trunk http://svn.myrepo.com/branches/3d_ui
+Committed revision 1701.
+</code>
+
+<p>When the time comes to merge the trunk over, you merge from there, 
+including everything from the latest trunk revision merged, to the head:</p>
+
+<code>
+$ svn update
+At revision 1812.
+
+$ svn merge -r1701:1812 /work/trunk /work/branches/3d_ui
+U    3d_ui/source/hello.py
+...
+
+$ svn ci -m "[3d_ui] Merged the trunk from 1701 to 1812."
+Sending        3d_ui/source/hello.py
+...
+Transmitting file data ..
+Committed revision 1813.
+</code>
+
+<p>After another interval of work (week, month, whatever is appropriate to your
+environment), you'll have to merge again to get the recent changes to the trunk.
+Again, you'll specify a revision range that takes only the changes you haven't
+already merged:</p>
+
+<code>
+$ svn update
+At revisioun 1865.
+
+$ svn merge -r1812:1865 /work/trunk /work/branches/3d_ui
+U    3d_ui/source/util.py
+...
+
+$ svn ci -m "[3d_ui] Merged the trunk from 1812 to 1865."
+Sending        3d_ui/source/util.py
+...
+Transmitting file data ..
+Committed revision 1866.
+</code>
+
+<p>The checkin comments are important here, because they are the simplest way
+to keep track of what the latest merge revision was.</p>
+
+<p>Eventually, the feature is done, and needs to be merged back to the trunk.
+Now you will merge all of the revisions from the branch point to the head from
+the branch back to the trunk:</p>
+
+<code>
+$ svn update
+At revision 1911.
+
+$ svn merge -r1701:1911 /work/branches/3d_ui /work/trunk
+U    /work/trunk/source/hologram.py
+U    /work/trunk/source/volume.py
+...
+
+$ svn ci -m "Merged the 3d_ui branch back to the trunk."
+Sending        /work/trunk/source/hologram.py
+Sending        /work/trunk/source/volume.py
+...
+Transmitting file data ..
+Committed revision 1912.
+</code>
+
+<p><b>Lifecycle</b>: at this point, the feature branch is done.  You can go
+back to working on the trunk, or creating a new branch for the next big thing.</p>
+
+
+
+
+<h1>Miscellaneous tips</h1>
+
+<p>That's basically all you need to know, but here are some other pointers:</p>
+
+<ul>
+<li>When checking in to the branch, always put the branch name in the comment,
+so that people can easily tell where the change is happening.</li>
+
+<li>You can always make a branch from a revision in the past, even far in the
+past.  I've often seen developers fret about needing to create a fixes branch
+before beginning work on new feature work.  You don't have to.  Create the fixes
+branch when you have a fix to put on it, and create it from the last shipped 
+revision, no matter how long ago it was.</li>
+
+<li>Branches usually have finite lifetimes.  For example, a feature branch
+is obsolete once it has been merged back to the trunk.  To keep your branches
+directory manageable, you can delete the branch when you are done with it.
+You still have the history of the files in Subversion, and can even retrieve
+the full branch later if you need it.  By deleting the obsolete branches,
+you let develeopers update from the branches directory without having to wade
+through unneeded files.
+</li>
+
+<li>Subversion's strange rule about needing two revision number even to merge
+a single changelist prompted me to create this one-line script file:
+
+<code>svn merge -r`expr $2 - 1`:$2 ../trunk $1</code>
+
+This lets me specify the branch directory and revision number, and it pulls
+a single changelist from the trunk to the branch.
+</li>
+
+<li>If you need to merge only part of a changeset, you have two choices: one
+is to not merge at all, but simply edit the files on the branch to match the
+changes made on the trunk.  Alternately, you can merge the entire changeset, 
+then manually revert the files you don't want, or edit files to undo unwanted
+changes.  Remember, the merge command simply edits files in your working tree,
+so any changes you want to make, you can make by hand.</li>
+
+</ul>
+
+
+
+<h1>Don't be scared</h1>
+
+<p>Branching and merging is more complicated than simply making changes to
+a single line of development.  But once you establish some patterns, and
+get in the habit of working with branches, it is not difficult.  They are powerful
+tools that let you be more thoughtful in what code gets put where, and how many
+developers have to deal with any given set of changes. </p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li>The online book
+<a href='http://svnbook.red-bean.com'>Version Control with Subversion</a>.
+</li>
+<li><apage pref='text/quicksvn.px'/> is my
+overview of how to get started with Subversion.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

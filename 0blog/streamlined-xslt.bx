@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030920T142354'>
+<title>Streamlined XSLT</title>
+<category>xslt</category>
+<via href='http://www.russellbeattie.com/notebook/'>Russell Beattie</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.allaboutsymbian.com/'>All About Symbian</a> shows a neat trick:
+using an XSLT stylesheet to style an RSS feed for those that simply click their
+<a href='http://www.allaboutsymbian.com/rss/handango/s60hnrss1.xml'>RSS feed</a>.
+Very nice, and I may do the same here eventually.
+</p>
+
+<p>But looking at the stylesheet itself, it looks like they've fallen into a common
+pitfall: writing unusually verbose XSLT.</p>
+
+<more>
+
+<p>The same thing happened to me a few years ago at work.
+A friend asked why the heck XSLT was so great, if it took so much
+to do so little? I asked to see the XSLT.
+It looked similar to this snippet of All About Symbian's stylesheet:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:element name="form">
+  <xsl:attribute name="action"><xsl:value-of select="rss:link"/></xsl:attribute>
+  <xsl:attribute name="method">POST</xsl:attribute>
+  <center><div class="textinput-form">
+    <xsl:element name="input">
+      <xsl:attribute name="name"><xsl:value-of select="rss:name"/></xsl:attribute>
+      <xsl:attribute name="type">text</xsl:attribute>
+    </xsl:element>
+    <xsl:text> </xsl:text>
+    <xsl:element name="input">
+      <xsl:attribute name="value"><xsl:value-of select="rss:title"/></xsl:attribute>
+      <xsl:attribute name="type">submit</xsl:attribute>
+    </xsl:element>
+  </div></center>
+</xsl:element>
+]]></code>
+
+<p>Why all this rigamarole?  You never need to use <![CDATA[<xsl:element>]]>
+unless you are going to compute the name of the element.  You never need to use
+<![CDATA[<xsl:attribute>]]> unless you are computing the name of the attribute, or the
+text of the attribute is some large complex template call or something.  For simple
+cases (as we have here), the whole thing can be drastically simplified:</p>
+
+<code lang='xslt'><![CDATA[
+<form action='{rss:link}' method='POST'>
+  <center><div class='textinput-form'>
+    <input name='{rss:name}' type='text'/>
+    <xsl:text> </xsl:text>
+    <input value='{rss:title}' type='submit'/>
+  </div></center>
+</form>
+]]></code>
+
+<p>Now you can read the code, and see what it does.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

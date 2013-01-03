@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030416T213849'>
+<title>Mutexes and critical sections</title>
+<category>concurrency</category>
+<category>windows</category>
+<body>
+<p>I'm annoyed by the fact that Win32 has two separate synchronization
+primitives, one called a
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/synchronization_objects.asp'>mutex</a>, and another called a
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/critical_section_objects.asp'>critical section</a>.
+I'm annoyed because these two work exactly the same, except one can
+be used across processes, and is therefore more heavyweight, than the other.
+Except for that, they are the same.
+</p>
+
+<p>So why were they given those names?  These are both mutexes.
+The name "critical section" doesn't even make any sense for an allocated
+object that can be locked and unlocked.  What is it a section of, and
+in what sense is it critical?
+</p>
+
+<p>The name "critical section" comes from the concurrent programming idea of
+a chunk of code that cannot be entered simultaneously by more than one thread.
+It is a critical section of code.  Of course, a mutex is a good way to protect
+a critical section, and critical sections need not be protected across processes,
+so you can see how the term came to be misused for a lightweight mutex.
+</p>
+
+<p>The Win32 definition of the term is being presented as authoritative in
+<a href='http://www.intel.com/eBusiness/products/workstation/processor/tools.htm'>some glossaries</a>,
+which is unfortunate.
+If you've learned about thread programming on Win32, try to remember:
+Microsoft's names for these things are a little off.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080121T090822'>
+<title>Cross-site printing?</title>
+<category>malware</category>
+<category>printing</category>
+<category>security</category>
+<body>
+<p>ha.ckers points to a proof-of-concept for
+<a href='http://ha.ckers.org/blog/20080108/cross-site-printing/'>printing unexpected pages</a>
+when visiting a malicious web site.  It didn't work for me.  It relies on
+network printers listening on well-known IP aliases and ports (such as "myprinter:9100").
+Mine doesn't seem to use that name, and I didn't see in the control panel where to configure
+the name it will use.
+</p>
+
+<p>It's always fascinating to see the unexpected consequences of the systems we build...</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='utf-8'?>
+<page title='Deleting code'>
+<history>
+<what when='20021222T151600'>Created.</what>
+<what when='20021229T100700'>Minor edits.</what>
+<what when='20030206T222500'>Minor edits, added "See also".</what>
+<what when='20030622T152100'>Minor edits.</what>
+<what when='20040820T082300'>Added the "Keep things tidy" section.</what>
+<what when='20121106T075800'>Modernized the discussion of source control.</what>
+</history>
+
+<docinfo>This document is also available in
+<a href='text/deleting-code_ru.html'>Russian</a>.
+</docinfo>
+
+<p>There's plenty of information out there about how to write code.
+Here's some advice on how to delete code.
+</p>
+
+
+
+<h1>The best way to delete code</h1>
+
+<p>This may seem obvious, but I guess it isn't, because of the variety of other ways
+developers have of deleting code.  Here's how to delete code:</p>
+
+	<box>
+	Select a section of code in your editor,
+	hit the backspace key, and be done with it.
+	</box>
+
+<p>Most developers don't like getting rid of stuff.  They want to keep chunks of code
+around in case they need them again.  They worked hard to write that chunk of code.
+They debugged it, it works.  They don't want to just throw it away.
+</p>
+
+<p>These developers want to keep their old code around,
+and they do it by disabling it in some way:
+commenting it out, conditionalizing it, or just not calling it anymore.</p>
+
+<p>To those developers, I say, "Use the source (control), Luke".
+A source code control system (like
+<a href='http://git-scm.com/'>Git</a>,
+<a href='http://mercurial.selenic.com/'>Mercurial</a>, or
+<a href='http://subversion.apache.org/'>Subversion</a>), means you never have to worry
+that something is gone forever.  Your repository will have the old code if you need it again.</p>
+
+<p>If you don't have a source control system (!?!?!) or just don't want to be bothered
+digging back through the history, then copy the chunk of code to a
+separate file some place, and save it away.
+But don't leave it where it doesn't belong: in your source code.
+</p>
+
+
+
+<h1>What's the big deal?</h1>
+
+<p>If you have a chunk of code you don't need any more, there's one big reason to delete
+it for real rather than leaving it in a disabled state: to reduce noise and uncertainty.
+Some of the worst enemies a developer has are noise or uncertainty in his code,
+because they prevent him from working with it effectively in the future.</p>
+
+<p>A chunk of code in a disabled state just causes uncertainty. It puts questions in other
+developers' minds:</p>
+
+<ul>
+<li>Why did the code used to be this way?</li>
+<li>Why is this new way better?</li>
+<li>Are we going to switch back to the old way?</li>
+<li>How will we decide?</li>
+</ul>
+
+<p>If the answer to one of these questions is important for people to know, then write a
+comment spelling it out.  Don't leave your co-workers guessing.</p>
+
+
+
+<h1>Commenting out code</h1>
+
+<p>It's very easy to comment out a line or two (or twenty!) lines of code:</p>
+
+<code lang='c++'><![CDATA[
+//  OldWayStepOne(fooey);
+//  OldWayStepTwo(gooey);
+    NewWay(fooey, gooey);
+]]></code>
+
+<p>This is bad.  Comments should be used to provide people with information they
+need when reading or writing the code.  They should be used to help the future developers
+who will be working with the code.
+These comments don't do that.  In fact, they do just the opposite.
+In addition to removing the old code from being compiled,
+these comments add confusion, uncertainty, and doubt into the code.</p>
+
+<p>Future developers looking at this code know that it used to work the OldWay,
+and they know that now it works the NewWay, but they don't know why the OldWay has
+been kept around:</p>
+
+<ul>
+<li>Maybe NewWay is just an experiment?
+If so, what's better about it?
+How and when will the final decision be made to keep it?</li>
+
+<li>Maybe OldWay is better, but there was something wrong with it?
+If so, what was wrong with it?   Was it something wrong with the OldWay code, or they
+way we're calling it?  When will it be fixed?</li>
+
+<li>Maybe the design has changed, and OldWay is doing unnecessary work?</li>
+</ul>
+
+<p>Any commented-out code is an implicit question: Why is this still here?
+There are reasons to keep a piece of commented-out code.  Changes get made that you
+know will be reversed soon.  Changes get made that the developer is uncertain of.
+It's OK to keep the code, but say why you're keeping it.  Comments are for people,
+and a line of code in a comment doesn't tell anyone anything.</p>
+
+	<box>
+	Don't comment out a piece of code without saying why (in the comment).
+	</box>
+
+<p>Isn't this better?:</p>
+
+<code lang='c++'><![CDATA[
+//  OldWay did a better job, but is too inefficient until MumbleFrabbitz
+//  is overhauled, so we'll use NewWay until the M4 milestone.
+//    OldWayStepOne(fooey);
+//    OldWayStepTwo(gooey);
+    NewWay(fooey, gooey);
+]]></code>
+
+<p>Now, who knows if MumbleFrabbitz will really be overhauled for the M4 milestone?
+Maybe it won't be.  That's OK; who knows what the future will bring?
+But at least this way the developers will know why the code is being kept around.
+With the information about why the change was made, and why the old code is still
+there, the developers will know when they can finally fully commit to the NewWay,
+or when they can switch back to the better solution.
+</p>
+
+
+
+<h1>Conditional compilation</h1>
+
+<p>Developers who want to comment out large chunks will use conditional compilation
+instead (if the language supports it). In C++:</p>
+
+<code lang='c++'><![CDATA[
+#if 0
+    OldWayStepOne(fooey);
+    ...
+    OldWayStepTwenty(hooey);
+#endif
+]]></code>
+
+<p>In Python:</p>
+
+<code lang='python'><![CDATA[
+if 0:
+    OldWayStepOne(fooey)
+    ...
+    OldWayStepTwenty(hooey)
+]]></code>
+
+<p>This is no better than commenting out the code: it's just more convenient for the
+guy doing the removing.  In fact, in some ways it is worse than commenting out the
+code.  Some IDEs don't syntax-color this code as a comment, so it's easy for other
+developers to read this code and not realize it has been disabled.</p>
+
+<p>The same rule applies as for commenting out code:</p>
+
+	<box>
+	Don't conditionalize away code without explaining why.
+	</box>
+
+<p>If you must use the C preprocessor to remove code, "#if 0" is really the
+best way to do it, since it is at least clear that the code should never be compiled.</p>
+
+<p>At Lotus, the source code for Notes include many lines of code removed with
+"#ifdef LATER",
+under the (correct) assumption that there was no preprocessor symbol called "LATER".
+This is a very weak form of documentation; it indicates that the code isn't ready to
+be compiled yet, but that it will be later.  But when?
+A running joke among the developers was that we should define "LATER" and see
+what happened!</p>
+
+<p>By using never-defined symbols to remove code, you leave doubt in
+developers minds as to what the symbols mean.  Maybe there's a configuration of the
+code called "LATER" that has to be taken into account.</p>
+
+
+
+<h1>Uncalled code</h1>
+
+<p>Let's say you have a great class, and it has many methods.
+One day you discover that you no
+longer are calling a particular method.  Do you leave it in or take it out?</p>
+
+<p>There's no single answer to the question, because it depends on the class and the
+method.  The answer depends on whether you think the method might be called again
+in the future.  A coarse answer could be: if the class is part of the framework, then
+leave it, if it is part of the application, then remove it. (I'll have to write another
+piece about framework vs. application).</p>
+
+
+
+<h1>Leaving pointers</h1>
+
+<p>One compromise that you might consider is to remove a large chunk of unused code,
+but leave behind a pointer to where it could be found if it were needed.
+I've used comments like this before:</p>
+
+<code lang='c++'><![CDATA[
+//  (There used to be another algorithm here that used hashing, that
+//  was faster, but had race conditions.  If you want it, it's in
+//  commit 771de15b or earlier of ThingMap.java in the repo.)
+]]></code>
+
+<p>It's small, it's unobtrusive, but it gives a little history, and a place to go looking
+for more information.</p>
+
+
+
+<h1>Accidental droppings</h1>
+
+<p>Sometimes, while writing code, you really are unsure about whether to keep or
+delete a line of code, and you want to try compiling or running the code before
+you decide what to do.  You comment out the line.  A number of files get changed,
+and by the time you are ready to check in the code, you've forgotten where all
+those temporary removals are.  You check in the code, and you've left
+accidental droppings all over the place.</p>
+
+	<box>
+	Always use a distinctive marker in your commented-out lines of code,
+	so you can quickly find them all when it's time to clean up and check in.
+	</box>
+
+<p>A simple convention like this:</p>
+
+<code lang='c++'><![CDATA[
+//- OldWayImUnsureOf(zooey);
+]]></code>
+
+<p>makes all the difference.  By using "//-" to comment out the line, you've
+left a marker that you can easily find when you are getting ready to check in
+your code.</p>
+
+<p>You can use it for larger chunks as well:</p>
+
+<code lang='c++'><![CDATA[
+#if 0 //- I don't think I need this with the new FooBar
+    OldWayStepOne(fooey);
+    ...
+    OldWayStepTwenty(hooey);
+#endif
+]]></code>
+
+
+
+<h1>Keep things tidy</h1>
+
+<p>While deleting code, it is all too easy to leave phantom stubs behind.
+Try hard to trim these properly.  For example, when getting rid of OldWay here:</p>
+
+<code lang='cpp'><![CDATA[
+if (bDoThing) {
+    OldWay();
+}
+]]></code>
+
+<p>Don't just take out the line calling OldWay.  Get rid of the empty if as well.
+Then if bDoThing was only tested here, also get rid of it.
+Examine the code that set bDoThing.  Is it now obsolete?  Get rid of it.
+Be merciless. Keep the code tidy.  Make sure it makes sense with no dead-end off ramps
+that can only be understood by knowing what used to be there.</p>
+
+<p>It is tempting to leave this code in, because it will be difficult to understand
+whether it is all still needed or not.  But if you leave the empty if clause, some
+other developer will come along later, and see it, realize it can't be right, and
+have to investigate.  It will take them longer to understand the empty if than it
+would take you to remove it.</p>
+
+
+
+<h1>Don't worry, be happy</h1>
+
+<p>I know it seems drastic to just chop out code that you sweated over.  Don't worry:
+it will be OK.  There's a reason you wanted to disable it or whatever.
+The source control system will still have a copy if you need to go back to it.
+Look at it this way: what are the chances you need to go back and get it, compared to the
+certainty that you'll have to be looking at those stupid commented-out lines for the
+rest of the project's life?</p>
+
+<p>Go ahead, delete that old code.  You won't miss it.</p>
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/empty-code-paths.px'/>, about mistakes in
+defensive coding.
+</li>
+<li><apage pref='text/fix-err-hand.px'/>, about ensuring that your
+error handling code is always running its best.
+</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

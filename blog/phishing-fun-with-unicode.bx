@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050409T155246'>
+<title>Phishing fun with Unicode</title>
+<category>charset</category>
+<category>malware</category>
+<category>email</category>
+<via />
+<body>
+<p>Damien got a phishing email that looked like total gibberish, which he described
+as the <a href='http://damienkatz.net/2005/04/worst_phisher_e_1.html'>Worst Phisher Ever</a>.
+Turns out it wasn't a moronic spammer, but someone clever enough to use obscure Unicode features
+to sneak past spam filters.</p>
+
+<more>
+<p>The scrambled text looked like this in his Firefox browser:</p>
+
+<quote>
+<p>Dera Bcralays Merebm,</p>
+
+<p>Tsih eamil was setn by the Balcrays svreer to virefy yruo
+eamil adsserd. You mtsu comelpte tsih procses by cilcking
+on the lkni bwole and entegnir in the samll wiwodn yruo
+Balcrays Mbmeership nebmur, paedocss and mbaromele wrod.</p>
+</quote>
+
+<p>But he discovered that when viewed with IE, the text was perfectly readable:</p>
+
+<quote>
+<p>Dear Barclays Member,</p>
+
+<p>This email was sent by the Barclays server to verify your
+email address.  You must complete this process by clicking
+on the link below and entering in the small window your
+Barclays Membership number passcode and memorable word.</p>
+</quote>
+
+<p>Here is the actual text.  Try viewing it in Firefox (scrambled) and IE (readable):</p>
+
+<quote>
+<p>De&#x202e;ra&#x202c; B&#x202e;cra&#x202c;lays Me&#x202e;rebm&#x202c;,</p>
+<p>T&#x202e;sih&#x202c; e&#x202e;am&#x202c;il was se&#x202e;tn&#x202c; by the Ba&#x202e;lcr&#x202c;ays s&#x202e;vre&#x202c;er to v&#x202e;ire&#x202c;fy y&#x202e;ruo&#x202c;
+e&#x202e;am&#x202c;il ad&#x202e;sserd&#x202c;. You m&#x202e;tsu&#x202c; com&#x202e;elp&#x202c;te t&#x202e;sih&#x202c; proc&#x202e;se&#x202c;s by c&#x202e;il&#x202c;cking
+on the l&#x202e;kni&#x202c; b&#x202e;wole&#x202c; and ente&#x202e;gnir&#x202c; in the s&#x202e;am&#x202c;ll wi&#x202e;wodn&#x202c; y&#x202e;ruo&#x202c;
+B&#x202e;alcra&#x202c;ys M&#x202e;bme&#x202c;ership n&#x202e;ebmu&#x202c;r, pa&#x202e;edocss&#x202c; and m&#x202e;barome&#x202c;le w&#x202e;ro&#x202c;d.
+</p></quote>
+
+<p>What's going on?
+Confusing matters even more, if you view source in Firefox, you see scrambled text,
+and in IE you see readable text.  How can the same series of bytes look different <em>in the source</em>?</p>
+
+<p>Reading the page directly with <a href='code/utilities/readurl_py.html'>readurl -x</a>,
+I saw this:</p>
+
+<code><![CDATA[
+000fa0: 65 22 3e 0a 0a 3c 70 3e  20 20 20 20 44 65 e2 80  e">..<p>    De..
+000fb0: ae 72 61 e2 80 ac 20 42  e2 80 ae 63 72 61 e2 80  .ra... B...cra..
+000fc0: ac 6c 61 79 73 20 4d 65  e2 80 ae 72 65 62 6d e2  .lays Me...rebm.
+000fd0: 80 ac 2c 3c 62 72 3e 3c  62 72 3e 20 20 20 20 3c  ..,<br><br>    <
+]]></code><!--"-->
+
+<p>Between the "De" and "ra" are bytes "e2 80 ae", and after the "ra" are bytes "e2 80 ac".
+This smells like UTF-8. An interactive Python prompt and the decode() function
+reveal the Unicode code points:</p>
+
+<code lang='python'><![CDATA[
+>>> for c in 'De\xE2\x80\xAEra\xE2\x80\xAC'.decode('utf-8'):
+...     print hex(ord(c))
+...
+0x44
+0x65
+0x202e
+0x72
+0x61
+0x202c
+]]></code>
+
+<p>So Unicode U+202E and U+202C are behind the mischief. They are
+<a href='http://www.fileformat.info/info/unicode/char/202E'>Right-To-Left Override</a>
+and
+<a href='http://www.fileformat.info/info/unicode/char/202C'>Pop Directional Formatting</a>
+respectively.  The control the rendering of bidirectional text.
+So what's going on here is the "D" and "e" are written left-to-right, as is usual for English,
+then the writing direction is switched to right-to-left, "r" and "a" are written, and the
+writing direction is restored to left-to-right.  The result, in a renderer that properly
+handles these codes, is "Dear".  The result in a renderer that ignores the Unicode characters
+it doesn't understand, is "Dera".
+<a href='http://www.unicode.org/reports/tr9/'>Unicode Standard Annex #9:
+The Bidirectional Algorithm</a> has all the details.
+</p>
+
+<p>Some spammers are very clever.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

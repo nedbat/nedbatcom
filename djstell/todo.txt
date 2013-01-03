@@ -1,0 +1,64 @@
++ RSS feed.
+    + Get the datetime correct.  New and old differ in a few details.
++ Copy new avatars.
+- Sitemap.
+    - Human-readable
+    - XML: http://sitemaps.org
+- mailto: links? In text, and in sidebar..
++ Settable base url.
++ Print.css styling.
++ Main to pull files.
+    + All in-mem for speed? No: not faster!
+    + What about all the verbatim stuff?
+        + .htaccess
+        + php.ini? (comes from reactor)
+    + Unified process (makehtml.py)
++ redirects for old pages
+    + old more pages.
+    + How: http://annevankesteren.nl/2005/01/permanent-redirect
+    + How: http://us3.php.net/manual/en/function.header.php#78470
++ Nothing works unless structure.xml exists, from the old process.
++ Home page.
+    - geo stuff on home page. (per-page meta tags)
+- Error handling in loadpages when a bad tag is used? (etc..)
++ generator.py needs to indicate when a page results in an error.
++ err404.php has to be created. (as err404.html)
++ WHOA is busted.
+
++ rsync to tch? No.
+- Other way to move bulk pages?
+    - ftp a tarball?
+
+URL Mapping
++ Must still work:
+    blog/200404.html#e20040425T124541
+    blog/20071216T110049.html
+    blog/tag_politics.html
+    code/modules/hyphenate.py
+    blog/rssfull.xml --> blog/rss.xml
+    
+Later:
+- Atom feed?
+- Related tags (later).
+- Next and prev links on individual blog entries? (later)
++ Use a manager to enforce Entry.filter(draft=False)
+    - Or just don't put them in the db to begin with!
+- Ads?
+- Redirect to non-.html files. (blog/index.html --> blog/)
++ Page lang=en attribute.
++ TPT
++ create nedbatchelder.js from the three source files.
+
+Done:
++ Blog main page.
++ Tag pages.
++ Comment form.
++ pix aren't found in current directory structure.
++ Better slugs: too long, and russian comes out as ____.html
++ Sidebars.
+    + For articles.
+    + Blogroll.
+    + Make it includable.
+    + Generate the includable file.
+    + Double-check that there was no wacko page with a different sidebar.
++ Breadcrumbs.

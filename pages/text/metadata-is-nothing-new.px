@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<page title='Metadata is nothing new'>
+<history>
+<what when='20030926T103500'>Created.</what>
+</history>
+
+<p>Web technologists talk about "metadata" as a powerful enabling technology.
+It is; there's no arguing with that.  But they miss plenty of opportunities
+to point out that although "metadata" is a new word, it's an old concept.
+In fact, its age is proof that metadata is an important idea.
+It's been helping information technologists for centuries.
+</p>
+
+
+<h1>What is metadata?</h1>
+
+<p>Here's the usual definition of "metadata" these days:</p>
+
+<box>Metadata is data about data.</box>
+
+<p>This is a good definition when talking about electronic data,
+and is how we get to use the cool "meta-" prefix.
+A broader and more useful definition is:
+</p>
+
+<box>Metadata is information about a thing, apart from the thing itself.</box>
+
+<p>This definition lets us talk about metadata in the real world.</p>
+
+
+
+<h1>Metadata in the real world</h1>
+
+<p>Let's consider a book.  The core of the book are the words themselves.
+For example,
+<a href='http://etext.lib.virginia.edu/etcbin/toccer-new2?id=Mel2Mob.sgm&amp;images=images/modeng&amp;data=/texts/english/modeng/parsed&amp;tag=public&amp;part=1&amp;division=div1'>Moby Dick</a>
+begins, "Call me Ishmael".
+But aside from the actual text of the book, there's also information about the book.
+Its title is "Moby Dick", its author is Herman Melville, its date of publication
+is 1851, and so on.
+This is information about the book that isn't found in the text of the book.
+This is metadata.
+</p>
+
+<p>In the real world, metadata is often available on the outside of things.
+Books typically have information printed on the cover: title, author, publisher,
+shelving category, ISBN number.
+Books also have metadata inside: the copyright page, title page, the headings
+on the pages themselves, even the page numbers.  All of this is information
+about the book, rather than the text of the book itself.
+When libraries buy a book, they add even more metadata: card catalog numbers,
+copy numbers, date acquired.
+</p>
+
+<p>Of course, other things besides books have metadata.
+Music CDs have artist, title, track listing, and parental advisories.
+Clothing has size, washing instructions, and manufacturer.
+Food packages have weight and nutritional information.
+New cars have stickers detailing their gas mileage.
+</p>
+
+<p>In addition to the metadata available with the item itself,
+There's also metadata published elsewhere.
+In the library, there's the card catalog.
+In bookstores, there's <a href='http://www.booksinprint.com'>Books in Print</a>,
+a large book filled with nothing but metadata about other books.
+And publishers provide information about their publications in catalogs,
+promotional materials, etc.
+</p>
+
+<p>All of this is metadata: it's information about a thing, rather than the thing
+itself.
+</p>
+
+<p>Metadata has been around for a long time.
+Millennia ago, when libraries consisted of piles of rolled-up scrolls,
+little tags where attached so you could tell which scroll was which without unrolling
+them.  That tag was metadata.
+</p>
+
+
+
+<h1>What is metadata good for?</h1>
+
+<p>Think about how a library works.
+The books are organized by subject, by author, or sometimes in special collections.
+How is it done? By using metadata to find the right place for the book.
+Imagine a library where all the books were unmarked manuscripts, with no metadata.
+Hand a clerk a book to shelve, and he'd sit down and start reading the book.
+Who knows how many pages he'd have to read before he'd properly categorized the
+book.
+It would take a long time, and would be subject to his interpretation of the book.
+He'd have to be much cleverer than the guy who could just read "Non-fiction/Bird watching"
+off the back of the book with metadata.
+And as we mentioned above, some of the interesting metadata, such as the author's name,
+isn't in the book at all, but only in the metadata.
+</p>
+
+<p>Metadata is used in the real world just as it is in the virtual world:
+to organize information.
+Of course, the book is more important than the metadata:
+if you had to choose between having the book without the cover,
+or the cover without the book, you'd choose the book.
+You could still read the book, and in fact, if you have read the book, or
+intend to read the book, the cover doesn't provide much extra value.
+But if you need to deal with lots of books, for example, in a bookstore or
+a library, the cover is invaluable.
+As an extreme example, in many video stores, the store itself
+consists of nothing but covers (to prevent theft of the video),
+and the store operates perfectly well:
+customers browse, make selections, and rent videos.
+</p>
+
+<p>To sum up:
+metadata is used to organize, manipulate, shelve, locate, categorize, and otherwise
+work with data when you don't want to actually deal with the data itself.
+</p>
+
+
+
+<h1>Metadata on the web</h1>
+
+<p>The purpose and use of metadata is the same on the web as in the real world.
+Metadata provides information about data so that the data can be worked with in bulk,
+without having to read all the source data.
+When I publish my <a href='blog/index.html'>blog</a>, there is the main information (the posts themselves),
+there is metadata visible on the page (the title of the entry, the date of the entry),
+there is metadata invisible on the page
+(I include geeky things like my geographical coordinates),
+and there is metadata published on separate pages (my
+<a href='blog/archive2003.html'>archive page</a>, and my <a href='blog/rss.xml'>RSS feed</a>).
+</p>
+
+<p>Just like the library example from the real world,
+all this metadata is used to help people find information, organize information,
+summarize information, and so on.  Except that in the online world, this information
+is used by other software to do all those things automatically.
+For example, because I have geographical coordinates in my metadata,
+<a href='http://geourl.org'>geourl.org</a> can automatically tell me about
+<a href='http://geourl.org/near?lat=42.32921&amp;lon=-71.11914&amp;dist=10'>other bloggers near me</a>.
+</p>
+
+<p>In electronic form, it can be hard to tell where the data ends and the
+metadata begins.  <a href='http://www.technorati.com'>Technorati</a> is a popular
+blog link-tracking tool.  It finds blogs by using metadata published by blog
+trackers such as <a href='http://blo.gs/'>blo.gs</a>.  Then it reads the blog
+entries themselves to find the links.  These links are part of the actual data
+of the blog, but are accessible to software, just as the metadata is.
+</p>
+
+
+<h1>Metadata: now and forever</h1>
+
+<p>Metadata serves an incredibly valuable purpose: letting us step back from
+our information and talk about it rather than just use it.
+</p>
+
+<p>Electronic data on the web has made metadata even more powerful:
+both the original data and the metadata about it are published in similar ways.
+We can collect metadata together, and publish metadata about it,
+creating ever more powerful aggregations of data,
+building amazing new applications that draw upon ever broader ecosystems of data.
+</p>
+
+<p>But it's nothing new.</p>
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

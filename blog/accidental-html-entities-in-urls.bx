@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081219T161543'>
+<title>Accidental HTML entities in URLs</title>
+<category>webpage</category>
+<body>
+<p>Here's yet another browser mystery which seems to affect Internet Explorer,
+though after the last one (about
+<a href='blog/200812/internet_explorer_mystery_1376.html'>conditional definition
+of JavaScript functions</a>) turned out to be maybe the correct behavior, I'm
+reluctant to lay the blame at IE's feet.
+</p>
+
+<p>We had a problem where certain links in IE were producing mysterious stack
+traces about not being able to convert characters somewhere deep in the HTTP
+handling code.  Turns out we had a URL like this:
+</p>
+
+<code><![CDATA[http://nedbatchelder.com?foo=1&copy_from=quux]]></code>
+
+<p>and by the time it got to the servers, it looked like this:</p>
+
+<code>/?foo=1&#169;_from=quux</code>
+
+<p>Here's the odd thing: the URL wasn't just an HTML attribute.  If the HTML had
+looked like this:</p>
+
+<code lang='html'><![CDATA[
+<a href='http://nedbatchelder.com?foo=1&copy_from=quux'>go</a>
+]]></code>
+
+<p>then I could understand the problem: HTML needs to have ampersands escaped.
+&amp;copy; is an HTML entity for the copyright character, so the URL string really
+does have a copyright symbol:  In this case, HTML doesn't care that the trailing
+semicolon is omitted, and as an extra twist, the underscore doesn't count as a
+word character in HTML, so &amp;copy_from becomes &#169;_from.</p>
+
+<p>To use this URL in HTML, you'd have to escape the ampersand to avoid the entity
+conversion, like this:</p>
+
+<code lang='html'><![CDATA[
+<a href='http://nedbatchelder.com?foo=1&amp;copy_from=quux'>go</a>
+]]></code>
+
+<p>But in my case, the URL wasn't in HTML, it was in a JavaScript string, like this:
+</p>
+
+<code lang='js'><![CDATA[
+document.location = "http://nedbatchelder.com?foo=1&copy_from=quux";
+]]></code>
+
+<p>In this case, the ampersand ends up in the string as a plain ampersand. But
+when the time comes to set the document location, IE applies another entity
+replacement, while other browsers don't. In IE 6, this code results in a visit
+to a URL with a copyright symbol in it.
+</p>
+
+<p>If you'd like to try for yourself, here's a small HTML fragment to try:</p>
+
+<code lang='html'><![CDATA[
+<html>
+<head>
+<script>
+function try_1() {
+    // A simple URL string with &copy in it:
+    var url = 'http://nedbatchelder.com?foo=1&copy_from=2';
+    alert(url);
+    document.location = url;
+}
+function try_2() {
+    // Try to avoid entity replacement by breaking up the string:
+    var url = 'http://nedbatchelder.com?foo=1&' + 'copy_from=2';
+    alert(url);
+    document.location = url;
+}
+</script>
+</head>
+<body>
+<p><a href='http://nedbatchelder.com?foo=1&bar=2'>bar</a></p>
+<p><a href='http://nedbatchelder.com?foo=1&copy_from=2'>copy</a></p>
+<p><a href='http://nedbatchelder.com?foo=1&amp;copy_from=2'>copy</a></p>
+<p><a href='javascript:try_1()'>js try 1</a></p>
+<p><a href='javascript:try_2()'>js try 2</a></p>
+</body>
+</html>
+]]></code>
+
+<p>When you click either of the JavaScript links, an alert will appear to show
+the URL you're about to visit, so you can see that the string really is "&amp;copy_from=2".
+In Firefox or Safari, you end up at the URL shown in the alert.  In IE, you see
+"&amp;copy_from=2" in the alert box, but the URL you visit is "&#169;_from=2".</p>
+
+<p>One of the tricky aspects of any kind of programming, but web programming in
+particular is understand all the different phases of interpretation your code
+and data is subjected to.  Where exactly is &amp;copy; turned into &#169;?
+When the browsers don't agree, and subtle manipulations are being applied where
+you don't expect, the debugging gets that much trickier.</p>
+
+<p>Once this problem was identified, it was easy to fix the problem: change the
+parameter name from &amp;copy_from to &amp;copyfrom, so that it doesn't match an HTML
+entity.  Unfortunately, this means we can never use a parameter name that conflicts
+with an HTML entity name, and there are <a href='http://www.elizabethcastro.com/html/extras/entities.html'>252 HTML entities</a>,
+including ones with potentially useful names like &amp;lang (&#9001;) and &amp;times (&#215;).</p>
+
+<p>I couldn't find any discussion of this issue in a quick search, other than
+this <a href='http://devblog.redfin.com/2008/10/url_query_parameters_and_html_entities_the_case_of_the_missing_semicolon.html'>blog post about HTML escaping</a>.
+</p>
+
+</body>
+</entry>
+</blog>

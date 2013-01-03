@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041202T223025'>
+<title>Python is not Java</title>
+<category>python</category>
+<via />
+<body>
+<p>Phillip Eby gives a long list of ways that
+<a href='http://dirtsimple.org/2004/12/python-is-not-java.html'>Python is not Java</a>.
+Talking about some Python code written by Java developers:
+</p>
+
+<quote><p>
+the sad thing is that these poor folks worked much, much harder
+than they needed to, in order to produce much more code than they needed to write,
+that then performs much more slowly than the equivalent idiomatic Python would.
+</p></quote>
+
+<p>He then describes in detail ways that Java idioms aren't right for Python.
+One he mentioned I wasn't familiar with:
+the <a href='http://python.org/doc/2.2.3/whatsnew/sect-rellinks.html#SECTION000340000000000000000'>property</a>
+built-in function, new in Python 2.2.
+</p>
+
+</body>
+</entry>
+</blog>

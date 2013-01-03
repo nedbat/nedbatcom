@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090325T223956'>
+<title>A Whirlwind Excursion through Python C Extensions</title>
+<category>python</category>
+<category>pycon</category>
+<body>
+<p>I've finished up the slides and written prose for one of my PyCon talks:
+<a href='text/whirlext.html'>A Whirlwind Excursion through Python C Extensions</a>.
+</p>
+
+<figurep href='text/whirlext.html'>
+    <img src='text/whirlext_000.png' alt='Whirlwind C Extensions slides'/>
+</figurep>
+
+<p>It's a 45 minute talk about how to write C extensions against the Python C
+API.  Hope you like it...
+</p>
+
+</body>
+</entry>
+</blog>

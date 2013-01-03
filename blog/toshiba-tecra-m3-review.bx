@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060116T222100'>
+<title>Toshiba Tecra M3 review</title>
+<category>hardware</category>
+<category>reviews</category>
+<via />
+<body>
+<p>In a comment here last week, Mikey asked for a small review of my Toshiba Tecra M3.
+Overall, I am very pleased with it.  My previous computer was a Thinkpad T30 with a 1.86 GHz CPU and 1Gb of RAM.
+The Toshiba has a 2GHz CPU and 1.25Gb of RAM, but feels faster than those numbers would suggest, because
+it has a 7200 RPM disk, one of the prime reasons I chose it.  Building this web site (a task that involves
+a lot of disk and CPU) goes about twice as fast on the Tecra than on the Thinkpad.
+The 60Gb disk is not gargantuan by today's standards (some laptops I looked at had 100Gb!), but is 50% larger
+than my last one, and the speed is great.
+</p>
+
+<more text='Read the entire review'>
+
+<p>The screen is very bright, bright enough that a co-worker on seeing it became angry that his desktop LCD
+monitor was not as bright.</p>
+
+<p>There's a lot of attention to saving battery power: there's a physical switch on the front to disable the
+wireless networking, and both a systray utility and a Fn-key to turn off power to the CD drive.</p>
+
+<p>But speaking of software utilities: the Toshiba has more than I've ever seen.
+The Add/Remove Programs control panel lists 19 programs whose names start with "Toshiba" (or "TOSHIBA",
+can't they pick one style at least?).  And in typical fashion, it feels like many of them duplicate others,
+or have subtly-different approaches to the same problem, or aggregate the others in confusing ways.
+</p>
+
+<p>Of course, this infestation of utilities is not limited to Toshiba.  The video system is by Nvidia, and
+their control panel is a blossom of controls which I somehow still had to augment.  There's a separate
+systray utility just to flip the display 180 degrees, something that would be useful if this were a tablet
+PC, but it is not.  And in the encyclopedia of display options is a panel about rotating the display, but
+it didn't include turning off the systray rotator.  One last insult: the Nvidia drivers includes a full-blown
+hotkey facility, which comes pre-configured with one hotkey: Ctrl-Shift-R rotates the display 180 degrees,
+something I found out by accident.  Imagine my surprise!</p>
+
+<p>More negatives: in a very quiet room, I can hear a strange beeping noise from the inside occasionally.
+This is not a software noise, and I don't know where it's coming from.  This may be better than a similar
+problem I had with the Thinkpad, where a few times a day, I'd hear that "bonk" sound played (it's
+"Windows XP Critical Stop.wav"), with no program on the screen to take credit for it.  I just muted the volume
+and forgot about it...</p>
+
+<p>Here's the thing that bugs me about the Tecra, though: the keyboard.  The keys are very nice, and all of
+the reviews will tell you about the full-size keyboard
+(see the image on <a href='http://www.notebookreview.com/default.asp?newsID=2251'>this review at Notebook Review</a>).
+But the placement of the specialty keys is sub-optimal.
+The Ctrl vs. Fn key is precisely the opposite of the Thinkpad, and drove me nuts while I was using both,
+but my left pinky has long since gotten over it.</p>
+
+<p>The six-key Ins/Del/Home/End/Up/Down keypad has been split up and stretched along the side.  I can sort
+of use them, but it requires stopping and looking at the keys more than I would like.  The real crime, though,
+is the one I noticed last: there is no right Ctrl key!  Yes, for some reason Toshiba believes we need two
+Alt keys but can get by with just one Ctrl key.  I for one have a habit of hitting Ctrl-Enter or Ctrl-Home or
+Ctrl-End with just the right hand, and it drives me batty to simply not be able to.  It's one thing to have
+to find a usual key in a slightly different place.  To have the key be nine inches from where you expect
+to find it is more than an all-day non-stop typist should have to put up with.</p>
+
+<p>Luckily, most of the day I use a USB keyboard, attached to an Advanced Port Replicator. The port replicator
+is nice and small (the last Dell replicator I had was a giant platform for the laptop with an enormous back
+piece that seemed to take over my desk).  It is difficult to get the laptop onto the replicator, though,
+because the symmetry of the replicator doesn't line up with the symmetry of the laptop, if you know what I
+mean.  The Thinkpad had a nice satisfying clunk of the two together, like a car door.  The Toshiba feels
+more like two pieces of sheet metal being forced to fit.  I figure I'll get the hang of it eventually, but
+for now I approach the mating process delicately.</p>
+
+</more>
+
+<p>Overall, the Toshiba Tecra M3 seems to be a good workhorse portable desktop replacement.  I use it for
+some heavy development (Django, MySQL, Eclipse, Firefox, Thunderbird, and VMware player all running at once),
+and it has not let me down.</p>
+
+</body>
+</entry>
+</blog>

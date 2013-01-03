@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051207T132454'>
+<title>Configuring Outlook to deal with spam bounces</title>
+<category>malware</category>
+<category>email</category>
+<body>
+<p>Lately I've been getting periodic storms of spam being returned to me as undeliverable.
+I don't know if the spammers intend me to open these messages, or if they're just using my
+domain as a From address on spam intended for someone else.  Either way, it's a pain when
+40 non-delivery reports a day flow into my inbox.
+Unlike regular spam, these messages come and go.  There'll be a week where they arrive all
+the time, then three weeks with none, then they'll be back.</p>
+
+<p>I'd like to not have to look at each one to see if it is a genuine delivery failure, but
+I'd also like to know if I really did have an email bounce.
+I figured I'd use Outlooks rules to deal with this.  Surprisingly, I couldn't find a
+way in the rule to target non-delivery reports specifically, but the subject lines are
+fairly repetitive:
+</p>
+
+<code><![CDATA[
+Apply this rule after a message arrives
+with
+   "Delivery Status Notification (Failure)" or
+   "Mail delivery failed: returning message to sender" or
+   "Undelivered Mail Returned to Sender" or
+   "failure notice" or
+   "DELIVERY FAILURE: User" or
+   "Delivery Report" or
+   "Undeliverable:" or
+   "Delivery Notification: Delivery has failed" or
+   "Delivery failure (" or
+   "DELIVERY FAILURE: Recipient" or
+   "Undeliverable message" or
+   "Returned mail:" or
+   "Mail System Error - " or
+   "Undeliverable mail"
+   in the subject
+move it to the Spam Bounces folder
+except where my name is in the To box
+]]></code>
+
+<p>This works great, especially the last part.  Since the spam bounces use bogus addresses at my
+domain as the From address, they go into the Spam Bounces folder.
+If I really do screw up an email address, its non-delivery report will stay in my Inbox since my
+name is in the To field.
+For an extra feeling of safety, I added the To column into the view of the Spam Bounces folder, so
+I can see at a glance the bogus addresses that got me the messages in the first place.
+</p>
+
+</body>
+</entry>
+</blog>

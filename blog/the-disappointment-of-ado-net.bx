@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050409T063912'>
+<title>The disappointment of ADO.NET</title>
+<category>db</category>
+<via />
+<body>
+
+<p>Yesterday I wrote about the
+<a href='blog/20050408T203839.html'>beauty of the relational model</a>
+(actually I thought I was just working on a draft, but I published it without realizing, so now
+this is a two-parter!)</p>
+
+<p>So how did the ADO.NET designers overlook the fundamental power of the relational model's universal rectangles?
+They've provided some very powerful facilities:
+A <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataTableClassTopic.asp'>DataTable</a>
+is an in-memory collection of
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataRowClassTopic.asp'>DataRows</a>.
+DataTable allows you to use SQL syntax to query the
+data in memory, tracks which rows have been changed, keeps before and after copies of changed rows,
+fires events when data changes, and simplifies writing the data back to the database.
+They're a very cool way to build an in-memory snapshot of data residing in a relational database.
+</p>
+
+<p>A <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataSetClassTopic.asp'>DataSet</a>
+contains a number of DataTables, which can have intra-table constraints enforced on them.
+Finally, a <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataViewClassTopic.asp'>DataView</a>
+can provide a filtered subset of the data in a DataTable.
+</p>
+
+<p>So this is all very nice, but where are the universal rectangles?
+Conceptually, there are at least three different structures that provide a bunch of rows:
+DataTable, DataView, and DataRow[] (which is returned by DataTable.Select).
+But these things are all different, and can't be used interchangeably.
+DataTable provides a Select method for querying its data, but DataView does not. Why not?
+DataViews are constructed with a DataTable and a select expression, but you can't make
+one from a DataView and a select expression.   Why not?
+There's no base class or interface that both DataTable and DataView implement,
+so you can't write a method that uses them interchangeably.
+</p>
+
+<p>Well, you can, but only by treating the data as an IList or IEnumeration implementation,
+and even then, inexplicably, the rows of a DataTable are
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataRowClassTopic.asp'>DataRow</a> objects,
+while the rows of a DataView are
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataDataRowViewClassTopic.asp'>DataRowView</a> objects,
+and the two classes have no base in common!  (While I'm ranting, shouldn't DataRowView be called DataViewRow?!)
+So if you want to treat a DataTable and a DataView the same, the best you can do is to fill your code
+with ugly downcasts to get at the rows.
+</p>
+
+<p>And using as stripped-down an abstraction as IEnumeration means that you've lost access
+to the facilities of DataTable and DataView other than the pure data: the column schema, the events,
+and so on.  It's infuriating.  I want to use these classes to build power in my client.
+I want to use the relational model of interchangeable rectangles to modularize my code and provide
+abstraction.  But I can't.
+</p>
+
+<p>The designers of ADO.NET valued the relational model enough to implement the whole thing, including
+a powerful SQL implementation in memory.  How could they have overlooked the basic tenet of the approach?
+</p>
+
+<p>They clearly value using interfaces to abstract away unimportant details, because they gave us
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemDataIDataReaderClassTopic.asp'>IDataReader</a>
+for filling a DataTable from a database.
+When they needed an interface to help them ignore details they didn't care about, they provided it.
+But for consumers of ADO.NET, nothing is ignorable.
+The details of the classes are in your face at every turn.
+I find it incredibly frustrating.
+</p>
+
+
+</body>
+</entry>
+</blog>

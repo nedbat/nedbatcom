@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031013T222251'>
+<title>Joel on exceptions</title>
+<category>exceptions</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>OK, so usually
+<a href='http://www.joelonsoftware.com'>Joel Spolsky</a>
+is a pretty bright guy,
+and even when his ideas seem wacky or overstated, there's something true and useful about them.
+But he's <a href='http://www.joelonsoftware.com/items/2003/10/13.html'>dead wrong about exceptions</a>.
+Joel's opinion (that status returns are the only way to go and that exceptions
+are akin to the dreaded goto) runs so counter to modern thinking that the
+<a href='http://discuss.fogcreek.com/joelonsoftware/default.asp?cmd=show&amp;ixPost=77463'>ensuing discussion</a>
+is considering the possibility that he was being subtly ironic,
+or that his site had been hacked.
+</p>
+
+<p>Of course, I've made my opinion clear on this already.  See my article:
+<a href='text/exceptions-vs-status.html'>Exceptions vs. status returns</a>.
+Update: I've added a section to that article rebutting Joel's points specifically.
+</p>
+
+</body>
+</entry>
+</blog>

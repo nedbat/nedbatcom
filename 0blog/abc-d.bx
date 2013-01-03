@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030127T065308'>
+<title>ABC and D</title>
+<category>proglang</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Two programming languages, interesting for different reasons:</p>
+
+<ul>
+<li>The <a href='http://www.cwi.nl/~steven/abc/'>ABC programming language</a>,
+designed for teaching programming (just as BASIC and Pascal were).
+It served as inspiration for
+<a href='http://www.python.org'>Python</a> (the colons and whitespace indentation are familiar).
+It feels sort of halfway between Logo and Python, and is interesting as another datapoint, and
+as historical background for Pythonistas.
+</li>
+
+<li>The <a href='http://www.digitalmars.com/d/'>D programming language</a>,
+which seems to have been designed by taking C++, throwing out the worst cruft, adding in some from Java,
+and letting it simmer a little.
+It's interesting because it could lead the way to a compromise in the C++/C#/Java wars.
+</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>

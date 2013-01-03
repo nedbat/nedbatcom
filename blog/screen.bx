@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060805T201453'>
+<title>Screen</title>
+<category>unix</category>
+<via />
+<body>
+<p>At work, my ssh session to our servers time out quite frequently.
+It used to bother me a lot because it meant having to login to the machines
+many times a day, and losing the on-screen history of what I had been doing.
+</p>
+
+<p>Not anymore.  A co-worker introduced me to <a href='http://www.gnu.org/software/screen/'>screen</a>,
+a terminal multiplexor.  In a nutshell, it manages virtual terminals that
+persist even when you log out.  So if a connection to a server is dropped,
+logging in again will re-connect you to the session you had been working in.</p>
+
+<p>Screen manages many virtual terminals, so one OS window can contain many
+Linux sessions within it, reducing desktop clutter.</p>
+
+<p>Screen is quite complex, in the emacs mold: it can do many things, and
+has many commands, some of which are bound to keystrokes, but many of which 
+are not.  There are esoteric escape sequences that can be used to hyper-customize
+the environment, and more options than I can possibly understand.  If you 
+find yourself using many console windows on Unix boxes, do yourself a favor
+and learn enough about screen to get it working for you.</p>
+
+<p>The documentation out there tends to be a bit overwhelming as well, falling
+into two camps: the
+<a href='http://www.delorie.com/gnu/docs/screen/screen_1.html'>exhaustive reference manual</a> 
+that begins with the command-line switches, or the 
+<a href='http://gentoo-wiki.com/TIP_Using_screen'>informal tutorial</a> 
+that starts out talking about stuff you don't understand.
+Here's a 
+<a href='http://www.kuro5hin.org/story/2004/3/9/16838/14935'>shorter getting-started guide</a>
+that might be helpful.</p>
+
+<p>I'm tempted to write a mini-tutorial myself, but I don't think I could
+really improve on what's out there.  I will give you my .screenrc file:</p>
+
+<code><![CDATA[
+# Ned's .screenrc
+escape ^L^L
+vbell off
+defscrollback 8000
+hardstatus alwayslastline
+hardstatus string '%{= KW}%-w%{= gW}%50> %n %t %{= KW}%+w%< %{= kG}%-=%{-}'
+]]></code>
+
+<p>What does this do?</p>
+
+<ul>
+<li>Sets the escape character to ^L, because I don't need that for any real
+use, and the default ^A is too handy for command-line editing.</li>
+<li>Turns off the visible bell, which is too much flashing for me.</li>
+<li>Sets a scrollback buffer of 8000 lines, because I like to look back through
+my console window for old stuff.  One thing about screen: it manages the
+console window such that your real console window never scrolls, so you have
+to change where you store your off-screen lines.  Your true console window
+doesn't need them anymore; "defscrollback 8000" configures screen to keep
+them for you.</li>
+<li>Sets the hard status line to be the last line in the window, and to 
+give it a simple tabbed look.  This makes the last line in the window a
+list of your current screen sessions, in a nice green-on-gray theme.</li>
+</ul>
+
+<p>Screen is a god-send.</p>
+
+</body>
+</entry>
+</blog>

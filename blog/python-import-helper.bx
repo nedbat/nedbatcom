@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080618T071123'>
+<title>Python import helper</title>
+<category>python</category>
+<body>
+<p><a href='code/aptus'>Aptus</a> has dependencies on three large packages,
+<a href='http://wxpython.org'>wxPython</a>,
+<a href='http://numpy.scipy.org'>Numpy</a>, and
+<a href='http://pythonware.com/products/pil'>PIL</a>.
+The simple thing to do would be to import the modules and use the methods I need.
+But if the module is missing, an unhelpful ImportError message is all you get.
+And if the module is present, but isn't recent enough, then the method call may
+fail with a missing name.
+</p>
+
+<p>To solve these problems, I use this helper function instead:
+</p>
+
+<code lang='python'><![CDATA[
+def importer(name):
+    """ Import modules in a helpful way, raising detailed exceptions
+        if the module can't be found or isn't the proper version.
+    """
+    if name == 'wx':
+        url = "http://wxpython.org/"
+        try:
+            import wx
+        except ImportError:
+            raise Exception("Need wxPython, from " + url)
+        if not hasattr(wx, 'BitmapFromBuffer'):
+            raise Exception("Need wxPython 2.8 or greater, from " + url)
+        return wx
+    
+    elif name == 'numpy':
+        url = "http://numpy.scipy.org/"
+        try:
+            import numpy
+        except ImportError:
+            raise Exception("Need numpy, from " + url)
+        return numpy
+    
+    elif name == 'Image':
+        url = "http://pythonware.com/products/pil/"
+        try:
+            import Image
+        except ImportError:
+            raise Exception("Need PIL, from " + url)
+        if not hasattr(Image, 'fromarray'):
+            raise Exception("Need PIL 1.1.6 or greater, from " + url)
+        return Image
+]]></code>
+
+<p>Then, instead of "import wx", I use:</p>
+
+<code lang='python'><![CDATA[
+wx = importer("wx")
+]]></code>
+
+<p>and if anything goes wrong, the exception includes helpful details.</p>
+
+<p>This technique still suffers from the problem of detecting that the module
+is actually missing.  Because of Python's
+<a href='blog/200609/impoverished_exceptions.html'>impoverished exceptions</a>,
+catching ImportError doesn't necessarily mean that the module was missing, although
+that's the most likely reason.</p>
+
+</body>
+</entry>
+</blog>

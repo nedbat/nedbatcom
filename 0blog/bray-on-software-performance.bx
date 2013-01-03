@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030612T182149'>
+<title>Bray on performance</title>
+<category>development</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Tim Bray writes passionately about speed:
+<a href='http://tbray.org/ongoing/When/200x/2003/06/11/DotNetPerf'>On Software Performance</a>.
+It was inspired by a
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndotnet/html/fastmanagedcode.asp'>.NET-specific article</a>
+on MSDN, but Tim's points apply to any software.
+An excerpt:
+</p>
+
+<quote>
+<ol>
+<li>Design and code your app, trying hard not to do anything really stupid,
+and striving for flexibility.</li>
+<li>If it's fast enough, don't worry any more.</li>
+<li>If it's slow, get out your profiler and measure things until
+you understand where the problem is.</li>
+<li>Fix the problem, which may well require major refactoring,
+but that's OK because that's probably coming at you pretty soon
+anyhow with the next batch of requirements.
+Furthermore, you couldn't have avoided it because nobody
+is smart enough to predict where the bottlenecks will be
+in a complex application before it's running.</li>
+</ol>
+</quote>
+
+<p>That last point is right on the money.
+More than once, I've had this experience:
+We analyzed the bottlenecks, and identified a piece of code that
+was holding things up.  The code had a comment on it
+along the lines of, "This should really boost performance".
+</p>
+
+</body>
+</entry>
+</blog>

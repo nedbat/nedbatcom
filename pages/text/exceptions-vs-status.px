@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<page title='Exceptions vs. status returns'>
+<history>
+<what when='20030915T081700'>Created.</what>
+<what when='20031014T061600'>Added section about Joel's comments.</what>
+</history>
+
+<p>Broadly speaking, there are two ways to handle errors as they pass from
+layer to layer in software: throwing exceptions and returning status
+codes.  Almost everyone agrees that exceptions are the better way to do
+it, but some people still prefer status returns. This article shows why
+exceptions are better.
+</p>
+
+<p>The examples here are in C++, because that is the primary battlefield for this argument.
+Older languages like C don't have exceptions as a real possibility, and newer languages like
+Java, Python, Ruby, and even <a href='http://jimfl.tensegrity.net/eh/ExceptionHandling.html'>Perl</a>
+provide facilities for exceptions, without the cultural heritage that encouraged status returns
+in the first place.
+</p>
+
+
+<h1>Clean code</h1>
+
+<p>Exceptions let you leave error handling code out of much of your code.
+Exceptions are transmitted automatically through layers that have no
+knowledge of them, so you can write useful code that has no error handling logic at all.
+This helps keep the code straightforward and usable.
+</p>
+
+<p>For example, compare two ways of writing the same simple procedure.
+With status returns:</p>
+
+<code lang='c++'><![CDATA[
+STATUS DoSomething(int a, int b)
+{
+    STATUS st;
+    st = DoThing1(a);
+    if (st != SGOOD) return st;
+    st = DoThing2(b);
+    if (st != SGOOD) return st;
+    return SGOOD;
+}
+]]></code>
+
+<p>And then with exceptions:</p>
+
+<code lang='c++'><![CDATA[
+void DoSomething(int a, int b)
+{
+    DoThing1(a);
+    DoThing2(b);
+}
+]]></code>
+
+<p>Even if the first version is rewritten with macros to hide much of the status return
+scaffolding, it's uglier and more cluttered than with exceptions:</p>
+
+<code lang='c++'><![CDATA[
+#define TRY(s)  { STATUS st = (s); if (st != SGOOD) return st; }
+
+STATUS DoSomething(int a, int b)
+{
+    TRY(DoThing1(a));
+    TRY(DoThing2(b));
+    return SGOOD;
+}
+]]></code>
+
+<p>If the code were more complex than this, the extra noise from the error handling
+would be much worse.  Exceptions keep the code clean.</p>
+
+
+
+<h1>Valuable channels</h1>
+
+<p>With status returns, a valuable channel of communication (the return value of the
+function) has been taken over for error handling.  Some methods are so simple, and
+conceptually return a value, so human temptation takes over, and the method is written
+to return the value rather than a status code.  "It's a simple function, it can't fail,
+this will be more convenient".  Over time, the code grows, and the method gets larger,
+calling more helper functions, and pretty soon it can fail, but it has no way to express it.
+</p>
+
+<p>So the return value is overloaded: "If it fails, it returns NULL".  Now we have more than
+one convention in the code (probably more, because your numeric getters will return -1 if they
+fail), and everything still has to be checked.  Your previously failsafe function now has
+to have all of its call sites updated to check for the new error value.
+</p>
+
+<p>Why use a technique that begs to be subverted in the first place?  Exceptions stay
+in the background, leaving the most useful tools for the successful cases.  Functions
+can return values, and still have a useful way to fail.
+</p>
+
+
+
+<h1>Richer error information</h1>
+
+<p>Status returns are typically an integer.  A few bits are reserved for flags (for example,
+a severity indication), and the rest are a large set of enumerated failures.
+This is a fairly impoverished error value.  For example, suppose the failure is that a file
+could not be found.  Which file?  A status return can't convey that much information.</p>
+
+<p>Other channels can be developed to carry supplemental information, but typically they
+are not.  In a status return world, the best you can hope for is for the failure site
+to log a message, and then to return the status.  This is simplistic: perhaps the caller
+knows that it is OK for a file to be missing.  If the file opener logs a message, the log
+will be incorrect (an error will be printed when nothing is wrong).  If the file opener
+doesn't log a message, the caller (or his caller) may have no way of getting the detail
+on the error needed to print a useful message.</p>
+
+<p>Exceptions are instances of classes, and as such can carry as much information
+as they need to accomplish their task.  Because they can be subclassed, different exceptions
+can carry different data, allowing for a very rich zoology of error messages.</p>
+
+<p>As an example of the richness exceptions can express, Java defines exceptions
+as containing a reference to another exception, so that chains of effect can
+be constructed and retained as the exception moves up through layers of handling.
+This allows for rich diagnostic information: exception B occurred here, and was
+caused by exception A occurring there.</p>
+
+
+
+<h1>Implicit code</h1>
+
+<p>Status returns can't even be used with some functions.  For example, constructors
+don't have an explicit return type, and so cannot return a status code.
+Destructors may not even be explicitly called, never mind that they don't have a
+return value.
+In C++, operator overloading and implicit casting (controversial though they are) are
+other forms of implicit function calls that cannot be checked for return values.
+</p>
+
+<p>None of these functions can be given status returns.  If you don't use exception handling,
+you have to either come up with some other way of marking errors within them, or pretend
+that they cannot fail.  Simple code may be fail-safe, but code always grows, adding
+opportunities for failure.  Without a way to express the failure, your system will
+only grow more error-prone and mysterious.
+</p>
+
+
+
+<h1>Sins of omission</h1>
+
+<p>Consider what happens in each technique when a coder slips up.</p>
+
+<p>When a status return goes unchecked, a failure in the called routine will be undetected.
+The code will continue executing as if that operation had succeeded.  There's no way
+to characterize what might happen at that point, but it is clear that no one will know
+that an error had occurred.  Perhaps the code will visibly fail later on, but that
+could be many operations later.  How will you trace the problem back to the original
+failure?
+</p>
+
+<p>If an exception goes uncaught, the exception will travel upward in the call stack
+either to a higher catch block, or to the uppermost frame where the operating system
+will do something with it, usually present it to the user.  This is not good behavior
+for the system, but it is visible.  You will see an exception, you will be able to
+diagnose where it was thrown, and where it should have been caught, and you will be
+able to fix the code.
+</p>
+
+<p>I'm not covering here the problem of failing to announce a problem (either by returning
+a failure code or throwing an exception), because that case is a wash for the two
+techniques.  Both are prone to it, and both will fail in similar ways.
+</p>
+
+<p>So for human error, it comes down to this: human error with status returns results
+in invisible problems, human error with exceptions results in visible problems.
+Which would you rather have?
+</p>
+
+
+
+<h1>Counter-arguments</h1>
+
+<p>Joel Spolsky has argued that
+<a href='http://www.joelonsoftware.com/items/2003/10/13.html'>status returns are better</a>.
+His main argument is that exceptions "are significantly worse than gotos":
+</p>
+
+<quote>
+<ol>
+<li><em>They are invisible in the source code.</em>
+Looking at a block of code, including functions which may or may not throw exceptions,
+there is no way to see which exceptions might be thrown and from where.
+This means that even careful code inspection doesn't reveal potential bugs.</li>
+<li><em>They create too many possible exit points for a function.</em>
+To write correct code, you really have to think about every possible code path
+through your function.
+Every time you call a function that can raise an exception and don't catch it on the spot,
+you create opportunities for surprise bugs caused by functions that terminated abruptly,
+leaving data in an inconsistent state, or other code paths that you didn't think about.</li>
+</ol>
+</quote>
+
+<p>This seems like a reasonable argument until you work out what the code would look like
+with status returns.  We aren't arguing here whether functions should be able to fail
+or not, just what should happen when they do.  So all of those possible exit points
+for a function are still possible exit points, but you have to check the status returns
+explicitly, and return from the function.  So you've traded implicit complexity for
+explicit complexity, which may not be a good trade.  With explicit complexity, you can't
+see the forest for the trees.  Your code is cluttered with the explicit handling of error
+statuses.</p>
+
+<p>When presented with this explicit complexity, programmers will strive to reduce it.
+They have two primary ways to do it: hide the error handling, or omit the error handling.</p>
+
+<p>Hiding the error handling is what we did above with the TRY macro.
+This simply turns your explicit code paths back into implicit code paths,
+but with the annoying noise of TRY littered all over the place.
+This is certainly no victory for the "explicit code paths are better"
+argument for status returns.
+If you're going to use implicit code paths, at least use exceptions to create them
+so you have some modern tools at your disposal.</p>
+
+<p>The other solution to the overwhelming explicit complexity in code paths is to simply
+avoid checking the error returns.  Developers will convince themselves (through code inspection
+or system-level understanding or just plain bad logic) that a certain function
+always succeeds.  This leads to errors going unchecked, which leads to invisible problems.</p>
+
+
+
+<h1>In a nutshell</h1>
+
+<p>Status returns are difficult to use.  There are places where they are impossible to
+use.  They hijack a useful channel of communication.  For all of these reasons,
+it is easy and tempting to not use them.  When not used, they produce silent failures
+in your system.
+</p>
+
+<p>Status returns are inferior to exceptions.  All modern programming systems provide
+tools for exception handling.  Use them.
+</p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/exceptions-in-the-rainforest.px'/>,
+about the layers of real code, and how exception handling plays out in them.</li>
+<li><apage pref='text/assert.px'/>,
+about making assertions about the correctness of your code.</li>
+<li><apage pref='text/fix-err-hand.px'/>,
+about ensuring your error handling code is running its best.</li>
+<li><apage pref='text/log-style-guide.px'/>,
+about writing good log messages.</li>
+<li><a href='blog/index.html'>My blog</a>,
+where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

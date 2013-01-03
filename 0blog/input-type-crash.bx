@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030504T103932'>
+<title>Crashing Browsers</title>
+<category>browsers</category>
+<via id='diveintomark'/> <!-- id= or href= -->
+<body>
+<p>It turns out this snippet of HTML:</p>
+
+<code lang='html'><![CDATA[
+<input type>
+]]></code>
+
+<p>crashes Internet Explorer.
+<a href='crashie.html'>Try it</a>.
+</p>
+
+<p><a href='http://diveintomark.org/archives/2003/05/03/the_importance_of_humanreadable_markup.html'>dive into mark</a>
+has a long comment thread about it, which of course devolves into anti-monopolistic rants
+against Microsoft.
+As much as I dislike Microsoft's business practices, I don't think they are inept
+at creating software (far from it, and it makes me even more baffled as to why they
+have to act like such aggressive bastards on the business side).  It's just amusing
+to see such a simple input crash IE.
+</p>
+
+<p>And for balance, this snippet:</p>
+
+<code lang='html'><![CDATA[
+<fieldset style="position:fixed">
+<legend>Crash</legend>
+</fieldset>
+]]></code>
+
+<p>crashes Mozilla-based browsers.
+<a href='crashmoz.html'>Try it</a>.
+</p>
+
+</body>
+</entry>
+</blog>

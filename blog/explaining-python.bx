@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090829T085914'>
+<title>Explaining Python at DevDays Boston</title>
+<category>gatherings</category>
+<category>python</category>
+<category>edu</category>
+<body>
+<p>I will be speaking about Python at <a href='http://stackoverflow.carsonified.com/events/boston'>DevDays Boston</a>,
+a stackoverflow event.</p>
+
+<p><a href='http://stackoverflow.com'>Stackoverflow</a> is a Microsoft-heavy
+community, so Joel Spolsky wanted someone to introduce them to Python.  His idea
+was to do a talk explaining Peter Norvig's
+<a href='http://norvig.com/spell-correct.html'>Python spelling corrector</a>.
+It's an interesting approach: rather than start with the basics of the language,
+dive into a meaty piece of code, and explain as you go.
+</p>
+
+<p>I like it, but the spelling corrector isn't the best showcase for what makes
+Python special.  It makes good use of data structures and comprehensions to
+concisely complete an interesting task, but it doesn't show much more of the language.</p>
+
+<p>I wanted to include another piece of code, perhaps even instead of the spelling
+corrector.  A recent piece of code that pleased me was
+<a href='http://bitbucket.org/ned/coveragepy/src/tip/coverage/templite.py'>templite.py</a>,
+a bare-bones templating class along the lines of James Tauber's
+<a href='http://jtauber.com/2006/05/templates.html'>Python Templates exposition</a>.
+Templite adds loops into the mix, which is too much complexity, but going through
+some version of James' evolution I think would be a good way to show off duck
+typing, classes, and the power of special methods.</p>
+
+<p>But I'm sure there are other ideas out there.  If you had an hour to explain
+Pythonic awesomeness to skilled developers, how would you do it?</p>
+
+</body>
+</entry>
+</blog>

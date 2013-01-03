@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020902T110606'>
+<title>Polyglot programs</title>
+<category>proglang</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>While looking for information for
+<a href='blog/200208.html#20020813T055231'>my entry on obfuscated code</a>,
+I came across
+<a href='http://groups.google.com/groups?selm=1991Mar18.131907.11757%40metro.ucc.su.OZ.AU'>polyglot</a>,
+a program in seven different programming languages at once.
+That is, one program text can be interpreted as being written in any of seven different languages,
+and produces the same result in each.
+This is indeed an impressive acheivement,
+though mainly in figuring out how to exploit the differences and details of comment syntax in the
+different languages.</p>
+
+<p>I have a similar program, written sometime in the early '90's, I think.
+It is only for two languages, C and PostScript:</p>
+
+<code><![CDATA[
+/* % Dual program: C or PostScript!
+   % Ned Batchelder
+   %
+{pop}/,{}/={}/"{}/+{}/;{pop}/-{moveto}/printf{show}/return{showpage}9{def}repeat
+   ( */
+# include <stdio.h>
+# include <string.h>
+/* ) */char count , def = 0 ;
+/* */main()
+{
+    char * /* */Courier = " findfont " + 36 , scalefont = 0 ;
+    char * setfont = "(Hello, world!)" + 0 * 100 + 0 * 100 - 0 ;
+
+    printf("%.*s\n", strlen(setfont)-2, setfont+1);
+    return ;
+}
+
+char * exec ;
+]]></code>
+
+<p>Although mine is only for two languages rather than seven,
+I like the way it maps a little better: the string "Hello, world!" only
+appears once, and is interpreted as a string in both languages,
+and the "printf" token is the one that puts the string out in both languages.</p>
+
+<p>Other polyglot programs:</p>
+<ul>
+<li><a href='http://www.ee.ryerson.ca/~elf/hack/multilang.html'>C, perl, Tcl, and sh</a>.</li>
+<li><a href='http://www.nyx.net/~gthompso/poly/polyglot.htm'>A number of polyglots</a>, part of a larger collection of geeky language hacks.</li>
+</ul>
+
+</body>
+</entry>
+</blog>

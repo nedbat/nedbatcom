@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071216T110049'>
+<title>Ancient history: the Digital logo</title>
+<category>history</category>
+<category>design</category>
+<body>
+<p>My first corporate job was with Digital Equipment Corporation.  I worked in
+the printer group, on PostScript technologies.  It was common then to simulate
+the <a href='http://vt100.net/dec/logo'>Digital logo</a> by scaling Helvetica
+and superimposing it in white onto colored rectangles.
+</p>
+
+<p>But I knew that was inaccurate, and it gave a bad hacked-up impression.  So
+I took it upon myself to create a genuine Digital logo in PostScript.  My association
+with the logo was strong enough that I still get requests every few months for
+the logo.  I am now an HP employee, so I have contact with even more ex-DECcies
+interested in the logo (HP bought Compaq which bought Digital, you see).</p>
+
+<p>When the latest request came in, I decided to make a serious attempt at
+resurrecting the logo.</p>
+
+<more>
+
+<p>I don't have the PostScript file for the logo any more, but it was often included
+in PostScript files generated from the in-house document creation tool (VAX Document).
+HP still maintains an archive of papers from the Digital days, so I figured a little
+archaeology there would yield a logo fossil.</p>
+
+<p>A Google search for the <a href='http://www.google.com/search?q=vms%20filetype%3Aps%20site%3Ahp.com'>term VMS
+in PostScript files on hp.com</a> provided a direct hit: the first result
+(a paper entitled <a href='http://gatekeeper.hpl.hp.com/archive/pub/Compaq/CRL/research-reports/92.4.ps'>How the RDB/VMS Data Sharing System Became Fast</a>)
+had the Digital logo font in it.  Digging deeper, it turns out I was really lucky: very few of the papers
+on the site had the logo.</p>
+
+<p>The logo I made was actually a font (Type 3, meaning the characters were defined with PostScript code).
+Back in 1987 I went to the graphic design group and got the largest photographic master of the logo they had.
+I scanned them, then used an early version of Adobe Illustrator to create the curves.</p>
+
+<p>Here's the historical summary I included in the font file:</p>
+
+<quote>
+
+<p>The logo was designed in 1957 by Elliot Hendrickson, who was then working as
+an independent designer. He was contracted by DEC to do a brochure, and DEC
+wanted a logo to accompany it. The logo up to then had been the letters DEC in
+blocks the shape of the plug-in cards that DEC had been producing. Elliot
+re-worked the logo, incorporating letters which were hand-drawn for the purpose
+by Arthur Hover(?). The logo has been maintained since then in conventional
+technology, i.e. film masters. There was at least one reworking of the logo at
+some point.</p>
+
+<p>The masters I received had a number of interesting features. The boxes were
+not all the same width, and there seemed to be no logic to which boxes were
+wider. The ‘g’ was the narrowest, and the ‘i’ and ‘l’ were second widest. Also,
+the two ‘i’s were not exactly the same shape. On ten-inch masters, (one box to
+an 8"×11" sheet), the boxes were not rectangles, but were very slightly tapered
+in wierd ways. I assume that the tapering is the result of too many
+reproductions, but the difference in widths may have been deliberate at some
+time. Elliot reports that when he drew it, all boxes were the same width. I have
+made all of the boxes the same width, since that seems to have been the original
+intent, since the differences were almost negligible anyway, and since there was
+no logic to the differences.</p>
+</quote>
+
+<p>The font I retrieved from the research report had none of the commentary, but
+here is the code (<a href='files/declogo17.ps'>declogo17.ps</a>):</p>
+
+<code lang='ps'><![CDATA[
+11 dict begin
+
+/FontInfo 3 dict def
+FontInfo begin
+    /Notice (The Digital logo is a registered trademark of Digital Equipment Corporation.) def
+    /FullName (Digital Logo) def
+    /version (1.7, 24-Apr-1989) def
+    end
+
+/FontName /DEC_Logo def
+/FontType 3 def                         % This is a user-defined font
+/FontMatrix matrix def                  % Use an identity transform
+/FontBBox [ 0 0 3.383 1 ] def           % Logo itself is biggest
+/GapWidth .070 def                      % The width of the gap between boxes
+/LogoWidth 3.383 def                    % The width of the logo
+
+/Encoding 256 array def
+0 1 255 { Encoding exch /.notdef put } for
+
+Encoding
+dup (d) 0 get /DEC-logo put             % (d) gives logo
+dup (t) 0 get /smalltrademark put       % (t) gives small trademark
+    (T) 0 get /largetrademark put       % (T) gives large trademark
+
+/Work 15 dict def                       % for doing work in font.
+
+/BuildChar {
+    exch begin                          % Use the font dictionary
+        Work begin
+            Encoding exch get           % Look up the character name
+            load                        % Pull out the procedure
+            exec                        % Run it.
+            end                         % Work
+        end                             % fontdict
+    } def
+
+Work begin
+
+/.notdef {} def
+
+/words {
+    0           %  
+    moveto      % !
+    curveto     % "
+    closepath   % #
+    lineto      % $
+    boxw        % %
+    boxstep     % &
+    translate   % '
+} bind cvlit def
+( mr vy! mt rQ h[ kF aw kE" Zw kG T@ q] T@ ~I" T@ AKA Zv AQi ai AQk" h[ AQi m
+t AJX mr ADw"# nI AZ[! nI Avp$ |C Avp$ |C ^h$ mk ^h$ mk bl$ l` a` gc \\U _F 
+\\U" VR \\T Fa cj Fa ~I" Fa ATf RS A`M `S A`M" e_ A`M je A^W nI AZ["#% !% B\\
+P$  B\\P$  $#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV!
+ ZK Au~$ hO Au~$ hO AfV$#& ' l[ AE~! l[ AKe fG AQX `Q AQX" [O AQX S] ANK S] 
+?t" S] pa ]A nR `L nR" f_ nR l[ rg l[ yS"#  B\\P!% B\\P$% $  $# ld AWi! kG A
+Yn fV A^\\ _b A^\\" T} A^[ FM AXT FM }s" FN hy V{ ax ]r ax" eL aw jl fK lL g
+s" lL aN$ lL \\W gM Wg ^w Wg" Wk Wh V{ \\O V{ ^a" HO ^a$ HO WN L| Ld ]~ Lc" 
+mN Lc rP RX t[ Td" vP VZ x? [^ x? _a" x? A]p$ le A]p$#& '% !% B\\P$  B\\P$  
+$# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV! ZK Au~$ hO Au~$ hO AfV$#& ' dX Aue
+! Wa Aue$ Wa A^w$ Pr A^w$ Pr ATT$ Wa ATT$ Wa ld$ Wa d? [Z _B fP _C" kU _C kH
+ _A ob _r" ob lz$ lj lZ kq lM jW lP" gj lU dX mR dX rF" dX ATS$ nd ATS$ nd A
+^w$ dX A^w$#% !  $  B\\P$% B\\P$#& '  !  B\\P$% B\\P$% $# J{ AIx! V~ AIx$ V~
+ APR ZR ASi `f ASi" jj ASj jU AOK jT AId" dF AGI dk AGM [L AEC" OI ABQ Gq }G
+ Gp ph" Gq d[ P] ]z ZP ]{" dD ]z fF aE jJ cr" jJ ^z$ yb ^z$ uz dp vw ey vu j
+R" vv mn vu AOX vu AOX" vv AVC sX AZH qG A[_" k] A^w d^ A_Q `f A_R" Ru A_P J
+z AXU J{ AIx"# jT }j! jT uI$ jT qP ee in \\R im" Wp il UN mC UM qZ" UN ur X{
+ yI \\D yq" _U z[ fv |V jT }j"#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK Awb$ hO Aw
+b$ hO ^h$#)
+/pathstring exch def
+
+/round-to-pixels {
+    0 transform
+    round exch round exch
+    itransform
+    pop
+    } def
+
+/DEC-logo {
+    3.383 0 0 0 3.383 1 setcachedevice
+    .0001 .0001 scale
+
+    /boxw 4250 round-to-pixels def
+    /boxstep 4950 round-to-pixels def
+
+    pathstring
+    {
+        dup 62 gt
+        {   63 and exch 6 bitshift add }
+        {   dup 32 ge
+            {   32 sub words exch get exec }
+            {   pop }
+            ifelse
+            }
+        ifelse
+        }
+    forall
+
+    fill
+    } def
+
+
+/trademark {
+    /s exch .380 div def
+    /w s .725 mul .070 add def
+    /u 1 .673 s mul sub def
+    w 0 0 u w 1 setcachedevice
+    /Symbol findfont s scalefont setfont
+    .070 u moveto                               % Superscript it
+    (\344) show
+    } def
+
+
+/smalltrademark { .15 trademark } def
+/largetrademark { .25 trademark } def
+
+end                                             % Work dictionary
+
+FontName                                        % Get the name
+currentdict                                     % Get the font dict
+end                                             % Close up the dict
+definefont pop                                  % Define the font
+]]></code>
+
+<p>I don't remember encoding the path in that tricky way: the printed
+copy I have of the code was much lengthier.
+<em>Updated:</em> Alert reader Peter Weaver sent along a copy he found of the
+earlier version: <a href='files/declogo11.ps'>declogo11.ps</a>.
+</p>
+
+<p>To draw with the font, I added this code:</p>
+
+<code lang='ps'>
+/DEC_Logo findfont 100 scalefont setfont
+72 72 moveto
+(d) show
+showpage
+</code>
+
+<p>With that PostScript file, I could create a
+<a href='files/declogo.pdf'>PDF file</a>, an
+<a href='files/declogo.ai'>Illustrator file</a>
+(back to home!) then .PNGs:</p>
+
+</more>
+
+<figurep href='pix/declogo_large.png'>
+<img src='pix/declogo.png' alt='The Digital logo'/>
+</figurep>
+
+<p>Hopefully, these will satisfy the needs for Digital logo fans. If you need
+anything more, let me know!</p>
+
+
+</body>
+</entry>
+</blog>

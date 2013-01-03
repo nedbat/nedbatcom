@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070121T122052'>
+<title>Stopping spambots with hashes and honeypots</title>
+<category>malware</category>
+<category>site</category>
+<body>
+<p>Up until about six months ago, I was preventing spam on this site using 
+a keyword list.  As new spam would arrive, I would update the list to prevent it.
+It was a pain.  Six months ago, I changed my comment form to use a number of
+tricks to make it difficult or impossible for a spambot to successfully post
+a comment.  In that time, I have had 450 real comments, 
+five spam comments (almost certainly by people), and 
+perhaps 2500 failed spam attempts.  That is a good ratio.</p>
+
+<p>I've written up how I do it: <a href='text/stopbots.html'>Stopping spambots with hashes and honeypots</a>.</p>
+
+<p>Last week, Damien wrote <a href='http://damienkatz.net/2007/01/negative_captch.html'>Negative CAPTCHA</a>,
+about fooling spambots into identifying themselves with invisible fields.
+This is a component of my technique, so his post spurred me to explain what I do to
+keep spam off this site.</p>
+
+<p>I was particularly interested in the comments on Damien's post, as they show the
+variety of know-it-alls that boldly proclaim facts that are plain wrong, or miss
+the point.</p>
+
+<p>For example, about the possibility of spambots properly parsing forms with
+invisible elements, Guymac wrote:</p>
+
+<quote><p>It's a simple DOM method call to determine if an element, 
+say a form field, is visible or not. 
+So Bot writers could trivially work around this technique.
+</p></quote>
+
+<p>I was amused by his use of the word "trivially", since it neatly glossed over
+the need to base the bot on a browser infrastructure, and ignored some of the
+ways that fields can be made invisible.</p>
+
+<p><a href='text/stopbots.html'>My technique</a> works well on this site.  
+Maybe by writing it up, we can get some more good ideas flowing.  
+I picked up some tips from commenters on Damien's post that I have now integrated 
+into my system.</p>
+
+</body>
+</entry>
+</blog>

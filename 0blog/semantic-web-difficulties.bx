@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031111T213841'>
+<title>Semantic web difficulties</title>
+<category>semweb</category>
+<via />
+<body>
+<p>A friend told me that he didn't understand my position after reading
+my <a href='blog/200311.html#e20031108T093040'>posting of a few days ago</a>,
+about Clay Shirky's lambasting of the Semantic Web effort.
+Let me clarify.
+</p>
+
+<more>
+
+<p>Here's what I think:</p>
+
+<ol>
+
+<li><h>The Semantic Web is a good thing</h>.  Any efforts to make data more widely
+usable, either by broadening its distribution, or widening its applicability,
+is good, and should be encouraged.  The web to date has shown has much more power
+information destined for eyeballs can have when it is inherently networked.
+The Semantic Web is about doing the same thing for information destined for
+software.  It's a good thing.
+</li>
+
+<li><h>The Semantic Web is being over-sold</h>.  The people who really believe in
+this stuff are painting pictures of such wildly utopian fantasies, that it
+is easy for skeptics to scorn the entire effort.
+The good underpinnings are being slathered over with such a thick layer of hype
+frosting, it's hard to see the real stuff that's under there.
+</li>
+
+<li><h>Semantics are really hard</h>.  Even the reasonable Semantic Web zealots
+are hand-waving over the difficulty of getting people to agree on what things mean.
+How you describe something depends to a huge extent on who you are and why you care
+about the thing.
+</li>
+
+</ol>
+
+<p>This last point is the most important, so I'll say it again:
+getting people to agree on meaning is really hard.
+Paul Ford, who is by all accounts a clever guy, and who has some real semantic
+webbing to his credit, has a long counter-argument to Clay Shirky:
+<a href='http://www.ftrain.com/ContraShirky.html'>A Response To Clay Shirky</a>.
+In it, he describes in detail the way Amazon could use Semantic Web constructs
+to build cool stuff.</p>
+
+<p>But let's look deeper at this.  First of all, what are we describing?
+Amazon is a retailer, so fundamentally, they are describing things to sell.
+You can go to the Amazon site today and find problems with conflicting semantic
+models.  When I get music recommendations, if I say I like "Goat's Head Soup",
+Amazon will recommend "Goat's Head Soup [Remastered]".  To me as a music shopper,
+these are the same thing.  To Amazon as a retailer, they are different.</p>
+
+<p>It isn't hard to create an ontology that lets me describe this situation.
+It could say that one album was a reissue of another or even a reissue with
+bonus tracks, and the recommendation service could filter out reissues, or
+let me choose whether to see them.  Amazon may do that someday.  But will other
+music catalogers?  Will they consider the same things important?</p>
+
+<p>A real musicologist will want a much richer set of information, and Amazon
+may not want to expend the energy to maintain all that data.  Ideally, the
+record labels would create the authoritative dataset for an album, so that
+everyone could use it, much as book publishers print Library of Congress info
+into their books.</p>
+
+<p>But what if the creator of the item isn't interested in maintaining as much
+data as the most fanatical consumer wants?  What if their interests don't
+strictly overlap?  Amazon needs a description that covers books, music, sporting goods,
+gourmet foods, and all the other things it sells.  Musicologists want very
+deep information about only music.  Sure, they can create disjoint ontologies,
+and data from different schemas can be applied to the same item, but sometimes
+people can't even agree whether two items are the same.</p>
+
+<p>Agreement can come, and data webs can be built.  It will just be a lot of
+work, and it will cover less than you might think.
+Once you get into real world data scenarios, it always gets more complicated
+than you thought.  And we aren't even covering the economic reasons why people
+may not want their data webbed together.</p>
+
+<p>I want the Semantic Web to continue to grow.  I want it to enrich our lives.
+I just don't want its main proponents to over sell it or hand-wave away the
+hard parts.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

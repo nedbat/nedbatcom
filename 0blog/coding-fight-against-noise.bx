@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020720T080543'>
+<title>Fighting noise</title>
+<category>coding</category>
+<via id='desktopfishbowl'/> <!-- id= or href= -->
+<body>
+<p>A few weeks ago, Charles Miller wrote about
+<a href='http://radio.weblogs.com/0100190/2002/07/09.html#a159'>some theories of behavior and how they apply to coding</a>.
+Basically, he says that it's important to make sure little badnesses don't creep in,
+because they add up, and discourage fellow coders from fighting future badnesses,
+and eventually, there's badness everywhere.</p>
+
+<p>I totally agree.  As a developer, I find my main enemies to be noise and inertia.
+Noise is anything that detracts from the good qualities of the code (clear intent,
+good performance, flexible structure, and so on).  Noise adds friction
+to the development process by making it difficult to move forward.
+Inertia is anything that makes change difficult, which includes all the noise.
+</p>
+
+<more>
+
+<p>For example, anyone who has worked with me knows that I am an absolute fanatic about
+coding conventions.  I believe they are important because they reduce noise: when I look
+at a chunk of code I didn't write, I need as little noise as possible.  Different brace
+styles are nothing but noise.  Some people will argue that it's silly to legislate
+code style because it isn't important to the functioning of the code: the compiler doesn't
+care where the braces go, so why should we?</p>
+
+<p>The answer is, it's important to decide on a single style precisely because it doesn't
+matter to the functioning of the code.  Everything possible must be done to focus
+developers on the things that matter, and having to accomodate everyone's style makes
+all the other developers (except you) spend focus on reading your particular coding style.
+</p>
+
+<p>And of course, divergent style is the least of the badnesses that can infest your code.
+Worse are bad architecture, mushy semantics, poor performance, incorrect functionality, and
+so on.  These are the kinds of things that get into the code and can be very difficult to
+remove, especially when the whole team is under constant time pressure to deliver new
+features.</p>
+
+<p>Only by being merciless about fighting small badnesses all the time can you ensure that
+at the end of two years and eight people's work you have a large pile of goodness.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

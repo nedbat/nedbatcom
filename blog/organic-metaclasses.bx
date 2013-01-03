@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100418T195924'>
+<title>Organic metaclasses</title>
+<category>python</category>
+<body>
+<p>The way I learn things, I can read about something a number of times, and
+intellectually understand it, but it won't really sink in until I have a real
+reason to try it out myself.  Toy examples don't do it for me, I have to have
+an actual problem in hand before the solution becomes part of my repertoire.
+Recently I finally had a use for metaclasses.
+</p>
+
+<p>I wanted to create an in-memory list of items that I could reference by key.
+It was a micro-database of languages:</p>
+
+<code lang='python'><![CDATA[
+class Language(object):
+
+    # The class attribute of all languages, mapped by id.    
+    _db = {}
+    
+    def __init__(self, **kwargs):
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
+        self._db[self.id] = self
+        
+    @classmethod
+    def get(cls, key):
+        return cls._db.get(key)
+
+Language(
+    id = 'en',
+    name = _('English'),
+    native = u'English',
+    )
+
+Language(
+    id = 'fr',
+    name = _('French'),
+    native = u'Fran\u00E7ais',
+    )
+
+Language(
+    id = 'nl',
+    name = _('Dutch'),
+    native = u'Nederlands',
+    )
+
+# Some time later:
+lang = Language.get(langcode)
+lang.native # blah blah
+]]></code>
+
+<p>This worked well, it gave me a simple schema-less set of constant items that
+I could look up by id.  And the class attribute _db is used implicitly in the
+constructor, so I get a clean declarative syntax for building my list of languages.
+</p>
+
+<p>But then I wanted another another set, for countries, so I made a MiniDbItem
+class to derive both Language and Country from:</p>
+
+<code lang='python'><![CDATA[
+class MiniDbItem(object):
+    def __init__(self, **kwargs):
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
+        self._db[self.id] = self
+        
+    @classmethod
+    def get(cls, key):
+        return cls._db.get(key)
+
+class Language(MiniDbItem):
+    _db = {}
+
+Language(id='en', ...)
+Lanugage(id='fr', ...)
+
+class Country(MiniDbItem):
+    _db = {}
+    
+Country(id='US', ...)
+Country(id='FR', ...)
+]]></code>
+
+<p>This works, but the unfortunate part is that each derived class has to define
+it's own _db class attribute to keep the Languages separate from the Countries.
+Each derived class is obligated to do that little bit of redundant work, or the
+MiniDbItem base class isn't used properly.</p>
+
+<p>The way to avoid that is to use a metaclass.  The metaclass provides an
+__init__ method.  In a class, __init__ is called when new class instances are
+created, but in a metaclass, __init__ is called when new <em>classes</em> are
+created.
+</p>
+
+<code lang='python'><![CDATA[
+class MetaMiniDbItem(type):
+    """ A metaclass to give every class derived from MiniDbItem
+        a _db attribute.
+    """
+    def __init__(cls, name, bases, dict):
+        super(MetaMiniDbItem, cls).__init__(name, bases, dict)
+        # Each class has its own _db, a dict of its items
+        cls._db = {}
+
+class MiniDbItem(object):
+    
+    __metaclass__ = MetaMiniDbItem
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
+        self._db[self.id] = self
+        
+    @classmethod
+    def get(cls, key):
+        return cls._db.get(key)
+
+class Language(MiniDbItem): pass
+
+Language(id='en', ...)
+Lanugage(id='fr', ...)
+
+class Country(MiniDbItem): pass
+    
+Country(id='US', ...)
+Country(id='FR', ...)
+]]></code>
+
+<p>Now MetaMiniDbItem.__init__ is invoked twice: once when class Language is
+defined, and again when class Country is defined.  The class being constructed
+is passed in as the cls parameter.  We use super to invoke the regular class
+creation machinery, then simply set the _db attribute on the class like we want.</p>
+
+<p>Of course, metaclasses can be used to do many more things than simply setting
+a class attribute, but this example was the first time in my work that
+metaclasses seemed like a natural solution to a problem rather than an advanced-magic
+Stupid Python Trick.</p>
+
+</body>
+</entry>
+</blog>

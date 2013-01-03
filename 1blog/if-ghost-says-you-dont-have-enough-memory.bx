@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040127T064452'>
+<title>If ghost says you don't have enough memory..</title>
+<category>admin</category>
+<via />
+<body>
+<p>I'm trying to use
+<a href='http://enterprisesecurity.symantec.com/products/products.cfm?productid=3'>Ghost 7.0</a>
+to backup a hard drive that seems to be failing, and the backup works great.
+When trying to restore to the new drive, Ghost says "Insufficient conventional memory".
+Our best theory is that the laptop has too much memory: 1 GB.</p>
+
+<p>This is a classic problem with the hyper-inflation of hardware capabilities:
+software written to understand the possibilities last far too long for its own good,
+and can't fathom the gigantic numbers it's seeing.
+It reminds me of old kids' games I still have running on my home machine.
+Every time they startup they warn me that they need 256 colors to display properly.
+When they were written, 256 seemed like the upper limit,
+so there's probably a line of code in there like,</p>
+
+<code lang='c++'><![CDATA[
+if (nColors != 256) {
+    ::MessageBox("I need 256 colors");
+}
+]]></code>
+
+<p>Who could have imagined 24-bit color?</p>
+
+</body>
+</entry>
+</blog>

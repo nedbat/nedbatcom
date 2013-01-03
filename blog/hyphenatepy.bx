@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070709T211437'>
+<title>Hyphenate.py</title>
+<category>mycode</category>
+<category>python</category>
+<category>ling</category>
+<body>
+<p>At work, I needed to hyphenate words (so that
+<a href='http://developer.tabblo.com/index.php/tabblo-print-toolkit'>Tabblo Print Toolkit</a>
+could do a nicer job of wrapping text into narrow columns).
+Knuth's TeX system has long had a competent hyphenation algorithm, created by
+Frank Liang.  It's described in Appendix H of the TeXbook, and it's actually
+really simple.  It's driven from a dictionary of word fragments, so all of the
+hairy special cases are kept out of the code.</p>
+
+<p>There were already implementations in a number of languages, but none in
+Python that I could find.  So I wrote one: <a href='code/modules/hyphenate.html'>hyphenate.py</a>.
+</p>
+
+<p>Enjoy.</p>
+
+</body>
+</entry>
+</blog>

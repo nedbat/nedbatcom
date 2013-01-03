@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040113T064317'>
+<title>Printing Unicode from python</title>
+<category>python</category>
+<category>charset</category>
+<via />
+<body>
+<p>So if I have Unicode strings in Python, and I print them,
+they get encoded using sys.getdefaultencoding(), and if that encoding
+can't handle a character in my string, I get a UnicodeEncodeError.
+Can I set things up so that the encoding is done with 'replace' for errors
+rather than 'strict'?
+As it is, I use a function instead of print:
+</p>
+
+<code lang='python'><![CDATA[
+# Safe printing: can print any unicode string
+def safeprint(msg):
+    print msg.encode(sys.getdefaultencoding(), 'replace')
+
+# blah blah
+safeprint(mytrickystring)
+]]></code>
+
+<p>Isn't there a way to set stdout to not care or something?</p>
+
+</body>
+</entry>
+</blog>

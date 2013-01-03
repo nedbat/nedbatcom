@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<base href="http://www.nedbatchelder.com/">
+	<title>Statement coverage for Python</title>
+	<script type="text/javascript" src="nedbatchelder.js"></script>
+
+	<style>
+	body {
+		font-size: 101%;  /* Trick to shut off divergent font rounding algorithms. */
+		margin: -5px;
+		padding: 0;
+		background-color: white;
+	}
+
+	.ned {
+		font-family: verdana, sans-serif;
+	}
+
+	.explanation {
+		font-size: 80%; line-height: 1.45em;
+		margin: 0 20px;
+		background: #eee;
+		border-bottom: 1px solid #aaa;
+		padding: .05em 1em;
+	}
+
+	.original {
+		margin: 20px;
+	}
+
+	td#logo {
+		border-color: black; border-style: solid; border-width: 2px
+	}
+
+	td#banner {
+		border-color: black; border-style: solid; border-width: 2px 0 1px 0
+	}
+
+	td#menu {
+		border-color: black; border-style: solid; border-width: 0 1px 0 2px;
+		padding: 10px;
+	}
+
+	td#content {
+	}
+
+	td#copyright {
+		text-align: right;
+	}
+
+	.headslug
+	{ font-size: 150%; font-weight: bold }
+
+	.mainslug
+	{ font-size: 160%; font-weight: bold }
+
+	.path
+	{ font-size: 90%; line-height: 150% }
+
+	.path a
+	{ text-decoration: none; color: black }
+
+	.path a:hover
+	{ text-decoration: underline; color: red }
+
+	</style>
+</head>
+<body bgcolor="white">
+	<div class='ned'>
+	<table style="table-layout: fixed" width="100%" cellpadding="0" cellspacing="20">
+		<tr>
+			<td id="logo" width="120px" align="center"><img src="dodeca3_100.gif" width="100" height="120" alt="[*]"></td>
+			<td id="banner">
+				<span class="path"><a href="index.html">Ned Batchelder</a> : <a href="blog/index.html">Blog</a> | <a href="code/index.html">Code</a> | <a href="text/index.html">Text</a> | <a href="site/index.html">Site</a></span><br>
+				<span class="headslug">Statement coverage for Python</span><br>
+				<span class="path">&raquo; <a href="index.html">Home</a> : <a href="code/index.html">Code</a> : <a href="code/modules/index.html">Python Modules</a>  : <a href="code/modules/coverage.html">coverage</a> </span>
+			</td>
+		</tr>
+	</table>
+
+	<div class='explanation'>
+	<p>This page is orignally from <a href='http://www.garethrees.org/2001/12/04/python-coverage'>http://www.garethrees.org/2001/12/04/python-coverage</a>,
+	which seems to be defunct.
+	I grabbed the text from archive.org, and present it here for posterity.
+	I've updated the links to point to appropriate pages on this site.
+	</p>
+	</div>
+
+	</div>
+
+<div class='original'>
+
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<title>Statement coverage for Python</title></head>
+
+
+
+
+
+<body alink="#ff0000" bgcolor="#ffffff" link="#000099" text="#000000" vlink="#660066">
+-->
+
+<div align="center">
+
+<p>
+<a href="http://www.garethrees.org/">www.garethrees.org</a> /
+<a href="http://www.garethrees.org/?category=Software">Software</a>
+</p>
+
+<h1>Statement coverage for Python</h1>
+
+<address>
+<a href="mailto:gdr@ravenbrook.com">Gareth Rees</a>,
+<a href="http://www.ravenbrook.com/">Ravenbrook Limited</a>,
+2001-12-04
+</address>
+
+</div>
+
+
+<h2><a id="section-1" name="section-1">1. Introduction</a></h2>
+
+<p> The <a href="code/modules/coverage.html"><code>coverage.py</code></a> Python module
+provides statement coverage for Python.  It accumulates coverage data
+over many runs; generates coverage reports; and annotates Python source
+showing which statements have been covered. </p>
+
+<p> To use it, download <a href="code/modules/coverage.html"><code>coverage.py</code></a> and add it to your
+Python library (for example, in
+<code>/usr/local/lib/python-<i>version</i>/lib/site-packages/</code>)
+and your execution path. </p>
+
+<p> See [<a title="Statement coverage for Python: design and analysis" href="code/modules/rees-design.html">GDR 2001-12-04</a>] for
+design and analysis. </p>
+
+
+<h2><a id="section-2" name="section-2">2. Command-line interface</a></h2>
+
+<p> Use the <code>-x</code> option (<code>--execute</code>) to execute a
+Python module with command-line arguments, and record coverage
+information: </p>
+
+<blockquote><code>$ coverage.py -x module.py [<i>ARG1</i> <i>ARG2</i> ...]</code></blockquote>
+
+<p> Coverage information accumulates over a sequence of executions, in
+the file <code>.coverage</code> (set the <code>COVERAGE_FILE</code>
+environment variable if you want to use a different file).  To erase the
+recorded coverage information, use the <code>-e</code> option
+(<code>--erase</code>): </p>
+
+<blockquote><code>$ coverage.py -e</code></blockquote>
+
+<p> To report on the statement coverage for a set of files, use the
+<code>-r</code> option (<code>--report</code>): </p>
+
+<blockquote><code>$ coverage.py -r [-m] <i>FILE1</i> <i>FILE2</i> ...</code></blockquote>
+
+<p> Specify the <code>-m</code> option (<code>--show-missing</code>) to
+show the the line numbers of statements that weren't excecuted.  For
+example: </p>
+
+<blockquote><pre>$ coverage.py -e
+$ coverage.py -x test_foo.py
+Test errors (test_foo.error) ... ok
+Test options (test_foo.options) ... ok
+--------------------------------------
+Ran 1 test in 0.966s
+
+OK
+$ coverage.py -r -m foo.py bar.py
+Name    Stmts   Exec  Cover  Missing
+------------------------------------
+foo        64     56    87%  23, 57, 85, 119, 125, 133, 137, 152
+bar       105     90    86%  78-86, 237-246
+------------------------------------
+TOTAL     169    146    86%
+$
+</pre></blockquote>
+
+<p> To make a copy of source code annotated with <code>&gt;</code> for
+statements that are executed, and <code>!</code> for statements that are
+not, use the <code>-a</code> option (<code>--annotate</code>): </p>
+
+<blockquote><code>$ coverage.py -a <i>FILE1</i> <i>FILE2</i> ...</code></blockquote>
+
+<p> The annotated copy of <code>file</code> is written as
+<code>file,cover</code>.  Normally each annotated copy is written in the
+same directory as the original.  Add the <code>-d
+<i>DIRECTORY</i></code> option
+(<code>--directory=<i>DIRECTORY</i></code>) to create the annotated
+copies in specified directory.  For example: </p>
+
+<blockquote><pre>$ coverage.py -a -d . /project/src/foo.py
+$ cat foo.py,cover
+...
+&gt;          length = self.msg.getheader('content-length')
+&gt;          if length:
+&gt;              try:
+&gt;                  self.length = int(length)
+!              except ValueError:
+!                  self.length = 0
+&gt;              self.length = max(self.length, 0)
+!          else:
+!              self.length = 0
+...
+$
+</pre></blockquote>
+
+
+<h2><a id="section-3" name="section-3">3. Programmatic interface</a></h2>
+
+<p> When testing interactively, you'll need to use the programmatic
+interface. </p>
+
+<p> Call <code>start()</code> to start recording coverage: </p>
+
+<blockquote><pre>&gt;&gt;&gt; import coverage
+&gt;&gt;&gt; coverage.start()
+</pre></blockquote>
+
+<p> Stop recording by calling <code>stop()</code>.  Call
+<code>erase()</code> to erase all results (including the
+<code>.coverage</code> file). </p>
+
+<p> To calculate the coverage of a module or file, call
+<code>analysis()</code>, passing a module object or a filename.  It
+returns a 4-tuple consisting of </p>
+
+<ol>
+
+  <li><p> The module's filename. </p></li>
+
+  <li><p> A list of line numbers of statements in the module. </p></li>
+
+  <li><p> A list of line numbers of statements that weren't
+  executed. </p></li>
+
+  <li><p> A human-readable string describing the line numbers of
+  statements that weren't executed, coalescing groups of adjacent
+  statements. </p></li>
+
+</ol>
+
+<p> For example: </p>
+
+<blockquote><pre>&gt;&gt;&gt; import coverage
+&gt;&gt;&gt; coverage.erase()
+&gt;&gt;&gt; coverage.start()
+&gt;&gt;&gt; import spong
+&gt;&gt;&gt; spong.run_tests()
+&gt;&gt;&gt; coverage.stop()
+&gt;&gt;&gt; coverage.analysis(spong)
+('/project/foo/tests/foo.py',
+ [10, 11, 12, 13, 17, 18, 20, 21, 23],
+ [12, 13, 17, 21, 23],
+ '12-17, 21-23')
+</pre></blockquote>
+
+<p> <code>report()</code> prints a coverage report.  Pass it a list of
+modules or filenames, and give optional argument <code>ignore_errors =
+1</code> to ignore errors in analyzing modules; and
+<code>show_missing = 0</code> to hide the missing statements. </p>
+
+<p> For example: </p>
+
+<blockquote><pre>&gt;&gt;&gt; coverage.report([foo, bar])
+Name    Stmts   Exec  Cover  Missing
+------------------------------------
+foo        64     56    87%  23, 57, 85, 119, 125, 133, 137, 152
+bar       105     90    86%  78-86, 237-246
+------------------------------------
+TOTAL     169    146    86%
+&gt;&gt;&gt; m = sys.modules.values()
+&gt;&gt;&gt; coverage.report(m, ignore_errors=1, show_missing=0)
+Name       Stmts   Exec  Cover
+------------------------------
+types         47      0     0%
+foo           64     56    87%
+token        111      0     0%
+whrandom      69     21    30%
+bar          105     90    86%
+coverage     141      2     1%
+unittest     400     94    23%
+string       121     15    12%
+...
+</pre></blockquote>
+
+
+<h2><a id="section-4" name="section-4">4. Limitations</a></h2>
+
+<ul>
+
+  <li><p> You can't record coverage data while tracing or
+  profiling. </p></li>
+
+  <li><p> Statement coverage is the weakest measure of code coverage.
+  It can't tell you when an <code>if</code> statement is missing an
+  <code>else</code> clause ("branch coverage"); when a condition is only
+  tested in one direction ("condition coverage"); when a loop is always
+  taken and never skipped ("loop coverage"); and so on.  See [<a title="Measurement of the extent of testing" href="http://www.kaner.com/pnsqc.html">Kaner 2000-10-17</a>] for a
+  summary of test coverage measures. </p>
+
+  <p> Also, just because a statement is covered by a test case doesn't
+  mean that the test case checks that the statement does the right
+  thing.  So it's not a good idea to organize your testing around
+  statement coverage or to set targets for statement coverage.  However,
+  coverage testing is a good tool for discovering features that haven't
+  been tested and suggesting profitable new areas to test.  See [<a title="How to misuse code coverage" href="http://www.testing.com/writings/coverage.pdf">Marick 1997</a>]
+  for more discussion of the use of coverage measures. </p>
+
+  <p> Here are some particular cases in Python where statement coverage
+  is inadequate: </p>
+
+  <ul>
+
+    <li><p> Short-circuit evaluation.  The expression <code>0 and
+    foo()</code> is considered to be executed when the statement it
+    belongs to is executed, but <code>foo()</code> is not called.
+    Similarly for <code>1 or foo()</code>. </p></li>
+
+    <li><p> Lambda expressions.  <code>lambda: foo()</code> is
+    considered to be executed when the <code>lambda</code> form is
+    evaluated.  But <code>foo()</code> is not called. </p></li>
+
+    <li><p> Assertions.  <code>assert 1, foo()</code> is considered to
+    have been executed if the statement is reached.  But
+    <code>foo()</code> is not called. </p></li>
+
+  </ul></li>
+
+  <li><p> Top-level statements are executed when a module is loaded.  So
+  if you import a module before starting to record coverage, those
+  top-level statements are missed.  To get a better idea, start
+  recording before importing the module, or <code>reload()</code> the
+  module. </p></li>
+
+  <li><p> The coverage module can't tell when coverage information is
+  out of date with respect to the source code.  So if you edit Python
+  source code while recording coverage information, reports and
+  annotations might be wrong.  You should erase coverage information
+  after you edit source code. </p></li>
+
+</ul>
+
+
+<h2><a id="section-A" name="section-A">A. References</a></h2>
+
+<table>
+
+<tbody><tr valign="top">
+
+  <td>[<a id="ref-GDR-2001-12-04" name="ref-GDR-2001-12-04" href="code/modules/rees-design.html">GDR 2001-12-04</a>]</td>
+
+  <td>
+    "Statement coverage for Python: design and analysis";
+    <a href="mailto:gdr@ravenbrook.com">Gareth Rees</a>;
+    <a href="http://www.ravenbrook.com/">Ravenbrook Limited</a>;
+    2001-12-04;
+    &lt;<a href="code/modules/rees-design.html">http://www.garethrees.org/2001/12/04/python-coverage/design.html</a>&gt;.
+  </td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>[<a id="ref-Kaner-2000-10-17" name="ref-Kaner-2000-10-17" href="http://www.kaner.com/pnsqc.html">Kaner 2000-10-17</a>]</td>
+
+  <td>
+    "Measurement of the extent of testing";
+    <a href="mailto:kaner@kaner.com">Cem Kaner</a>;
+    2000-10-17;
+    &lt;<a href="http://www.kaner.com/pnsqc.html">http://www.kaner.com/pnsqc.html</a>&gt;.
+  </td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>[<a id="ref-Marick-1997" name="ref-Marick-1997" href="http://www.testing.com/writings/coverage.pdf">Marick 1997</a>]</td>
+
+  <td>
+    "How to misuse code coverage";
+    <a href="mailto:marick@testing.com">Brian Marick</a>;
+    1997;
+    &lt;<a href="http://www.testing.com/writings/coverage.pdf">http://www.testing.com/writings/coverage.pdf</a>&gt;.
+  </td>
+
+</tr>
+
+</tbody></table>
+
+
+<h2><a id="section-B" name="section-B">B. Document History</a></h2>
+
+<table>
+
+<tbody><tr valign="top">
+
+  <td>2001-12-04</td>
+
+  <td><a href="mailto:gdr@ravenbrook.com">GDR</a></td>
+
+  <td>Created.</td>
+
+</tr>
+
+<tr valign="top">
+
+  <td>2001-12-12</td>
+
+  <td><a href="mailto:gdr@ravenbrook.com">GDR</a></td>
+
+  <td>Document <code>-d</code> option for annotation. </td>
+
+</tr>
+
+</tbody></table>
+
+
+<hr>
+
+<p><small>Copyright © 2001 Gareth Rees.  Redistribution, with or
+without modification, is permitted provided that the copyright notice,
+conditions, and disclaimer are retained.  This document is provided "as
+is", without any express or implied warranty.  In no event will the
+author be held liable for any damages arising from the use of this
+document.</small></p>
+
+<div align="center">
+
+<p><code>$Id: //info.ravenbrook.com/user/gdr/www.garethrees.org/2001/12/04/python-coverage/index.html#7 $</code></p>
+
+<p>
+<a href="http://www.garethrees.org/">www.garethrees.org</a> /
+<a href="http://www.garethrees.org/?category=Software">Software</a>
+</p>
+
+</div>
+</div>
+</body></html>

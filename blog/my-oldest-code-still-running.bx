@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081123T152814'>
+<title>My oldest code still running</title>
+<category>history</category>
+<category>printing</category>
+<body>
+<p>One of the odd things about working at Hewlett-Packard is that part of it is
+what's left of Digital Equipment, where I worked for seven years, from 1986 to 1993.
+Every once in a while, I'll stumble on some new artifact of that history.
+Lying next to a printer, I found this, a VMS banner page:
+</p>
+
+<figurep>
+    <img src='pix/bannerpage.jpg' alt='A VMS PostScript banner page'/>
+</figurep>
+
+<p>It took me back, because back in the late eighties, I worked on this software,
+meaning not just the printer software in VMS, but the PostScript code that drew
+this page.</p>
+
+<p>This is probably the oldest software of mine still running. Funny to think that
+while I went off to pursue hundreds of other projects, this PostScript code was
+obediently drawing this simple page over and over for 20 years.</p>
+
+<p>Back when we were first developing that banner page, it was being used on an LN03R,
+an 8 page-per-minute laser printer.  People complained that the banner page was
+taking too long to print.  I was given the job of toning down the PostScript
+complexity so that it would print more quickly. People felt like all those scalable
+fonts must be a bottleneck.</p>
+
+<p>After doing a number of controlled experiments, and whittling down on the
+pages, it became clear that nothing was making it go faster.  Finally I reduced
+the code to:</p>
+
+<code><![CDATA[
+% Just print a blank page
+showpage
+]]></code>
+
+<p>and the blank page took just as long to come out of the printer as the "fancy"
+banner page with all the different font sizes on it.</p>
+
+<p>What I learned was:</p>
+
+<ul>
+<li>Just because a technology is new doesn't mean it's the culprit.</li>
+<li>When waiting for your print job, any pages you don't want will seem too slow.</li>
+</ul>
+
+    
+</body>
+</entry>
+</blog>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090607T075605'>
+<title>Real-world cloud computing</title>
+<category>arch</category>
+<category>gatherings</category>
+<body>
+<p>I attended an interesting panel discussion the other night about cloud computing.
+Six startup CTO's were there to talk about their experiences with Amazon's services:
+</p>
+
+<ul>
+<li>Prakash Khot from <a href='http://dimdim.com'>Dimdim</a></li>
+<li>Aaron White from <a href='http://doink.com'>Doink</a></li>
+<li>Mark Pascarella from <a href='http://gotuit.com'>Gotuit</a></li>
+<li>Joe Berkovitz from <a href='http://noteflight.com'>Noteflight</a></li>
+<li>Philip Jacob from <a href='http://stylefeeder.com'>Stylefeeder</a></li>
+<li>Brian Whitman from <a href='http://the.echonest.com/'>The Echo Nest</a></li>
+</ul>
+
+<p>I really liked this panel because they were all technical and heavily involved
+in real day-to-day dealings with cloud computing.  It's easy to find breathless
+hype about how EC2 is going to revolutionize startups.  This was a much more
+balanced view of what it's really like.</p>
+
+<p>I took some sketchy notes. Perhaps because the speakers knew everyone had
+heard the positives, or perhaps because I already knew the positives, these
+notes skew toward the negatives.</p>
+
+<ul>
+    <li>All used Amazon services, and most if not all of them seemed to use
+    <a href='http://rightscale.com'>RightScale</a> to manage them.</li>
+
+    <li>Cloud is great for quickly deploying new servers.
+        <ul>
+        <li>Load testing: set up two machines, let them pound each other.</li>
+        <li>Handling unexpected demand.</li>
+        </ul>
+    </li>
+
+    <li>It's scalable, but not like normal computing:
+        <ul>
+        <li>Higher latency.</li>
+        <li>Higher error rates.</li>
+        <li>You have to pay much more attention to your error handling code.</li>
+        </ul>
+    </li>
+
+    <li>Cloud limitations:
+        <ul>
+        <li>Can't send lots of emails, since you need a spam-whitelisted server.</li>
+        <li>Disk I/O in the cloud is a lot slower than in real machines ("punishingly slow").</li>
+        <li>Want a db server with 32Gb RAM? Amazon doesn't offer it.</li>
+        <li>Want dual hardware load balancers? Amazon doesn't have it.</li>
+        <li>PCI (credit card) compliance is a problem: use a 3rd-party cart or PayPal instead of doing it yourself in the cloud.</li>
+        </ul>
+    </li>
+
+    <li>Amazon is clearly the leader.
+        <ul>
+        <li>Microsoft has a service (Azure) in beta, but it's very Microsoft-specific.</li>
+        <li>Intuit is creating a service.</li>
+        <li>No one mentioned Google App Engine.</li>
+        </ul>
+    </li>
+
+    <li>The lock-in is latency:
+        <ul>
+        <li>Transfering data within the Amazon services is free.</li>
+        <li>Transfering data to an Amazon competitor: not free.</li>
+        </ul>
+    </li>
+
+    <li>Cost: cloud is more expensive than real machines.
+        <ul>
+        <li>Cloud is good for elastic computing, not for high constant demand.</li>
+        <li>Cloud is good for getting started without capital outlay. Many of the six startups represented got started before being funded.</li>
+        </ul>
+    </li>
+
+    <li>Cloud further enables virutal companies.  A bunch of guys with laptops
+    can move office wherever they want, don't worry about where the servers are.</li>
+
+    <li>They all muttered knowingly about the day Amazon's cloud was down.
+        <ul>
+        <li>"You could read about it on Twitter, but all the avatars were missing, because Twitter kept them on S3."</li>
+        </ul>
+    </li>
+    
+    <li>Cloud encourages queue architectures.
+        <ul>
+        <li>Pipelined role-based "machines".</li>
+        <li>The work of the app is broken into smaller pieces, distributed onto a broader network of virtual boxes.</li>
+        <li>Number of machines in each role can be altered dynamically to deal with the actual load right now.</li>
+        </ul>
+    </li>
+    
+    <li>You need monitoring services external to your cloud!</li>
+</ul>
+
+<p>One interesting side-node: the panel was at the <a href='http://www.vilnashul.org/'>Vilna Shul</a>,
+a historic temple on cramped Beacon Hill.  They could invest in some cushions
+for their 1840 high-backed pews, but other than that, it was a nice change of
+pace to be hearing tech discussion not among monitors and keyboards but torah holders
+and time-worn paint.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040604T062741'>
+<title>XML data to graphs</title>
+<category>xml</category>
+<category>tools</category>
+<via />
+<body>
+<p>I'd like to take some XML data I have, and transform it into a graph diagram
+(not a quantitative chart, but a topological graph).
+<a href='http://www.w3.org/Graphics/SVG/'>SVG</a> is an XML language for diagrams,
+but won't do graph layout for me.
+<a href='http://www.research.att.com/sw/tools/graphviz/'>Graphviz</a> does layout,
+but has an ad-hoc language.  For some reason I'd rather it was XML input.
+Has anyone found anything useful along these lines?
+</p>
+</body>
+</entry>
+</blog>

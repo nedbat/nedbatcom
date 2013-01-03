@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041230T173753'>
+<title>Why my site was hosed</title>
+<category>site</category>
+<category>php</category>
+<via />
+<body>
+<p>I finally (!!) heard from my old hosting provider about why my site was hosed.
+To help with security, he installed
+<a href='http://codylindley.com/Misc/74/server-security-issues-phpsuexec-textpattern'>PHPsuexec</a>.
+He says it is incompatible with this line in my .htaccess file which lets me serve .html URLs but
+have PHP code in them:
+</p>
+
+<code><![CDATA[
+# Treat .html files as PHP
+AddType application/x-httpd-php .html
+]]></code>
+
+<p>I did find other tips on the web that said this might be a problem with PHPsuexec,
+but <a href='http://forum.textpattern.com/viewtopic.php?id=4748'>this thread from the textpattern support forum</a>
+seems to imply that this is solvable.
+(Note how I keep bumping into those textpattern guys..)
+I don't care to solve the problem with my old host, but I get the feeling PHPsuexec may be in
+my future in any case, so I'm interested if there is other information out there about it.</p>
+
+<p>Update: JumpDomain fixed my old site, by changing the line above to:</p>
+
+<code><![CDATA[
+# Treat .html files as PHP
+AddHandler application/x-httpd-php .php .php3 .phtml .html .htm .php4
+]]></code>
+
+</body>
+</entry>
+</blog>

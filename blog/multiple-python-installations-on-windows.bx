@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051229T064847'>
+<title>Multiple python installations on Windows</title>
+<category>python</category>
+<category>windows</category>
+<via />
+<body>
+<p>I've been developing on Windows for a long time.  I've figured out the thing about Windows I dislike
+the most, and it is not one of the things that most people bitch about (monopoly, security holes, UI, whatever).
+The thing that gets me as a developer is the Windows mindset of there being only one of anything.
+This is exemplified by the registry.  THE registry.  Sure, you can build software so that it has multiple
+instances, and knows how to find them all in the registry, and pick the proper one, but generally, no one
+does that.
+</p>
+
+<p>The latest problem along these lines is installing Python.  There are two sources for Windows installers
+for Python:
+<a href='http://python.org/download'>python.org</a> and
+<a href='http://www.activestate.com/Products/ActivePython'>ActiveState ActivePython</a>.
+Both provide MSI files, which make it super-easy to install Python on your Windows machine.
+The problem is that MSI installations are based on the notion that a product is only installed
+once per machine.  That's a good model for most people, but as a developer, I'd like to manage
+a number of Python installations simultaneously.  It lets me test software against multiple
+versions, and it lets me keep complex product installations separate.
+</p>
+
+<p>If you've installed Python once from an MSI, the next install offers only the options to change,
+repair, or remove the installation.  The <a href='http://python.org/2.4/msi.html'>MSI instructions</a>
+mention a TARGETDIR option, but setting it doesn't help: the "one installation per product" mindset
+pervades the installer.</p>
+
+<p>ActivePython has .zip files available too, on their
+<a href='http://downloads.activestate.com/ActivePython/windows'>raw downloads page</a>.
+These provide a .bat file for installation, and let you specify the install directory,
+which does create side-by-side installations.
+But the script doesn't write the registry settings that let 3rd party packages find the
+Python installation.
+</p>
+
+<p>I used to manage a number of installations.  Have the installers changed? Am I losing my mojo?
+What's the best way to keep a number of Pythons caged on Windows simultaneously?
+</p>
+
+<p>Update: I found this
+<a href='http://www.python.org/windows/python/registry.html'>page about how Python uses the registry</a>
+(someone might want to look into what's going on with that background image in Firefox!), and this
+<a href='http://effbot.org/zone/python-register.htm'>script to register a Python installation in the registry</a>.
+Perhaps this is the way to go?  Manually re-register Python installations as needed to get modules to install
+in the proper places?
+</p>
+
+</body>
+</entry>
+</blog>

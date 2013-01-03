@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050902T072954'>
+<title>Interactive debugging in python</title>
+<category>python</category>
+<category>debugging</category>
+<via id='dailypython'/>
+<body>
+<p>One of the standard Python tools I haven't made enough use of is the built-in debugger,
+<a href='http://docs.python.org/lib/module-pdb.html'>pdb</a>.
+Jeremy Jones gives us a tutorial on it:
+<a href='http://www.onlamp.com/pub/a/python/2005/09/01/debugger.html'>Interactive Debugging in Python</a>.
+I hope his assessment of the place of the debugger in a programmer's toolbox is inaccurate, though:
+</p>
+
+<quote><p>
+Programmers typically place debuggers in the "uh oh" corner of their toolboxes,
+somewhere between the network packet sniffer and the disassembler.
+The only time we reach for a debugger is when something goes wrong or breaks and
+our standard debugging techniques such as print statements (or better yet, log messages)
+do not reveal the root of the problem.
+</p></quote>
+
+</body>
+</entry>
+</blog>

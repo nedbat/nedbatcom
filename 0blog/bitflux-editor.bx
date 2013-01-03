@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030907T095135'>
+<title>Bitflux editor</title>
+<category>webpage</category>
+<category>xml</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I create this blog as XML files, and produce the whole site with XSLT
+transforms.  This makes for a less than compelling experience during
+content creation.
+That's why <a href='http://bitfluxeditor.org'>Bitflux Editor</a> looks
+interesting: it's a WYSIWYG XML editor, implemented for Mozilla.
+There's just never enough time to do all the behind the scenes work
+I'd like to on this blog.
+</p>
+</body>
+</entry>
+</blog>

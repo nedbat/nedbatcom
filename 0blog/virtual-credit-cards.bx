@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020407T111438'>
+<title>Virtual credit cards</title>
+<via /> <!-- id= or href= -->
+<body>
+<p>If you have ever been the victim of credit card fraud (as I recently was), or if you
+are simply concerned about the possibility, you should look into Citibank's
+<a href='https://www.accountonline.com'>virtual account numbers</a> stuff.</p>
+
+<p>It's a simple idea: create new credit card numbers for each online transaction. Each
+number is limited to one merchant.  If anyone else tries to charge against the number,
+the charge is declined.  Also, you can set time limits and charge limits.  So for example,
+if I want to buy a $30 book from a small retailer, I can generate a new virtual account
+number good for up to $40, with an expiration date three months from now.  Even if the
+account number gets posted to a bulletin board, it won't do anyone any good (and using it
+will probably trigger fraud alarms).
+</p>
+
+<p>Not only is the idea a good one, but I like the implementation, too.  Citibank provides
+a Windows application that sits in the system tray, and has a slick UI.  When generating
+the new account number, it uses a satisfying rolling numbers effect.  It's precisely the
+kind of thing that you'd see in a movie, and you'd think, "Oh, real software doesn't look
+like that!"  Also, once the number is generated, you can drag-and-drop it onto the edit
+controls in the web browser, and the whole number is in the drag cursor, providing great
+feedback about what is going on.  Excellent!</p>
+
+</body>
+</entry>
+</blog>

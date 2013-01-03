@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040119T214314'>
+<title>Speeding C++ links</title>
+<category>cpp</category>
+<category>howto</category>
+<via />
+<body>
+<p>On a C++ project, we'd been finding the build getting slower and slower.
+The link phase in particular seemed to take an inordinately long time,
+much longer than our experience would indicate that it should.
+Here's what I did about it.
+</p>
+
+<more>
+
+<p>Watching the output of a verbose linker session, we suspected the number
+of exported functions, and in particular, the number of functions defined
+in header files.  Functions defined in header files have to be compiled into
+the .obj files of every .cpp file the headers are included into. Then it's
+up to the linker to sort them all out and keep only one.</p>
+
+<p>So we suspected the header-defined functions.
+The first thing I tried was moving a whole pile of code-generated getters
+and setters from the header files to the .cpp files.  This improved the link
+time, so the theory looked like a good one.</p>
+
+<p>But how to figure out which other functions were real culprits?
+We're developing with Microsoft Visual C++, and it turns out they provide
+a handy tool called DUMPBIN which
+will dump out the contents of various binary files produced by
+the compiler (.obj, .lib, .dll, etc).  In particular the /DIRECTIVES
+option will show the linker directives in the object file:</p>
+
+<code><![CDATA[
+$ dumpbin/directives strutil.obj
+   ...
+   /EXPORT:??0CStr@@QAE@PBG@Z
+   /EXPORT:??0CStr@@QAE@PAVCReaderStream@@@Z
+   /EXPORT:?AttachToStream@CStr@@QAEXPAVCReaderStream@@@Z
+   /EXPORT:??1CStr@@QAE@XZ
+   /EXPORT:?SetAllocSizes@CStr@@QAEXHH@Z
+   /EXPORT:?Append@CStr@@QAEAAV1@PBGH@Z
+   /EXPORT:??BCStr@@QBEPBGXZ
+   /EXPORT:?GetString@CStr@@QBEPBGXZ
+   /EXPORT:?Length@CStr@@QBEHXZ
+   ...
+]]></code>
+
+<p>After running this output through UNDNAME (which undecorates C++ mangled names),
+we have readable names of the functions exported from the object file:</p>
+
+<code><![CDATA[
+   /EXPORT:public: __thiscall CStr::CStr(unsigned short const *)
+   /EXPORT:public: __thiscall CStr::CStr(class CReaderStream *)
+   /EXPORT:public: void __thiscall CStr::AttachToStream(class CReaderStream *)
+   /EXPORT:public: __thiscall CStr::~CStr(void)
+   /EXPORT:public: void __thiscall CStr::SetAllocSizes(int,int)
+   /EXPORT:public: class CStr & __thiscall CStr::Append(unsigned short const *,int)
+   /EXPORT:public: __thiscall CStr::operator unsigned short const *(void)const
+   /EXPORT:public: unsigned short const * __thiscall CStr::GetString(void)const
+   /EXPORT:public: int __thiscall CStr::Length(void)const
+]]></code>
+
+<p>An /EXPORT directive is included for each function exported from the object file.
+So a quick collation of the export directives for the object files will
+show where to try to move functions to alleviate the problem.</p>
+
+<p>I wrote a quick Python script to run DUMPBIN over all the .obj files,
+collate the information together, and print a report showing what functions
+were duplicated the most among the object files:</p>
+
+<code lang='python'><![CDATA[
+import os, path, sys
+
+tmpout = r'\foo\dumpbin.out'
+sExportPrefix = '   /EXPORT:'
+
+dFuncs = {}
+
+p = path.path('.')
+for obj in p.files('*.obj'):
+    fDbOut = open(tmpout, 'w')
+    fDbOut.write(os.popen('dumpbin/directives %s' % obj).read())
+    fDbOut.close()
+    fUndname = os.popen('undname '+tmpout)
+    for l in fUndname.readlines():
+        if l.startswith(sExportPrefix):
+            sFunc = l[len(sExportPrefix):].strip()
+            vFiles = dFuncs.setdefault(sFunc, [])
+            vFiles.append(obj.name)
+
+maxCount = max([len(v) for v in dFuncs.values()])
+bynum = [[] for i in range(maxCount+1)]
+for f, v in dFuncs.items():
+    bynum[len(v)].append(f)
+
+bynum.reverse()
+
+for i in range(len(bynum)):
+    if bynum[i]:
+        print "\n\n\n--- %d occurences -----" % (maxCount-i)
+        bynum[i].sort()
+        print '\n'.join(bynum[i])
+]]></code>
+
+<p>(Note: this was a quick hack script. There are probably better ways to have
+done much of it.
+I could have run UNDNAME once over the final output rather than once for each object file.
+There are no comments.  I misspelled "occurrences".  I know.
+It doesn't matter: it worked.)</p>
+
+<p>The script provided very useful information.  It showed that there were
+90 functions that were compiled into every one of our 125 object files.
+Some were straightforward: a commonly-included header file contained a class
+with two dozen small getters and setters.  They were easily moved into
+the corresponding .cpp file.</p>
+
+<p>Some were more surprising:
+I'd forgotten about the auto-generated copy constructors and assignment operators.
+Since these are generated for you by the compiler, they must be inserted into
+every object file, and then be resolved by the linker.</p>
+
+<p>For many of our classes, we don't need the copy constructor or assignment
+operator at all, so we can simply suppress them completely with a macro:</p>
+
+<code lang='c++'><![CDATA[
+// Prevent auto-creation of unneeded assignment operators.
+#define NO_ASSIGN(T)            \
+private:                        \
+    T & operator=(T const &);   \
+    T(T const &);
+]]></code>
+
+<p>Simply using this macro in a class definition will turn off the compiler's
+generation of the functions.  Making them private ensures that no code
+uses them.  You don't even need to provide a definition for them, since
+no one is calling them.</p>
+
+<p>After much of this analyzing and fiddling, and more helper macros along the
+lines of NO_ASSIGN,
+I had reduced the list of functions in all objects to only eight:
+</p>
+
+<code><![CDATA[
+--- 125 occurences -----
+public: __thiscall CLogStreamer::~CLogStreamer(void)
+public: __thiscall CStr::CStr(class CStr const &)
+public: __thiscall CStr::CStr(void)
+public: __thiscall CThreadListeners::CThreadListeners(class CThreadListeners const &)
+public: class CDateTime & __thiscall CDateTime::operator=(class CDateTime const&)
+public: class CStr & __thiscall CStr::operator=(class CStr const &)
+public: class CThreadListeners & __thiscall CThreadListeners::operator=(class CThreadListeners const &)
+public: void __thiscall CComInit::`default constructor closure`(void)
+]]></code>
+
+<p>The link time had been reduced by 80%.
+There's more that could be done (those CThreadListeners are calling out to me!),
+but I think I've passed the point of diminishing returns.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

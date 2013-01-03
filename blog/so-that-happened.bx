@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080506T202357' slug='so_that_happened'>
+<title>So that happened... (digg, slashdot, and webfaction)</title>
+<category>site</category>
+<body>
+<p>Last Thursday, I posted the <a href='blog/200805/css_homer_animated.html'>animated CSS Homer</a>,
+and it was a big hit. Friday morning, it was
+<a href='http://digg.com/programming/Homer_Simspon_drawn_in_CSS'>popular on Digg</a>
+(over 3000 diggs). The resulting Digg effect was enough for my hosting provider
+to shut off my site.</p>
+
+<p>I was a cheapskate when I bought my hosting plan from
+<a href='http://totalchoicehosting.com'>TotalChoice Hosting</a>, looking only
+for low cost.  Their reaction seemed aggravatingly uninformed.  The support guy kept
+referring to the traffic spike as "an attack".  I tried to explain that it was
+in fact a success, and that they had failed to help me deal with that success.
+I could understand needing to protect their widely shared servers, but at least
+they could speak knowledgeably about the event.</p>
+
+<p>He also called it a DDOS, which it was, but only if it stands for
+<b>D</b>istributed <b>D</b>esirability <b>O</b>f <b>S</b>tuff.</p>
+
+<p>Further angering me was the fact that my email was unavailable, since they
+simply shut off my entire account. Also, there was a misconfiguration in the 403
+page they were serving, so the traffic logs showed every request resulting in
+another request for a non-existent 403.shtml page. TotalChoice will be the first
+to point out that they are not the right service for a high-traffic site, but
+they should at least be conversant in the language of their newly disappointed
+customers, and know how to correctly shut off accounts.</p>
+
+<p>Saturday morning, the traffic had subsided and the site was reactivated, and
+I figured I could spend some time researching options for a new provider.
+<a href='http://slicehost.com'>Slicehost</a> seemed good if I wanted to go the
+VPS route, though sysadmin is not my interest or forte, so I was leery of taking
+on all the responsibility for the machine, however virtual it was.</p>
+
+<p><a href='http://webfaction.com?affiliate=nedbat'>WebFaction</a> seemed the best choice of the
+shared providers, with supported Django, and many Django sites hosted.</p>
+
+<p>I was <a href='http://susansenator.com/blog/2008/05/sneak-preview-of-party.html'>away for the weekend</a>,
+so I wasn't actively working on the problem.  My site was up, I could now plan
+my next move.</p>
+
+<p>At least, until <a href='http://tech.slashdot.org/article.pl?sid=08/05/05/0047225'>I got
+slashdotted</a>. Now the site was really shut down, and TotalChoice wasn't too
+pleased. The only way back online was with a new provider.
+<a href='http://webfaction.com?affiliate=nedbat'>WebFaction</a> got the gig,
+because I don't need complete control over a machine. A shared account with
+shell access and supported Django would be great. I looked in their forum for
+Digg effect issues, and saw intelligent conversation. I had dropped them a line
+outlining my situation, and they made clear that they had dealt with it before
+and would work with me if such good fortune arose again, but that they would
+shut down sites if it was the only way to protect the shared servers. In a way,
+that last caveat reassured me. If they had made a blanket claim that their
+servers were Digg-proof, it would have smelled of naive or dishonest admins.</p>
+
+<p>Monday I signed up, switched over my domains nameservers, re-uploaded my site,
+and I was back online.  After getting TotalChoice to reactivate my old site, I
+transfered the blog comments, and now everything should be back as good as new.</p>
+
+<p>It would have been nice to survive the Digg and Slashdotting. Maybe with WebFaction
+I will next time.  I've got a new appreciation for slimming down the server needs
+of my blog.  The avatars in comments are something to think about: the Homer
+post has 70 comments, meaning each page load also generates 70 image requests.  One
+possibility is to offload the image to another service.
+</p>
+
+<p>The irony in all this is that although I started with TotalChoice because of
+how inexpensive they were, I'm not paying much more for the WebFaction account.
+</p>
+
+</body>
+</entry>
+</blog>

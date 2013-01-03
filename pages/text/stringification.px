@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<page title='Stringification'>
+<history>
+<what when='20021209T052700'>Created.</what>
+<what when='20030206T221300'>Minor edits, added See Also.</what>
+</history>
+
+<p>One of the greatest features of modern programming environments is also the most
+humble: ubiquitous stringification.
+</p>
+
+<h1>toString()</h1>
+
+<p>When I first worked in Java,
+I didn't think much about the java.lang.Object.toString method.
+It seemed like a good idea, and made sense, but was sort of the low-tech sibling in the
+method list.  It was hardly "computer science" to be able to turn an object into a string.
+It seemed almost like a patch over a language deficiency at first: "Why not just have a
+way to print objects?"</p>
+
+<p>Gradually, I understood.
+The toString method <em>is</em> Java's way of printing any object, and it's the
+best way to do it.  By allowing each class to define its own string representation, but
+through a common <a href='text/interfaces.html'>interface</a>, Java gets the best of both
+worlds: callers have the power to query any object for a stringified version of itself,
+and implementers can use any techniques they want to stringify their data, all without
+adding a wart to the language.</p>
+
+<h1>What's the big deal?</h1>
+
+<p>This may be one of those features you don't miss until it's gone.  I didn't get it
+until I went back to C++ after using Java and Python.</p>
+
+<p>Being able to always stringify objects without a lot of rigamarole makes it much
+easier to use those object in "natural" ways.  For example, when adding richness
+to <a href='text/log-style-guide.html'>log messages</a>, it's much easier to provide
+more information by just squirting objects into log messages.  The easier it is to
+use objects like this, the more it will get done.
+If we had to call special-purpose DescribeMe() methods all over the place,
+or create strings manually from the object at hand,
+there'd be too many places where it seemed like too much trouble, and it wouldn't happen.
+</p>
+
+<h1>Language support</h1>
+
+<p>As described above, Java has the java.lang.Object.toString method, inspired by
+Smalltalk's asString method.
+</p>
+
+<p>Python provides two built-in methods for dealing with stringification:
+__str__() provides the "informal" (or human-readable)
+string for an object, and is
+called by the str() built-in function and the print statement.
+__repr__() provides the "official" (or computer-readable)
+string for an object,
+and is called by the repr() built-in function and the backquotes.
+</p>
+
+<p>Untyped scripting languages like JavaScript and PHP provide ubiquitous stringification
+as a feature of the language: objects are stringified as needed to make them the right
+type for the operation.</p>
+
+<h1>Don't be lazy</h1>
+
+<p>The pitfall in this ubiquitous stringification is that if the language or environment
+provides an implementation of toString for all objects, you might not write one yourself,
+and that would be a shame.</p>
+
+<p>The default implementations are boring, by necessity: what information
+could they use to print something interesting?  Generally, the default implementations
+will give the class and address of the object.
+</p>
+
+<p>Write your own implementation!  It isn't hard, and once you have it, you'll use it
+all over the place.</p>
+
+<h1>What to do about C++?</h1>
+
+<p>C++ doesn't have a built-in class hierarchy to provide the toString() interface.
+(Its proponents claim the lack of a built-in hierarchy as an advantage,
+because your classes have only what you want in them).</p>
+
+<p>It does have the ostream class from the Standard Template Library, though,
+and ostream has inserters.  "Inserter" is the fancy term for the &lt;&lt; operator.
+The C++ equivalent of toString() is an ostream inserter for your class.
+This isn't quite as good as toString(), since it only works with ostreams, and not in
+other contexts where you'd like a string.  I suppose you could go whole-hog into the STL
+and use std::string by value to emulate Java and Python.  I never have.</p>
+
+<p>Inserters are not actually members of your class: they are functions (which can be
+declared as friends of your class). This may seem a little awkward, and I suppose it is.
+There is one advantage: you can define inserters for classes you didn't write.
+This lets you customize the appearance of someone else's objects, or lets you add on
+stringification after the fact to library objects you can't otherwise change.</p>
+
+<code lang='c++'><![CDATA[
+std::ostream &
+operator << (std::ostream & os, CThingy & thing)
+{
+    return os << "thingy " << thing.GetUniqueId();
+}
+]]></code>
+
+<p>If you have your own object hierarchy, you can provide an inserter for the base
+class, and put yourself in a similar position to your Java and Python brethren:
+a boring base implementation that you'll be tempted to rely on rather than implementing
+real stringification throughout the hierarchy.  If your base class has a method like
+toString, you can always make the ostream inserter call it (or vice-versa!).
+</p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/log-style-guide.px'/>, about good practice in writing log messages.</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

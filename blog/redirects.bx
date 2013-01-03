@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080120T113053'>
+<title>Redirects</title>
+<category>site</category>
+<category>webpage</category>
+<category>php</category>
+<body>
+<p>When I recently <a href='blog/200801/permalinks_gravatars_and_django.html'>re-built this site</a>,
+some pages moved.  For example, long-ish blog posts used to get a separate page
+with a name based on a time stamp, but now all blog posts have their own page with
+a slugged URL, so those old numeric URLs are obsolete.
+</p>
+
+<p>Rather than abandon those URLs, though, I wanted to make sure that inbound links
+to my site weren't broken.  To do this, I created a bunch of redirects.  As I'm
+sure I don't need to explain, a redirect is when a web server returns not an
+HTML page, but a pointer to another URL that the browser should automatically
+load instead.  The
+<a href='http://en.wikipedia.org/wiki/List_of_HTTP_status_codes'>HTTP status code</a>
+returned with the redirect indicates more about why the redirect is happening.
+In my case, I want a 301: Moved Permanently.
+</p>
+
+<p>To implement the redirects, I used two technologies: Apache's mod_rewrite module,
+and PHP.</p>
+
+<more>
+<p><a href='http://httpd.apache.org/docs/1.3/mod/mod_rewrite.html'>Mod_rewrite</a>
+is a classic open-source tool: immensely powerful, and powerfully cryptic.
+I don't understand most of it, but there are tutorials out there that helped a lot
+(<a href='http://www.workingwith.me.uk/articles/scripting/mod_rewrite'>one</a>,
+<a href='http://www.sitepoint.com/article/guide-url-rewriting'>two</a>,
+<a href='http://httpd.apache.org/docs/1.3/misc/rewriteguide.html'>three</a>).
+</p>
+
+<p>To program mod_rewrite, you add lines to the .htaccess file for your Apache
+installation.</p>
+
+<p>The simplest change I made is that there is no longer a blog/rssfull.xml
+feed, so I wanted clients requesting it to be redirected to the blog/rss.xml
+feed instead:</p>
+
+<code>
+RewriteEngine on 
+RewriteRule ^blog/rssfull\.xml /blog/rss.xml [R=301,L]
+</code>
+
+<p>The RewriteRule line does the work.  It has three arguments: a regular expression
+for the URL pattern to match, a result to rewrite it to, and flags.  In this
+case, the regex is simple, we need only ^ to anchor it at the beginning and a
+backslash to escape the dot, but other than that, it's just the URL we're talking about.
+The result is the URL we want to rewrite to.  The flags are what make this a rewrite.
+R=301 means don't serve the result URL, but redirect to it, and use a 301 status code.
+The L flag means this is the last rewrite to apply, so don't bother reading the rest
+of the rewrite rules.</p>
+
+<p>I also moved where my tag pages go.  What used to be /blog/tag_books.html is
+now <a href='blog/tag/books.html'>/blog/tag/books.html</a>.  Another rule handles
+these rewrites:</p>
+
+<code>
+RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
+</code>
+
+<p>Here we're using more regex power to match a set of URLs, and the result includes
+$1 to pull in part of the match from the pattern.  The result is the same, though:
+a 301 redirect so that the correct URL is served.</p>
+
+<p>One other change I made recently was to canonicalize the host name for my
+site.  Rather than have some references be www.nedbatchelder.com and others
+simply nedbatchelder.com, I want everyone to use the simpler version.
+I'm using a mod_rewrite rule to redirect any request with a subdomain (even www)
+to the plain host name:</p>
+
+<code>
+# canonicalize the host name (no prefix)
+RewriteCond %{HTTP_HOST} \.nedbatchelder\.com$ [NC]
+RewriteRule .? http://nedbatchelder.com%{REQUEST_URI} [R=301,L]
+</code>
+
+<p>Here I use another mod_rewrite directive: RewriteCond.  This creates a condition
+which must be true for the next RewriteRule to match.  Here the condition is that
+the host name must contain ".nedbatchelder.com" (NC means no case, a case-insensitive match).
+So any dotted prefix will trigger the rewrite rule, which uses .? as a pattern to
+match all URLs.  The result uses %{REQUEST_URI} to redirect the browser to the
+same URI, but at the simpler hostname.
+</p>
+
+<p>The last redirects I needed were for those longish blog pages.  Here I couldn't
+use a single mod_rewrite rule to do all the work, because there's no pattern to
+the rewrites. <a href='blog/%320030616T212329.html'>/blog/20030616T212329.html</a>
+had to become <a href='blog/200306/paul_rands_geometry_books.html'>/blog/200306/paul_rands_geometry_books.html</a>.
+Since there are about 130 of these posts, I could have added 130 lines to .htaccess,
+but that seemed excessive, and in my setup, it's a hand-edited file, not generated,
+so it would have been a pain.</p>
+
+<p>Instead, I used mod_rewrite to rewrite the incoming URL to a generated PHP file that
+had a table of redirects:</p>
+
+<code>
+RewriteRule ^blog/200[0-9]{5}T[0-9]{6}.html /blog/moved.php
+</code>
+
+<p>This was possible because the old URLs fit a pattern: the URL was created from
+an ISO8601 timestamp, so I could write a regex to match it, in this case a specific
+number of digits with a T in the middle.  The rewrite this time
+is to /blog/moved.php, and it isn't a redirect: Apache executes that file directly
+to come up with a response to the browser.</p>
+
+<p>The moved.php file looks like this:</p>
+
+<code lang='php'>
+&lt;?php
+// Redirector for old extended blog entries to their new locations.
+
+$oldnew = array(
+    "/blog/20050908T142058.html" => "/blog/200509/amazon_sales_stats_grabber.html",
+    "/blog/20071216T110049.html" => "/blog/200712/ancient_history_the_digital_logo.html",
+    // ... omitting about 125 entries ...
+    "/blog/20040716T065847.html" => "/blog/200407/windows_themes.html",
+    "/blog/20041117T084310.html" => "/blog/200411/xml_schema_for_nonxml_data.html"
+);
+
+$path = $_SERVER["REQUEST_URI"];
+$redir = $oldnew[$path];
+if ($redir == "") {
+    $redir = "/blog/index.html";
+}
+
+header("Location: $redir",TRUE,301);
+?>
+</code>
+
+<p>An associative array is used to map the incoming URL to the new URL.  If nothing
+is found, default to the blog index page.  Finally, use the
+<a href='http://php.net/header'>PHP header() function</a> to redirect the browser
+with a 301 status code.</p>
+
+</more>
+
+<p>After all of this, what have we got?</p>
+
+<ul>
+    <li>I've avoided breaking inbound links.  As I was working on this redesign,
+    I went back through some old notes of ideas to try, and about
+    half the interesting URLs I tried were broken. I was sad.
+    </li>
+    
+    <li>My URLs are more canonical. This helps with search engines and link aggregators,
+    to make sure I don't get two entries when one will do.        
+    </li>
+</ul>
+
+</body>
+</entry>
+</blog>

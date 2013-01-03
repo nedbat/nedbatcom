@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060730T221504'>
+<title>Partition for Python</title>
+<category>python</category>
+<via />
+<body>
+<p>This article about 
+<a href='http://encytemedia.com/blog/articles/2006/07/28/destructuring-assignment-with-javascript-1-7'>new assignment semantics
+in JavaScript 1.7</a> used Ruby's partition method as an example of multiple
+assignment.  It was a funny example to me, since I'm quite familiar with
+multiple assignment, having used it many many times in Python code.
+The new thing for me was partition.  I'd never heard of it, though
+<a href='http://merd.sourceforge.net/pixel/language-study/syntax-across-languages/BagAndLst.html#BagAndLstSLI2BOP'>a number
+of programming languages have it</a>.
+</p>
+
+<p>It's easy to implement in Python:</p>
+
+<code lang='python'><![CDATA[
+# An implementation of partition for Python
+
+def partition(l, pred):
+    yes, no = [], []
+    for e in l:
+        if pred(e):
+            yes.append(e)
+        else:
+            no.append(e)
+    return yes, no
+]]></code>
+
+<p>And it's easy to test:</p>
+
+<code lang='python'><![CDATA[
+import unittest
+
+def is_odd(n):
+    return (n % 2) == 1
+
+class PartitionTest(unittest.TestCase):
+
+    def testSimple(self):
+        odd, even = partition(range(10), is_odd)
+        self.assertEqual(even, [0,2,4,6,8])
+        self.assertEqual(odd, [1,3,5,7,9])
+
+    def testAllYes(self):
+        odd, even = partition([1,3,5], is_odd)
+        self.assertEqual(odd, [1,3,5])
+        self.assertEqual(even, [])
+
+    def testAllNo(self):
+        odd, even = partition([2,4,6], is_odd)
+        self.assertEqual(odd, [])
+        self.assertEqual(even, [2,4,6])
+
+    def testEmpty(self):
+        odd, even = partition([], is_odd)
+        self.assertEqual(odd, [])
+        self.assertEqual(even, [])
+
+if __name__ == '__main__':
+    unittest.main()
+]]></code>
+
+<p>I also wondered about generalizations: take a function returning a small
+integer, and return a list where the i'th element is a list of all the values
+for which the function return i?  Or return a dictionary whose keys are
+the values returned by the function, and the values are lists of input
+values that caused them?  I imagine different cases could be made for either 
+of these.</p>
+
+<p>I don't have a use for any of this at the moment, just an idle mental exercise.</p>
+
+<p>BTW: JavaScript 1.7 turns out to have 
+<a href='http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7'>a ton of new stuff</a>.
+It sounds very cool, but how will developers make use of it generally?  They
+can't count on these features being in general deployment.  I guess it's just
+for version-specific development.</p>
+
+</body>
+</entry>
+</blog>

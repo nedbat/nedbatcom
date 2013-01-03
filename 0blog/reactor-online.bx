@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030805T064317'>
+<title>Reactor</title>
+<category>site</category>
+<category>php</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I've replaced my commenting system.
+<a href='http://www.enetation.com'>Enetation</a> was good, but a little rough around
+the edges, and a little flaky (did you notice that for a while the (react) link
+on the <a href='blog/200308.html#e20030802T073934'>Firebird entry below</a> said
+"(undefined)"?).
+And as I mentioned in my
+<a href='blog/200304.html#e20030410T071719'>original post about enetation</a>,
+I would rather have hacked something together myself.
+So now I have.  Reactor (as I've called it) is online.
+You shouldn't see much difference, but let me know if you do!
+</p>
+
+<p>Details: it is written in PHP using MySQL, and I've imported all the old comments
+from enetation, so all of the comments are now in Reactor.
+</p>
+
+</body>
+</entry>
+</blog>

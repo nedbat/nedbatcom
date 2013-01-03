@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050716T144458'>
+<title>Django</title>
+<category>python</category>
+<category>webpage</category>
+<category>django</category>
+<via />
+<body>
+<p>Last week I mentioned the problem of over-proliferation of frameworks, toolkits, and so on,
+in the Python world.  Although I've never developed a web site with a live Python back-end,
+I understand that the tools to perform this feat are among the most over-proliferated.</p>
+
+<p>Nevertheless, I am excited by the release of <a href='http://www.djangoproject.com/'>Django</a>,
+a new framework for developing web sites with Python.  I'm excited for a number of reasons:
+</p>
+
+<ol>
+<li>It was developed by the guys at <a href='http://www.lawrence.com/'>Lawrence Journal-World</a> to build
+their web site, which is a good site.</li>
+<li>The guys who developed it have very good reputations and seem to Get It
+(<a href='http://www.holovaty.com/'>Adrian</a> and
+<a href='http://simon.incutio.com/archive/2005/07/17/django'>Simon</a>, for example).</li>
+<li>The introductory tutorial
+<a href='http://www.djangoproject.com/documentation/overview/'>Django at a Glance</a>
+is very smooth and makes a good case.</li>
+<li>The Django web site itself is really nice, and the tag line ("The web framework for perfectionists with deadlines") kills.</li>
+</ol>
+
+<p>Perhaps you think a few of these things are cosmetic and shouldn't matter.
+I say they all add up to having what it takes to do a kick-ass job as a web framework.</p>
+
+</body>
+</entry>
+</blog>

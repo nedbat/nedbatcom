@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061002T202237'>
+<title>Glimpsing the garden over the wall</title>
+<category>python</category>
+<category>work</category>
+<body>
+<p>Luke Plant has written a plaintive post about the difficulty of learning nice programming
+languages, but not being able to use them at work:
+<a href='http://lukeplant.me.uk/blog.php?id=1107301645'>Why learning Haskell/Python makes you a worse programmer</a>.
+I know just how he feels, because I was in that position up until a year ago.
+It's difficult knowing that there are better tools out there, but having to work with
+what feels like stone axes during the day.
+</p>
+
+<p>In my case, I was using C++ and C# during the day, and Python at night.  I found a few
+ways to cope with the distance between the two worlds.</p>
+
+<p><b>Get inspired.</b>  Sure, you can't express yourself in C++ the way you can in Python.  But you 
+can try to bring some of the dynamic or agile ethos to your static waterfall world.  Maybe you can think
+about using functions as first-class objects, or start an automated testing effort.  It's difficult,
+but if they're good practices in the open-source world, they're good practices in your environment.  
+Be the change you want to see in the world.  It's not all about what language you use, it's also what you 
+do with it.
+</p>
+
+<p><b>Side projects.</b> Anything I did on my own time, I did in Python.  This allowed me to explore
+the new world, and to express myself in it.   Examples of this work were <a href='code/nats-world.html'>Nat's World</a>,
+and <a href='site/xuffpx.html'>the software that runs this blog</a>.
+</p>
+
+<p>In some ways, side projects only make the tension worse.  Your fun project scoots along nicely
+with the new tools, while work continues to be difficult.  Part of this may be because of the tools,
+but keep in mind: there's a reason they call work "work".  Side projects are always more fun than
+real work, and you may be mis-attributing the reason for the joy.  Maybe it isn't Python that
+makes the fun project fun, maybe it's that you get to pick the project, and you don't have to
+deal with Deadwood Dirk in the next cubicle!  Your side project has no deadlines, no business goals,
+and so on.  Side projects are a good way to stretch your skills, focus on areas of interest, expand
+your influence, and build new connections.  But they aren't "real" in the hard ways that work is.</p>
+
+<p><b>Tools.</b>  When an opportunity arose at work to create a tool, I wrote the tool in Python.
+This is how <a href='code/cog'>Cog</a> came about, for example.  
+There's bound to be some friction at work when the
+tool is introduced, since others there may not be able to maintain it.  They may even view it
+with downright suspicion because it's written in a "toy language".  But if writing it in your
+dream language gets it built when sticking to C++ would keep it from being written, then you
+should write it in Python and present it as a fait accompli.  If it does a useful job, it will
+be accepted, and you'll have infiltrated the fortress walls with your language of choice.
+</p>
+
+<p><b>Network.</b>  Read the newsgroups, read (or write!) a blog. 
+Join a <a href='http://meetup.com'>Meetup</a> group.  You can hang out
+with people that think like you do, and you won't feel like an outcast anymore.  
+And they'll probably sympathize with your crummy work stories.
+</p>
+
+<p><b>Get a new job.</b>  This of course is easier said than done.  But jobs using the new languages
+and environments are more and more prevalent, and may be more possible than you think.
+And if you do get a new job, you can finally test your theory that work would be easier if
+you didn't have to deal with C++ (or C#, or VBscript, etc).
+</p>
+
+<p>Yearning for better tools and languages is nothing new.  Even once you get your dream
+development environment, you'll wish it were better.  Doing something about it is the challenge.
+</p>
+
+</body>
+</entry>
+</blog>

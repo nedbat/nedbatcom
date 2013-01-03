@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040504T115631'>
+<title>Psyco</title>
+<category>python</category>
+<via />
+<body>
+<p>I haven't tried <a href='http://psyco.sourceforge.net/'>Psyco</a>,
+but it sounds intriguing.
+It's a clever just-in-time compiler for Python.
+It inspects the types of objects at run time to compile away the dynamism of
+the language, speeding up execution without changing the semantics.
+And you have to admire the effort that goes into creating a video-game-styled
+<a href='http://psyco.sourceforge.net/accu2004-psyco.tgz'>animated slide show</a>
+explaining the inner workings.
+</p>
+</body>
+</entry>
+</blog>

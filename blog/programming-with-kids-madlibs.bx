@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050731T212652'>
+<title>Programming with kids: madlibs</title>
+<category>python</category>
+<category>parenting</category>
+<via />
+<body>
+<p>I've been looking for a programming project to work on with my 13-year-old son.
+He's very interested in computer games, 3D graphics, Flash movies, and so on.
+He wanted to know more about programming (he's done some ActionScript) and I wanted
+to share my love of writing software with him.
+But his natural inclination to advanced games was making it difficult to pick a project:
+he wanted to make 3D adventure games, or fast-moving arcade games.
+Those are do-able, but take a lot of time and planning.  There's a long ramp-up time
+where the output is not linear with the input: you're writing many lines of code, and it doesn't
+<em>do</em> anything.
+</p>
+
+<p>At the other end of the spectrum are the kinds of boring toy programs that don't
+excite kids: number addition quiz games, for example.  They're simple to write, but
+when you're done, you've made the computer do something you don't care to have done.
+</p>
+
+<p>But even those quiz games are appealing to kids that really want to learn about
+programming. My son and I were talking this weekend about finding and dusting off one that
+he had written a year or so ago.  Together we came up with a better idea: write a Madlibs
+program.  This struck us both as really appealing: he liked it because it seemed like
+a fun program to have when the work was done, and I liked it because I could see it would
+involve a little bit of work, and would provide some interesting challenges.
+Also, it was easy to see a bunch of different directions it could be taken, each creating
+new teaching opportunities.  And it didn't require complex libraries or esoteric output
+modes: just console input and output.
+</p>
+
+<p>So he and I set to work on it, and it lived up to its promise as a good program to work
+on.  Read about the results in <a href='text/madlibs.html'>Programming Madlibs</a>.
+</p>
+
+</body>
+</entry>
+</blog>

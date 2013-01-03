@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060510T220209'>
+<title>Color calibration</title>
+<category>help</category>
+<category>printing</category>
+<category>color</category>
+<via />
+<body>
+<p>For work (which I'll be saying much more about very shortly), I've 
+been having to consider color calibration with a printer.  By printer
+I don't mean a thing the size of a bread box that sits on my desk and
+squirts ink onto paper.  I mean a person who runs a printing shop using
+room-sized machines like an <a href='http://h30267.www3.hp.com/country/us/en/products/digital_press/5000/prodinfo_overview.html?pageseq=570951'>HP Indigo 5000</a>.
+</p>
+
+<p>I send him PDF files, and sometimes they look fabulous, and sometimes
+they look like someone dipped them in a yellow wash.  I know a bit about
+printing technology, for example, I was Digital's PostScript expert for a while.
+I can even throw around terms like tristimulus values and color gamut
+without completely faking it.</p>
+
+<p>But he and I don't see eye-to-eye on this problem.  My PDF files are
+RGB, mostly because it was the simplest thing to do.  He wants CMYK,
+but my understanding is that the mapping from RGB to CMYK is a very fluid
+thing, depending a great deal on the actual printing technology and
+printing machine used.  How could I convert the colors into CMYK better
+than the HP Indigo's RIP could itself?</p>
+
+<p>Does anyone have any insight or good pointers for me?  I took a look
+at the <a href='http://www.color.org/'>International Color Consortium</a>
+site (you know, the ICC in ICC profiles), but man, that's one thick site.</p>
+
+<p>How does one make a PDF file that can be confirmed correct once it is 
+printed?</p>
+
+</body>
+</entry>
+</blog>

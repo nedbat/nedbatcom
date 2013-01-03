@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060609T071127'>
+<title>Fortress</title>
+<category>proglang</category>
+<via id='bob'/>
+<body>
+<p><a href='http://research.sun.com/projects/plrg/fortress0903.pdf'>Fortress</a>
+is a new programming language from Sun Research.  It claims to be trying
+to take over the Fortran mantle of being a programming language for
+mathematicians and scientists.  It has plenty of interesting stuff,
+including complex rules for how to richly present Fortress source code,
+so that the programs can be displayed as complex mathematical texts.
+</p>
+
+<p>But perhaps the most unusual thing in the specification was this:</p>
+
+<quote><p><b>Forbidden and Discouraged Characters</b></p>
+
+<p>Except within a comment (see Section 3.3), the use of CHARACTER TABULATION (U+0009) is forbidden in a
+Fortress program (even within a string literal, where an escaped sequence is provided instead).</p>
+</quote>
+
+<p>That's right, folks! No tab characters in the source code, they are forbidden.
+Will this end the tabs-vs-spaces debate, or simply enrage one side?
+</p>
+
+</body>
+</entry>
+</blog>

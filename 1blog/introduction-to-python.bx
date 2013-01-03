@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040727T214848'>
+<title>Introduction to Python</title>
+<category>python</category>
+<via />
+<body>
+<p>Since writing <a href='code/cog'>Cog</a> and deploying it at work,
+I've had to tell a few developers that they need to learn a little Python
+in order to generate new code with Cog.  They have been receptive to
+the idea, but I can see it would go over better if I had a really painless
+way for them to learn just enough Python for the task.
+</p>
+
+<p>I've toyed with writing a piece called
+"Python in a Hurry for Experienced Programmers Who Don't Want to Learn Yet Another Programming Language"
+(or PIAHFEPWDWTLYAPL for short, natch).  But who's kidding who? It won't get done.
+</p>
+
+<p>Dave Kuhlman's
+<a href='http://www.rexx.com/~dkuhlman/python_101/python_101.html'>Python 101</a>
+is a good approximation of what I had in mind: quick, accurate, to the point.
+If someone in your life (perhaps you) wants to learn Python without a bunch of
+propaganda or theoretical noise, point them there.</p>
+
+</body>
+</entry>
+</blog>

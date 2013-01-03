@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020501T083829'>
+<title>Subversion</title>
+<category>srcctrl</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>As a software engineer, tools mean a lot to me.
+One I've been watching with interest is
+<a href='http://subversion.tigris.org'>subversion</a>,
+a new version control system.</p>
+
+<p>For starters, it has a great pragmatic goal:
+"to be a compelling replacement for CVS".
+Everybody in the world uses CVS, and it is great,
+but it is also a little flaky and a little too low-tech.
+Subversion is explicitly trying to keep all the good things,
+and fix the worst of the bad things
+(atomicity, scriptability, modularity,
+and tracking more than just the contents of files, for example).</p>
+
+<p>The developers seem to be making impressive progress towards shipping
+subversion: their
+<a href='http://subversion.tigris.org/servlets/ProjectNewsList'>news page</a>
+reads like a model of meeting deadlines.  They've been self-hosted (they
+store their own code in subversion itself) since September.</p>
+
+<p>Their code is some of the most-commented code I have seen,
+which I think indicates a deliberateness that bodes well for the product.
+(On the down side in the code: they have chosen the least-defensible brace
+style possible.  Don't get me started!)
+(Update: it turns out it is the brace style recommended in the GNU C coding
+standards.  Blechh.)</p>
+
+<p>Lastly, they have a sense of humor.
+The name itself is a pun on version control systems in general,
+with a whiff of anarchistic open source thrown in.
+And their replacement for the "cvs annotate" command is going to be called
+"svn blame".</p>
+
+<p>I'm looking forward to trying it.</p>
+
+</body>
+</entry>
+</blog>

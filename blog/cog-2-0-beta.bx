@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050726T204336'>
+<title>Cog 2.0 beta</title>
+<category>cog</category>
+<via />
+<body>
+<p>I've made enough changes to Cog that I'm releasing it as a 2.0 beta.
+In particular, there are some incompatible changes with the 1.x series.
+I'd really appreciate if you Cog users out there would
+<a href='code/cog/cog-2.0beta.zip'>download this version</a> and try it out.
+</p>
+
+<more>
+
+<p>The incompatible changes are:</p>
+
+<ul>
+<li>In 1.4, you could put some generator code on the [[[cog line
+and some on the ]]] line, to make the generators more compact.
+Unfortunately, this also made it more difficult to seamlessly
+embed those markers in source files of all kinds.
+Code is no longer allowed on the cog marker lines at all.</li>
+
+<li>In 1.x, you could leave out the [[[end]]] marker, and it would be
+assumed at the end of the file.  Now that behavior must be enabled with
+a -z switch.  Without the switch, omitting the end marker is an error.</li>
+
+</ul>
+
+<p>Other changes since 1.4:</p>
+
+<ul>
+<li>The new -d switch removes all the generator code from the output file
+while running it to generate output (thanks, Blake).</li>
+
+<li>Cog error messages now print without a traceback, and use a format similar
+to compiler error messages, so that clicking the message will likely bring you
+to the spot in your code (thanks, Mike).</li>
+
+<li>New cog method #1: cog.error(msg) will raise an error
+and end processing without creating a scary Python traceback (thanks, Alexander).</li>
+
+<li>New cog method #2: cog.msg(msg) will print the msg to stdout.
+This is better than print because it allows for all cog output to be managed
+through Cog.</li>
+
+<li>The sequence of Cog marker lines is much stricter.  This helps to
+ensure that Cog isn't eating up your precious source code (thanks, Kevin).</li>
+
+<li>A number of bugs were fixed.</li>
+
+</ul>
+
+<p><a href='code/cog/cog-2.0beta.zip'>Download the code</a> and let me know what you find.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091101T080523'>
+<title>Measuring tire pressure at the pump</title>
+<category>cars</category>
+<body>
+<p>I had an idea the other day for a way to measure a car's tire pressure that
+wouldn't require any action on the part of the driver.  Think of it as a remote
+passive <a href='blog/200808/tire_gauges.html'>tire gauge</a>.
+The problem is, I don't know if it would work.
+</p>
+
+<p>The idea is to put a plate in the ground at gas pumps.  The plate would have
+sensors that measure two things: the weight of the car, and the area of the tires'
+footprint.  Dividing the weight by the area gives pounds per square inch, the
+inflation of the tires.  For more useful information, the plate can be divided
+in four to measure each tire independently.
+</p>
+
+<p>Will it work?  I know the footprint of the tire increases with weight.
+Imagine putting a large load on top of your car: it will settle lower, flattening
+more of the tire against the ground, increasing the footprint at the same time
+that the weight increases because of the load.</p>
+
+<p>But is the relationship direct enough to make accurate measurement possible?
+One co-worker argued that low-profile tires are much wider than high-profile
+tires, and so have larger footprints, even with the same inflation pressure.
+I think it's possible that the structural support of the tire itself (that is,
+the rubber) makes the measurement useless.  A large portion of the tire's
+response to the weight of the car is not related to the air in the tire.
+Imagine a completely flat tire: it doesn't have a footprint large enough for
+the division to come out to 5psi, for example.
+</p>
+
+<p>So, is this a useful idea?  Does it get us any part of the way to alerting
+drivers that their tires are low?  I think it would be useful to tell people
+that without them having to check the pressure themselves.</p>
+
+<p>PS: if anyone out there builds this thing and becomes fabulously wealthy, I
+expect a cut!</p>
+
+</body>
+</entry>
+</blog>

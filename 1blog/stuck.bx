@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041205T185200'>
+<title>Stuck</title>
+<category>python</category>
+<category>coverage</category>
+<body>
+<p>I've been hacking on code this weekend, and I've managed to get myself stuck.
+I started using Gareth Rees'
+<a href='http://www.garethrees.org/2001/12/04/python-coverage/'>coverage.py</a>
+to measure the code coverage of some unit tests.  It works well, but counts
+docstrings as missed lines of code.  I have a lot of docstrings, so the results
+were too noisy to be useful.  I wanted to fix it so that it understood docstrings
+for what they were.  I also wanted to add some other features,
+for example, the ability to mark lines of code as not expected to be run, so
+that they would not be counted as missed lines.
+</p>
+
+<p>So I dug into the code.  It works by using the debugging trace hook to record which
+lines of code are executed, and parsing the source of the modules to understand which
+lines are executable.  I decided to switch it from the
+<a href='http://python.org/doc/2.3.4/lib/module-parser.html'>parser</a> module to the
+<a href='http://python.org/doc/2.3.4/lib/module-compiler.html'>compiler</a> module
+for the parsing half of the job.
+The parser module returns a low-level, grammar-centric representation of the source text,
+making it difficult to distinguish a docstring from any other expression statement.
+The compiler module is higher-level, returning a tree of nodes that corresponds more to the
+semantics of the program.  It seemed like a no-brainer, and it all went very well.</p>
+
+<p>Then I wanted to add another feature, so that an entire suite of statements
+(the Python equivalent of a block in other languages) could be marked as
+"not expected to be run".  For example, if a module has a chunk of code at
+the end to allow it to be run from the command line, it would be nice if the
+entire suite could be marked without having to put
+a marker comment on every line.  So a single marker could do it like this:</p>
+
+<code lang='python'><![CDATA[
+if __name__ == '__main__':   #-notrun-
+    # blah
+    # blah
+]]></code>
+
+<p>And if we're going to do that, then it should work uniformly for all suites:</p>
+
+<code lang='python'><![CDATA[
+if alwaystrue:
+    # this code
+    #   will be run
+else:           #-notrun-
+    # this code
+    #   won't be run
+]]></code>
+
+<p>And there's the problem: the compiler module completely discards any trace of the
+else.  It has both suites of code, but the actual line with the "else:" on it isn't
+represented in the parse tree at all.  So it's impossible to match up line-oriented
+regular expression results (finding the markers) with the parse tree results (what
+code does it apply to?).</p>
+
+<p>So I'm pondering my options.  Go back to the old parse technique, and hack up something
+to exclude docstrings?  Disallow excluding "else" suites?  Do something else completely?
+It had all been going so well.
+Sigh.
+</p>
+
+</body>
+</entry>
+</blog>

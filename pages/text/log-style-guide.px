@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<page title='Log message style guide'>
+<history>
+<what when='20021209T055400'>Created.</what>
+<what when='20021213T081500'>Editing throughout.</what>
+<what when='20030206T221300'>Added See Also.</what>
+</history>
+
+<p>One of the fit-and-finish issues all systems developers need to address is the text of
+log messages.  This is a log message style guide.</p>
+
+<p>Once your product ships, it will be in customers' hands.  They will run it on their
+machines.  You won't be around, and neither will your debugger.
+Log messages could be a big part of your customer's experience with your product,
+especially when something goes wrong.  They could also be a big part of your experience
+with fixing problems at customer sites.
+</p>
+
+
+
+<h1>Be professional</h1>
+
+<p>These log messages will be some poor customer's first view of you after a problem occurs.
+Make sure the messages make the customer feel better about the product, not worse.
+Part of it is writing professional English (or whatever language), and part is having the
+right attitude in the text.
+</p>
+
+<p>Simply being consistent in your log messages will go a long way toward making them
+seem professional and authoritative.  Below I give guidelines for wording, punctuation,
+and so on.  Even if you don't use these guidelines, pick some rules, and follow them.
+</p>
+
+<ul>
+<li>When logging a problem performing an operation (for example, reading a record),
+say what couldn't be done:</li>
+<code>
+GOOD:    Couldn't read record.
+BAD:     Something happened?
+BAD:     Wow!!!
+BAD:     Oops.
+</code>
+
+<li>When announcing an operation (either an informational or trace message), say what
+is going to happen.</li>
+<code>
+GOOD:    Reading transaction log.
+BAD:     I think I'll read the transaction log.
+BAD:     Step 17a
+</code>
+
+<li>Use normal sentence capitalization and punctuation.</li>
+<code>
+GOOD:    Couldn't open storage file.
+BAD:     Couldn't   open storage    file
+BAD:     Couldn't Open Storage File
+BAD:     COULDN'T OPEN STORAGE FILE
+</code>
+
+<li>Don't be flip.  These message may be read by some customer pulling their hair
+out over a problem that's making their day a nightmare.  The last thing they want
+is to feel like you're making fun of them from the comfort of your cushy cubicle.</li>
+<code>
+GOOD:    Couldn't read record.
+BAD:     I wish I had been able to read that record
+BAD:     Wow!!! No record!
+BAD:     Oops. Record on floor.
+</code>
+
+</ul>
+
+
+
+<h1>Think like a support staffer</h1>
+
+<p>As a developer, remember that you will be debugging problems with only these
+log messages to go by. Something will go wrong at a customer site, and you will be sent
+a log session (more than likely incomplete).  You will not have a debugger, you will not
+have access to the machine.  You will have your log messages.
+Make sure they will be helpful to you.</p>
+
+<ul>
+<li>When writing a message to the log,
+if you have more information (for example, an exception), use it in the message.
+Don't forget to supply the punctuation needed to make it look right:</li>
+<code>
+GOOD:    Couldn't save data: corrupt lock record
+BAD:     Couldn't save data
+BAD:     Couldn't save datacorrupt lock record
+</code>
+
+<li>For punctuation between parts of the message, use a colon:</li>
+<code>
+GOOD:    Couldn't save data: corrupt lock record
+BAD:     Couldn't save data | corrupt lock record
+BAD:     Couldn't save data &lt;corrupt lock record&gt;
+</code>
+
+<li>Provide information you think the reader of the message will need.
+Don't forget that the reader may be you six months from now.
+Try to answer his next question: </li>
+<code>
+BAD:     Couldn't read vital information
+GOOD:    Couldn't read vital information: UserName
+BETTER:  Couldn't read vital information: UserName on document #2345a1
+</code>
+</ul>
+
+
+
+<h1>Use a real log</h1>
+
+<p>Many programming environments provide logging facilities.  If you have one, use it.
+If you don't have one, search the web for one you can use.
+If you can't find one, seriously consider spending two days to write one.  They provide
+useful features like timestamping, run-time selection of logging detail and facilities,
+options for where to log (system console, log file, system event log, etc).
+</p>
+
+<p>Python has the logging module described in <a href='http://www.python.org/peps/pep-0282.html'>PEP 282</a>,
+and now standard as of <a href='http://www.python.org/dev/doc/devel/whatsnew/whatsnew23.html'>Python 2.3</a>.
+Java has Apache's <a href='http://jakarta.apache.org/log4j/docs/index.html'>log4j</a>.
+An example C++ facility is available from
+<a href='http://www.codeproject.com/debug/log.asp'>CodeProject</a>.
+</p>
+
+
+
+<h1>Use your log now</h1>
+
+<p>As developers, we have a rich environment in which to experience our code: the
+debugger.  When a problem occurs, our first impulse is to fix it: dive into the debugger,
+understand what's happening, fix the code, recompile, no more problem.
+Except there could still be a problem: what if the same bug had happened at a customer site?
+Suppose you had to fix the bug with only the log messages to guide you?  Would you have
+been able to?</p>
+
+<p>Next time a bug appears, don't jump into the debugger.  Read the log.  What did it
+tell you?  Think hard about what information could have been presented there but was
+not.  How could you make it more useful?</p>
+
+<p>The first thing you should do is change the log to provide the information
+(<a href='text/stringification.html'>ubiquitous stringification</a> can help a great
+deal here).
+Run the code again (with the bug).  Make sure that the log really is better.
+Then you can go ahead and fix the bug.</p>
+
+<p>Of course, it is impossible to make logs rich enough to be a complete replacement
+for a debugger.  And maybe you don't want to put effort into improving your log.  But
+using the log now will at least give you a sense of what your customers and support
+people (and likely, you) will be experiencing when the product is in the field.</p>
+
+
+
+<h1>See also</h1>
+
+<ul>
+<li><apage pref='text/stringification.px'/>, about making objects
+easy to turn into strings.
+</li>
+<li><apage pref='text/fix-err-hand.px'/>, about being sure
+your error handling code works properly all the time.
+</li>
+<li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

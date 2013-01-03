@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100114T084400'>
+<title>Running code at Python startup</title>
+<category>python</category>
+<body>
+<p>I recently had need to run a piece of Python code before every invocation
+of the interpreter.  In my case, it was to enable coverage testing of processes
+spawned by a test suite.  Certain tests would run Python code in a subprocess,
+and I wanted to measure coverage within that process.
+</p>
+
+<p>I added a function to coverage.py that is suitable for executing on startup.
+It examines the environment to determine whether to start measuring coverage.
+(This code isn't released yet, but if you want to try it, it's on the trunk
+at <a href='http://bitbucket.org/ned/coveragepy'>bitbucket</a>.)</p>
+
+<p>Perl has a command line switch (-M) for this, as does Ruby (-r), but Python
+doesn't.  I came up with two ways to do it for Python, both depending on the
+<a href='http://docs.python.org/library/site.html'>site</a> module which is
+imported automatically on startup.</p>
+
+<p>The first way is to create a sitecustomize.py file on the path somewhere.
+This module will be imported automatically by site.py. Any lines you add to that
+file are executed when Python starts:</p>
+
+<code lang='python'><![CDATA[
+import coverage
+coverage.process_startup()
+]]></code>
+
+<p>This is simple, but editing an existing sitecustomize.py could be awkward,
+and you may not even have permissions to do it.</p>
+
+<p>The second way is to create a .pth file with an executable line.  Usually
+lines in .pth files are directory names, but if the line starts with "import ",
+it is executed (what a hack!), so you can create a .pth file like this:
+</p>
+
+<code lang='python'><![CDATA[
+import coverage; coverage.process_startup()
+]]></code>
+
+<p>This has the advantage that you can create a new file without worrying about
+touching existing files, all .pth files will be examined and interpreted.
+Unfortunately, you might have to give the file a strange name, since they are
+executed alphabetically, and a package you need may only be available after its
+.pth file has been seen.  In my case, I named my .pth file
+zzz_coverage_process_start.pth to be sure it ran after coverage was added to
+the path.</p>
+
+<p>Neither of these feels clean or elegant.  I'm wondering if there are better
+techniques I'm overlooking?  Python has a clean way to register functions to
+be called at process exit (<a href='http://docs.python.org/library/atexit.html'>atexit</a>),
+which has been designed so that multiple authors of exit functions don't need to
+cooperate to avoid interfering with each other.  It'd be nice to have a similar
+facility for startup functions.</p>
+
+</body>
+</entry>
+</blog>

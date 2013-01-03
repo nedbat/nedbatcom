@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031009T120723'>
+<title>Acrobat 6</title>
+<category>tools</category>
+<category>howto</category>
+<via href='http://www.russellbeattie.com/notebook/'>Russell Beattie</via> <!-- id= or href= -->
+<body>
+<p>Adobe has released version 6 of Acrobat Reader.
+When you launch it, you will notice a few things:</p>
+
+<ol>
+<li>The splash screen has a cool effect: it's a classic rectangular box, but the swirly
+image on it flows off its edges.  Very nice.</li>
+<li>There are about 47 zillion patents listed on the box.  Do we really need to list all
+the patents specifically, in the splash screen?  Am I (or my lawyer) scribbling these
+down while the app launches?  Let's not get ridiculous.</li>
+<li>You have a lot of time to notice all this stuff, because there's a line at the bottom
+listing all of the plug-ins getting loaded.</li>
+</ol>
+
+<p>I know Adobe has been positioning Acrobat as more than just a document reader, but
+let's face it: for the vast majority of us, it <em>is</em> just a document reader.</p>
+
+<p>Fortunately, Darrell Norton tells us
+<a href='http://dotnetjunkies.com/weblog/darrell.norton/posts/2095.aspx'>how to make Acrobat 6 load faster</a>.
+(Basically, just take away most of its plug-ins).
+In case you are worried that you actually want some of these plug-ins, he also follows up with
+<a href='http://dotnetjunkies.com/weblog/darrell.norton/posts/2404.aspx'>descriptions of what the plug-ins do</a>.
+</p>
+
+</body>
+</entry>
+</blog>

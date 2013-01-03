@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050818T165900'>
+<title>Kent Beck: software health</title>
+<category>development</category>
+<category>testing</category>
+<via />
+<body>
+<p>I recently listened to <a href='http://www.itconversations.com/shows/detail301.html'>Kent
+Beck speaking on Developer Testing</a>.  It's an interesting and entertaining talk.
+Kent is passionate and articulate about developers doing testing.
+</p>
+
+<p>I thought his most interesting point was about "software health", which he contrasted
+with software quality.  He defined quality roughly as how many bugs were in the software at
+a given point in time.  Health is defined as how well the software will respond to stress,
+for example, changes in the environment, changes in the team, changes in the requirements,
+changes in the code, and so on.</p>
+
+<quote><p>I remember hearing a description of [a typical release process], and someone
+likened it to Jello. You've got this software, and it's like Jello and people
+are making changes, and it's shaking and it's shaking, and you think you're
+getting close, but the software's still shaking, and then it stops shaking just
+for a second, and <em>that's</em> when you ship it.
+</p>
+
+<p>That's why I'm not interested in quality, I'm interested in health.
+Healthy software is not like Jello, it doesn't have that sense of
+"Oh boy, is today gonna be the day in which there aren't any bugs
+in my software?"
+</p></quote>
+
+<p>I didn't agree with everything he said (I don't think that offshoring is driven
+by accountability rather than cost, for example), but this guy's on the right track.
+</p>
+
+</body>
+</entry>
+</blog>

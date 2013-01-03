@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030413T185546'>
+<title>Memory management glossary</title>
+<category>reference</category>
+<category>development</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>A pathological situation at work (no, not with a co-worker!) caused
+me to go lookup the difference between working set and committed memory.
+<a href="http://www.memorymanagement.org/glossary/">The Memory Management Glossary</a>
+provides all the answers.
+It's a little terse (it is a glossary, not a tutorial), but it defined
+everything I needed.
+</p>
+
+</body>
+</entry>
+</blog>

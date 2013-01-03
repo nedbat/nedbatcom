@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<page title='Bare-bones basic Mercurial for Subversion users'>
+<history>
+<what when='20090619T073610'>Created.</what>
+</history>
+
+<p><a href='http://www.selenic.com/mercurial'>Mercurial</a> is a distributed
+version control system. If you're used to using Subversion, a DVCS can seem
+exotic and bewildering. But they aren't so different, and you can use Mercurial
+with a simple workflow similar to your Subversion workflow. This will get you
+started using Mercurial, and you can adopt DVCS techniques slowly, as you need
+them.</p>
+
+<p>This is an introduction to Mercurial for developers already using Subversion.
+I'll cover the basics of duplicating your Subversion workflow with Mercurial.
+Many things are the same between the two, but there are important differences.
+</p>
+
+<!--
+- Same
+    - Repository holds history of changes
+    - Edit files, check them in
+    - Can share with others
+-->
+
+
+<h1>Really really quick</h1>
+
+<p>In a hurry? These are equivalents:</p>
+
+<p><table>
+    <tr><th>SVN way</th><th>HG way</th></tr>
+    <tr><td>svn checkout</td><td>hg clone</td></tr>
+    <tr><td>svn commit</td><td>hg commit<br/><i>then:</i> hg push</td></tr>
+    <tr><td>svn status</td><td>hg status</td></tr>
+    <tr><td>svn diff</td><td>hg diff</td></tr>
+    <tr><td>svn add<br/>svn rm</td><td>hg add<br/>hg rm<br/><i>better:</i> hg ci -A</td></tr>
+    <tr><td>svn update</td><td>hg pull -u</td></tr>
+    <tr><td>svnadmin create</td><td>hg init</td></tr>
+    <tr><td><i>???</i></td><td><i>cool extras:</i><br/>hg rollback<br/>hg serve</td></tr>
+</table></p>
+
+<p>Want more info?  Read on...</p>
+
+
+
+<h1>Similarities</h1>
+
+<p>In both Subversion and Mercurial, a repository stores changes made to a set
+of files over time. You can make a local copy of a shared repository, edit
+files, and share them back with the central repository.</p>
+
+<p>But how this is accomplished is very different in the two systems. Subversion
+is a centralized system: there is a single repository. Developers check out the
+project into a local working tree. When a change is ready, it's checked in to
+the central repository where other users can see it. This is a star topology
+with the repository at the center and developers' working trees at the spokes.
+</p>
+
+<p>In contrast, Mercurial is a distributed system. There can be many
+repositories, and none is "the real" repository, all are peers. When you get a
+copy of a repository to work on, you actually create a repository on your own
+machine, paired with a working tree in which to edit files. Your private
+repository is technically no different than a shared repository. The only
+difference is that the shared repository is used by many developers, and your
+private repository is used by only you.</p>
+
+<!--
+
+- Different
+    - Svn has one central repo, devs have working trees
+        - Star topology
+    - Hg has repo/tree pairs all over the place.
+        - No central repo, tho you can use it that way.
+    - Svn: done working == share
+        - hg: done working and share are separate steps
+    - svn defaults to current directory
+        - hg is always whole repository.
+-->
+
+
+
+<h1>Installation</h1>
+
+<p>After <a href='http://www.selenic.com/mercurial/wiki/BinaryPackages'>installing Mercurial</a>,
+you need to make one configuration setting, your identity. Edit ~/.hgrc to add
+your username:</p>
+
+<code><![CDATA[
+[ui]
+username = Your Name <your@email.com>
+]]></code>
+
+<!--
+- Configuring hg
+    - Create your .hgrc with your username.
+-->
+
+
+
+<h1>Using Mercurial</h1>
+
+<p>Like Subversion, Mercurial's command-line interface is a single command with
+a short name: <b>hg</b> (from the chemical symbol for mercury). You can use
+Mercurial through other interfaces, but I'll just be talking about the command
+line in this tutorial.</p>
+
+<p>"hg help" works just like "svn help", showing you commands and options,
+with details on each when needed.</p>
+
+
+
+<h1>Getting a copy of a project</h1>
+
+<p>To get your own copy of a project, you use the "hg clone" command. It's
+called clone because you are actually making a new repository as a copy of the
+project's. The project will give you an address for its repository, in the form
+of a URL. You use that with clone to make your own repository:</p>
+
+<code lang='console'>
+$ hg clone http://path.to/repo.for/coolproject
+destination directory: coolproject
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 259 changesets with 591 changes to 125 files
+updating working directory
+112 files updated, 0 files merged, 0 files removed, 0 files unresolved
+</code>
+
+<p>Now you have your own working tree named for the last component of the
+project URL. In Subversion, every directory in the tree has a hidden directory
+called .svn containing clean copies of the files, and other bookkeeping
+information. In Mercurial, there's only a single .hg directory at the root of
+the working tree, and it contains an entire repository, including the complete
+history of the project.</p>
+
+<p>One big different between Mercurial and Subversion is hinted at by this
+difference in the .svn and .hg directories. In Subversion when you checkout a
+working tree, you can root it at any directory in the repository. You can check
+out only part of a repository if you want.</p>
+
+<p>With Mercurial, it's all or nothing. Where Subversion works directory by
+directory, Mercurial is always an entire repository at a time. You cannot clone
+only part of a repository, you have to take the entire thing.</p>
+
+<!--
+- Get a copy of a project
+    - svn co
+    - hg clone
+-->    
+
+
+
+<h1>Making changes</h1>
+
+<p>As with Subversion, once you have your working tree, you use it, and edit
+files until you have a change that you like. You commit your change in Mercurial
+just as you do with Subversion, with the commit command (often abbreviated ci).
+Like svn, it will launch an editor to collect a log message, or you can provide
+the message with a -m argument:</p>
+
+<code lang='console'>
+.. edit my_first_file.txt ..
+$ hg ci -m "Wow! I edited a Mercurial file!"
+my_first_file.txt
+committed changeset 1:367cbd55abdb
+</code>
+
+<p>At this point, you've committed your change to your local repository. With
+Subversion, commit takes the change you've made in your working tree and sends
+it to the central repository where everyone else can see it. Not so with
+Mercurial.</p>
+
+<p>If you want to see what changes you're about to make, the "hg status" and "hg
+diff" commands work similarly to their svn counterparts.</p>
+
+<p>A quick word about changeset numbering: with Subversion, a single central
+repository means that all changes are serialized, and so can be given sequential
+numbers.  With Mercurial's distributed repositories, this isn't possible.  Many
+developers can be making changes in their own repositories at the same time,
+and eventually those changes will all flow together, so a sequential numbering
+system won't work.</p>
+
+<p>Instead, Mercurial gives changesets hashed identifiers (the 367cbd55abdb in
+the sample above). These are globally unique, and can be used to refer to this
+changeset no matter which repository it ends up in. But for convenience, the
+changeset is also given a local sequential number (the 1 above). This number
+is only meaningful in this repository.</p>
+
+
+
+<h1>Sharing changes</h1>
+
+<p>With Mercurial, commit simply applies the changes in the working tree to your
+local repository. To share those changes with others, you have to push them from
+your repository to another with the "hg push" command.</p>
+
+<p>Remember that Mercurial imposes no relationship among repositories. You can
+push changes from your repository to any other cloned from the same project. But
+when you cloned your repository originally, Mercurial recorded the location of
+the source repository so that it would be the default "other repository" for
+commands like push. (You can see this with the "hg paths" command.)</p>
+
+<p>When you are ready to share your changes with the world, the push command
+will compare your repository with the destination, and send all the changesets
+needed to bring them up to date:</p>
+
+<code lang='console'>
+$ hg push
+pushing to http://path.to/repo.for/coolproject
+searching for changes
+remote: adding changesets
+remote: adding manifests
+remote: adding file changes
+remote: added 2 changesets with 3 changes to 3 files
+remote: bb/acl: ned is allowed. accepted payload.
+remote: quota: 533.9 KB in use, 150.0 MB available (0.35% used)
+</code>
+
+<p>(The actual messages will vary depending on the remote repository.)</p>
+
+<p>You can see what changes you would push by using the "hg outgoing" command.
+It compares the local and remote repositories to show you what the next push
+will do.</p>
+
+
+
+<h1>Adding and removing files</h1>
+
+<p>As with Subversion, you can add and remove files to the repository:</p>
+
+<code lang='console'>
+$ hg add my_new_file.txt
+$ hg rm that_old_junk.cob
+</code>
+
+<p>But with Mercurial there's also an easier way: when you commit a change with
+"hg ci", you can add the -A flag, which means to automatically add any new
+files, and remove any missing files:</p>
+
+<code lang='console'>
+$ hg ci -A -m "Lots of changes"
+removing that_old_junk.cob
+adding my_new_file.txt
+README.txt
+my_new_file.txt
+committed changeset 25:84398acef4f4
+</code>
+
+<p>With -A, you simply make your working tree look the way you want the
+repository to look, creating, editing and removing files, then Mercurial makes
+it all happen in one step. You have to be careful, though: if you have files
+that you didn't mean to check in, Mercurial won't know, and will happily add
+them to the repository.</p>
+
+<!--
+- Checking in changes, adding/removing files
+    - svn ci -m "Message"
+    - svn add
+    - svn rm
+    - Same: hg ci -m "Message", hg add, hg rm
+    
+- BUT:
+    - with hg, share is a separate step: hg push
+    - Changesets named with sigs, not serial numbers
+-->
+
+
+
+<h1>Getting others' changes</h1>
+
+<p>While you're working in your local tree, others will be pushing changes to
+the shared repository, and you'll need to get them. In Subversion, you use the
+"update" command to pull changes from the repository into your working tree.
+Just as "svn ci" became "hg ci" and "hg push", the process of getting updates
+from the shared repository is a two-step process in Mercurial.</p>
+
+<p>You pull changes from the remote repository with "hg pull", and then bring
+those changes from your local repository into your working tree with "hg
+update". Luckily, Mercurial provides a shortcut to do both steps at once:</p>
+
+<code lang='console'>
+$ hg pull -u
+pulling from http://path.to/repo.for/coolproject
+searching for changes
+adding changesets
+adding manifests
+adding file changes
+added 21 changesets with 55 changes to 33 files
+33 files updated, 0 files merged, 0 files removed, 0 files unresolved
+</code>
+
+<p>This pulls changes from your default remote repository into your local
+repository, and then updates your working tree from your repository.</p>
+
+
+<!--
+- Getting others' changes
+    - svn up
+    - hg pull -u
+        - Updates your repo and working tree at once.
+-->
+
+
+
+<h1>Creating a project</h1>
+
+<p>The best way to create a new Mercurial project is to use an existing hosting
+site like <a href='http://bitbucket.org'>Bitbucket</a> or
+<a href='http://code.google.com'>Google Code</a>.   But if you want your own
+repository on your machine, it's very easy to make one:</p>
+
+<code lang='console'>
+$ hg init my_new_repository
+</code>
+
+<p>You'll have a brand new empty repository that isn't a clone of any other
+project.  You can add files to it and maintain revision histories locally.
+Of course, cloning works on this repository, so you can make other local clones
+if you want.</p>
+
+<p>When your project is mature enough to need a shared repository, you can push
+from your local repository to a newly created server repository to move the
+history up to the server.</p>
+
+
+
+<h1>Two Mercurial bonuses: rollback and serve</h1>
+
+<p>Have you ever issued a commit command, and then immediately realized you
+shouldn't have?  Mercurial has a great solution for times like this:
+"hg rollback".  It undoes the last transaction in your repository.  Not only
+does it remove the last commit from the history, but it restores the files in
+your working tree to their state before that commit.  It's perfect for fixing
+a bad commit, because you're put right back where you were before the commit,
+and can make whatever fix you need before committing again:</p>
+
+<code lang='console'>
+$ hg st
+M README.txt
+M trickycode.py
+$ hg ci -m "I'm sure this is perfect!"
+README.txt
+trickycode.py
+committed changeset 259:84398acef4f4
+$ .. OH CRAP ..
+$ hg rollback
+rolling back last transaction
+$ hg st
+M README.txt
+M trickycode.py
+$ hg ci -m "Tweak the authors list" README.txt
+README.txt
+committed changeset 259:05dfe4c03d2d
+</code>
+
+<p>Notice that the second commit got the same serial number as the first one,
+since the rollback completely removed the first one from the repository.</p>
+
+<!--
+- Other differences
+    - svn is per-directory
+        - hg is per-tree
+    - hg rollback!
+-->
+
+<p>Finally, an interesting trick Mercurial can perform is to act as a local
+web server to give you a web interface to browsing your code:</p>
+
+<code lang='console'>
+$ hg serve
+</code>
+
+<p>then open <a href='http://localhost:8000/'>http://localhost:8000/</a> in
+your browser to explore your local repository.</p>
+
+
+
+<h1>There's lots more</h1>
+
+<p>Of course, Mercurial is more than a Subversion look-alike, but this is
+enough to get you started.  As a distributed version control system, Mercurial
+offers much more flexibility in how changesets flow among your co-workers, and
+branching and merging is the norm rather than the exception. There's even an
+<a href='http://www.selenic.com/mercurial/wiki/UsingExtensions'>extension system</a>
+offering more functionality.</p>
+
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='http://betterexplained.com/articles/intro-to-distributed-version-control-illustrated/'>Intro to Distributed Version Control (Illustrated)</a>
+gives an overview of distributed version control concepts.</li>
+<li><a href='http://bitbucket.org'>Bitbucket</a> and
+<a href='http://google-code-updates.blogspot.com/2009/04/mercurial-support-for-project-hosting.html'>Google Code</a>
+offer Mercurial hosting for your project.</li>
+<li>Mercurial's <a href='http://www.selenic.com/mercurial/wiki/WorkingWithSubversion'>Working With Subversion</a>
+page which details options for using Mercurial in conjunction with your existing
+Subversion repositories.</li>
+<li><a href='blog'>My blog</a>, where other topics of interest to developers appear every few days.</li>
+</ul>
+
+<!--
+- What's the big deal?
+    - This was a star topology, like svn, but you can push or pull from any repo.
+-->
+
+<pagecomments/>
+
+</page>

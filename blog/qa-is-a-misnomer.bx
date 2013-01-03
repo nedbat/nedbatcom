@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060422T170703'>
+<title>QA is a misnomer</title>
+<category>development</category>
+<via />
+<body>
+<p>I'm not sure how the role of Quality Assurance got its name.  It's not right.
+</p>
+
+<p>Many people seem to believe that QA's job is to ensure that a product has high quality.
+This is not their job at all, and it is easy to see if you think about it.
+QA doesn't change the product at all, there is no way anything they do can directly improve
+the quality of the product.  The only way to improve the quality of a piece of software is to change lines
+of code to remove bugs and add features. QA doesn't do that.</p>
+
+<p>So what do they do?  QA's job is simple: they figure out what the software actually does.  Developers
+produce software, and they believe it will do X, Y, and Z.  They've set out to write it so it does these
+things.  They worked hard to make it do these things.  They believe it will do these things.</p>
+
+<p>But does it?</p>
+
+<p>That's QA's job: to figure out what the actual software actually does.  Forget the designer's ideal,
+forget the fevered dreams of the developers.  What does the software before us actually do?  QA tests
+the software to figure that out.  No matter what sub-discipline of testing we're talking about, the
+purpose is the same: to figure out what the software does.</p>
+
+<p>Of course, the whole point of figuring out what the software does is so that you can compare it to
+the intention, measure the difference between theory and practice, and work to address the gap.  That's the
+part where quality improves: the measuring of the gap, and the work to close it up.</p>
+
+<p>Don't get me wrong: I love QA.  I think it is an important role.  But you're doing it wrong if you
+think you are improving quality.  It should be named Reality Check, or just Testing, or something like
+that.
+</p>
+
+</body>
+</entry>
+</blog>

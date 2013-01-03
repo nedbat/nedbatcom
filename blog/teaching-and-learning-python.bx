@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110529T084309'>
+<title>Teaching (and learning) Python</title>
+<category>python</category>
+<category>places</category>
+<body>
+
+    <p>I taught David Beazley's 3-day <a href='http://www.dabeaz.com/teaching.html'>Intro to Python</a> class in Austin last
+        week, and I really enjoyed it.  I've always liked speaking in front of
+        people (well, after the very first time, which was terrifying), and
+        three days with a group of 15 made for a good intimate dynamic.</p>
+
+    <p>Interestingly, I learned a few tidbits about Python along the way:</p>
+    
+    <ul> 
+        
+        <li>The builtin <a href='http://docs.python.org/library/functions.html?highlight=enumerate#enumerate'>enumerate()</a> function has a two-argument form so that
+            you can specify the first numbering value: enumerate(seq, start),
+            handy for numbering lines in files, which should of course start
+            with 1, not 0.</li>
+
+        <li>The -i switch to the Python interpreter will run your program, then
+            leave you in the command prompt when it ends.  This can be good for
+            interactively testing the functions defined in the file, or for
+            debugging if an exception happens.</li>
+
+        <li>If you use "python -i" and need to debug, <a href='http://docs.python.org/library/pdb.html?highlight=pm#pdb.pm'>pdb.pm()</a> is the thing to
+            use.  It places you at the point where the last traceback was
+            raised.  It seems like magic, since the exception has already risen
+            to the top level of the program, but pdb.pm() puts you "back in
+            time" before the exception started its climb up through the
+            stack.</li>
+
+        <li>4 + True == 5.  Useless, but there it is.</li>
+    
+    </ul>
+
+    <p>I liked explaining Python's elegant power, and it's fun to show
+        experienced C programmers a different way of looking at programming.
+        Trying to fit all the material into three days is a challenge, and
+        there are interesting side-topics that I know we can't get into, which
+        is a shame, but there's only so much you can do in a given amount
+        of time.</p>
+
+    <p>Austin was a really fun city to explore on my own, too.  If I had been
+        more confident that I'd have energy left at the end of the day, I'd 
+        have tried to arrange some social events with other Python peeps.
+        But the "Keep Austin Weird" vibe made it easy to wander around and
+        find food trucks to eat at.  My first night, driving down East 6th
+        street, I saw a cluster of closed food trucks, with just one open, 
+        lit like a beacon at the back:</p>
+
+    <figurep>
+        <thumbnail href='pix/pigvicious.jpg' alt='Pig Vicious'/>
+    </figurep>
+
+    <p>How could I not eat at a tiny truck named <a href='http://twitter.com/pigviciousbacon'>Pig Vicious</a> manned by a giant
+        tattooed bearded cook?</p>
+
+</body>
+</entry>
+</blog>

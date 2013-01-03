@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040918T172440'>
+<title>Coloring Windows console text</title>
+<category>windows</category>
+<category>howto</category>
+<category>shells</category>
+<via />
+<body>
+<p>Here's a cool feature I just discovered: colorable console text.
+Download
+<a href='http://www.microsoft.com/windowsxp/downloads/powertoys/xppowertoys.mspx'>TweakUI</a>,
+the venerable expose-all-the-secret-features tool from Microsoft.
+On the Command Prompt page is the setting Enable Selection Coloring.
+When enabled, you can select a chunk of text in a command window,
+then hit Alt+0 through Alt+9 to change the text color, or Ctrl+0 through Ctrl+9
+to change the background color.  The changes stick, so you can mark up
+command output, or any other console window.
+Very handy.
+</p>
+</body>
+</entry>
+</blog>

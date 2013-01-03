@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031104T085738'>
+<title>Linking into documents</title>
+<category>webpage</category>
+<via />
+<body>
+<p>Ben Langhinrichs wrote about his
+<a href='http://www.geniisoft.com/showcase.nsf/archive/20031102-1131?OpenDocument&amp;count=-1'>frustrations with anchor links</a>
+in Notes the other day.  I commented there, but wanted to say more about it.
+Most of his frustrations are right on: the feature could have been made easier to use.
+But one is a direct analog to a problem on the web:
+you can't link to something if the author didn't anticipate the link.
+</p>
+
+<more>
+
+<p>This is the way the web works today: if you want to link to a point within a document,
+you need either an &lt;a name='foo'/> tag or an id='foo' attribute in a tag to identify the point
+to link to.  If the author placed one in just the right spot, anyone can link to it, by
+adding #foo to the end of the URL.
+If the author didn't, then you have to either:</p>
+
+<ul>
+<li>somehow modify the document (which you generally can't do), or</li>
+<li>ask the author to change the document (which they generally won't do), or</li>
+<li>link to someplace less precise and include goofy text like "scroll down to where it says foo"
+along with your link.</li>
+</ul>
+
+<p>XPath and XPointer are trying to change that.
+The
+<a
+    href='http://www.w3.org/TR/xptr-xpointer'
+    title='XPointer xpointer() specification'>XPointer xpointer() scheme</a>
+is a way to replace the simple named id mechanism with a more sophisticated
+addressing model within documents.
+Basically the idea is that
+<a href='http://www.w3.org/TR/xpath' title='XPath specifiction'>XPath</a>
+is a powerful syntax for expressing sets of nodes in an
+XML document, so why not use it in URLs to identify locations in a document?
+With it, I can link to the second paragraph of the third h1 section with a URL like:</p>
+
+<code><![CDATA[
+.../doc.html#xpointer(h1[3]/p[2])
+]]></code>
+
+<p>(I think: Would it kill these standards authors to include a long list of examples to
+help people trying to grok the semantics?  See my blog entry
+<a href='blog/200310.html#e20031029T084312'>Impossible CSS gripe #1</a> for more on this.)</p>
+
+<p>This syntax is extremely expressive if not exactly intuitive, and includes fancy stuff
+like expressing not just points in the document but ranges.
+All of <a href='http://www.w3.org/TR/xpath'>XPath</a>
+is available for creating expressions to identify parts of the document, so you can
+select stuff based on its content, its neighbors, and so on.
+I'd show you more examples, but frankly, I couldn't be sure I got it right,
+and I couldn't find a tutorial or a sample implementation to work with.</p>
+
+<p>None of this fancy technology completely solves the problem of linking to places
+the author didn't expect.  After all, no matter what addressing scheme I use into
+someone else's document, if they edit the document, the address could change.</p>
+
+<p>(By the way: these sorts of issues were at the heart of
+<a href='http://xanadu.com/xuTheModel'>Project Xanadu</a>,
+Ted Nelson's long-simmering but never completed hypertext project.)</p>
+
+</more>
+
+<p>Ben complained about this aspect of anchor links, and I thought about it
+and looked into XPointer, and saw that there was nothing to be done about it,
+since web browsers don't do anything fancy like XPointer.
+The best I could do was to use lots of id='foo' attributes.
+So I updated my XSLT code that produces this site, and now every &lt;h1> and &lt;h2> tag
+on the site includes an id attribute generated from the text of the tag.</p>
+
+<p>So, for example, the section entitled "Use a real log" in my
+<a href='text/log-style-guide.html'>Log message style guide</a> article
+is tagged like this:</p>
+
+<code lang='html'><![CDATA[
+<h1 id="h_Use_a_real_log">Use a real log</h1>
+]]></code>
+
+<p>and therefore can be targeted thusly:
+<a href='text/log-style-guide.html#h_Use_a_real_log'>text/log-style-guide.html#h_Use_a_real_log</a>.
+Link away!</p>
+
+</body>
+</entry>
+</blog>

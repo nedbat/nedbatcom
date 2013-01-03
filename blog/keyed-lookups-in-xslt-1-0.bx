@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050623T160101'>
+<title>Keyed lookups in XSLT 1.0</title>
+<category>xslt</category>
+<body>
+<p>I write a lot of XSLT for a variety of reasons, but somehow the "key" function has always
+baffled me.  Every time I need to use it, I scour Google, and re-read my own XSLT code, trying to
+find examples that will help me, once again, understand how it works.
+</p>
+
+<p>Recently I needed a simple string lookup function, and used document("") and key() to build it,
+but it was again a process of head-scratching trial and error.
+I got it to work, and I finally understand it.  Here are the results,
+offered in the hope that they will aid some future fellow craftsman.
+</p>
+
+<more>
+
+<p>I'll present a simplified example of using a lookup table embedded in the stylesheet itself.
+I'll describe each hunk of code as we go along, and then show the whole thing
+put together.
+</p>
+
+<p>My lookup table is going to be embedded in the stylesheet.
+So that it won't be interpreted by the XSLT engine, we'll put the table in a
+different namespace.  The stylesheet element defines the namespace ("lookup:"),
+and declares it as an extension namespace so that it won't appear in the
+output.  You should use a different URL than "yourdomain", and remember, it doesn't
+have to actually resolve to something:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:lookup="http://yourdomain.com/lookup"
+    extension-element-prefixes="lookup"
+    version="1.0">
+]]></code>
+
+<p>Then I create the lookup table. It's an ad-hoc XML structure, at the top level
+of the stylesheet.  Here I'm going to look up strings by an id, and I'll use an
+id= attribute, with the string in the text of the element:
+</p>
+
+<code lang='xslt'><![CDATA[
+<lookup:strings>
+    <string id='foo'>Fooey</string>
+    <string id='bar'>Barbie</string>
+</lookup:strings>
+]]></code>
+
+<p>I use a &lt;key&gt; element to declare the key.  This is where it starts becoming
+non-intuitive.  The only way to understand the key feature of XSLT is to look at two
+parts at once: the key is declared with a &lt;key&gt; element, and then accessed
+with the key() function.  The part that always throws me is that I expect the key definition
+to specify some source data: it does not.  The key definition specifies what I think of as
+a hypothetical set of nodes, and a way to index into them.  Later, when you use the key()
+function, you apply this definition to a real chunk of data.</p>
+
+<p>The parts of a &lt;key&gt; element are:</p>
+
+<ul>
+<li>The name attribute: simply a name for the key definition, choose
+anything you want.  You'll use this later in the key() function to refer to the
+definition.</li>
+<li>The match attribute: this selects a set of nodes from the data to be named later.</li>
+<li>The use attribute: this specifies, for each node matched by the match attribute, the
+lookup value to use.</li>
+</ul>
+
+<p>Here's my key definition:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:key name='string' match='lookup:strings/string' use='@id' />
+]]></code>
+
+<p>The name is "string", the "match" attribute says to consider any &lt;string&gt; element that is a child
+of a &lt;lookup:strings&gt; element, and the "use" attribute says that for each such &lt;string&gt;
+element, we'll use its "id" attribute as its tag.
+Think of the nodes selected by the "match" attribute as the records in the table, and the value on
+each selected by the "use" attribute as the indexed value in the record.
+</p>
+
+<p>Now the key is defined, and we can actually use it with the key() function.
+It takes two arguments: the name of the key (from the name attribute of the &lt;key&gt;
+definitions), and the value to actually look up in the table.
+Remember we were going to specify the actual table data with the key() function, right?
+Well, not really.
+The table data is actually the current context node.
+That is, the records in the table are found by applying the &lt;key&gt;'s "match" attribute as
+a pattern against the current node.
+Here's where the
+match attribute on the &lt;key&gt; element becomes so important.  You have to carefully consider
+what your current context is, and design the key declaration to work within it.
+</p>
+
+<p>In this case, we'll use the document("") function to read the current stylesheet,
+finding the &lt;lookup:strings&gt; element in it.
+A &lt;for-each&gt; element changes the current context to the table.
+Normally, &lt;for-each&gt; is used to apply a template to a number of nodes.
+Here, we know there is only one, but &lt;for-each&gt; has the handy property of setting the current node.
+Then the key() function can apply the &lt;key&gt; match pattern to find the candidate records,
+using our supplied value ("foo") to find a record with an id attribute of "foo":</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:template match='blah'>
+    <!-- Look up the string "foo" and use it. -->
+    <xsl:for-each select='document("")//lookup:strings'>
+        <xsl:value-of select='key("string", "foo")'/>
+    </xsl:for-each>
+</xsl:template>
+]]></code>
+
+<p>For repetitive use, you can define a variable to hold the table, and then use it
+from the variable each time:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:variable name='strings' select='document("")//lookup:strings' />
+
+<xsl:template match='blah'>
+    <xsl:for-each select='$strings'>
+        <xsl:value-of select='key("string", "foo")'/>
+    </xsl:for-each>
+</xsl:template>
+]]></code>
+
+<p>Finally, here's a complete example:</p>
+
+<code lang='xslt'><![CDATA[
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:lookup="http://yourdomain.com/lookup"
+    extension-element-prefixes="lookup"
+    version="1.0">
+
+<lookup:strings>
+    <string id='foo'>Fooey</string>
+    <string id='bar'>Barbie</string>
+</lookup:strings>
+
+<xsl:key name='string' match='lookup:strings/string' use='@id' />
+
+<xsl:variable name='strings' select='document("")//lookup:strings' />
+
+<xsl:template match='/'>
+    <xsl:for-each select='$strings'>
+        <xsl:value-of select='key("string", "foo")'/>
+    </xsl:for-each>
+</xsl:template>
+
+</xsl:stylesheet>
+]]></code>
+
+<p>When run on any input, this produces:</p>
+
+<code>Fooey</code>
+
+<p>Whew! No one ever claimed XSLT was succinct!</p>
+
+<p>You might also want to look at:</p>
+
+<ul>
+<li><a href='http://clover.slavic.pitt.edu/~repertorium/plectogram/keys/keys.html'>The &lt;xsl:key&gt;s to Happiness</a>
+provides another walk-through of a similar problem.</li>
+<li><a href='http://www.w3.org/TR/xslt20/'>XSLT 2.0</a> adds a lot of <a href='http://www.xml.com/pub/a/2002/04/10/xslt2.html'>features</a>
+that should make this easier.  It does away with the need for document("") and &lt;for-each&gt;
+by letting you declare the
+table as a variable, and then using the variable as a third argument to the key() function directly.</li>
+</ul>
+
+</more>
+
+</body>
+</entry>
+</blog>

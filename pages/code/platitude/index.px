@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- $Id: index.px 38 2005-07-16 14:41:45Z ned $ -->
+<page title='Platitude'>
+<section title='Platitude' order='60'/>
+<history>
+<what when='20050716T092600'>Created.</what>
+</history>
+
+<p>Platitude is an application for creating simple lattices.
+<apage pref='text/lattice.px' /> describes my interest in them.
+</p>
+
+<!-- ================================================================= -->
+
+<h1>Download</h1>
+
+<p>Platitude is available two ways:</p>
+
+<ul>
+<li>As a Windows installer: <a href='code/platitude/Platitude_100_setup.exe'>Platitude_100_setup.exe</a>.
+Simply install it as you would any Windows program.  There are no prerequisites.</li>
+<li>As Python source: <a href='code/platitude/Platitude-1.0.zip'>Platitude-1.0.zip</a>.
+To run it, you'll need <a href='http://wxpython.org'>wxPython</a> 2.5.3 and Jason Orendorff's
+<a href='http://jorendorff.com/articles/python/path/'>path</a> module.</li>
+</ul>
+
+<!-- ================================================================= -->
+
+<h1>Using Platitude</h1>
+
+<p>The File - New menu brings up a dialog asking for the dimensions of the lattice
+to create:</p>
+
+<figurep>
+<img src='code/platitude/newdialog.png' alt='The New Lattice dialog, asking for dimensions' />
+</figurep>
+
+<p>Entering (for example) 5 by 3 produces a lattice with 5 little loops across the top, and
+three little loops going down, with four large loops at the corners:</p>
+
+<figurep>
+<img src='code/platitude/5x3.png' alt='A fresh 5 by 3 lattice' />
+</figurep>
+
+<p>Modifying the lattice is done by clicking in the spaces between the traces.  Each click
+changes the four sides around it.  If the side has a trace on it, the trace is removed.
+If the side has no trace, a trace is added.   This ensures that the traces are always
+unbroken, and form complete circuits.</p>
+
+<p>For example, clicking on the spots indicated in red:</p>
+
+<figurep>
+<img src='code/platitude/5x3clicks.png' alt='Suggestions of where to click' />
+</figurep>
+
+<p>produces these changes:</p>
+
+<figurep>
+<img src='code/platitude/5x3changed.png' alt='A changed 5 by 3 lattice' />
+</figurep>
+
+<p>Lattices can be saved to .lat files with File - Save, and re-opened with File - Open.</p>
+
+<h1>Transformation</h1>
+
+<p>There's one other way to modify the lattice in Platitude.  Edit - Triplicate will convert
+every trace into three parallel traces.  This makes the lattice three times larger, and can
+be an interesting way to explore larger lattices:</p>
+
+<figurep>
+<img src='code/platitude/tripled.png' alt='The 5 by 3 lattice, triplicated' />
+</figurep>
+
+<h1>Output</h1>
+
+<p>Platitude cannot produce graphic output now except on the screen.  Use a screen capture to
+produce graphics files of your lattices.</p>
+
+<h1>Future</h1>
+
+<p>This is a very bare-bones application right now.  I'd love to add more to it. Some ideas:</p>
+
+<ul>
+<li>Other modification options, such as dragging out rectangles to invert.</li>
+<li>Other transformation options, including customizable operations like triplicate.</li>
+<li>Standard application features, such as undo/redo, printing, multiple documents, cut and paste.</li>
+<li>Graphic files output.</li>
+<li>Coloring options.</li>
+<li>Analysis features such as counting loops, extracting loops shapes.</li>
+<li>Custom drawing styles, perhaps provided as tile images.</li>
+</ul>
+
+<!--
+<h1>Past</h1>
+
+<h2>Version 1.0, July 16 2005</h2>
+
+<p>First version.</p>
+-->
+
+<!-- ================================================================= -->
+
+<h1>Feedback</h1>
+
+<p>I'd love to hear about your experiences with Platitude.
+Comment here, or
+<a href='mailto:ned@nedbatchelder.com?subject=Platitude'>send me a note</a>.
+</p>
+
+<!-- ================================================================= -->
+
+<h1>See Also</h1>
+
+<p>You might like to read:</p>
+
+<ul>
+<li><apage pref='text/lattice.px'/>,
+where I describe the origins of my interest in these lattices.</li>
+
+<li><a href='blog/index.html'>My blog</a>,
+where topics orbiting around Platitude crop up from time to time.</li>
+
+</ul>
+
+<!-- ================================================================= -->
+
+<googleads/>
+<pagecomments/>
+
+</page>

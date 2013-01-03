@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='blameall.py'>
+<history>
+<what when='20071127T065500'>Created.</what>
+</history>
+
+<p>One thing I've missed from <a href='http://www.perforce.com'>Perforce</a>
+since using <a href='http://subversion.tigris.org/'>Subversion</a> is the
+"p4 annotate -a" command.  This annotates a file with the revisions that introduced
+each line, much like the "svn blame" command.  But the -a switch tells it to include
+every revision of every line.  This is a way of getting the complete history of
+the file in one textual output.  It's great for finding a snippet that you suspect
+existed somewhere in the file's past.
+</p>
+
+<p>Blameall.py provides the same feature, but for Subversion.</p>
+
+<p>For example, let's say you have a file with a number of revisions. Revision 26:</p>
+
+<code><![CDATA[
+Shopping List
+
+- Milk
+- Bread
+- Eggs
+]]></code>
+
+<p>Revision 27:</p>
+
+<code><![CDATA[
+Shopping List
+
+- Milk
+- Juice
+]]></code>
+
+<p>Revision 28:</p>
+
+<code><![CDATA[
+Shopping List
+
+- Juice
+- Cereal
+- Ice Cream
+]]></code>
+
+<p>Running blameall shows the history of the file in one series of lines:</p>
+
+<code><![CDATA[
+$ python blameall.py shoplist.txt
+26 27 28
+   26  head Shopping List
+   26  head
+   26    27 - Milk
+   26    26 - Bread
+   27  head - Juice
+   26    26 - Eggs
+   28  head - Cereal
+   28  head - Ice Cream
+   26  head
+]]></code>
+
+<p>This shows us that "Milk" appeared in revision 26 and was present through revision
+27.  "Shopping List" appeared in 26, and is still in the file in the head revision.</p>
+
+<p>It can be slow to get all the revisions, but it's faster than manually searching
+through old revisions for that piece you know was back there somewhere.</p>
+
+<p>You can provide a -r argument to blameall to limit its attention to a particular
+range of revisions.</p>
+
+<h1>Getting it</h1>
+
+<p>Blameall is a single-file python script, no need to install anything.  Just download
+and run:</p>
+
+<download file='blameall.py' path='code/utilities/blameall.py' />
+
+
+<pagecomments/>
+
+</page>

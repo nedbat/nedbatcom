@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030801T074225'>
+<title>DevStudio persistent find</title>
+<category>ide</category>
+<category>tools</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I use
+<a href='http://msdn.microsoft.com/visualc/'>Microsoft Visual Studio .NET</a>
+for C++ work at work, and it is very powerful, and does lots of cool things.
+(Although, there are two things it doesn't do as well as previous versions did:
+the class browser won't show derived classes, and two documents of the same
+type can't have different tab settings).
+One thing I wish it did better was finding strings in files.  It finds them
+just fine, but there's no way for me to keep the results: the next find
+overwrites the last results.  I wanted to change that.
+</p>
+
+<more>
+
+<p>Of course, they provide a "Find Results 2" window, but please, if you are going
+to provide more than one of something, provide n, not 2.
+Everyone knows that the only natural numbers in computer science are
+<a href='http://c2.com/cgi/wiki?ZeroOneInfinity'>zero, one, and infinity</a>.
+</p>
+
+<p>So I set out to provide a new way to find files.  I spent about two seconds
+looking at the add-in architecture, which seems very complete, very powerful,
+and very daunting.  I'd have to take a low-tech approach.</p>
+
+<p>Here's what I did:</p>
+
+<ul>
+<li>I wrote a python script to read the .vcproj files (they're XML) and dump a
+list of all the files in the project.
+<a href='files/projectfiles.py'>projectfiles.py</a> finds all the .vcproj files
+in the current directory or any of its subdirectories, and writes full file
+paths to stdout.  You can give it file extensions on the command line, and
+it will limit its output to those files.
+</li>
+
+<li>Using projectfiles.py, I creates a projectfiles.txt file in my solution's
+root directory.</li>
+
+<li>I grabbed a copy of Vivian De Smedt's
+<a href='http://www.vdesmedt.com/~vds2212/grep.html'>grep.py</a>,
+renamed it pygrep.py (I have Cygwin's grep on the path),
+and modified it to take an argument like "@projectfiles.txt" to search the files
+mentioned in the file.  It will also label matches with a properly-formatted
+file and line number for output results in Visual Studio.
+Here's my <a href='code/utilities/pygrep_py.html'>pygrep.py</a>.
+</li>
+
+<li>I wrote a teeny batch file, projgrep.cmd:
+</li>
+
+<code lang='bat'><![CDATA[
+@echo off
+echo ---- %* ---------------------------------------- >> projgrep.txt
+pygrep.py %* @projectfiles.txt >> projgrep.txt
+type projgrep.txt
+]]></code>
+
+<li>Finally, I configured an external tool to call projgrep.cmd with the
+currently selected text as an argument, to prompt for arguments, and to write
+the results to the Output window.
+</li>
+
+</ul>
+
+<p>The net result is I can find strings across all the files in my solution,
+the results get written to an ever-growing list of find results,
+those results are written into the Output window where they can be double-clicked
+to open the line, and F8 (goto next result) even works properly!
+It's clunky, and the output window doesn't work as smoothly (no results get
+written until the grep is done, and it has to write all the old results in first,
+which can take a while if I've been using the thing too long), but it does work.
+</p>
+
+<p>I could improve it by combining the .cmd file and pygrep, but I'm tired of
+hacking it; I've got work to do.</p>
+
+<p>Long live low tech!</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040916T161201'>
+<title>Creative case-insensitivity</title>
+<category>shells</category>
+<via />
+<body>
+<p>One more story from yesterday's marathon debugging session.
+At one point, we were using
+<a href='http://www.winnetmag.com/Windows/Article/ArticleID/25654/25654.html'>RegFind</a>
+to search the registry for badly registered COM interfaces.
+I was working on a branch, and we thought that old executables from my trunk build might
+still be registered.
+I used a command like this:
+</p>
+
+<code><![CDATA[
+$ regfind -y ned\trunk\bin\
+]]></code>
+
+<p>to find if any stuff from my trunk build was registered in the registry.
+The -y flag means search case-insensitively.  When nothing turned up,
+our Windows expert said to also search with forward slashes since .NET uses
+them in paths when registering.  So I did this:</p>
+
+<code><![CDATA[
+$ regfind -y ned/trunk/bin/
+]]></code>
+
+<p>and we found some registry entries.</p>
+
+<p>Wouldn't it have been cool if the -y flag also meant that "\" and "/" are equivalent?
+In <a href='http://h71000.www7.hp.com/'>VMS</a>, the shell was case-insensitive,
+and as I recall, it considered "-" and "_" as equivalent.
+Case insensitivity usually only means that letters should be paired for equivalence,
+but why?
+</p>
+
+</body>
+</entry>
+</blog>

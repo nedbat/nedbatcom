@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051221T073902'>
+<title>Exploding comments</title>
+<category>coding</category>
+<via />
+<body>
+<p>A debate about asserts flared up in the fall, and I only just now caught up with it.
+Len Holgate started it with <a href='http://www.lenholgate.com/archives/000500.html'>Asserts are Evil</a>.
+His complaints center mostly around how asserts are traditionally implemented (only in debug builds, and
+they exit the program if failed).</p>
+
+<p>B (?) mostly agreed: <a href='http://lapthorn.net/index.php?id=88'>Assertions are still evil</a>.
+It's in the comments on that thread that the defining phrase was coined: Len Holgate described asserts
+as "exploding comments".</p>
+
+<p>Noel Llopis came to assert's defense with
+<a href='http://www.gamesfromwithin.com/articles/0510/000101.html'>Asserting Oneself</a>.
+</p>
+
+<p>I've <a href='text/assert.html'>written about asserts</a> before, and I'm all for them.
+Programmers need every tool they can get to help nail down the often slippery semantics of the
+complex beasts they are building.  Even if they are only exploding comments, isn't that better
+than just plain-old comments?
+</p>
+
+<p>The biggest misconception about asserts (and I think the heart of Len's complaints about them)
+is the confusion of the caller's semantics with the implementation details.  The main thing I learned
+while writing my <a href='text/assert.html'>Asserts essay</a> was the detailed semantic of an ASSERT
+statement:</p>
+
+    <box>
+    ASSERT(expr)
+    <p>Asserts that an expression is true. The expression may or may not be evaluated.</p>
+    <ul>
+        <li>If the expression is true, execution continues normally.</li>
+        <li>If the expression is false, what happens is undefined.</li>
+    </ul>
+    </box>
+
+<p>That last word is the most important: if the expression is false, what happens is <em>undefined</em>.
+Note that nothing is said about debug vs. release builds.  Nothing is said about exiting the process.
+So when Len complains,</p>
+
+<quote><p>assertions are often hard to test for;
+try and write a unit test that proves that a "traditional" assert works...
+It's complicated because assert ends the program...</p></quote>
+
+<p>how does he know the failed assert will end the program?  Who said?  He's assuming a detail
+about the implementation of the assert.  It sounds like he's living with too-simple an implementation.
+</p>
+
+<p>In the assert framework I built at work, a failed assert could do one of a number of things:</p>
+
+<ul>
+<li>Log a big red error message with a stack trace,</li>
+<li>Throw an exception,</li>
+<li>Display a dialog box,</li>
+<li>Run an external program,</li>
+<li>Debug the process,</li>
+<li>Abort the process,</li>
+<li>Nothing (ignore the failed assert),</li>
+<li>or a complex combination of the above.</li>
+</ul>
+
+<p>The decision about what to do is mostly controlled by defaults based on product (clients
+display a dialog, servers throw an exception), but could be affected by registry settings,
+or by the user's choice if a dialog comes up.
+</p>
+
+<p>The anti-assert people assert (!) that unit testing is a much better way to guarantee
+the correctness of an implementation.  I'm all for unit tests, but have found it very difficult to
+build them for complex systems being built on tight deadlines.  But unit tests depend on asserts,
+so I'm not even sure it's an either/or situation.
+In many unit test frameworks, it is specifically
+failed asserts that signal the test failure to the test runner, which continues on to the next test.
+</p>
+
+<p>I say asserts are good. I've found
+them very useful for building self-diagnosing code that can raise the alarm when it hasn't adapted
+to changing requirements fast enough.
+</p>
+
+</body>
+</entry>
+</blog>

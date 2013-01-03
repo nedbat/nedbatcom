@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040503T073508'>
+<title>FedEx identity, take 2</title>
+<category>design</category>
+<via />
+<body>
+<p>A few days ago I posted about the new Kinko's logo.
+A number of people commented on it, but
+<a href='http://gendes.elivy.com/'>Thomas Haynes</a> was the only one to point out that
+in fact, I had gotten the colors wrong.
+<a href='blog/200404.html#e20040429T202425'>Mine</a> has pure cyan, while the
+<a href='http://www.kinkos.com'>real thing</a> has more nuanced colors.
+As usual, everything is more complicated than I had thought.
+</p>
+
+<more>
+
+<p>I made my image by downloading the EPS file from the
+<a href='http://www.fedex.com/us/about/news/newsroom/logos.html'>FedEx logos page</a>,
+rendering it with <a href='http://www.ghostscript.com/'>GhostScript</a>,
+exporting it to a full-color PNG file, and cropping it to keep just the logo.
+Checking the process again, it seems that GhostScript rendered the color as pure cyan.
+</p>
+
+<p>Looking into it some more, I see that the EPS file came with this readme.txt:</p>
+
+<quote>
+<p>4CP = 4 Color Process (CMYK)</p>
+<p>This signature can also be used for the printing process (lithography, silkscreen, etc.)
+We recommend only using this CMYK when you cannot produce a piece using the spot color or custom color version, due to cost or other limitations.
+</p>
+</quote>
+
+<p>So it looks like I did the wrong thing using the EPS for an online image.
+FedEx takes their brand very seriously.  Seriously enough that they have not only an online
+tool to find the right logo for the job, but it has its own domain:
+<a href='http://www.fedexidentity.com'>fedexidentity.com</a>.
+Unfortunately, the new Kinko's logo is not covered there.
+They also have an internal-only domain:
+<a href='http://www.fedexbrand.com'>fedexbrand.com</a>.
+</p>
+
+<p>In any case, the Kinko's logo is a different (better) color than I showed.
+I'm sure I violated a number of other identity guidelines (I'll guess that the logo
+shouldn't be shown without the text, and it should have a minimum amount of whitespace
+around it).
+Mea culpa.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

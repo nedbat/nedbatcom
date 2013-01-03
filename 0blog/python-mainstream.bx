@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021228T151407'>
+<title>Python behind the scenes: Chandler and THE</title>
+<category>python</category>
+<category>osaf</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Two recent attention-getting projects are using Python, and thankfully,
+that's not the part that's getting the attention.</p>
+
+<ul>
+<li><a href='http://www.osafoundation.org/our_product_desc.htm'>Chandler</a>
+is Mitch Kapor's rethinking of the email interface.  It has attracted a
+<a href='http://www.osafoundation.org/people.htm'>star roster of people</a>,
+and is using <a href='http://python.org'>Python</a>,
+<a href='http://wxpython.org'>wxPython</a>, and
+<a href='http://www.zope.org/Wikis/ZODB/FrontPage'>ZODB</a> as foundation technologies.
+</li>
+
+<li><a href='http://humane.sourceforge.net/the/'>The Humane Environment</a>
+is Jef Raskin's rethinking of the GUI (although from what I've been able to read
+about it, it's a rethinking of text editing; I'm guessing there will be more).
+Again, Python is back there somewhere, but it isn't the point of the project.</li>
+</ul>
+
+<p>It's good to see two such ambitious projects undertaken by such seasoned professionals
+choosing Python as an implementation detail.  Too many Python projects are about Python
+rather than about something else.  As I've
+<a href='blog/200210.html#e20021001T054649'>mentioned elsewhere</a>,
+Python needs to be more in the background for it to make the next leap in popularity.
+These projects are good signs of things to come.</p>
+
+</body>
+</entry>
+</blog>

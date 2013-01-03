@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20081029T070813'>
+<title>The first servers</title>
+<category>history</category>
+<category>math</category>
+<body>
+<p>Doing some research into the theory of load testing and traffic loads, I
+read about the <a href='http://en.wikipedia.org/wiki/Poisson_distribution'>Poisson distribution</a>,
+which led to <a href='http://en.wikipedia.org/wiki/Agner_Krarup_Erlang'>Agner Krarup Erlang</a>,
+which led to early phone switches.
+</p>
+
+<p>It's fascinating to realize that the work we do every day with web servers,
+which seems like a recent modern technology, was predated by guys like Erlang
+working with early phone switches over 100 years ago.  Phone switches were 
+the first servers: central machines connected to a large number of potential clients.
+In building these switches, the early engineers had to figure out from scratch
+how to anticipate the possible work load, so they could build switches large enough
+but not too large.  The whole of <a href='http://en.wikipedia.org/wiki/Queueing_theory'>queueing theory</a>
+springs from the theories worked out by telephone switch engineers.</p>
+
+<p>And they were clever guys, even adjusting the UI to lighten the load on the
+switches.  When dialing a rotary phone, the particular digits determined how long the
+switch was engaged before the call could be routed.
+So when they <a href='http://en.wikipedia.org/wiki/North_American_Numbering_Plan'>allocated area codes,</a></p>
+
+<quote><p>
+the biggest population areas [got] the numbers that took the shortest time to
+dial on rotary phones. That is why New York City was given 212, Los Angeles
+given 213, Chicago 312, and Detroit 313, while Vermont received 802 (a total of
+20 clicks, 8+10+2). Four areas received the then-maximum number of 21 clicks:
+South Dakota (605), North Carolina (704), South Carolina (803), and Nova
+Scotia/Prince Edward Island in the Canadian Maritimes (902).
+</p></quote>
+
+</body>
+</entry>
+</blog>

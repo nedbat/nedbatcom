@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090927T111553'>
+<title>Coverage.py v3.1 beta 1: Python 3.x and Cobertura output</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>A beta of Coverage.py 3.1 is available.  Coverage.py is a tool for measuring
+code coverage of Python programs, usually during testing.  The big feature of
+3.1 is that Python 3.1 is now supported.
+</p>
+
+<p>Kits are available as source or as Windows installers from the
+<a href='http://pypi.python.org/pypi/coverage/3.1b1'>coverage.py page on PyPI</a>,
+and code is also available from the
+<a href='http://bitbucket.org/ned/coveragepy'>repository on bitbucket</a>.
+</p>
+
+<p>Significant changes in coverage.py since v3.0.1:</p>
+
+<ul>
+<li>Python 3.1 is supported.  The same source kit works on both 2.x and 3.x.</li>
+
+<li>The "coverage" command now uses a sub-command syntax similar to source
+control systems.  This will make new feature additions easier.</li>
+
+<li>Coverage results can be reported as a Cobertura-compatible XML file.  Use
+the new "coverage xml" command.  I'm looking for users who use
+<a href='https://hudson.dev.java.net/'>Hudson</a> or
+<a href='http://sonar.codehaus.org/'>Sonar</a> to ensure that this is working
+properly in all cases.</li>
+
+<li>Some users reported incorrect results due to using DecoratorTools, which
+fiddles destructively with the settrace function.  TurboGears is a major example
+of code that wasn't measured properly.  The new --timid switch makes coverage.py
+operate simply enough that DecoratorTools doesn't interfere with its operation.
+</li>
+
+<li>HTML coverage reports now have syntax-colored Python source.</li>
+
+</ul>
+
+
+<p>Please try 3.1b1 and let me know what you think. Feedback is welcome in any way
+you like, but particularly good are
+<a href='http://bitbucket.org/ned/coveragepy/issues/'>tickets on bitbucket</a>,
+or email on the
+<a href='http://lists.idyll.org/listinfo/testing-in-python'>testing-in-python</a>
+mailing list.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='utf-8'?>
+<page title='Python parsing tools'>
+<history>
+<what when='20040930T080100'>Created</what> <!-- from notes of a week ago. -->
+<what when='20041001T003600'>Added BisonGen.</what> <!-- Benji is at Children's emergency room with breathing difficulties! -->
+<what when='20041017T082400'>Updated entries based on email feedback from the authors.</what>
+<what when='20041021T074000'>Added links to some Charming Python columns about tools.</what>
+<what when='20050428T074600'>Added Martel, changed BisonGen link, updated dates, added version numbers, re-ordered.</what>
+<what when='20050429T070900'>Added ANTLR</what>
+<what when='20050913T214300'>Updated PLY 1.6 and pyparsing 1.3.3.</what>
+<what when='20051017T073500'>Added SableCC, cmd module, and the wiki comparison.</what>
+<what when='20051115T073000'>Changed the copyright to public domain.</what>
+<what when='20061128T200900'>Ply 2.2, parsedatetime, various version updates.</what>
+<what when='20061213T202900'>Aperiot.</what>
+<what when='20070722T090100'>Various updates.</what>
+<what when='20070725T214300'>Added yeanpypa.</what>
+<what when='20071008T071300'>Fixed ANTLR license.</what>
+<what when='20071019T071200'>Added Parsing.</what>
+<what when='20071201T211700'>Added Rparse.</what>
+<what when='20080719T074916'>Added effbot's top-down tutorial.</what>
+<what when='20090305T061136'>Added LEPL, Pysec, picoparse</what>
+<what when='20090823T094103'>Added PyPEG</what>
+<what when='20091028T064110'>Added funcparserlib</what>
+<what when='20100718T090900'>Added codetalker</what>
+<what when='20120317T135200'>Updated versions</what>
+<what when='20120610T145400'>Update PyPEG</what>
+<what when='20121229T181000'>Added pydsl</what>
+</history>
+
+<copyright>The contents of this page are in the public domain.</copyright>
+
+<p>A few years ago, I went looking for Python parsing tools.
+I spent a long time researching the various options.
+When I was done, I had a cheat sheet on the different alternatives.
+This is that cheat sheet, cleaned up a bit. It is very spotty.
+If you have updates to the information here,
+<a href='mailto:ned@nedbatchelder.com'>let me know</a>.
+Because this is a compilation of factoids freely available on the web,
+it is in the public domain.
+</p>
+
+<p>The tools are presented here in random order.  I tried organizing them,
+but I couldn't find a scheme that seemed to help.
+Some points of comparison:
+</p>
+
+<ul>
+
+<li>Lexical analysis technology: the two choices seem to be Python regular expressions, or
+<a href='http://en.wikipedia.org/wiki/Deterministic_finite_state_machine'>deterministic finite automata</a>.
+DFA's are faster (linear with the number of characters lexed).</li>
+
+<li>Parser technology: what algorithm is used to parse? There are a spectrum of choices.
+See wikipedia's
+<a href='http://en.wikipedia.org/wiki/Category:Parsing_algorithms'>Parsing Algorithms</a>
+page for a start.</li>
+
+<li>Specification style: traditional parser generators use a separate file in a new language
+to describe the grammar. Some of these tools do also, but many choose to put production
+rules in docstrings.  Others use Python data structures for grammars.</li>
+
+<li>Reliance on other tools: some of these are pure Python, some rely on existing
+parser generators such as Bison.</li>
+
+</ul>
+
+
+<h1>The tools</h1>
+
+<!--
+Dimensions:
+Functions provided: lexing, parsing.
+Parser algorithm: LALR, LL, recursive descent, etc.
+    info:
+        http://compilers.iecc.com/comparch/article/99-02-109
+        http://encyclopedia.thefreedictionary.com/Look-ahead%20LR%20parser
+Parser is expressed as: separate file (.y eg), Python code, docstrings.
+When is parser generated: runtime, build time.
+Result of parser: token list, AST, actions executed.
+Pure python: yes, no at build, no at run.
+Other tools needed: bison, etc.
+Activity: how recently has it been updated?
+License: what are the terms of using the code?
+Quirks: unusual features, good or bad.
+-->
+
+<p>
+<a href='http://www.dabeaz.com/ply/'>Ply</a>
+<!-- beazley@cs.uchicago.edu -->
+<br/>Docstrings are used to associate lexer or parser rules with actions.
+The lexer uses Python regular expressions.
+<br/>Parses: LALR(1)
+<br/>Updated: February 2011, version 3.4.
+<br/>License: Lesser GPL.
+<br/>Discussion: <a href='http://groups.google.com/group/ply-hack'>ply-hack group</a>.
+</p>
+
+<p>
+<a href='http://pyparsing.wikispaces.com/'>pyparsing</a>
+<!-- ptmcg@users.sourceforge.net -->
+<br/>Direct parser objects in python, built to parallel the grammar.
+<br/>Updated: June 2011, version 1.5.6.
+<br/>License: MIT license.
+</p>
+
+<p>
+<a href='http://www.antlr.org/'>ANTLR</a>
+<br/>Parser and lexical analyzer generator in Java.
+Generates parsing code in Python (as well as Java, C++, C#, Ruby, etc).
+<br/>Updated: July 2011, version 3.4.
+<br/>License: BSD.
+</p>
+
+<!-- new stuff here -->
+
+<p>
+<a href='http://fdik.org/pyPEG/'>pyPEG</a>
+<br/>A parsing expression grammar toolkit for Python.
+<br/>Updated: June 2012, version 2.4.3.
+<br/>License: GPL.
+</p>
+
+<p>
+<a href='http://pydsl.org/'>pydsl</a>
+<br/>A language workbench written in Python.
+<br/>Continuous releases on github.
+<br/>License: GPLv3.
+</p>
+
+<p>
+<a href='http://www.acooke.org/lepl/'>LEPL</a>
+<br/>A parser library for Python 2.6 and 3.0.
+<br/>Updated: January 2012, version 5.0.1.
+<br/>License: LGPL.
+</p>
+
+<p>
+<!-- <a href='http://jaredforsyth.com/blog/2010/jul/8/announcing-codetalker/'>Codetalker</a> -->
+<a href='http://pypi.python.org/pypi/CodeTalker/1.0'>CodeTalker</a>
+<br/>Updated: July 2010, version 1.0.
+<br/>License: MIT.
+</p>
+
+<p>
+<a href='http://code.google.com/p/funcparserlib/'>funcparserlib</a>
+<br/>A recursive descent parsing library based on functional combinators.
+<br/>Updated: October 2009, version 0.3.4
+<br/>License: MIT.
+</p>
+
+<p>
+<a href='http://effbot.org/zone/simple-top-down-parsing.htm'>Simple Top-Down Parsing in Python</a>
+<br/>Not a tool exactly, but a methodology for writing top-down parsers in Python.
+<br/>Updated: July 2008.
+</p>
+
+<p>
+<a href='http://www.valuedlessons.com/2008/02/pysec-monadic-combinatoric-parsing-in.html'>Pysec: Monadic Combinatoric Parsing in Python (aka Parsec in Python)</a>
+<br/>An exposition of using monads to build a Python parser.
+<br/>Updated: February 2008.
+</p>
+
+<p>
+<a href='http://github.com/brehaut/picoparse/tree/master'>picoparse</a>
+<br/>Small parser construction library for Python.
+<br/>Updated: May 2010.
+</p>
+
+<p>
+<a href='http://moncs.cs.mcgill.ca/people/eposse/projects/aperiot/'>Aperiot</a>
+<br/>A grammar description language and parser generator for Python.
+<br/>Updated: September 2007, version 0.1.2.
+<br/>License: BSD license.
+</p>
+
+<p>
+<a href='http://www.lava.net/~newsham/pyggy/'>PyGgy</a>
+<!-- newsham@lava.net -->
+<br/>Lexes with DFA from a specification in a .pyl file.
+Parses GLR grammars from a specification in a .pyg file.
+Rules in both files have Python action code.
+Unlike most parser generators, the rule actions are all executed in
+a post-processing step.
+The parser isn't represented as a discrete object, but as globals in a module.
+<br/>Updated: October 2004, version 0.4.1.
+<br/>License: public domain.
+<br/>Discussion: <a href='http://groups.google.com/group/pyggy'>pyggy group</a>.
+</p>
+
+<p>
+<a href='http://www.canonware.com/Parsing/'>Parsing</a>
+<!-- Jason Evans <jasone@canonware.com> -->
+<br/>LR(1) parser generator as well as CFSM and GLR parser drivers.
+<br/>Updated: August 2007, version 1.3.
+<br/>License: MIT.
+</p>
+
+<p>
+<a href='http://della1rv.googlepages.com/therparseparsergenerator'>Rparse</a>
+<!-- della1rv@gmail.com -->
+<br/>LL(1) parser generator with AST generation.
+<br/>Updated: November 2008, version 1.0.6b.
+<br/>License: GPL.
+</p>
+
+<p>
+<a href='http://www.sablecc.org/'>SableCC</a>
+<br/>Java-based parser and lexical analyzer generator.
+Generates parsing code in Java, with
+<a href='http://www.mare.ee/indrek/sablecc/'>alternative generators</a>
+for other languages including Python.
+<br/>License: GNU LGPL.
+<br/>Updated: version 3.2
+</p>
+
+<p>
+<a href='http://www.devincook.com/goldparser/'>GOLD Parser</a>
+<!-- GOLD-Admin@DevinCook.com -->
+<br/>A multi-language "pseudo-open-source" parsing package.
+<br/>Lexer: DFA
+<br/>Parser: LALR
+<br/>License: <a href='http://www.devincook.com/goldparser/license.htm'>Freeware</a>,
+based on zlib Open Source License.
+<br/>Updated: July 2007, version 3.4.4.
+</p>
+
+<p>
+<a href='http://www.cosc.canterbury.ac.nz/~greg/python/Plex/'>Plex</a>
+<!-- greg@cosc.canterbury.ac.nz -->
+<br/>Generates lexical analyzers in Python.
+<br/>Lexes with DFA, specified in Python data structures.
+Supports multiple start states.
+<br/>Updated: Jan 2007, version 1.1.5.
+<br/>Support for Python 3: <a href='https://github.com/uogbuji/plex3'>plex3</a>.
+</p>
+
+<p>
+<a href='http://freshmeat.net/projects/yeanpypa/'>yeanpypa</a>
+<br/>Constructs recursive-descent parsers directly in Python.
+<br/>License: Public domain.
+<br/>Updated: February 2007.
+</p>
+
+<p>
+<a href='http://zestyparser.adamatlas.org/'>ZestyParser</a>
+<br/>Constructs recursive-descent parsers directly in Python.
+<br/>License: GPL
+<br/>Updated: March 2007, 0.7.0
+</p>
+
+<p>
+<a href='http://copia.ogbuji.net/blog/2005-04-27/Of_BisonGe'>BisonGen</a>
+<!-- uche.ogbuji@fourthought.com -->
+<br/>Generates parsers in both Python and C, from an unusual XML-based
+grammar description file.  Very sparsely documented (there doesn't seem to
+be a home page for it), and seems to have no direct connection to Bison,
+despite the name.
+<br/>Updated: April 2005, version 0.8.0b1.
+</p>
+
+<p>
+<a href='http://staff.washington.edu/sabbey/py_dparser/'>DParser for Python</a>
+<!-- sabbey@u.washington.edu -->
+<br/>Uses python docstrings as input to
+<a href='http://dparser.sourceforge.net/'>DParser</a>, which is implemented in C.
+DParser is a scannerless GLR parser.
+<br/>Updated: September 2004, version 1.13.
+<br/>More: <a href='http://www-106.ibm.com/developerworks/linux/library/l-cpdpars.html?ca=dgr-lnxw82DParser'>Charming Python: A look at DParser for Python</a>.
+</p>
+
+<p>
+<a href='http://theory.stanford.edu/~amitp/yapps/'>Yapps</a>
+<!-- amitp@cs.stanford.edu -->
+<br/>Produces recursive-descent parsers, as a human would write.
+Designed to be easy to use rather than powerful or fast.
+Better suited for small parsing tasks like email addresses, simple configuration scripts, etc.
+<br/>License: MIT
+<br/>Updated: August 2003, version 2.1.1.
+</p>
+
+<p>
+<a href='http://www.freenet.org.nz/python/pybison/'>PyBison</a>
+<!-- david@freenet.org.nz -->
+<br/>Reads docstrings in Python files to create an actual Bison grammar,
+runs it through Bison, then post-processes the C output to re-unite
+the generated parser with the Python action routines (I think).
+<br/>License: GPL
+<br/>Parses: LALR(1)
+<br/>Updated: June 2004, version 0.1.8.
+<br/>Quirks: Doesn't yet support Windows.
+</p>
+
+<p>
+<a href='http://www.ncc.up.pt/fado/Yappy/'>Yappy</a>
+<!-- nam@ncc.up.pt -->
+<!-- rvr@ncc.up.pt -->
+<br/>Uses Python strings in list structures to declare the grammar and lexer rules,
+with semantic rules implemented as Python methods.
+<br/>Lexer: based on Python regular expressions.
+<br/>Parses: SLR, LR(1) and LALR(1)
+<br/>License: GPL
+<br/>Updated: June 2004.
+<br/>Quirks: Uses python strings to declare the grammar.
+</p>
+
+<p>
+<a href='http://christophe.delord.free.fr/tpg/index.html'>Toy Parser Generator</a>
+<!-- christophe.delord@free.fr -->
+<br/>Uses a simplistic parsing algorithm, but still seems relatively powerful.
+<br/>Updated: October 2006, version 3.1.1.
+</p>
+
+<p>
+<a href='http://gadfly.sourceforge.net/kwParsing.html'>kwParsing</a>
+<br/>Part of the Gadfly relational database engine.
+<br/>Parses: SLR
+<br/>Updated: January 2005, part of <a href='http://sourceforge.net/projects/gadfly/'>gadfly</a>.
+</p>
+
+<p>
+<a href='http://www.dalkescientific.com/Martel/'>Martel</a>
+<!-- dalke@dalkescientific.com -->
+<br/>Martel uses a modified form of the Perl regular expression language to
+describe the format of a file. The definition is used to generate a parser for
+that format. An input file is converted into a parse tree, which is traversed
+in prefix order to generate SAX 2.0 events, as used in XML processing. Element
+names and attributes are specified in the regular expression grammar using the
+named group extension popularized by Python.
+<br/>Updated: February 2005, part of Biopython 1.40b.
+</p>
+
+<p>
+<a href='http://simpleparse.sourceforge.net/'>SimpleParse</a>
+<!-- mcfletch@users.sourceforge.net -->
+<br/>Lexing and parsing in one step, but only deterministic grammars.
+<br/>License: BSD.
+<br/>Updated: 2006, version 2.1.0.
+<br/>More: <a href='http://www-106.ibm.com/developerworks/linux/library/l-simple.html'>Charming Python: Parsing with the SimpleParse module</a>.
+</p>
+
+<p>
+<a href='http://pages.cpsc.ucalgary.ca/~aycock/spark/'>SPARK</a>
+<!-- aycock@cpsc.ucalgary.ca -->
+<br/>Uses docstrings to associate productions with actions.
+Unlike other tools, also includes semantic analysis and code generation phases.
+<br/>Updated: stable April 2000 (0.6.1), pre-alpha May 2002.
+<br/>More: <a href='http://www-106.ibm.com/developerworks/linux/library/l-spark.html'>Charming Python: Parsing with the Spark module</a>.
+</p>
+
+<p>
+<a href='http://www.egenix.com/files/python/mxTextTools.html'>mxTextTools</a>
+<!-- mal@lemburg.com -->
+<br/>An unusual table-based parser.  There is no generation step, the parser
+is hand-coded using primitives provided by the package.
+The parser is implemented in C for speed.
+This package underlies SimpleParse (just above).
+<br/>License: <a href='http://www.egenix.com/files/python/mxLicense.html#Public'>eGenix Public License</a>,
+similar to Python, compatible with GPL.
+<br/>Updated: 2001.
+</p>
+
+<p>
+<a href='http://www.cs.utexas.edu/users/mcguire/software/fbmodule'>FlexBisonModule</a>
+<!-- mcguire@cs.utexas.edu -->
+<br/>Macros to allow Flex and Bison to produce idiomatic lexers and parsers for Python.
+The generated lexers and parsers are in C, compiled into loadable modules.
+<br/>Updated: March 2002, version 2.1.
+<br/>License: Pythonesque
+</p>
+
+<p>
+<a href='http://www.hyperreal.org/~est/freeware/'>Bison In A Box</a>
+<!-- est@hyperreal.org -->
+<br/>Uses standard Bison to generate pure Python parsers.
+It actually reads the bison-generated .c file and generates Python code!
+<br/>Updated: June 2001, version 0.1.0.
+</p>
+
+<p>
+<a href='http://sourceforge.net/projects/byacc/'>Berkeley Yacc</a>
+<!-- bbahnsen@users.sourceforge.net -->
+<br/>Classic Yacc, extended to generate Python code.
+Python support seems to be undocumented.
+<br/>Updated: November 2000.
+</p>
+
+<p>
+<a href='http://starship.python.net/crew/scott/PyLR.html'>PyLR</a>
+<!-- scott@chronis.icgroup.com -->
+<br/>Lexer is based on regular expressions.
+<br/>Parses: LR
+<br/>Updated: December 1997.
+</p>
+
+
+
+<h1>Standard Modules</h1>
+<p>The Python standard library includes a few modules for special-purpose
+parsing problems. These are not general-purpose parsers, but don't overlook them.
+If your need overlaps with their capabilities, they're perfect:</p>
+
+<ul>
+
+<li><a href='http://docs.python.org/lib/module-shlex.html'>shlex</a>
+lexes command lines using the rules common to many operating system shells.</li>
+
+<li><a href='http://docs.python.org/lib/module-ConfigParser.html'>ConfigParser</a>
+implements a basic configuration file parser language which
+provides a structure similar to what you would find on Microsoft Windows INI files.
+</li>
+
+<li><a href='http://docs.python.org/lib/module-email.html'>email</a>
+provides many services, including parsing email and other RFC-822 structures.</li>
+
+<li><a href='http://docs.python.org/lib/module-parser.html'>parser</a>
+parses Python source text.</li>
+
+<li><a href='http://docs.python.org/lib/module-cmd.html'>cmd</a>
+implements a simple command interface, prompting for and parsing out command names,
+then dispatching to your handler methods.</li>
+
+<!-- Lots more: HTMLparser, htmllib, sgmllib, xml, etc.
+<li><a href=''></a></li>
+<li><a href=''></a></li>
+<li><a href=''></a></li>
+-->
+</ul>
+
+
+<!--
+<h1>Special-purpose parsers</h1>
+<p>Some third-party modules are available which are not general purpose parser
+generators, but which parse generally-useful information.</p>
+
+<ul>
+BeautifulSoup
+parsedatetime http://code-bear.com/code/parsedatetime/
+argparse http://argparse.python-hosting.com/
+
+<li><a href=''></a></li>
+
+</ul>
+-->
+
+<h1>See also</h1>
+
+<ul>
+
+<li>For general information about lexing and parsing technologies,
+the wikipedia articles
+<a href='http://en.wikipedia.org/wiki/Lexical_analyzer'>Lexical Analyzer</a> and
+<a href='http://en.wikipedia.org/wiki/Category:Parsing_algorithms'>Parsing Algorithms</a>
+are good starts.
+</li>
+
+<li>For a more in-depth review of a few of these tools, see
+Martin Löwis's <a href='http://www.python.org/sigs/parser-sig/towards-standard.html'>Towards a Standard Parser Generator</a>.
+</li>
+
+<li>Another comparison of Python parsers is on the Python wiki:
+<a href='http://wiki.python.org/moin/LanguageParsing'>LanguageParsing</a>.
+</li>
+
+<li>For other stuff of interest to Pythonistas, you could do a lot worse than
+<a href='blog/index.html'>my blog</a>.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

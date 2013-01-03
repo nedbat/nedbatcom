@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='dispmode'>
+<history>
+<what when='20020504T162800'>Created.</what>
+<what when='20030406T230000'>Added frequency option.</what>
+</history>
+
+<p>My kids have a large library of computer games, some of which are quite old (as these things go).
+Newer games can properly detect and modify the display settings if they are particular,
+but some older programs just complain (sometimes after mis-detecting the settings).</p>
+
+<p>To simplify my kids' use of the computer, I wrote this command to change the display settings.
+Now I can create icons for their games which invoke batch files to call dispmode to set the
+display properly, and then run the game.  Ah, peace!</p>
+
+<p>The arguments are simple: specify either the new width (in pixels) or
+the new depth (in bits per pixel), or both.
+You don't need to specify the height because that is determined by the width.
+If you leave out the width or depth, then it is unchanged.
+If you only specify a single number, it is a depth if it is less than 300, or a width if it
+is more than 300.  Simple:</p>
+
+<code><![CDATA[
+$ dispmode 1400
+$ dispmode 800 16
+]]></code>
+
+<p>The refresh rate of the display can also be adjusted by adding an argument
+with a "Hz" suffix:</p>
+
+<code><![CDATA[
+$ dispmode 1400 60Hz
+$ dispmode 1600 85Hz
+]]></code>
+
+<p>There are other options:</p>
+
+<ul>
+<li>-l will list all allowed display modes.</li>
+<li>-c will show the current mode.</li>
+<li>-p will change the mode, and write it into the registry for next time.</li>
+</ul>
+
+<download file='dispmode.exe' path='code/winutils/dispmode.exe' />
+
+<p>Want the source?</p>
+
+<download file='dispmode.cpp' path='code/winutils/dispmode.cpp' />
+
+<pagecomments/>
+
+</page>

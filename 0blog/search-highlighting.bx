@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031208T215453'>
+<title>Search highlighting</title>
+<category>site</category>
+<category>webpage</category>
+<category>js</category>
+<via />
+<body>
+<p>I've added a new search feature to this site.
+If you visit here from a search engine, the page greets you with
+a welcome box, and highlights all of your search terms on the
+page.
+<a href='http://www.google.com/custom?q=sample+easier+joy&amp;domains=nedbatchelder.com&amp;sitesearch=nedbatchelder.com'>Try it: sample easier joy</a>.
+</p>
+
+<p>The work is done by some JavaScript code that parses the referrer to
+determine the search words, then uses DHTML to style the words on the
+page.
+The code came from
+<a href='http://www.kryogenix.org'>Stuart Langridge</a>
+via Paul Ford's new <a href='http://www.harpers.org'>Harper's magazine</a>
+site.
+I added the welcome message (though I recall seeing it done somewhere
+before), and also multiple color highlighting.</p>
+
+<p>I don't like the fact that the highlighting works within words
+rather than just on whole words, but I think it's still a nice effect.</p>
+
+</body>
+</entry>
+</blog>

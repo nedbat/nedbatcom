@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050828T124617'>
+<title>Cog 2.0, beta 2</title>
+<category>cog</category>
+<via />
+<body>
+<p>I've added some more features to <a href='code/cog/index.html'>Cog</a>, and am presenting
+them as <a href='code/cog/cog-2.0beta2.zip'>Cog 2.0 beta 2</a>.
+</p>
+
+<p>New features include globally defined strings on the command line,
+marker suffixes for generated lines, and @files that provide options.
+On the negative side, Python 2.2 is no longer supported.  If you need
+2.2, I can make it work, just let me know.
+I'll describe each feature in turn.
+</p>
+
+<more>
+
+<p><b>Globally defined strings:</b>
+Theo Burt requested a way to pass an argument into the Python code from the command line.
+The new -D option does just that.  For example, invoking Cog like this:</p>
+
+<code><![CDATA[
+cog -D thefile=fooey.xml mycode.txt
+]]></code>
+
+<p>will run Cog over mycode.txt, but first define a global variable called thefile with a value of "fooey.xml".
+This variable can then be referenced in your generator code.
+You can provide multiple -D arguments on the command line, and all will be defined and available.
+Only strings can be defined (to simplify the problem of quoting).
+</p>
+
+<p><b>Marker suffixes:</b>
+When grepping a large amount of source,
+I find it helpful to be able to see at a glance
+that the found line was generated rather than hand-written.
+The new -s option provides a suffix which is appended to every non-blank line generated,
+so that the lines can be readily identified as generated lines.
+</p>
+
+<p>For example, with this input file (mycode.txt):</p>
+
+<code name='mycode.txt'><![CDATA[
+[[[cog
+cog.outl('One through five:\n')
+for i in range(5):
+    cog.outl('This is line %d' % i)
+]]]
+[[[end]]]
+]]></code>
+
+<p>invoking cog like this:</p>
+
+<code><![CDATA[
+cog -s " //(generated)" mycode.txt
+]]></code>
+
+<p>will produce this output:</p>
+
+<code><![CDATA[
+[[[cog
+cog.outl('One through five:\n')
+for i in range(5):
+    cog.outl('This is line %d' % i)
+]]]
+One through five: //(generated)
+
+This is line 0 //(generated)
+This is line 1 //(generated)
+This is line 2 //(generated)
+This is line 3 //(generated)
+This is line 4 //(generated)
+[[[end]]]
+]]></code>
+
+<p><b>@file options:</b>
+To make these options easier to use over multiple files,
+the @file feature has been extended to allow for command-line options to be provided along with file names.
+For example, you can create a file cogfiles.txt:
+</p>
+
+<code name='cogfiles.txt'><![CDATA[
+# These are the files I run through cog
+mycode.cpp
+myothercode.cpp
+myschema.sql -s " --**cogged**"
+reademe.txt -s ""
+]]></code>
+
+<p>then invoke cog like this:</p>
+
+<code><![CDATA[
+cog -s " //**cogged" @cogfiles.txt
+]]></code>
+
+<p>Now cog will process four files, using C++ syntax for markers on all the C++ files,
+SQL syntax for the .sql file, and no markers at all on the readme.txt file.</p>
+
+<p>Another example: cogfiles2.txt could be:</p>
+
+<code name='cogfiles2.txt'><![CDATA[
+template.h -D thefile=data1.xml -o data1.h
+template.h -D thefile=data2.xml -o data2.h
+]]></code>
+
+<p>with cog invoked like this:</p>
+
+<code><![CDATA[
+cog -D version=3.4.1 @cogfiles2.txt
+]]></code>
+
+<p>Cog will process template.h twice, creating both data1.h and data2.h.  Both executions
+would define the variable version as "3.4.1", but the first run would have thefile equal to "data1.xml"
+and the second run would have thefile equal to "data2.xml".</p>
+
+<p><b>Feedback: </b>
+Please <a href='code/cog/cog-2.0beta2.zip'>try it</a>, and let me know what you think.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

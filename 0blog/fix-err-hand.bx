@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030206T222758'>
+<title>Fix Error Handling First</title>
+<category>exceptions</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>We're in crunch bug-fixing mode at work, which means we all have to be disciplined
+about finding, identifying, reporting, and fixing bugs.  Often this means analyzing
+situations where a number of bugs appear at once, in sequence, due to errors in
+handling earlier problems.  The rule in this case is to fix the error handling
+before fixing the errors.  Read more about it in my latest article,
+<a href='text/fix-err-hand.html'>Fix Error Handling First</a>.
+</p>
+</body>
+</entry>
+</blog>

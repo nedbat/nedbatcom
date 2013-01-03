@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050504T135803'>
+<title>Swftools</title>
+<category>graphics</category>
+<via id='keithdevens'/>
+<body>
+<p>I'm always interested in new ways to write small programs that do pretty things.
+<a href='http://www.quiss.org/swftools/about.html'>SWFTOOLS</a> could be another good
+way to do it.  They've recognized that Flash is both an authoring environment and
+a playable file format, and that you can keep the latter while replacing the former.
+They've built over a dozen GPL'ed utilities that create .swf files from various
+sources, including C code and their own scripting language, SWFC.
+</p>
+</body>
+</entry>
+</blog>

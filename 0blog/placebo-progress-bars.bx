@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030225T205036'>
+<title>Placebo progress bars</title>
+<category>ui</category>
+<category>unix</category>
+<via href='http://www.benpoole.com'>Ben Poole</via> <!-- id= or href= -->
+<body>
+<p>Ferdy Christant
+<a href='http://www.ferdychristant.com/fchristant/homepage.nsf/archive/20030220-0625%20PM'>describes
+a sneaky way to display a progress bar</a> (he performs the whole action, then displays
+a pre-timed animated gif before taking the user to the next page).</p>
+
+<p>Some things never change!  About 18 years ago, while I was an employee of the
+University of Pennsylvania robotics lab, I installed a beta of Ultrix v1.0.  This was on
+a large VAX with a dot-matrix printer console.  When the install started, the console
+printed something like,</p>
+
+<code>Installing.....</code>
+
+<p>with a new dot added every few seconds, to indicate that work was progressing.
+New messages would appear at various points, with the same parade of dots to show
+everything was OK.
+At one point, it seemed like there were an awful lot of dots, and we should have
+gotten to the next message already.  After a long while, it became clear there was
+no forward progress, and I ^C-ed the install.</p>
+
+<p>Digging into it, the install was a shell script, and it became clear
+what was going on: at each step, the script started two processes: one to print the dots,
+and one to do the work.  If the work process got wedged, the dot process happily printed
+dots until the end of time (or until the tape monkey got bored and hit ^C).
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080429T202959'>
+<title>Homer and Bush in CSS</title>
+<category>css</category>
+<category>art</category>
+<body>
+<p>Rom&#225;n Cort&#233;s has done an amazing thing.  He's made 
+portraits of
+<a href='http://www.romancortes.com/blog/homer-css/'>Homer Simpson</a> and
+<a href='http://www.romancortes.com/blog/bush-css/'>George Bush</a>.  Here's Homer:
+</p>
+
+<quote><p>o o o o ( O O O \ L ( O O O O O \ L ( O | | \ \ | | \ \ \ \ ( ( 8 o o
+o ( ( 8 o o o o ) ) b o O o o o o o o ) b o O o o o o o o o o o / / / • • • • •
+_ _ _ • • • C C O (
+-</p>
+</quote>
+
+<p>and here's Bush:</p>
+
+<quote><p>o o o o o o o l o ´ ´ ` ) ) ( · o `
+-
+-
+-
+· · o o
+-
+/ 0 /
+-
+( o o ` ` ( ( o \ ´ o o o o ` 0 ( \
+-
+`
+-
+· · o ( 0 0 ~ o o o o 0 0 0 0 ( ` ( o o o o o o o o
+-
+‘
+-
+0 0 o o o o o o · • O ´ o o ` / · ( · ´ ) ` \ · · o o 0 0 • ` ` • / /
+-
+-
+-
+-
+o 0 o o o o o o o o
+-
+-
+-
+-
+• • • o o
+-
+• • • • • • ´
+-
+-
+( \ ( o o • • • • • ) • • • • • • • • • • • / / • ` • • • • • • • • • • • • •
+   • • • • • • • • • • • • • • • • • • • • • • • • • • • • • ` ) ´ ` ` ` ` • • ´
+   ´ ´ ´ l `
+</p></quote>
+
+<p>Wait, those won't look right without the proper CSS styling.  Here they are
+as they are meant to be seen:</p>
+
+<p align='center'>
+    <a href='http://www.romancortes.com/blog/homer-css/'><img src='pix/csshomer.jpg' alt='Homer Simpson'/></a>
+    <a href='http://www.romancortes.com/blog/bush-css/'><img src='pix/cssbush.jpg' alt='George Bush'/></a>
+</p>
+
+<p>Yes, those really are characters styled to position them correctly to make
+the images. Go look at the HTML source on the original HTML pages to see for
+yourself.</p>
+
+<p>This is oddly reminiscent of a similar Simpsons-themed artwork: <a href='blog/200208/google_groups_ascii_art.html'>Google groups ascii art: Bart Simpson</a>.
+</p>
+
+</body>
+</entry>
+</blog>

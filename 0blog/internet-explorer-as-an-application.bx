@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031112T085406'>
+<title>Internet Explorer as an application</title>
+<category>browsers</category>
+<via />
+<body>
+<p>In case you've been living in a cave recently, or don't read about web design
+much, the big news is that it is possible to run
+<a href='http://www.skyzyx.com/archives/000094.php'>multiple versions of Internet Explorer</a>
+on the same Windows box, side by side, just like any other application.
+Microsoft has claimed for a long time that IE was too integrated into the operating
+system for it to be a separate application, and web designers have struggled with how
+to test their sites in more than one version.
+</p>
+
+<p>Turns out, there's been a secret back door ever since the IE3 days,
+something to do with an empty file called iexplore.exe.local.
+You can <a href='http://www.skyzyx.com/archives/000094.php'>download simple zip files</a>,
+unpack them in whatever directory you want, and run
+the iexplore.exe you find in them.  You get a number of different IE versions
+running simultaneously.  Some people are warning that in fact, you may not have
+precise fidelity with the actual versions, since there are bits and pieces pulled
+in at runtime from all over.
+That's probably true, but I tried the downloads, and sure enough,
+I got old browser behavior from the old ones and new behavior from the new ones,
+all at the same time.</p>
+
+<p>So far, this month, I have had no visitors at all using IE3 (why would they!), but
+now at least I know what they would have seen.</p>
+
+</body>
+</entry>
+</blog>

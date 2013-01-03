@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='handyxml'>
+<history>
+<what when='20040125T190703'>Created.</what>
+</history>
+
+<p>Handyxml is a Python module that makes simple XML use convenient.
+It provides Python attributes for XML attributes and child elements,
+and provides a facade over two common XML parsers and an XPath implementation.
+It's designed for casual XML use in environments such as template engines
+where data is stored in XML files.
+</p>
+
+<download file='handyxml.py' path='code/modules/handyxml.py' />
+
+<h1>Usage</h1>
+
+<p>Imagine a simple XML file:</p>
+
+<code lang='xml'><![CDATA[
+<!-- MyDataFile.xml -->
+<mydata group='ducks'>
+    <property name='duck1' value='huey' />
+    <property name='duck2' value='louie' />
+    <property name='duck3' value='dewey' />
+</mydata>
+]]></code>
+
+<p>To parse the file, simply use the <codeword>xml</codeword> function:</p>
+
+<code lang='python'><![CDATA[
+>> import handyxml
+>> doc = handyxml.xml('MyDataFile.xml')
+]]></code>
+
+<p>It accepts either a filename or an open file as its argument, and parses the XML
+it finds.
+Its return value is the document element, and attributes on the element are
+available as attributes on the object:</p>
+
+<code lang='python'><![CDATA[
+>> doc.group
+u'ducks'
+]]></code>
+
+<p>The names of child elements are object attributes with lists of the
+child elements:</p>
+
+<code lang='python'><![CDATA[
+>> len(doc.property)
+3
+>> doc.property[1].name
+u'duck2'
+]]></code>
+
+<p>Unlike other Python XML-to-dictionary schemes, these objects act just like
+full-fledged DOM nodes, and so can be processed with other XML facilities.</p>
+
+<p>Handyxml also provides the <codeword>xpath</codeword> function for evaluating
+XPath expressions.  The first argument is either an argument acceptable to xml(),
+or a parsed XML node.
+The second argument is the XPath expression to evaluate against the XML.
+The return is the resulting list of XML nodes:</p>
+
+<code lang='python'><![CDATA[
+>> duck3 = handyxml.xpath(doc, '//property[@name="duck3"]')
+>> duck3[0].value
+u'dewey'
+]]></code>
+
+<p>When looking for a file, handyxml will search the list of directories
+specified in its <codeword>path</codeword> value, much like
+<codeword>sys.path</codeword>.</p>
+
+<h1>Changes</h1>
+
+<p>27 January 2004: The xml.xpath module is no longer required, and the xpath()
+function will raise an exception if the module couldn't be imported.
+The xml() function can now take either a string (filename) or an open file as
+its argument.</p>
+
+
+<googleads/>
+<pagecomments/>
+
+</page>

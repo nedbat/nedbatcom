@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060613T080800'>
+<title>Web application framework stacks</title>
+<category>django</category>
+<via />
+<body>
+<p>Peter Thomas gives us the 
+<a href='http://ptrthomas.wordpress.com/2006/06/06/java-call-stack-from-http-upto-jdbc-as-a-picture/'>full picture of a Java web application call stack</a>.
+It's very impressive.  It shows about 100 call frames, annotated with the different
+layers of the architecture.  The comments there debate the question of
+whether this is a good thing or a bad thing.
+</p>
+
+<p>I was curious about the equivalent stack for our current mod_python/Django/MySQL
+architecture.  I won't paste the actual stack trace here 
+(opinions differ about the extent to which work details can be discussed
+in a blog), but here's the breakdown by layer:</p>
+
+<ul>
+<li>mod_python: 1 stack frame</li>
+<li>Django's mod_python support: 3 stack frames</li>
+<li>Our view infrastructure: 3 stack frames</li>
+<li>Our business logic: 3 stack frames</li>
+<li>Django's ORM: 4 stack frames</li>
+<li>Django's MySQL support: 2 stack frames</li>
+<li>MySQL's python layer: 3 stack frames</li>
+</ul>
+
+<p>for a grand total of 19 python stack frames between Apache and MySQL,
+six of which are our code.
+I won't claim to know whether this is better or worse, just comparing.
+</p>
+
+<!--
+  File "/usr/lib/python2.4/site-packages/mod_python/apache.py", line 299, in HandlerDispatch
+    result = object(req)
+  File "/home/antonio/bitty/site-packages/django/core/handlers/modpython.py", line 165, in handler
+    return ModPythonHandler()(req)
+  File "/home/antonio/bitty/site-packages/django/core/handlers/modpython.py", line 139, in __call__
+    response = self.get_response(req.uri, request)
+  File "/home/antonio/bitty/site-packages/django/core/handlers/base.py", line 75, in get_response
+    response = callback(request, *callback_args, **callback_kwargs)
+  File "/home/antonio/bitty/apps/studio/views/util.py", line 154, in _checkcookie
+    response = view_func(request, *args, **kwargs)
+  File "/home/antonio/bitty/apps/studio/views/util.py", line 178, in _cache_if_anonymous
+    response = view_func(request, *args, **kwargs)
+  File "/home/antonio/bitty/site-packages/django/utils/decorators.py", line 20, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/antonio/bitty/apps/studio/views/stories.py", line 954, in view_slideshow
+    story = access.getStory(user, story_id, perm)
+  File "/home/antonio/bitty/apps/studio/views/access.py", line 46, in getStory
+    return _getThing(stories, stories.StoryDoesNotExist, requestor, story_id, perm)
+  File "/home/antonio/bitty/apps/studio/views/access.py", line 65, in _getThing
+    thing = factory.get_object(pk=id)
+  File "/home/antonio/bitty/site-packages/django/utils/functional.py", line 3, in _curried
+    return args[0](*(args[1:]+moreargs), **dict(kwargs.items() + morekwargs.items()))
+  File "/home/antonio/bitty/site-packages/django/core/meta/__init__.py", line 1365, in function_get_object
+    obj_list = function_get_list(opts, klass, **kwargs)
+  File "/home/antonio/bitty/site-packages/django/core/meta/__init__.py", line 1405, in function_get_list
+    return list(function_get_iterator(opts, klass, **kwargs))
+  File "/home/antonio/bitty/site-packages/django/core/meta/__init__.py", line 1388, in function_get_iterator
+    cursor.execute("SELECT " + (kwargs.get('distinct') and "DISTINCT " or "") + ",".join(select) + sql, params)
+  File "/home/antonio/bitty/site-packages/django/core/db/base.py", line 10, in execute
+    result = self.cursor.execute(sql, params)
+  File "/home/antonio/bitty/site-packages/django/core/db/backends/mysql.py", line 32, in execute
+    return self.cursor.execute(sql, params)
+  File "/usr/lib/python2.4/site-packages/MySQLdb/cursors.py", line 150, in execute
+    r = self._query(query)
+  File "/usr/lib/python2.4/site-packages/MySQLdb/cursors.py", line 312, in _query
+    rowcount = self._do_query(q)
+  File "/usr/lib/python2.4/site-packages/MySQLdb/cursors.py", line 275, in _do_query
+    import traceback; traceback.print_stack(file=sys.stderr)
+-->
+
+</body>
+</entry>
+</blog>

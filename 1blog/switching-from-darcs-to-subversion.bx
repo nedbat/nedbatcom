@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041214T073426'>
+<title>Switching from darcs to subversion</title>
+<category>srcctrl</category>
+<via />
+<body>
+<p>Back in November, I <a href='blog/200411.html#e20041101T190334'>described darcs</a>
+as perfect for my needs.
+After using it for a while, I'm switching again.
+Darcs is very cool, and has a real advantage over traditional source code control systems
+(it's completely decentralized).
+But for my one-person projects, I don't need that decentralization, and darcs has disadvantages
+as well: it isn't as mature or as widely adopted as other tools, and it sometimes gets very
+slow.</p>
+
+<p>Also, I can't get out of the sequence-of-revisions mindset.  So now I'm trying
+<a href='http://subversion.tigris.org/'>Subversion</a>, the "compelling replacement for CVS".
+</p>
+
+</body>
+</entry>
+</blog>

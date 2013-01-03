@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031017T071836'>
+<title>Space cadet keyboard</title>
+<category>history</category>
+<category>hardware</category>
+<via href='http://zephyrfalcon.org/weblog/index.html'>Tao of the Machine</via> <!-- id= or href= -->
+<body>
+<p>Have you ever tried to explain the Control and Alt keys to a Regular Person?
+They suddenly seem like the epitome of geekly shortcuts.
+Well, don't bother showing them the
+<a href='http://world.std.com/~jdostale/kbd/SpaceCadet.html'>space cadet keyboard</a>.
+It came with the Symbolics Lisp Machine, and
+had not just Shift, Control and Alt modifier keys,
+but also Top, Greek, Meta, Hyper and Super.
+They took a standard practice and cranked it up way past eleven, creating a geekutopia
+for entering data into a computer.</p>
+
+<p><a href='http://www.gnu.org/software/emacs/emacs.html'>Emacs</a>
+still retains some of this history. It will let you define variants of keystrokes
+using <a href='http://www.gnu.org/manual/emacs/html_node/emacs_13.html#SEC13'>modifiers</a>
+like Meta, Hyper, and Super.
+There's more about the keyboard at the
+<a href='http://wombat.doc.ic.ac.uk/foldoc/foldoc.cgi?space-cadet+keyboards'>Free On-Line Dictionary of Computing</a>
+</p>
+</body>
+</entry>
+</blog>

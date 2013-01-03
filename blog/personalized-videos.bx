@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080718T202855'>
+<title>Personalized videos</title>
+<category>ads</category>
+<via id='joho'/>
+<body>
+<p>I recently saw two different viral marketing videos with a twist: they incorporate
+user content to pull in the viewer.  
+<a href='http://www.stepbrothersduel.com/feature.php'>Stepbrothers: Duel</a>
+is an ad for an upcoming movie comedy, and uses your name, photo, and phone number (!)
+to create a video of Will Ferrel and John C. Reilly fighting over which of them is
+your best friend.
+</p>
+
+<p><a href='http://news3online.com/spread.php'>Election '08 prank</a> is purportedly
+a news story about a groundswell presidential candidate.  Scroll to the bottom of
+the page, enter your name, click Update, and play the video.  They insert your
+name as text elements in a number of places. If you listen carefully, you'll notice they
+cleverly avoid any gender-specific pronouns, unlike the Stepbrothers video, which
+will only work for a male:</p>
+
+<figurep>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="384" height="304"
+    codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
+    >
+    <param name='movie' value="http://www.paltalk.com/marketing/media/vanksen/main.swf"/>
+    <param name='quality' value='high'/>
+    <param name='flashvars' value="firstname=Ned&amp;lastname=Batchelder&amp;urlfin=http%3A%2F%2Fwww.news3online.com%2Fspread.php"/>
+    <param name="bgcolor" value="#000000"/>
+    <param name="allowScriptAccess" value="always"/>
+    <embed src="http://www.paltalk.com/marketing/media/vanksen/main.swf"
+        quality='high' width="384" height="304" align="" type="application/x-shockwave-flash"
+        flashvars="firstname=Ned&amp;lastname=Batchelder&amp;urlfin=http%3A%2F%2Fwww.news3online.com%2Fspread.php"
+        pluginspage="http://www.macromedia.com/go/getflashplayer" bgcolor="#000000" allowscriptaccess="ALWAYS"></embed>
+</object>
+</figurep>
+
+<p>This is clever technology, and will keep viral marketing campaigns alive (I
+just spread two of them), that is, until it gets old.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20061230T120012'>
+<title>How to move a subversion repository</title>
+<category>srcctrl</category>
+<category>howto</category>
+<body>
+<p>This is how to move a Subversion repository from one place to another.
+It's one of those operations I undertake only infrequently, and so have
+to re-learn each time.  This time, I'm writing it down. In this example,
+I'm converting a file-based repository to a server-hosted one.
+</p>
+
+<ol>
+<li>Make sure your working directory is fully checked-in to subversion,
+and back it up, just in case.</li>
+
+<li>Dump the subversion repository.  This is done with an svnadmin command:
+<code>svnadmin dump c:\svn\foobar | gzip -9 - > foobar.dump.gz</code>
+It will show progress as it dumps each revision to the dumpfile.
+</li>
+
+<li>Create the new subversion repository, however it is that you usually do that.
+In my case, I use the Subversion control panel at Dreamhost.
+</li>
+
+<li>Copy the foobar.dump.gz file up to the server.</li>
+
+<li>Load the dumpfile into the new repository:
+<code>zcat foobar.dump.gz | svnadmin load foobar</code>
+It will show even more verbose progress than dump did, as it rebuilds the repository
+transaction by transaction.
+</li>
+
+<li>Checkout the new repository to a scratch directory:
+<code>svn co http://svn.whatever.com/foobar</code>
+</li>
+
+<li>Examine the new scratch directory and your current working directory.
+Make sure the files are the same, to check that the right content is correctly
+ensconced in your new repository.</li>
+
+<li>If all is well, you can switch your working directory to the new repository:
+<code>svn switch --relocate file:///c:/svn/foobar http://svn.whatever.com/foobar</code>
+</li>
+
+</ol>
+
+<p>Enjoy your new repo.</p>
+
+</body>
+</entry>
+</blog>

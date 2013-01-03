@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100926T172532'>
+<category>pycon</category>
+<category>communication</category>
+<title>Talking technically</title>
+<body>
+<p>I've been thinking a lot this week about how to talk about technical topics,
+    for a few reasons.  First, the 
+    <a href="http://us.pycon.org/2011/speaker/proposals/">PyCon 2011 call for proposals</a>
+    is out.  Second, as the organizer of the <a href="http://www.meetup.com/bostonpython">Boston Python meetup</a>,
+    I'm frequently talking to members about possibly presenting, and this week I was
+    considering an especially complex proposal, and trying to wrestle it into a digestible
+    form.
+</p>
+
+<p>Lots of people, when presented with the possibility of doing a technical
+    talk, will decide that they aren't skilled enough at speaking.  It is scary
+    doing your first presentation, but you should know that everyone is bad at
+    it before they try it.  I was a nervous wreck before and after my first
+    conference talk, but now I look forward to them.  You aren't as different
+    from the people you see up there now as you think.</p>
+
+<p>Another big self-barrier is "I don't have a good topic."  This is also 
+    not an insurmountable hurdle.  If you don't have a topic now, you can probably find one 
+    easily.  Here are some ideas for finding a topic:</p>
+
+<ul>
+    <li><a href="http://jackdied.com">Jack Diederich</a> suggested the heuristic
+        of looking back a year and asking yourself what you had wished you knew back
+        then.  Tell others about it.</li>
+    <li>Alternately, think about what it is you hope to learn in the coming year.
+        One way to learn it well is to suggest it as a PyCon talk.  Giving talks
+        don't have to be just teaching experiences, they can also be learning experiences.</li>
+    <li>Have you built something you think is cool?  Tell the world about it.</li>
+    <li>Even if you haven't built it, is there something you use that you think 
+        deserves broader exposure?  Explain why.</li>
+</ul>
+
+<p>If you are going to talk about something you (or something else) has built,
+    you have to figure out how to make it applicable to other people:</p>
+
+<ul>
+    <li>If your project is useful to other people, your topic could just be the
+        project itself: "How to Use MyProject to Fooble your Baz Better", or whatever.</li>
+    <li>But you may have a project with a small audience, or maybe it's only interesting
+        to you.  Was there a special challenge in building it? That can be your topic,
+        so long as you can generalize the problem so that others can appreciate it.
+        If you've built a connector so that Django can query your 40-year-old legacy
+        database, you don't want your topic to be "How to Read AncientDb Records,"
+        you want it to be "How to Build a New Backend for Django."</li>
+</ul>
+
+<p>This last point is the most important: put yourself in other Pythonistas' shoes,
+    and ask yourself why they will care about your topic.  Don't get me wrong, I'm
+    not trying to dissuade you.  If anything, I hope you'll do this and find the
+    story you can tell that will interest more people than you thought.</p>
+
+<p>Propose a PyCon (or Python meetup!) talk, you'll be glad you did.</p>
+</body>
+</entry>
+</blog>

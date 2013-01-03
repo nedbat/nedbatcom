@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071211T054956'>
+<title>Human sorting</title>
+<category>python</category>
+<body>
+<p>Kate Rhodes wrote a post about simplistic vs. useful sorting:
+<a href='http://weblog.masukomi.org/2007/12/10/alphabetical-asciibetical'>Alphabetical != ASCIIbetical</a>
+(cute name).  In it, she points to Dave Koelle's
+<a href='http://www.davekoelle.com/alphanum.html'>Alphanum algorithm</a>, which
+says to split the string to be sorted into numeric and non-numeric chunks,
+then sort so that the numeric chunks are treated as numbers.  This makes "z2" sort after "z100",
+for example.
+</p>
+
+<p>I looked at the code Dave provided (in Java, C++, or Perl), and all of it is
+much longer than I expected: the C++ is 40 or so lines.  A comment in there says
+it's easier in a pattern language like Perl, but the Perl is still 20 iterative lines.
+</p>
+
+<p>In Python:</p>
+
+<code lang='py'>
+import re
+
+def tryint(s):
+    try:
+        return int(s)
+    except:
+        return s
+    
+def alphanum_key(s):
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
+
+def sort_nicely(l):
+    """ Sort the given list in the way that humans expect.
+    """
+    l.sort(key=alphanum_key)
+</code>
+
+<p>A few helpful Python features make this more compact:
+re.split provides just the function we want for chunking the string,
+sort takes a key function for computing sort keys from data,
+the key to sort on can itself be a list,
+and comparing two lists compares lexicographically among the elements of the list.
+</p>
+
+<p>Each of these features in and of itself may have only occasional use, but
+here they conspire to help me write code nearly as expressive as the English
+description in my first paragraph.  And there are enough of those features
+that they often help make expressive code like that.</p>
+
+</body>
+</entry>
+</blog>

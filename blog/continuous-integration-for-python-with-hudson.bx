@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091105T212632'>
+<title>Continuous integration for Python with Hudson</title>
+<category>python</category>
+<category>howto</category>
+<body>
+<p>Continuous integration is a great idea: you configure a server to periodically
+pull your source code, build it, run the tests, run lint, measure coverage, and
+so on.  Then it graphs everything, stores the results for examination, and so on.
+</p>
+
+<p>I'd been trying to figure out how to use the
+<a href='https://hudson.dev.java.net/'>Hudson</a> CI server with Python, and the
+few times I tried to get my mind around it, it just wasn't clicking. I happened
+to mention my mental block to Joe Heck, and a few days later, he produced
+<a href='http://www.rhonabwy.com/wp/2009/11/04/setting-up-a-python-ci-server-with-hudson/'>Setting up a python CI server with Hudson</a>.
+It's a great step-by-step how-to covering everything you need to get Hudson
+going for a Python project.
+</p>
+
+<p>Running through his guide finally cleared the last misconception for me:
+continuous integration isn't a build tool or a test runner.  You don't run
+Hudson on your development machine.  Sounds silly, but something needed to clear
+it up, and this was it.</p>
+
+<p>Thanks, Joe!</p>
+
+</body>
+</entry>
+</blog>

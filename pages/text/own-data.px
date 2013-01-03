@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<page title='Own your data: ad-hoc representations'>
+<history>
+<what when='20060527T124014'>Created.</what>
+</history>
+
+<p>This may sound heretical in these days of standards for everything,
+but I've had the best successes by designing my own ad-hoc data formats.
+Rather than adopting (or worse, adapting) a standard to fit your purposes,
+you should create your own data representation.  It will give you the best
+fit for the problem at hand.  
+</p>
+
+
+<h1>How do I represent my data?</h1>
+
+<p>A common impulse when sitting down to sketch out a data representation is
+to cast about for a standard that does something kind of like what you
+need, and try to squeeze it to fit your needs.  This impulse is driven
+by these beliefs:</p>
+
+<ul>
+<li>Standard is inherently better than non-standard,</li>
+<li>Using a standard will likely get you a bunch of free tools,</li>
+<li>The standard was written by smart people, and so is more
+"right" than something you'd cook up yourself.</li>
+</ul>
+
+<p>Probably some of these are right, but there are competing pressures as well:</p>
+
+<ul>
+<li>The standard wasn't designed to solve exactly your problem,</li>
+<li>The standard was written by a committee, and so is a compromise,</li>
+<li>The standard was likely heavily constrained by some existing technology in the first place,</li>
+<li>Standards are most often written to be good for interchange, not core representation.</li>
+</ul>
+
+<p>The most important thing in choosing a data representation is whether it
+is expressive enough to meet your product's needs.  
+I find the best strategy for designing a representation goes something 
+like this:</p>
+
+<ol>
+<li>Consider all of the things the data must do, and try to include a
+best guess as to ways it will need to be extended in the future.
+Include both static representation issues ("we'll need a way to include Kanji")
+and dynamic processing issues ("we'll need to be able to get a list of just headlines").
+</li>
+
+<li>Consider all of the different forms the data will have to be converted
+to.  For example, your data may have to appear on screen, and be printed,
+and be aggregated into an XML stream for an existing system someplace.</li>
+
+<li>The problem you are trying to solve is, "How do I best represent all 
+of the concerns from #1, while making all of the conversions in #2 as 
+simple as possible?"</li>
+
+<li>Look at other systems and standards that cover some of your ground.  
+One may be the best solution to your problem.  If not, you can borrow concepts or
+syntax for the pieces of your problem where they do a good job.</li>
+
+</ol>
+
+<p>The overriding concern during this design phase has to be
+representing your data as accurately and as deeply as possible.  Ideally,
+you'd have no compromises due to trying to make another system fit your
+current needs.  By putting your needs first, you'll create a better
+representation than if you adapt someone else's design.</p>
+
+
+<p>You need to think about your data representation as a source form, 
+with all of the formats you eventually need it in as object forms.
+Your code starts life in an expressive high-level language, and is
+then compiled down to an executable format.  Your data needs to follow the
+same pattern: its core representation needs to be as high-level and
+expressive as possible, and needs to be convertable into object forms as
+needed.</p>
+
+
+
+<h1>Case in point: this blog</h1>
+
+<p>This blog is home-grown, and the 
+<a href='site/xuffpx.html'>end result is not a spectacular success</a>, 
+but it works.  When I first started, my blog posts were destined
+for only one place: an HTML page on this blog.  But I didn't represent
+them as HTML, because that would have limited my flexibility.  They are
+stored as XML files, using an ad-hoc tag language.  For the parts of posts
+that overlap with HTML, the tag set is HTML.  But for other parts, I simply
+make up tags that express my intent.
+</p>
+
+<p>Here is a sample blog entry:</p>
+
+<code><![CDATA[
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050726T083044'>
+<title>IPod Flea</title>
+<category>funny</category>
+<category>music</category>
+<via href="http://boingboing.net">Boing Boing</via>
+<body>
+<p>Awesome:
+<a href='http://www.layersmagazine.com/features/feature_cs2/flea.htm'>iPod Flea</a>.
+</p>
+</body>
+</entry>
+</blog>
+]]></code>
+
+<p>The body consists of simple HTML tags, but the metadata of the post
+uses tags I made up as I needed them.  By using HTML for the body,
+I simplified the process of writing the posts, and the process of converting
+them to HTML.  But even within the HTML, I have special tags for structures I want
+that HTML doesn't have.</p>
+
+
+<h1>Case in point: Kubi schema representation</h1>
+
+<p>At Kubi Software, we had a code-independent representation of our data
+schema.  This schema was used to generate code in a number of languages,
+relational database schemas, data validation tables, and so on.  One proposal
+for how to represent this schema was to use <a href='http://www.w3.org/XML/Schema'>XML Schema</a>.
+This would have made it simple for us to expose our schema in a standard 
+way for users of our API.
+</p>
+
+<p>But XML Schema was designed to solve a different problem than we had.
+It is used for describing classes of XML documents.  We needed a solution
+that was far broader than that.  For example, we needed to describe foreign
+key relationships for our database structures.  XML Schema has no such
+concept.  If we had used XML Schema, we'd have to extend it to include
+our foreign keys.  True, XML Schema has made these sorts of extensions
+possible, but once you have to extend a standard in a proprietary way,
+you've lost some of the benefits you thought you had: the tools you got
+for free won't understand your extensions, and you're back to supporting
+your own ad-hoc representation.</p>
+
+<p>At Kubi, we created a custom XML dialect to describe the schema.  It
+was ad-hoc, and we had some hiccups extending it at times, and the semantics
+had a certain sloppiness to them, but it served its purpose.  We converted
+it to XML Schema for API customers, and had straightfoward scripts to 
+process it into all the other forms we needed.
+</p>
+
+<p>We probably could have made do with XML Schema as a basis, but by the
+time we had retrofitted it with all of the extensions we needed, we'd have
+essentially had an ad-hoc representation anyway, except we'd have had to
+fight with the XML Schema syntax along the way for no good reason.</p>
+
+
+<h1>Case in point: Tabblo templates</h1>
+
+<p>When we started building <a href='http://www.tabblo.com'>Tabblo</a>, we
+realized that we would need to produce many forms of output from a single
+tabblo.  It was tempting to focus on the web pages that were the first
+demoable part of the application, and simply use HTML and CSS as a representation,
+but that would have made the rest of the application difficult to build.
+</p>
+
+<p>HTML is not a good way to produce high-quality output, PDF is.  And
+producing PDF from HTML is not a simple process.  So we went with 
+a custom representation of templates and tabblos 
+that allowed us the greatest flexibility.  We looked at what we liked in
+HTML and CSS, what would work well for our needs, and what did not.  We
+thought about how we'd have to generate HTML from our internals, and we'd
+have to do it efficiently.  We designed a representation that let us
+talk about tabblos, layouts, and themes as we thought of them, not as
+HTML does.
+</p>
+
+<p>For example, some of our themes include drop shadows beneath the photos.
+In HTML, the drop shadow is actually a second image beneath the photo image.
+But that's not a good core representation of a drop shadow.  Better is a simple
+flag indicating that photos should have drop shadows.  How the drop shadow 
+is actually rendered in HTML is a run-time concern, not a design-time concern.
+In fact, over the last few months, we've changed the actual HTML rendering
+of drop shadows a few times, but the core description of them has not changed.
+</p>
+
+<p>Since tabblos are not tied to HTML, we have more options for manipulating 
+them.  For example, consider the thumbnail tabblos used on navigation pages:
+we used to render them with a browser-on-a-leash.  We'd squirt the tabblo HTML
+to the browser, then capture a bitmap from it, and scale it down.  This
+was an awkward process at best, and involved some ugly scripting, and a lot
+of fiddly process manipulation.</p>
+
+<p>With tabblos in an ad-hoc representation, we can produce PDFs for printing,
+as well as all sorts of thumbnail images
+directly with a completely non-HTML rendering process:
+</p>
+
+<figurep href='/tabblo/87'>
+    <img src='/tabblo/87/full.png' alt='Tabblo: Charlotte&amp;s Web with the 2nd Grade' height='995' width='415'/>
+</figurep>
+
+<p>Not only have we simplified our processing pipelines by starting with 
+a simpler data format than fully general HTML and CSS, but we have the power
+of going beyond what HTML+CSS can describe.  For example, a drop shadow cannot 
+be described as a drop shadow in those standards, and in the future, we'll
+have far more interesting things we'll want to describe.  By using our own
+representation, we can take it in any direction we want to go.
+</p>
+
+<p>For example, just yesterday 
+<a href='http://blog.tabblo.com/index.php/2006/05/26/lions-tigers-and-features-oh-my/'>we added user color control</a> 
+to the tabblo editor.  Our tabblo representation was designed with this
+sort of tweaking in mind, so it gave us a really cool feature without a ton
+of reworking the insides.</p>
+
+
+<h1>Works for me</h1>
+
+<p>Some might accuse me of suffering from 
+<a href='http://en.wikipedia.org/wiki/Not_Invented_Here'>Not Invented Here</a>
+syndrome, but I don't agree.  Choosing a data representation has to be 
+considered carefully, and appropriateness has to count for more than
+similarity to someone else's solution.</p>
+
+<p>Joel Spolsky (with whom I do not always agree) 
+<a href='http://www.joelonsoftware.com/articles/fog0000000007.html'>sums it up</a>
+this way:</p>
+
+<box>If it's a core business function <emdash/> do it yourself, no matter what.</box>
+
+<p>If the representation of your data is not a core business function, I 
+don't know what is.  Design your own format, own your data.  You'll be glad
+you did.</p>
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='blog/index.html'>My blog</a>, where many software engineering topics are discussed.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

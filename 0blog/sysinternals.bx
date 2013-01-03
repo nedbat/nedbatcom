@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030522T071258'>
+<title>SysInternals</title>
+<category>tools</category>
+<category>windows</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://www.sysinternals.com'>SysInternals</a> offers a boatful
+of outstanding freeware for Windows.  My favorites are great for
+reverse-engineering file and registry access:</p>
+
+<ul>
+<li><a href='http://www.sysinternals.com/ntw2k/source/filemon.shtml'>Filemon</a>
+traces all access to the file system, allowing you to see exactly how
+an application is using files.  Yesterday, it proved invaluable in
+determining exactly how Lotus Notes finds its notes.ini file.</li>
+
+<li><a href='http://www.sysinternals.com/ntw2k/source/regmon.shtml'>Regmon</a>
+does the same for the Windows Registry, showing all accesses as they
+happen.</li>
+</ul>
+
+<p>There are other awesome tools there, with source included!</p>
+
+</body>
+</entry>
+</blog>

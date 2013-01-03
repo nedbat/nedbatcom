@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051207T072939'>
+<title>Vowels and consonants</title>
+<category>ling</category>
+<via />
+<body>
+<p>Last week's New Yorker magazine had a good story on Matthew Carter, a renowned type designer.
+They got all the details right, but one factoid they mentioned stood out like a sore thumb.
+They said, "Dickens preferred vowels, Thackeray used more consonants".
+How could that be?  They were both writing in English in the same time period. How much
+personal preference for one letter over another could you express?
+</p>
+
+<p>So I did an experiment.  I downloaded plain text versions of
+<a href='http://www.gutenberg.org/etext/766'>David Copperfield</a>
+and
+<a href='http://www.gutenberg.org/etext/599'>Vanity Fair</a>
+from
+<a href='http://www.gutenberg.org/'>Project Gutenberg</a>.
+A quick histogram of the letters in each reveals this distribution of frequency of use (for letters more than 1%):
+</p>
+
+<p><table align='center'>
+<tr><td colspan='2'>Dickens</td>    <td colspan='2'>Thackeray</td></tr>
+<tr><td>&#160;e&#160;</td><td align='right'>12.08&#160;</td>        <td>&#160;e&#160;</td><td align='right'>12.39&#160;</td></tr>
+<tr><td>&#160;t&#160;</td><td align='right'>8.85&#160;</td>         <td>&#160;t&#160;</td><td align='right'>8.43&#160;</td></tr>
+<tr><td>&#160;a&#160;</td><td align='right'>8.17&#160;</td>         <td>&#160;a&#160;</td><td align='right'>8.31&#160;</td></tr>
+<tr><td>&#160;o&#160;</td><td align='right'>7.74&#160;</td>        <td>&#160;o&#160;</td><td align='right'>7.58&#160;</td></tr>
+<tr><td>&#160;i&#160;</td><td align='right'>7.24&#160;</td>        <td>&#160;n&#160;</td><td align='right'>6.78&#160;</td></tr>
+<tr><td>&#160;n&#160;</td><td align='right'>6.84&#160;</td>        <td>&#160;h&#160;</td><td align='right'>6.57&#160;</td></tr>
+<tr><td>&#160;h&#160;</td><td align='right'>6.06&#160;</td>        <td>&#160;s&#160;</td><td align='right'>6.46&#160;</td></tr>
+<tr><td>&#160;s&#160;</td><td align='right'>6.05&#160;</td>        <td>&#160;i&#160;</td><td align='right'>6.41&#160;</td></tr>
+<tr><td>&#160;r&#160;</td><td align='right'>5.75&#160;</td>        <td>&#160;r&#160;</td><td align='right'>6.19&#160;</td></tr>
+<tr><td>&#160;d&#160;</td><td align='right'>4.70&#160;</td>        <td>&#160;d&#160;</td><td align='right'>4.71&#160;</td></tr>
+<tr><td>&#160;l&#160;</td><td align='right'>3.79&#160;</td>        <td>&#160;l&#160;</td><td align='right'>3.97&#160;</td></tr>
+<tr><td>&#160;m&#160;</td><td align='right'>3.15&#160;</td>        <td>&#160;u&#160;</td><td align='right'>2.70&#160;</td></tr>
+<tr><td>&#160;u&#160;</td><td align='right'>2.83&#160;</td>        <td>&#160;m&#160;</td><td align='right'>2.66&#160;</td></tr>
+<tr><td>&#160;w&#160;</td><td align='right'>2.60&#160;</td>        <td>&#160;c&#160;</td><td align='right'>2.53&#160;</td></tr>
+<tr><td>&#160;y&#160;</td><td align='right'>2.26&#160;</td>        <td>&#160;w&#160;</td><td align='right'>2.52&#160;</td></tr>
+<tr><td>&#160;c&#160;</td><td align='right'>2.24&#160;</td>        <td>&#160;f&#160;</td><td align='right'>2.13&#160;</td></tr>
+<tr><td>&#160;f&#160;</td><td align='right'>2.17&#160;</td>        <td>&#160;g&#160;</td><td align='right'>2.13&#160;</td></tr>
+<tr><td>&#160;g&#160;</td><td align='right'>2.10&#160;</td>        <td>&#160;y&#160;</td><td align='right'>2.04&#160;</td></tr>
+<tr><td>&#160;p&#160;</td><td align='right'>1.70&#160;</td>        <td>&#160;p&#160;</td><td align='right'>1.74&#160;</td></tr>
+<tr><td>&#160;b&#160;</td><td align='right'>1.52&#160;</td>        <td>&#160;b&#160;</td><td align='right'>1.64&#160;</td></tr>
+</table></p>
+
+<p>The most significant difference I can see is the i: 7.24% for Dickens and 6.41% for Thackeray.
+And Thackeray's s, h, and r are more common than Dickens'.
+But Thackeray used more e's and fewer t's.  It's all a wash as far as I can see.
+Maybe there's a slight truth to it, but enough to make a difference to a type designer? I don't see it.
+</p>
+
+<p>BTW: every time I have to make a data table on this site, I struggle with it.  Some day I'll learn
+the CSS to do it right.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050814T201226'>
+<title>Valid email addresses?</title>
+<category>email</category>
+<category>regex</category>
+<body>
+<p>A commenter on my Madlibs story (<a href='http://bwinton.latte.ca/'>Blake Winton</a>) complained
+that his perfectly valid email address was being refused by my email validator.
+His email address has a plus sign in it, and my validator didn't like it.  I was using this
+regex:
+</p>
+
+<code><![CDATA[
+^([_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,4})$
+]]></code>
+
+<p>Recognizing the limitations of this validator, I thought I would look up the real rules for
+email addresses.  They are spelled out in <a href='http://www.faqs.org/rfcs/rfc2822.html'>RFC 2822</a>,
+but after digging through there, nothing was clear at all.  Not only are many characters allowed
+that I have never seen in email addresses (~ # ? { *), but there are also a handful of different
+quoting mechanisms!</p>
+
+<p>Helpfully, Paul Warren has written a Perl regular expression to deal with all of the complexity.
+It is a
+<a href='http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html'>6200-character behemoth</a>,
+and I don't intend to adapt it for my use!</p>
+
+<p>Of course, some of this complexity is for full addresses that won't be entered into a comment
+form, but where to draw the line?
+For now, I've added the other special characters as allowed.
+If I get more complaints, I'll revise further.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='xdir.py'>
+<history>
+<what when='20020531T120000'>Created.</what>
+</history>
+
+<p>I use the command line to do a lot of work instead of using GUI tools,
+because I find typing faster than clicking,
+and because I can extend my command line with simple scripts more easily than I can create
+new GUI tools.
+But I like to type as little as possible, both for speed and to reduce the strain on my
+poor hands and wrists.</p>
+
+<p>Working with large projects from the command line means changing directories a lot.
+I like tab-completion, because it saves me typing, but there's a problem with it:
+it's stupid.  It will only consider file names right in front of its face.</p>
+
+<p>Let's say I have this directory structure:</p>
+<code><![CDATA[
+dev\
+  com\
+    sarai\
+      stats\
+    stellated\
+      app\
+      util\
+      xml\
+]]></code>
+
+<p>To get from the top to the util directory using cd, I would type
+</p>
+
+<code><![CDATA[
+cd d<tab>\c<tab>\s<tab><tab>\u<tab>
+]]></code>
+
+<p>Why do I have to keep track of all the intermediate levels?
+With a tree like this (and real ones have more noise between where you are and where you
+want to go), I don't think in terms of each level in the tree, I think "I want to go to the util
+directory".</p>
+
+<p>xdir is a replacement for cd that works like tab completion, but with more intelligence.
+In our example above, I could have typed
+</p>
+
+<code>x d\c\s\u</code>
+
+<p>To xdir, all directory names are prefixes of directory names, as if tab completion were being
+applied, but without having to type the tab.  Also notice I didn't have to worry about the
+two directories starting with 's'.  In the tab completion example, I had to type two tabs to
+get it to choose 'stellated' rather than 'sarai'.  In the xdir example, it knew I meant 'stellated'
+because there is no directory starting with 'u' under the 'sarai' directory.
+The entire string 'd\c\s\u' is unambiguous.</p>
+
+<p>Even better, I could have typed</p>
+
+<code>x .ut</code>
+
+<p>This means "change to a subdirectory named ut* anywhere below me".  In this case, there is
+only one, so xdir knows what to do, and takes me there.
+This exactly matches my mental model of the tree, and keeps me from having to worry about
+intermediate levels at all.</p>
+
+<download file='xdir.py' path='code/utilities/xdir.py' />
+<download file='xdir.cmd' path='code/utilities/xdir.cmd' />
+
+<p>xdir performs a number of functions relating to moving among directories.
+The first argument to xdir is the operation to perform:
+</p>
+
+<ul>
+<li>cd: change directory.  The arguments specify which directory to change to.
+These are described below.</li>
+<li>back: change back to a previous directory, like the back button on a browser.</li>
+<li>clear: clear the history and stack.</li>
+<li>history: show the history of directories.</li>
+<li>push: like cd, but push the current directory onto a stack of directories.</li>
+<li>pop: pop the top directory from the stack and change to it.</li>
+<li>roll: roll the directory stack, changing to the top directory.</li>
+<li>showstack: show the directories in the directory stack.</li>
+</ul>
+
+<p>When specifying a new directory (for 'cd' or 'push'), the arguments work as follows:
+</p>
+
+<ul>
+<li>.. means go up a directory.</li>
+<li>x (for any word x) means change to an immediate subdirectory starting with 'x'.</li>
+<li>.x (for any word x) means change to a subdirectory anywhere below me starting with 'x'.</li>
+<li>x. (for any word x) means change to an immediate subdirectory named 'x'.</li>
+<li>.n (for any number n) as a last argument chooses among possible directories for an ambiguous
+command.</li>
+</ul>
+
+<p>In the argument list, spaces and slashes are equivalent.  These both do the same thing:
+</p>
+
+<code>
+x d c .ut
+x d\c\.ut
+</code>
+
+<p>If the arguments are ambiguous (because they specify more than one destination directory),
+the list of possible destinations are printed and the directory is not changed.
+You can add a last argument of .3 (for example) to choose the third choice in the list,
+or .-1 (for example) to choose the last choice in the list.</p>
+
+<p>Unfortunately, a python script (or any executed program) cannot change the directory in
+the command window.  So xdir.py actually writes DOS commands to stdout, and a separate helper,
+xdir.cmd, collects those commands and executes them as a shell script.</p>
+
+<p>To reduce typing, the script can be supported by shell aliases (in Windows, doskey macros).
+I use these:</p>
+
+<code>
+doskey u=xdir.cmd cd .. $*
+doskey uu=xdir.cmd cd .. .. $*
+doskey uuu=xdir.cmd cd .. .. .. $*
+
+doskey x=xdir.cmd cd $*
+doskey ux=xdir.cmd cd .. $*
+doskey uux=xdir.cmd cd .. .. $*
+doskey uuux=xdir.cmd cd .. .. .. $*
+
+doskey xb=xdir.cmd back $*
+doskey xp=xdir.cmd push $*
+doskey xq=xdir.cmd pop $*
+doskey xl=xdir.cmd roll $*
+doskey xs=xdir.cmd showstack $*
+</code>
+
+<pagecomments/>
+
+</page>

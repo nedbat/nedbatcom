@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030905T081115'>
+<title>Ye olde thorn and eth</title>
+<category>charset</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>This came up at the breakfast table: What's the deal with "ye olde" as a quaint
+way of saying "The old"?  That wasn't a "y", it's a
+<a href='http://www.bartleby.com/61/10/Y0011000.html'>printer's compromise</a> at trying
+to render a "thorn", an Old English letter that was used for "th" sounds.
+There was another, the "eth", as well.  One was for voiced "th", the other for unvoiced.
+</p>
+
+<p>As it happens,
+<a href='http://briem.ismennt.is/2/2.1a/2.1.1.thorn.and.eth.htm'>Iceland still uses thorns and eths</a>,
+so they are available in Unicode, even appearing in the first code page:
+Thorn: &#xde; (&amp;#xDE;) thorn: &#xfe; (&amp;#xFE;)
+Eth: &#xd0; (&amp;#xD0;) eth: &#xf0; (&amp;#xF0;).
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050716T104330'>
+<title>Platitude</title>
+<category>mycode</category>
+<via />
+<body>
+<p>A few weeks ago I wrote about <a href='text/lattice.html'>Lattice drawings</a>.
+I mentioned that I had used a Python program to produce the figures there, and of course,
+was asked in the comments to publish the program.  I didn't, because the program was
+an unpresentable piece of crap.  I had to edit text files, and then the program would draw
+the result. Yuk.
+</p>
+
+<p>So last week while I was on vacation, I wrote a new program, called
+<a href='code/platitude/index.html'>Platitude</a>.  This is a GUI application that lets you manipulate
+the lattice with the mouse.  It still is very bare bones, but I wanted to get it out the door.
+I consider it a presentable piece of crap.</p>
+
+<figurep>
+<img src='code/platitude/5x3changed.png' alt='A changed 5 by 3 lattice' />
+</figurep>
+
+<p>Try it and see what you think.  It's available as a Windows executable, and Python source.
+If someone could help me understand why I get bitmap errors on the Mac, that would be fabulous!</p>
+
+</body>
+</entry>
+</blog>

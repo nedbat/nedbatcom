@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030806T144400'>
+<title>New on Google: synonyms</title>
+<category>google</category>
+<category>ling</category>
+<via id='simonwillison'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.google.com'>Google</a> now has a new feature:
+<a href='http://google.blogspace.com/archives/001018'>Synonym searching</a>,
+whereby pages will be found that contain synonyms of the word you enter
+in the query.  Put a tilde (~) before the word in the search, and synonym
+matching is enabled.
+</p>
+
+<p><a href='http://www.waxy.org/archive/2003/08/04/fun_with.shtml'>Lively discussion</a>
+is already beginning about how it works under the covers.  Is there a big thesaurus
+behind it, or is Google somehow tapping into its own gigabase of data to decide
+on synonyms?  From the waxy.org discussion is this tidbit arguing for Google-mining
+providing the raw data: <a href='http://www.google.com/search?q=~Gore'>Bush is a synonym for Gore</a>.
+</p>
+</body>
+</entry>
+</blog>

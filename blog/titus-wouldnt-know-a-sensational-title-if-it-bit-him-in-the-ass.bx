@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090222T204747'>
+<title>Titus wouldn't know a sensational title if it bit him in the ass</title>
+<category>coverage</category>
+<category>online</category>
+<category>pycon</category>
+<body>
+<p><a href='http://ivory.idyll.org/blog/feb-09/people-who-dont-use-code-coverage-are-idiots.html'>Titus
+Brown doesn't like a title of mine</a>.  He claims
+"<a href='http://nedbatchelder.com/blog/200710/flaws_in_coverage_measurement.html'>Flaws in coverage measurement</a>"
+is sensational, but I don't see why.  It's actually pretty bland, it almost sounds
+like the title of a scientific paper.  It would only be controversial to someone who thought
+coverage testing was perfect, which Titus does not.</p>
+
+<p>In fact, one of the central points of his
+<a href='http://ivory.idyll.org/blog/feb-09/necessity-vs-sufficiency.html'>original
+post that got me in hot water</a> was:</p>
+
+<quote><p>High code coverage doesn't guarantee that your tests are complete.</p></quote>
+
+<p>He and I are in total agreement.  I guess you could quibble that the flaws
+are not in coverage measurement, that to believe they are flaws is to over-estimate
+the extent of the power of coverage testing, to misunderstand what coverage testing is
+and how it should be applied.  In that sense, it is a harmful title because it feeds
+into the notion that coverage testing is flawed, when it is people's over-reliance
+on it that is flawed.</p>
+
+<p>So maybe I should have titled it "What coverage measurement can't tell you," or
+"Coverage measurement can only take you so far," or "Where coverage measurement
+runs out of gas." Ironically, I think each of these are both more accurate and more
+sensational that the original title!</p>
+
+<p>I've certainly been guilty of writing purposefully sensational titles, like
+<a href='http://nedbatchelder.com/blog/200601/joel_spolsky_is_a_crotchety_old_man.html'>Joel Spolsky is a crotchety old man</a>,
+or attempted eye-catchers like
+<a href='http://nedbatchelder.com/blog/200901/dieting_cavemen_on_twitter.html'>Dieting cavemen on twitter</a>.
+Like all blog authors, I want people to read what I write, and a good title can
+help attract readers.  As it happens, the title in question wasn't too good!
+</p>
+
+<p>I sure hope I haven't harmed the cause of coverage testing, because I think
+it's a great thing and everyone should use it.  Be sure to catch my
+PyCon 2009 talk, "<a href='http://us.pycon.org/2009/conference/schedule/event/26/'>Coverage testing, the good and the bad</a>."
+Or should I call it, "Coverage testing is a very good thing, but it can't tell
+you everything you need to know to be sure your software is good, so please
+don't stop at 100%, there are other things you have to do"?</p>
+
+<p>And yes, the title of this post is a joke...</p>
+
+</body>
+</entry>
+</blog>

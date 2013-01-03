@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031201T090717'>
+<title>Bloglines</title>
+<category>feeds</category>
+<via />
+<body>
+<p><a href='http://www.bloglines.com'>Bloglines</a> is a web-based
+<a href='site/whatisrss.html'>RSS</a> feed reader.
+Many people don't like web-based interfaces, but I like Bloglines better than any
+of the other RSS readers I've tried.</p>
+
+<p>For one thing, the main thing I want an RSS reader to be is really an RSS-aware
+bookmark manager.  I much prefer to read blogs in their native HTML, because the
+different styles of the sites help me keep them straight, and make for a much
+richer experience.  So I mostly use Bloglines just to alert me when blogs have
+been updated, then take a quick look at the RSS to see if it's a topic I'm likely
+to want to read, and head over to the site itself if it is.</p>
+
+<p>But there are little things about Bloglines that make me appreciate it as well.
+It uses favicon.ico images for the feeds themselves (something
+<a href='blog/20030315T080735.html'>I've been looking for</a>),
+to help keep things from becoming too homogenized.
+And just this morning (via a comment at
+<a href='http://diveintomark.org'>diveintomark</a>), I discovered an extra nice
+little touch: when Bloglines reads your RSS, it uses an agent string that
+identifies itself as Bloglines (natch), but also includes the number of subscribers
+to the feed they are reading:
+</p>
+
+<code><![CDATA[
+Bloglines/1.0 (http://www.bloglines.com; 44 subscribers)
+]]></code>
+
+<p>Now this is a very slight thing, and only of interest to dorks who both publish
+RSS and read their server logs, but it is a pleasing bit of polish and it makes me
+appreciate Bloglines more.
+</p>
+
+</body>
+</entry>
+</blog>

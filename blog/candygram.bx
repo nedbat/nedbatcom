@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050901T073100'>
+<title>Candygram</title>
+<category>concurrency</category>
+<via href='http://www.sauria.com/blog'>Ted Leung</via>
+<body>
+<p>One of the temptations we developers face these days are all those sleek exotic languages that
+we'll never have time to master, even if we do manage to dip our toes in occasionally.
+Each has its proponents and its strengths, but we just don't have enough time to use them all.
+So isn't it great when another language's strengths can be brought into one we already know?
+</p>
+
+<p>Michael Hobbs has written <a href='http://candygram.sourceforge.net/'>Candygram</a>,
+an implementation of <a href='http://www.erlang.org/'>Erlang</a>'s concurrency primitives in Python.
+And he's got a sense of humor about it.  From the FAQ:
+</p>
+
+<quote>
+<p>6.1 Why is the package named Candygram?</p>
+<p>The name Candygram is actually an acronym for "the Candygram Acronym Does Not Yield a Good Reference to Anything Meaningful."
+</p>
+
+<p>6.2 But wait, doesn't that spell CADNYGRAM?</p>
+<p>Yes, you are quite observant. In order to form a compromise with the French acronym, which is CANYDGRAM, the Candygram committee standardized the official acronym as CANDYGRAM.
+</p>
+</quote>
+
+</body>
+</entry>
+</blog>

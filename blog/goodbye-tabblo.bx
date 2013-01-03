@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120131T203536'>
+<title>Goodbye Tabblo</title>
+<category>tabblo</category>
+<body>
+
+    <p>A short recap of my history with <a href='http://tabblo.com'>Tabblo</a>,
+        a photo-sharing, storytelling site: I joined the startup in January
+        2006, we were acquired by Hewlett-Packard in May 2007, and I left HP in
+        December of 2010.</p>
+
+    <p>I mention this because another milestone in my relationship with Tabblo
+        was reached this month: not only are all of the original startup
+        employees gone from HP (I was the last), but now all of the employees I
+        hired to work on the server code are also gone.  Now I literally don't
+        know the people responsible for the site.  In this case, "responsible"
+        doesn't mean, "updates the code for the site," because nothing has been
+        changed on the site in years.  In this case, "responsible" means "will
+        fix the servers if they fail."</p>
+
+    <p>As I figure it, there's only one milestone left to go: tabblo.com will eventually
+        stop working, and no one will know how to fix it, and tabblo.com will
+        be gone for good. Computers don't run indefinitely.  Left alone,
+        servers will go for a long time, but eventually something will break.
+        I don't think anyone at Hewlett-Packard will miss tabblo.com, and I
+        don't think anyone there would know how to fix it if it broke.</p>
+
+    <p>I loved Tabblo, both as a job and as a product, and I have a message for 
+        the current Tabblo users: leave Tabblo. I know there aren't similar
+        alternatives, but Tabblo will not last forever. You should leave while
+        it is still your choice.</p>
+
+    <figurep href='http://tabblo.com'>
+        <img src='pix/sad-tabblo.gif' alt='Sad Tabblo'/>
+    </figurep>
+
+    <p>If the past is any guide, some Tabblo users will want to do something to
+        make HP care, to make them pay attention and take care of Tabblo.  This
+        is futile, HP won't care, not because HP is bad, but because Tabblo is
+        not a viable business.  True, that's partly due to HP's neglect of it
+        over the years, but even when we were acquired, the site was not an
+        interesting business proposition for HP.</p>
+
+    <p>When HP bought us, they already had a photo site, <a href='http://snapfish.com'>Snapfish</a>.  
+        It isn't a community the way Tabblo is, and it doesn't allow for the
+        same range of self-expression as Tabblo does.  But none of that
+        mattered.  Whatever you think of Tabblo vs Snapfish, the fact remains:
+        HP was never interested in Tabblo as a web site.  Snapfish already had
+        millions of customers, and generated revenue for HP.  HP wasn't about 
+        to confuse people by running two photo sites, and there weren't
+        enough paying customers on Tabblo to make merging them a priority.
+        Tabblo was never a money-maker at the scale a company like HP
+        needs.</p>
+        
+    <p>HP didn't acquire Tabblo to get tabblo.com. They acquired Tabblo so that
+        we could build other web sites that used Tabblo-like technology to make
+        web content printable. Tabblo.com was left running because it was
+        easier to let it run than to shut it down. As time went on, other web
+        sites were run with the same code on the same servers, so shutting down
+        Tabblo was tricky logistically.  Now those other web sites are gone,
+        and Tabblo just keeps on running.  With the latest employee departures,
+        no one at HP even knows how to shut it down, other than to simply pull
+        the plug.</p>
+
+    <p>The Tabblo site is still running, but it won't indefinitely.  When it
+        fails, it will be gone.  I'm not putting any more pictures on it, and I
+        don't think anyone else should either.</p>
+
+    <p>The only reason I don't feel bad about saying this is that Tabblo
+        stopped being a viable site a long time ago, and we confronted the
+        possibility of it disappearing a long time ago too.  There were various
+        rumblings over the years of someone at HP finally deciding to shut down
+        the site, but it never happened.  Ironically, the reason the site will
+        be allowed to run until it simply dies is because HP knows they
+        shouldn't just shut off the servers.  They know that the users deserve
+        some advance notice, that a plan should be put in place for an orderly
+        shut down.  But that takes time and attention and focus, and Tabblo
+        isn't important enough to HP to get time or attention or focus.  So it
+        will simply run until it dies.</p>
+
+    <p>Keep in mind: I don't work at HP, and I don't have any direct knowledge
+        about anything happening there.  Maybe things are better than I imagine.
+        But I saw these forces at work while I was there, and I've been in touch
+        with the last ones out the door to know that nothing had gotten visibly better.</p>
+
+    <p>My last Tabblo work was writing <a href='code/save_tabblos.html'>Tabblo Lifeboat</a>,
+        a tool you can use to download all of your tabblos along with their photos.
+        If you have stuff on Tabblo, give it a try.</p>
+
+    <p>To the current users of Tabblo: find something else.  Goodbye Tabblo, I
+        love you in lots of ways, I wish it had turned out differently.  It was
+        fun. I did the best I could.</p>
+
+    <!--
+    - I don't know who would fix the Tabblo servers if they were to fail.
+    - That probably means that no one will.
+    - Servers fail eventually.
+
+    - You should stop using Tabblo, because it will disappear without warning.
+    - HP doesn't care if tabblo.com works, and they basically never did.
+    - Don't try to get HP to change their mind, they won't.
+    - I don't blame them, the tabblo.com community, though vibrant, is tiny.
+    - Could it have been otherwise?   Perhaps.  But it isn't.
+
+        - all_tabblos.py
+            - Can use to harvest tabblos from the site.
+            - Won't get comments.
+            - Will get full-size photos.
+            - Will get HTML replicating the layout.
+    -->
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050111T192559'>
+<title>Generalizing Overloading for C++2000</title>
+<category>cpp</category>
+<via href='http://borkware.com/miniblog/'>Borkware Miniblog</via>
+<body>
+<p>Bjarne Stroustrup has written a very interesting paper outlining some radical ideas for
+operator overloading:
+<a href='http://www.research.att.com/~bs/whitespace98.pdf'>Generalizing Overloading for C++2000</a>.
+He includes the notion of overloading no operator at all, so that "x y" can mean "x*y" the way
+physicists and mathematicians want it to mean.
+</p>
+
+<p>Note: I got about halfway through this before realizing it was a joke...</p>
+
+</body>
+</entry>
+</blog>

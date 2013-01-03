@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070314T112230'>
+<title>XSS bestiary</title>
+<category>malware</category>
+<category>security</category>
+<category>webpage</category>
+<body>
+<p>Protecting a web site against
+<a href='http://en.wikipedia.org/wiki/Cross_site_scripting'>cross-site scripting</a>
+attacks can be a daunting challenge.  Roughly speaking, you have to ensure that
+no executable script can be inserted into your pages by your users.  But browsers
+are famously accepting of mis-formed HTML.  Figuring out what strings
+of text might contain executable script requires understanding all of the variety
+of interpretations browser will bestow on crappy HTML.  If you assume a pristine
+universe of correctly-formed HTML, you are opening yourself up to attacks which
+exploit oddball edge cases.</p>
+
+<p>RSnake (Robert Hansen) has compiled a list of all sorts of strings which
+could be interpreted as executable script by various browsers: 
+<a href='http://ha.ckers.org/xss.html'>XSS Cheat Sheet</a>.  It's a fascinating
+look at the alternative representations for familiar constructs (http scheme names
+can have tabs in them?), and a sobering demonstration of the ingenuity and
+technical depth that bad guys can bring to bear on cracking your site.
+</p>
+
+<p>The <a href='http://ha.ckers.org/'>ha.ckers</a> blog describes new exploits and
+vulnerabilities as they are discovered, and can also be a useful source of information.
+</p>
+</body>
+</entry>
+</blog>

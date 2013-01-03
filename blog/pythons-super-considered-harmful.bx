@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070929T071632'>
+<title>Python's super (considered harmful)</title>
+<category>python</category>
+<body>
+<p>I have long been confused by the super() function in Python.  It's used to
+call a method on the base class of an object.  Why not simply invoke the base
+class directly, like we used to?
+</p>
+
+<code lang='python'>
+class Derived(Base):
+    def __init__(self):
+        super(Derived, self).__init__()     # Right
+        # Base.__init__(self)               # WRONG!
+</code>
+
+<p>And shouldn't the argument to super be Base, not Derived?  It doesn't seem
+to make any sense.  I finally was truly confused when deriving a class from
+two base classes.  If I only have one call to super, how do I make sure that
+both base class methods get called?  Poking around for an answer, I finally
+found a good explanation of what super() is for.  Ironically, it is a polemic
+about why super() is no good: <a href='http://fuhm.net/super-harmful/'>Python's Super Considered Harmful</a>.
+Skip the part about Dylan, and read about the Python, and finally understand...</p>
+
+<p>It turns out multiple inheritance is where everything is cleared up, and where
+the problems are that super() is actually solving.  In a strictly single-inheritance
+world, the old style of calling the base class methods works fine.  In multiple
+inheritance, you can't actually predict what class you'll call.</p>
+
+</body>
+</entry>
+</blog>

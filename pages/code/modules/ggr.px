@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='ggr'>
+<history>
+<what when='20070915T173000'>Created.</what>
+</history>
+
+<p>Ggr.py reads <a href='http://www.gimp.org'>Gimp</a> .ggr gradient files,
+providing a Python interface to get color values from them. There are only
+two methods on GimpGradient:</p>
+
+<ul>
+<li>read(f) reads a .ggr file from f, either an open file or a file path.
+The constructor also take an optional file to read as an argument.</li>
+<li>color(pos) takes a position between 0 and 1 and returns the rgb color at that
+point along the gradient.</li>
+</ul>
+
+<code lang='python'>
+>>> import ggr
+>>> g = ggr.GimpGradient('Sunrise.ggr')
+>>> g.color(.25)
+(0.95501612668614855, 0.91457275670187077, 0.74046874445166)
+>>> g.color(.5)
+(0.83733161389613664, 0.37510844064480114, 0.23112679845322415)
+>>> g.color(.75)
+(0.42744738324707615, 0.52517311887199969, 0.83543339174375486)
+</code>
+
+<p>This Python code is in the public domain.</p>
+
+<download file='ggr.py' path='code/modules/ggr.py' />
+
+<h1>See also</h1>
+
+<ul>
+<li><a href='http://pdfb.wiredworkplace.net/cpt-city/www/'>cpt-city</a>, a large collection of gradients.</li>
+<li><a href='blog'>My blog</a>, where I occasionally post about other intersections of coding and graphics.</li>
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

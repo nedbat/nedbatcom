@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100414T064853'>
+<title>Web development peeve</title>
+<category>webpage</category>
+<category>python</category>
+<via />
+<body>
+<p>OK, in the scheme of things, this is really minor, but it irks me.  Wouldn't
+it have been great if the <a href='http://tools.ietf.org/html/rfc3986#section-3.4'>query component</a>
+of a URL started with an ampersand instead of a question mark?
+</p>
+
+<p>How many times do we have to write something like this:</p>
+
+<code lang="js"><![CDATA[
+// Add foo onto the URL params
+params += params ? "&" : "?";
+params += "foo=1723";
+]]></code>
+
+<p>If the query component started with ampersand, we could just tack on "&amp;foo=1723"
+and be done with it.  From a whole-URL view, there's some sense to separating
+the query and the path with a distinct character like question mark, but it's
+not like it would have been unparseable to say the query component starts with
+the first ampersand.</p>
+
+<p>Next time we'll get it right... :)</p>
+
+<p>And while we're on the subject, why has the Python library got the tools to
+deal with URLs as structured data spread across three different modules?
+Turns out it doesn't take much to pull them all together into a Url class that
+can help with URL construction and parsing tasks:</p>
+
+<code lang='python'><![CDATA[
+import cgi, urllib, urlparse
+
+class Url(object):
+    """A structured URL.
+    
+    Create from a string or Django request, then read or write the components
+    through attributes `scheme`, `netloc`, `path`, `params`, `query`, and
+    `fragment`.
+    
+    The query is more usefully available as the dictionary `args`.
+    
+    """
+    def __init__(self, url):
+        """Construct from a string or Django request."""
+        if hasattr(url, 'get_full_path'):
+            url = url.get_full_path()
+        
+        self.scheme, self.netloc, self.path, self.params, \
+            self.query, self.fragment = urlparse.urlparse(url)
+        self.args = dict(cgi.parse_qsl(self.query))
+
+    def __str__(self):
+        """Turn back into a URL."""
+        self.query = urllib.urlencode(self.args)
+        return urlparse.urlunparse((
+            self.scheme, self.netloc, self.path, self.params,
+            self.query, self.fragment
+            ))
+]]></code>
+
+<p>Now I can do stuff like:</p>
+
+<code lang='python'><![CDATA[
+# Redirect to one of our canonical hosts, with an extra arg.
+url = Url(request)
+url.netloc = THE_SECURE_HOST if request.is_secure() else THE_HOST
+url.args['from'] = request.get_host()
+return http.HttpResponseRedirect(str(url))
+]]></code>
+
+<p>This takes care of all the Url syntax logic for me, so I don't have to think
+about question marks and ampersands ever again.</p>
+
+</body>
+</entry>
+</blog>

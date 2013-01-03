@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050221T221243'>
+<title>C&#x03C9;</title>
+<category>proglang</category>
+<category>csharp</category>
+<via href='http://www.cabezal.com/blog/'>Hugh's ramblings</via>
+<body>
+<p><a href='http://research.microsoft.com/Comega/doc/comega_whatis.htm'>C&#x03C9;</a>
+(get it? C-omega, the last C) is an extension to C# from Microsoft Research.
+It provides native XML and SQL support, but more interestingly, it provides
+new models for asynchrony.
+In particular is the notion of asynchronous methods, and the even more exotic
+"chords".  A chord is a method body associated with a number of method signatures.
+The body runs only once all of the method signatures have been invoked!
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100103T145621'>
+<title>D. Richard Hipp's software universe</title>
+<category>coverage</category>
+<category>srcctrl</category>
+<body>
+<p>You may not have heard the name D. Richard Hipp, but you've used his
+software: <a href='http://sqlite.org/'>SQLite</a> is his creation, and it's
+everywhere.  SQLite is an impressive piece of work, but it's not alone.  Along
+the way, Hipp also wrote <a href='http://www.hwaci.com/sw/lemon/'>LEMON</a>, his
+own parser generator for parsing SQL in SQLite.</p>
+
+<p>And now he has his own distributed source control,
+<a href='http://www.fossil-scm.org'>Fossil</a>, which hosts the SQLite
+development stream. Fossil is interesting because it's also a distributed wiki
+and bug tracker, kind of like Trac meets Mercurial or something. As with all of
+his work, the Fossil documentation is very clear about the design principles and
+internals, again, very impressive.</p>
+
+<p>SQLite's documentation includes a detailed page about
+<a href='http://sqlite.org/testing.html'>how it is tested</a>, including how
+its <a href='http://sqlite.org/testing.html#coverage'>coverage is measured</a>.
+Needless to say, it is well measured: 100% condition coverage! The description
+there of the use of C macros to enhance measurement is a good example of how
+macros can be extremely useful in building complex software, and makes me wish
+for something with similar capabilities in Python.
+</p>
+
+<p>I admire Hipp's output, but I worry that it might be somewhat insular.  SQLite
+obviously has great acceptance, but what will happen to Fossil?  It has a huge
+uphill climb to get users, what with Git and Mercurial slugging it out, and
+a <a href='http://en.wikipedia.org/wiki/List_of_revision_control_software'>dozen others</a>
+competing for attention.</p>
+
+<p>It's the age-old dilemma about using the best technology or the most widely accepted.
+In this case, I don't even know if Fossil is better than the alternatives.  At this
+point it doesn't have the critical mass that would even move it from the
+Curiosities category to the Look Into It list.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050308T221347'>
+<title>Properties vs. public members</title>
+<category>coding</category>
+<category>csharp</category>
+<via />
+<body>
+<p>I've been using <a href='http://www.gotdotnet.com/team/fxcop/'>FxCop</a> to lint my
+C# code.  It's a very impressive tool.  It uses introspection to analyze .NET assemblies
+and report on all sorts of problems.  Like most tools of this sort, some of the suggestions are
+useful, some are just noise, and some seem contrary to progress.
+</p>
+
+<more>
+
+<p>One of the things it's bothered about is public members in classes.
+If you write code like this:</p>
+
+<code lang='cs'><![CDATA[
+// version 1
+class MyClass
+{
+    public string MyString;
+}
+]]></code>
+
+<p>then FxCop will complain and direct you to this explanation:
+<a href='http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Design/DoNotDeclareVisibleInstanceFields.html'>Do not declare visible instance fields</a>.
+The guidance directs you to rewrite it like this:
+</p>
+
+<code lang='cs'><![CDATA[
+// version 2
+class MyClass
+{
+    private string myString;
+
+    public string MyString
+    {
+        get { return myString; }
+        set { myString = value; }
+    }
+}
+]]></code>
+
+<p>The reason given for all the extra verbiage is to avoid exposing implementation details.
+But this seems misguided to me.  After all, the caller of version 1 writes something
+like this:</p>
+
+<code lang='cs'><![CDATA[
+MyClass myobj = new MyClass();
+myobj.MyString = "little bunny foo-foo";
+]]></code>
+
+<p>while the caller of version 2 writes something like this:</p>
+
+<code lang='cs'><![CDATA[
+MyClass myobj = new MyClass();
+myobj.MyString = "little bunny foo-foo";
+]]></code>
+
+<p>That's right: they're exactly the same.  So how have I exposed an implementation
+detail?  I could start with version 1, and change it to version 2, and no calling
+code would have to change at all.  Ergo, the implementation is not exposed.
+</p>
+
+<p>The FxCop documentation takes pains to point out that version 2
+is optimized to be as efficient as version 1.
+But I still have to write and later wade through those extra lines of code, and for what?
+</p>
+
+<p>Am I missing something because I'm a C# and .NET newbie?  In Python,
+<a href='http://dirtsimple.org/2004/12/python-is-not-java.html'>getters and setters
+are superfluous</a>.  Is C# so different?</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

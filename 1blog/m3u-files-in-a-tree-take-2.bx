@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040104T192724'>
+<title>M3u files in a tree, take 2</title>
+<category>music</category>
+<category>mycode</category>
+<via />
+<body>
+<p>In November, I wrote about creating
+<a href='blog/200311.html#e20031105T205652'>m3u files in a tree</a>,
+and posted a simple solution.
+It turns out there's a serious drawback to creating m3u files with just
+the file name: when Winamp loads the playlist, it reads all the files
+to find out how long they are, which can take a long time (minutes)
+with a very large playlist.  This is annoying.
+I've put some more effort into it, and now I have a better solution.
+</p>
+
+<more>
+
+<p>The whole thing started because
+<a href='blog/200311.html#e20031102T135849'>I didn't know how</a>
+to find the duration of an MP3 file, and the November solution was a
+neat sidestep around the whole issue, but I guess not as neat as I would
+have liked.</p>
+
+<p>Well, in December, Simon posted about
+<a href='http://simon.incutio.com/archive/2003/12/04/mp3lengths'>extracting the length from MP3 files</a>,
+mentioning a spotty solution.
+In one of the comments to that post,
+<a href="http://ibofobi.dk/">Sune Kirkeby</a> posted a link to his
+<a href="http://ibofobi.dk/svn/Jukebox/jukebox/mp3.py">mp3.py</a>,
+which does an admirable job of divining the length of the song.
+It turns out not to be too hard, but involves a lot of fiddly interpretation of bitfields,
+and close reading of specs, so I'm glad someone else has already done the hard work.
+</p>
+
+<p>Armed with that piece of the puzzle,
+I attacked the problem of reading the ID3 metadata with renewed vigor
+(see the <a href='blog/200401.html#e20040104T075802'>id3reader</a> post earlier today),
+and now I can create full-featured m3u files.</p>
+
+<p>The complete utility is
+<a href='code/utilities/m3utree_py.html'>m3utree.py</a>.
+It works great for my files.</p>
+
+<p>Back in November, several readers complained about non-ascii characters gumming up
+the works.  I've tried to take that into account, but if you have problems,
+send me an
+<a href='mailto:ned@nedbatchelder.com?subject=m3utree+did+not+work'>email</a>
+with details (the name of the file, the version of Python,
+and whatever else strikes your fancy).</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

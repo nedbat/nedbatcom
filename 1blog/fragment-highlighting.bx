@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040620T094336'>
+<title>Fragment highlighting</title>
+<category>webpage</category>
+<category>site</category>
+<category>js</category>
+<via />
+<body>
+<p>Another JavaScript goodie for this site:
+Now if you follow a URL with a fragment (that is, a hash-mark indicating a particular
+entry on the page), the entry is highlighted when you get there.
+This makes it easier to find particular blog entries,
+since I don't typically have a page per entry.
+For example, the <a href='blog/archive2004.html'>yearly archive</a> pages are full of fragment links.
+David Dorward's <a href='http://dorward.me.uk/software/frag/'>Fragment Highlight</a> script
+was a good crib sheet, and is more sophisticated than mine.  If you want to do something
+like this, his script is a good place to start.
+</p>
+</body>
+</entry>
+</blog>

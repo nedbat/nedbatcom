@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040113T062537'>
+<title>Updated ID3 tools</title>
+<category>mycode</category>
+<via />
+<body>
+<p>I've updated my ID3 tools
+(the <a href='code/modules/id3reader.html'>id3reader</a> module and the
+<a href='code/utilities/m3utree_py.html'>m3utree</a> utility)
+based on feedback from people who tried them.
+Thanks in particular to
+<a href='http://lykoszine.co.uk/'>Samuel Wright</a> (11 email roundtrips)
+and Kris W. and Mark Williamson (4 roundtrips each)
+for making useful suggestions and being patient while the kinks were hammered out.
+</p>
+
+<p>If you tried them earlier and had problems, try them again, and
+<a href='mailto:ned@nedbatchelder.com'>let me know</a>
+if something is amiss.
+Sune Kirkeby also updated his <a href='http://ibofobi.dk/svn/Jukebox/jukebox/mp3.py'>mp3.py</a>
+file to deal with extra information quietly, so you may want to grab that again if you
+had difficulty in that regard.
+</p>
+</body>
+</entry>
+</blog>

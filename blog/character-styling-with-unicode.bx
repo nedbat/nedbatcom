@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050522T174437'>
+<title>Character styling with Unicode</title>
+<category>mac</category>
+<category>charset</category>
+<via />
+<body>
+<p>I mentioned <a href='http://quicksilver.blacktree.com/'>Quicksilver</a>
+<a href='blog/200409.html#e20040928T070525'>back in September</a>.
+One of the unusual things about it is its attention to cosmetic detail.
+This even extends to its name.  Even in the Finder, the name appears in
+small caps, with the version number in subscripts.  How do they do that?
+How can the name of a file include styling information like that?
+</p>
+
+<p>It can't.  It's another Unicode trick.  The filename isn't "QuicksilverB36",
+it's "Qu&#x0131;c&#x0138;s&#x0131;l&#x2174;&#x03b5;&#x0280;&#x1d66;&#x2083;&#x2086;".
+(The cosmetics of this will depend on your browser's support for some very unusual characters.)
+Some of these are the letters you think they are, others are not.  They are actually:
+</p>
+
+<code><![CDATA[
+0051 LATIN CAPITAL LETTER Q
+0075 LATIN SMALL LETTER U
+0131 LATIN SMALL LETTER DOTLESS I
+0063 LATIN SMALL LETTER C
+0138 LATIN SMALL LETTER KRA
+0073 LATIN SMALL LETTER S
+0131 LATIN SMALL LETTER DOTLESS I
+006C LATIN SMALL LETTER L
+2174 SMALL ROMAN NUMERAL FIVE
+03B5 GREEK SMALL LETTER EPSILON
+0280 LATIN LETTER SMALL CAPITAL R
+1D66 GREEK SUBSCRIPT SMALL LETTER BETA
+2083 SUBSCRIPT THREE
+2086 SUBSCRIPT SIX
+]]></code>
+
+<p>(I looked these up in <a href='http://www.unicode.org/Public/UNIDATA/UnicodeData.txt'>UnicodeData.txt</a>
+from the Unicode consortium.)</p>
+
+<p>Why do some of these exist as subscript variants when their neighbors do not?  Because they
+are parts of other "alphabets".  For example, 0280, Latin Letter Small Capital R, does not follow
+a small Q, it is part of the International Phonetic Alphabet. And the K is actually a Kra, which
+is Greenlandic!</p>
+
+<p>Quicksilver has cherry-picked characters that look right, and by using Unicode, have managed
+to sneak their styling into "plain text" that can be used as a filename.</p>
+
+</body>
+</entry>
+</blog>

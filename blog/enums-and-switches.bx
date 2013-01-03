@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050509T071847'>
+<title>Enums and switches</title>
+<category>python</category>
+<via />
+<body>
+<p>The two most-often missed language features from Python are enums and switches.
+Recently, there seem to be a new crop of recipes at the Python Cookbook for implementing
+these.  These two seem pretty good:
+</p>
+
+<ul>
+<li><a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/413486'>First class enums in Python</a></li>
+<li><a href='http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/410692'>Readable switch construction without lambdas or dictionaries</a></li>
+</ul>
+
+<p>These are interesting for a few reasons: first, you can use them if you want to have
+enums or switches at your disposal in your Python code.  Second, reading them and understanding
+how they are constructed usually provides a mini-tutorial in some dark corner of Python semantics.
+And third, the debate that springs up around them is usually rich in programming language
+philosophy and implementation topics.</p>
+
+</body>
+</entry>
+</blog>

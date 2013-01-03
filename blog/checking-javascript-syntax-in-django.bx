@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20101010T085330'>
+<title>Checking Javascript syntax in Django</title>
+<category>django</category>
+<category>js</category>
+<body>
+<p>Older versions of Internet Explorer have a problem with some legal Javascript
+    syntax, namely, a comma appearing after the last element of a list:</p>
+
+<code lang='js'><![CDATA[
+var things = [
+    "thing 1",
+    "thing 2",
+    ];
+]]></code>
+
+<p>We happen to have a number of data tables like this that have to be maintained
+    by hand. We are pretty good about testing real code changes in a number
+    of browsers, but we've had problems where we "just" changed data, and skipped IE.
+    When moving lines around in these tables, it's very easy to leave a trailing comma,
+    and most browsers don't care.  But IE completely gives up on the rest of the
+    file, and when multiple files are concatenated and compressed together, that
+    means giving up on much of our Javascript code, and things don't work right.</p>
+
+<p>Finding problems like this is the kind of thing computers are good at, so why
+    not let them.  One idea was a checkin hook, but I figured we could 
+    detect it earlier than that.  By using Django middleware, we could check the
+    files for problems as soon as the next request to the developer's server,
+    and the developer wouldn't be able to continue with their work until the 
+    problem was fixed.</p>
+
+<p>Django middleware has a very useful feature that I've exploited a few times
+    recently: the __init__ is run before any requests are handled, and it can
+    raise MiddlewareNotUsed, which will remove the middleware for good after that.
+    This makes it a good way to do something once on startup.
+</p>
+
+<p>Here's a middleware implementation to check a set of Javascript files for this
+    particular error:</p>
+
+<code lang="py"><![CDATA[
+class CheckJavascriptMiddleware(object):
+    """Find annoying Javascript errors."""
+
+    # Text that would trigger the alarm, but are actually ok.
+    dont_alarm_patterns = [
+        r"\{\d+,\}",        # in base.js:           {20,}
+        r"\[\\\.,]",        # in jquery-1.4.2.js:   [\.,]
+        ]
+
+    def __init__(self):
+        self.errors = []
+
+        # Get the file names from the django-compress setting.
+        for specs in settings.COMPRESS_JS.values():
+            for filename in specs['source_filenames']:
+                self.check_file(filename)
+
+        if not self.errors:
+            # No errors, so get rid of this middleware.
+            raise MiddlewareNotUsed()
+
+    def check_file(self, filename):
+        js = open(filename, "r").read()
+        # Remove any false alarm text.
+        for pat in self.dont_alarm_patterns:
+            js = re.sub(pat, "", js)
+        # See if any problems remain.
+        m = re.search(r",\s*[\]\}]", js)
+        if m:
+            self.errors.append((filename, "trailing comma"))
+
+    def process_request(self, request):
+        # This won't get called if there were no errors, 
+        # because the middleware will be removed.
+        html = "<h1>Please fix these errors</h1>" 
+        for filename, problem in self.errors:
+            html += "<p>%s in %s</p>" % (problem, filename)
+        return HttpResponse(html)
+]]></code>
+
+<p>Note here that we only raise the exception to remove the middleware if
+    there were no errors.  If there were, we leave the middleware in place,
+    and obnoxiously return a "Please fix" message for every request.  I figure
+    that should be noticeable enough that the developer won't check in extra
+    commas, or if they do, will earn the ire of every other developer, a 
+    strong deterrent for the future.</p>
+
+<p>We use <a href="http://code.google.com/p/django-compress/">django-compress</a> 
+    to concatenate and compress our Javascript files, so this middleware can simply
+    use its settings to find the files to check.  You may need to change the code 
+    to get your source file names some other way.</p>
+
+<p>Of course, the Javascript "parsing" here is ridiculously simplistic, and the
+    list of patterns not to alarm on is also simplistic, but it gets the job
+    done for us.  A smarter parser or other form of linter could be 
+    incorporated into similar machinery.  Even if it is simplistic, 
+    I like the idea of my code checking my code for me.</p>
+
+</body>
+</entry>
+</blog>

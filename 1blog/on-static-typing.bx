@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040810T090045'>
+<title>On static typing</title>
+<category>proglang</category>
+<via />
+<body>
+<p>After a small project of mine was converted from Python to C#,
+I have a new-found admiration for Python's dynamic typing,
+and other cool features like named arguments in function calls.
+I have come to believe this about static typing:
+</p>
+
+<box>Static typing prevents certain kinds of failures.
+Unfortunately, it also prevents certain kinds of successes.</box>
+
+</body>
+</entry>
+</blog>

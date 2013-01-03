@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031118T073555'>
+<title>IE difficulties: link targets</title>
+<category>webpage</category>
+<category>windows</category>
+<category>help</category>
+<via />
+<body>
+<p>I've been screwing around with the behind the scenes stuff on this site,
+and a few things about IE caused me some head-scratching.  Maybe a reader out
+there knows an answer. One of the problems is link targets.
+</p>
+
+<more>
+
+<p>The archive links to old blog content
+(for example, at the bottom of the main blog page)
+weren't working properly in IE6.
+They would navigate to the proper page, but the fragment identifier (you know,
+the part after the hash mark) wasn't scrolling the page to the proper place.
+The HTML for a blog entry looked like this (slightly simplified!):</p>
+
+<code lang='html'><![CDATA[
+<div class="blog-entry" id="e20031118T071446">
+  <div class="head">
+    <h3 id="h_A_sufficiently_large_program" class="title">
+      <a href="blog/200311.html#e20031118T071446">
+]]></code>
+
+<p>IE wouldn't use the id attribute of the div as a link target.  Why not?
+Changing the HTML to this fixed the problem:</p>
+
+<code lang='html'><![CDATA[
+<div class="blog-entry">
+  <div class="head">
+    <h3 id="h_A_sufficiently_large_program" class="title">
+      <a href="blog/200311.html#e20031118T071446" name="e20031118T071446">
+]]></code>
+
+<p>Anyone know why IE6 won't jump to &lt;div id=''> tags?</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

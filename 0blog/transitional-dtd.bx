@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020620T225605'>
+<title>Toward a more accessible blog</title>
+<category>webpage</category>
+<category>site</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>As a result of
+<a href='http://diveintomark.org/'>Mark Pilgrim's excellent "accessible blog"</a>
+series, and in particular, his
+<a href='http://diveintomark.org/archives/2002/06/17.html#day_6_choosing_a_doctype'>
+Day 6: Choosing a DOCTYPE</a>,
+I put the effort in tonight to make these pages valid HTML 4.01,
+with a DTD and everything.  I'm hoping to follow along with the other suggestions
+in the series.
+</p>
+
+<p align='center'>
+<a href="http://validator.w3.org/check/referer">
+<img border="0"
+        src="http://www.w3.org/Icons/valid-html401"
+        alt="Valid HTML 4.01!" height="31" width="88"/></a>&#160;&#160;
+<a href="http://jigsaw.w3.org/css-validator/">
+  <img style="border:0;width:88px;height:31px"
+       src="http://jigsaw.w3.org/css-validator/images/vcss"
+       alt="Valid CSS!"/>
+</a>
+</p>
+
+<p>I like the goals of Mark's series, and I like the way he's going about it.
+As a developer, I appreciate guidelines like this that explain what to do, and
+what I'll get for the effort.  The explanation of benefits is especially important
+in this case, because many of the benefits are either "invisible" (since they don't
+affect the rendering of the page that most of us see), or are only visible to
+a small set of people.
+</p>
+
+</body>
+</entry>
+</blog>

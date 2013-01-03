@@ -1,0 +1,153 @@
+% stirstar.ps
+% Draw pictures of coffee stirrer stars.
+% Ned Batchelder, 12/2003
+% http://nedbatchelder.com
+
+% val array `in' bool
+% Is the value in the array?
+/contains {
+	false 3 1 roll			% stack: bool0 val array
+	% iterate over the array passed in.
+	{
+							% stack: bool0 val aval
+		1 index eq			% stack: bool0 val bool
+		3 2 roll			% stack: val bool bool0
+		or exch				% stack: bool0 val
+	} forall
+	pop
+} def
+
+% x y r (str) `callout' -
+/callout {
+	10 dict begin
+	/t exch def
+	/r exch def
+	/y exch def
+	/x exch def
+
+	gsave
+	/Helvetica findfont r 1.6 mul scalefont setfont
+	x y moveto
+	t stringwidth pop -2 div r -.55 mul rmoveto
+	t show
+	newpath .2 setlinewidth
+	x y r 0 360 arc stroke
+	grestore
+	end
+} def
+
+% - `drawstick' -
+% Draw a single stick.
+/drawstick {
+	0 stickw moveto
+	stickl 0 stickw 90 270 arcn
+	stickl -1 mul 0 stickw 270 90 arcn
+	closepath
+} def
+
+% stickw stickl starr [stickorder] [stickstodraw] `drawstar' -
+
+/drawstar {
+	20 dict begin
+	gsave
+
+	/sticks2draw exch def
+	/stickorder exch def
+	/starr exch def
+	/stickl exch def
+	/stickw exch def
+
+	/nsticks stickorder length def
+	/wedgeangle 360 nsticks div def
+
+	% Loop over nsticks wedges
+	0 1 nsticks 1 sub {
+		/nwedge exch def
+		gsave
+
+		% clip to this wedge
+		6 array currentmatrix
+		wedgeangle 6 div rotate
+		0 10000 moveto 0 0 lineto
+		wedgeangle rotate
+		0 10000 lineto closepath clip
+		debugbg {
+			.3 nsticks div nwedge mul .5 add setgray fill
+		} if
+		newpath
+		setmatrix
+
+		% draw the star, placing sticks in the order specified.
+		stickorder {
+			/nstick exch def
+
+			/nfixedstick nstick nwedge add nsticks mod def
+
+			nfixedstick sticks2draw contains {
+				gsave
+				nstick wedgeangle mul rotate
+
+				0 starr translate
+				drawstick
+
+				gsave stickfill fill grestore
+				stickline stroke
+				grestore
+			} if
+		} forall
+
+		grestore
+		wedgeangle rotate
+	} for
+
+	grestore
+	end
+} def
+
+/stickline { 0 setgray } def
+/stickfill { 233 256 div 194 256 div 166 256 div setrgbcolor } def
+/debugbg false def
+
+1.5 setlinewidth
+
+gsave
+100 700 translate
+.6 .6 scale
+
+1 1 4 {
+	/nstep exch def
+	5 116 25 [ 1 0 2 4 3 ] [ 1 3 2 4 0 ] 0 nstep 1 add getinterval drawstar
+	-116 -35 15 nstep 5 string cvs callout
+	350 0 translate
+	nstep 2 eq {
+		-700 -300 translate
+	} if
+} for
+grestore
+
+gsave
+100 300 translate
+.6 .6 scale
+5 116 50 [ 1 0 2 4 3 5 ] dup drawstar
+
+300 0 translate
+5 116 65 [ 1 0 2 4 3 5 6 ] dup drawstar
+
+300 0 translate
+4 116 26 [ 6 1 2 0 4 3 5 ] dup drawstar
+grestore
+
+gsave
+100 100 translate
+.6 .6 scale
+
+5 116 25 [ 1 0 2 4 3 ] dup drawstar
+
+300 0 translate
+5 116 50 [ 1 0 2 4 3 5 ] dup drawstar
+
+300 0 translate
+5 116 65 [ 1 0 2 4 3 5 6 ] dup drawstar
+grestore
+
+showpage

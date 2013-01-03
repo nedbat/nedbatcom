@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021210T080201'>
+<title>STL iterators can be char*</title>
+<category>cpp</category>
+<via id='google'/> <!-- id= or href= -->
+<body>
+<p>Here's a handy fact about the C++ Standard Template Library that I didn't know:
+a char* (or any other pointer) is a valid iterator.  This is because it is all templates,
+and iterators are anything that supports increment (++), and indirection (*); and whose
+elements support things like equality (==) and assignment (=).</p>
+
+<p>For example, to search one chunk of memory for another chunk:</p>
+
+<code lang='c++'><![CDATA[
+#include <algorithm>
+
+char * pBuf = /* start of buffer to search */
+char * pBufEnd = /* just past end of buffer */
+char * pFind = /* data to find */
+char * pFindEnd = /* just past end of data */
+
+char * pFound = std::search(pBuf, pBufEnd, pFind, pFindEnd);
+]]></code>
+
+<p>Just be careful: if the data isn't found, search returns pBufEnd, not NULL!</p>
+
+<p>Found this in the
+<a href='http://www.experts-exchange.com/Programming/Programming_Languages/Cplusplus/'>C++ forum</a>
+at <a href='http://www.experts-exchange.com'>Experts Exchange</a>.
+</p>
+</body>
+</entry>
+</blog>

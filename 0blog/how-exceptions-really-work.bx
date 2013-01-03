@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031003T133045'>
+<title>How exceptions really work</title>
+<category>exceptions</category>
+<via href='http://www.frogware.com/weblog/'>frogware</via> <!-- id= or href= -->
+<body>
+<p><a href='http://blogs.gotdotnet.com/cbrumme/'>Chris Brumme</a> explains how
+<a href='http://blogs.gotdotnet.com/cbrumme/PermaLink.aspx/d5fbb311-0c95-46ac-9c46-8f8c0e6ae561'>exceptions really work</a>
+in Windows.
+This is an amazingly detailed piece that covers everything you could ever want to know:
+</p>
+
+<quote>
+<p>Have you noticed that the C++ exception you throw is often a stack-allocated local?
+And that if you explicitly catch it, this catch is also with a stack-allocated object?
+Did you ever wake up at night in a cold sweat, wondering whether a C++ in-flight exception
+resides on a piece of stack that's already been popped?  Of course not.</p>
+
+<p>In fact, we've now seen enough of SEH to understand how the exception always remains
+in a section of the stack above ESP (i.e. within the bounds of the stack).
+Prior to the throw, the exception is stack-allocated within the active frame.
+During the first pass of SEH, nothing gets popped.
+When the filters execute, they are pushed deeper on the stack than the throwing frame.
+</p>
+</quote>
+
+</body>
+</entry>
+</blog>

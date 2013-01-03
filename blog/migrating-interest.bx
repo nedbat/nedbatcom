@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060326T155330'>
+<title>Migrating interest</title>
+<category>mycode</category>
+<via />
+<body>
+<p>One of the great things about having a site like this is that I can post small pieces of code that
+others might find useful.  I hear from users of the code, asking questions or providing patches.
+It's open source writ small, and I like it.  It provides a nice guild of craftsmen feel to sharing
+code.
+</p>
+
+<p>The downside to this style of working is that my interests change over time, and so I may effectively
+abandon a piece of code I've posted. I don't intend to, but the time since the last revision gets
+longer and longer, and my familiarity with its details gets staler and staler.  As time goes on, it
+gets harder and harder to get back to it.</p>
+
+<p>I have a To Do folder in my email.  I put emails there that I intend to act on.  This weekend, I noticed
+that there are five emails there about <a href='code/modules/id3reader.html'>id3reader</a>, my Python
+module for reading ID3 tags in MP3 files.  Four are providing patches or test cases, one is asking a question
+(that is in fact answered by one of the other four!).
+</p>
+
+<p>I sat down to deal with those five emails, but I cannot.  Writing a good module is hard work.
+It requires thought about how to organize data, it requires diligence in dealing with the unfortunate gaps
+in compliance in real world data.  In short, it requires passion.  I don't have passion for id3reader right now.
+From this vantage point, I guess I won't ever again, certainly not soon enough to do it justice.</p>
+
+<p>I am hereby making it formal: I am retiring id3reader.  I am not going to be updating it any more.</p>
+
+<p>To those who took the time to write to me about it, I'm sorry.  Perhaps one of you will take it over.</p>
+
+</body>
+</entry>
+</blog>

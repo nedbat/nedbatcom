@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='Organic frameworks'>
+<history>
+<what when='20030622T154100'>Created.</what>
+</history>
+
+
+<h1>Definition of framework</h1>
+
+<p>A framework is a colleciton of classes that provides an
+abstraction for an underlying facility or service.
+A framework doesn't do anything all by itself <emdash/> it's used by developers
+to build applications.
+The goal may be simplified programming, or broader portability,
+or adapting a "foreign" facility into a familiar development model.
+</p>
+
+<p>For example, MFC (Microsoft Foundation Classes) are a C++ framework
+for the Win32 API, Swing (part of the Java Foundation Classes)
+is a framework for GUIs on many windowing systems in Java, and
+wxWindows is a framework for GUIs on multiple windowing systems,
+available in a number of languages.</p>
+
+<p>Some people have other names for frameworks, for example, toolbox, 
+or library or API.  It doesn't matter what you call it, the goals of
+a framework are the same:</p>
+
+<ul>
+
+<li><h>Wide applicability.</h> 
+A framework can be used to build more than one application.
+</li>
+
+<li><h>Abstraction of underlying facilities.</h>
+A framework often is an intermediary between the application and
+some complex facility on which it will be built.
+</li>
+
+</ul>
+
+
+<h1>Types of framework</h1>
+
+
+<h1>Jobs frameworks can do</h1>
+
+<h1>How to make an organic framework</h1>
+
+<h1>Other issues</h1>
+
+<h2>Thinking with two hats</h2>
+
+<h2>Educating others</h2>
+
+<h2>When to delete framework code?</h2>
+
+<h2>Does adding mean refactoring?</h2>
+
+<h1>See also</h1>
+
+
+Symmetry is overrated
+
+
+
+[Definition of framework]
+
+The exact definition of framework is vague: I use the term to mean
+a coordinated set of classes that provide access to an underlying
+facility or service.
+Other similar terms are "toolbox" or even "API".
+
+For this discussion, though, the important part of a framework is
+that it have wide applicability.  Public frameworks are often products
+unto themselves, aimed at developers, and designed to simplify their
+work in some way.
+
+What I want to talk about here is not public frameworks, but private
+frameworks: frameworks we build for our own use, and no one else's.
+
+The design goals for a private framework are the same as a public one:
+
+Wide applicability here means wider than the task at hand:
+aniticipate (by just a little) future needs.  Don't add extra
+methods, but make sure the methods you do add are not tied to
+the current work.
+
+Adaptation frameworks can do:
+	Exceptions vs. status codes
+	String models.
+	Character sets.
+	Object orientation.
+	Language culture (COM, STL, "Pythonic")
+	Other infrastructure (threading, interfaces to supply/accept)
+	Simplification of semantics.
+	Error handling, retrieving error messages, etc.
+	
+Convenience frameworks can add:
+	Handling simple logic:
+		Delete succeeds if missing.
+		Retrying in common cases.
+		Unifying disparate cases.
+	Facade work:
+		Moving operations from one class to another.
+		Hiding differences between APIs.
+		Hiding operations or options the app doesn't need.
+		Coalescing steps that always occur together.
+
+Why would you write a private framework?
+
+Framework has a different goal than other interfaces:
+	Not trying to hide the underlying implementation
+
+Framework vs. Application
+Famous frameworks
+Special case of interfaces
+How much to write up front (not much) JIT frameworks.
+When to delete Framework code.
+Think with two hats: API writer, API user.
+Crossing the boundary.
+There's a big difference between java.util and mycorp.util: 
+	you can change one, not the other.
+	In a largish team, the mindset may be that you can't change either.
+What you consider a framework depends on your perspective:
+	Spreadsheet and accounts receivable will have currency as framework.
+	Spreadsheet and word processor will have GUI as framework.
+When you add to the framework, do you go back and fix up the application?
+	Ex: adding CNoPlatform::GetIniString(IBuffer<UniCh>).
+Recusive work: want to add a feature, which means adding to the framework,
+	which may mean deeper framework work, etc.  How do you decide to stop?
+
+The Trip-Packing Dilemma
+http://www.pragmaticprogrammer.com/articles/mar_03_trip.pdf
+
+Tradeoff of adding new framework method vs. doing it longhand in the app:
+	Same amount of new code either way.
+	Doing it in the framework means the next guy doesn't have to do the work.
+	Is the operation likely to be used again?
+	Does it make sense in the framework?
+
+Martin Fowler defines two types of framework 
+(http://martinfowler.com/bliki/FrameworkBuilding.html): foundation and harvested.  
+I prefer midway between the two: intended as a foundation, but grown organically.
+
+</p>
+</page>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100207T192633'>
+<title>Test classes, singular or plural?</title>
+<category>testing</category>
+<category>coding</category>
+<category>python</category>
+<body>
+<p>A minor hiccup in writing unit tests is how to name the classes that contain
+them.  The jUnit style of test class, which has been adopted by virtually
+everyone, including Python's unittest module, is that tests are methods of a
+class. The class is instantiated once for each test method, then three methods
+are called: setUp, the test method, and tearDown.</p>
+
+<p>As a result, you end up with test classes that look like this:</p>
+
+<code lang='python'><![CDATA[
+# Tests for double_it, and no, no one would write them this way...
+class DoubleItTests(unittest.TestCase):
+    def test_ten(self):
+        assert double_it(10) == 20
+    
+    def test_twenty(self):
+        assert double_it(20) == 40
+]]></code>
+    
+<p>Here I've named the class DoubleItTests, plural.  That's because I can see
+that it's a container for a number of tests.  This feels right if you think
+about the class simply as a namespace for the test methods.</p>
+
+<p>But what is instantiated from the class?  Only single tests.  In this case,
+the class will be instantiated twice, once to run test_ten, and once to run
+test_twenty.  The class' name should really be the name of the objects.  No one
+would name their user class Users under the theory that the class encompasses
+a number of users.</p>
+
+<p>So the test class should really be called DoubleItTest, which I guess fits
+in with the unittest.TestCase base class it derives from.  But somehow it just
+looks wrong.</p>
+
+<p>This is reminiscent of the
+<a href='http://stackoverflow.com/questions/338156/table-naming-dilemma-singular-vs-plural-names'>SQL table naming dilemma</a>.
+Is it the CUSTOMER table, or the CUSTOMERS table? How you feel about it seems to
+come down to whether you think natively in SQL, or whether it's just a backing
+store for your ORM.</p> 
+
+<p>I'm getting used to the singular test class name, but it still doesn't come
+naturally, I have to remind myself to leave off those tempting plurals.</p>
+
+</body>
+</entry>
+</blog>

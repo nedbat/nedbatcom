@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020331T224212'>
+<title>Minesweeper mathematics</title>
+<category>math</category>
+<category>games</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>An interesting twist for fans of cellular automata: Minesweeper as the basis for computation.
+<a href='http://www.mat.bham.ac.uk/R.W.Kaye/minesw/minesw.htm'>Richard Kaye</a>
+has studied Minesweeper as a foundation for building logic components and Turing
+machines, and has therefore made connections between it and the theory of algorithms.  I don't
+fully understand all the P and NP stuff, and there's clearly nothing practical about it,
+but there's something about this that tickles my geek funnybone.</p>
+<p>I found this through the <a href='http://www.claymath.org'>Clay Mathematics Institute</a>,
+which has a <a href='http://www.claymath.org/prizeproblems/milliondollarminesweeper.htm'>
+more approachable description of the work</a>
+as part of their prize problems: They're offering million-dollar prizes for solving hard
+classic math problems. Sharpen your pencils!</p>
+</body>
+</entry>
+</blog>

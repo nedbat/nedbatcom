@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090505T211611'>
+<title>Hg ftw</title>
+<category>srcctrl</category>
+<body>
+<p>These are good days for
+<a href='http://www.selenic.com/mercurial/'>Mercurial</a>, the Python-based
+distributed version control system.  First
+<a href='http://mail.python.org/pipermail/python-dev/2009-March/087931.html'>Python chooses Mercurial</a>.
+Then <a href='http://google-code-updates.blogspot.com/2009/04/mercurial-support-for-project-hosting.html'>Google
+Code announces support for Mercurial</a>, the first DVCS it supports.
+Now ActiveState comes out with <a href='http://workspace.activestate.com/'>Workspace</a>,
+its project hosting product, which supports Subversion, git, and you guessed it,
+Mercurial.
+</p>
+
+<p>I don't understand the reasons why Mercurial is getting all the headlines
+these days over <a href='http://bazaar-vcs.org/'>Bazaar</a>, which has 
+a number of high-profile users of its own.</p>
+
+<p>But I've liked Mercurial since choosing it and Bitbucket for hosting
+<a href='http://bitbucket.org/ned/coveragepy/'>Coverage.py</a>.  I'm glad that
+a clear leader is emerging among the non-git DVCS systems.  It makes decisions
+easier.</p>
+
+</body>
+</entry>
+</blog>

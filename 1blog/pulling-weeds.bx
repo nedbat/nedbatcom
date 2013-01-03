@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040511T075451'>
+<title>Pulling weeds</title>
+<category>devmindset</category>
+<category>development</category>
+<via />
+<body>
+<p>When I look back on a week of work, and review the code changes I've made,
+there are often a number that are trivial changes to clean up code, often in
+far-flung areas.  I am mocked for this habit.  I sometimes mock myself for
+it.  But I think it is important.  I call it "pulling weeds".
+</p>
+
+<more>
+
+<p>Andy Hunt and Dave Thomas, the Pragmatic Programmers, have said
+<a href='http://www.artima.com/intv/garden.html'>Programming is Gardening</a>,
+and I have to agree with them.  As good as their analogy is, they missed the
+topic of weeds.</p>
+
+<p>One habit I have noticed in truly impassioned gardeners is that they are never
+idle in their garden.  Whenever the opportunity arises, they will pull weeds.
+They may have headed out to replant, or to prune, or to feed, but
+while out, if they notice a weed, and they have a free hand, they will pull it.
+</p>
+
+<p>I'm the same way with code.  While pursuing weightier matters, if I notice little
+things wrong, I will fix them.  "Acquire" is misspelled "aquire".  Fix it.
+A Windows-specific call has crept in where a portable one will do.  Fix it.
+A function prototype has been orphaned after its definition has been removed.  Fix it.
+The code formatting conventions aren't being followed.  Fix it.
+</p>
+
+<p>This can be taken to absurd lengths, and I have taken it there
+(I'm remembering a phase where I was methodically working my way through a Java project,
+alphabetizing the imports).  But the more typical extreme is for developers to believe
+that none of these changes matter, and to leave them be.  Who cares about spelling errors?
+What difference does obsolete code make?
+</p>
+
+<p>Gardeners pull weeds because they know that if left unchecked, the weeds will take over
+the garden, and that leaving it all until some optimistic cleanup day will make the job at
+least very difficult, and possibly never happen at all.
+Weeds in the code are the same way: they are not inert. They spread gradually but insidiously
+until removing them becomes a major job in itself.
+</p>
+
+<p>To draw again from the Pragmatic Programmers, this is a case of
+<a href='http://www.pragmaticprogrammer.com/ppbook/extracts/no_broken_windows.html'>broken windows</a>.
+Small problems left uncorrected lead to lax attitudes about the bigger problems.
+Only by being diligent about all the problems in the code can you hope to truly nail them.
+The little ones may not matter in the scheme of things, but little ones become big ones,
+and the big ones do matter.  Get them while they are small.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

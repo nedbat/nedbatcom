@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060118T073056'>
+<title>Tricky rowspan tables</title>
+<category>webpage</category>
+<via />
+<body>
+<p>I'm trying to create a table layout with a lot of cells spanning rows, but it doesn't render properly.
+Both Firefox and IE add extra gaps into the table cells (differently, of course).  I'm hoping someone has
+a suggestion for how to get the browsers to display the table correctly.  I know this is a particularly
+troublesome area, but I have a great deal of faith in all of you!
+</p>
+
+<more>
+
+<p>Here's what it looks like in Firefox (1.5, if that matters):</p>
+
+<figurep>
+<img src='pix/badgrid-firefox.png' alt='Bad grid in Firefox' />
+</figurep>
+
+<p>And here's what it looks like in Internet Explorer:</p>
+
+<figurep>
+<img src='pix/badgrid-ie.png' alt='Bad grid in Internet Explorer' />
+</figurep>
+
+<p>The two layouts should of course be the same, and there should be no gaps beneath the images.</p>
+
+<p>Here's the HTML:</p>
+
+<code lang='html'><![CDATA[
+<html>
+<head>
+<style>
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td {
+    vertical-align: top;
+    border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<table>
+
+<tr>
+<td colspan='2' rowspan='2'><img width='103' height='103' src='00.png'/></td>
+<td><img width='50' height='50' src='01.png'/></td>
+<td><img width='50' height='50' src='02.png'/></td>
+<td colspan='2' rowspan='2'><img width='103' height='103' src='03.png'/></td>
+</tr>
+
+<tr>
+<td colspan='2' rowspan='2'><img width='103' height='103' src='04.png'/></td>
+</tr>
+
+<tr>
+<td colspan='2' rowspan='2'><img width='103' height='103' src='05.png'/></td>
+<td colspan='2' rowspan='2'><img width='103' height='103' src='06.png'/></td>
+</tr>
+
+<tr>
+<td><img width='50' height='50' src='07.png'/></td>
+<td><img width='50' height='50' src='08.png'/></td>
+</tr>
+
+</table>
+</body>
+</html>
+]]></code>
+
+<p>Is there anything I can do to get this layout to work properly?
+Answers along the lines of "use CSS like this instead" will be gladly accepted within reason.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

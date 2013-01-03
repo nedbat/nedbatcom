@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080901T162423'>
+<title>Google chrome</title>
+<category>browsers</category>
+<category>google</category>
+<via id='simonwillison'/>
+<body>
+<p>The rumors of Google building their own browser are true:
+<a href='http://blogoscoped.com/archive/2008-09-01-n47.html'>Google Chrome</a>
+is the project, and includes a number of interesting features, introduced in a
+<a href='http://blogoscoped.com/google-chrome/'>comic by Scott McCloud</a>.
+At the top of the list is running every tab in its own process, and also running 
+each plug-in in its own process. That will definitely help with limiting the
+bleeding when web pages misbehave, as well as with diagnosing the bad component.
+</p>
+
+<p>Interestingly, one of the lead developers is Ben Goodger, who was a big part of
+Firefox, but Chrome is based on Webkit rather than Gecko.  Chrome claims a number
+of UI innovations, but they seem fairly simple things to me: where the tabs are,
+how the auto-complete works, and so on.
+</p>
+
+<p>For web developers, there's a downside: it's one more browser to worry about.
+Yes, it's based on Webkit, so in theory it will behave like Safari in all the
+important ways.</p>
+
+<box>The difference between theory and practice: in theory there is no
+difference, but in practice there is.</box>
+
+<p>Another downside: this will likely only take market share from Firefox, and
+not help with the Internet Explorer problem at all...</p>
+
+</body>
+</entry>
+</blog>

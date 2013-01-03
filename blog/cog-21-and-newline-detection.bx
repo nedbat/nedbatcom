@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080524T100656'>
+<title>Cog 2.1 and newline detection</title>
+<category>cog</category>
+<category>python</category>
+<body>
+<p>Since working full-time in Python, I haven't needed to use my code generator
+<a href='code/cog'>Cog</a> much, but Alexander Belchenko has.  He's prodded me
+to add one more feature to it, and graciously and pro-actively kept the
+<a href='code/cog/index_ru.html'>Russian docs</a> up to date.
+</p>
+
+<p>The new feature is a way to get Unix line endings in the output file, even when
+running on Windows.  When Alexander first brought this up, my inclination was
+to change the code so that the line ending style of the input file would determine
+the style of the output file.  This has a certain elegance and symmetry.
+It would mean that a Windows file with \r\n endings could be cog'ged on Unix,
+and the output file would have \r\n endings.</p>
+
+<p>In Python, if you open a file in 'rU' mode, it is treated as a text file,
+and all data is presented with \n line ending, but the file object has a newlines
+property which is a string or tuple of all the line ending styles seen in the file.
+This seemed perfect for my needs.  As the output file was being written, it could
+examine the newlines property of the input file to determine what style endings
+to write.  I was willing to ignore the engineer's obsessive corner case of a
+file with mixed line endings, and simply say that if a \r\n had been encountered in
+the input, the lines would be written with \r\n, otherwise, they would get \n.</p>
+
+<p>Alas, this didn't quite work out.  Turns out that after reading one line from
+a Windows file, newlines has no information in it:</p>
+
+<code><![CDATA[
+>>> f = open('sample.txt', 'rU')     # open the file...
+>>> f.newlines                       #  ..nothing in newlines yet
+>>> f.readline()                     # read the first line...
+'This is the first line\n'
+>>> f.newlines                       #  ..still nothing in newlines!
+>>> f.readline()                     # read the second line...
+'This is the second line\n'          
+>>> f.newlines                       #  ..*now* something in newlines :(
+'\r\n'
+]]></code>
+
+<p>As a result, my code worked great, except that the first line of output
+always ended with a \n, while the rest of the file followed the lead of the
+input file.</p>
+
+<p>Fixing that would have meant re-working a lot of code to buffer everything.
+It would have been possible, but to gain what?  The code as it stands handles
+the case I really care about: preserving Unix line endings when processing files
+on Windows.  To make that happen, I only had to open the output file in binary
+mode, since all the internal text handling uses \n endings.
+Handling the opposite case, preserving Windows endings on Unix,
+simply wasn't important enough to warrant the effort.</p>
+
+<p>In any case, thanks Alexander for moving Cog forward!</p>
+
+</body>
+</entry>
+</blog>

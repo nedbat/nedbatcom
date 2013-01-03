@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020921T191417'>
+<title>256bytes demos archive</title>
+<category>graphics</category>
+<category>hacks</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://www.256b.com/'>256b.com</a> is an archive of 256-byte executable
+demos.  Yes: 256-byte executables.  These are actual Windows executables that draw
+something interesting, and are only 256 bytes long.</p>
+
+<p>It's hard to imagine how 256 bytes of compiled code can do anything significant,
+but take a look at
+<a href='http://www.256b.com/demo.php?demoId=225'>Tube</a>,
+which produces a real-time dynamic pseudo-3D effect:</p>
+
+<figurep href='http://www.256b.com/demo.php?demoId=225'>
+<img src='pix/256b-tube.jpg' alt='trippy output of tube.com'/>
+</figurep>
+
+<p>Another interesting entry is
+<a href='http://www.256b.com/demo.php?demoId=195'>Self Disassembler</a>, which
+disassembles its own code, and prints it to the screen.  This is a good example
+of a <i>quine</i>, a program that when run prints its own text.
+<a href='http://www.nyx.net/~gthompso/quine.htm'>The Quine Page</a> has a large number
+of these programs.</p>
+
+<p>Both 256-byte demos and quines are examples of geek challenges that twist
+the rules of coding to get a particular effect,
+much like the <a href='blog/200209.html#20020902T110606'>polyglot programs</a>
+I wrote about earlier this month.</p>
+
+</body>
+</entry>
+</blog>

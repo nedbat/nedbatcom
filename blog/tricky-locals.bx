@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121113T183812'>
+<title>Tricky locals()</title>
+<category>python</category>
+<body>
+    
+    <p>One of the perks of maintaining <a href='http://nedbatchelder.com/code/coverage/'>coverage.py</a>
+        is that you get some really interesting bug reports.  Digging into them
+        can be a good way to learn about some obscure corners of Python.</p>
+
+    <p>Today's bug was that a piece of product code succeeded when run without
+        coverage.py, and succeeded when run under the C tracer, but failed when
+        run under the Python tracer.  I should explain: the heart of
+        coverage.py is the trace function invoked by CPython on every line of
+        exection.  Coverage.py has two implementations of its trace function:
+        one in C for speed, and another simpler one in Python for maximum
+        flexibility.  The bug report was that one of the implementations caused
+        the product code to fail, and the other did not.</p>
+
+    <p>The product code in question looked like this:</p>
+
+<code lang="py"><![CDATA[
+def wacky(x, y):
+    args = locals()
+    args_keys = args.keys()
+    #.. do something with args_keys ..
+]]></code>
+
+    <p>The intent of this code was that args_keys would be the list ['x', 'y'].
+        The code failed because the list was actually ['x', 'y', 'args'].  At
+        the moment locals() is called, there are only two local names, x and y,
+        and running under Python gives us the answer we expected.  How could
+        running the code under coverage.py cause this change in 
+        behavior?</p>
+
+    <p>Playing around with it some more, it became clear that it was nothing
+        about coverage.py in particular, it was the presence of a trace function,
+        any trace function, that would cause the change:</p>
+
+<code lang="py"><![CDATA[
+import sys
+
+def trace(frame, event, arg):
+    return trace
+
+def wacky():
+    x = y = 1
+    args = locals()
+    print(args.keys())
+
+wacky()
+sys.settrace(trace)
+wacky()
+sys.settrace(None)
+wacky()
+]]></code>
+
+    <p>Running this code on any version of Python produces:</p>
+
+<code lang="py"><![CDATA[
+['y', 'x']
+['y', 'x', 'args']
+['y', 'x']
+]]></code>
+
+    <p>Without the trace function, either before one was registered, or after
+        it was un-registered, the list is ['y', 'x'].  But with a trace
+        function, it's ['y', 'x', 'args'].</p>
+
+    <p>Thinking it might be a bug in CPython, I searched the bug database, and found
+        <a href='http://bugs.python.org/issue7083'>ticket 7083</a>, which
+        explained what's going on.</p>
+
+    <p>The locals() function is trickier than it appears at first glance.
+        The returned value is a dictionary which is a copy of the local 
+        symbol table.  This is why changing the dict might not actually
+        change the local variables.</p>
+
+    <p>The copy is made when locals() is called, so in our code, the dict has
+        keys 'x' and 'y'.  But in fact, the same dict is returned every time
+        you call locals(), but updated to the new contents of the local
+        symbols.</p>
+
+    <p>Here's the important (subtle) fact about how CPython works:</p>
+    
+    <box>When a trace function is in effect, the local symbol table is copied
+        into the locals() dictionary after every statement.</box>
+
+    <p>This means that when "args = locals()" is executed, args is simply a
+        reference to the locals() dictionary.  Without a trace function, that
+        dictionary is updated only when locals() is called.  So the assignment
+        to args isn't reflected in the dictionary.</p>
+
+    <p>But with a trace function, after executing "args = locals()", the
+        locals() dict is updated again, copying the name "args" into it.  As
+        with all mutable values in Python, when the value is changed in-place,
+        all references see the changed value, so now "args" refers to a dict
+        with the keys, "x", "y", and "args".</p>
+
+    <p>The reason the locals are copied after every statement is simple: the
+        trace function is executed after every statement, and to make building
+        debuggers and other tools possible, the locals dict is updated so that
+        the trace function has an accurate view of the current state.  But that
+        updating is expensive, and without a trace function, unnecessary.  So
+        it's only done when a trace function is registered.</p>
+
+    <p>Most Python programs have no trace function registered, but coverage of 
+        course uses one to collect data.  So the program behaves differently
+        under coverage than without it.</p>
+
+    <p>The fix is simple: make a copy of the locals() dict instead of using it
+        directly:</p>
+
+<code lang="py"><![CDATA[
+def wacky(x, y):
+    args = dict(locals())
+    args_keys = args.keys()
+    #.. do something with args_keys ..
+]]></code>
+
+    <p>By copying the dictionary with dict(), we get an independent copy that
+        won't see the changes when the locals dict is updated for the trace
+        function.</p>
+
+    <p>BTW: a remaining mystery is why the original bug report said that one
+        trace function worked, but the other didn't.  I'm still trying to track
+        that down, but I think perhaps coverage.py wasn't really in effect for
+        the case that worked.</p>
+
+    <p>One last question: is there a way to explain this in the docs that makes
+        the point without going into too much detail?</p>
+
+</body>
+</entry>
+</blog>

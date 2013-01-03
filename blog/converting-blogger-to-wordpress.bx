@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100424T081420'>
+<title>Converting Blogger to Wordpress</title>
+<category>python</category>
+<category>webpage</category>
+<body>
+<p>Until last weekend, <a href='http://susansenator.com/blog'>Susan's blog</a>
+had been done with Blogger.  We made use of the FTP feature to push all the
+content to static HTML files on her server.  But <a href='http://blogger-ftp.blogspot.com/'>Blogger is discontinuing FTP support</a>,
+so we had to do something.
+</p>
+
+<p>I'm a huge believer in keeping old URLs working, so I didn't want to switch
+to a blogspot.com blog, or even move to blog.susansenator.com.  Besides, Blogger
+had been seeming pretty creaky for a while, so I took the opportunity to try
+something better, namely Wordpress.</p>
+
+<p>Creating the Wordpress blog was pretty simple.  Our hosting provider offers
+one-click installation which worked great.  Making a Wordpress theme can be a
+big undertaking, but not if you're just trying to mimic an existing simple
+blog layout.  I downloaded a simple theme and started hacking away on it.  The
+Wordpress docs are pretty good, definitely better than Blogger's, that's a
+recurring theme here.</p>
+
+<p>Migrating all the content over was a bigger deal.  Blogger offers a backup
+facility that gives you your entire blog as a giant XML file.  Converting that
+to a Wordpress format was simple with 
+<a href="http://code.google.com/p/google-blog-converters-appengine/">blog converters</a>.
+Included is blogger2wordpress, which turned my 16Mb Blogger XML file into a 12Mb
+Wordpress XML file.</p>
+
+<p>Then Wordpress can import the XML file, but maximum size 2Mb, why?  So I manually
+split the big XML file into 8 smaller XML files, which was tedious but not difficult.
+Importing each of them brought in all the old blog posts and comments.  Nice.
+(For some reason, embedded YouTube videos are now just a URL in text, not sure
+why.  If I had noticed that earlier I may have been able to do something about it.)</p>
+
+<p>Now we have a Wordpress blog that works just like the Blogger blog did,
+except that everything has a different permalink than it did before.  The first
+step to fix that is to change the permalink style Wordpress uses.  It defaults
+to something horrendous like:</p>
+
+<quote><p>http://susansenator.com/blog/?p=123</p></quote>
+
+<p>Select "Month and name" under Permalink settings
+in the Wordpress installation. This makes Wordpress use nice URLs like:</p>
+
+<quote><p>http://susansenator.com/blog/2010/04/here-be-dragons/</p></quote>
+
+<p>Changing this setting will either add or require you to add a chunk of
+mod_rewrite rules to your Apache .htaccess file:</p>
+
+<code><![CDATA[
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /blog/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /blog/index.php [L]
+</IfModule>
+]]></code>
+
+<p>But lots of other things are subtly different.  Archive pages are named
+differently, Blogger had an index.html page for the blog, and so on.  I
+manually added these rewrites to fix these issues:</p>
+
+<code><![CDATA[
+# Blogger slugs have .html, wordpress does not.
+RewriteRule ^blog/([0-9]{4})/([0-9]{2})/(.*)\.html?$ /blog/$1/$2/$3/ [R=301,L]
+
+# Blogger archives are different.
+RewriteRule ^blog/([0-9]{4})_([0-9]{2})_01_archive\.html /blog/$1/$2/ [R=301,L]
+
+# Blogger feeds are now found at the wordpress feed
+RewriteRule ^blog/atom.xml /blog/feed/ [R=301,L]
+RewriteRule ^blog/rss.xml /blog/feed/ [R=301,L]
+
+# Blogger had the old-style index.html.
+RewriteRule ^blog/index.html /blog/ [R=301,L]
+]]></code>
+
+<p>The thorniest problem, though, is that Blogger and Wordpress don't agree on
+how to turn a post title into a slug.  Both lowercase the text and change spaces
+to dashes, but Wordpress includes every word, while Blogger leaves out "a" and "the",
+and maybe others.</p>
+
+<p>The simplest way to solve the differing slug problem was to examine the
+wordpress.xml file. It had the title of the posts, and the Blogger slug, in the
+form of the post's permalink. I could determine which posts would have a new
+slug under Wordpress, and create a redirect for them.</p>
+
+<p>A quick Python program did the work:</p>
+
+<code lang='python'><![CDATA[
+from lxml import etree
+import re, sys
+
+def items(f):
+    doc = etree.parse(open(f))    
+    items = doc.xpath('.//item')
+    for item in items:
+        title = item.xpath('title/text()')
+        link = item.xpath('link/text()')
+        if title and link:
+            yield (title[0], link[0])
+
+# Regexes for turning a title into a Wordpress slug
+slugify = [
+    # Drop everything but nice word characters
+    (r"[^-a-z0-9 ]", ""),
+    # All spaces become dashes
+    (r" ", "-"),
+    # Multiple dashes become one
+    (r"-+", "-"),
+    ]
+
+def do_file(f):
+    for title, link in items(f):
+        if "susansenator.com" not in link:
+            continue
+        slug = link.split('/')[-1].split('.')[0]
+        wpslug = title.lower()
+        for pat, rep in slugify:
+            wpslug = re.sub(pat, rep, wpslug)
+        if wpslug != slug:
+            old_path = link.replace("http://susansenator.com/", "")
+            new_path = old_path.rsplit('/', 1)[0] + "/" + wpslug
+            
+            print "RewriteRule ^%s /%s [R=301,L]" % (
+                old_path.replace(".", r"\."),
+                new_path
+            )
+        
+do_file(sys.argv[1])
+]]></code>
+
+<p>This just looks at every post, extracts the Blogger slug from the post's link,
+and computes the Wordpress slug.  Where the two slugs differ, a rewrite rule is
+written.  On Susan's blog, this produced 446 rewrite rules, which went into .htaccess:</p>
+
+<code><![CDATA[
+### These are posts that slugify differently under blogger and wordpress, to keep old permalinks working:
+RewriteRule ^blog/2010/04/cheerful-feelings-upon-awakening-in\.html /blog/2010/04/cheerful-feelings-upon-awakening-in-the-country [R=301,L]
+RewriteRule ^blog/2010/03/here-is-my-passover-album-on-facebook-i\.html /blog/2010/03/passover-pics [R=301,L]
+RewriteRule ^blog/2010/03/reality-of-autism-rifts-and-what-obama\.html /blog/2010/03/the-reality-of-the-autism-rifts-and-what-obama-should-do [R=301,L]
+# ... 440 skipped ...
+RewriteRule ^blog/2005/10/autism-and-school-board\.html /blog/2005/10/autism-and-the-school-board [R=301,L]
+RewriteRule ^blog/2005/10/speed-of-dark\.html /blog/2005/10/the-speed-of-dark [R=301,L]
+RewriteRule ^blog/2005/10/adolescence-without-roadmap\.html /blog/2005/10/adolescence-without-a-roadmap [R=301,L]
+]]></code>
+
+<p>With the new super-sized .htaccess in place, the new blog is ready to go.
+All existing links work well, and no one misses a beat.</p>
+
+</body>
+</entry>
+</blog>

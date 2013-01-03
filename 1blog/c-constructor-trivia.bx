@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041202T070735'>
+<title>C++ constructor trivia</title>
+<category>cpp</category>
+<category>debugging</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>We had a head-scratcher bug the other day.
+Our system is written in C++, and has a custom reference counting system for
+managing memory (see <a href='blog/200311.html#e20031118T071446'>Greenspun's Law</a>).
+We were seeing an <a href='text/assert.html'>assertion</a>
+that we had thought was long debugged and solid.  Here's what we found.
+(Warning: lots of arcane C++ stuff ahead.)
+</p>
+
+<more>
+
+<p>Our reference counting implementation looks kind of like this:
+</p>
+
+<code lang='cpp' number='1'><![CDATA[
+/**
+ * Reference-counted object.  When its reference count goes to
+ * zero, it destroys itself.
+ */
+class CRefCountedObject
+{
+public:
+    CRefCountedObject()
+    {
+        m_nRefCount = 0;
+    }
+
+    virtual ~CRefCountedObject()
+    {
+        // CRefCountedObject's can be created on the stack,
+        // where they will be destroyed by falling out of scope.
+        // This assert checks the implicit assumption that no one
+        // is still interested in the object when it is destroyed.
+        ASSERT(m_nRefCount == 0);
+    }
+
+    /** Declare your interest in this object: ups the refcount.
+     */
+    void Retain()
+    {
+        m_nRefCount++;
+    }
+
+    /** Declare your lack of interest in this object: if you were
+     *  the last interested party, the object is destroyed.
+     */
+    void Release()
+    {
+        m_nRefCount--;
+        if (m_nRefCount== 0) {
+            delete this;
+        }
+    }
+
+private:
+    int m_nRefCount;
+};
+
+/**
+ * Smart pointer, templated to a particular object class.
+ */
+template <class TObject>
+class CPtr
+{
+public:
+    // .. lots of stuff omitted ..
+
+    /** Assignment operator.  Manage the refcounts on the old and
+     *  new objects.
+     */
+    TObject *operator=(TObject *p)
+    {
+        if (m_p != p) {
+            if (p != NULL) {
+                p->Retain();
+            }
+            if (m_p != NULL) {
+                m_p->Release();
+            }
+            m_p = p;
+        }
+        return m_p;
+    }
+
+    //.. lots of stuff omitted ..
+};
+]]></code>
+
+<p>(Note: this is a simplified version of our actual code,
+and some of the simplifications mean that it will not work properly, but not in
+ways that affect the narrative here.  For example, don't try this code with
+multiple threads, or with multiple inheritance. I'm taking some expository license.
+Don't bug me about it!)</p>
+
+<p>The assert that fired is on line 19: it's designed to protect against allocating
+reference counted objects on the stack.  The problem with a stack-allocated
+refcounted object is that the object will be destroyed when it falls out of scope,
+regardless of the reference count.  For our reference counting to work right, the only
+thing that should destroy an object is the delete on line 36.
+With a stack allocated object, the compiler destroys the object for us,
+so smart pointers can exist which point to freed memory:
+</p>
+
+<code lang='cpp' number='100'><![CDATA[
+{
+    CPtr<CRefCountedObject> pObj;
+
+    //.. blah blah ..
+
+    if (blah blah) {
+        CRefCountedObject stackobj;
+        pObj = stackobj;
+    }
+
+    // pObj is invalid at this point.
+}
+]]></code>
+
+<p>The object stackobj is created at line 106, and then destroyed at line 108
+(when it falls out of scope), but pObj still has a pointer to it.
+When stackobj is destroyed, its reference count is 1,
+so the assert in the CRefCountedObject destructor will fire.  All is well.
+</p>
+
+<p>So when that assertion fired the other day, we thought we understood the problem.
+Just look up the stack, find the stack allocated refcounted object, and change it to
+a heap allocated object.  But when we looked into it, there was no stack allocated object.
+So who was destroying the refcounted object before its time?  How does a heap allocated
+object get destroyed other than using delete on it?
+</p>
+
+<p>Digging deeper, we rediscovered a C++ detail that we had forgotten.
+Turns out we had some code that boiled down to this:
+</p>
+
+<code lang='cpp' number='200'><![CDATA[
+class CBadObject: public CRefCountedObject
+{
+    //.. blah blah ..
+};
+
+CPtr<CBadObject> pGlobalBad;
+
+CBadObject::CBadObject()
+{
+    pGlobalBad = this;
+
+    DoSomethingWhichThrowsAnException();
+}
+]]></code>
+
+<p>This object's constructor assigned itself to a smart pointer outside itself,
+then threw an exception.  C++ semantics state that if a constructor of a
+heap allocated object throws an exception, that the object's destructor is called.
+Since CBadObject derives from CRefCountedObject, the CRefCountedObject destructor is
+called.  It checks the reference count, sees that it is not zero
+(it's one, because pGlobalBad has called Retain, but hasn't called Release),
+and fires the assertion.
+</p>
+
+<p><i>Updated May 2005:</i> Actually, the correct statement of C++ semantics is that if a constructor
+throws an exception, a destructor is called for all the base classes that had been successfully
+constructed.  In this case, the CBadObject destructor is not called (because the CBadObject
+constructor didn't finish), but the CRefCountedObject destructor <em>is</em> called, because
+its constructor completed.  It's the CRefCountedObject destructor which causes the trouble here.
+More about this at <a href='blog/20050512T191222.html'>More C++ constructor trivia</a>.</p>
+
+<p>So the lesson is: try not to throw exceptions from constructors, or at least
+understand that they will destroy the object for you.</p>
+
+<p><i>Updated May 2005:</i> Again, this is not correct. The real lesson is that throwing
+exceptions from constructors is perfectly legal, and C++ is precisely engineered to specify
+exactly what will happen.  But you may be surprised by what happens.  In particular,
+you may have objects in "impossible" states.</p>
+
+<p>It just goes to show you:</p>
+
+<box>You learn something new every day, no matter how hard you try.</box>
+
+<p>By the way: there were two things we did to fix the problem.  Do you know what they
+were?  The first was to move most of the code out of the constructor, so that hard
+stuff happens in regular methods.  The second was to add to the comment in CRefCountedObject's
+destructor:</p>
+
+<code lang='cpp' number='13'><![CDATA[
+    virtual ~CRefCountedObject()
+    {
+        // CRefCountedObject's can be created on the stack,
+        // where they will be destroyed by falling out of scope.
+        // This assert checks the implicit assumption that no one
+        // is still interested in the object when it is destroyed.
+        // The other way this can happen is if a constructor
+        // fails, but it has already assigned itself to a CPtr
+        // someplace.  When a C++ constructor fails, the compiler
+        // automatically destroys the object.
+        ASSERT(m_nRefCount == 0);
+    }
+]]></code>
+
+<p>That way, future generations might be spared the head-scratching.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

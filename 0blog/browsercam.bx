@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030502T080756'>
+<title>Browsercam</title>
+<category>browsers</category>
+<via href='http://www.jenweb.net/jen/'>Select All</via> <!-- id= or href= -->
+<body>
+<p>The hassle in changing the design of a site (or even the implementation of
+an existing design) is checking it out in all the browsers you care about.
+Who can track down all the different versions?
+BrowserCam to the rescue.
+</p>
+
+<more>
+
+<p><a href='http://www.browsercam.com/'>BrowserCam</a>
+is a cool online service that will hit your URLs with a wide
+range of your choice of browsers and platforms, capture screenshots, and let
+you see how your site looks.</p>
+
+<p>They have a free trial (only eight hours long! Don't accidentally
+start it at 11PM like I did!), and the pricing is pretty cheap after
+that anyway.  In my test, they had some difficulty with their Mac platforms
+(some tests had not been started even eight hours after I had requested
+them, and some showed crash boxes for other browsers, or in one case,
+for someone else's site).
+I did learn some valuable things about my layout (mostly that
+the new one is a little better than the old one, and that Netscape 4 just
+can't do anything).
+</p>
+
+<p>One tip: what you get back is only a screen grab, so anything that doesn't
+fit on one screen (1024<times/>768 max) you won't see.
+For example, this site is a long scroll, so I only saw about 2 blog entries.
+Next time, I'll create a special test page that has all the interesting elements
+in one short page so I can see them all.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

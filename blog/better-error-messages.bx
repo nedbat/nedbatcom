@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100728T085616'>
+<title>Better error messages</title>
+<category>exceptions</category>
+<category>python</category>
+<body>
+<p>A simple piece of advice: If you are throwing an exception (or logging an
+error) about a value being incorrect in some way, include the value itself.
+It will make it so much easier for the poor sap who has to figure out why the
+exception is happening.
+</p>
+
+<p>I found myself in this situation, this code throwing an exception:</p>
+
+<code lang='python'><![CDATA[
+if not isinstance(key, str):
+    raise Client.MemcachedStringEncodingError, ("Keys must be str()'s, not"
+            "unicode.  Convert your unicode strings using "
+            "mystring.encode(charset)!") 
+]]></code>
+
+<p>There are a few things wrong with this message, the first being that the
+multi-line string concatenation is missing a space, so the message actually has
+the word "notunicode" in it.  Why are we so sure the wrong value is Unicode in
+the first place?  And of course, it should include the actual value:
+</p>
+
+<code lang='python'><![CDATA[
+if not isinstance(key, str):
+    raise Client.MemcachedStringEncodingError, (
+        "Keys must be str()'s: %r" % key
+        )
+]]></code>
+
+<p>If you want to be paranoid, you can limit the amount of repr text that
+will appear in the message:</p>
+
+<code lang='python'><![CDATA[
+if not isinstance(key, str):
+    raise Client.MemcachedStringEncodingError, (
+        "Keys must be str()'s: %.60r" % key
+        )
+]]></code>
+
+<p>If you are really paranoid, you're worried that getting the repr of your
+unknown object could itself throw an exception:</p>
+
+<code lang='python'><![CDATA[
+def safe_repr(o):
+    try:
+        return repr(o)
+    except:
+        return "??norepr?"
+
+...
+
+if not isinstance(key, str):
+    raise Client.MemcachedStringEncodingError, (
+        "Keys must be str()'s: %.60s" % safe_repr(key)
+        )
+]]></code>
+
+<p>or even:</p>
+
+<code lang='python'><![CDATA[
+def safe_repr(o):
+    try:
+        return repr(o)
+    except Exception, e:
+        return "??norepr (%s)?" % e
+]]></code>
+
+<p>Good error handling is always a pain, but it's worth it when things start
+hitting the fan and you have to figure out what's going on.</p>
+
+</body>
+</entry>
+</blog>

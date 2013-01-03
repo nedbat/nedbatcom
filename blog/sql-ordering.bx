@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060613T062503'>
+<title>SQL ordering</title>
+<category>db</category>
+<via />
+<body>
+<p>I was discussing a new list display with a co-worker the other day, and
+the question of its ordering came up.  "It's got no ORDER BY clause,"
+I said, "so it will be randomly ordered."
+</p>
+
+<p>"No, it will be ordered by the primary key, the id," he insisted.</p>
+
+<p>"No, if you don't specify an ordering, then you're allowing MySQL to
+return the data in any order it finds convenient, and it will return the
+data to you as it finds it, and who knows what order that will be?"</p>
+
+<p>The debate continued.  My co-worker claimed that since the id is the
+primary key, that will be the order records are stored on disk, and that
+would certainly be the order in which they would be found.</p>
+
+<p>I pointed out that there are many factors that contribute to determining
+the order of records on disk.  For example, if the database strictly orders
+the records by their id, it has to be prepared to move records or create
+overflow blocks when a new id is inserted into the middle of an id range.</p>
+
+<p>"Yes, but it's got to be in id order," he continued, and then in a fit
+of confidence, "I'll bet you my car that if you select some records with
+an integer id and no ORDER BY clause, they will be returned in id order."</p>
+
+<p>I turned to my SQL prompt and typed a query off the top of my head:</p>
+
+<code><![CDATA[
+mysql> select id from listitems where list_id = 4000;
++-------+
+| id    |
++-------+
+| 53448 |
+| 53447 |
+| 53449 |
+| 53450 |
+| 53451 |
+| 53452 |
+| 53453 |
+| 53454 |
+| 53455 |
+| 53456 |
+| 53457 |
+| 53458 |
+| 53459 |
+| 53460 |
+| 53461 |
+| 53462 |
+| 53463 |
+| 53464 |
+| 53465 |
++-------+
+19 rows in set (0.00 sec)
+]]></code>
+
+<p>As you can see, the records are returned in id order, except for the 
+first two, which are reversed.  Why?  Who knows?</p>
+
+<p>There's a lot of complexity in a relational database, and the implementers
+generally take every advantage they can.  If you don't specify an ordering,
+you will get your records in an arbitrary order.  Often, when trying out code
+for the first time, they will seem to be returned in order, but that's because
+your database is small.  As your data grows, more randomness will appear
+as deletes and inserts become more jumbled.</p>
+
+<p>As always, specific databases may make more guarantees.  For example,
+I am told that Microsoft SQL Server always stores records in primary key
+order, and that you need to account for this in designing your schema
+to get maximum performance.  I don't know if this is true or not.  I don't
+know if it is true for all versions of SQL Server, or all combinations of
+table creation options.</p>
+
+<p>This is one of those cases of confusing an implementation with a standard.
+SQL itself makes no guarantees about the ordering of records, and it makes
+no claims about what a primary key "means" other than it is a unique non-null
+index into the records of a table.  But specific implementations (SQL Server,
+MySQL, SQLite, whatever) may make more specific guarantees about the meaning
+of these things.</p>
+
+<p>But do yourself a favor: if you care about what order your data is returned
+from a SQL query, add an ORDER BY clause.  If you think the data is naturally
+ordered that way, then the ORDER BY clause won't add extra work, and if the
+data isn't naturally ordered that way, adding the clause will set things right.</p>
+
+<p>BTW: I didn't take the car.</p>
+
+</body>
+</entry>
+</blog>

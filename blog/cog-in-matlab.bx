@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110412T071152'>
+<title>Cog in Matlab</title>
+<category>cog</category>
+<body>
+    <p><a href='code/cog'>Cog</a>, my templating and code generation tool, seems to be like the little engine that could.
+        I wrote it years ago to bring a little Python power to a non-Python job.
+        But then it was unexpectedly useful while preparing <a href='text/aware.html'>my slides for PyCon</a> this year.
+        I did a <a href='http://pycon.blip.tv/file/4884752/'>lightning talk explaining why</a> (I start at about 8:00 minutes in).</p>
+
+    <p>One of the things I didn't expect when I released Cog was that people would take the concept and port it to other
+        languages.  There are implementations for PHP, Ruby, and Perl.  And now, Doug Harriman has written another, so you can
+        <a href='http://portlandmotion.wordpress.com/2011/04/11/mixing-machine-and-hand-generated-source/'>Cog in Matlab</a>.
+        I don't know anything about Matlab, I didn't realize this was even a sensible idea, but now it's real.</p>
+
+    <p>When I look at Cog now, I see things I'd like to change about it.  Maybe
+        there will be a more modern implementation some day.  But it does its
+        job well now.  If you have text files that you want to do a little bit
+        of processing on, look into <a href='code/cog'>Cog</a>, people seem to
+        like it.</p>
+
+</body> 
+</entry> 
+</blog>

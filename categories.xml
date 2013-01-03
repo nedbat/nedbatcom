@@ -1,0 +1,666 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Categories of topics on nedbatchelder.com -->
+
+<categories>
+
+<category id='amazon'>
+    <name>Amazon</name>
+    <about>the huge online retailer</about>
+</category>
+
+<category id='animation'>
+    <name>Animation</name>
+    <about>artificial presentations of motion</about>
+</category>
+
+<category id='arch'>
+    <name>Architecture</name>
+    <about>software architecture</about>
+</category>
+
+<category id='art'>
+    <name>Art</name>
+    <about>the visual arts</about>
+</category>
+
+<category id='audio'>
+    <name>Audio</name>
+    <about>recorded speech</about>
+</category>
+
+<category id='autism' sidebar='y'>
+    <name>Autism</name>
+    <about>autism, or disabilities in general</about>
+</category>
+
+<category id='books' sidebar='y'>
+    <name>Books</name>
+    <about>printed books</about>
+</category>
+
+<category id='cakes'>
+    <name>Cakes</name>
+    <about>birthday cakes we've made for our family</about>
+</category>
+
+<category id='food'>
+    <name>Food</name>
+    <about>stuff you can eat</about>
+    <related>cakes</related>
+</category>
+
+<category id='funny' sidebar='y'>
+    <name>Funny</name>
+    <about>things I find amusing</about>
+</category>
+
+<category id='geeky'>
+    <name>Geeky</name>
+    <about>things only hard-core geeks would appreciate</about>
+</category>
+
+<category id='juggling'>
+    <name>Juggling</name>
+    <about>juggling</about>
+</category>
+
+<category id='ling'>
+    <name>Language</name>
+    <about>human language</about>
+</category>
+
+<category id='movies' sidebar='y'>
+    <name>Movies</name>
+    <about>movies, theatrical or amateur</about>
+</category>
+
+<category id='music'>
+    <name>Music</name>
+    <about>music, either made or listened to</about>
+</category>
+
+<category id='ads'>
+    <name>Ads</name>
+    <about>the genius that goes into selling products</about>
+</category>
+
+<category id='obits'>
+    <name>Obituaries</name>
+    <tag>obits</tag>
+    <about>people who have died</about>
+</category>
+
+<category id='parenting' sidebar='y'>
+    <name>Parenting</name>
+    <about>raising kids</about>
+</category>
+
+<category id='politics' sidebar='y'>
+    <name>Politics</name>
+    <about>political goings-on anywhere</about>
+    <related>society</related>
+</category>
+
+<category id='society'>
+    <name>Society</name>
+    <about>how millions of people behave together</about>
+    <related>politics</related>
+</category>
+
+<category id='war'>
+    <name>War</name>
+    <about>conflicts between nations</about>
+    <related>politics</related>
+</category>
+
+<category id='python' sidebar='y'>
+    <name>Python</name>
+    <about>the Python programming language</about>
+    <related>pycon</related>
+</category>
+
+<category id='pycon'>
+    <name>PyCon</name>
+    <about>gatherings of the Python community</about>
+</category>
+
+<category id='science'>
+    <name>Science</name>
+    <about>science of any sort</about>
+    <related>space</related>
+</category>
+
+<category id='site'>
+    <name>Site</name>
+    <about>this site</about>
+</category>
+
+<category id='tools'>
+    <name>Tools</name>
+    <about>software tools</about>
+</category>
+
+<category id='reference'>
+    <name>Reference</name>
+    <about>reference materials</about>
+</category>
+
+<category id='crafts'>
+    <name>Crafts</name>
+    <about>things you can make</about>
+</category>
+
+<category id='type' sidebar='y'>
+    <name>Typography</name>
+    <about>the construction and use of type faces</about>
+    <related>design</related>
+    <related>printing</related>
+</category>
+
+<category id='design'>
+    <name>Design</name>
+    <about>graphic design</about>
+    <related>type</related>
+</category>
+
+<category id='compsci'>
+    <name>Comp Sci</name>
+    <about>the theory of computers and software</about>
+</category>
+
+<category id='vidgames'>
+    <name>Video Games</name>
+    <about>video games</about>
+</category>
+
+<category id='games'>
+    <name>Games</name>
+    <about>games of all kinds</about>
+</category>
+
+<category id='testing'>
+    <name>Testing</name>
+    <about>testing software</about>
+</category>
+
+<category id='coding'>
+    <name>Coding</name>
+    <about>nitty-gritty details of writing lines of code</about>
+    <related>testing</related>
+    <related>debugging</related>
+    <related>arch</related>
+</category>
+
+<category id='history'>
+    <name>History</name>
+    <about>the past and origins</about>
+    <related>obits</related>
+</category>
+
+<category id='quick'>
+    <name>Quick Links</name>
+    <about>ephemera briefly noted</about>
+</category>
+
+<category id='howto'>
+    <name>How-To</name>
+    <about>instructions for anything</about>
+</category>
+
+<category id='work'>
+    <name>Work</name>
+    <about>general work-related issues</about>
+</category>
+
+<category id='xml'>
+    <name>XML</name>
+    <about>XML and related technologies</about>
+</category>
+
+<category id='xslt'>
+    <name>XSLT</name>
+    <about>the XSLT transformation language</about>
+</category>
+
+<category id='blogs'>
+    <name>Blogs</name>
+    <about>other people's blogs and websites</about>
+</category>
+
+<category id='cpp'>
+    <name>C++</name>
+    <about>use and design of the C++ programming language</about>
+</category>
+
+<category id='csharp'>
+    <name>C#</name>
+    <about>the C# programming language</about>
+</category>
+
+<category id='perl'>
+    <name>Perl</name>
+    <about>the Perl programming language</about>
+</category>
+
+<category id='js'>
+    <name>JavaScript</name>
+    <about>the JavaScript programming language</about>
+</category>
+
+<category id='css'>
+    <name>CSS</name>
+    <about>Cascading Style Sheets</about>
+</category>
+
+<category id='php'>
+    <name>PHP</name>
+    <about>the PHP programming language</about>
+</category>
+
+<category id='webpage'>
+    <name>Web</name>
+    <about>technology for making web sites</about>
+</category>
+
+<category id='lotus'>
+    <name>Lotus</name>
+    <about>Lotus software and Lotus the company</about>
+</category>
+
+<category id='srcctrl'>
+    <name>Source Control</name>
+    <about>source control systems</about>
+</category>
+
+<category id='google'>
+    <name>Google</name>
+    <about>Google searching, or Google the company</about>
+    <related>search</related>
+</category>
+
+<category id='search'>
+    <name>Search</name>
+    <about>searching for information</about>
+    <related>google</related>
+    <related>reference</related>
+</category>
+
+<category id='photos'>
+    <name>Photos</name>
+    <about>photographs</about>
+</category>
+
+<category id='db'>
+    <name>Databases</name>
+    <tag>db</tag>
+    <about>database software and systems</about>
+</category>
+
+<category id='business'>
+    <name>Business</name>
+    <tag>biz</tag>
+    <about>running businesses</about>
+</category>
+
+<category id='law'>
+    <name>Law</name>
+    <about>law and legal matters</about>
+</category>
+
+<category id='phil'>
+    <name>Philosophy</name>
+    <about>outlooks on life</about>
+</category>
+
+<category id='help'>
+    <name>Help</name>
+    <about>things I need your help with</about>
+</category>
+
+<category id='lego'>
+    <name>Lego</name>
+    <about>those fabulous construction bricks</about>
+</category>
+
+<category id='susan'>
+    <name>Susan</name>
+    <about>my lovely wife and her work</about>
+</category>
+
+<category id='mycode'>
+    <name>My Code</name>
+    <about>software I have written for download</about>
+</category>
+
+<category id='proglang'>
+    <name>Programming Languages</name>
+    <about>programming languages off the beaten path</about>
+</category>
+
+<category id='exceptions'>
+    <name>Exceptions</name>
+    <about>exceptions and error handling in code</about>
+</category>
+
+<category id='cars'>
+    <name>Cars</name>
+    <about>automobiles</about>
+</category>
+
+<category id='mac'>
+    <name>Mac</name>
+    <about>Mac computers and software</about>
+</category>
+
+<category id='windows'>
+    <name>Windows</name>
+    <about>Microsoft Windows</about>
+</category>
+
+<category id='ide'>
+    <name>IDEs</name>
+    <about>integrated development environments</about>
+</category>
+
+<category id='comics'>
+    <name>Comics</name>
+    <about>comics</about>
+</category>
+
+<category id='math'>
+    <name>Math</name>
+    <about>mathematics</about>
+</category>
+
+<category id='debugging'>
+    <name>Debugging</name>
+    <about>empirically making programs work properly</about>
+</category>
+
+<category id='toys'>
+    <name>Toys</name>
+    <about>playthings</about>
+</category>
+
+<category id='kubi'>
+    <name>Kubi</name>
+    <about>my ex-employer Kubi Software</about>
+</category>
+
+<category id='tabblo'>
+    <name>Tabblo</name>
+    <about>my employer, Tabblo</about>
+</category>
+
+<category id='security'>
+    <name>Security</name>
+    <about>computer security</about>
+</category>
+
+<category id='development'>
+    <name>Development</name>
+    <about>the process of writing software</about>
+</category>
+
+<category id='devmindset'>
+    <name>Dev Mindset</name>
+    <about>the developer's mindset</about>
+</category>
+
+<category id='places'>
+    <name>Places</name>
+    <about>spots on the Earth</about>
+</category>
+
+<category id='libs'>
+    <name>Libraries</name>
+    <about>software components you can use in your software</about>
+</category>
+
+<category id='admin'>
+    <name>Administration</name>
+    <tag>admin</tag>
+    <about>managing computer systems</about>
+</category>
+
+<category id='hacks'>
+    <name>Hacks</name>
+    <about>technology being used in unexpected ways</about>
+</category>
+
+<category id='quotes'>
+    <name>Quotes</name>
+    <about>words other people wrote or said</about>
+</category>
+
+<category id='charset'>
+    <name>Characters</name>
+    <about>writing systems and character sets</about>
+</category>
+
+<category id='networks'>
+    <name>Networks</name>
+    <about>networks connecting computers</about>
+    <related>security</related>
+</category>
+
+<category id='hardware'>
+    <name>Hardware</name>
+    <about>the physical artifacts of computing</about>
+</category>
+
+<category id='online'>
+    <name>Online</name>
+    <about>living on the web</about>
+</category>
+
+<category id='space'>
+    <name>Space</name>
+    <about>outer space, either real or fictional</about>
+    <related>science</related>
+</category>
+
+<category id='tv'>
+    <name>TV</name>
+    <about>television</about>
+</category>
+
+<category id='ui'>
+    <name>UI</name>
+    <about>user interfaces</about>
+</category>
+
+<category id='graphics'>
+    <name>Graphics</name>
+    <about>producing images on computers</about>
+</category>
+
+<category id='me'>
+    <name>Me</name>
+    <about>me</about>
+</category>
+
+<category id='edu'>
+    <name>Education</name>
+    <about>teaching and learning</about>
+</category>
+
+<category id='browsers'>
+    <name>Browsers</name>
+    <about>web browsers</about>
+</category>
+
+<category id='semweb'>
+    <name>Semantic Web</name>
+    <about>using the web for more than browsing</about>
+</category>
+
+<category id='productivity'>
+    <name>Productivity</name>
+    <about>getting things done</about>
+</category>
+
+<category id='robots'>
+    <name>Robots</name>
+    <about>automated mechanical gizmos</about>
+</category>
+
+<category id='obsession'>
+    <name>Obsession</name>
+    <about>people getting way too focused on a particular thing</about>
+</category>
+
+<category id='feeds'>
+    <name>Feeds</name>
+    <about>producing and consuming syndication feeds</about>
+</category>
+
+<category id='japan'>
+    <name>Japan</name>
+    <about>Japan or things Japanese</about>
+</category>
+
+<category id='sports'>
+    <name>Sports</name>
+    <about>athletic pursuits</about>
+</category>
+
+<category id='malware'>
+    <name>Malware</name>
+    <about>spam, viruses, and other forces from the dark side</about>
+</category>
+
+<category id='cog'>
+    <name>Cog</name>
+    <about>Cog, my Python-based code generation tool</about>
+</category>
+
+<category id='machinery'>
+    <name>Machinery</name>
+    <about>physical contraptions of all kinds</about>
+</category>
+
+<category id='osaf'>
+    <name>OSAF</name>
+    <about>the Open Source Applications Foundation</about>
+</category>
+
+<category id='im'>
+    <name>IM</name>
+    <about>instant messaging</about>
+</category>
+
+<category id='management'>
+    <name>Management</name>
+    <about>organizing and overseeing the work of others</about>
+</category>
+
+<category id='algorithms'>
+    <name>Algorithms</name>
+    <about>computational procedures</about>
+</category>
+
+<category id='shells'>
+    <name>Shells</name>
+    <about>command-line interfaces to software</about>
+</category>
+
+<category id='unix'>
+    <name>Unix</name>
+    <about>Unix-based operating systems</about>
+</category>
+
+<category id='maps'>
+    <name>Maps</name>
+    <about>geographic information</about>
+</category>
+
+<category id='religion'>
+    <name>Religion</name>
+    <about>faith, worship and other religious topics</about>
+</category>
+
+<category id='friendfam'>
+    <name>Friends &amp; Family</name>
+    <about>friends and family members</about>
+    <related>susan</related>
+</category>
+
+<category id='printing'>
+    <name>Printing</name>
+    <about>mechanically creating images on paper</about>
+    <related>type</related>
+</category>
+
+<category id='reviews'>
+    <name>Reviews</name>
+    <about>my opinions of books, movies, and other works</about>
+</category>
+
+<category id='concurrency'>
+    <name>Concurrency</name>
+    <about>handling more than one thing happening at once</about>
+</category>
+
+<category id='django'>
+    <name>Django</name>
+    <about>the Django Python web application framework</about>
+</category>
+
+<category id='ruby'>
+    <name>Ruby</name>
+    <about>the Ruby programming language</about>
+</category>
+
+<category id='gatherings'>
+    <name>Gatherings</name>
+    <about>gatherings of people I've attended (or not)</about>
+</category>
+
+<category id='color'>
+    <name>Color</name>
+    <about>colors, their technology and tools</about>
+    <related>design</related>
+</category>
+
+<category id='email'>
+	<name>Email</name>
+	<about>electronic mail, and all of its technology and implications</about>
+</category>
+
+<category id='starwars'>
+    <name>Star Wars</name>
+    <about>the movies, culture and extended universe of the Lucas sagas</about>
+</category>
+
+<category id='spotted'>
+    <name>Spotted</name>
+    <about>things seen or heard</about>
+</category>
+
+<category id='pdf'>
+    <name>PDF</name>
+    <about>Adobe's Portable Document Format</about>
+</category>
+
+<category id='regex'>
+    <name>Regex</name>
+    <about>the mysteries of regular expressions</about>
+</category>
+
+<category id='coverage'>
+    <name>Coverage</name>
+    <about>code coverage measurement</about>
+</category>
+
+<category id='communication'>
+    <name>Communication</name>
+    <about>communicating with other people</about>
+</category>
+
+<category id='boston'>
+    <name>Boston</name>
+    <about>my fair city</about>
+</category>
+
+</categories>

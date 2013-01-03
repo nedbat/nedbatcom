@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040226T073333'>
+<title>Port knocking</title>
+<category>networks</category>
+<category>security</category>
+<via id='simonwillison'/>
+<body>
+<p><a href='http://www.portknocking.org/'>Port Knocking</a>
+is a clever technique to secure a machine.
+No ports are open, but failures on ports are monitored for a specific
+sequence of port attempts.  If the correct ports are attempted in the
+correct sequence, then a port is opened, and the external machine
+can get in.
+The technique adds a meta-level to normal security measures, and
+turns failures into interesting information.</p>
+
+</body>
+</entry>
+</blog>

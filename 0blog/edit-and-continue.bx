@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030804T100243'>
+<title>Edit and continue</title>
+<category>ide</category>
+<via id='tedleung'/> <!-- id= or href= -->
+<body>
+<p>Frans Bouma
+<a href='http://weblogs.asp.net/fbouma/archive/08012003.aspx'>rants about Edit and Continue</a>.
+He claims it encourages bad debugging style.
+I wouldn't go that far, but I don't use Edit and Continue because I don't believe in it.
+Not "don't believe" as in "I think it is poor practice", but as in
+"I think it is impossible".
+</p>
+
+<p>Now of course I know the feature is implemented, and many people use it,
+and they are happy with it, so it must work for them.
+But it doesn't fit my mental model of how software systems can operate.
+When I have tried it, it either works, which seems miraculous, or it doesn't,
+which is disappointing.  So I don't believe in it, and don't use it.
+</p>
+
+<p>For those that may not know: Edit and Continue is a feature of Microsoft
+development environments where a running program can be edited, recompiled,
+dynamically patched, and execution continues.
+</p>
+
+</body>
+</entry>
+</blog>

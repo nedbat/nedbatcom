@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041212T193305'>
+<title>Coverage.py updated</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>After a long and <a href='blog/200412.html#e20041205T185200'>feverish</a>
+ten days spent poring over Python parse trees,
+I have an updated <a href='code/modules/coverage.html'>coverage.py</a> to
+offer.
+</p>
+
+<p>It does a better job identifying executable statements than the
+<a href='http://www.garethrees.org/2001/12/04/python-coverage/'>original version</a>
+by Gareth Rees, which was confused by docstrings and global statements.
+And you can use code markers to exclude lines or suites from consideration as executable statements.
+</p>
+
+<p>Enjoy!</p>
+
+<p>In the end, this job required a three-pronged attack to get everything I needed out
+of a Python module.  Line-oriented regular expressions found the exclusion markers,
+the <a href='http://python.org/doc/current/lib/module-parser.html'>parser</a>
+module told me about tokens and line numbers, and the
+<a href='http://python.org/doc/current/lib/module-compiler.html'>compiler</a>
+module told me about execution semantics.
+There may be an easier way to get all the information I needed, but I couldn't find it.
+</p>
+
+</body>
+</entry>
+</blog>

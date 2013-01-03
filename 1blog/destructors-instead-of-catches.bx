@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040215T094131'>
+<title>Destructors instead of catches</title>
+<category>cpp</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>One of the most powerful features of C++ is that stack objects
+are guaranteed to be destroyed as functions are exited, regardless of why
+they were exited (normal return, or an exception being thrown).
+This is one of those clever techniques that is easy to know about, but then
+easy to overlook anyway (as I recently did).
+I've written an article about it:
+<a href='text/destructors-instead-of-catches.html'>Destructors instead of catches</a>.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030723T082718'>
+<title>Pickle hiccups</title>
+<category>python</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>(This is not about deli after-effects: it's about Python).
+The <a href='http://python.org/doc/current/lib/module-pickle.html'>pickle</a>
+module is great: any Python data, simply serialized for storage, transmission,
+whatever.
+Nevertheless, Jarno
+<a href='http://www.hole.fi/jajvirta/weblog/20030717T1501.html'>writes about his difficulty with pickle</a>.
+I don't have the same problem (I always go find my last use of it to copy from anyway),
+but I had two deeper problems with pickle recently:
+</p>
+
+<p>Problem one:
+You can't pickle instances of classes that are not declared at the top
+level of their module.  This is clearly stated in the docs, but I had to
+discover it the hard way.  I like to use private classes where the class
+is only needed within another class, and pickle can't handle it:
+</p>
+
+<code lang='python'><![CDATA[
+# Bad: can't pickle Outer
+class Outer:
+    class Inner:
+        # ....
+
+    def __init__(self):
+        self.inner = self.Inner()
+]]></code>
+
+<code lang='python'><![CDATA[
+# Good: can pickle Outer
+class _Inner:
+    # ....
+
+class Outer:
+    def __init__(self):
+        self.inner = _Inner()
+]]></code>
+
+<p>Problem two:
+I had created an overly-tricky class that never returned an AttributeError:
+missing attributes simply returned None.
+This messed with pickle's head, because it tries
+to get the __getstate__ method on instances, and None is not callable.
+This wasn't really pickle's fault, more of an object lesson in how to override
+the deep magic methods like __getattr__.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050427T200230'>
+<title>Nocog</title>
+<category>cog</category>
+<via />
+<body>
+<p>Larry Hastings uses <a href='code/cog'>Cog</a>, but worries about missing new files that need to be Cog'ged.
+To solve the problem, he wrote <a href='http://www.midwinter.com/~lch/programming/nocog/'>Nocog</a>.
+As he describes it,
+"Nocog scans over its input files, and if any of them contain Cog code, it prints an error and returns -1.
+If none of them contain any Cog code, it prints nothing and returns 0."
+</p>
+
+<p>This isn't a problem I've encountered, but I understand the impulse: the more that code can detect
+its own problems, the fewer problems will persist.  This applies even to builds.
+</p>
+
+</body>
+</entry>
+</blog>

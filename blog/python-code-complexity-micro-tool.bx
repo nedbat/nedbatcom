@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080318T222049'>
+<title>Python code complexity micro-tool</title>
+<category>python</category>
+<category>tools</category>
+<body>
+<p>One of the side-effects of going to PyCon is getting immersed in some side
+project or other.  Being immersed in all things Python for a few days away from
+the other usual complexities of life makes it a natural environment in which to
+dive deep.
+</p>
+
+<p>This PyCon, I was ignited by a comment
+<a href='http://panela.blog-city.com/pycon_2008_managing_complexity_slides.htm'>Matt Harrison</a>
+made about there not being a tool to find code paths in Python.  Having wrestled
+with the difficulty of analyzing Python code for coverage.py, I thought I could
+hack something together.</p>
+
+<p>A few days later, the meager result is <a href='files/codepaths0.py'>codepaths.py</a>.
+It's a command line script.  Give it a Python source file, and it will report
+on the McCabe complexity measure of the functions and class methods within.
+The -m option is a minimum complexity measure below which functions are too uninteresting
+to include in the output (default 2).  The -d option causes the output to be
+a <a href='http://www.graphviz.org/'>Graphviz</a> dot file for drawing the code
+path graphs.  Without -d, the names and complexity measures are simply listed.</p>
+
+<p>This will make a PNG file, for instance:</p>
+
+<code>python codepaths.py -d mycode.py | dot -Tpng -o mycode.png</code>
+
+<p>Weaknesses:</p>
+
+<ul>
+    <li>The graphs are kind of wonky because I don't know how to control Graphviz.</li>
+    <li>Some Python constructs aren't handled yet (try/except, while/else) because I don't
+        know how to account for them in the complexity measure.</li>
+    <li>Files of any interesting size make graphs that are slow to draw and large to display.</li>
+    <li>The graphs could be streamlined: coalescing consecutive simple statements,
+        removing the join points after branches, and so on.</li>
+</ul>
+
+<p>It's a quick hack
+starting point.  If people are interested, it will go some place. If not, it was
+a fun weekend project.</p>
+
+</body>
+</entry>
+</blog>

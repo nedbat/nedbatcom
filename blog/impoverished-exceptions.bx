@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060906T055924'>
+<title>Impoverished exceptions</title>
+<category>exceptions</category>
+<category>python</category>
+<via />
+<body>
+<p>Yesterday's post about testing for exception details turned into a 
+surprisingly lively discussion about what is the interesting detail in
+exceptions, and how to test for it.
+</p>
+
+<p>My string comparison was quickly upped to substring comparison, and then
+to regex matching.  Then it was pointed out that in different locales,
+the exception messages can be completely different.</p>
+
+<p>As it happens, this came up again for me in a different context. One
+of the things test runners need to do is find test code nestled in among
+the application code under test.  Here's sample code for doing this
+(from Russ Magee's new test framework for <a href='http://djangoproject.com'>Django</a>:
+</p>
+
+<code lang='python'><![CDATA[
+# Check to see if a separate 'tests' module exists parallel to the 
+# models module
+TEST_MODULE = 'tests'
+try:
+    app_path = app_module.__name__.split('.')[:-1]
+    test_module = __import__('.'.join(app_path + [TEST_MODULE]), [], [], TEST_MODULE)
+    suite.addTest(testLoader.loadTestsFromModule(test_module))
+except ImportError:
+    # No tests.py file for application
+    pass
+]]></code>
+
+<p>This works great: if there's a tests.py file, it will be imported and
+added to the test suite.  If there isn't, it will silently move on.
+But what if you have a tests.py file, but it has an import error in it?
+I mis-type imports all the time, or move code between files and let the
+interpreter find the imports I need to bring along.  If my tests.py file
+has an import error, it is suppressed, and the tests are found, and I don't
+get told about it.
+</p>
+
+<p>I changed the code to this:</p>
+
+<code lang='python'><![CDATA[
+# Check to see if a separate 'tests' module exists parallel to the 
+# models module
+TEST_MODULE = 'tests'
+try:
+    app_path = app_module.__name__.split('.')[:-1]
+    test_module = __import__('.'.join(app_path + [TEST_MODULE]), [], [], TEST_MODULE)
+    suite.addTest(testLoader.loadTestsFromModule(test_module))
+except ImportError, exc:
+    # No tests.py file for application, or some other import error.
+    if str(exc) != 'No module named %s' % TEST_MODULE:
+        # It's something other than a missing tests module, probably a real
+        # error, so show the user.
+        import traceback
+        traceback.print_exc()
+]]></code>
+
+<p>Now if tests.py doesn't exist, it will still be silent, but any other
+error will be displayed to the user.  Better: when my tests aren't found,
+I can see why.  But there we are testing exception messages.  If this code
+were run on a non-English installation, the logic would be all wrong.
+One more edge case: suppose deep in my tests.py, there's an import for another
+module named "tests"?  If that import fails, the exception will still be swallowed.
+</p>
+
+<p>This is one of the difficulties in error handling in general: 
+when something goes wrong, how do you express it richly enough so that the
+caller can understand the problem well enough to do something about it?
+</p>
+
+<p>Clearly, just knowing that an ImportError happened is not enough.  Here
+we want to distinguish between two different causes of ImportError.  The
+exception itself only has one piece of data on it: a message.  Wouldn't it
+be better if it had some structured information as well.  As 
+<a href='http://ironfroggy-code.blogspot.com/'>Calvin Spealman</a> pointed
+out on yesterday's post, it would be great if the details of the exception
+were available without trying to parse a human-readable message.</p>
+
+<p>Why doesn't ImportError have the name of the module that couldn't be 
+imported?  Then we could do something like this:</p>
+
+<code lang='python'><![CDATA[
+...
+except ImportError, exc:
+    # No tests.py file for application, or some other import error.
+    test_path = '.'.join(app_path + [TEST_MODULE])
+    if exc.module_path != test_path:
+        # It's something other than a missing tests module, probably a real
+        # error, so show the user.
+        import traceback
+        traceback.print_exc()
+]]></code>
+
+<p>Now we can do the test we want to do.  We aren't beholden to any particular 
+locale, and we can distinguish between different tests.py that couldn't be
+imported.</p>
+
+<p>All sorts of Python exceptions could be extended this way.  Calvin's
+original example was AttributeError having the object and attribute name
+that couldn't be found on it.  The good news is that this could be added
+to Python at any time.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110613T225928'>
+<title>Long-running restartable worker</title>
+<category>python</category>
+<body>
+    <p>I had to write a program that would analyze a large amount of data.  In fact,
+        too much data to actually analyze all of.  So I resorted to random sampling 
+        of the data, but even so, it was going to take a long time.  For various 
+        reasons, the simplistic program I started with would stop running, and I'd
+        lose the progress I made on crunching through the mountain of data.</p>
+
+    <p>You'd think I would have started with a restartable program so that I 
+        wouldn't have to worry about interruptions, but I guess I'm not that
+        smart, so I had to get there iteratively.</p>
+
+    <p>The result worked well, and for the next time I need a program that can
+        pick up where it left off and make progress against an unreasonable goal,
+        here's the skeleton of what I ended up with:</p>
+
+<code lang="py"><![CDATA[
+import os, os.path, random, shutil, sys
+import cPickle as pickle
+
+
+class Work(object):
+    """The state of the computation so far."""
+
+    def __init__(self):
+        self.items = []
+        self.results = Something_To_Hold_Results()
+
+    def initialize(self):
+        self.items = Get_All_The_Possible_Items()
+        random.shuffle(self.items)
+
+    def do_work(self, nitems):
+        for _ in xrange(nitems):
+            item = self.items.pop()
+            Process_An_Item_And_Update_Results(item)
+        Display_Results_So_Far()
+        
+
+def main(argv):
+    pname = "work.pickle"
+    bname = "work.pickle.bak"
+    if os.path.exists(pname):
+        # A pickle exists! Restore the Work from
+        # it so we can make progress.
+        with open(pname, 'rb') as pfile:
+            work = pickle.load(pfile)
+    else:
+        # This must be the first time we've been run.
+        # Start from the beginning.
+        work = Work()
+        work.initialize()
+
+    while True:
+        # Process 25 items, then checkpoint our progress.
+        work.do_work(25)
+        if os.path.exists(pname):
+            # Move the old pickle so we can't lose it.
+            shutil.move(pname, bname)
+        with open(pname, 'wb') as pfile:
+            pickle.dump(work, pfile, -1)
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+]]></code>
+
+<p>The "methods" in the Strange_Camel_Case are pseudo-code where the actual
+    particulars would get filled in.  The Work object is pickled every once
+    in a while, and when the program starts, it reconstitutes the Work
+    object from the pickle so that it can pick up where it left off.</p>
+
+<p>The program will run forever, and display results every so often.  I just
+    let it keep running until it seemed like the random sampling had gotten
+    me good convergence on the extrapolation to the truth.  Another use
+    of this skeleton might need a real end condition.</p>
+
+</body>
+</entry>
+</blog>

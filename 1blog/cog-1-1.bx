@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040321T215603'>
+<title>Cog 1.1</title>
+<category>cog</category>
+<via />
+<body>
+<p>I made a few minor updates to <a href='code/cog'>cog</a>,
+my code generation tool that uses Python code to generate
+code for any other language.
+Version 1.1 allows it to be used for languages without multi-line comments to hide the cog code in.
+The cool thing is, this was a suggestion by Greg Smith in the reader comments.
+If you have an idea, send it in!
+</p>
+</body>
+</entry>
+</blog>

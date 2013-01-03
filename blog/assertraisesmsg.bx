@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060905T064418'>
+<title>assertRaisesMsg</title>
+<category>python</category>
+<category>testing</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>I use the standard unittest module for testing, despite the community's
+general protestations about it not being pythonic.  It does what I need,
+except for one thing.  It has an assertRaises method that tests that a
+callable raises an exception of the expected class, but the message that
+comes with the exception is not checked.  So I usually mix this method into
+my test case base class:
+</p>
+
+<code lang='python'><![CDATA[
+def assertRaisesMsg(self, excClass, msg, callableObj, *args, **kwargs):
+    """ Just like unittest.TestCase.assertRaises,
+        but checks that the message is right too.
+    """
+    try:
+        callableObj(*args, **kwargs)
+    except excClass, exc:
+        excMsg = str(exc)
+        if not msg:
+            # No message provided: any message is fine.
+            return
+        elif excMsg == msg:
+            # Message provided, and we got the right message: it passes.
+            return
+        else:
+            # Message provided, and it didn't match: fail!
+            raise self.failureException(
+                "Right exception, wrong message: got '%s' expected '%s'" % 
+                (excMsg, msg)
+                )
+    else:
+        if hasattr(excClass, '__name__'):
+            excName = excClass.__name__
+        else:
+            excName = str(excClass)
+        raise self.failureException(
+            "Expected to raise %s, didn't get an exception at all" % 
+            excName
+            )
+]]></code>
+
+<p>I can call it (for example) like this:</p>
+
+<code lang='python'><![CDATA[
+self.assertRaisesMsg(MyException, "Exception message", my_function, (arg1, arg2))
+]]></code>
+
+<p>This test line will call my_function(arg1, arg2) and succeed if it raises
+a MyException with the message "Exception message". It will fail in all other
+cases.</p>
+
+</body>
+</entry>
+</blog>

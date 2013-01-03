@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090118T114841'>
+<title>Rules of database app aging</title>
+<category>db</category>
+<category>arch</category>
+<via id='simonwillison'/>
+<body>
+<p>Peter Harkins succinctly distills out
+<a href='http://push.cx/2009/rules-of-database-app-aging'>rules of database app aging</a>,
+namely that fields become optional, and relationships become many-to-many.
+When I read that I wanted to add,
+</p>
+
+<box><a href='blog/200507/booleans_suck.html'>All booleans become enumerations.</a></box>
+
+<p>but commenters have already extended the list.</p>
+
+<p>One comment on the blog post in particular caught my eye. Jonathan Holland said,</p>
+
+<quote><p>This sounds more like database aging when your original schema was poorly planned.</p></quote>
+
+<p>I don't know what world Jonathan is working in.  In my experience, these sorts
+of aging effects of applications are due not to developers doing a sloppy job as
+they are due to the domain needs changing.  Sure, sometimes, developers try to
+ignore inconvenient stuff like timezones, but much of the time, the application
+needs change.  When designing the schema for version 1, it's impossible to predict
+what version 3 will need.  Trying to anticipate it won't guarantee your schema
+won't change, it will just mean you do a lot more work in version 1, and then
+version 3 turns out to be completely different than you expected, so not only
+does your schema stretch in difficult and unexpected ways, but half the flexibility
+you built in turns out to be completely unhelpful and possibly even a crushing burden.</p>
+
+</body>
+</entry>
+</blog>

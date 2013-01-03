@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050303T111456'>
+<title>C# and OutputDebugString</title>
+<category>debugging</category>
+<category>csharp</category>
+<via />
+<body>
+<p>I've taken over responsibility at work for a UI written in C#.
+This is challenging on a number of levels: I haven't done a lot of UI,
+I haven't done a lot of C#, and the previous owner was (shall we say)
+not the most disciplined developer.
+</p>
+
+<p>Debugging UI code is a pain because if your debugger obscures the
+UI, then exposing the UI causes window messages, which change the
+behavior of the code, or trip more breakpoints, and so on.
+So I'm using printf-style debugging: printed messages in key points
+to understand what's going on.  Here's some tips on how to do it.</p>
+
+<more>
+
+<p>First, use the .NET Debug.WriteLine() method.  This calls the Win32
+OutputDebugString() function.  The good thing about this technique is that
+because it is a native Windows facility, there are tools available to help.
+Most developers know that these methods write strings to your debugger's Output
+window.  That's great if you're running the program in the debugger.</p>
+
+<p>But did you also know that you can see these messages even without a debugger?
+Sysinternals provides the
+<a href='http://www.sysinternals.com/ntw2k/freeware/debugview.shtml'>kick-ass DebugView utility</a>
+that will display all the traffic through the OutputDebugString function.
+This provides unexpected benefits, because it will display the chatter from everything
+on your system, not just the program you happen to be looking at.</p>
+
+<p>Second, write yourself a utility function to beef up the Debug.WriteLine()
+functionality.  For example, this method will automatically put the calling
+function's name into the message:</p>
+
+<code lang='cs'><![CDATA[
+static public void DebugOut(string msg)
+{
+    StackTrace st = new StackTrace(false);
+    string caller = st.GetFrame(1).GetMethod().Name;
+    Debug.WriteLine(caller + ": " + msg);
+}
+]]></code>
+
+<p>Now you can write this:</p>
+
+<code lang='cs'><![CDATA[
+public void MyBuggyFunction()
+{
+    DebugOut("hey there");
+    //...
+}
+]]></code>
+
+<p>and see a message like this:</p>
+
+<code><![CDATA[
+MyBuggyFunction: hey there
+]]></code>
+
+<p>In thornier debugging cases, I want to know the full call stack to the point
+of the message.  So I wrote another helper:</p>
+
+<code lang='cs'><![CDATA[
+// The namespaces that ShortenType will remove from a type name.
+static private string[] assumedPrefixes =
+    new string[] {
+                     "System.Windows.",
+                     "System."
+                 };
+
+// Returns a short name for the given type.
+static private string ShortTypeName(System.Type type)
+{
+    string typeName = type.ToString();
+    foreach (string pref in assumedPrefixes)
+    {
+        if (typeName.StartsWith(pref))
+        {
+            return typeName.Substring(pref.Length);
+        }
+    }
+
+    return typeName;
+}
+
+// Return a string description of the stack, with parameter types.
+static public string GetDetailedStack(int skip, string prefix)
+{
+    string s = "";
+    StackTrace st = new StackTrace(true);
+
+    for (int i = skip; i < st.FrameCount; i++)
+    {
+        StackFrame sf = st.GetFrame(i);
+        MethodBase meth = sf.GetMethod();
+        string method = ShortTypeName(meth.DeclaringType) + "." + meth.Name + "(";
+        bool first = true;
+        foreach (ParameterInfo p in meth.GetParameters())
+        {
+            if (!first)
+            {
+                method += ", ";
+            }
+            method += ShortTypeName(p.ParameterType);
+            first = false;
+        }
+        method += ")";
+        s += prefix + method + "\n";
+    }
+
+    return s;
+}
+
+// Write a debug message, with the full stack.
+static public void DebugOutStack(string msg)
+{
+    StackTrace st = new StackTrace(false);
+
+    // The real caller is one frame up the stack.
+    string caller = st.GetFrame(1).GetMethod().Name;
+
+    Debug.WriteLine(caller + ": " + msg + "\n" + GetDetailedStack(2, "   "));
+}
+]]></code>
+
+<p>Now when I call DebugOutStack, I get a line for each frame on the stack:</p>
+
+<code><![CDATA[
+MyUICtrl_Layout: called again!
+   UI.MyUICtrl.MyUICtrl_Layout(Object, Forms.LayoutEventArgs)
+   UI.MyUICtrl.splitter1_SplitterMoved(Object, Forms.SplitterEventArgs)
+   Forms.Splitter.OnSplitterMoved(Forms.SplitterEventArgs)
+   Forms.Splitter.set_SplitPosition(Int32)
+   Forms.Splitter.ApplySplitPosition()
+   Forms.Splitter.SplitEnd(Boolean)
+   Forms.Splitter.OnMouseUp(Forms.MouseEventArgs)
+   Forms.Control.WmMouseUp(Forms.Message&, Forms.MouseButtons, Int32)
+   Forms.Control.WndProc(Forms.Message&)
+   Forms.Control+ControlNativeWindow.OnMessage(Forms.Message&)
+   Forms.Control+ControlNativeWindow.WndProc(Forms.Message&)
+   Forms.NativeWindow.Callback(IntPtr, Int32, IntPtr, IntPtr)
+]]></code>
+
+<p>Having these stack traces available in my output messages has really helped me to
+pinpoint curious behavior.</p>
+
+<p>I haven't found a way to get the actual values on the stack (for example, the type
+of the this pointers would be very helpful).</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

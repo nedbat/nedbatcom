@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060318T110632'>
+<title>New idioms for old</title>
+<category>python</category>
+<via />
+<body>
+<p>I was spelunking through the <a href='http://djangoproject.com'>Django</a> source, and noticed two
+odd idioms (comment mine):
+</p>
+
+<code lang='python'><![CDATA[
+# Apply a function to every item in a list:
+tables = [quote_only_if_word(t) for t in tables]
+
+# Make a list of n None's:
+l = [None for _ in range(n)]
+]]></code>
+
+<p>Both of these use list comprehensions to accomplish jobs that could have been done with older Python
+facilities:</p>
+
+<code lang='python'><![CDATA[
+# Apply a function to every item in a list:
+tables = map(quote_only_if_word, tables)
+
+# Make a list of n None's:
+l = [None] * n
+]]></code>
+
+<p>I'm not saying they should have been done the older way.  It's interesting to see how powerful
+list comprehensions are that they can displace other language features.  I think in this case the
+new way is clearer for the first statement, and the old way is clearer for the second.</p>
+
+<p>But for a new Python coder, list comprehensions are one tool to understand, compared to the finer-edged
+but more narrowly-applicable map.  So I expect to see more use of list comprehensions like this, and less use
+of the classic ways.</p>
+
+</body>
+</entry>
+</blog>

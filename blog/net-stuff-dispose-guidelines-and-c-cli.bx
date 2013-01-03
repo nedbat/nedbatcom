@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050516T201136'>
+<title>.NET stuff: dispose guidelines and c++/cli</title>
+<category>csharp</category>
+<category>cpp</category>
+<via href='http://www.ejball.com/EdAtWork/'>Ed at Work</via>
+<body>
+<p>I haven't even read all this stuff, much less understand it, but they seem like
+things in my future.</p>
+
+<p><a href='http://www.bluebytesoftware.com/blog/PermaLink.aspx?guid=88e62cdf-5919-4ac7-bc33-20c06ae539ae'>Dispose, Finalization, and Resource Management</a>
+is an in-depth treatise on the nitty-gritty details about the end of life for .NET objects.
+Modern languages seem to prefer not promising much when it comes to destroying objects,
+and .NET is no different.  Some day, this is going to save my ass.
+</p>
+
+<p><a href='http://msdn.microsoft.com/msdnmag/issues/04/05/VisualC2005/default.aspx'>Modern Language Features of Visual C++ 2005</a>
+is a detailed overview of the .NET features being added to C++.
+It seems a bit overwhelming trying to merge the complexity of C++ with the deep new features of .NET,
+but Microsoft has never been shy about loading on developer features.
+I think their strategy is to guarantee developers have enough Microsoft choices in front of them
+that they feel like they're choosing among technologies without ever considering a non-Microsoft offering.
+</p>
+
+</body>
+</entry>
+</blog>

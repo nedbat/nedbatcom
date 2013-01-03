@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060426T054526'>
+<title>Python tuning tips</title>
+<category>python</category>
+<via />
+<body>
+<p>Here are a few things I learned yesterday while making a Python program go faster:
+</p>
+
+<p><b>1:</b> When sorting a list, you can provide a comparison function, often in the form of a lambda:
+</p>
+
+<code lang='python'><![CDATA[
+mylist.sort(lambda x,y: -cmp(x.computeValue(), y.computeValue()))
+]]></code>
+
+<p>This is cool because you can control how values are sorted.  But it's bad because the function
+is invoked for every comparison of pairs in the list.  If computeValue is truly intensive
+(for example, if it queries your database), there's a lot of work going on.  Also,
+why'd I have to repeat "computeValue()" in the lambda?</p>
+
+<p>Turns out I didn't. Since Python 2.4, sort also has a key= argument, which is a function of
+one element which returns the key to use for sorting the element:</p>
+
+<code lang='python'><![CDATA[
+mylist.sort(key=lambda x: x.computeValue(), reverse=True)
+]]></code>
+
+<p>The key function is called once per element, and the values returned stored to perform the
+comparisons.  The reverse=True argument is also new in 2.4, to force the sort in the other
+direction, instead of the negative cmp trick shown above, or worse, the x,y then y,x trick
+I've sometimes seen in comparison functions.
+</p>
+
+<p>I made this one-line change and saved myself 1000 database queries!</p>
+
+<p><b>2:</b> If you are measuring the time taken by a chunk of Python code, it matters what platform
+you are running on.  On Windows, time.clock() is the wall time, but on Unix, it is the processor
+time.  As the timeit module shows, time.time() is the best option for wall time on Unix.
+It makes a huge difference to measure wall time rather than processor time.
+</p>
+
+<p>We spent a while yesterday trying to find a missing half-second.  It turns out it was all the time
+that our process wasn't executing (for example, waiting for the database)!
+</p>
+
+<p><b>3:</b> If you have a number in fraction of seconds, and you want to display it in milliseconds,
+you multiply by 1000, but don't do it like this:</p>
+
+<code lang='python'><![CDATA[
+print "Elapsed time: %d" % secs*1000
+]]></code>
+
+<p>Because that will print:</p>
+
+<quote><p>
+Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0Elapsed time: 0
+</p></quote>
+
+<p>and so on, 1000 times.  The % operator has higher precedence than *, so what you really want is:</p>
+
+<code lang='python'><![CDATA[
+print "Elapsed time: %d" % (secs*1000)
+]]></code>
+
+</body>
+</entry>
+</blog>

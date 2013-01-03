@@ -1,0 +1,852 @@
+<page title="A Whirlwind Excursion through Python C Extensions">
+<history>
+<what when="20090216T063742">Created.</what>
+<what when="20090325T210926">Final for Pycon 2009</what>
+<what when="20090409T230112">Added video (and comments!)</what>
+</history>
+
+<!--
+
+0....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+        
+-->
+
+<!--
+    TODO: Bruce requests
+    
+    - Want to have code chunks exposed a section at a time.
+    - Highlighting of code segments?
+    + smartypants in Bruce?
+    
+-->
+
+<p>This is a presentation for PyCon 2009 in Chicago.  Here is video of me
+presenting it in Chicago:</p>
+
+<p align="center">
+<embed src="http://blip.tv/play/AfiIcJWmLQ" type="application/x-shockwave-flash" width="550" height="450" allowscriptaccess="always" allowfullscreen="true">
+</embed>
+</p>
+
+<p>Python can be extended with extensions written in C. It's a complex topic,
+this will be a quick 45 minute introduction.
+</p>
+
+        <figurep><img src="text/whirlext_000.png" alt="Slide 0"/></figurep><h1links/>
+
+
+        <figurep><img src="text/whirlext_001.png" alt="Slide 1"/></figurep><p>The examples here are toys, meant to demonstrate the structure of an
+extension. They are real running code, but they don't do anything useful.
+They'll demonstrate the workings of the C API and modules written with it. I'm
+assuming you'll be able to provide your own domain-specific inner workings.
+</p>
+
+<p>I'm assuming you know Python, and that you know C, at least well enough to
+follow along.</p>
+
+<p>The code samples are available in
+<a href="text/whirlext.zip">whirlext.zip</a>.</p>
+
+        <figurep><img src="text/whirlext_002.png" alt="Slide 2"/></figurep><figurep><img src="text/whirlext_003.png" alt="Slide 3"/></figurep><p>Why write in C when we have lovely Python?</p>
+
+<ul>
+<li>To speed up parts of your Python app</li>
+<li>To interface with existing C code</li>
+<li>To add Python to your C application</li>
+<li>To contribute to Python</li>
+</ul>
+
+        <figurep><img src="text/whirlext_004.png" alt="Slide 4"/></figurep><p>There are other tools that solve similar problems:</p>
+
+<ul>
+<li><a href="http://www.boost.org/doc/libs/1_36_0/libs/python/doc/tutorial/doc/html/index.html">Boost</a></li>
+<li><a href="http://www.swig.org/">SWIG</a></li>
+<li><a href="http://shed-skin.blogspot.com/">Shed Skin</a></li>
+<li><a href="http://cython.org/">Cython</a></li>
+<li><a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">Pyrex</a></li>
+</ul>
+
+<!-- ======================================================================= -->
+
+<h1>The C API</h1>
+
+        <figurep><img src="text/whirlext_006.png" alt="Slide 6"/></figurep><p>The C API is actually the public interface to the implementation of CPython.
+It's the same API used internally to build Python itself.  It's large, with over
+600 entry points covering all sorts of functionality.
+</p>
+
+<p>Because it's the core of CPython, it doesn't apply to other implementations
+of Python: Jython, IronPython, PyPy, etc.
+<a href="http://code.google.com/p/ironclad/">Ironclad</a> is a project to provide
+for C extensions in IronPython, but I have no experience with it.</p>
+
+        <figurep><img src="text/whirlext_007.png" alt="Slide 7"/></figurep><p>One amazing advantage to writing against the same C API as the core Python
+developers is that their code can be your learning sample.  Want to do something
+similar to a built-in function? Go find its source and learn how it was done.
+</p>
+
+        <figurep><img src="text/whirlext_008.png" alt="Slide 8"/></figurep><p>Writing a C API extension means working in two worlds at once. The C
+environment you're coding in is missing many of the niceties you're used to in
+Python, and at the same time, you're writing code that provides those niceties
+to your callers.</p>
+
+<ul>
+<li>You have to check function return codes, and then convert them into exceptions.</li>
+<li>You manage memory with malloc and free, but have to properly update reference
+counts so the Python environment doesn't leak memory.</li>
+<li>C has no introspection, so you have to explicitly re-describe what you've already written.</li>
+</ul>
+
+
+<!-- ======================================================================= -->
+
+<h1>The Hello World extension</h1>
+
+        <figurep><img src="text/whirlext_010.png" alt="Slide 10"/></figurep><p>This is the Python code for the module we'll implement in C.  It contains a
+single function which simply returns the string "hello world!".  Both the module
+and the function have doc strings.</p>
+
+
+        <figurep><img src="text/whirlext_011.png" alt="Slide 11"/></figurep><p>This is the complete C code for the Hello World extension:</p>
+
+<code lang="c">
+// ext1.c: A sample C extension: one simple function
+
+#include "Python.h"
+
+// hello_world function.
+
+static PyObject *
+hello_world(PyObject *self, PyObject *args)
+{
+    return Py_BuildValue("s", "hello, world!");
+}
+
+// Module functions table.
+
+static PyMethodDef
+module_functions[] = {
+    { "hello_world", hello_world, METH_VARARGS, "Say hello." },
+    { NULL }
+};
+
+// This function is called to initialize the module.
+
+void
+initext1(void)
+{
+    Py_InitModule3("ext1", module_functions, "A minimal module.");
+}
+</code>
+
+<p>The file starts by including Python.h.  This pulls in all of the
+definitions needed for using the C API, as well as a few standard header
+files.</p>
+
+<p>Next comes the hello_world function itself, that will actually do the work
+of the extension. The signature of the function is typical for the C API. There
+are few different ways to invoke C functions from Python, but this signature is
+the most common: taking two PyObject pointers, and returning another one.</p>
+
+<p>The hello_world function is very simple, it just returns a constant Python
+string.  We use the function Py_BuildValue to create a Python string from a C
+string.  In this case, the C string is a literal, but any C string can be used.
+Py_BuildValue's first argument is a format specifier that indicates how to
+interpret the rest of the arguments, similar to how sprintf works. In this case,
+the format spec is simply "s", meaning the argument is a C string to be turned
+into a Python string.</p>
+
+<p>The hello_world function is defined to return a PyObject*, so it returns the
+object created by Py_BuildValue.  Even functions that return nothing must
+explicitly return a None value.  Returning NULL indicates that an exception occurred,
+which we'll get to later.</p>
+
+<p>Because C has no introspection or reflection facilities, just defining the
+hello_world function isn't enough for us to be able to use it by name.  Next comes
+an array of PyMethodDef structures which will define the contents of the module.
+Each structure specifies a function, providing the Python name, the C implementation
+function, flags indicating how the function should be called, and a doc string.
+</p>
+
+<p>In our case we have only one function. We've named the C function hello_world,
+the same as its Python name, but the connection between the two is made by the
+structure associating the hello_world C function with the Python name "hello_world",
+not the identical names.</p>
+
+<p>The flags for hello_world are METH_VARARGS which tells Python how to invoke
+the C function.  Last comes the doc string for the function, as a standard C
+string. The array is terminated by a sentinel structure with a NULL name
+pointer, a common C idiom.</p>
+
+<p>The last function defined here is initext1, and it's the only symbol exported
+from this file (the others are declared static).  This function is executed when
+the module is imported, and its name is important.  It must be named initMOD where
+MOD is the name of the module, otherwise Python won't be able to find it in the
+executable library.</p>
+
+<p>Our initext1 function only does one thing: initialize the module by calling
+Py_InitModule3 with three arguments: the name of the module, the table of function
+definitions for the module's contents, and a doc string for the module.</p>
+
+        <figurep><img src="text/whirlext_012.png" alt="Slide 12"/></figurep><p>This simple extension shows the typical structure of a C API extension:</p>
+
+<ul>
+<li>Create the meat of your extension as C constructs: functions, structures, etc.</li>
+<li>Describe those C constructs in arrays of structures.</li>
+<li>Use C API functions to create the Python constructs.</li>
+</ul>
+
+
+        <figurep><img src="text/whirlext_013.png" alt="Slide 13"/></figurep><p>Building the extension is easy: setup.py knows how to do it with a simple
+declarative statement.  All we have to do is tell distutils about our extension:
+what it is called and what source files comprise it.  Distutils knows how to do
+the rest, producing a .pyd file on Windows, or a .so on Linux.
+</p>
+
+<p>On Windows, it may take some work to get a compiler installed properly.
+</p>
+
+        <figurep><img src="text/whirlext_014.png" alt="Slide 14"/></figurep><p>Once built and installed, the module works like any other Python module. The
+function can really be called, and so on. Notice that hello_world's type is
+"built-in function". Your code really is no different than a truly built-in
+function, they are both written with the same C API, and called in the same way.
+To the Python interpreter, your hello_world is the same as, say, len.</p>
+
+        
+<!-- ======================================================================= -->
+
+<h1>API details</h1>
+
+        <figurep><img src="text/whirlext_016.png" alt="Slide 16"/></figurep><p>The C API is fairly consistent in its conventions, but there are a few of
+them, so read the docs to be sure you know how each function works.  The docs
+are good, and say what will happen.</p>
+
+        <figurep><img src="text/whirlext_017.png" alt="Slide 17"/></figurep><p>The C API provides hundreds of entry points.</p>
+
+<p>Each built-in type has a set of C calls that implement the operations particular
+to the type.  They'll look familiar to you from working with the types in Python.
+In some cases, the operations may be made available in slightly different forms,
+such as PyDict_SetItem, which uses a PyObject as a key, and PyDict_SetItemString,
+which uses a C string as a key.  The latter is provided because using strings as
+keys is so common, it is special-cased for the caller and in the dictionary
+implementation.</p>
+
+        <figurep><img src="text/whirlext_018.png" alt="Slide 18"/></figurep><p>The C API also provides polymorphic functions that access objects based on
+what they do rather than what they are.</p>
+
+        <figurep><img src="text/whirlext_019.png" alt="Slide 19"/></figurep><p>And on and on, covering all of the built-in functionality of the Python
+environment.</p>
+
+        <figurep><img src="text/whirlext_020.png" alt="Slide 20"/></figurep><p>We used Py_BuildValue to create the Python "hello world" string. It can make
+many other Python data structures. The format string can include punctuation that
+creates tuples, lists, and dictionaries, including nesting:</p>
+
+<code>
+Py_BuildValue("s", "x") --&gt; "x"
+
+Py_BuildValue("i", 17) --&gt; 17
+
+Py_BuildValue("(isi)", 17, "x", 23) --&gt; (17, "x", 23)
+
+Py_BuildValue("{si,si}", "x", 17, "y", 2) --&gt; {"x":17, "y":2}
+
+Py_BuildValue("{si,s(ii)}", "x", 17, "y", 2, 3) --&gt;
+                                            {"x":17, "y":(2,3)}
+
+Py_BuildValue("") --&gt; None
+</code>
+
+<p>You'll use Py_BuildValue quite a bit to create Python data to return from your
+extension.</p>
+
+
+        <figurep><img src="text/whirlext_021.png" alt="Slide 21"/></figurep><p>Just as Py_BuildValue makes it easy to combine C values into a Python structure,
+PyArg_ParseTuple makes it simple to parse apart a tuple into a number of C
+variables.  The args argument to our C functions contains a tuple of the arguments
+to the function call.  We pass it to PyArg_ParseTuple along with a format string
+indicating what types we expect.  PyArg_ParseTuple works like sscanf, interpreting
+the format string, and assigning values to the variables in the rest of its arguments.
+</p>
+
+<p>Here we get a C string and a C integer from the Python values passed in. Just
+as with sscanf, the arguments after the format string must be addresses of variables
+that will be assigned values:</p>
+
+<code lang="c">
+static PyObject *
+string_peek(PyObject *self, PyObject *args)
+{
+   const char *pstr;
+   int indx;
+   
+   if (!PyArg_ParseTuple(args, "si:string_peek", &amp;pstr, &amp;indx)) {
+      return NULL;
+   }
+
+   int char_value = pstr[indx];
+   
+   return Py_BuildValue("i", char_value);
+}
+</code>
+
+<p>In this code, we can use typical C pointer arithmetic to get the index'th
+character from the string, and then use Py_BuildValue to return it as a Python
+integer.</p>
+
+<code>
+&gt;&gt;&gt; string_peek("Whirlwind", 5)
+119
+</code>
+
+
+<!-- ======================================================================= -->
+
+<h1>Error handling</h1>
+
+
+        <figurep><img src="text/whirlext_023.png" alt="Slide 23"/></figurep><p>If you try passing incorrect arguments to our string_peek function, you'll
+see it behaves as you would expect a Python function to, raising exceptions
+about incorrect types and number of arguments:</p>
+
+<code>
+&gt;&gt;&gt; string_peek("Whirlwind")
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: string_peek() takes exactly 2 arguments (1 given)
+
+&gt;&gt;&gt; string_peek("Whirlwind", "0")
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: an integer is required
+
+&gt;&gt;&gt; string_peek("Whirlwind", 2000)
+88
+</code>
+
+<p>We get all this free from PyArg_ParseTuple, all we have to do is pass along
+errors it detects.</p>
+
+        <figurep><img src="text/whirlext_024.png" alt="Slide 24"/></figurep><p>If the args tuple doesn't consist of a string and an integer, PyArg_ParseTuple
+will set an error state, and return false. The ":string_peek" portion
+of the format string tells PyArg_ParseTuple what function name to use in its
+error messages.</p>
+
+<p>If PyArg_ParseTuple returns false, we know that the arguments weren't proper,
+and we simply return NULL from the function.  This indicates to Python that an
+exception occurred, and it will raise it in the Python environment.</p>
+
+<p>The error state is global <emdash/> once set by PyArg_ParseTuple, all you
+have to do is return NULL, and the Python interpreter will raise the error as
+an exception in the calling Python code.</p>
+
+<p>In Python, the norm is to not catch exceptions, and let called functions'
+exception pass through your code. In C API code, the same rule is true, but is
+implemented by always checking return codes, and if a called function returns
+false or NULL, then you should return NULL to pass the error up the stack.</p>
+
+        <figurep><img src="text/whirlext_025.png" alt="Slide 25"/></figurep><p>There's still a problem with our string_peek function: we can ask for the
+2000'th character of a nine-character string. Our C code happily reads the
+contents of memory far outside the actual string it's supposed to be working
+with.</p>
+
+<p>We can check the index value to see that it's valid for the string, then
+raise our own exception if it is not.  To raise an exception in the C API,
+call PyErr_SetString to set the error state, and return NULL to indicate to
+Python that an exception occurred.  PyErr_SetString takes two arguments: the
+exception type, and a string message for the exception.
+</p>
+
+<p>Once we've done that, out-of-range arguments to string_peek will raise
+Python exceptions as you'd expect:</p>
+
+<code>
+&gt;&gt;&gt; string_peek("Whirlwind", 2000)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+IndexError: peek index out of range
+</code>
+
+<!-- ======================================================================= -->
+
+<h1>Memory management</h1>
+
+
+        <figurep><img src="text/whirlext_027.png" alt="Slide 27"/></figurep><p>Python's memory management is based on reference counting.  Every Python object
+has a count of the number of references to the object.  When the count becomes
+zero, the object can be destroyed and its memory reclaimed.</p>
+
+<p>In the C API, Python objects are instances of PyObject, and references to them
+are PyObject pointers.  When using PyObject pointers, you have to manipulate
+reference counts properly, or your extension will leak memory or crash.</p>
+
+        <figurep><img src="text/whirlext_028.png" alt="Slide 28"/></figurep><p>Every PyObject pointer is either owned or borrowed.  They are both pointers,
+used like any other C pointer.  But an owned reference means you are responsible
+for correctly disposing of the reference. Remember, objects are not owned, they
+are all shared, it's references to objects that are owned or borrowed.</p>
+
+<p>A borrowed reference means you can identify some other piece of code that
+owns the reference, because that code's interest in the object started before
+yours, and will end after yours.  For example, a caller must have a reference to
+the args it passes into a called function, so arguments are almost always borrowed.</p>
+
+<p>If you get it wrong, the object will be freed out from under you: crash!</p>
+
+        <figurep><img src="text/whirlext_029.png" alt="Slide 29"/></figurep><p>There are two ways to get an owned reference:</p>
+
+<ul>
+    <li>Accept a return value from a C function that returns a PyObject pointer.
+    These are documented as returning a "new reference".  Most C API functions
+    that return PyObject pointers return a new reference, but some return
+    borrowed references.  Read the docs carefully.</li>
+    
+    <li>Use Py_INCREF on a borrowed PyObject pointer you already have. This increments
+    the reference count on the object, and obligates you to dispose of it properly.</li>
+</ul>
+
+        <figurep><img src="text/whirlext_030.png" alt="Slide 30"/></figurep><p>Once you have an owned reference, you have to get rid of it properly.  The
+three ways are:</p>
+
+<ul>
+    <li>Return it to the caller of your function. This transfers the ownership
+    from you to your caller.  Now they have an owned reference.</li>
+    
+    <li>Use Py_DECREF on it.  This decrements the reference count.</li>
+    
+    <li>Store it with PyTuple_SetItem() or PyList_SetItem(), which are unusual
+    among C API functions: they steal ownership of their item argument.</li>
+</ul>
+
+
+        <figurep><img src="text/whirlext_031.png" alt="Slide 31"/></figurep><p>Let look at a real code example:</p>
+
+<code>
+// def insert_powers(numbers, n):
+//    powers = (n, n*n, n*n*n)
+//    numbers[n] = powers
+//    return powers
+
+static PyObject *
+insert_powers1(PyObject *self, PyObject *args)
+{
+   PyObject *numbers;
+   int n;
+   
+   if (!PyArg_ParseTuple(args, "Oi", &amp;numbers, &amp;n)) {
+      return NULL;
+   }
+   
+   PyObject *powers = Py_BuildValue("(iii)", n, n*n, n*n*n);
+   
+   // Equivalent to Python: numbers[n] = powers
+   if (PySequence_SetItem(numbers, n, powers) &lt; 0) {
+      return NULL;
+   }
+
+   return powers;
+}
+</code>
+
+
+<p>In this code, we have four PyObject pointers:
+</p>
+
+<ul>
+<li><codeword>self</codeword> is borrowed, as our argument values always are.
+The caller (or one of his callers) must own a reference to this value in order
+to call us with it, so we can borrow it from him.</li>
+<li>Similarly for <codeword>args</codeword>.</li>
+<li><codeword>numbers</codeword> is an object we pull out of the
+<codeword>args</codeword> with PyArg_ParseTuple.  Since args is borrowed, we
+can borrow value out of it, so numbers is also borrowed.</li>
+<li><codeword>powers</codeword> is our first owned reference.  We create this
+tuple at line 16, and Py_BuildValue returns a new reference, so it is now our
+responsibility.</li>
+</ul>
+
+<p>We have to make sure that we properly dispose of our owned reference, which
+happens at line 23 when we return it as the value of the function, passing the
+ownership to our caller.</p>
+
+<p>But there is a memory leak in this code: if PySequence_SetItem fails, we
+properly return NULL from the function to indicate the problem, but in that code
+path, we haven't disposed of our owned reference, <codeword>numbers</codeword>.
+</p>
+
+
+        <figurep><img src="text/whirlext_032.png" alt="Slide 32"/></figurep><p>Fixing the memory leak is simple: before returning NULL from the function,
+dispose of the owned reference explicitly with Py_DECREF.  Now every path
+through the function properly handles the owned references, and our function
+is complete:</p>
+
+<code lang="python">
+// def insert_powers(numbers, n):
+//    powers = (n, n*n, n*n*n)
+//    numbers[n] = powers
+//    return powers
+
+static PyObject *
+insert_powers2(PyObject *self, PyObject *args)
+{
+   PyObject *numbers;
+   int n;
+   
+   if (!PyArg_ParseTuple(args, "Oi", &amp;numbers, &amp;n)) {
+      return NULL;
+   }
+   
+   PyObject *powers = Py_BuildValue("(iii)", n, n*n, n*n*n);
+   
+   if (PySequence_SetItem(numbers, n, powers) &lt; 0) {
+      // Because we won't return powers, we have to discard it.
+      Py_DECREF(powers);
+      return NULL;
+   }
+
+   return powers;
+}
+</code>
+
+<p>Real-world C functions of course can be much more elaborate than this one,
+and analyzing all the code paths can be complex.  One way to simplify the problem
+is to organize your code so that all returns are at the end of the function,
+and resource clean up is all in one place at the end also:
+</p>
+
+<code>
+    // ..init vars..
+    int ok = 0;
+    PyObject * retval = NULL;
+    PyObject * something = NULL;
+    
+    // ..do all the work, using goto to jump to the
+    //   end on error...
+    Blah(); Blah();
+    if error: goto done
+    Etc(); Etc();
+    if error: goto done
+
+    // final step: build the return value, and set ok=1.
+    retval = Py_BuildValue("");
+    ok = 1;
+    
+    done:
+    
+    // ..clean up resources..
+    Py_XDECREF(something);
+    
+    return retval;
+</code>
+
+<p>Your function's resources may need more complex logic to get all the owned
+resources released properly, and you may not like the idea of using goto.
+But organizing code this way will make the code flow clearer, and you can
+consolidate all your resource tear-down code in one place, making it easier to
+be sure you have it right.
+</p>
+
+<p>However you organize your code, keeping track of owned references is an
+extra burden for you as you write your extension, but it is extremely important
+to get it right.</p>
+
+
+<!-- ======================================================================= -->
+
+<h1>Making a type</h1>
+
+        <figurep><img src="text/whirlext_034.png" alt="Slide 34"/></figurep><p>Making a type is more involved than simply making functions, but it has a
+similar flavor: write C components, describe them in arrays, and use the arrays
+to create Python components.</p>
+
+        <figurep><img src="text/whirlext_035.png" alt="Slide 35"/></figurep><p>The storage for your type is a C struct.  Its fields will be your type's
+data:</p>
+
+<code lang="c">
+// The CountDict type.
+
+typedef struct {
+   PyObject_HEAD
+   PyObject * dict;
+   int count;
+} CountDict;
+</code>
+
+<p>The first thing in the struct must be PyObject_HEAD, with no semicolon.
+This is a macro that creates the initial fields in the structure.  This is what
+makes your structure usable as a PyObject.</p>
+
+<p>The rest of the structure can be whatever data you need to support your code.
+PyObject * pointers are very useful for holding Python objects as data, but
+remember they are almost certainly owned references, since you can hold those
+values across function calls.  As with all owned references, you have to be
+careful to acquire and release them properly.
+</p>
+
+        <figurep><img src="text/whirlext_036.png" alt="Slide 36"/></figurep><p>When writing a class in Python, special methods have special names, like
+<codeword>__init__</codeword>.  When creating a type in C, those special methods
+are ordinary C function with particular signatures that will be specified as
+part of the type definition.  Often, these functions are named systematically
+with the type name and method name, but as with our earlier C functions, the
+name really doesn't matter: a pointer to the function will be used to associate
+it with its role.</p>
+
+<p>Each type has an init function, which is the analog of <codeword>__init__</codeword>:
+it initializes the data members:</p>
+
+<code lang="c">
+static int
+CountDict_init(CountDict *self, PyObject *args, PyObject *kwds)
+{
+   self-&gt;dict = PyDict_New();
+   self-&gt;count = 0;
+   return 0;
+}
+</code>
+
+<p>Unlike a Python class, a C class needs an explicit deallocation method.
+Here you should dispose of your owned references, and finally call the class
+tp_free function to clean up the type itself.
+</p>
+
+<code lang="c">
+static void
+CountDict_dealloc(CountDict *self)
+{
+   Py_XDECREF(self-&gt;dict);
+   self-&gt;ob_type-&gt;tp_free((PyObject*)self);
+}
+</code>
+
+        <figurep><img src="text/whirlext_037.png" alt="Slide 37"/></figurep><p>You can decide which of your struct's fields to make available as Python data
+attributes, if any.  An array of structures defines the attributes:
+</p>
+
+<code lang="c">
+static PyMemberDef
+CountDict_members[] = {
+   { "dict",   T_OBJECT, offsetof(CountDict, dict), 0,
+               "The dictionary of values collected so far." },
+               
+   { "count",  T_INT,    offsetof(CountDict, count), 0,
+               "The number of times set() has been called." },
+               
+   { NULL }
+};
+</code>
+
+<p>Each PyMemberDef structure specifies the Python attribute name, the C type
+of the field, the offset into the structure (with the handy offsetof macro),
+some flags, and a docstring for the attribute.  The array will be used later
+in the type definition.
+</p>
+
+        <figurep><img src="text/whirlext_038.png" alt="Slide 38"/></figurep><p>Class methods are defined just like functions.  That strange <codeword>self</codeword>
+argument we had on our functions earlier now makes sense: we can declare it to be
+our struct type, and use it to access our data fields:
+</p>
+
+<code lang="c">
+static PyObject *
+CountDict_set(CountDict *self, PyObject *args)
+{
+   const char *key;
+   PyObject *value;
+   
+   if (!PyArg_ParseTuple(args, "sO:set", &amp;key, &amp;value)) {
+      return NULL;
+   }
+
+   if (PyDict_SetItemString(self-&gt;dict, key, value) &lt; 0) {
+      return NULL;
+   }
+   
+   self-&gt;count++;
+   
+   return Py_BuildValue("i", self-&gt;count);
+}
+</code>
+
+        <figurep><img src="text/whirlext_039.png" alt="Slide 39"/></figurep><p>Methods are declared just like functions, in an array of structs providing the
+name, C function pointer, flags, and docstring for the method:
+</p>
+
+<code lang="c">
+static PyMethodDef
+CountDict_methods[] = {
+   { "set",    (PyCFunction) CountDict_set, METH_VARARGS,
+               "Set a key and increment the count." },
+   // typically there would be more here...
+   
+   { NULL }
+};
+</code>
+
+        <figurep><img src="text/whirlext_040.png" alt="Slide 40"/></figurep><p>Now we are ready to pull all our pieces together.  Types are defined
+by initializing a PyTypeObject struct.  This struct has fields for each of
+the special functions needed to provide the behavior of a type.  Where in
+Python we'd have specially named functions like __init__ and __hash__, in C
+we have members in the PyTypeObject struct pointing to the C function
+implementing the functionality. Other fields in the struct get pointers to the
+arrays of structs defining the methods, properties, and attributes:
+</p>
+
+<code lang="c">
+static PyTypeObject
+CountDictType = {
+   PyObject_HEAD_INIT(NULL)
+   0,                         /* ob_size */
+   "CountDict",               /* tp_name */
+   sizeof(CountDict),         /* tp_basicsize */
+   0,                         /* tp_itemsize */
+   (destructor)CountDict_dealloc, /* tp_dealloc */
+   0,                         /* tp_print */
+   0,                         /* tp_getattr */
+   0,                         /* tp_setattr */
+   0,                         /* tp_compare */
+   0,                         /* tp_repr */
+   0,                         /* tp_as_number */
+   0,                         /* tp_as_sequence */
+   0,                         /* tp_as_mapping */
+   0,                         /* tp_hash */
+   0,                         /* tp_call */
+   0,                         /* tp_str */
+   0,                         /* tp_getattro */
+   0,                         /* tp_setattro */
+   0,                         /* tp_as_buffer */
+   Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags*/
+   "CountDict object",        /* tp_doc */
+   0,                         /* tp_traverse */
+   0,                         /* tp_clear */
+   0,                         /* tp_richcompare */
+   0,                         /* tp_weaklistoffset */
+   0,                         /* tp_iter */
+   0,                         /* tp_iternext */
+   CountDict_methods,         /* tp_methods */
+   CountDict_members,         /* tp_members */
+   0,                         /* tp_getset */
+   0,                         /* tp_base */
+   0,                         /* tp_dict */
+   0,                         /* tp_descr_get */
+   0,                         /* tp_descr_set */
+   0,                         /* tp_dictoffset */
+   (initproc)CountDict_init,  /* tp_init */
+   0,                         /* tp_alloc */
+   0,                         /* tp_new */
+};
+</code>
+
+<p>The good news is that most of these fields can be omitted, just as in Python,
+you only have to implement the special functions you need to override.
+</p>
+
+        <figurep><img src="text/whirlext_041.png" alt="Slide 41"/></figurep><p>Finally we are ready to actually create the type. Once the module is initialized,
+we can init some slots in the type that can't be done with the struct initializer,
+then call PyType_Ready to finish up the creation of the type:
+</p>
+
+<code lang="c">
+void
+initext3(void)
+{
+   PyObject* mod;
+
+   // Create the module
+   mod = Py_InitModule3("ext3", NULL, "An extension with a type.");
+   if (mod == NULL) {
+      return;
+   }
+
+   // Fill in some slots in the type, and make it ready
+   CountDictType.tp_new = PyType_GenericNew;
+   if (PyType_Ready(&amp;CountDictType) &lt; 0) {
+      return;
+   }
+
+   // Add the type to the module.
+   Py_INCREF(&amp;CountDictType);
+   PyModule_AddObject(mod, "CountDict", (PyObject*)&amp;CountDictType);
+}
+</code>
+
+<p>PyType_Ready performs bookkeeping and other initialization to prepare the type
+for use, including hooking up the hierarchy for inheritance, and so on.  Finally,
+PyModule_AddObject is used to assign the type to its name in the module, and we
+are done.
+</p>
+
+        <figurep><img src="text/whirlext_042.png" alt="Slide 42"/></figurep><p>As you'd expect, our CountDict type works like other built-in types:</p>
+
+<code>
+&gt;&gt;&gt; import ext3
+&gt;&gt;&gt; cdict = ext3.CountDict()
+&gt;&gt;&gt; cdict
+&lt;CountDict object at 0x0099F0B0&gt;
+
+&gt;&gt;&gt; cdict.set("a", "hello")
+1
+
+&gt;&gt;&gt; cdict.set("b", "world")
+2
+
+&gt;&gt;&gt; cdict.dict
+{'a': 'hello', 'b': 'world'}
+
+&gt;&gt;&gt; cdict.count
+2
+</code>
+
+<p>We can construct it, examine it, call its methods, and use its attributes,
+just like a Python type.</p>
+
+<!-- ======================================================================= -->    
+
+
+<h1>In closing</h1>
+
+        <figurep><img src="text/whirlext_044.png" alt="Slide 44"/></figurep><p>These are other topics that we can't cover here...</p>
+
+
+        <figurep><img src="text/whirlext_045.png" alt="Slide 45"/></figurep><!--
+    
+- Python C API: C code that thinks like Python
+- ctypes: Python code that thinks like C
+
+- Extension types: new or old style?
+- Does the compiler matter?
+
+- Actually, lots of C API calls return PyObject * borrowed references.
+
+- Tweak insert_powers to not return powers, and show how that morphs the problem of mem mgmt.
+
+- lib/distutils/distutils.cfg:
+[build]
+compiler = mingw32
+
+- Making python libs:
+\app\pexports-0.42h\bin\pexports.exe \windows\system32\python24.dll > python24.def
+dlltool - -dllname python24.dll - -def python24.def - -output-lib \python24\libs\libpython24.a
+
+http://sebsauvage.net/python/mingw.html
+
+- "When you crash in C, you crash in the real world."
+
+-->
+
+<h1 slide="0">See also</h1>
+
+<p>Here are some other references, quickly thrown together:</p>
+
+<ul>
+<li><a href="http://docs.python.org/c-api/index.html">Python/C API Reference Manual</a>,
+the official docs, quite good.</li>
+<li><a href="http://boodebr.org/main/python/build-windows-extensions">Building
+Python extensions for Windows with only free tools</a> and
+<a href="http://sebsauvage.net/python/mingw.html">Python + Windows + distutils + SWIG + gcc MinGW</a>,
+for those of us on Windows.</li>
+<li><a href="http://www.suttoncourtenay.org.uk/duncan/accu/integratingpython.html">Integrating Python, C and C++</a>
+covers other options for mixing Python and C.</li>
+<li><a href="blog/index.html">My blog</a>, where other similar topics are discussed.</li>
+</ul>
+
+<pagecomments/>
+
+</page>

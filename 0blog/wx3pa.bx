@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030307T081721'>
+<title>Sam Ruby's wx3pa</title>
+<category>feeds</category>
+<via href='http://simon.incutio.com/'>Simon Willison</via> <!-- id= or href= -->
+<body>
+<p><a href='http://www.intertwingly.net/blog/'>Sam Ruby</a>
+has whipped up a proto-aggregator pragmatically named
+<a href='http://www.intertwingly.net/blog/1237.html'>wx3pa</a>
+(for wxPython 3-paned aggregator).
+I'm not linking to it so you'll use it (because it is really raw).
+I'm linking to it as an example of the
+cumulative power of many people writing many small chunks of code that can be
+built upon by others.
+</p>
+
+<p><a href='http://python.org'>Python</a> provides the language and basic infrastructure,
+<a href='http://wxpython.org'>wxPython</a> provides the UI toolbox.
+<a href='http://www.diveintomark.org'>Mark Pilgrim</a> provided the
+<a href='http://diveintomark.org/projects/rss_parser/index.html'>RSS parser</a>,
+and Sam only had to write 107 lines of code to pull it all together.
+Granted, it doesn't do much yet, but it is a full-fledged GUI application that
+reads and aggregates RSS feeds.</p>
+
+</body>
+</entry>
+</blog>

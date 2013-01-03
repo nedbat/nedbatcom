@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031129T222710'>
+<title>Metakit</title>
+<category>db</category>
+<via />
+<body>
+<p><a href='http://www.equi4.com/metakit.html'>Metakit</a> is an interesting
+embedded database engine.  It isn't strictly relational, but draws heavily
+on relational concepts.
+Where relational databases talk about tables of rows and columns,
+Metakit has views of rows and properties.  They seem isomorphic except that a
+property can itself be a subview, like another table inside a single row.
+It includes bindings for a number of languages,
+including <a href='http://www.equi4.com/metakit/python.html'>one for Python</a>.
+There's an
+<a href='http://www.mcmillan-inc.com/mksqlintro.html'>implementation of SQL</a>
+for it, if you are more comfortable working in that query language.
+</p>
+</body>
+</entry>
+</blog>

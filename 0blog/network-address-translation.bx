@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030923T083608'>
+<title>Network address translation</title>
+<category>networks</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I'm a software geek, which means I'm perfectly happy to deal with
+hardware and icky things like wires as abstractions.  The grungy details
+of how IP gets around are a perfect example.  I don't know, and for the
+most part, I don't care.  I have a home wireless network with a cable modem
+and firewall router.  I put it together, but I just barely know how it works.
+I haven't had to fiddle with it in over a year (knock wood).
+</p>
+
+<p>Network Address Translation (NAT) is one of those network technologies
+I didn't know much about.  That's changed, thanks to Charles Miller's
+<a href='http://fishbowl.pastiche.org/archives/001573.html#001573'>readable explanation</a>
+of it all, complete with an assessment of why it's flawed.
+I'll be honest <emdash/> I still don't want to know all the details.  I'm happy to leave
+those things to others who care and are fascinated by them.  But now I know a little
+bit more, and that's got to be a good thing.
+</p>
+
+<p>BTW: I thought of titling this entry "NAT world", but I decided that would be too
+cute and <a href='code/nats-world.html'>confusing</a>.</p>
+
+</body>
+</entry>
+</blog>

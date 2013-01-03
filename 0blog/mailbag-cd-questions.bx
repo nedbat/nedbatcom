@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20021104T084554'>
+<title>Notes questions from the mailbag</title>
+<category>lotus</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>In a recent email, I got these questions about CD records (the proprietary rich-text
+format used by Notes, CD stands for Composite Document):
+</p>
+
+<quotep>Q: Do CD records map to HTML tags completely?</quotep>
+
+<p>A: No. Like many of Notes' fundamental technologies, CD records were designed before their
+now-ubiquitous standardized counterpart (in this case, HTML).
+CD records cover much of the same ground as HTML (both represent rich text after all),
+and there are some clear mappings between them
+(how many different ways are there to say, "start a new paragraph"), but since CD
+records predate HTML, and HTML was not designed to map cleanly to CD
+(why should it have been?), there are many mismatches between the two.</p>
+
+<p>The mismatches can be reduced if modern CSS is used to augment the HTML, but there's
+still a lot of work to be done to convert between the two.
+Luckily, there's already technology out there that can help.
+First, the Domino Web server translates CD to HTML as part of
+serving Notes content to the web.
+Second, Lotus's <a href='http://www.notes.net'>DXL</a> provides an XML representation
+of CD content which may be easier to deal with.
+Third, there are third-party tools (notably the
+<a href='http://www.geniisoft.com/'>Midas Rich Text LSX</a>) which can do some or all
+of the job for you.</p>
+
+<quotep>Q: How do I determine the character set of a note? There seems to be no information
+stored about the character set.</quotep>
+
+<p>A: All text (well, almost all text: native MIME data is the main exception)
+in Notes is stored in a proprietary character set called
+<a href='http://www.batutis.com/i18n/papers/lmbcs/LMBCS.html'>LMBCS</a>
+(Lotus Multi-Byte Character Set).  Again, Lotus needed a way to represent
+a wide range of texts in a unified way, and developed a solution well before the
+standards community came to the rescue with Unicode.  When reading text from Notes
+(for example, with the C API), you must convert the text from LMBCS to whatever
+character set you want to use (using OSTranslate).</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080607T172026'>
+<title>Photoshop blend mode math</title>
+<category>graphics</category>
+<category>math</category>
+<via href='http://anarchaia.org/'>Anarchaia</via>
+<body>
+<p>I've used Photoshop and Gimp to do simple image manipulation, and have always
+been fascinated and baffled by the blend modes, those mystifying choices for how
+to combine two layers in an image.  Dodge? Burn? I could choose them and see what
+happens, but what I really wanted was to understand them.
+</p>
+
+<p>Nathan Moinvaziri has concisely summed up the blend modes in the form of C macros:
+<a href='http://www.nathanm.com/photoshop-blending-math/'>Photoshop Blend Mode Math</a>.
+I don't know if it really helps to see Dodge defined as:
+</p>
+
+<code><![CDATA[
+#define Blend_ColorDodge(A,B)	((uint8)((A == 255) ? A:((B << 8) / (255 - A) > 255) ? 255:((B << 8) / (255 - A))))
+]]></code>
+
+<p>but it at least gives me another way to look at the whole concept.</p>
+
+<p>One of Nathan's sources for the basic information was Paul Dunn's
+<a href='http://dunnbypaul.net/blends/'>Insight into Photoshop 7.0 Blending Modes</a>,
+which has visual aids and a more traditional math notation.
+</p>
+
+</body>
+</entry>
+</blog>

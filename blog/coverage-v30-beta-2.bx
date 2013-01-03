@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090430T074811'>
+<title>Coverage v3.0 beta 2</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>Beta 2 of Coverage v3.0 is now ready.  Coverage is a tool for measuring
+code coverage of Python programs, usually during testing.</p>
+
+<p>Kits are available as source
+(<a href='http://bitbucket.org/ned/coveragepy/downloads/coverage-3.0b2.tar.gz'>coverage-3.0b2.tar.gz</a>),
+or as Windows installers for Python
+<a href='http://bitbucket.org/ned/coveragepy/downloads/coverage-3.0b2.win32-py2.3.exe'>2.3</a>,
+<a href='http://bitbucket.org/ned/coveragepy/downloads/coverage-3.0b2.win32-py2.4.exe'>2.4</a>,
+<a href='http://bitbucket.org/ned/coveragepy/downloads/coverage-3.0b2.win32-py2.5.exe'>2.5</a>, or
+<a href='http://bitbucket.org/ned/coveragepy/downloads/coverage-3.0b2.win32-py2.6.exe'>2.6</a>.
+The repository is also available on bitbucket.
+</p>
+
+<p>Feedback is welcome however you see fit, but particularly good ways are
+<a href='http://bitbucket.org/ned/coveragepy/issues/'>tickets on bitbucket</a>,
+or email on the
+<a href='http://lists.idyll.org/listinfo/testing-in-python'>testing-in-python</a>
+mailing list.
+</p>
+
+<p>Changes in Coverage since v2.x:</p>
+
+<ul>
+<li>HTML reports and annotation of source files: use the new -b (browser) switch.  
+Thanks to George Song for code, inspiration and guidance.</li>
+
+<li>The trace function is implemented in C for speed.  Coverage runs are 
+now much faster.   Thanks to David Christian for productive micro-sprints and
+other encouragement.</li>
+
+<li>Code in the Python standard library is not measured by default.  If 
+you need to measure standard library code, use the -L switch during 
+execution.</li>
+
+<li>.coverage data files have a new pickle-based format designed for better
+extensibility.</li>
+
+<li>Source annotation into a directory (-a -d) behaves differently.  The 
+annotated files are named with their hierarchy flattened so that 
+same-named files from different directories no longer collide.  Also, 
+only files in the current tree are included.</li>
+
+<li>Programs executed with -x now behave more as they should, for example, 
+__file__ has the correct value.</li>
+
+<li>Executable lines are identified by reading the line number tables in 
+the compiled code, removing a great deal of complicated analysis code.</li>
+
+<li>Coverage is now a package rather than a module.  Functionality has been
+split into classes.</li>
+
+<li>Python versions 2.3 though 2.6 are supported.</li>
+</ul>
+
+
+</body>
+</entry>
+
+
+
+
+<entry when='20090516T180111'>
+<title>Coverage v3.0 beta 3</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>I hadn't planned on doing a third beta of Coverage.py, but two things
+happened:</p>
+
+<ul>
+<li>I changed a number of details about the programmatic interface, and so
+wanted to get a little more verification that it's right.</li>
+<li>I discovered that the beta 2 kits weren't complete: the brand-new HTML
+reporting feature wouldn't work because <em>the files were missing from the
+kit</em>.  Ugh.</li>
+</ul>
+
+<p>So, beta 3 it is. Kits are available as source or as Windows installers from the
+<a href='http://pypi.python.org/pypi/coverage/3.0b3'>coverage.py page on PyPI</a>.
+The code is also available from the
+<a href='http://bitbucket.org/ned/coveragepy'>repository on bitbucket</a>.
+</p>
+
+<p>Feedback is welcome in any form you like, but particularly good ways are
+<a href='http://bitbucket.org/ned/coveragepy/issues/'>tickets on bitbucket</a>,
+or email on the
+<a href='http://lists.idyll.org/listinfo/testing-in-python'>testing-in-python</a>
+mailing list.
+</p>
+
+<p>Significant changes in coverage.py since v2.x:</p>
+
+<ul>
+<li>HTML reports and annotation of source files: use the new -b (browser) switch.  
+Thanks to George Song for code, inspiration and guidance.</li>
+
+<li>The trace function is implemented in C for speed.  Coverage runs are 
+now much faster.   Thanks to David Christian for productive micro-sprints and
+other encouragement.</li>
+
+<li>Code in the Python standard library is not measured by default.  If 
+you need to measure standard library code, use the -L switch during 
+execution.</li>
+</ul>
+
+</body>
+</entry>
+
+<entry when='20090613T215400'>
+<title>Coverage v3.0</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+<p>Coverage.py v3.0 is done.  There are <a href='code/coverage'>new docs up</a>,
+and <a href='http://pypi.python.org/pypi/coverage/3.0'>final kits</a>.  The main
+change since beta 3 was how the standard library is excluded.  I was
+being too aggressive, and sometimes excluding all the product code as well,
+depending on the layout of the project.  Now it behaves much better.</p>
+
+<p>If you haven't been keeping up with the changes since coverage.py 2.x, there
+are <a href='code/coverage/changes.html'>plenty of them</a>, including greatly
+improved speed and a nice HTML reporting feature.</p>
+
+</body>
+</entry>
+
+</blog>

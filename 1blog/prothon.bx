@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040330T193150'>
+<title>Prothon</title>
+<category>proglang</category>
+<via href='http://blog.colorstudy.com/ianb/weblog/'>Ian Bicking</via>
+<body>
+<p><a href='http://www.prothon.org'>Prothon</a> is a derivative of Python
+using prototypes rather than inheritance as the basis for its object orientation.
+Prototype-based languages seem powerful and intuitive, more so than inheritance-based
+languages.  I'm not sure why they aren't used more.
+Also, Prothon fixes a few of my main annoyances with Python, especially the ubiquitous
+self variable, although it does it with dangerously Perl-like prefixes.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040907T103921'>
+<title>The daily WTF</title>
+<category>coding</category>
+<category>blogs</category>
+<category>funny</category>
+<via id='bob'/>
+<body>
+<p><a href='http://thedailywtf.com/'>The Daily WTF</a>
+is a snarky collection of those pearls of bad programming we all encounter from time to time.
+They've got one per day, covering a broad range of real-life abominations
+against the coding commandments. My favorite so far?
+There are so many tasty delights, it's hard to know where to start.
+But <a href='http://thedailywtf.com/archive/2004/06/29/442.aspx'>this approach</a>
+to exception handling hits home:
+</p>
+
+<code lang='cpp'><![CDATA[
+try {
+    //...
+}
+catch (Exception e) {
+    e = e;
+}
+]]></code>
+
+<p>Apparently an empty catch was warning about the unused e variable, so...!</p>
+
+</body>
+</entry>
+</blog>

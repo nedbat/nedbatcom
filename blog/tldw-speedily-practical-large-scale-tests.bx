@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120611T0808'>
+<title>tl;dw: Speedily practical large-scale tests</title>
+<category>pycon</category>
+<category>testing</category>
+<body>
+
+<p>At PyCon 2012, Erik Rose gave a talk entitled, <a
+        href='http://pyvideo.org/video/634/speedily-practical-large-scale-tests'>Speedily
+        Practical Large-Scale Tests</a>.  This is my textual summary of the
+    talk, one of a <a href='blog/201206/tldw.html'>series of summaries</a>.
+    Here's the video of Erik: </p>
+
+    <p align="center">
+        <iframe width="500" height="369" src="http://www.youtube.com/embed/1VZfL9JVgFg" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    </p>
+
+    <p>For those in too much of a hurry to even read the text here, the <b>tl;dr</b>:</p>
+
+    <quote><p>Slow test suites are usually slow due to I/O.  Erik reduced test fixture I/O by
+            moving fixture setup and teardown to the class instead of the tests, 
+            by rearranging classes to reuse fixtures, and by removing fixtures in favor
+            of constructed objects.  Two nose plugins, 
+            <a href='http://pypi.python.org/pypi/django-nose/'>django-nose</a> and
+            <a href='http://pypi.python.org/pypi/nose-progressive/'>nose-progressive</a>,
+            helped Erik improve the usability, maintainability and usefulness of his tests.</p></quote>
+
+    <p>This was a long (40 minute) talk, and Erik covered a number of points, I hope I captured it.
+        In the text that follows, times in square brackets are positions in the video you might want to look at,
+        for example, code samples.
+        Here's (roughly) what Erik said:</p>
+
+    <h1>What Erik said</h1>
+
+    <p>I work at Mozilla, we have lots of large web services to keep running,
+        some with 30 billion requests a month.  I work on sumo,
+        support.mozilla.com.  We take testing seriously, and use a lot of
+        automated testing.  Throwing servers at the testing problem isn't
+        interesting, we need to make the tests work better.</p>
+
+    <p>First I'll cover how to make the tests fast, then how to keep them
+        maintainable, then how to make them as informative as possible.</p>
+
+    <!--
+Worked at Mozilla, wrote a lot of code on various web apps.
+Wanted the code to work, so wrote a lot of tests also.
+
+How to keep large test suites manageable over time.
+    fast to run.
+    maintainable: as they grow, you don't go crazy
+    be informative when they're running, and after they're done running.
+
+start with fast, then keep you from going crazy, then improving output quality.
+
+Mozilla is serious about test quality. (pics of crazy Mozilla test labs)
+
+Mozilla has a few sites with quite a bit of traffic:
+    support.mozilla.org, 1b req/mo
+    snippets: 5b req/mo
+    addons.mozilla.org: 30b req/mo (update service only)
+
+With so many requests, and so many people affect, we're really careful about what
+we put into the code.
+
+Buddy-system code reviews: code for the tree goes into a github pull request.
+Buddy reviews code.  Then we push it into the tree, and of course, it's backed
+with a ton of automated testing.
+
+Jenkins screen (3:10), lots of projects, including duplicates.  sumo (support.mozilla) 
+has sumo-master, sumo-master-js, etc.  Testing code destined for production
+as well as what's on production.  It's a busy test farm.
+
+Adding servers to solve the problem isn't interesting, though, the interesting part
+is how to make it work better with people.
+
+-->
+
+<h1>Phase 1: Fast</h1>
+
+<p>The sumo project has really clean code, but the tests are really slow.
+    It's Django, but the speed tricks here will work for anything.</p>
+
+<p>The tests take 20 minutes on the build server, 5 minutes on a developer's laptop.
+    5 minutes may not sound like a lot, but it wastes your time, you switch
+    contexts, you lose flow, and so on. Or people just don't run the tests,
+    and you have broken code.</p>
+
+<!--
+Sumo does a bunch of things: kb, forum, SO clone, etc. 1200 tests, 1b hits/mo,
+the smallest of the mozilla big sites.
+
+When he joined, tests were sane enough, but grew to be 20 min long on the build server,
+5 min on the laptop, because of no contention for i/o.  5 min locally may not sound like
+a lot, but it wastes your time.  Also, you switch contexts, the flow is gone.
+Or, people skip tests, and code breaks.
+-->
+
+<p>My goal is to run the entire test suite in 1 minute on a local machine.</p>
+
+<p>Where to start?  With web app tests with a db, I suspect I/O, it's always the problem.
+    Here's a <a href="http://news.ycombinator.com/item?id=702713">figure of the memory hierarchy</a> [6:50]:</p>
+
+<ul>
+    <li>1 dot == 1ns</li>
+    <li>L1 cache: 1ns</li>
+    <li>L2 cache: 4.7ns</li>
+    <li>RAM: 83ns</li>
+    <li>Disk: 13.7 ms</li>
+</ul>
+
+<p>Disk is really slow, avoid it at all costs. First, profile, guessing is no good.
+    But the Python profiler only shows CPU time, not I/O. The Unix "time" command
+    can give you a view into the split between CPU and I/O.</p>
+
+<!--
+Monitor all the time, get a baseline for your machine. istatmenus, menu meters.  Have a
+constant window into your machine, so you can notice when things change.
+
+But first: profile. Guessing isn't actionable.  Problem: python profiler doesn't show
+anything about i/o, only cpu time.
+
+Unix time command measures cpu and clock, a good first whack at profiling.  If cpu,
+use python profiling, if I/O, you look somewhere else.
+-->
+
+<p>If you have a db, that's the first place to look.  "top" can find the processes with
+the most cpu, which might also be the ones with the most i/o.  Looking at the sumo
+tests, MySQL was at the top.</p>
+
+<p>"lsof" lists all the open files. [9:30] Give it a process id, it gives you a list
+of files. Scan through it for anything unexpected.  In my case, I found files containing
+database test fixtures, one was 98,123,728 bytes.</p>
+
+<!--
+A db test fixture is a Djangoism.  25% of Django's code is in its model layer. Django
+code always involves models at some point.  Django gives you a lot of support for creating
+fake model data, with fixtures.  
+-->
+
+<p>Test fixtures are fake model data created from json files.
+Here's how it works [10:30]: the test data goes into JSON files.  This is an actual
+sumo test fixture, not a big one, 39 small objects, each equates to a SQL insert statement,
+so it tends to add up. Then you list the fixture files in your test cases.</p>
+
+<p>But loading these files, even three of them, shouldn't take 4 minutes, so where is that
+coming from?  The trouble became clear when I turned on logging in MySQL.  Great technique:
+log in as the MySQL root user, and "set global general_log=on", and tail the log file.</p>
+
+<p>Doing this showed that fixtures are reloaded separately for each test.  Each test begins a
+transaction, loads the fixture, runs, and rolls back, leaving db in a pristine state, which is
+tidy but inefficient. Load/rollback/load/rollback, etc. In sumo, this produced 37583 queries, we
+can do a lot better.</p>
+
+<p>Why not per-class test fixtures, loading and committing the fixtures once for each class?
+Now each test rolls back to pristine test fixtures.  Then the class teardown has
+to explicitly remove the fixtures, since we can't rollback twice.
+We run a modified version of Django test-fixture loading apparatus that keeps track
+of what was added, so we can remove it later.  We use truncate because it's faster
+than "delete *".</p>
+
+<p>With the stock Django fixture loader, sumo used 37583 queries.  With per-class fixtures,
+it was down to 4116 queries,  nine times less traffic to MySQL.  In terms of time, stock fixtures was 302 seconds,
+and per-class fixtures were 97 seconds, at the bounds of tolerability.
+Another 4 seconds were saved by reusing the database connection instead of Django's
+style of opening and closing the connection each time.</p>
+
+<p>A minute and a half is a big improvement, just by getting rid of I/O, with
+    no change to the tests at all.</p>
+
+<h1>Phase 2: Fixture bundling</h1>
+
+<p>Here [14:10] are three actual test cases from sumo.  They all use the same set of test
+fixtures. Imagine how many times those fixtures are loaded: three times, once for each
+test class.  We could combine them by combining the test classes, but I don't want to 
+have my class structure dictated to me by the test fixtures.</p>
+
+<p>We use nose to get more speed.  nose is generally great, it lets you skip all the
+boilerplate from unittest, run profiling, coverage, etc.  Plugins give you tremendous 
+power over every phase of running tests: finding and picking tests, dealing with errors,
+formatting results, and the real dark magic: mucking with the test suite before it runs.
+We can do better than per-class fixture loading with this last power.</p>
+
+<p>When nose runs your tests, it runs them in alphabetical order.  [16:00] The trouble is 
+that consecutive test classes may have very similar test fixtures.  Even with class-loaded
+test fixtures, a class may tear down a fixture only to have the next class re-create it.
+If we sort our test classes to keep similar fixtures together, then we can add advisory flags
+to the classes.  One indicates the first class in a series with the same fixtures, which sets up
+the fixtures, and another indicates the last, which will tear them down.</p>
+
+<p>Test independence is preserved, we're just factoring out pointlessly repeated setup.
+In the future, we could make one more improvement:  we've already set up A, B, and C,
+why tear them down just to set up A, B, C, and D?  We should leave A, B, and C, and just
+set up D.  This could be a computational issue, but computes are cheap as long as they
+save you I/O.</p>
+
+<p>We did this with sumo:  before bundling, we have 114 test classes with
+    fixtures, so we did the loading and unloading 114 times, but there were
+    only 11 distinct sets of fixtures.  With bundling, we only did it 11 times,
+    reducing the time from 97 seconds to 74 seconds.</p>
+
+<h1>Phase 3: Startup speedups</h1>
+
+<p>Sometimes, it isn't the test that's slow, it's the harness itself.
+    Sometimes I want to run a trivial test, it takes, say, 1/10 second. I have
+    to wait 15 seconds for all the databases to set up at the beginning, even
+    though I don't need a new database.  It was already valid, from the end of
+    the last test run, so we could have re-used it.</p>
+
+<p>Building on some work we'd already done in this direction, I decided to skip
+    the tear-down of the test db, and also the set-up of the test db on future
+    test runs.  This is risky: if you make a schema change, you need to give it
+    a hint, "you should re-initialize here," but it's a tremendous net win.  I
+    force a full initialization on the build farm, and maybe before committing,
+    but other than that, I get a fast start-up time. This change took the test
+    runner overhead from 15 seconds to 7 seconds.  That brings the total sumo
+    test suite time down from 74 seconds to 62 seconds, within 2 seconds of the
+    magic one-minute run time.</p>
+
+<p>To wrap up:</p>
+<ul>
+    <li>Stock Django: 302 seconds</li>
+    <li>Per-class fixtures: 97 seconds</li>
+    <li>Fixture bundling: 74 seconds</li>
+    <li>Startup speedups: 62 seconds</li>
+</ul>
+
+<p>Now we're saving something like 4 minutes per test run.  It may not sound like a big number,
+but it really adds up.  At Mozilla we had a team of 4, and if we conservatively estimate
+that we each ran the test suite four times a day (which is a gross under-estimate), that's
+64 minutes per day, which comes out to 261 hours, or 32 working days a year: we can each take
+a day off a month!</p>
+
+<p>So if you happen to be using Django and you have a lot of fixture-heavy tests, all these
+    optimizations are available as part of the 
+    <a href='http://pypi.python.org/pypi/django-nose/'>django-nose package</a>.</p>
+
+<h1>Maintainability</h1>
+
+<p>Shared setup is evil.  The unittest module encourages you to create 
+common setup shared by many tests. This is a coupling problem:  if your requirements
+change, you have to change setup, and now you don't know which tests have been invalidated.
+Especially if you try hard not to repeat yourself, your setup will be shared by many tests.</p>
+
+<p>[21:50] Here we break the setup into individual helpers, which makes it much clearer which tests
+are using what.  This can be more efficient since tests only invoke the helpers they really
+need, instead of all tests running the full setup.  Memoized properties can make the code
+more readable if you like.</p>
+
+<p>[21:30] An example of a test that referred to a specific user from a fixture with a cryptic
+primary key.  It's difficult to read the test and know what it does. Model makers can help with 
+this.  Model makers are a pattern, not a library, they are simple to write.</p>
+
+<p>Here's [23:30] an example of a model maker.  document() instantiates an ORM
+    object, filling in just enough of it to be a valid object. If you pass
+    other data into it, it will set it.  Here we give the document a title, but
+    don't care about the rest.  Everything you care about, you set explicitly,
+    the rest you let default.  Now your tests are self-documenting.</p>
+
+<p>You can nest these model makers if you make them right.  Here's [24:25] a test for sumo's wiki:
+the revision has an explicit document, but I could omit document if I didn't care which document
+it referred to.  There are no database hits here, and lexically represents the structure
+of the objects.  Here's [25:00] the implementation of the document() model maker, six lines,
+and this is one of the complicated ones.  I got fancy here and put a Unicode character
+into the title to expose Unicode problems.</p>
+
+<p>The one library-ish thing I did is the @with_save decorator [25:30], which makes it so when you create
+the object, you can include "save=True" in the arguments, and it will save the object
+in the database immediately, so you can create and save the object in one line.</p>
+
+<p>Some people have written libraries for model makers.  There's a
+    Django-centric one called <a
+        href='https://github.com/dnerdy/factory_boy'>factory_boy</a> which lets
+    you do this in a more declarative way.  I'm up in the air about whether the
+    extra complexity is worth it or not.  It tries to look at your models and
+    figure out what a valid instance would look like.  Sometimes it guesses
+    wrong.</p>
+
+<p>In summary, shared setup routines make tests:</p>
+<ul>
+    <li>coupled to each other</li>
+    <li>brittle</li>
+    <li>hard to understand</li>
+    <li>lexically far from the test code</li>
+    <li>slow</li>
+</ul>
+
+<p>Local setup gives you:</p>
+<ul>
+    <li>decoupling</li>
+    <li>robustness</li>
+    <li>clarity</li>
+    <li>efficiency</li>
+    <li>freedom to refactor, tests aren't bound to class setup methods.</li>
+</ul>
+
+<p>There are some situations where you don't want model instances at all.  THen you use 
+mocking.  A mock is used when the real implementation is too performance-intensive, 
+or too complicated to understand.  A mock is a self-evidently correct lightweight substitute
+for more complicated things.  We use mocks to test code that operates on those
+things.</p>
+
+<p>[27:40] Django's HTTP request object: complicated!  A mock for it is two
+    lines!  It's self-evident what it does, we don't make up arguments to
+    instantiate it.  You don't need a library to create this sort of mock.</p>
+
+<p>For more elaborate mocks that can record what they've done, or send fake return values that
+changes over time, you can use a library.  My rule of thumb: when I need tests for my
+test infrastructure, I should use someone else's already-tested library.</p>
+
+<p>There are two mocking libraries I really like: mock, and fudge.  Mock is very imperative,
+and fudge is more declarative.  Sometimes one feels more natural, sometimes the other one
+does.  I'll show you both.</p>
+
+<p><a href='http://www.voidspace.org.uk/python/mock/'>Mock</a> [28:30]:  
+Here a with block calls patch.object on APIVoterManager to replace the _raw_voters method. I want
+to replace it with something that is very simple and predictable.  This binds the new mocked-out
+_raw_voters method as "voters", and then I can say, "your return value is such-and-such."
+Then I can do my test, make one assert, then make a second assert that the method was called.
+The mock returns the value I want and tracks whether it was called. It's very fast, it doesn't
+have to run through all the logic in the real _raw_voters method, which is a couple hundred
+lines, it doesn't have to hit the database, it prevents the brittleness of depending on test
+data, it gets the sleeps out of your code (because other servers don't need to be started
+and stopped), it's a huge win all around.</p>
+
+<p><a href='http://farmdev.com/projects/fudge/index.html'>Fudge</a> is the more
+    declarative path, I find it preferable when writing facades.  This piece
+    of code [29:45] tests oedipus, a library to put in front of the Sphinx
+    search engine, to make it more Pythonic.</p>
+
+<p>[30:00] At the bottom is the S(Biscuit) call that we want to test.  Since it's a facade, all
+it does is make API calls through to the Sphinx native API.  We use fudge to say,
+these are the API calls I expect my code to make against this interface.
+You don't see the assertions, fudge takes care of all the asserting for you.</p>
+
+<h1>Informative tests</h1>
+
+<p>[31:00] How do you make your tests more useful to people as they are running, 
+and after they are running? How do they help you diagnose and debug?  I hate plain dots.
+If I get an error, I get an E, and can't get any information about it until I 
+get more dots.  At the very end, we get a pile of messy tracebacks.</p>
+
+<p>[33:00] Wouldn't it be nice if we had more useful output?  I put together an
+    alternative test runner called <a href='http://pypi.python.org/pypi/nose-progressive/'>nose-progressive</a>.
+    It works with your existing tests. It shows a progress bar, the name of the
+    current test, and it shows the tracebacks as you go.  The tracebacks are
+    more compact, they use relatives paths, the procedure names are colored, it
+    omits the test harness stack frames.  The best part of all are the editor
+    short-cuts, each source reference in the traceback is an editor invocation
+    you can paste to jump to that file in your editor.</p>
+
+<h1>Questions?</h1>
+
+<p>Comments: The zope test runner does many of the things described in nose-progressive.
+    So does twisted.trial.</p>
+
+<p>Q: What about running the tests in parallel?  A: Parallelization support in nose needs work.  
+    Py.test is better, but we haven't tried it yet. Comment: twisted.trial is good at parallelization</p>
+
+<p>Q: Any recommendations for integration testing over unit testing?  A: Sure, if you have limited
+    resources, do integration testing, since it gives you broader coverage, but is a blunt tool.</p>
+
+</body>
+</entry>
+</blog>

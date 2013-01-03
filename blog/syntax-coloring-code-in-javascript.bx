@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050103T220319'>
+<title>Syntax coloring code in JavaScript</title>
+<category>tools</category>
+<category>js</category>
+<via href='http://www.codinghorror.com'>Coding Horror</via>
+<body>
+<p>Alex Gorbatchev has another solution to the problem of syntax-coloring code snippets
+on blogs: ship the whole problem over to the browser, then do the
+<a href='http://blog.dreamprojections.com/archive/2005/01/01/461.aspx'>coloring in JavaScript</a>.
+It's a very interesting solution, and the JavaScript code itself is very cool.
+</p>
+
+<p>What I need is syntax coloring that can handle true Unicode characters.  I don't know
+whether JavaScript regexes can do it.  I've been using
+<a href='http://silvercity.sourceforge.net/'>SilverCity</a>, but have been thinking about
+a new solution.  Maybe client-side JavaScript is the way to go.</p>
+
+</body>
+</entry>
+</blog>

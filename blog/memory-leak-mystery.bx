@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091122T115706'>
+<title>Memory leak mystery</title>
+<category>debugging</category>
+<category>testing</category>
+<category>coverage</category>
+<body>
+<p>Here's a detailed story of finding and fixing a memory leak in a Python
+C extension, complete with testing mysteries.</p>
+
+<p>A user of coverage.py
+<a href='http://stackoverflow.com/questions/1764806/how-to-omit-using-python-coverage-lib/1766859#1766859'>reported</a>
+that running it consumed all his memory. No one else had mentioned anything like
+this, but it's a beta version, and those don't get nearly the attention as
+regular releases.</p>
+
+<p>He helpfully had reproduced the problem on a large public test suite by
+running Django's test suite under coverage. I tried running the Django test
+suite with the latest coverage code, and sure enough, the memory ballooned. A
+plain run consumes about 100Mb, but with coverage it was up to 500Mb. I expect
+running with coverage.py to use a little more memory, since it has to collect
+its data in memory, but the amount of data should be very small, proportional
+not to the execution time, but to the number of distinct lines of code
+executed.</p>
+
+<p>Coverage.py has two different trace modules, one in C and one in Python.
+Forcing the Python tracer (by using the --timid flag) showed no memory leak,
+confirming my suspicion that the C code was at fault.</p>
+
+<p>I made a small test file to run for a long time:</p>
+
+<code lang='python'><![CDATA[
+def once(x):
+    if x:
+        return 10
+    else:
+        return 11
+        
+for i in xrange(10**9):
+    once(i)
+]]></code>
+
+<p>Running it, nothing untoward happened, no memory leak.  OK, so something was
+different between Django and my test file.  Of course, lots of things are
+different between them, the task was to figure out what was the important
+difference.</p>
+
+<p>Poring over the C tracer code, there are plenty of interesting program
+events that cause stuff to happen internally: calling a function, returning
+from a function, the first execution in a file, raising an exception, deep
+recursion, and so on.</p>
+
+<p>I added some statistics gathering in the tracer code to see which of these
+might be happening enough to correlate with the memory leak.  Exceptions and
+deep recursion seemed like likely candidates since my test code had neither.</p>
+
+<p>It turned out that the Django code didn't recur deeply: it never got past the
+internally-interesting milestone of 100 stack frames.  It did throw a lot of
+exceptions: the full test suite raises 1,862,318 of them. Examining the code,
+though, there's not much happening there that could leak, and disabling that
+code proved that it wasn't the issue.</p>
+
+<p>How about first executions in a file?  The Django test suite touches 9300
+files (or 9300 different ways to refer to files).  This is certainly more than
+my test file so maybe it was the source of the leak. When a new file is visited,
+the tracer calls back to a Python function to determine if the file is
+interesting enough to trace. One of the arguments to the callback is the stack
+frame. This seemed like a good candidate for a leak: mishandling the reference
+count on a frame could keep it around forever, and frames refer to lots of other
+things, so tons of memory could leak each of those 9300 times.</p>
+
+<p>But a few experiments, ending with completely disabling the callback, proved
+that this code was not to blame either.  I was running out of places to look.</p>
+
+<p>The per-line code was about all that was left. It didn't make any sense for
+this to be the problem, since my test file runs many many lines just like Django
+does. But just to rule it out, I commented out the line of C code that adds the
+line number to the data dictionary. To my surprise, the test suite no longer
+leaked memory!</p>
+
+<p>Here's the buggy line (simplified):</p>
+
+<code lang='c'><![CDATA[
+PyDict_SetItem(file_dict, PyInt_FromLong(frame->f_lineno), Py_None);
+]]></code>
+
+<p>The problem is that PyInt_FromLong returns a new reference, and
+PyDict_SetItem doesn't steal the reference.  This is a memory leak.  (If you
+don't know what I'm talking about with this reference stuff, take a peek at
+<a href='text/whirlext.html'>A Whirlwind Excursion through Python C Extensions</a>.)
+</p>
+
+<p>The fix was straightforward; I had to explicitly release my reference on the
+integer object:</p>
+
+<code lang='c'><![CDATA[
+PyObject * this_line = PyInt_FromLong(frame->f_lineno);
+PyDict_SetItem(file_dict, this_line, Py_None);
+Py_DECREF(this_line);
+]]></code>
+
+<p>Running this on the Django tests showed that the problem was fixed!  Great!</p>
+
+<p>But back to the remaining mystery: why did my test file, which executed that
+same buggy line billions of times, not leak? The docs for
+<a href='http://docs.python.org/dev/c-api/int.html#PyInt_FromLong'>PyInt_FromLong</a>
+provided the answer:</p>
+
+<quote><p>
+The current implementation keeps an array of integer objects for all integers
+between -5 and 256, when you create an int in that range you actually just get
+back a reference to the existing object.
+</p></quote>
+
+<p>Aha! Because my test file was only 10 lines long, the line numbers were all
+less than 256, so the integer objects returned by PyInt_FromLong were all
+pre-allocated and held for the lifetime of the process. The buggy code was
+mishandling the reference count, but it didn't matter, since no new objects were
+allocated.</p>
+
+<p>Finally I had the answer to my question: the difference between my file and
+the Django source is that Django has files longer than 256 lines.</p>
+
+<p>And in fact, using the buggy tracer code, and adding 300 blank lines to my
+test file proved the point: once my simple code had line numbers above 256, it
+leaked like a sieve!</p>
+
+<p>If there's a lesson in this, it's that complex systems introduce leaky
+abstractions in unexpected places. This has unfortunate implications for
+testing: how do I know if I've got test cases that can ferret out potential
+problems like this? Does white-box testing extend to reading up on the internal
+details of Python integers? If I add test cases with 300 lines of source, how do
+I know there isn't some other effect that only kicks in at 5000?</p>
+
+<p>Be careful out there...</p>
+
+</body>
+</entry>
+</blog>

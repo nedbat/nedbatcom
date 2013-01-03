@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080905T090054'>
+<title>OpenID is too hard</title>
+<category>security</category>
+<category>webpage</category>
+<body>
+<p><a href='http://openid.net/'>OpenID</a> is one of those web technologies I
+would love to love: it addresses a need, seems pretty well thought-out, and all
+the cool kids are doing it.  But the fact is, it's still a bit too hard for what
+it's trying to be.  When I first heard about OpenID, I read about it, and didn't
+quite get it.  People kept talking about it, so I kept going back to read about it,
+and it still mystified me.</p>
+
+<p>Big players started adopting it (AOL, Yahoo), so it seemed like it was here
+to stay, but I still didn't have the incentive to get over the learning curve.
+Earlier this week I visited yet another site that encouraged me to get an OpenID,
+and I decided I would finally cross OpenID off my list of technologies I should at least
+understand and probably use.</p>
+
+<p>The simplest way to use OpenID is to pick a provider like Yahoo, go to their
+<a href='http://openid.yahoo.com/'>OpenID page</a>, and enable your Yahoo account
+to be an OpenID.  This in itself was a little complicated, because when I was done,
+I got to a page that showed me my "OpenID identifiers", which had one item in it:</p>
+
+<quote><p>https://me.yahoo.com/a/.DuSz_IEq5Vw5NZLAHUFHWEKLSfQnRFuebro-</p></quote>
+
+<p>What!?  What is that, what do I do with it?  Am I supposed to paste that into
+OpenID fields on other sites? Are you kidding me? Also, in the text on that page
+is a stern warning:</p>
+
+<quote><p>This step is completely optional. After you choose an identifier, you <b><i>cannot</i></b> edit or delete it.</p></quote>
+
+<p>(Emphasis theirs).  So now I have a mystifying string of junk, with a big
+warning all over it that I can't go back.  "This step" claims it's optional, but I seem to
+have already done it! Now I'm afraid, and I'm a technical person <emdash/>
+you expect my wife to do this?</p>
+
+<p>Luckily I can choose to enable other identifiers, so I also enable my flickr
+account as an OpenID.</p>
+
+<p>Since I am a technical person, I've learned that OpenID supports delegation.
+That's a way to have your website act as an OpenID simply by adding some HTML
+to your page.  The HTML points to another OpenID behind the scenes.  That way, I can use
+nedbatchelder.com as my OpenID, and later be able to change who is actually hosting
+my OpenID.</p>
+
+<p>Simon Willison <a href='http://simonwillison.net/2006/Dec/19/openid/'>shows the
+simple way to delegate your OpenID on your home page</a>.  You need the id you just
+got from your provider, and you need a URL for the provider's server.  Oh, bad news:
+Yahoo won't say what their server's URL is.  I can't delegate to Yahoo.  Why?
+Don't know.  Time to get another provider.</p>
+
+<p>So I go to a more savvy provider, get an ID and a delegate server URL, edit my
+page, and I can't log in to my desired site.  I must have messed something up.
+A good debugging tool for this is to log in to <a href='http://jyte.com'>jyte.com</a>.
+Since it was built by JanRain, the company behind a lot of OpenID, they helpfully
+provide very geeky error messages if the OpenID login fails for some reason.  Turns
+out I had omitted one place in the HTML that I had to put my user id.  Once I fixed
+that, all was well.</p>
+
+<p>But what have I really gained?  Ted Dziuba exuberantly rants about OpenID,
+since it is <a href='http://teddziuba.com/2008/09/openid-is-why-i-hate-the-inter.html'>why he hates the Internet</a>,
+and his points are accurate: OpenID is still really difficult, and doesn't gain
+you that much.</p>
+
+<p>Stefan Brands <a href='http://idcorner.org/2007/08/22/the-problems-with-openid/'>rounds up
+lots of issues with OpenID</a>, and I think they need to be taken seriously.
+OpenID may be one of those Internet technologies that will be fabulous among the
+savvy and well-intentioned, but falters when spread to the wider population on
+the web.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031204T220018'>
+<title>Dates on articles</title>
+<category>site</category>
+<via id='simonwillison'/>
+<body>
+<p>D. Keith Robinson says we should
+<a href='http://www.7nights.com/asterisk/archives/using_dates_for_featured_web_content.php'>attach dates to featured web content</a>.
+He's right: it's one of those simple things that are easy to miss when creating
+content.
+Like many complex creations, building a web site can mean overlooking
+simple things while focusing on the complex.
+Thanks to Keith's prompting,
+I've added created and last updated dates to all of my non-blog content.
+Luckily, I've been capturing edit histories in my source XML files,
+so a change to my XSLT code produced visible date stamps.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060207T072025' draft='y'>
+<title>Getting started with Linux</title>
+<category></category>
+<via />
+<body>
+<p>
+
+Install Ubuntu
+
+path issues: . is not there by default
+
+sudo
+
+apt-get
+
+nano
+
+/etc/init.d
+
+ifconfig
+
+static ip: edit /etc/network/interfaces
+
+remote access
+    ssh
+    xserver
+
+Listing devices: lspci and lsusb
+
+
+http://davidwinter.me.uk/articles/2006/02/05/ubuntu-5-10-web-server-howto
+
+http://davidwinter.me.uk/articles/2006/02/16/subversion-over-apache-2-on-ubuntu
+
+Restart apache: sudo /etc/init.d/apache2 restart
+
+</p>
+</body>
+</entry>
+</blog>

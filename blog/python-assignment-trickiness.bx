@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070110T070106'>
+<title>Python assignment trickiness</title>
+<category>python</category>
+<via />
+<body>
+<p>Here's a well-known fact about Python assignment:
+When you have a list (or tuple) on the left-hand side, and a list (or tuple) on
+the right-hand side, each element on the left is assigned a value from the right,
+just as if it were in its own assignment statement:
+</p>
+
+<code lang='python'>
+>>> a, b, c = 1, 2, 3
+>>> a, b, c
+(1, 2, 3)
+>>> [a, b, c] = (1, 2, 3)
+>>> a
+1
+>>> b
+2
+>>> c
+3
+</code>
+
+<p>So far, I don't think anyone is surprised by this.  But notice the recursive
+nature of the definition.  This means that an element on the left can itself
+be a list (or tuple):</p>
+
+<code lang='python'>
+>>> a, (b, c, d), e = 1, (2, 3, 4), 5
+>>> c
+3
+>>> a, _, e = 1, (2, 3, 4), 5
+>>> e
+5
+</code>
+
+<p>This can be helpful with functions returning multiple structured values:</p>
+<code lang='python'>
+def points():
+    ''' Return two pairs of numbers. '''
+    return (x1, y1), (x2, y2)
+	
+# Now I can call points and unpack it flexibly in the same statement:
+a, b = points()
+(ax, ay), b = points()
+_, (bx, by) = points()
+(ax, ay), (bx, by) = points()
+</code>
+
+<p>Handy.</p>
+
+</body>
+</entry>
+</blog>

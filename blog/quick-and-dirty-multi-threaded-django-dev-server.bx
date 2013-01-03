@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20110309T052806'>
+<title>Quick and dirty multi-threaded Django dev server</title>
+<category>django</category>
+<category>howto</category>
+<body>
+    <p>The Django development server is great: it comes in the box, serves Django, 
+        auto-restarts on source code changes, and now even color-codes the log lines
+        based on the status returns.</p>
+
+    <p>But it isn't multi-threaded, which normally wouldn't be a problem for a 
+        development server, unless you're writing Ajax interactions, and these days,
+        who isn't?</p>
+
+    <p>The Django team has declared that <a href='http://code.djangoproject.com/ticket/3357'>they will not offer a multi-threaded development server</a>,
+        for good or bad, so we are left to our own devices. 
+        James Aylett wrote <a href='https://github.com/jaylett/django_concurrent_test_server'>django_concurrent_test_server</a> which offers 
+        multi-threading and forking, though I haven't tried it. 
+        David Cramer offers <a href='https://github.com/dcramer/django-devserver'>django-devserver</a> which seems to offer a number of interesting
+        new logging options also.
+        Many developers simply use other "real" web servers, like Apache or gunicorn, but those don't detect code
+        changes, and often don't provide stdout for debugging with.</p>
+
+    <p>I wanted multi-threading on a project but I didn't want to use a big real web server, and didn't want to install a new
+        Django app and modify settings.py, so I adapted the patch from the closed Django bug ticket
+        to create threadedmanage.py:</p>
+
+<code lang='py'><![CDATA[
+#!/usr/bin/env python
+# 
+# A clone of manage.py, with multi-threadedness monkeypatched in.
+
+import os, sys
+from django.core.management import execute_manager
+try:
+    import settings # Assumed to be in the same directory.
+except ImportError:
+    sys.stderr.write(
+        "Error: Can't find the file 'settings.py' in the directory containing %r. "
+        "It appears you've customized things.\n"
+        "You'll have to run django-admin.py, passing it your settings module.\n"
+        "(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" 
+        % __file__
+        )
+    sys.exit(1)
+
+def monkey_patch_for_multi_threaded():
+    # This monkey-patches BaseHTTPServer to create a base HTTPServer class that 
+    # supports multithreading 
+    import BaseHTTPServer, SocketServer 
+    OriginalHTTPServer = BaseHTTPServer.HTTPServer
+
+    class ThreadedHTTPServer(SocketServer.ThreadingMixIn, OriginalHTTPServer): 
+        def __init__(self, server_address, RequestHandlerClass=None): 
+            OriginalHTTPServer.__init__(self, server_address, RequestHandlerClass) 
+
+    BaseHTTPServer.HTTPServer = ThreadedHTTPServer
+
+if __name__ == "__main__":
+    monkey_patch_for_multi_threaded()
+    execute_manager(settings)
+]]></code>
+
+    <p>Now I can run "./threadedmanage.py runserver .." and get the standard development server,
+        but with multiple threads.</p>
+
+    <p>The usual caveats apply: This isn't a real web server, don't use it in production.
+        Your code likely has threading issues, please fix them.  I'm pretty sure there are
+        good reasons not to use this code, but it's working well for me.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<page title='Complex Conditionals'>
+<history>
+<what when='20030710T213300'>Created.</what>
+</history>
+
+<p>Complex conditional:
+</p>
+
+<code><![CDATA[
+if (ComplexThing1(a, b) &&
+    ComplexThing2(c, d) &&
+    ComplexThing3(e, f) &&
+    (AnotherThing1(g, h) || AnotherThing2(i, j))) {
+    DoSomethingFinally();
+}
+]]></code>
+
+<p>Simplify it with an auxilliary boolean:</p>
+
+<code><![CDATA[
+bool bDoIt = true;
+
+if (!ComplexThing1(a, b)) {
+    bDoIt = false;
+}
+
+if (bDoIt && !ComplexThing(c, d)) {
+    bDoIt = false;
+}
+
+if (bDoIt && !ComplexThing(e, f)) {
+    bDoIt = false;
+}
+
+if (bDoIt && !AnotherThing1(g, h) && !AnotherThing2(i, j)) {
+    bDoIt = false;
+}
+
+if (bDoIt) {
+    DoSomethingFinally();
+} 
+]]></code>
+
+<code><![CDATA[
+]]></code>
+
+<code><![CDATA[
+]]></code>
+
+</page>

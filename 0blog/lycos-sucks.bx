@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020831T173523'>
+<title>Does anyone still use search engines other than Google?</title>
+<category>search</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Everyone knows how fabulous <a href='http://www.google.com'>Google</a> is.  We all use it.
+Does anyone still use any of the other search engines?
+<a href='http://www.altavista.com'>Alta Vista</a>,
+<a href='http://www.lycos.com'>Lycos</a>,
+<a href='http://www.hotbot.com'>HotBot</a>, they are all still out there, still serving
+search results.</p>
+
+<p>I hadn't tried them in a while, and it was revealing to go back and check on them.
+Lycos in particular was fooled by the simplest tricks.
+A <a href='http://search.lycos.com/default.asp?query=ned+batchelder'>search there for "Ned Batchelder"</a>
+returned ten pages, none of which were my pages.
+The <a href='http://rob.crabapples.net/'>first</a> included a link to me,
+and the <a href='http://www.philart.net/'>second</a> included a distant relation of mine in a drop-down list,
+but the third was really astonishing:
+What did the <a href='http://www.gestalt.com.mx/'>Centro Gestalt de M&#xE9;xico</a> have to do with me?
+A peek at the source of the page revealed the answer: the page includes a list of 26,000 words,
+from Abram to Zurich, then aardvark to zygote, including both Ned and Batchelder along the way.
+</p>
+
+<p>This is the cheapest and easiest of tricks to snag hits from search engines, and Lycos fell for it!
+These words aren't even on a page with actual content (it is a frameset page).
+Why does Lycos even bother anymore?</p>
+
+<p>Actually, Lycos is running more than one search engine: <a href='http://www.hotbot.com'>HotBot</a>
+is owned by Lycos (you get redirected to a lycos.com URL), and returns vastly different (and better)
+results than Lycos itself.  So not only is the Lycos search engine bad, but they own a better one
+and don't use it as their primary branded engine.  Duh.</p>
+
+</body>
+</entry>
+</blog>

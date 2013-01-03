@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071223T091132'>
+<title>Hashiwokakero</title>
+<category>games</category>
+<body>
+<p><a href='http://en.wikipedia.org/wiki/Hashiwokakero'>Hashiwokakero</a> (or Hashi for short)
+is a Japanese puzzle.  I discovered it in the back of a magazine at my haircutter,
+of all places.  Like sudoku, it's an abstract puzzle requiring reasoning about a
+number of constraints at once.
+</p>
+
+<figurep>
+    <img src='pix/hashi.png' alt='A Hashi puzzle'/>
+</figurep>
+
+<p>The numbered circles are islands, your task is to fill in the bridges connecting
+them.  There can be zero, one or two bridges between each pair of islands, orthogonally.
+Bridges cannot cross, and the number on the island indicates the number of bridges
+to the island. Lastly, all the islands must be connected:</p>
+
+<figurep>
+    <img src='pix/hashi_solved.png' alt='The solution'/>
+</figurep>
+
+<p><a href='http://www.indigopuzzles.com/ipuz/samples.jsp'>Indigo Puzzles</a>
+has the nicest online implementation: not only can you interactively solve
+the puzzle, but you can ask for advice, and it will patiently explain a possible
+next deduction, and why.  They have lots of puzzles if you join the site (free).
+</p>
+
+<p>BTW: Hashi is one of the puzzles published by <a href='http://www.nikoli.co.jp/en/'>Nikoli</a>,
+a Japanese puzzle magazine with <a href='http://en.wikipedia.org/wiki/List_of_Nikoli_puzzle_types'>many types of puzzles</a>.
+</p>
+
+</body>
+</entry>
+</blog>

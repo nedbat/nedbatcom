@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091117T063507'>
+<title>Ditaa: DIagrams Through Ascii Art</title>
+<category>graphics</category>
+<category>hacks</category>
+<via />
+<body>
+<p>Does <a href='http://ditaa.sourceforge.net/'>ditaa</a> do the impossible, or
+the unnecessary?  It converts ASCII-art block diagrams into nice pictures.
+As <a href='http://ditaa.sourceforge.net/'>the author puts it</a>:
+</p>
+
+<code><![CDATA[    
+    +--------+   +-------+    +-------+
+    |        | --+ ditaa +--> |       |
+    |  Text  |   +-------+    |diagram|
+    |Document|   |!magic!|    |       |
+    |     {d}|   |       |    |       |
+    +---+----+   +-------+    +-------+
+        :                         ^
+        |       Lots of work      |
+        +-------------------------+
+]]></code>
+
+<p>After conversion using ditaa, the above file becomes:</p>
+
+<figurep href='http://ditaa.sourceforge.net'>
+    <img src='pix/ditaa-sample.png' alt='Nicely drawn diagram'/>
+</figurep>
+
+<p>I haven't tried it, so I don't know where the parsing falls down, but the
+<a href='http://ditaa.sourceforge.net'>samples in the doc</a> sure look better
+than I thought they would...</p>
+
+</body>
+</entry>
+</blog>

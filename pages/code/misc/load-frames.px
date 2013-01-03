@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='load-frames.scm'>
+<history>
+<what when='20020523T120000'>Created.</what>
+</history>
+
+<p>I've played with creating animations in <a href='http://www.povray.org'>POV-Ray</a>, and it's
+pretty easy, except that each frame of the image gets written to a separate file.
+I figured it would be easy to find a tool that smooshed all the frames together into an animated
+GIF, but I was surprised when I couldn't find a free tool that did this simple job.</p>
+
+<p>The <a href='http://www.gimp.org'>Gimp</a> is a great image manipulation tool, and will write
+an image with multiple layers to an animated GIF, where each layer is a new frame.  So I wrote
+this script to load the separate image files into layers in Gimp.</p>
+
+<p>This script works under the Windows version of Gimp, and I see no reason why it shouldn't run
+on other platforms as well.  Copy the script to your script directory (see the Gimp help for help),
+and it will appear as the Xtns - Script-fu - Utils - Load Frames.. command.</p>
+
+<download file='load-frames.scm' path='code/misc/load-frames.scm' />
+
+<pagecomments/>
+
+</page>

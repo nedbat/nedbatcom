@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100813T222846'>
+<title>Django superuser login trapdoor</title>
+<category>django</category>
+<body>
+<p>I added an admin trapdoor login to a project the other day.  This is the
+technique where a superuser can log in to a site as any other user.  My
+preferred way to do this is to <a href='http://nedbatchelder.com/blog/200905/log_in_as_a_user.html'>use
+the standard login form in a clever way</a>: enter the desired user's
+name as the username, and both your superuser name and superuser password
+into the password field.
+</p>
+
+<p>But this project was modern enough that I could use a 
+<a href='http://docs.djangoproject.com/en/1.2/topics/auth/#authentication-backends'>Django authentication backend</a>
+to get the job done:</p>
+
+<code lang='py'><![CDATA[
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+
+# So I can invoked authenticate recursively below
+django_authenticate = authenticate
+
+class SuperuserLoginAuthenticationBackend(object):
+    """ Let superusers login as regular users. """
+    def authenticate(self, username=None, password=None):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+        # The password should be name/password
+        if "@" not in password:
+            return None
+        supername, superpass = password.split("@", 1)
+        superuser = django_authenticate(username=supername, password=superpass)
+        if superuser and superuser.is_superuser:
+            return user
+
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+]]></code>
+
+<p>Very nice.</p>
+</body>
+</entry>
+</blog>

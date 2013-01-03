@@ -1,0 +1,63 @@
+/* Stylesheet for nedbatchelder.com when printing. */
+
+/* Most pages */
+td#menu {
+	/* No sidebar at all */
+    display:none;
+}
+
+table#logo_banner {
+	/* Page header should fill the page. */
+	table-layout: fixed;
+	width: 100%;
+	/* And not have borders. */
+	border: none;
+}
+
+td#logo {
+	border: none;
+}
+
+table#content_menu {
+	/* Main content should fill the page. */
+	table-layout: fixed;
+	width: 100%;
+	border: none;
+}
+
+td#copyright {
+	border-top: 1px solid gray;
+	background: #ffffff;
+}
+
+div.googleads {
+	/* Don't show ads. */
+    display:none;
+}
+
+div#commentform {
+	/* Don't show input forms. */
+    display:none;
+}
+
+/* The home page */
+
+#mainpage div#star {
+	display: none;
+}
+
+#mainpage #content {
+	position: static;
+	padding: 0 2em;
+	width: 100%;
+}
+
+#mainpage #other {
+	position: static;
+	padding: 0 2em;
+	width: 100%;
+}
+
+#mainpage #search {
+	display: none;
+}

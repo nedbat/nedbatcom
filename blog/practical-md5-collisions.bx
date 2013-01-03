@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050613T095348'>
+<title>Practical MD5 collisions</title>
+<category>security</category>
+<via href='http://del.icio.us/tag/jimfl'>Jim Flanagan</via>
+<body>
+<p>Last August, we heard about <a href='blog/200408.html#e20040819T141724'>MD5 collisions</a>,
+where two contrived strings would hash to the same MD5 fingerprint. That was a theoretical flaw
+in MD5, but it wasn't clear how you could really use it to subvert the security of a system.
+Well, now Magnus Daum and Stefan Lucks can <a href='http://www.cits.rub.de/MD5Collisions/'>create two PostScript
+files</a> with completely different contents, but the same MD5 hash.
+</p>
+
+<p>Don't trust MD5 for security!</p>
+</body>
+</entry>
+</blog>

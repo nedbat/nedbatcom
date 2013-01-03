@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031230T094011'>
+<title>Browser as desktop ui</title>
+<category>python</category>
+<category>webpage</category>
+<category>ui</category>
+<via id='keithdevens'/>
+<body>
+<p>Bruce Eckel has a detailed write-up about
+<a href='http://mindview.net/WebLog/log-0045'>building a UI using a local webserver</a>
+in Python.  It's a good explanation of the technique, and provides a complete example.
+I didn't have the csv module, so I just commented out the code that dealt with CSV
+files, and the sample worked fine after that.
+</p>
+
+<p>It can be daunting learning or even choosing a GUI framework, and if the app you need
+to build lends itself to the relatively poor interaction available in a browser,
+this kind of local web app can be a good way to go.  I'm glad to see the technique
+wrapped up in a nice present like this.</p>
+
+</body>
+</entry>
+</blog>

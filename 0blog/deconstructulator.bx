@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031217T090726'>
+<title>Deconstructulator</title>
+<category>vidgames</category>
+<via href='http://keithdevens.com/weblog/'>Keith Devens</via>
+<body>
+<p>Prolific <a href='http://acg.media.mit.edu/people/fry/'>Ben Fry</a> now gives us
+<a href='http://acg.media.mit.edu/people/fry/deconstructulator/'>deconstructulator</a>
+(he was mentioned last in the blog concerning <a href='blog/200309.html#20030904T055611'>proce55ing</a>).
+It's a Java emulation of a Nintendo game, augmented with a graphic display of the
+internal graphic structures that support the display.
+In Nintendo's case, it's a simple sprite system.
+As game play progresses, you can watch the set of sprites change to accommodate the
+needs of the game.
+</p>
+
+<p>It's part of a series Ben is working on about visualizing software.
+Check out his <a href='http://acg.media.mit.edu/people/fry/'>home page</a> for more.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071030T084100'>
+<title>Flaws in coverage measurement</title>
+<category>testing</category>
+<category>coverage</category>
+<body>
+<p>Coverage testing is a great way to find out what parts of your code are not
+tested by your test suite.  You turn on <a href='/code/modules/coverage.html'>coverage.py</a>,
+then run your tests. At the end, coverage can show you which lines were never
+executed, either by line number or visually in an annotated source file.</p>
+
+<p>When your test coverage is less than 100%, coverage testing works well: it points you
+to the lines in your code that are never run, showing the way to new tests to
+write.  The ultimate goal, of course, is to get your test coverage to 100%.</p>
+
+<p>But then you have problems, because 100% test coverage doesn't really mean
+much.  There are dozens of ways your code or your tests could still broken, but
+now you aren't getting any directions.  The measurement coverage.py provides is
+more accurately called statement coverage, because it tells you which statements
+were executed.  Statement coverage testing has taken you to the end of
+its road, and the bad news is, you aren't at your destination, but you've run out
+of road.</p>
+
+<p>By way of illustration, here are a few examples of 100% statement coverage of buggy code.</p>
+
+<more>
+    
+<h1>Combinations of paths</h1>
+
+<p>With multiple branches in a function, there may be combinations that aren't
+tested, even though each individual line is covered by a test:</p>
+
+<code lang='python'>
+def two_branches(a, b):
+    if a:
+        d = 0
+    else:
+        d = 2
+        
+    if b:
+        x = 2/d
+    else:
+        x = d/2
+        
+    return x
+
+# These tests give 100% coverage:
+two_branches(False, False) == 1
+two_branches(True, False) == 0
+two_branches(False, True) == 1
+
+# This test fails with a ZeroDivisionError:
+two_branches(True, True)
+</code>
+
+<p>Loops can have similar issues:</p>
+
+<code lang='python'>
+def loop_paths(a):
+    while a:
+        x = 1
+        a -= 1
+    return x
+
+# This test gives 100% coverage:
+loop_paths(1) == 1
+
+# This test fails with a NameError:
+loop_paths(0)
+</code>
+
+<h1>Data-driven code</h1>
+
+<p>You can often simplify a function by putting complexity into data tables,
+but there's no way to measure which parts of a data structure were used:</p>
+
+<code lang='python'>
+divisors = {
+    'x': 1,
+    'y': 0,
+}
+
+def data_driven(thing):
+    return 2/divisors.get(thing)
+    
+# This test gives 100% coverage:
+data_driven('x') == 2
+
+# This test fails with a ZeroDivisionError:
+data_driven('y')
+</code>
+
+<h1>Hidden conditionals</h1>
+
+<p>Real code often contains implied conditionals that don't live on a separate
+line to be measured:</p>
+
+<code lang='python'><![CDATA[
+def implied_conditional(a):
+    if (a % 2 == 0) or (a % 0 == 0):
+        print "Special case"
+    return a+2
+
+# 100% coverage:
+implied_conditional(0) == 2
+implied_conditional(2) == 4
+]]></code>
+
+<p>Although we have 100% coverage, we never found out that due to a typo,
+the second condition on line 3 will divide by zero.</p>
+
+<p>Conditionals can also be hidden inside functions that aren't being measured
+in the first place.</p>
+
+<code lang='python'>
+def fix_url(u):
+    # If we're an https url, make it http.
+    return u.replace('https://', 'xyzzyWRONG:')
+    
+# 100% coverage:
+fix_url('http://foo.com') == 'http://foo.com'
+</code>
+
+<p>The replace method here is essentially a big if statement on the condition that
+the string contains the substring being replaced.  Our test never takes
+that path, but the if is hidden from us, so our coverage testing doesn't
+help us find the missed coverage.</p>
+
+<h1>Incomplete tests</h1>
+
+<p>Just because your tests execute the code doesn't mean they properly test
+the results.</p>
+
+<code lang='python'>
+def my_awesome_sort(l):
+    # Magic mumbo-jumbo that will sort the list (NOT!)
+    l.reverse()
+    return l
+    
+# 100% code coverage!
+l = [4,2,5,3,1]
+type(my_awesome_sort(l)) == list
+len(my_awesome_sort(l)) == 5
+my_awesome_sort(l)[0] == 1
+</code>
+
+<p>Here our "sort" routine passes all the tests, and the coverage is 100%.  But,
+oops, we forgot to check that the list returned is really sorted.</p>
+
+<h1>Real world</h1>
+
+<p>Of course, these examples are absurd.  It's easy to see where we went wrong
+in each of them.  Most likely, though, your tests have the same underlying problems,
+but in ways that are much more difficult to find.</p>
+
+<p>Improved tools could help some of these cases, but not all.  Some C-based tools
+provide branch analysis that could help with the path problems above.
+But no tool can guarantee there aren't path problems (what if a loop works incorrectly if
+executed a prime number of times?), and
+no tool will point out that your tests aren't checking the important things
+about results.
+</p>
+
+<p>For more on the problems of coverage testing, the wikipedia article on
+<a href='http://en.wikipedia.org/wiki/Code_coverage'>Code Coverage</a> has a
+number of fine jumping-off points. Cem Kaner has a depressingly exhaustive
+overview of the <a href='http://www.kaner.com/pdfs/pnsqc00.pdf'>Measurement of the Extent of Testing</a>.
+After perusing it, you may wonder why you bother with puny statement coverage testing
+at all!
+</p>
+
+<p>Statement coverage testing is a good measure of what <em>isn't</em> being tested in
+your code.  It's a good start for understanding the completeness of your tests. Brian Merick's
+<a href='http://www.exampler.com/testing-com/writings/coverage.pdf'>How to Misuse Code Coverage</a> sums it
+<!-- <a href='http://www.testing.com/writings/coverage.pdf'>How to Misuse Code Coverage</a> sums it -->
+up best: "Coverage tools are only helpful if they're used to <em>enhance</em> thought, not replace it."</p>
+</more>
+
+</body>
+</entry>
+</blog>

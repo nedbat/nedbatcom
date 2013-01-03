@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040728T125922'>
+<title>Asserts and implication</title>
+<category>coding</category>
+<via />
+<body>
+<p>I don't know about you, but I have a hard time reading assert expressions like this:
+</p>
+
+<code lang='c++'><![CDATA[
+assert( id->locktype != NO_LOCK || locktype == SHARED_LOCK );
+assert( locktype != RESERVED_LOCK || id->locktype == SHARED_LOCK );
+]]></code>
+
+<p>The combination of the not-equal and the logical or is difficult to parse out into
+an understandable condition which is being asserted as true.</p>
+
+<p>I encountered these today, and put my boolean algebra to use.</p>
+
+<more>
+
+<p>It turns out that
+logical implication (a <logimpl/> b) is equivalent to (<lognot/>a <logor/> b).
+The latter is just the form of expression we have in the asserts above.
+So these are really just if-then's compacted down into expression form.
+In English, they say:
+</p>
+
+<quote>
+<p>If id->locktype is NO_LOCK, then locktype has to be SHARED_LOCK.</p>
+<p>if locktype is RESERVED_LOCK, then id->locktype has to be SHARED_LOCK.</p>
+</quote>
+
+<p>Perhaps a better way to do this would be a macro for the purpose:</p>
+
+<code lang='c++'><![CDATA[
+#define IFTHEN(x, y) (!(x) || (y))
+...
+assert( IFTHEN( id->locktype == NO_LOCK, locktype == SHARED_LOCK ))
+assert( IFTHEN( locktype == RESERVED_LOCK, id->locktype == SHARED_LOCK ))
+]]></code>
+
+<p>or, if you like really messing with people's heads:</p>
+
+<code lang='c++'><![CDATA[
+#define IF(x)   (!(x))
+#define THEN(y) || (y)
+...
+assert( IF( id->locktype == NO_LOCK ) THEN ( locktype == SHARED_LOCK ))
+assert( IF( locktype == RESERVED_LOCK ) THEN (id->locktype == SHARED_LOCK ))
+]]></code>
+
+<p>Of course, you could also do the reasonable thing:</p>
+
+<code lang='c++'><![CDATA[
+if (id->locktype == NO_LOCK) {
+    assert(locktype == SHARED_LOCK);
+}
+if (locktype == RESERVED_LOCK) {
+    assert(id->locktype == SHARED_LOCK);
+}
+]]></code>
+
+<p>If the assert code is compiled away, the entire if statement will be also,
+so there's nothing lost, and much understandability is gained.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

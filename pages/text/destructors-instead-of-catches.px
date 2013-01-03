@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<page title='Destructors instead of catches'>
+<history>
+<what when='20040215T094131'>Created.</what>
+</history>
+
+<p>One of the most powerful features of C++ is the guarantee that stack objects
+will be destroyed as functions are exited, regardless of why
+they were exited (normal return, or an exception being thrown).
+This is one of those clever techniques that is easy to know about, but then
+easy to overlook anyway.
+</p>
+
+
+<h1>Basics</h1>
+
+<p>C++ guarantees that an object on the stack will be destroyed
+(its destructor will be called) no matter how the function exits.
+There are many aggravations when coding in C++, and there are many
+things that more modern languages (Python or Java) will take care of for you.
+But this powerful feature of C++ is missing in those languages.
+If you must work in C++, you should at least take advantage of this
+useful idiom of the language.</p>
+
+
+
+<h1>Resource allocation</h1>
+
+<p>The classic use of this idiom is resource allocation.
+At some point in a function, you allocate a resource.
+You must ensure that when the function is exited, the resource is deallocated,
+or the resource will leak.
+There are many types of resources this scenario could apply to.
+Examples are heap memory, a lock on a mutex, or a database connection.</p>
+
+<p>For this discussion, let's imagine we have this imaginary resource class:</p>
+
+<code lang='c++'><![CDATA[
+class Resource
+{
+public:
+    // Grab an instance of Resource.
+    static Resource * GrabOne();
+
+    // Release the Resource.
+    void LetGo();
+
+    // (there are probably other methods as well!)
+};
+]]></code>
+
+<p>The manual approach to allocating and deallocating a Resource would be:</p>
+
+<code lang='c++'><![CDATA[
+void DoSomethingWithResource()
+{
+    Resource * pRes = Resource::GrabOne();
+
+    try {
+        // Do stuff with the resource.
+        pRes->DoThisThing();
+        pRes->DoThatThing();
+        OtherBigFunction(pRes);
+
+        // Clean up in success case.
+        pRes->LetGo();
+    }
+    catch (...) {
+        // Clean up in failure case.
+        pRes->LetGo();
+        throw;
+    }
+}
+]]></code>
+
+<p>The try-catch block does nothing for us here except allow us to clean up
+the resource if an exception is thrown.
+Rather than have to clutter the code with try-catch blocks, we can
+create a stack object that handles this all for us:</p>
+
+<code lang='c++'><![CDATA[
+class AutoResource
+{
+public:
+    AutoResource(Resource *pRes)
+    {
+        m_pRes = pRes;
+    }
+
+    ~AutoResource()
+    {
+        m_pRes->LetGo();
+    }
+
+private:
+    Resource * m_pRes;
+}
+]]></code>
+
+<p>(A real implementation would be a little more complex, testing if the pointer
+is NULL in the destructor, maybe providing explicit methods to let go of the
+resource and so on.  As with the rest of the examples here, this is simplified
+to make the fundamental intent clearer.)</p>
+
+<p>Now our function can let AutoResource worry about the clean up for us:</p>
+<code lang='c++'><![CDATA[
+void DoSomethingWithResource()
+{
+    Resource * pRes = Resource::GrabOne();
+    AutoResource(pRes);
+
+    // Do stuff with the resource.
+    pRes->DoThisThing();
+    pRes->DoThatThing();
+    OtherBigFunction(pRes);
+}
+]]></code>
+
+<p>There's no mention of exceptions at all now, and the resource is still
+properly managed when exceptions are thrown.</p>
+
+
+
+<h1>Success or failure reporting</h1>
+
+<p>The simple clean-up-at-the-end object is the most basic use of the
+auto-destructor technique.  But more complex problems can be solved this
+way as well.
+Suppose you have some record-keeping to do around an activity.
+For example, you have functions for tracking the success or failure of
+processing:
+</p>
+
+<code lang='c++'><![CDATA[
+void BeginActivity();
+void ItWentWell();
+void ItWentBadly();
+]]></code>
+
+<p>You have a function that does a large chunk of processing, and the functions
+it calls can throw exceptions.  To properly call your three
+activity tracking functions, you could explicitly catch the exceptions, call
+your trackers, then continue on:
+</p>
+
+<code lang='c++'><![CDATA[
+void DoSomething()
+{
+    BeginActivity();
+
+    try {
+        DoPart1();
+        DoPart2();
+        //...
+        DoPartN();
+    }
+    catch (...) {
+        ItWentBadly();
+        throw;
+    }
+
+    ItWentWell();
+}
+]]></code>
+
+<p>This works, but is cumbersome, distracting and error-prone.
+The try-catch block is there only to perform bookkeeping.
+This function doesn't want to try to handle exceptions at all.
+Rather than catch exceptions just to perform bookkeeping like this,
+much better is to use a stack-allocated object whose destructor performs
+the bookkeeping.</p>
+
+<p>We'll build a special-purpose object whose job is to be destroyed
+on exiting the function.  It maintains state to determine the proper action
+when it is destroyed:</p>
+
+<code lang='c++'><![CDATA[
+class Tracker
+{
+public:
+    Tracker()
+    {
+        m_bWell = false;
+        BeginActivity();
+    }
+
+    ~Tracker()
+    {
+        if (m_bWell) {
+            ItWentWell();
+        }
+        else {
+            ItWentBadly();
+        }
+    }
+
+    // Call this to declare that all is well.
+    void WentWell()
+    {
+        m_bWell = true;
+    }
+
+private:
+    // This boolean tracks whether all is well or not.
+    bool m_bWell;
+};
+]]></code>
+
+<p>This object encapsulates the state of the activity, and calls the proper
+function in its destructor.  You simply have to construct one at the start
+of the function, and let it know when everything has finished properly.
+Now we can re-write DoSomething so that the exceptions are invisible:</p>
+
+<code lang='c++'><![CDATA[
+void DoSomething()
+{
+    Tracker tracker;
+
+    DoPart1();
+    DoPart2();
+    //...
+    DoPartN();
+
+    tracker.WentWell();
+}
+]]></code>
+
+<p>If the code throws no exceptions, then the destructor will call ItWentWell,
+because Tracker.WentWell() sets the m_bWell member to true.
+If the code throws an exception, then the object will be destroyed as the
+exception passes through the routine.  The bool member will still be false
+(as it was set in the constructor),
+since ItWentWell wasn't called, and the destructor will call ItWentBadly.
+</p>
+
+
+
+<h1>Use the language you are given</h1>
+
+<p>C++ has its strengths and its weaknesses.
+One of the strengths is the guarantee that objects will be properly destroyed.
+By using this technique to its fullest, you can keep repetitive bookkeeping
+neatly encapsulated in helper objects which help to keep your main code
+uncluttered and clean.</p>
+
+
+<h1>See also</h1>
+
+<ul>
+
+<li><apage pref='text/exceptions-vs-status.px'/>,
+about the superiority of exceptions over status returns.
+</li>
+
+<li><apage pref='text/exceptions-in-the-rainforest.px'/>,
+about the different layers of code and how exceptions affect them.
+</li>
+
+<li><a href='blog/index.html'>My blog</a>,
+where other similar topics are occasionally discussed.
+</li>
+
+</ul>
+
+<googleads/>
+<pagecomments/>
+
+</page>

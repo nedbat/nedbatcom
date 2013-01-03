@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070226T075948'>
+<title>PyCon</title>
+<category>pycon</category>
+<category>gatherings</category>
+<body>
+<p>I just got back from my first PyCon.  It was a fascinating experience.
+It's hard to make a cohesive report, so here are my impressions.</p>
+
+<more>
+
+<h1>People</h1>
+
+<p>I got to meet lots of people I knew by name or reputation, but had no face for.
+As a blogger, I constantly feel like my writings here are of little interest, and
+that their quantity and quality are decreasing over time. So I was pleasantly
+surprised that people approached me to say they read my blog, like
+Jay Graves,
+David Schein,
+David Montgomery,
+Jeremy Jones,
+Patrick Maupin,
+William McVey, and
+Jorge Gajon.</p>
+
+<p>I finally got to meet all the Django people I've been reading and emailing with:
+Adrian Holovaty, Jacob Kaplan-Moss, Jeremy Dunck, and James Bennett.
+They are a smart, fun, energetic bunch. Thanks for the pizza!
+Sitting in on their mini-sprint Saturday night was inspiring.  It makes me want
+to contribute more significantly to the Django project, but I'll be heading in to work soon,
+where the realities of a start-up will likely put that idea out of my head!
+</p>
+
+
+<h1>Talks</h1>
+
+<p>I got to hear some talks which let me finally get a handle on some technologies
+I'd heard about but never really was able to spend the time on to understand.
+Now I feel like I know the elevator pitch, and can dig deeper offline:</p>
+
+<ul>
+<li><a href='http://wsgi.org/wsgi'>WSGI</a>: a web page technology in the spirit of CGI
+(hews closely to HTTP concepts, and doesn't care how you build your pages),
+but without the process-per-request overhead.
+Can be composed as decorators.  A similar architectural feel as Unix pipes: build small
+pieces, then combine them to create something larger.</li>
+
+<li><a href='http://sqlalchemy.org'>SQLAlchemy</a>: the Cadillac of database layers.
+Uses data mapping rather than
+active records, so your class structure doesn't have to be a slave to relational
+limitations.  Sophisticated unit of work support and identity mapper preserve
+semantics between the layers.</li>
+
+<li>Deploying with Eggs: Nope, still don't get how to do it. ez_setup, easyinstall,
+distutils, setuptools.  It's too much.  One of these days I'll figure it out,
+and maybe write a How-To.</li>
+</ul>
+
+<p>I missed the keynote Friday morning, about the One Laptop Per Child project,
+which everyone agreed was a great presentation.  The View Source button earned
+universal kudos as Cool.</p>
+
+<p>I saw Adele Goldberg's keynote about the state of e-Learning in public education,
+which was well-presented and Important, though not what many people expected her
+to talk about.  Also, she pooh-pooh'ed much of e-Learning as simple drilling,
+and then ended with a demo of her latest software, which looked a lot like simple
+drilling to me.
+</p>
+
+<p>The panels were an interesting way to get a taste from the buffet of options,
+but mostly were a good way to get a sense of people's personalities.  With eight or ten
+people on stage, it can easily become an entertaining round of one-liners and zingers,
+which is not a bad thing.  I wasn't able to pay good attention to the web frameworks panel
+due to a crisis elsewhere, but from the testing tools panel:</p>
+
+<ul>
+<li><a href='http://tech.whit537.org/'>Chad Whitacre</a>: "I'm addicted to dots."
+If you don't know what that means, you need to write (or run) more unit tests.</li>
+<li><a href='http://www.advogato.org/person/titus/'>Titus Brown</a>:
+"I don't use test-driven development, I use stupidity-driven testing: when I do something
+stupid, I wrote a test to make sure I don't do it again."</li>
+</ul>
+
+<p>Lots of people are looking to hire Python programmers.  So many people giving
+lightning talks were looking for workers that it got to be a running joke: the few
+who weren't hiring would always start with: "First off, I'm not hiring."</p>
+
+<h1>Culture</h1>
+
+<p>Perhaps the most thought-provoking discussion was in Adam Keys' car driving
+to a mis-placed restaurant Friday night.  Adam is a Ruby guy, but was attending
+PyCon as an exercise in technical comparitive anthropology. His opinion was that compared
+to the Ruby camp, Python has no highly-visible educators and evangelists.
+The Python ethic is straight out of engineering.  Write some good code,
+then let it speak for itself.  I have much more to say about this, which I'll hold
+for a later post.
+</p>
+
+<!--
+<p>This is evident in a number of ways.  Start with Guido: he's very soft-spoken,
+and while passionate about language issues, hardly uses his pulpit for anything
+beyond the language.  His keynote Saturday afternoon was a thorough description
+of the changes coming in Python 3000, an backward-incompatible revision of Python.
+I'm a technical guy, but even I was bored by the depth of details he was presenting.
+Where was the background on why make incompatible changes, or how we're approaching
+the adoption of Python, and how Python 3000 will help incresase Python's use?  He
+had one sentence about this: "Python 3000 will be incompatible because there are
+more Python programs that haven't been written than all those that have been written."
+</p>
+
+<p>In the web frameworks arena, it is something of a running joke that there are
+so many choices in Python.  I don't think this is a bad thing, and there's no good
+way to limit the choices in any case.  But too many people approaching development
+in Python are overwhelmed by the choices they have left to make once they have
+chosen Python.  It's easy for an engineer to keep all the possibilities in mind,
+and he wants to present them all to his customers, but the customers don't always
+want all the choices.  They're coming for a solution, not more conundrums.</p>
+
+<p>I think one of the reasons Django has gotten the traction it has is that it
+presents a complete solution without asking the developer to keep a number of
+parallel universes in mind, and make decisions every step of the way.</p>
+-->
+
+<h1>How to attend PyCon</h1>
+    
+<p>PyCon is an odd gathering: it's a lot of geeks, which means people don't
+necessarily have the best social skills.  And we're the types that let the code
+speak for itself.  This means that there were lots of people wandering the halls
+who would have been fascinating to speak to, but I didn't know who they were.  The
+ultimate example of this is that I was sitting next to Michael Bayer and his
+wife at dinner, but I didn't know that he was the author of
+<a href='http://www.sqlalchemy.org'>SQLAlchemy</a>,
+<a href='http://www.myghty.org/'>Myghty</a>,
+and <a href='http://www.makotemplates.org/'>Mako</a>.
+</p>
+
+<p><a href='http://blog.vrplumber.com/'>Michael Fletcher</a> had the right idea:
+he hand-annotated his conference badge with the names of his projects, so that
+although his name didn't ring a bell, <a href='http://pydispatcher.sourceforge.net/'>PyDispatcher</a> and
+<a href='http://simpleparse.sourceforge.net/'>simpleparse</a> did.</p>
+
+<p>Here's my advice for attending PyCon:</p>
+
+<box>Talk to people.</box>
+
+<p>Really, that's it. If you recognize someone, and think they wouldn't want to
+to talk to you, you are probably wrong.  Talk to them.  If you find yourself
+next to someone, and you don't know who they are, talk to them to find out <emdash/>
+chances are good you will make a connection you will value.</p>
+
+
+<h1>Wrap-up</h1>
+
+<p>PyCon was fun, I'm glad I went.  I wasn't sure the talks would be worth it, since each
+of them sounds roughly like a really good blog post, and I'm used to getting my
+information that way.
+In truth, the talks are not the main reason to go <emdash/> the quality is uneven, and much of their
+content can be better consumed online.</p>
+
+<p>The thing I take away from the experience is the
+face-to-face connections I made, and the sense of the community as a whole.
+I hear PyCon 2008 will be in Chicago, and I'm looking forward to attending.
+</p>
+
+
+
+</more>
+
+</body>
+</entry>
+</blog>

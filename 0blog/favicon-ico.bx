@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030315T080735'>
+<title>What's so tough about favicon.ico?</title>
+<category>browsers</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I currently use
+<a href='http://www.mozilla.org/projects/phoenix'>Phoenix</a>
+as my browser.  To tell you the truth, the reason I switched
+was that I got fed up with IE losing track of all the
+bookmark icons (you know,
+<a href='http://www.favicon.com'>favicon.ico</a> files).
+It seemed an especially cruel irony, since IE invented the
+things, and they claimed their "OS integration" would provide
+me with tons of benefits.
+</p>
+
+<p>I love favicon.ico icons, because anything that
+distinguishes different sites helps me to keep them all straight.
+(As I've
+<a href='blog/200211.html#e20021116T112702'>mentioned before</a>,
+I don't like RSS because it homogenizes sites).</p>
+
+<more>
+
+<p>So I switched to Phoenix in the hopes that it would do a better
+job.  For a while it did, but then it lost track of all the
+icons every once in a while too (maybe it was on system
+crashes, but it didn't lose track of the bookmarks, so why should
+it lose track of the bookmark icons?)
+I still use it, because I like the tabs, and I like the ad and
+popup blocking, though the odd bookmark menu behavior (click click)
+is annoying.
+</p>
+
+<p>I tried <a href='http://www.mozilla.org/'>Mozilla</a>, and
+it did a worse job.  First: it seemed that it wouldn't look
+up favicon.ico files at all, instead only following
+&lt;link rel='icon' &gt; links (which require me to add these
+links to all of my pages).  Then, the icon only appears in
+the address bar, and not in the bookmarks! What's the point?
+When I'm looking at the page, I don't need the icon (because
+the whole page is there to remind me where I am).
+Apparently, the Mozilla team has gone back and forth on the
+whole favicon.ico issue
+(<a href="http://bugzilla.mozilla.org/show_bug.cgi?id=113574">bug 113574</a>,
+<a href="http://bugzilla.mozilla.org/show_bug.cgi?id=143687">bug 143687</a>,
+<a href="http://bugzilla.mozilla.org/show_bug.cgi?id=116832">bug 116832</a>),
+with reasons ranging from "they're not standard" (this is a dumb reason, and
+seems not to be the current thinking) to "the quality isn't there",
+which gets me back to my original question:</p>
+
+<p>Why are favicon.ico icons so hard?  Every browser seems to have difficulty
+keeping track of them.  What's the big deal?</p>
+
+<p>Also: if someone could point me to a favicon.ico-enabled bookmark manager,
+I'd be eternally grateful.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

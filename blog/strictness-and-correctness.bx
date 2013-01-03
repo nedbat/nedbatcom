@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070429T080859'>
+<title>Strictness and correctness</title>
+<category>xml</category>
+<body>
+<p>Jeff Atwood, in
+<a href='http://www.codinghorror.com/blog/archives/000848.html'>JavaScript and HTML: Forgiveness by Default</a>
+writes about how a design decision in XML doomed XHTML:</p>
+
+<quote><p>Unfortunately, the Draconians won: when rendering as strict XHTML, any
+error in your page results in a page that not only doesn't render, but also
+presents a nasty error message to users.</p>
+
+<p>They may not have realized it at the time, but the Draconians inadvertently
+destroyed the future of XHTML with this single, irrevocable decision.</p>
+
+<p>The lesson here, it seems to me, is that forgiveness by default is absolutely
+required for the kind of large-scale, worldwide adoption that the web enjoys.
+</p></quote>
+
+
+<p>Getting upset now about the draconian error handling of XML seems kind of
+quaint.</p>
+
+<more>
+<p>At this point, I think it is clear that XML's strictness about
+well-formedness is very easy to satisfy. It is easy to write automatic producers
+of XML that do it correctly, and hand-edited XML is also easy to fix when it has
+missing angle brackets or mismatched tags.</p>
+
+<p>The main problem with XHTML has nothing to do with XML's
+strictness. The problem is that it's XML masquerading as HTML.  HTML has different lexical rules than
+XML.  Writing a single document that is both valid XHTML and an acceptable HTML document
+that will be understood by legacy browsers is very difficult, if not impossible.
+It's essentially a <a href='/blog/200209.html#e20020902T110606'>polyglot programming</a>
+exercise, where one file can be interpreted correctly according to two different sets
+of rules.  Except that we all kidded ourselves into thinking it wasn't, because
+HTML and XML both use tags.</p>
+
+<p>HTML is derived from SGML, which has a dizzying array of shortcuts to minimize
+the markup in a document.  Take a quick look at <a href='http://www.is-thought.co.uk/book/sgml-9.htm'>Tag Minimization</a>
+from Martin Bryan's book to see the kind of stuff SGML lets you do.  Some of
+this is still in HTML, which is why XML's <codeword><![CDATA[<br/>]]></codeword> doesn't do what you
+think in an HTML document.</p>
+
+<p>Other issues include the special treatment browsers give to script content,
+where less-thans really are less-thans, while in XML, they have to be escaped
+as &amp;lt;.  A fuller run-down of the problems is in Ian Hickson's
+<a href='http://www.hixie.ch/advocacy/xhtml'>Sending XHTML as text/html Considered Harmful</a>.</p>
+
+<p>So to my mind, the problem here is not that XML is strict, but that it is
+different from HTML.  You can't easily write a page which works as both.
+Jeff gives the example of an author publishing a page
+and then finding out from his horde of angry readers that the page won't display.
+This is not the kind of problem that happens: well-formedness is easy to check
+and fix.</p>
+
+<p>That said, it's also true that being strict about well-formedness does nothing
+to help with checking validity, and beyond that, nothing to help with checking
+for correct rendition. It's that last level of correctness that is the hobgoblin
+of web development: once the tag stream is correct according to some criteria,
+the browser must then draw a page, and there is where things really run off the rails.
+</p>
+
+<p>Certainly invalid pages will have more rendering problems that valid pages,
+but validity is not enough to guarantee that the page will look correct.
+So XML's strictness is easy to acheive, and also fairly useless. In the end,
+Jeff is right:</p>
+
+<quote><p>Even though programmers have learned to like draconian strictness,
+forgiveness by default is what works. It's here to stay. We should learn to love our
+beautiful soup instead.</p></quote>
+
+</more>
+
+</body>
+</entry>
+</blog>

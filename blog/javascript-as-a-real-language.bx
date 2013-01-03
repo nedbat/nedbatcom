@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060121T123934'>
+<title>JavaScript as a real language</title>
+<category>js</category>
+<via />
+<body>
+<p>My new job will take me much further into JavaScript than I have gone in the past, even though I am
+not the JavaScript guy.  I mentioned some time ago that
+<a href='blog/200405.html#e20040527T075652'>JavaScript is underestimated</a>, but I still have not
+learned (much less internalized) all of those lessons.
+</p>
+
+<p>Alex Russell gives some
+<a href='http://alex.dojotoolkit.org/?p=535'>fundamental principles of JavaScript</a>
+(which he erroneously calls idioms) which would go a long way toward modernizing my approach to the language.
+</p>
+
+<p>These days there are many powerful JavaScript libraries available.  They are great either as a toolkit
+to use in web apps, or as advanced textbooks in how JavaScript can be used.  Here's a sampling:
+</p>
+
+<ul>
+<li><a href='http://prototype.conio.net/'>prototype</a> provides an AJAX framework and lots of other JavaScript
+utilities. It is often used as a foundation by other libraries in this list.</li>
+<li><a href='http://bennolan.com/behaviour'>Behaviour</a> lets you add JavaScript handlers to elements using
+CSS syntax rather than onClick attributes.
+</li>
+<li><a href='http://script.aculo.us/'>script.aculo.us</a> provides lots of cool functionality like
+visual effects, autocompletion, and drag and drop.</li>
+<li><a href='http://openrico.org/'>Rico</a> provides AJAX, visual effects, and drag and drop.</li>
+<li><a href='http://dojotoolkit.org/'>Dojo</a> is a large library providing many features, enough that
+it is available in different subsets ("Editions").  Included are AJAX, visual effects, and rich text editing.</li>
+<li><a href='http://jquery.com/'>jQuery</a> provides CSS and XPath selectors for accessing elements, among
+other tools.</li>
+</ul>
+
+<p>For a more complete list, check out Saddam Azad's
+<a href='http://edevil.wordpress.com/2005/11/14/javascript-libraries-roundup/'>JavaScript libraries roundup</a>.
+</p>
+
+<p>Finally, if you aren't quite ready to take on a whole library but want to get started using cooler functions,
+or at least understanding what all the excitement is about,
+Dustin Diaz has a list of the
+<a href='http://www.dustindiaz.com/top-ten-javascript/'>top 10 custom JavaScript functions of all time</a>.
+</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031029T084312'>
+<title>Impossible CSS gripe #1</title>
+<category>css</category>
+<via />
+<body>
+<p>I know there's nothing to be done about this now (that's why this is an impossible gripe),
+but I really wish the authors of CSS had either:
+</p>
+
+<ol>
+<li>Written the spec so that it was more understandable from the start, or</li>
+<li>Provided a reference implementation, or </li>
+<li>Provided an extensive test suite, with results specified.</li>
+</ol>
+
+<p>As it is, we're in a mess today, supporting a growing list of buggy
+implementations with horrific hacks like the
+<a href='http://tantek.com/CSS/Examples/highpass.html'>high pass filter</a>,
+<a href='http://tantek.com/CSS/Examples/midpass.html'>mid pass filter</a>,
+and so on.
+Try to understand
+<a href='http://diveintoaccessibility.org/day_26_using_relative_font_sizes.html'>Mark's text sizing code</a>,
+and you'll see what I mean.</p>
+
+<p>CSS is good, CSS is clean, the world will be a better place when CSS is done
+right.  Lots of people will blame Microsoft, or Netscape, or some other browser
+author, for getting it wrong, and shrug it off as "just bugs".
+But let's face it: none of these browser authors wanted to implement CSS incorrectly
+(paranoid fantasies about Microsoft notwithstanding).
+If they had known their browser had it wrong, they would have fixed it before shipping.
+The bugs are there because people didn't understand the spec, or it was
+ambiguously written to begin with, or because they didn't have an exhaustive
+test suite to run in their browser.</p>
+
+</body>
+</entry>
+</blog>

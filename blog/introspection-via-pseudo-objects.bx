@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060523T202243'>
+<title>Introspection via pseudo-objects</title>
+<category>arch</category>
+<via />
+<body>
+<p>I've noticed a pattern in software systems: secondary channels
+into the guts of the software are implemented as fake objects from the
+primary channel.  That's a horrible sentence; let me demonstrate with
+a few examples:
+</p>
+
+<ul>
+<li>In Linux, you can find out about the current status of much of the
+operating system by reading pseudo-files in the <a href='http://linuxreviews.org/man/proc/'>/proc pseudo-filesystem</a>.</li>
+
+<li>In many database systems, you can find out about the dynamic status
+or static structure of the database by querying pseudo tables, such as MySQL's
+<a href='http://dev.mysql.com/doc/refman/5.1/en/information-schema.html'>INFORMATION_SCHEMA database</a>.</li>
+
+<li>Printers have self-tests that result in a page being printed containing
+statistics and configuration of the printer.</li>
+
+</ul>
+
+<p>I know in my own work, I often have need to create a way to get into 
+the internals of the software, either to change configuration or to get
+debugging or administrative information out.  If the product is in the
+business of serving information (such as a web application), it's
+straightforward to add a URL which serves the information desired.</p>
+
+<p>With dynamic web applications (the word dynamic is an oxymoron
+at this point!), there's practically no cost to adding another URL running another
+piece of code.  It's almost not even worth noting that we can create URLs
+to serve not just our customers, but ourselves.</p>
+
+<p>I'm wondering what other more exotic examples there are out there of 
+machines producing pseudo-products as a way of communicating with the
+outside world?  What's the most creative use of this technique?
+</p>
+
+</body>
+</entry>
+</blog>

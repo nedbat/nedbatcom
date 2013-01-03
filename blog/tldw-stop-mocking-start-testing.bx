@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120602T094218'>
+<title>tl;dw: Stop mocking, start testing</title>
+<category>pycon</category>
+<category>testing</category>
+<body>
+
+    <p>At PyCon 2012, Augie Fackler and Nathaniel Manista gave a talk entitled,
+        <a href='http://pyvideo.org/video/629/stop-mocking-start-testing'>Stop Mocking, Start Testing</a>.  
+        This is my textual summary of the talk, the first of a
+        <a href='blog/201206/tldw.html'>series of summaries</a>.  You can look at Augie and Nathaniel's
+        <a href='http://code.google.com/a/google.com/p/stop-mocking-start-testing/'>slides themselves</a>,
+        or watch the video:</p>
+    
+    <p align="center">
+        <iframe width="500" height="369" src="http://www.youtube.com/embed/Xu5EhKVZdV8" frameborder="0" allowfullscreen="allowfullscreen"/>
+    </p>
+
+    <p>If you not only don't have time to watch the video, but don't even want
+        to read this summary, here's the <b>tl;dr</b>:</p>
+    
+    <quote><p>Test doubles are useful, but can get out of hand. Use fakes, not
+            mocks. Have one authoritative fake implementation of each
+            service.</p></quote>
+
+    <p>Here's (roughly) what Augie and Nathaniel said:</p>
+
+    <p>We work on Google Code, which has been a project since July 2006.  There
+        are about 50 engineer-years of work on it so far.  Median time on the
+        project is 2 years, people rotate in and out, which is usual for
+        Google.  Google code offers svn, hg, git, wiki, issue tracker, download
+        service, offline batch, etc.  They started off with a few
+        implementation languages, now there are at least eight.  </p>
+
+    <p>There are many servers and processes, components, including RPC
+        services, all talking to each other, until finally at the bottom
+        there's persistence.  Your code is probably like this too: stateless
+        components, messages sent between components, user data stored
+        statefully at the bottom.</p>
+
+    <p>What's been the evolution of the testing process?  Standard operating
+        procedure as of 2006: Limited test coverage.  We inherited the svn test
+        suite, but it had to be run manually against a preconfigured dev env
+        then manually examine output!  Took all afternoon!</p>
+
+    <p>"Tests? We have users to test!" An effective but stressful way to find
+        bugs.  Users are not a test infrastructure.  Tests that cost more
+        people time than CPU time are bad.  A project can't grow this way.  If
+        the feature surface area grows linearly, the time spent testing grows
+        quadratically.</p>
+
+    <p>Starting to Test (2009): A new crew of engineers rolled onto the
+        project, but they didn't understand the existing code.  Policy: tests
+        are required for new and modified code.  Untouched code remained
+        untested.  The core persistence is changed a lot, so it's well tested,
+        but the layers above might not, and that untested code would break on
+        deploy.  We set up a continuous build server, with red/green light,
+        though a few engrs are red/green blind, so we had to find just the
+        right colors!</p>
+
+    <p>We thought we were doing well, adding tests was helping, but the tests
+        were problems themselves.  Everyone made their own mock objects.  We
+        had N different implementations of a mock.  When the real code changed,
+        you have to find all N mocks and update them.</p>
+
+    <p>It wasn't just N mocks: even with one mock, it would tell us what we
+        wanted to hear.  The mocks do what we said, instead of accurately
+        modeling the real code.  Tests would pass, then the product would break
+        on deploy. The mocks had diverged from the real code.</p>
+
+    <p>Lessons so far:</p>
+    <ul>
+        <li>Share mocks among test modules.</li>
+        <li>Maybe you don't need a mock: if an object is cheap, then don't mock it.</li>
+        <li>If you need a mock, have exactly one well-tested mock.</li>
+        <li>Test the mock against the real implementation.</li>
+        <li>If you don't have time to fully test the mock,
+        at least use Python introspection to confirm that the interfaces are the same.
+        The inspect module has the tools to do this.</li>
+    </ul>
+
+    <p>We tried to use full Selenium system tests to make up for gaps in unit
+        coverage.  Selenium is slow, race conditions creep in, difficult to
+        diagnose problems.  They weren't a good replacement for unit tests,
+        unit tests give much better information.</p>
+
+    <p>We tested user stories with full system tests, this worked much better.
+        Still use system tests, but test the user story, not the edge
+        conditions.</p>
+
+    <p>We went through Enlightenment, now we have modern mocking:</p>
+
+    <ul>
+        <li>A common collection of authoritative mocks.</li>
+        <li>The mock collection is narrow, only the things we really need to test.</li>
+        <li>The mock is isolated. No code dependency between the mocks and the real code.
+            Mocks don't inherit from real implementations.</li>
+        <li>Mocks are actually fakes. Lots of terms:
+            mocks, stubs, dummies, fakes, doubles, etc.
+            Fakes are full in-memory implementations of the interface they are mocking.</li>
+        <li>(from a question at the end:) Mocks are works in progress, they only implement what is needed,
+            so strong interface checking wouldn't work to confirm they have the right interface.</li>
+        <li>What gets mocked?  Only expensive external services.
+            Everything else is real code.</li>
+    </ul>
+
+
+    <p>Testing today: Tests are written to the interface, not the
+        implementation.  When writing tests ask yourself, "how much could the
+        implementation change, and not have to change the test?" Running
+        against mocks in CI makes the tests go faster, and reduces cycles.</p>
+
+    <p>We used to do bad things:</p>
+    <ul>
+        <li>use a framework to inject dependencies.</li>
+        <li>use a framework to create mock objects.</li>
+        <li>have constructors automatically create resources if they were not passed in.</li>
+        <li>twist code into weird shapes to make it work.</li>
+    </ul>
+
+    <p>Now we do good things:</p>
+    <ul>
+        <li>Object dependencies are required constructor params.
+            Implicit params are bad, because it's hard to track all those implicit connections.
+            If you forget a required parameter, it's very apparent.
+            If object A doesn't make sense without object B, then don't default it.</li>
+        <li>Separate state from behavior.
+            (code sample at 22:30 in the video)
+            An instance method that reads an attribute, performs calculations on it, and assigns it back to an attribute.
+            The calculation in the middle can be pulled into a pure function,
+            and the method can change to self.b = pure_fn(self.a).</li>
+        <li>Classes shrink before your eyes.  Functional programming is very testable.</li>
+    </ul>
+
+    <p>Define clear interfaces between components.  If you can't figure out how
+        to write a test, it's a code smell, you need to think more about the
+        product code.</p>
+
+</body>
+</entry>
+</blog>

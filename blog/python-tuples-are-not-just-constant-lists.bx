@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060428T181318'>
+<title>Python tuples are not just constant lists</title>
+<category>python</category>
+<via />
+<body>
+<p>James Tauber mentions
+<a href="http://jtauber.com/blog/2006/04/15/python_tuples_are_not_just_constant_lists">the
+distinction between lists and tuples in Python</a>.
+I have to admit: I never made this distinction properly before.  I didn't even think of tuples
+as immutable lists.  They were just the lists with parens, which made them less attractive, because
+it's ugly to make one with a single element (that wierd orphaned comma), and the parens don't stand
+out from the rest of the code as well as square brackets do.</p>
+
+<p>Of course, if you want to modify elements, you have to use a list, and if you want to provide a
+"list" of element to the string formatting operator, you have to use a tuple.  Other than that, I
+never really thought about it.</p>
+
+</body>
+</entry>
+</blog>

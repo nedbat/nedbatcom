@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060522T162427'>
+<title>Dunder</title>
+<category>python</category>
+<via />
+<body>
+<p>An awkward thing about programming in Python: there are lots of 
+double underscores.  For example, the standard method names beneath the syntactic
+sugar have names like __getattr__, constructors are __init__, built-in
+operators can be overloaded with __add__, and so on.  In the 
+<a href='http://www.djangoproject.com'>Django</a> framework (at least
+before they integrated the magic-removal branch), the object-relational mapper
+used keyword arguments named things like user__id__exact.
+</p>
+
+<p>My problem with the double underscore is that it's hard to 
+say. How do you pronounce __init__? "underscore underscore init underscore underscore"?
+"under under init under under"? Just plain "init" seems to leave out
+something important.</p>
+
+<p>I have a solution: double underscore should be pronounced "dunder".
+So __init__ is "dunder init dunder", or just "dunder init".</p>
+
+<p>I'll leave it to someone else to decide what "dunderhead" means now.
+</p>
+
+
+</body>
+</entry>
+</blog>

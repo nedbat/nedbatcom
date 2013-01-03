@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20091003T085203'>
+<title>Running the same code on Python 2.x and 3.x</title>
+<category>python</category>
+<body>
+<p>Last weekend I <a href='/blog/200909/coveragepy_v31_beta_1_python_3x_and_cobertura_output.html'>released a version of Coverage.py for Python 3.x</a>.
+Getting to that point took a while because 3.x was new to me, and, it seems,
+everyone is still figuring out how to support it.
+</p>
+
+<p>I experimented with using 2to3 to create my 3.x code from my 2.x code base,
+and that worked really well, see <a href='/blog/200907/coveragepy_on_python_3x.html'>Coverage.py on Python 3.x</a>
+for some details.  For a while, I developed like this, with 3.x code translated
+by 2to3 so that I could run the tests under Python 3.1.  But then I had to figure
+out how to package it.</p>
+
+<p>I didn't want to have to create a separate package in PyPI for the 3.x support.
+I tried for a while to make one source package with two distinct trees of code
+in it, but I never got setup.py to be comfortable with that.  Setup.py is run
+during kitting, and building, and installation, and the logic to get it to pick
+the right tree at all times became twisted and confusing.</p>
+
+<p>(As an aside, setuptools has forked to become Distribute, and they've just
+<a href='http://tarekziade.wordpress.com/2009/09/26/got-python-3-support/'>released their Python 3 support</a>
+which includes being able to run 2to3 as part of build and install.  That may
+have been a way to go, but I didn't know it at the time.)</p>
+
+<p>Something, I forget what, made me consider having one source tree that ran
+on both Python 2 and Python 3.  When I looked at the changes 2to3 was making,
+it seemed doable.  I adapted my code to a 2-and-3 idiomatic style, and now the
+source runs on both.</p>
+
+<p>Changes I had to make:</p>
+
+<p>&#xb6;&#xa0;&#xa0;
+I already had a file called backward.py that defined 2.5 stuff for 2.3, now
+I also used it to deal with import differences between 2 and 3.  For example:</p>
+
+<code lang='python'><![CDATA[
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
+]]></code>
+
+<p>and then in another file:</p>
+
+<code lang='python'><![CDATA[
+from backward import StringIO
+]]></code>
+
+<p>&#xb6;&#xa0;&#xa0;
+exec changed from a statement to a function.  Syntax changes like this
+are the hardest to deal with because code won't even compile if the syntax is
+wrong.  For the exec issue, I used this (perhaps too) clever conditional code:</p>
+
+<code lang='python'><![CDATA[
+# Exec is a statement in Py2, a function in Py3
+
+if sys.hexversion > 0x03000000:
+    def exec_function(source, filename, global_map):
+        """A wrapper around exec()."""
+        exec(compile(source, filename, "exec"), global_map)
+else:
+    # OK, this is pretty gross.  In Py2, exec was a statement, but that will
+    # be a syntax error if we try to put it in a Py3 file, even if it isn't
+    # executed.  So hide it inside an evaluated string literal instead.
+    eval(compile("""\
+def exec_function(source, filename, global_map):
+    exec compile(source, filename, "exec") in global_map
+""",
+    "<exec_function>", "exec"
+    ))
+]]></code>
+
+<p>&#xb6;&#xa0;&#xa0;
+All print statements have to adopt an ambiguous print(s) syntax.  The string to
+be printed has to be a single string, so some comma-separated lists turned into
+formatted strings.
+</p>
+
+<p>&#xb6;&#xa0;&#xa0;
+2to3 is obsessive about converting any d.keys() use into list(d.keys()), since
+keys returns a dictionary view object.  If the dict isn't being modified, you
+can just loop over it without the list(), but in a few places, I really was
+returning a list, so I included the list() call.
+</p>
+
+<p>&#xb6;&#xa0;&#xa0;
+A few 2to3 changes are fine to run on both, so these:</p>
+
+<code lang='python'><![CDATA[
+d.has_key(k)
+d.itervalues()
+callable(o)
+xrange(limit)
+]]></code>
+
+<p>became:</p>
+
+<code lang='python'><![CDATA[
+k in d
+d.values()
+hasattr(o, '__call__')
+range(limit)
+]]></code>
+
+<p>&#xb6;&#xa0;&#xa0;
+Exception handling has changed when you want to get a reference to the exception.
+This is one of those syntax differences, and it's structural, so a tricky function
+definition isn't going to bridge the gap.
+</p>
+
+<p>Where Python 2 had this:</p>
+
+<code lang='python'><![CDATA[
+try:
+    # .. blah blah ..
+except SomeErrorClass, err:
+    # use err
+]]></code>
+
+<p>now Python 3 wants:</p>
+
+<code lang='python'><![CDATA[
+try:
+    # .. blah blah ..
+except SomeErrorClass as err:
+    # use err
+]]></code>
+
+<p>The only way to make both versions of Python happy is to use the more cumbersome:</p>
+
+<code lang='python'><![CDATA[
+try:
+    # .. blah blah ..
+except SomeErrorClass:
+    _, err, _ = sys.exc_info()
+    # use err
+]]></code>
+
+<p>This is uglier, but there were only a few places I needed it, so it's not too bad.</p>
+
+<p>&#xb6;&#xa0;&#xa0;
+Simple imports are relative or absolute in Python 2, but only absolute in Python 3.
+The new relative import syntax in Python 3 won't compile in Python 2, so I can't
+use it.  I was only using relative imports in my test modules, so I used this
+hack to make them work:
+</p>
+
+<code lang='python'><![CDATA[
+sys.path.insert(0, os.path.split(__file__)[0]) # Force relative import 
+from myotherfile import MyClass
+]]></code>
+
+<p>By explicitly adding the current directory to the path, Python 3's absolute-only
+importer would find the file alongside this one in the current directory.</p>
+
+
+<p>&#xb6;&#xa0;&#xa0;
+One area that still tangles me up is str/unicode and bytes/str.  Python 3 is
+making a good change here, but it feels like we're still in transition.  The docs
+aren't always clear on what will be returned, and trying to get the same code to
+do the right thing under both versions still seems to require experiments with
+decode and encode.</p>
+
+<p>After making all of these changes, I had a single code base that ran on both
+Python versions, without too much strangeness.  It's way better than having
+to maintain two packages at PyPI, or trying to trick setup.py into installing
+different code on different versions.</p>
+
+<p>Others have written about the same challenge:</p>
+    
+<ul>
+<li><a href='http://pythonology.blogspot.com/2009/02/making-code-run-on-python-20-through-30.html'>Stephan Deibel</a> supports 2.0 through 3.1!</li>
+<li><a href='http://www.rfk.id.au/blog/entry/preparing-pyenchant-for-python-3'>Ryan Kelly</a> has some useful tips on the string issues.</li>
+<li><a href='http://pydev.blogspot.com/2008/11/making-code-work-in-python-2-and-3.html'>Fabio Zadrozny</a> has more specifics.</li>
+</ul>
+
+</body>
+</entry>
+</blog>

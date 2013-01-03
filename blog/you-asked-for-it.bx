@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090213T073915'>
+<title>You asked for it</title>
+<category>exceptions</category>
+<category>webpage</category>
+<body>
+<p>I've always been a big fan of adding code to a product just to measure, debug,
+and diagnose the product itself.  On a web project, it's easy to add extra URLs
+that are only for internal use, and provide insight into the workings of the code
+or the health of your data.
+</p>
+
+<p>Yesterday evening, one of them did its small job perfectly.  Just as I was getting into
+my car, an engineer called to report that a spate of stack traces had been reported
+from the production servers.  We use Django, and take advantage of the emailed
+stack trace reports.  These errors were of an unusual nature, one that would
+spell big trouble if they persisted.  After the initial burst, there weren't
+more reports, but there weren't any other stack traces either.   It could be
+that the problem had metastasized so quickly that the stack trace reporting wasn't
+working either.   It had happened before.</p>
+
+<p>How to tell the difference between a momentary blip that had passed, and a
+problem that broke the error reporting?  Simple: we have an endpoint with this
+implementation:</p>
+
+<code lang='python'><![CDATA[
+def raise_error(request):
+    raise Exception("You asked for it!")
+]]></code>
+
+<p>Visiting that URL generates a stack trace, and you can see if the
+error reporting mechanisms are working properly. One quick browser visit, a
+stack trace appeared in our inbox, and we knew: they were.</p>
+
+
+</body>
+</entry>
+</blog>

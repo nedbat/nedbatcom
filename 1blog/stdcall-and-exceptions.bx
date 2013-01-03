@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040729T081437'>
+<title>__stdcall and exceptions?</title>
+<category>cpp</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>Head's up: this is a way geeky question. It's about C++ calling conventions and
+exception handling. (Is it bad form for me to use this blog as my own personal
+help forum?)
+</p>
+
+<more>
+
+<p>I have a strange problem where C++ destructors are not being called for stack-allocated
+objects when an exception is thrown through my function.  For example:</p>
+
+<code lang='c++'><![CDATA[
+class StackThingy
+{
+public:
+    // Constructor will be called when the StackThingy
+    // is created on the stack.
+    StackThingy()
+    {
+        // (Point A)
+    }
+
+    // Destructor should be called when the StackThingy
+    // is unwound from the stack.
+    ~StackThingy()
+    {
+        // (Point B)
+    }
+};
+
+void __stdcall
+MyTestRoutine()
+{
+    // Create the StackThingy
+    StackThingy thingy;
+
+    // Throw an exception.  This should unwind the StackThingy
+    // object, calling its destructor.
+    throw CException();
+}
+]]></code>
+
+<p>When I run this code, Point A executes in the constructor, but execution
+never reaches Point B.  It should, because the exception being thrown should unwind
+stack, calling the destructors on any stack-allocated object.
+But somehow, the exception would not properly destroy the thingy object.</p>
+
+<p>I narrowed it down to the __stdcall calling convention.  If I remove the __stdcall
+declaration to make it a regular C++ function, then the destructor is called as I
+would expect. I can find no mention of this behavior in the docs or on the wider web.
+The description of __stdcall talks about stack maintenance as a key difference between
+calling conventions, but doesn't describe exception handling at all.
+</p>
+
+<p>Is this expected behavior, or is there some other nefarious factor at work here?</p>
+
+
+</more>
+
+</body>
+</entry>
+</blog>

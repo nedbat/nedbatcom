@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20120826T203903'>
+<title>Selecting randomly from an unknown sequence</title>
+<category>python</category>
+<category>algorithms</category>
+<body>
+    <p>A was reminded today of a technique I'd read about somewhere before:
+        how to choose randomly from a sequence of unknown length.
+        The typical use is to choose a random line from a file.</p>
+
+    <p>The naive way to do it is to read the whole file, count the number
+        of lines, choose a random number in that range, and that's your line.
+        But that requires either holding the whole file in memory, or reading
+        the file twice. When I first heard of this problem, I didn't see how
+        it could be done any other way.  Surely you need to know how many 
+        you're choosing from to select uniformly?</p>
+
+    <p>It turns out you don't need to know the length of the sequence in
+        advance, you can choose as you go so that the end result is uniform.
+        The cleverer way to do it is to choose a line with a decreasing
+        probability as the sequence goes along, so that at any time, you have
+        an element from the sequence with a uniform probability:</p>
+
+<code><![CDATA[
+import random
+
+def random_element(seq):
+    """Return an element chosen at random from `seq`."""
+    it = None
+    for n, elem in enumerate(seq):
+        if random.randint(0, n) == 0:
+            it = elem
+    return it
+]]></code>
+
+<p>Note that due to Python's duck-typing, using this function on an open
+    file will return a random line from the file.</p>
+
+<p>To see why this function works, consider it inductively.  For the initial
+    case, we'll always pick the first element as "it", since a random int between
+    0 and 0 will be 0.  So after one element, we've chosen uniformly from the one
+    element we've seen.</p>
+
+<p>For the inductive case, imagine we've read N-1 elements already, and "it" is 
+    a random element chosen uniformly from those N-1 elements.  The chance
+    that the Nth element should be chosen instead is 1/N, because at this point,
+    the chance that any particular line should be "it" is 1/N.  So we choose a random
+    number, and if it's the 1/N outcome, we take the Nth line as "it."  In the case
+    that we don't take the new line, which is (N-1)/N, the old line is kept.  It was
+    chosen randomly from the N-1 lines that preceded this one, so each line has a 
+    final chance of ((N-1)/N)/(N-1), or 1/N, or being chosen.  Therefore the new
+    line and each of the old lines is equally likely, so the distribution is uniform.</p>
+
+<p>Since the initial case meets our uniform-selection criterion, and we've shown that
+    if N-1 satisfies it then N satisfies it, then by induction, our selection will be
+    uniformly random for any N.</p>
+
+<p>The <a href='http://stackoverflow.com/q/12128948/14343'>original question</a> had to
+    do with picking 10 random lines, so how do we generalize to a larger selection than one?
+    We keep a list of K elements we've chosen, and only if the next one meets the appropriately
+    decreasing probability over time, do we add it to our collection, bumping an old value
+    randomly:</p>
+
+<code><![CDATA[
+def random_elements(seq, k):
+    """Return `k` elements chosen randomly from `seq`."""
+    them = []
+    for n, elem in enumerate(seq):
+        if len(them) < k:
+            them.append(elem)
+        else:
+            if random.randint(0, n) < k:
+                them[random.randint(0, k-1)] = elem
+    return them
+]]></code>
+
+<p>Now the Nth element has a k/N chance of being in the result, so we modify
+    our selection criteria, and if it's chosen, we choose an old value to
+    replace.</p>
+
+<p>I can't say I've ever needed these functions, but I like their elegance and
+    their surprising possibility.  There's something very pleasing about a
+    simple algorithm that runs counter to intuition.</p>
+
+<p>Note: <a href='http://stackoverflow.com/a/12134726/14343'>Blckknight's answer</a>
+    has a slightly nicer implementation of the random_elements function.</p>
+
+</body>
+</entry>
+</blog>

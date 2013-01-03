@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090520T212752'>
+<title>Mona Tweeta</title>
+<body>
+<p>Mario Klingemann undertook a challenge: to somehow represent an image in a
+tweet.  Not by pasting a URL to the image, but by actually cramming the data
+into 140 characters.  <a href='http://www.flickr.com/photos/quasimondo/3518306770/in/photostream/'>The result</a>
+is better than you think, and involved all sorts of technical craftiness.</p>
+
+<p>First, he used Chinese characters, to get 210 bytes of data into 140 characters.
+Then he used clever color and point coordinate representations to optimize the use
+of the handful of bytes available.</p>
+
+<p>One of my first jobs was at
+<a href='blog/200404/general_computer_corporation.html'>General Computer Corporation</a>,
+which made games for the Atari 2600. The 2600 system had only 256 bytes of RAM,
+so the designers of games had to cram all of the mutable data, including the
+program stack, into 256 bytes. When it was time to plan a new feature for a game,
+the developers would bring out the memory map, a sheet of paper detailing what
+each bit of those 256 bytes did, and find a bit that was unused.</p>
+
+<p>And now here we are on multi-gigabyte machines, trying to squeeze something
+interesting into 210 bytes!
+</p>
+
+<p>It seems every time we think technology has moved beyond some irritating limit,
+new tech comes in and re-introduces it to us.  No more 8-bit video, unless you're
+on a VNC connection.  Screens are big, unless you're in a phone.  Network is
+always connected, unless you're in a phone.  Actually, most of the limitations
+come back once you're in a phone.</p>
+
+<p>Or on twitter!</p>
+
+</body>
+</entry>
+</blog>

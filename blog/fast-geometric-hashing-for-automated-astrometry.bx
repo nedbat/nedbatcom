@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090220T171604'>
+<title>Fast geometric hashing for automated astrometry</title>
+<category>space</category>
+<category>search</category>
+<category>algorithms</category>
+<via id='simonwillison'/>
+<body>
+<p><a href='http://cosmo.nyu.edu/hogg/research/2006/09/28/astrometry_google.pdf'>Fast
+Geometric Hashing for Automated Astrometry</a> is a fascinating presentation
+about a solution to the problem of examining a photo of a section of the sky,
+and figuring out what part of the sky it is.  It involves geometry, and algorithms,
+a clever hashing algorithm for that returns the same result independent of rotation
+and scale, mapping, search trees, and so on.</p>
+
+<p>I'm not much of an astronomer:  I didn't realize for example, that the catalog
+of the sky included roughly a billion objects!  I'd never heard of
+<a href='http://healpix.jpl.nasa.gov/'>HEALPix</a>, a scheme for dividing spheres
+into uniform grids (pixelizing them). And <a href='http://en.wikipedia.org/wiki/Kd-tree'>kd-trees</a>
+are a data structure for dividing up space, kind of like a 3D tree map.</p>
+
+<p>Plenty of goodies for nerds of all sorts.</p>
+
+<p>PS: the whole thing has been hooked up with the flickr API to
+<a href='http://code.flickr.com/blog/2009/02/18/found-in-space/'>automatically
+identify objects in astronomy pictures on flickr</a>.  Very cool.
+</p>
+
+</body>
+</entry>
+</blog>

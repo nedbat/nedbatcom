@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030209T143211'>
+<title>Amazon's recommendation algorithm</title>
+<category>algorithms</category>
+<category>amazon</category>
+<via href='http://www.challishodge.com/index.asp'>UXblog</via> <!-- id= or href= -->
+<body>
+<p>Ever wonder how <a href='http://www.amazon.com'>Amazon</a> manages to produce
+all those recommendations all over their site?
+<a href='http://dsonline.computer.org/0301/d/w1lind.htm'>Amazon.com Recommendations:
+Item-to-Item Collaborative Filtering</a> is a short paper describing their algorithm,
+and comparing it to other approaches that wouldn't work as well for their 29 million
+customer database.
+</p>
+</body>
+</entry>
+</blog>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030613T081110'>
+<title>Construction methods</title>
+<category>coding</category>
+<via /> <!-- id= or href= -->
+<body>
+<p><a href='http://www.pragprog.com/pragdave/'>PragDave</a>
+writes about a small matter, but one that made me think:
+<a href='http://www.pragprog.com/pragdave/Practices/ConstructionMethods.rdoc,v'>Construction Methods</a>.
+He favors static methods over overloaded constructors, because they can be
+distinguished by name rather than parameter types.
+</p>
+
+<p>It's this kind of attention to detail, the willingness to ponder the
+best approach to even the smallest things, that makes all the difference
+in the code a developer writes.
+Dave correctly describes the technique as not particularly new, which
+also gets him points: too often technologists believe that only
+flashy revolutionary new techniques can be of value.  Not true: mostly
+what adds value to software is good old-fashioned engineering,
+and caring about little things that add up throughout a code base.
+</p>
+
+<p>Unfortunately, for C++ coders, the technique has a serious downside,
+which is that the static method has to know how you want your object allocated.
+For example, you can't create a stack-allocated object this way, and if
+you have overloaded new, you are in trouble as well unless your static methods
+can know once and for all which overload to use.  But for heap-only
+languages like Python, Java, and (I guess) Ruby, that isn't a factor.
+</p>
+
+</body>
+</entry>
+</blog>

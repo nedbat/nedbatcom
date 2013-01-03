@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060527T124014'>
+<title>For best results, write your own ad-hoc data representation</title>
+<category>arch</category>
+<via />
+<body>
+<p>This may sound heretical in these days of standards for everything,
+but I've had the best successes by designing my own ad-hoc data formats.
+Rather than adopting (or worse, adapting) a standard to fit your purposes,
+you should create your own data representation.  It will give you the best
+fit for the problem at hand.  
+</p>
+
+<p>Read <a href='text/own-data.html'>Own your data: ad-hoc representations</a>.</p>
+
+</body>
+</entry>
+</blog>

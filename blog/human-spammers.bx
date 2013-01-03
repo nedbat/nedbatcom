@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060524T073251'>
+<title>Human spammers</title>
+<category>malware</category>
+<via />
+<body>
+<p>I don't know about other bloggers out there, but I'm seeing a different
+kind of spam in my comments these days.  It looks like actual people are
+reading the blog posts and writing minimally appropriate comments, just
+to get a link to their website.
+</p>
+
+<p>For example, on my post about <a href='blog/200605.html#e20060507T080328'>The Wave</a>,
+I got this comment from "christy":</p>
+
+<quote><p>
+I think Wikipedia might have some info about the traces of this interesting 
+game where fans are as much playing the game as professionals. 
+I enjoyed watching this game.
+</p></quote>
+
+<p>The website linked to was a brand-new 
+<a rel='nofollow' href='http://www.televisionreviewclub.com'>spam blog</a>
+about televisions.</p>
+
+<p>My post about the David Copperfield spoof video (which I called
+<a href='blog/200605.html#e20060507T165942'>Magic is all around us</a>)
+garnered this comment from "laura":</p>
+
+<quote><p>
+Since the lord god is all around us, obviously the magic too. 
+This is what i believe. What do you say?????????
+</p></quote>
+
+<p>Laura linked to a <a rel='nofollow' href='http://www.thepetdogs.com'>spam blog</a>
+about dogs with an identical design to Christy's.</p>
+
+<p>These comments have clearly been written by a person because of their
+goofy but tenuous applicability to the blog post.  Someone out 
+there is interested enough in page rank to pay someone to write comments
+in middling English that are "about" the blog post, and not about their
+cheesy portal site at all.  The good news is that this makes me think
+the comment spam preventions are working, and it's increasing the cost of
+spam for the spammers.  The bad news is that these
+comments have to be cleaned by hand.</p>
+
+<p>In my comments (and in the link above), I use the 
+<a href='http://googleblog.blogspot.com/2005/01/preventing-comment-spam.html'>rel="nofollow" attribute</a>
+to ensure that search engines don't lend any credibility to the link.
+As of now, I advertise that fact on the comments form.  I doubt it will
+stop the spammers from trying, but one can hope...</p>
+
+</body>
+</entry>
+</blog>

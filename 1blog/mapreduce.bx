@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041019T152647'>
+<title>MapReduce</title>
+<category>google</category>
+<category>arch</category>
+<via />
+<body>
+<p><a href='http://labs.google.com/papers/mapreduce.html'>MapReduce</a> is a distributed computation
+tool at Google.  It uses a constrained programming model (map and reduce, common functional programming
+techniques) to let users describe their computations in a way that make automated fault-tolerant
+distribution possible.
+It sounds like a great example of
+<a href='blog/200404.html#e20040429T220846'>diamond cutting</a>: finding the right compromise
+between what you want and what your users want, so that everyone wins.
+</p>
+</body>
+</entry>
+</blog>

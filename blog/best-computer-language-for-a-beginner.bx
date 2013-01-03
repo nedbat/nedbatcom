@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20071106T075236'>
+<title>Best computer language for a beginner</title>
+<category>edu</category>
+<category>proglang</category>
+<body>
+<p>Philip Greenspun asks "What's the
+<a href='http://blogs.law.harvard.edu/philg/2007/11/04/best-computer-language-for-a-13-year-old-beginner/'>Best Computer Language for a 13-year-old Beginner?</a>"
+and gets an awful lot of responses.  Many of them seem to totally miss the mark
+about how to introduce kids to programming.
+</p>
+
+<p>In my experience, you have to keep a number of things in mind besides programming languages.</p>
+
+<p>First you have to find out what fascinates the kid in question. Do they want
+to make a video game? Do they think expressing themselves in a web page is cool?
+Do they want to pull data from the web and manipulate it somehow?  What sort of
+application would be interesting to them?  Some kids are fascinated by programming
+itself, but most are only using it as a means to an end, and you need to know
+what that end is to keep their attention.</p>
+
+<p>Next, there are many things that you and I don't think of as programming that are
+still programming in the kid's mind.  Creating an web page in HTML is programming.
+Selecting the correct options in a constrained game editor like
+<a href='http://www.enterbrain.co.jp/tkool/RPG_XP/eng/'>RPG Maker XP</a> counts
+as programming.</p>
+
+<p>To a kid who's never told a computer what to do before, any kind of direction
+that the computer will follow counts as programming.  It may not have loops,
+it may not involve typing, but they still have to:</p>
+
+<ul>
+<li>decide what they want the computer to do,</li>
+<li>understand the tools at their disposal,</li>
+<li>create the instructions,</li>
+<li>try out what they did,</li>
+<li>and figure out what's wrong when it doesn't come out right.</li>
+</ul>
+
+<p>That right there, that's programming.</p>
+
+<p>The last thing to understand: how much help will you be providing?  One
+way to get kids going is to do most of the work yourself, but then give them
+a very simple control to play with.  I wrote a simple video game once, and then
+showed Max where the initial number of aliens was set.  He could change the value
+from 10 to 50, and see a dramatic difference in the game play.  It was eye-opening
+for him even though he was too young to be able to make substantive changes.</p>
+
+<p>If you are going to help a lot, then you either have to choose a language you
+already know, or are willing to learn yourself.  If you aren't going to help a lot,
+then you have to choose a language that won't need a lot of help.  This sounds
+obvious, but your time commitment is often the toughest variable to get right,
+so think carefully about it.</p>
+
+<p>All that said, I think there are some interesting unconventional choices for
+where to start kids with programming:</p>
+
+<ul>
+<li><a href='http://www.macromedia.com/software/flash/about/'>Flash</a>: the big
+advantage here is that you can start by simply making key-frame animations, and
+then graduate up to Actionscript in small doses.  Also, kids have probably already
+been exposed to tons of Flash content, and so have good cultural understanding of the
+types of thing they can build with it.  Downside: expense, though I had good success
+with buying a copy a few versions old on eBay, and <a href='http://www.academicsuperstore.com/'>Academic Superstore</a>
+will sell you an educational license.</li>
+
+<li><a href='http://scratch.mit.edu/'>Scratch</a> is a tile-based visual programming environment.  The results
+can be a little crude by Flash standards, but it's a very nicely made environment.  Actions are
+expressed by clicking tiles together, so there's no syntax errors to stumble over.  Some of the
+example projects are quite impressive.  One nice detail: the layout of the tile code almost resembles
+what a textual programming language would look like, so it's a good stepping stone to more
+mainstream environments.  BTW: MIT also has <a href='http://education.mit.edu/starlogo-tng/'>StarLogo TNG</a>
+which also uses the tile metaphor for building programs, and uses a more ambitious 3D environment, but seems
+not quite finished.</li>
+
+<li><a href='http://www.enterbrain.co.jp/tkool/RPG_XP/eng/'>RPG Maker XP</a> is a game editor
+for making tile-based games like the original Legend of Zelda (I think).  The graphics are all
+created from a large set of tiles, so it's easy to make environments that look reasonable,
+and all of the "coding" is done my making choices in dialog boxes.  Enormously complicated
+dialog boxes, but at least there's no syntax to learn.  Max downloaded and figured it out
+himself when he was 12 or so, and now he's taught Ben (now 9) how to use it, so it's
+approachable, even though I don't understand it at all. There's no real path up from there,
+though, so this is only good if the child in question wants to make RPG games.</li>
+
+<li>HTML.  Don't worry that this isn't a programming language, and don't
+worry about all the CSS form-vs-content stuff.  Your kid will probably be thrilled by
+&lt;font size=7 color=red&gt; and will have his first taste of where the
+<a href='http://www.whysanity.net/monos/matrix3.html'>red pill</a> can take you.</li>
+
+</ul>
+
+<p>In the conventional languages arena, there are good attempts to bridge the gap from kids
+to code: <a href='http://hacketyhack.net/'>Hackety Hack</a> is a tutorial and programming environment for Ruby,
+and <a href='http://rur-ple.sourceforge.net/en/rur.htm'>RUR-PLE</a> is a robot simulation using Python.</p>
+
+<p>Whichever tool you choose, remember: they're kids.  Don't make the mistake of treating them
+like short adults.  They aren't starting a career, or building a resume.  It doesn't need to be bullet-proof,
+it doesn't need the latest theoretical underpinnings.  Give them the answers when they are stuck.</p>
+
+<p>Just make it fun.</p>
+
+</body>
+</entry>
+</blog>

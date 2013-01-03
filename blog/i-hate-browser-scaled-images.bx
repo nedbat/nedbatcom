@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080531T081600'>
+<title>I hate browser-scaled images</title>
+<category>webpage</category>
+<body>
+<p>When adding images to a web page, it's good practice to specify their height
+and width explicitly, like so:
+</p>
+
+<code><![CDATA[
+<img src='pix/nedsimpson.png' width='372' height='375'/>
+]]></code>
+
+<figurep>
+    <img src='pix/nedsimpson.png' width='372' height='375' alt='Me as a Simpson, natural size'/>
+</figurep>
+
+<p>Providing the height and width means that the img tag can be properly laid out
+before the image itself is loaded, so the page won't jump and wiggle as images
+are pulled in.</p>
+
+<p>The problem is that you might have the width and height wrong.  If you specify
+them different than the actual width and height of the image, the browser will stretch
+or squash the image to fit the specified size, but it may not do it well:</p>
+
+<figurep>
+    <img src='pix/nedsimpson.png' width='200' height='200' alt='Me as a Simpson, reduced'/>
+</figurep>
+
+<p>Browser check: In Firefox 2 this looks pixellated, in Safari it looks nice.
+IE 6 and 7 are bad.  Firefox 3 is still pixellated, but less so than FF2.
+For those with superior browsers, here's what that image looks like to the
+majority:
+</p>
+
+<figurep>
+    <img src='pix/nedsimpsonscaled.png' alt='Screengrab of bad browser scaling'/>
+</figurep>
+
+<p>Sometimes, changing the shape is what you want <emdash/> this is often done with
+1-pixel transparent gifs, or abstract textures.  But for genuine images, browser
+scaling is always bad.  It gives the images a noisy scrunched-up look.  There's
+a few reasons the size could be wrong:</p>
+
+<ul>
+<li>They used to be right, but the artwork changed, and the tag wasn't updated</li>
+<li>They are hand-coded, and the src attribute is programmatically generated</li>
+<li>Simple error</li>
+</ul>
+
+<p>Whatever the reason, it can be hard to see that these sorts of mistakes have
+crept into your site, especially if you are using a newer browser that does a good
+job scaling images.</p>
+
+<p>This JavaScript function will highlight images which have been scaled in the
+browser:</p>
+
+<code lang='javascript'><![CDATA[
+function checkImageSizes() {
+    // Find images which have width or height different than their natural
+    // width or height, and give them a stark and ugly marker, as well
+    // as a useful title.
+    var imgs = document.getElementsByTagName("img");
+    for (i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        if (img.naturalWidth) {
+            if ((img.naturalWidth != 1) && (img.naturalHeight != 1)) {
+                // For each image with a natural width which isn't
+                // a 1x1 image, check its size.
+                var wrongWidth = (img.width != img.naturalWidth);
+                var wrongHeight = (img.height != img.naturalHeight);
+                if (wrongWidth || wrongHeight) {
+                    img.style.border = "3px red dotted";
+                    img.style.margin = "-3px";
+                    img.style.background = "yellow";
+                    img.title = "Forced to wrong size: " +
+                        img.width + "x" + img.height + ", natural is " +
+                        img.naturalWidth + "x" + img.naturalHeight + "!";
+                }
+            }
+        }
+    }
+}
+]]></code>
+
+<p>If you run this function on page load, bad images will pop out with a red and yellow
+dotted border.  Alternately, you can run it as a Greasemonkey script:
+<a href='code/misc/scaled_images.user.js'>scaled_images.user.js</a>.
+If you have <a href='https://addons.mozilla.org/en-US/firefox/addon/748'>Greasemonkey</a>
+installed, clicking the link will install it, then you can use the Show Scaled Images
+menu pick to reveal the bad images.</p>
+
+<p>Chris Pederick's <a href='http://chrispederick.com/work/web-developer/'>Web Developer</a>
+Firefox extension also provides an option to outline images with adjusted dimensions,
+though I find his 1-pixel red border to be too subtle.</p>
+
+<p>However you find the bad ones, do yourself and your visitors a favor and be sure not
+to browser-scale your images.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020515T083224'>
+<title>Programming with kids</title>
+<category>parenting</category>
+<category>edu</category>
+<via id='docsearls'/> <!-- id= or href= -->
+<body>
+<p><a href='http://dustyscript.sourceforge.net/'>Dustyscript</a> is a programming language
+with a good goal: be good for an 8-year-old to write programs in.</p>
+
+<p>Unfortunately, I think they've missed the mark.  In my experience, what matters when writing
+programs with kids is not the complexity of the syntax.  No matter how you design the language,
+there will be syntax, and that syntax will seem artificial to a kid (as it would to anyone
+first starting to program).  There's going to be a certain amount of, "that's just the way
+you do it".  Simplifying syntax is a good thing, but it isn't the main thing.</p>
+
+<p>The main thing is the power of the language, and by that, I don't mean object orientation,
+or inheritance, or introspection, or infinite precision integers.  When dealing with kids,
+the power of a language boils down to one thing: Can I make colorful things move around on the
+screen? The <a href='http://el.www.media.mit.edu/groups/el/Projects/starlogo/'>Logo</a> folks
+understood that.  I've used <a href='http://www.python.org'>python</a>
+and <a href='http://www.pygame.org'>pygame</a> to engage my son in programming, with moderate
+success.</p>
+
+<p>The fact is that kids these days know what computers are for: they are game machines that
+can do awesome things.  When you sit down with them to entice them into writing programs, they
+are going to expect those programs to do awesome things.  The more directly they can express
+their intentions to the computer ("Can we make the aliens shoot the guy, and the guy blows up?"),
+the more success you will have with them.</p>
+
+</body>
+</entry>
+</blog>

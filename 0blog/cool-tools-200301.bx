@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030121T062501'>
+<title>SQLite and Structorian</title>
+<category>db</category>
+<category>tools</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>A couple interesting pieces of software I noticed recently:
+</p>
+
+<ul>
+<li><a href='http://www.hwaci.com/sw/sqlite'>SQLite</a>, an embeddable SQL database engine.
+It implements a nearly-complete subset of SQL 92, in 25K lines of public-domain source.
+Also has a impressive set of language bindings.
+</li>
+
+<li><a href='http://www.yole.ru/projects/structorian/'>Structorian</a> is a binary file viewer
+that accepts C-like struct definitions to instruct it how to interpret data.  It is at an early
+stage of its life (it needs polishing to make it feel second-nature), but looks very promising.
+</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020813T055231'>
+<title>Obfuscated code</title>
+<category>hacks</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>The annual <a href='http://www.the5k.org'>5K Contest</a> has
+<a href='http://www.the5k.org/winners.asp/y=2002'>announced its winners</a>.
+The contest calls for web content totalling less than 5120 bytes, but still
+does something compelling.  The tagline of the contest is "An award for
+excellence in web design and production", and I suppose it is that, but
+by imposing strict size constraints (as a way of challenging the entrant)
+it has also morphed into that time-honored coder's tradition: the obfuscated code contest.</p>
+
+<p>The original (or at least longest-running)
+<a href='http://www.wikipedia.com/wiki/obfuscated+code'>obfuscated code</a> contest is the
+<a href='http://www.ioccc.org/'>International Obfuscated C Code Contest</a>.
+It started because of the reputation C had for being unreadable in the first place,
+and because of the fun of trying to make it even more unreadable.</p>
+
+<p>In 1993, in the same ironic spirit, one Obfuscated PostScript contest was held.
+I was lucky enough to win a second prize with my square-dance entry, an example of
+a parquet deformation (an Escher-like geometric construct, popularized by Douglas Hofstadter
+in his book <a href='http://www.mathsnet.net/resource/douglashofstadter.html'>Metamagical Themas</a>):
+</p>
+
+<figurep><img src='pix/square-dance.gif' alt='output of square-dance.ps'/></figurep>
+
+<p>Because the Obfuscated PostScript results don't have a nice home like the C contest,
+I've made them available here in <a href='files/obfuscated_ps_1993.zip'>one zip file</a>.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20041122T131429'>
+<title>The IDE divide</title>
+<category>ide</category>
+<category>development</category>
+<via />
+<body>
+<p>Oliver Steele has an
+<a href='http://osteele.com/archives/2004/11/ides'>interesting essay about two world views</a>:
+</p>
+
+<quote><p>
+The developer world is divided into two camps.
+Language mavens wax rhapsodic about the power of higher-level programming
+<emdash/> first-class functions, staged programming, AOP, MOPs, and reflection.
+Tool mavens are skilled at the use of integrated build and debug tools,
+integrated documentation, code completion, refactoring, and code comprehension.
+Language mavens tend to use a text editor such as emacs or vim
+<emdash/> these editors are more likely to work for new languages.
+Tool mavens tend to use IDEs such as Visual Studio, Eclipse, or IntelliJ,
+that integrate a variety of development tools.
+</p></quote>
+
+</body>
+</entry>
+</blog>

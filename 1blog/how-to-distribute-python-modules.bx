@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040128T081825'>
+<title>How to distribute Python modules?</title>
+<category>python</category>
+<category>howto</category>
+<via />
+<body>
+<p>I've been writing a lot of Python modules lately,
+and intend to put them up in my <a href='code'>code section</a>
+as soon as I can.
+But what starts as a self-contained module inevitably splits into
+multiple smaller modules for modularity, and I don't know how
+best to distribute them.
+</p>
+
+<more>
+
+<p>For example, I wrote a code generation tool (module cogapp).
+It had an XML wrapper to make using XML data files easier.
+That code was split out and posted as <a href='code/modules/handyxml.html'>handyxml</a>.
+To test that code, I wrote a small module (called makefiles) to generate trees of files from
+a dictionary description.
+The makefiles module used the standard library textwrap.dedent function to make
+specifying the file contents easier, until I realized that dedent also expands tabs
+(why?), which I didn't want.
+My cogapp module has the dedenter I want (because I didn't know about dedent at the time).
+So I'm going to split out the dedenter as its own module (I'll call it redenter).
+</p>
+
+<p>But now I've got these modules:</p>
+
+<ul>
+<li>redenter</li>
+<li>makefiles, which requires redenter</li>
+<li>handyxml, whose unit test requires makefiles</li>
+<li>cogapp, which requires redenter and optionally uses handyxml, and whose unit test requires makefiles</li>
+</ul>
+
+<p>So here are the questions:</p>
+
+<ol>
+<li>How should cogapp (for example) be posted?  In a tar file with all of the required modules?
+By itself with a pointer to the other pages?
+</li>
+
+<li>Should these modules all be in a package?
+If this were Java, they'd all be in a package called com.nedbatchelder.
+</li>
+
+<li>Should unit tests be included?</li>
+
+<li>How big does something need to be before I should really use distutils for it?</li>
+
+<li>Should these things go on <a href='http://pypi.org/'>PyPI</a>, or sourceforge?</li>
+
+</ol>
+
+</more>
+
+</body>
+</entry>
+</blog>

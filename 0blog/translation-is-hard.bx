@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20030605T081327'>
+<title>Translation is hard</title>
+<category>ling</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>I found a link in my referrer logs from
+<a href='http://www.notes-development.com/blogs/pg.nsf'>Peter Gloor's blog</a>.
+It's in German:
+</p>
+
+<quotep>
+Kaum zu glauben, aber es gibt immer noch Leute, die genug Zeit
+haben Ihre pers&#xf6;nliche Home-Page aufrecht zu erhalten und einen
+unwiderstehlichen Drang versp&#xfc;ren sich im Web irgendwie zu
+pr&#xe4;sentieren. Nun, was ich gesehen habe als ich neulich zwei oder drei
+Mal &#xfc;ber Ned Batchelder's blog
+gestolpert bin, war ein v&#xf6;llig neues Erlebnis, dem auch ich nicht
+widerstehen kann. Die Zeiten der langweiligen, statischen Home Pages
+sind vorbei.
+</quotep>
+
+<p>I was, of course, curious to know what Peter had said, so I used
+<a href='http://babelfish.altavista.com/babelfish/tr'>Babelfish</a>
+to translate it to English.  This is what I got:</p>
+
+<more>
+
+<quotep>
+To hardly believe, but there is to feel still people,
+the enough time your personal homepage upright too received
+and an irresistible urge in the Web to present itself somehow.
+Now, which I had seen as I recently two or three times over
+Ned Batchelder's blog are gestolpert,
+was a completely new experience, which also I cannot resist.
+The times of the boring, static Home Pages are past.
+</quotep>
+
+<p>I know automatic translation is hard, and we've all heard the
+stories of famously bad translations.
+One story about an early translation system claims that
+"the spirit is strong, but the flesh is weak"
+translated to Russian and back came out as "the vodka is good,
+but the meat is rotten", which is actually pretty good!
+But this passage is almost nonsense.  I don't know any German, and
+I got almost as much meaning trying to read the German as I did
+reading the "English".</p>
+
+<p>In fact, the main word I want to know from the German is
+"gestolpert", and Babelfish didn't translate it as anything, passing
+it straight through!</p>
+
+<p>I was going to say that Microsoft Word's grammar checker wouldn't
+even accept the English as grammatically correct, but in fact, it
+only minded three things in the paragraph
+(aside from "gestolpert"!), so even it is falling
+down on the job.</p>
+
+<p>I don't mean this to be a typical "ha ha, translation sucks!"
+comment.  I knew before I hit the Translate button that the
+translation would be bad.  But I'm still surprised each time anyway.
+Even after 30 or 40 years of research, computers
+remain really bad at things humans can do easily, and we humans
+are so good at them, that even when we know the computers are bad,
+we keep forgetting just how bad.
+</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

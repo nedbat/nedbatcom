@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051025T070731'>
+<title>More alternatives for Python unit testing</title>
+<category>python</category>
+<category>testing</category>
+<via id='dailypython'/>
+<body>
+<p>Here are more facilities for helping with unit testing in Python:
+</p>
+
+<ul>
+<li><a href='http://www.turbogears.com/testgears/'>TestGears</a> is part of
+the <a href='http://www.turbogears.com'>TurboGears web uber-framework</a>.
+It provides automatic discovery of test functions, simplifies suite development, and
+makes it easy to run tests zero configuration.</li>
+<li><a href='http://testoob.sourceforge.net/'>TestOOB</a> (Testing Out Of [the] Box)
+provides for new styles of output (HTML and color terminal), debugger launching,
+verbose asserts, parallel execution, and command-line utility testing.</li>
+<li><a href='http://somethingaboutorange.com/mrl/projects/nose/'>nose</a>
+provides an alternate test discovery and execution engine for unittest.
+</li>
+</ul>
+
+<p>Together with <a href='http://docs.python.org/lib/module-unittest.html'>unittest</a>,
+<a href='http://docs.python.org/lib/module-doctest.html'>doctest</a> and
+<a href='http://codespeak.net/py/current/doc/test.html'>py.test</a> which I
+<a href='blog/200411.html#e20041120T185622'>wrote about a year ago</a>,
+this brings the total to at least six.
+</p>
+
+<p>One common thread among the three new entries is that they aim to be as useful as py.test,
+but based on the standard unittest module.  It's an interesting dynamic, since py.test claims
+to be more Pythonic than the standard module.
+</p>
+
+<p>As usual, I find that I barely have time to use any of these modules, much less evaluate
+all the options.
+</p>
+
+</body>
+</entry>
+</blog>

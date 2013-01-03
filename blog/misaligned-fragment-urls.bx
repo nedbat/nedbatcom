@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050124T124146'>
+<title>Misaligned fragment URLs</title>
+<category>webpage</category>
+<category>site</category>
+<via />
+<body>
+<p>If you find yourself following URLs that have fragment identifiers (you know, the part
+after the "#" hash mark), and they take you to the right page, but not the right place
+on the page, then most likely the page you've landed on has images without width and height
+attributes.  The browser loads the page, and finds the spot identified by the fragment id,
+but then the images load in, and move the page around underneath you.</p>
+
+<p>The fix is to make sure all of the images on the page have width and height attributes.
+That way the page is laid out correctly even before the images are loaded, and the
+fragments will work properly.</p>
+
+<p>As you may have already guessed, I updated my blog software to add width and height
+attributes to all my images.
+Using <a href='http://www.pythonware.com/products/pil/index.htm'>Python Imaging Library</a>,
+it was a piece of cake.
+Links to particular blog entries on this site will now work much better.</p>
+
+</body>
+</entry>
+</blog>

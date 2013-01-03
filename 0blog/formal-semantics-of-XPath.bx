@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20020922T123729'>
+<title>A Formal Semantics of Patterns in XSLT</title>
+<category>xslt</category>
+<via id='ltu'/> <!-- id= or href= -->
+<body>
+<p><a href='http://www.research.avayalabs.com/user/wadler/'>Philip Wadler</a> wrote
+<a
+	href='http://xml.coverpages.org/wadler-xsl-semantics.pdf'
+	title='A Formal Semantics of Patterns in XSLT'
+>this paper</a> to explore defining XPath with formal semantics.
+I have been interested in denotational semantics in the past, and use XSLT now,
+to produce this site.  The paper claims that XPath was changed in response to
+ambiguities unearthed by the denotational semantics.  Cool.
+</p>
+
+<p>I can't say I've taken the time to read this paper, but would like to, and am
+glad that someone is using good theory to support and improve practical software.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20111231T095558'>
+<title>Keep data out of your variable names</title>
+<category>python</category>
+<body>
+<p>I saw this question this morning:</p>
+
+<quote>
+    <p>I'm adding words to lists depending on what character they begin with. This seems a silly way to do it, though it works:</p>
+</quote>
+<code lang='py'>
+nouns = open('nouns.txt', 'r')
+for word in nouns:
+    word = word.rstrip()
+    if word[0] == 'a':
+        a.append(word)
+    elif word[0] == 'b':
+        b.append(word)
+    elif word[0] == 'c':
+        c.append(word)
+    # etc...
+</code>
+
+<p>Naturally, the answer here is to make a dictionary keyed by first letter:</p>
+
+<code lang='py'><![CDATA[
+words = defaultdict(list)
+for word in nouns:
+    words[word[0]].append(word)
+]]></code>
+
+<p>The question reminded me of others I've seen on Stack Overflow or in the #python IRC channel:</p>
+
+<ul>
+    <li>How do I see if a variable exists?</li>
+    <li>How do I use a variable as the name of another variable?</li>
+    <li>How do I use a variable as part of a SQL table name?</li>
+</ul>
+
+<p>The thing all these have in common is trying to bridge the gap between two domains:
+    the data in your program, and the names of data in your program.  Any time this happens,
+    it's a clear sign that you need to move up a level in your data modeling. Instead of
+    26 lists, you need one dictionary.  Instead of N tables, you should have one table,
+    with one more column in it.</p>
+
+<p>These situations all seem really obvious, but there are more subtle situations where this
+    dynamic appears. I just wish I could think of an example! :)</p>
+
+</body>
+</entry>
+</blog>

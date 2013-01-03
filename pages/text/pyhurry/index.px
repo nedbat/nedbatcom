@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='Python in a Hurry' sitemap='no'>
+<pagemenu/> <!-- Don't display the contents again. -->
+<section title='Python in a Hurry' sitemap='no'/>
+
+<history>
+<what when='20040807T141200'>Started.</what>
+<what when='20050206T202800'>Worked on it some more.</what>
+<what when='20050728T201100'>Minor edits.</what>
+</history>
+
+<p>This is Python in a Hurry, or more fully,
+<i>Python in a Hurry for Experienced Programmers Who Don't Want to Learn Yet Another Language</i>.
+It is written for a particular audience:
+developers who need to know enough Python to get a small task done, and then want
+to get back to their real work.
+It's especially designed for team members who need to learn a little bit, and who have
+a Python guru on hand who can help with the trickier parts.
+</p>
+
+<p>Python in a Hurry will:</p>
+<ul>
+<li>Teach you enough Python to be productive, and</li>
+<li>Do it quickly.</li>
+</ul>
+
+<p>Python in a Hurry will not:</p>
+<ul>
+<li>Be complete, showing Python esoterica that will slow down your learning, or</li>
+<li>Give you a deep understanding of the subtleties of Python, or</li>
+<li>Try to convince you that Python is the best, or even a good, programming language (though it is!), or</li>
+<li>Waste your time.</li>
+</ul>
+
+<p>Python in a Hurry is broken into these parts:</p>
+
+<h1links/>
+
+
+<!--
+<ul>
+<li><apage pref='text/pyhurry/basics.px'/></li>
+<li><apage pref='text/pyhurry/strings.px'/></li>
+<li>Lists</li>
+<li>Dictionaries</li>
+<li>Control Flow</li>
+<li>Functions</li>
+<li>Classes</li>
+<li>Accessing data</li>
+</ul>
+-->
+
+
+
+
+<!--
+***** Basics **********************************
+-->
+
+<h1>Basics</h1>
+
+
+
+<h2>Program text</h2>
+
+<p>In Python, block structure is indicated entirely by indentiation: white space matters!
+No braces, no begin/end.  This is unconventional and controversial, but you get used to it.
+For example, a simple function definition looks like this:</p>
+
+<code lang='python' number='1'><![CDATA[
+# Compute the factorial of a number iteratively.
+def factorial(n):
+    fact = 1
+    while n > 0:
+        fact *= n       # Multiply fact by n
+        n -= 1          # Decrement n
+    return fact
+]]></code>
+
+<p>Comments begin with a hash mark, and continue to the end of the line.
+Line 1 is a comment, and other comments appear on lines 5 and 6.
+Line 2 uses the def keyword to define a function called factorial that takes a single
+argument called n.  The colon introduces a series of statements, much like an open brace
+in many other languages.
+Lines 3 through 7 are part of the function because they are indented farther than line 2.
+Line 3 assigns 1 to fact.  No semicolon is needed to terminate statements.
+Line 4 is a while loop (no parentheses are needed around the condition),
+and lines 5 and 6 are part of the while block because they are indented farther than line 4.
+</p>
+
+<p>Statements end at the end of the line but automatically
+continue onto other lines if needed to balance matching punctuation like parentheses and brackets.
+Here are two print statements:
+</p>
+
+<code lang='python'><![CDATA[
+print "Hello there."
+print "%s %s %s" % (
+    "First string",
+    "Second string",
+    "Third string"
+    )
+]]></code>
+
+
+
+<h2>Types</h2>
+
+<p>Python is dynamically typed, meaning that any variable can be assigned any value.
+There are no type declarations.  A variable that holds an integer can then be assigned
+a string, for example.
+</p>
+
+<p>Primitive types include integers, floats, strings (both single-byte and Unicode),
+and booleans (with literals True and False).  Built-in complex types include
+lists, dictionaries, and classes.
+</p>
+
+<h2>Interpreter</h2>
+
+<p>Python is an interpreted language, which is compiled on demand into bytecodes.
+You can run the interpreter interactively to experiment:</p>
+
+<code lang='python'><![CDATA[
+$ python
+ActivePython 2.4 Build 243 (ActiveState Corp.) based on
+Python 2.4 (#60, Nov 30 2004, 09:34:21) [MSC v.1310 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+]]></code>
+
+<p>Python code you type at the >>> prompt is executed, and the value returned is
+printed:</p>
+
+<code lang='python'><![CDATA[
+>>> 1+2+3
+6
+>>> len("hello, world!")
+13
+]]></code>
+
+<p>Most Python IDEs also provide an interpreter window with similar behavior.</p>
+
+
+<h2>Files</h2>
+
+<p>Python is typically stored in .py files.
+When executed, they are compiled as needed into .pyc files in the same directory.</p>
+
+
+
+<!--
+***** Strings **********************************
+-->
+
+<h1>Strings</h1>
+
+<p>Strings are delimited by either single quotes or double quotes:
+there's no difference between the two, except that double quotes can
+appear unescaped in single-quoted strings, and vice-versa.
+Backslashes can be used to escape characters and create control characters
+in the usual way:
+</p>
+
+<code lang='python'><![CDATA[
+"This is a string"
+'This is a string'
+"Don't tread on me."
+'He said, "hello"'
+"Line 1\nLine2"
+]]></code>
+
+<p>Strings can also begin with three single quotes or three double quotes.
+This form of string can cross lines, and the newlines are included into the string
+itself.  These two strings are the same:
+</p>
+
+<code lang='python'><![CDATA[
+"""The first line.
+The second line.
+The third line."""
+
+'The first line.\nThe second line.\nThe third line.'
+]]></code>
+
+
+<p>If prefixed with an r (for a raw string), then backslash escaping doesn't apply.
+This makes it easier to create strings where backslashes have meaning,
+such as regular expressions.  These two strings are the same:</p>
+
+<code lang='python'><![CDATA[
+r"\(hello\)"
+"\\(hello\\)"
+]]></code>
+
+<p>The r prefix simply changes the escaping rules, it doesn't create a different
+type.  There is no regular expression literal such as you find in Perl, Ruby, or JavaScript.</p>
+
+<p>If prefixed with a u (for Unicode), then the string is a Unicode string,
+otherwise it is an single-byte string.</p>
+
+
+<h2>Substrings</h2>
+
+<p>A single character (actually, a string of length 1) can be extracted with an index
+(which starts at zero).
+Substrings can be extracted with "slice" notation for selecting a range of elements.
+Two indexes are provided, the first character to include, and the first character
+to not include:</p>
+
+<code lang='python'><![CDATA[
+>>> s = "The Cat in The Hat"
+>>> s[0]        # Zeroth character, just a string of length 1.
+'T'
+>>> s[4:7]      # Chars 4 through 6.
+'Cat'
+]]></code>
+
+<p>If you leave out the first index, it defaults to the beginning of the string.
+If you leave out the second index, it defaults to the end of the string.
+Negative indexes are counted from the end of the string instead of from the beginning:
+</p>
+
+<code lang='python'><![CDATA[
+>>> s = "The Cat in The Hat"
+>>> s[:7]       # From beginning to char 6.
+'The Cat'
+>>> s[15:]      # 15th char to the end.
+'Hat'
+>>> s[-1]       # The last character.
+'t'
+>>> s[-7:]      # Seventh-to-last char through end.
+'The Hat'
+]]></code>
+
+
+<h2>String operations</h2>
+
+<p>Strings are concatenated with the plus sign, and can be appended to with the
++= assignment statement.</p>
+
+<code lang='python'><![CDATA[
+>>> s = "The Cat in The Hat"
+>>> s[4:7] + s[15:]
+'CatHat'
+>>> s += '!!!'
+>>> s
+'The Cat in The Hat!!!'
+]]></code>
+
+<p>Strings are first-class objects, and have methods:</p>
+
+<code lang='python'><![CDATA[
+>>> s.lower()       # Returns a new lowercased string
+'the cat in the hat'
+>>> s.upper()
+'THE CAT IN THE HAT'
+>>> s.startswith('The')
+True
+>>> s.endswith('Tin Roof')
+False
+>>> ' Hello '.strip()   # Returns it without whitespace at the ends.
+'Hello'
+>>> s.replace('at', 'op')
+'The Cop in The Hop'
+]]></code>
+
+<p>The built-in function len() returns the size of a string:</p>
+
+<code lang='python'><![CDATA[
+>>> len(s)
+18
+]]></code>
+
+<p>The built-in function str() turns almost anything into a string:</p>
+
+<code lang='python'><![CDATA[
+>>> mynum = 17
+>>> 'The value is ' + mynum
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+TypeError: cannot concatenate 'str' and 'int' objects
+>>> 'The value is ' + str(mynum)
+'The value is 17'
+]]></code>
+
+<p>Functionality similar to C's printf() is available as the % operator, which takes a string
+as a left operand, and a list of values as the right operand:</p>
+
+<code lang='python'><![CDATA[
+>>> mynum = 17
+>>> "The value is %d" % (mynum)
+'The value is 17'
+>>> "The value of %s is %d" % ('mynum', mynum)
+'The value of mynum is 17'
+]]></code>
+
+<!--
+<code lang='python'><![CDATA[
+]]></code>
+-->
+
+
+
+<!--
+***** Lists **********************************
+-->
+
+<h1>Lists</h1>
+
+<p>A list is a complex data type that holds any number of other values, like an array.
+Lists are written in square brackets, with commas separating the values.
+The values can be of any type.  Unlike arrays in many other languages,
+the items in the list don't have to all be the same type.
+</p>
+
+<code lang='python'><![CDATA[
+>>> mylist = [ 1, 'hello', 17.23 ]
+>>> mylist
+[ 1, 'hello', 17.23 ]
+]]></code>
+
+<p>Like strings, lists can be indexed, sliced, concatenated, and so on:</p>
+
+<code lang='python'><![CDATA[
+>>> mylist[1]
+'hello'
+>>> mylist[-1]
+17.23
+>>> mylist += [ 'Cat', 'Hat' ]
+>>> mylist
+[ 1, 'hello', 17.23, 'Cat', 'Hat' ]
+>>> len(mylist)
+5
+>>> mylist[1:3]
+[ 'hello', 17.23 ]
+]]></code>
+
+
+<p>Lists can be modified by index or slice. Assigning to a slice can change the
+length of the list:</p>
+
+<code lang='python'><![CDATA[
+>>> mylist
+[ 1, 'hello', 17.23, 'Cat', 'Hat' ]
+>>> mylist[1] = 'bye'
+>>> mylist
+[ 1, 'bye', 17.23, 'Cat', 'Hat' ]
+>>> mylist[1:3] = [ 2, 3 ]
+>>> mylist
+[ 1, 2, 3, 'Cat', 'Hat' ]
+>>> mylist[1:3] = [ 10, 20, 30, 40 ]
+[ 1, 10, 20, 30, 40, 'Cat', 'Hat' ]
+>>> mylist[1:5] = []
+>>> mylist
+[ 1, 'Cat', 'Hat' ]
+]]></code>
+
+<p>Removing elements from a list can also be accomplished with the del statement:</p>
+
+<code lang='python'><![CDATA[
+>>> mylist = [ 1, 10, 20, 30, 40, 'Cat', 'Hat' ]
+>>> del mylist[1:5]
+>>> mylist
+[1, 'Cat', 'Hat']
+]]></code>
+
+
+<p>Lists are first-class objects with methods:</p>
+
+<code lang='python'><![CDATA[
+>>> mynums = [ 106, 617, 36, 738, 41, 60 ]
+>>> mynums.reverse()        # Reverses in-place.
+>>> mynums
+[60, 41, 738, 36, 617, 106]
+>>> mynums.sort()           # Sorts in-place.
+>>> mynums
+[36, 41, 60, 106, 617, 738]
+]]></code>
+
+<p>Converting between strings and lists is easy.
+The string method split breaks a string into a list of pieces.
+The string method join glues together the list elements of its argument
+to make a new string:</p>
+
+<code lang='python'><![CDATA[
+>>> s = 'The Cat in The Hat'
+>>> s.split()
+['The', 'Cat', 'in', 'The', 'Hat']
+>>> s.split('The')
+['', ' Cat in ', ' Hat']
+]]></code>
+
+<p>A <i>list comprehension</i> is a shorthand for creating a list.
+</p>
+
+
+<h2>Tuples</h2>
+
+<p>Tuples are like lists, but are immutable.  They are written with parentheses
+instead of square brackets:</p>
+
+<code lang='python'><![CDATA[
+>>> t = (1,2,3)
+>>> len(t)
+3
+]]></code>
+
+<!--
+<code lang='python'><![CDATA[
+]]></code>
+-->
+
+
+
+
+<!--
+***** Dictionaries **********************************
+-->
+
+<h1>Dictionaries</h1>
+
+<p>d.has_key(k)</p>
+<p>d.items() for for loops over everything:</p>
+
+<code lang='python'><![CDATA[
+for key, value in mydict.items():
+    print "%s maps to %s" % (key, value)
+]]></code>
+
+<!--
+***** Control Flow **********************************
+-->
+
+<h1>Control Flow</h1>
+
+<p>pass is a no-op.  Without braces, Python needs a way to say "do nothing".</p>
+
+<p>There's no switch statement.  Use an if-elif-else ladder instead.</p>
+
+<!--
+***** Functions **********************************
+-->
+
+<h1>Functions</h1>
+
+
+
+<!--
+***** Classes **********************************
+-->
+
+<h1>Classes</h1>
+
+
+
+<!--
+***** Accessing data **********************************
+-->
+
+<h1>Accessing data</h1>
+
+
+
+
+<!--
+***** Other topics **********************************
+-->
+
+<h1>Other topics</h1>
+<p>Reflection</p>
+<p>Generators</p>
+
+</page>

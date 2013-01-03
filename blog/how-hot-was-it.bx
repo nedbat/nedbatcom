@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080610T190509'>
+<title>How hot was it?</title>
+<category>printing</category>
+<category>boston</category>
+<body>
+<p>The weather so far this week in Boston has been extraordinarily hot:
+95 degrees or so for the last three days.  As graphic evidence, here is a CVS
+receipt I had left in a bag in my car yesterday:
+</p>
+
+<figurep>
+    <thumbnail href='pix/thermalreceipt.jpg' alt='A receipt printed on thermal paper'/>
+</figurep>
+
+<p>This receipt is <a href='http://en.wikipedia.org/wiki/Thermal_printing'>printed thermally</a>:
+the paper is impregnated with a dye which turns dark with sufficient heat, and
+the print head in the cash register uses a tiny heating element to darken
+individual pixels to produce the image.</p>
+
+<p>As you can see, the paper got hot enough simply from being in the car to
+darken substantially! I haven't found a reference for the temperature at which
+thermal paper darkens, but I'm guessing it wasn't very comfortable in there...</p>
+
+</body>
+</entry>
+</blog>

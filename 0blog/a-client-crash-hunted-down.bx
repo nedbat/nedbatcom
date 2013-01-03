@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20031002T084127'>
+<title>A client crash hunted down</title>
+<category>debugging</category>
+<via /> <!-- id= or href= -->
+<body>
+<p>Another tale of <a href='blog/20030927T182419.html'>guerilla debugging</a>.
+A Kubi tester had a Notes client crash.
+Because <a href='http://www.kubisoftware.com/products_client.aspx'>Kubi Client</a> runs in the
+same process, we had to suspect our own code.
+She captured the screen shot of the crash dialog box,
+which had the instruction address, and the fact that it was trying to access memory
+at address 0x00000000, but nothing else.
+She never had it happen before, and couldn't make it happen again.
+What's a developer to do?
+</p>
+
+<more>
+
+<p>First, start the Notes client again, break it into a debugger, and look at the list
+of loaded modules.  This will tell us which module the fatal instruction was in.
+Sure enough, it is one of our DLLs.</p>
+
+<p>Subtract the base load address for the module from the fatal instruction address in the
+crash message.  This gives the offset of the instruction in the module.
+In our case, it is 0x807f0.</p>
+
+<p>Open the .map file for that DLL.  It will contain many lines that look roughly like this:</p>
+
+<code><![CDATA[
+0002:0008c7d0  ??6@Y(..ugly decorated fn name..)@@@Z 101807d0 f i Utils.obj
+0002:0008c840  ?CleanUp@CSimplePool@@MAEXXZ 10180840 f   Utils.obj
+]]></code>
+
+<p>Here's the part I don't really understand.
+If you look at the map file line, there's the segment and offset at the
+beginning of the line (0002:0008c7d0), and the offset into the module later in the
+line (101807d0).  A deeper Microsoft geek than me (and believe me, I'm not that deep)
+will understand the difference between these two, but I do not.
+What I do know is that the 0002 part
+of the first number gets turned roughly into the 10100000 part of the second number,
+leaving you with 807d0 as the interesting part of the second number.</p>
+
+<p>The important thing is that our module offset (807f0) falls between the interesting
+part of the first line (807d0) and the interesting part of the second line (80840),
+so the fatal instruction is in that first routine (with the horrible decorated C++ name).
+It happens to be a <a href='text/stringification.html'>stringifier</a> for
+single byte ASCII strings into Unicode streams.
+</p>
+
+<p>So we go to the .cod file for the object file in question (or build one if we hadn't before).
+We find the chunk of the file that shows that routine's compiled code.
+Subtracting our fatal instruction offset (807f0) from the routine's offset (807d0)
+gives the offset of the instruction in the routine (20 hex).
+The .cod file can show us the exact instruction:</p>
+
+<code><![CDATA[
+  00012 8b 94 24 f4 03
+        00 00        mov     edx, DWORD PTR _p$[esp+1000]
+  00019 89 84 24 e8 03
+        00 00        mov     DWORD PTR __$ArrayPad$[esp+1004], eax
+  00020 8a 02        mov     al, BYTE PTR [edx]
+  00022 84 c0        test    al, al
+]]></code>
+
+<p>Great! First, there is an instruction at offset 20 ("mov al, BYTE PTR [edx]").
+Some of this tracking down could
+have gone wrong, or we could have made simple arithmetic mistakes.  The fact that there
+is an instruction at offset 20 validates much of what we have done.  Even better, it's
+an instruction that could easily have been dealing with a NULL pointer.
+It uses the address in edx to load a byte into al. In C++, it would be:</p>
+
+<code><![CDATA[
+char * edx;
+char al;
+...
+al = *edx;      // Will crash if edx == NULL.
+]]></code>
+
+<p>Looking at the stringifier code itself, it's clear that there's no protection
+there against being called with a NULL pointer.  We can prevent this crash in the
+future by simply handling the NULL case. Another triumph of hard work over mysterious systems.</p>
+
+<p>As I'm sure someone will point out: we haven't really tracked down why the pointer
+was NULL to begin with, and that is probably still a problem.
+Whoever points that out is correct:
+We still have to do the work of checking the callers of the stringifier (of which there are tons),
+and find the one that could have passed in a NULL.
+But we've improved the situation, and made a common utility function more bullet-proof.</p>
+
+</more>
+
+</body>
+</entry>
+</blog>

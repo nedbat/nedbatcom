@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20121104T083512'>
+<title>I fixed Python!</title>
+<category>python</category>
+<body>
+    
+    <p>About a month ago, I found a bad-behavior bug in the tokenize standard
+        library module, and with help from <a href='http://arongriffis.com/'>Aron Griffis</a>, submitted a patch to
+        fix it.  Yesterday was a Python bug day, and <a href='http://wolfprojects.altervista.org/'>Ezio Melotti</a> merged my
+        change, so I have officially contributed to CPython!</p>
+
+    <p>The <a href='http://bugs.python.org/issue16152'>bug in tokenize</a> was
+        an obscure case: if the code ends with a line that starts with
+        non-space, then ends with many spaces, and no newline, then the
+        tokenizer gets into an N&#178; run-time behavior, where N is the
+        number of spaces.  The problem is that each space is tokenized as an
+        error token (because it precedes no good token), so N tokens are
+        produced, but each token takes linear time for the regex to see that there's
+        no good token following it, leading to N&#178; behavior.</p>
+
+    <p>I discovered this working on code that grades student submissions at
+        <a href='http://edx.org'>edX</a>.  For some reason there was a
+        submission ending with 40,000 spaces and no newline, and it was taking
+        20 minutes to tokenize!</p>
+
+    <p>Simple demonstration:</p>
+
+<code lang='py'><![CDATA[
+import tokenize
+import time
+from cStringIO import StringIO
+
+def time_to_tokenize_trailing(spaces):
+    source = StringIO("@" + " "*spaces)
+    start = time.time()
+    list(tokenize.generate_tokens(source.readline))
+    end = time.time()
+    return end - start
+
+for spaces in xrange(1000, 15000+1, 1000):
+    print "%5d: %.2fs" % (spaces, time_to_tokenize_trailing(spaces))
+]]></code>
+
+<p>Ouch:</p>
+
+<code>
+ 1000: 0.71s
+ 2000: 2.83s
+ 3000: 6.47s
+ 4000: 11.52s
+ 5000: 17.68s
+ 6000: 26.16s
+ 7000: 35.35s
+ 8000: 46.65s
+ 9000: 58.35s
+10000: 72.80s
+11000: 89.53s
+12000: 107.27s
+13000: 126.44s
+14000: 147.60s
+15000: 166.81s
+</code>
+
+    <p>If you are running a server that tokenizes untrusted Python code, you
+        might want to throw an .rstrip() into it to prevent this case...</p>
+
+</body>
+</entry>
+</blog>

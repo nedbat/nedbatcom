@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20090924T071224'>
+<title>Line continuations from tokenize.generate_tokens</title>
+<category>python</category>
+<body>
+<p>OK, this is really geeky, but I wish I had found it on the interwebs, so I'm
+putting it here for the next guy.
+</p>
+
+<p><a href='http://docs.python.org/library/tokenize.html#tokenize.generate_tokens'>tokenize.generate_tokens</a>
+is a very useful function in the Python standard library: it tokenizes Python
+source code, generating a stream of tokens.  I used it to add syntax coloring
+to the HTML reporting in <a href='/code/coverage'>coverage.py</a>.
+</p>
+
+<p>But it has a flaw, which the docs hint at:</p>
+
+<quote><p>The line passed (the last tuple item) is the <i>logical</i> line; continuation lines are included.</p></quote>
+
+<p>If you've continued a source line with a backslash:</p>
+
+<code lang="python"><![CDATA[
+def my_function(arguments):
+    a = very_long_function(arguments) + \
+        another_really_long_function(arguments) + \
+        so_that_we_have_to_wrap_the_line_with_backslashes()
+]]></code>
+
+<p>then generate_tokens doesn't ever give you a token with that backslash as
+the text.  If you're trying to recreate the Python source from the tokens,
+the backslashes will be missing.</p>
+
+<p>Googling this problem turns up some muttering about how something ought to
+be done about it, but no solutions.  It turned out not to be too hard to wrap
+the token generator to insert the needed backslashes:</p>
+
+<code lang='python'><![CDATA[
+def phys_tokens(toks):
+    """Return all physical tokens, even line continuations.
+    
+    tokenize.generate_tokens() doesn't return a token for the backslash
+    that continues lines.  This wrapper provides those tokens so that we
+    can re-create a faithful representation of the original source.
+    
+    Returns the same values as generate_tokens()
+    
+    """
+    last_line = None
+    last_lineno = -1
+    for ttype, ttext, (slin, scol), (elin, ecol), ltext in toks:
+        if last_lineno != elin:
+            if last_line and last_line[-2:] == "\\\n":
+                if ttype != token.STRING:
+                    ccol = len(last_line.split("\n")[-2]) - 1
+                    yield (
+                        99999, "\\\n",
+                        (slin, ccol), (slin, ccol+2),
+                        last_line
+                        )
+            last_line = ltext
+        yield ttype, ttext, (slin, scol), (elin, ecol), ltext
+        last_lineno = elin
+]]></code>
+
+<p>Use it by passing it the generate_tokens generator:</p>
+
+<code lang='python'><![CDATA[
+tokgen = tokenize.generate_tokens(source_file.readline)
+physgen = phys_tokens(tokgen)
+for ttype, ttext, (slin, scol), (elin, ecol), ltext in physgen:
+    # Blah blah, process tokens as usual
+]]></code>
+
+</body>
+</entry>
+</blog>

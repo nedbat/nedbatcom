@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050906T214947'>
+<title>py2exe 0.6.1</title>
+<category>python</category>
+<category>windows</category>
+<via id='dailypython'/>
+<body>
+<p>Yay! A new version of <a href='http://starship.python.net/crew/theller/py2exe/'>py2exe</a>
+is out, and now it can make single file executables.  Earlier versions would create Windows
+executables, but they needed a flotilla of a dozen or so other files around them.
+0.6.1 can bundle everything into one exe, simplifying distribution.  Yay!
+</p>
+</body>
+</entry>
+</blog>

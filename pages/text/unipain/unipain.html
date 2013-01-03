@@ -1,0 +1,2032 @@
+<!DOCTYPE html><!-- vim: foldmethod=marker 
+-->
+<html>
+<!-- *** Head stuff {{{ -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!-- TODO:
+        + pictograms.  birds+bees for facts of life.
+        - print statement examples!
+        + u"hi" == "hi"  ?
+        + d['hi':1] [u"hi"] ?
+        + error handlers in .encode and .decode
+        - Py3 unicode controversies?
+        - stdin/stdout in py3
+        + "image" credits?
+
+        + Make sure FoL and PT are numbered properly.
+        + Wrap long lines in console?
+        + URL in footer?
+
+    -->
+    <!--[[[cog
+        import cog
+        from cogutil import *
+        prolog_2 = r"""
+            import sys
+            my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
+            my_utf8 = my_unicode.encode("utf8")
+            my_string = "Hello World"
+            """
+    ]]]-->
+    <!--[[[end]]]-->
+    <title>Pragmatic Unicode</title>
+    <meta name="author" content="Ned Batchelder" />
+    <meta name="email" content="ned@nedbatchelder.com" />
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+    <!-- }}} -->
+
+    <!-- *** Init code {{{ -->
+    <script type="text/javascript">
+        // Change straight quotes to curly and double hyphens to em-dashes.
+        // From: http://www.leancrew.com/all-this/2010/11/smart-quotes-in-javascript/
+        function smarten(a) {
+            a = a.replace(/(^|[-\u2014\s(\["])'/g, "$1\u2018");       // opening singles
+            a = a.replace(/'/g, "\u2019");                            // closing singles & apostrophes
+            //a = a.replace(/(^|[-\u2014/\[(\u2018\s])"/g, "$1\u201c"); // opening doubles
+            //a = a.replace(/"/g, "\u201d");                            // closing doubles
+            a = a.replace(/--/g, "\u2014");                           // em-dashes
+            return a;
+        };
+
+        $(function () {
+            // Disable incremental for reviewing
+            //$(".incremental").removeClass("incremental");
+
+            $("p, li, h1, h2, h3").each(function () {
+                var that = $(this);
+                that.html(smarten(that.html()));
+            });
+
+            /*
+            $("p:contains('/')").each(function () {
+                var that = $(this);
+                that.html(that.html().replace(/\//g, "<span class='slash'>/</span>"))
+            });
+            */
+
+            // Slipify all the things!
+            $(".slide").slippy({
+                // settings go here
+                // possible values are:
+                //  - animLen, duration for default animations (0 = disabled)
+                //  - animInForward, receives a slide and animates it
+                //  - animInRewind, receives a slide and animates it
+                //  - animOutForward, receives a slide and animates it
+                //  - animOutRewind, receives a slide and animates it
+                //  - baseWidth, defines the base for img resizing, if you don't want only
+                //    full-width images, specify this as the pixel width of a slide so that
+                //    images are scaled properly (default is 620px wide)
+                //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
+                //  - margin, the fraction of screen to use as slide margin, defaults to 0.15
+                margin: 0.04,
+                // Make the incremental stuff really nearly invisible to not give away the jokes.
+                incrementalBefore: function (el) {
+                    $(el).css({ opacity: 0.01 });
+                },
+                animInForward: function (slide) {
+                    var slide = $(slide);
+                    if (slide.hasClass("fadein")) {
+                        slide.css('opacity', '0').css('left', '50%').animate({opacity: '1'}, 350);
+                    }
+                    else {
+                        slide.css('left', '150%').animate({left: '50%'}, 350);
+                    }
+                },
+                animOutForward: function(slide) {
+                    var slide = $(slide);
+                    if (slide.hasClass("fadeout")) {
+                        slide.animate({opacity: '1'}, 350).animate({left: '-50%'}, 0);
+                    }
+                    else {
+                        slide.animate({left: '-50%'}, 350);
+                    }
+                }
+            });
+
+            $('pre').each(function (i, e) {
+                hljs.highlightBlock(e, '    ');
+            });
+
+            $("pre").lineselect({ lines: "span.line" });
+            $("table.decode_table").lineselect({ lines: "tr" });
+        });
+
+        function CharTable() {
+            this.min_row = 0;
+            this.max_row = 16;
+
+            this.hex = function(n) { 
+                return n.toString(16).toUpperCase(); 
+            }
+
+            this.draw = function(selector, rows) {
+                var html = "";
+                var dw = function(s) { html += s; };
+                var c, r;
+                dw("<table class='char_table'>")
+                dw("<tr><td class='header'></td>");
+                for (c = 0; c < 16; c++) {
+                    dw("<td class='header column_header'>" + this.hex(c) + "</td>");
+                }
+                dw("</tr>");
+                for (r = this.min_row; r < this.max_row; r++) {
+                    dw("<tr class='row_" + rows.charAt(r) + "'>");
+                    dw("<td class='header row_header'>" + this.hex(r) + "x</td>");
+                    for (c = 0; c < 16; c++) {
+                        dw("<td class='codepoint'>");
+                        var rc = 16*r+c;
+                        if (!(rc == 0x7f || rc == 0x81 || rc == 0x8D || rc == 0x8F || rc == 0x90 || rc == 0x9D)) {
+                            dw("&#" + rc + ";");
+                        }
+                        dw("</td>");
+                    }
+                    dw("</tr>");
+                }
+                dw("</table>");
+                $(selector).html(html);
+            }
+        }
+    </script>
+    <!-- }}} -->
+
+    <!-- *** Custom styles {{{ -->
+    <style type="text/css">
+        @font-face {
+            font-family: Symbola;
+            src: url(Symbola.ttf);
+        }
+
+        body, html {
+            background: #222;
+            color: #111;
+        }
+
+        .slide {
+            xxx_font-family: Cambria, TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+            font-family: "Franklin Gothic Demi";
+            margin: 1em;
+            border: 1px solid #ccc;
+            border-radius: 1em;
+            background: #fffaf0;
+            font-size: 200%;
+            overflow: hidden;
+        }
+        div.text {
+            display: none;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: "Franklin Gothic Heavy";
+            font-weight: normal;
+            yyy_font-weight: bold;
+            line-height: 1.5;
+        }
+        .slide h1 .or {
+            font-family: "Franklin Gothic Demi";
+            font-style: italic;
+            font-size: 75%;
+            color: #666;
+        }
+        .slide.title {
+            background: #ffff88;
+        }
+        .slide.title h1 {
+            margin-top: 3em;
+            font-size: 150%;
+        }
+        .slide.title.preztitle h1 {
+            margin-top: 2em;
+        }
+        .slide.title h2 {
+            text-align: center;
+            font-size: 100%;
+            color: #666;
+            margin-top: 2em;
+        }
+        .slide.final {
+            background: #ccccff;
+        }
+        .slide p {
+            text-align: center;
+            margin-top: 1em;
+        }
+        .slide.nofooter {
+            border: 0;
+            background: 0;
+        }
+
+        .slide .footerContent {
+            font-size: 75%;
+            padding: 0.5em 1em 1em;
+            color: #888;
+        }
+
+        .slide div.leftflush p {
+            text-align: left;
+        }
+        .slide div.larger p {
+            font-size: 150%;
+        }
+        .slide div.huge p {
+            font-size: 250%;
+        }
+        .slide div.smaller p {
+            font-size: 85%;
+        }
+        .slide div.tight p {
+            margin-top: .5em;
+        }
+        .slide div.tighter p {
+            margin-top: 0;
+        }
+
+        .slide a {
+            color: #008;
+        }
+
+        .slide pre {
+            font-size: 65% !important;
+            font-family: Consolas, monaco, monospace;
+            margin-top: 1em;
+            background: #cfc;
+            padding: .25em .25em;
+            line-height: 1.15;
+        }
+
+        .slide pre.language-python-2 {
+            background: #d0ffd0;
+        }
+        .slide pre.language-python-3 {
+            background: #ddddff;
+        }
+
+        .slide pre .line {
+            z-index: 1000;
+        }
+        .selected {
+            background: yellow;
+        }
+        .slide pre .line.selected {
+            z-index: 999;       // TODO: Make the yellow background not obscure the descenders of the line above.
+            position: relative;
+        }
+
+        .slide .version-marker {
+            float: right;
+            font-family: serif;
+            //font-style: italic;
+            //opacity: .3;
+            color: #888;
+            font-size: 300%;
+            //margin-top: -.3em;
+        }
+        .slide .slash {
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 120%;
+            vertical-align: sub;
+            padding: 0 .075em;
+        }
+
+        sub { vertical-align: sub; font-size: smaller; line-height: normal; }
+        sup { vertical-align: super; font-size: smaller; line-height: normal;}
+
+        table.diagram {
+            margin: 1em auto;
+            font-family: serif;
+            font-size: 80%;
+        }
+
+        table.diagram tr td {
+            border: 1px solid gray;
+            padding: .25em .5em;
+            text-align: center;
+        }
+
+        .bare {
+            border: none !important;
+            font-style: italic;
+        }
+
+        .tall {
+            padding: 1em .5em !important;
+        }
+
+        .tborder { border-top: 2px solid black !important; }
+        .rborder { border-right: 2px solid black !important; }
+        .bborder { border-bottom: 2px solid black !important; }
+        .lborder { border-left: 2px solid black !important; }
+
+        /* Char tables */
+        .char_table_holder {
+            text-align: center;
+        }
+        .char_table {
+            font-family: monospace;
+            font-size: 80%;
+            margin: 0 auto;
+        }
+        .header {
+            color: #999;
+        }
+        .char_table .row_header {
+            padding-right: .5em;
+        }
+        .char_table .header, .codepoint {
+            width: 1em;
+            text-align: center;
+        }
+        .char_table .row__ .codepoint {
+            visibility: hidden;
+        }
+        .char_table .row_h .codepoint {
+            font-weight: bold;
+            background: #ff8;
+        }
+
+        .decode_table {
+            margin: 1em auto;
+        }
+        .decode_table tr.bytes td {
+            font-family: monospace;
+            font-size: 80%;
+            font-weight: bold;
+            padding: .5em .1em;
+        }
+        .decode_table tr.chars td {
+            font-family: Symbola, serif;
+        }
+        .decode_table tr.selected td {
+            border: 1px solid black;
+        }
+        .decode_table td {
+            font-family: serif;
+            text-align: center;
+            border: 1px solid gray;
+            padding: .25em 0;
+        }
+        .decode_table tr td.label {
+            min-width: 4em;
+            font-family: serif;
+            font-weight: normal;
+            border: none;
+            font-size: 75%;
+            text-align: right;
+            padding-right: .5em;
+        }
+
+        /* http://www.fileformat.info/info/unicode/block/emoticons/images.htm */
+        .emoji {
+            font-family: Symbola;
+            font-size: 400%;
+        }
+        .red {
+            color: red;
+        }
+        .green {
+            color: green;
+        }
+        .slot1, .slot2, .slot3, .slot4, .slot5, .slot6 {
+            display: block;
+            position: absolute;
+            bottom: .7em;
+        }
+        .slot1 {
+            left: .2em;
+        }
+        .slot2 {
+            left: 1.2em;
+        }
+        .slot3 {
+            left: 2.2em;
+        }
+        .slot4 {
+            left: 3.2em;
+        }
+        .slot5 {
+            left: 4.2em;
+        }
+        .slot6 {
+            left: 5.2em;
+        }
+        .slide p.generic {
+            font-family: Symbola, serif;
+            margin-top: .5em;
+        }
+    </style>
+    <!-- }}} -->
+</head>
+<!-- }}} -->
+<body>
+
+<div class="slide title preztitle">
+    <h1>Pragmatic Unicode<br><span class="or">~ or ~</span><br>How Do I Stop the Pain?</h1>
+    <h2>Ned Batchelder &nbsp; @nedbat</p>
+    <p>bit.ly/unipain</p>
+</div>
+
+<div class="text">
+
+    <p>Hi, I'm Ned Batchelder.  I've been writing in Python for over ten years,
+    which means at least a half-dozen times, I've made the same Unicode
+    mistakes that everyone else has.</p>
+
+</div>
+
+<div class="slide">
+    <h1>The past</h1>
+    <p>Wrote a nice program</p>
+    <p>It worked!</p>
+    <p>Accented chars</p>
+    <p>UnicodeError!</p>
+    <div class="incremental emoji slot2">&#x1f601;</div>    <!-- grinning face with smiling eyes -->
+    <div class="incremental emoji slot3">&#x1f47d;</div>    <!-- alien -->
+    <div class="incremental emoji slot4">&#x1f4a5;</div>    <!-- collision -->
+    <div class="incremental emoji slot5">&#x1f61e;</div>    <!-- disappointed -->
+</div>
+
+<div class="text">
+
+    <p>If you're like most Python programmers, you've done it too: you've built
+    a nice application, and everything seemed to be going fine.  Then one day
+    an accented character appeared out of nowhere, and your program started
+    belching UnicodeErrors.</p>
+
+    <p>You kind of knew what to do with those, so you added an encode or a
+    decode where the error was raised, but the UnicodeError happened somewhere
+    else.  You went to the new place, and added a decode, maybe an encode.
+    After playing whack-a-mole like this for a while, the problem seemed to be
+    fixed.</p>
+
+    <p>Then a few days later, another accent appeared in another place, and you
+    had to play a little bit more whack-a-mole until the problem finally
+    stopped.</p>
+
+</div>
+
+
+<div class="slide">
+    <h1>You</h1>
+    <p>Annoyed</p>
+    <p>Angry</p>
+    <p>Uninterested</p>
+    <div class="emoji slot3">&#x1f620;</div>        <!-- angry face -->
+    <div class="emoji slot4">&#x1f615;</div>        <!-- confused face -->
+</div>
+
+<div class="text">
+
+    <p>So now you have a program that works, but you're annoyed and
+    uncomfortable, it took too long, you know it isn't "right," and you hate
+    yourself.  And the main thing you know about Unicode is that you don't like
+    Unicode.</p>
+
+    <p>You don't want to know about weirdo character sets, you just want 
+    to be able to write a program that doesn't make you feel bad.</p>
+
+</div>
+
+<div class="slide">
+    <h1>This talk</h1>
+    <p>5 Facts of Life</p>
+    <p>3 Pro Tips</p>
+</div>
+
+<div class="text">
+    <p>You don't have to play whack-a-mole.  Unicode isn't simple, but it isn't
+    difficult either. With knowledge and discipline, you can deal with Unicode
+    easily and with grace.</p>
+
+    <p>I'll teach you five Facts of Life, and give you three Pro Tips that will
+    solve your Unicode problems. We're going to cover the basics of Unicode,
+    and how both Python 2 and Python 3 work.  They are different, but the
+    strategies you'll use are basically the same.</p>
+
+</div>
+
+<!-- ** The World & Unicode {{{ -->
+<div class="slide title">
+    <h1>The World &amp; Unicode</h1>
+    <div class='huge'>
+        <p class='generic'>&#x1F30E; &nbsp; &#x1F30F;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>We'll start with the basics of Unicode.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Bytes</h1>
+    <p>Fact of Life #1</p>
+    <p>Computers are built on bytes</p>
+    <p>Files + Networks<p>
+    <p>Everything</p>
+</div>
+
+<div class="text">
+    <p>The first Fact of Life: everything in a computer is bytes.  Files on
+    disk are a series of bytes, and network connections only transmit bytes.
+    Almost without exception, all the data going into or out of any program you
+    write, is bytes.</p>
+
+    <p>The problem with bytes is that by themselves they are meaningless, we
+    need conventions to give them meaning.</p>
+</div>
+
+<div class="slide fadeout">
+    <h1>ASCII</h1>
+    <div id="ascii" class="char_table_holder"></div>
+    <script>
+    ct = new CharTable();
+    ct.draw('#ascii', "__hhhhhh________");
+    </script>
+</div>
+
+<div class="text">
+    <p>To represent text, we've been using the ASCII code for nearly 50 years.
+    Every byte is assigned one of 95 symbols. When I send you a byte 65, you
+    know that I mean an upper-case A, but only because we've agreed beforehand
+    on what each byte represents.</p>
+</div>
+
+<div class="slide fadein fadeout">
+    <h1>ISO 8859-1</h1>
+    <div id="iso8859" class="char_table_holder"></div>
+    <script>
+    ct = new CharTable();
+    ct.draw('#iso8859', "__rrrrrr__hhhhhh");
+    </script>
+</div>
+
+<div class="text">
+    <p>ISO Latin 1, or 8859-1, is ASCII extended with 96 more symbols.</p>
+</div>
+
+<div class="slide fadein">
+    <h1>Windows-1252</h1>
+    <div id="win1252" class="char_table_holder"></div>
+    <script>
+    ct = new CharTable();
+    ct.draw('#win1252', "__rrrrrrhhrrrrrr");
+    </script>
+</div>
+
+<div class="text">
+    <p>Windows added 27 more symbols to produce CP1252.  This is pretty much
+    the best you can do to represent text as single bytes, because there's not
+    much room left to add more symbols.</p>
+</div>
+
+<div class="slide">
+    <h1>Tower of Babel</h1>
+    <p>Fact of Life #2</p>
+    <p style="margin-bottom: 1em">The world needs more than 256 symbols</p>
+    <p class="generic">Hello, world! &nbsp; &bull; &nbsp; <span class="russian">Здравствуй, мир!</span></p>
+    <p class="generic"><span class="armenian">Բարեւ, աշխարհի!</span> &nbsp; &bull; &nbsp; <span class="arabic">!مرحبا ، العالم</span></p>
+    <p class="generic"><span class="hebrew">!שלום, עולם</span> &nbsp; &bull; &nbsp; <span class="korean">여보세요 세계!</span></p>
+    <p class="generic"><span class="hindi">नमस्ते, दुनिया!</span> &nbsp; &bull; &nbsp; <span class="chinese">你好，世界！ </span></p>
+</div>
+
+<div class="text">
+
+    <p>With character sets like these, we can represent at most 256 characters.
+    But Fact of Life #2 is that there are way more than 256 symbols in the
+    world's text.  A single byte simply can't represent text world-wide.
+    During your darkest whack-a-mole moments, you may have wished that everyone
+    spoke English, but it simply isn't so. People need lots of symbols to
+    communicate.</p>
+
+    <p>Fact of Life #1 and Fact of Life #2 together create a fundamental
+    conflict between the structure of our computing devices, and the needs of
+    the world's people.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Character codes</h1>
+    <p>Map single bytes to characters</p>
+    <p>Pretend FoL#2 doesn't exist</p>
+    <p>8859-1 through -16</p>
+    <p>cp850, cp1252, etc</p>
+    <p>EBCDIC, APL, BBQ, OMG, WTF</p>
+    <p>Chaos!</p>
+</div>
+
+<div class="text">
+    <p>There have been a number of attempts to resolve this conflict.
+    Single-byte character codes like ASCII map bytes to characters.
+    Each one pretends that Fact of Life #2 doesn't exist.</p>
+
+    <p>There are many single-byte codes, and they don't solve the problem.
+    Each is only good for representing one small slice of human language.  They
+    can't solve the global text problem.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Character codes</h1>
+    <p>Map two bytes to characters</p>
+    <p>Shift-JIS, GB2312, Big5, etc.</p>
+    <p>Still no agreement</p>
+</div>
+
+<div class="text">
+    <p>People tried creating double-byte character sets, but they were still
+    fragmented, serving different subsets of people.   There were multiple
+    standards in place, and they still weren't large enough to deal
+    with all the symbols needed.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Unicode</h1>
+    <p>Assigns characters to code points (integers)</p>
+    <p>1.1M code points</p>
+    <!--
+    <p>1.1M (17 &times; 2<sup>16</sup>&ndash;1) possible code points</p>
+    -->
+    <p>110K assigned</p>
+    <p style='font-size: 150%; text-align:left; padding-left:2em;' class='generic incremental'>
+        A-Z &hellip;
+    </p>
+    <p style='font-size: 150%; text-align:left; padding-left:5.5em; margin-top:-.25em' class='generic incremental'>
+        &#x2603; &hellip;
+    </p>
+    <p style='font-size: 150%; text-align:left; padding-left:8em; margin-top:-.25em' class='generic incremental'>
+        &#x0416;&#x0e13;&#x8cc3; &hellip;
+    </p>
+    <p style='font-size: 150%; text-align:left; padding-left:12em; margin-top:-.25em' class='generic incremental'>
+        &#x1F4A9; &hellip;
+    </p>
+</div>
+
+<div class="text">
+    <p>Unicode was designed to deal decisively with the issues with
+    older character codes.  Unicode assigns integers, known as code points, to
+    characters.  It has room for 1.1 million code points, and only 110,000 are
+    already assigned, so there's plenty of room for future growth.</p>
+
+    <p>Unicode's goal is to have everything.  It starts with ASCII, and
+    includes thousands of symbols, including the famous Snowman, covers all the
+    writing systems of the world, and is constantly being expanded.  For
+    example, the latest update gave us the symbol PILE OF POO.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Sample Unicode</h1>
+    <div class="larger">
+        <p class="generic">&#x2119;&#x01B4;&#x2602;&#x210C;&#x00F8;&#x1F24;</p>
+    </div>
+    <p></p>
+    <div class="leftflush smaller tighter">
+        <p>U+2119: &nbsp; DOUBLE-STRUCK CAPITAL P</p>
+        <p>U+01B4: &nbsp; LATIN SMALL LETTER Y WITH HOOK</p>
+        <p>U+2602: &nbsp; UMBRELLA</p>
+        <p>U+210C: &nbsp; BLACK-LETTER CAPITAL H</p>
+        <p>U+00F8: &nbsp; LATIN SMALL LETTER O WITH STROKE</p>
+        <p>U+1F24: &nbsp; GREEK SMALL LETTER ETA WITH PSILI AND OXIA</p>
+    </div>
+    <!-- http://eeemo.net/ -->
+</div>
+
+<div class="text">
+    <p>Here is a string of six exotic Unicode characters.  Unicode code points
+    are written as 4-, 5-, or 6-digits of hex with a U+ prefix.  Every
+    character has an unambiguous full name which is always in uppercase ASCII.
+    </p>
+
+    <p>This string is designed to look like the word "Python", but doesn't use
+    any ASCII characters at all.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Encodings</h1>
+    <p>Have to map Unicode code points to bytes somehow</p>
+    <p>UTF-16, UTF-32, UCS-2, UCS-4, UTF-8</p>
+</div>
+
+<div class="text">
+    <p>So Unicode makes room for all of the characters we could ever need,
+    but we still have Fact of Life #1 to deal with: computers need bytes.
+    We need a way to represent Unicode code points as bytes in order to
+    store or transmit them.</p>
+
+    <p>The Unicode standard defines a number of ways to represent code points
+    as bytes.  These are called encodings.</p>
+
+</div>
+
+<div class="slide">
+    <h1>UTF-8</h1>
+    <p>The king of encodings</p>
+    <p>Variable length</p>
+    <p>ASCII characters are still one byte</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    import decode_table
+    def doit():
+        bytes = 'Hi\xe2\x84\x99\xc6\xb4\xe2\x98\x82\xe2\x84\x8c\xc3\xb8\xe1\xbc\xa4'
+        encodings = ["utf-8"]
+        decode_table.output_table(bytes, encodings, labels=False)
+    if_version(2, doit)
+    ]]]-->
+    <table class='decode_table'>
+    <tr class='bytes'><td>48</td><td>69</td><td>e2</td><td>84</td><td>99</td><td>c6</td><td>b4</td><td>e2</td><td>98</td><td>82</td><td>e2</td><td>84</td><td>8c</td><td>c3</td><td>b8</td><td>e1</td><td>bc</td><td>a4</td></tr>
+    <tr class='chars'><td>&#x48;</td><td>&#x69;</td><td colspan='3'>&#x2119;</td><td colspan='2'>&#x1b4;</td><td colspan='3'>&#x2602;</td><td colspan='3'>&#x210c;</td><td colspan='2'>&#xf8;</td><td colspan='3'>&#x1f24;</td></tr>
+    </table>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>UTF-8 is easily the most popular encoding for storage and transmission
+    of Unicode.  It uses a variable number of bytes for each code point. The
+    higher the code point value, the more bytes it needs in UTF-8. ASCII
+    characters are one byte each, using the same values as ASCII, so ASCII is a
+    subset of UTF-8.</p>
+
+    <p>Here we show our exotic string as UTF-8.  The ASCII characters H and i are
+    single bytes, and other characters use two or three bytes depending on their
+    code point value. Some Unicode code points require four bytes, but we aren't 
+    using any of those here.</p>
+</div>
+
+<!-- }}} -->
+
+<!-- ** Python 2 {{{ **************************************** -->
+<div class="slide title">
+    <h1>Python 2</h1>
+    <div class='huge'>
+        <p class='generic'>&#x1F40D; &nbsp; &#x1F40D;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>OK, enough theory, let's talk about Python 2. In the slides, Python 2
+    samples have a big 2 in the upper-right corner, Python 3 samples will have
+    a big 3.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Str vs Unicode</h1>
+    <p>str: a sequence of bytes</p>
+    <p>unicode: a sequence of code points (unicode)</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        my_string = "Hello World"
+        type(my_string)
+
+        my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
+        type(my_unicode)
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_string = "Hello World"</span>
+    <span class='line'>&gt;&gt;&gt; type(my_string)</span>
+    <span class='line'>&lt;type 'str'&gt;</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"</span>
+    <span class='line'>&gt;&gt;&gt; type(my_unicode)</span>
+    <span class='line'>&lt;type 'unicode'&gt;</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>In Python 2, there are two different string data types.  A plain-old
+    string literal gives you a "str" object, which stores bytes.  If you use a
+    "u" prefix, you get a "unicode" object, which stores code points.  In a
+    unicode string literal, you can use backslash-u to insert any Unicode code
+    point.</p>
+
+    <p>Notice that the word "string" is problematic.  Both "str" and "unicode"
+    are kinds of strings, and it's tempting to call either or both of them
+    "string," but it's better to use more specific terms to keep things
+    straight.</p>
+
+</div>
+
+<div class="slide">
+    <h1>.encode() and .decode()</h1>
+    <p>unicode .encode() &rarr; bytes</p>
+    <p>bytes .decode() &rarr; unicode</p>
+    <!-- ** Interactive session {{{ -->
+    <!-- {{{ [[[cog
+    prompt_session(2, prolog_2, r"""
+        my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
+        len(my_unicode)
+
+        my_utf8 = my_unicode.encode('utf-8')
+        len(my_utf8)
+        my_utf8
+
+        my_utf8.decode('utf-8')
+        """)
+    ]]] }}}-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"</span>
+    <span class='line'>&gt;&gt;&gt; len(my_unicode)</span>
+    <span class='line'>9</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_utf8 = my_unicode.encode('utf-8')</span>
+    <span class='line'>&gt;&gt;&gt; len(my_utf8)</span>
+    <span class='line'>19</span>
+    <span class='line'>&gt;&gt;&gt; my_utf8</span>
+    <span class='line'>'Hi \xe2\x84\x99\xc6\xb4\xe2\x98\x82\xe2\x84\x8c\xc3\xb8\xe1\xbc\xa4'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_utf8.decode('utf-8')</span>
+    <span class='line'>u'Hi \u2119\u01b4\u2602\u210c\xf8\u1f24'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Bytes strings and unicode strings each have a method to convert it to
+    the other type of string.  Unicode
+    strings have a .encode() method that produces bytes, and byte strings have
+    a .decode() method that produces unicode. Each takes an argument, which
+    is the name of the encoding to use for the operation.</p>
+
+    <p>We can define a Unicode string named my_unicode, and see that it has
+    9 characters.  We can encode it to UTF-8 to create the my_utf8 byte string,
+    which has 19 bytes.  As you'd expect, reversing the operation by decoding 
+    the UTF-8 string produces the original Unicode string.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Encoding errors</h1>
+    <p>Many encodings only do a subset of Unicode</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        my_unicode.encode('ascii')
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_unicode.encode('ascii')</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeEncodeError: 'ascii' codec can't encode characters in</span>
+    <span class='line'>          position 3-8: ordinal not in range(128)</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Unfortunately, encoding and decoding can produce errors if the data
+    isn't appropriate for the specified encoding.  Here we try to encode our
+    exotic Unicode string to ASCII.  It fails because ASCII can only represent
+    charaters in the range 0 to 127, and our Unicode string has code points
+    outside that range.</p>
+
+    <p>The UnicodeEncodeError that's raised indicates the encoding being used,
+    in the form of the "codec" (short for coder/decoder), and the actual
+    position of the character that caused the problem.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Decoding errors</h1>
+    <p>Not all byte sequences are valid</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        my_utf8.decode("ascii")
+
+        "\x78\x9a\xbc\xde\xf0".decode("utf-8")
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_utf8.decode("ascii")</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in</span>
+    <span class='line'>          position 3: ordinal not in range(128)</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; "\x78\x9a\xbc\xde\xf0".decode("utf-8")</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>    return codecs.utf_8_decode(input, errors, True)</span>
+    <span class='line'>UnicodeDecodeError: 'utf8' codec can't decode byte 0x9a in</span>
+    <span class='line'>          position 1: invalid start byte</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Decoding can also produce errors.  Here we try to decode our UTF-8
+    string as ASCII and get a UnicodeDecodeError because again, ASCII can only
+    accepts values up to 127, and our UTF-8 string has bytes outside that
+    range.</p>
+
+    <p>Even UTF-8 can't decode any sequence of bytes.  Next we try to decode
+    some random junk, and it also produces a UnicodeDecodeError.   Actually,
+    one of UTF-8's advantages is that there are invalid sequences of bytes,
+    which helps to build robust systems:  mistakes in data won't be accepted as
+    if they were valid.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Error handling</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        my_unicode.encode("ascii", "replace")
+
+        my_unicode.encode("ascii", "xmlcharrefreplace")
+
+        my_unicode.encode("ascii", "ignore")
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_unicode.encode("ascii", "replace")</span>
+    <span class='line'>'Hi ??????'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_unicode.encode("ascii", "xmlcharrefreplace")</span>
+    <span class='line'>'Hi &amp;#8473;&amp;#436;&amp;#9730;&amp;#8460;&amp;#248;&amp;#7972;'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_unicode.encode("ascii", "ignore")</span>
+    <span class='line'>'Hi '</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>When encoding or decoding, you can specify what should happen when
+    the codec can't handle the data.  An optional second argument to encode or
+    decode specifies the policy.  The default value is "strict", which means
+    raise an error, as we've seen.</p>
+
+    <p>A value of "replace" means, give me a standard replacement character.
+    When encoding, the replacement character is a question mark, so any code
+    point that can't be encoded using the specified encoding will simply
+    produce a "?".</p>
+
+    <p>Other error handlers are more useful. "xmlcharrefreplace" produces
+    an HTML/XML character entity reference, so that \u01B4 becomes "&amp;#436;"
+    (hex 01B4 is decimal 436.)  This is very useful if you need to output
+    unicode for an HTML file.</p>
+
+    <p>Notice that different error policies are used for different reasons.
+    "Replace" is a defensive mechanism against data that cannot be interpreted,
+    and loses information. "Xmlcharrefreplace" preserves all the original
+    information, and is used when outputting data where XML escapes are
+    acceptable.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Error handling</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        my_utf8.decode("ascii", "ignore")
+
+        my_utf8.decode("ascii", "replace")
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; my_utf8.decode("ascii", "ignore")</span>
+    <span class='line'>u'Hi '</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_utf8.decode("ascii", "replace")</span>
+    <span class='line'>u'Hi \ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+    <p>Hi &#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;&#xfffd;
+</div>
+
+<div class="text">
+    <p>You can also specify error handling when decoding.  "Ignore" will drop
+    bytes that can't decode properly.  "Replace" will insert a Unicode U+FFFD,
+    "REPLACEMENT CHARACTER" for problem bytes.  Notice that since the decoder
+    can't decode the data, it doesn't know how many Unicode characters were
+    intended.  Decoding our UTF-8 bytes as ASCII produces 16 replacement
+    characters, one for each byte that couldn't be decoded, while those bytes
+    were meant to only produce 6 Unicode characters.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Implicit conversion</h1>
+    <p>Mixing bytes and unicode implicitly decodes</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        u"Hello " + "world"
+
+        u"Hello " + ("world".decode("ascii"))
+
+        sys.getdefaultencoding()
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; u"Hello " + "world"</span>
+    <span class='line'>u'Hello world'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; u"Hello " + ("world".decode("ascii"))</span>
+    <span class='line'>u'Hello world'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; sys.getdefaultencoding()</span>
+    <span class='line'>'ascii'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Python 2 tries to be helpful when working with unicode and byte strings.
+    If you try to perform a string operation that combines a unicode string
+    with a byte string, Python 2 will automatically decode the byte string to
+    produce a second unicode string, then will complete the operation with the
+    two unicode strings.</p>
+
+    <p>For example, we try to concatenate a unicode "Hello " with a byte string
+    "world".  The result is a unicode "Hello world".  On our behalf, Python 2
+    is decoding the byte string "world" using the ASCII codec.  The encoding
+    used for these implicit decodings is the value of
+    sys.getdefaultencoding().</p>
+
+    <p>The implicit encoding is ASCII because it's the only safe guess: ASCII
+    is so widely accepted, and is a subset of so many encodings, that it's 
+    unlikely to be wrong.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Implicit decoding errors</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        u"Hello " + my_utf8
+
+        u"Hello " + (my_utf8.decode("ascii"))
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; u"Hello " + my_utf8</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in</span>
+    <span class='line'>          position 3: ordinal not in range(128)</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; u"Hello " + (my_utf8.decode("ascii"))</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in</span>
+    <span class='line'>          position 3: ordinal not in range(128)</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Of course, these implicit decodings are not immune to decoding errors.  If you
+    try to combine a byte string with a unicode string and the byte string can't be
+    decoded as ASCII, then the operation will raise a UnicodeDecodeError.</p>
+
+    <p>This is the source of those painful UnicodeErrors.  Your code
+    inadvertently mixes unicode strings and byte strings, and as long as the
+    data is all ASCII, the implicit conversions silently succeed.  Once a
+    non-ASCII character finds its way into your program, an implicit decode
+    will fail, causing a UnicodeDecodeError.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Python 2 is &ldquo;helpful&rdquo;</h1>
+    <p>Converting implicitly: helpful?</p>
+    <p>Works great when everything is ASCII</p>
+    <p>When that fails: <em>PAIN</em></p>
+</div>
+
+<div class="text">
+    <p>Python 2's philosophy was that unicode strings and byte strings are 
+    confusing, and it tried to ease your burden by automatically converting
+    between them, just as it does for ints and floats.  But the conversion
+    from int to float can't fail, while byte string to unicode string can.</p>
+
+    <p>Python 2 silently glosses over byte to unicode conversions, making it
+    much easier to write code that deals with ASCII.  The price you pay is
+    that it will fail with non-ASCII data.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Other implicit conversions</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        "Title: %s" % my_unicode
+
+        u"Title: %s" % my_string
+
+        print my_unicode
+
+        my_utf8.encode('utf-8')        # silly
+
+        my_string.encode('utf-8')      # silly
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; "Title: %s" % my_unicode</span>
+    <span class='line'>u'Title: Hi \u2119\u01b4\u2602\u210c\xf8\u1f24'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; u"Title: %s" % my_string</span>
+    <span class='line'>u'Title: Hello World'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; print my_unicode</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeEncodeError: 'ascii' codec can't encode characters in</span>
+    <span class='line'>          position 3-8: ordinal not in range(128)</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_utf8.encode('utf-8')        # silly</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in</span>
+    <span class='line'>          position 3: ordinal not in range(128)</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_string.encode('utf-8')      # silly</span>
+    <span class='line'>'Hello World'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>There are lots of ways to combine two strings, and all of them will
+    decode bytes to unicode, so you have to watch out for them.</p>
+
+    <p>Here we use an ASCII format string, with unicode data.  The format
+    string will be decoded to unicode, then the formatting performed, resulting
+    in a unicode string.</p>
+
+    <p>Next we switch the two:  A unicode format string and a byte string again
+    combine to produce a unicode string, because the byte string data is
+    decoded as ASCII.</p>
+
+    <p>Even just attempting to print a unicode string will cause an implicit
+    encoding: output is always bytes, so the unicode string has to be encoded
+    into bytes before it can be printed.</p>
+
+    <p>The next one is truly confusing: we ask to encode a byte string to UTF-8,
+    and get an error about not being about to decode as ASCII!  The problem here
+    is that byte strings can't be encoded: remember encode is how you turn unicode
+    into bytes.  So to perform the encoding you want, Python 2 needs a unicode
+    string, which it tries to get by implicitly decoding your bytes as ASCII.</p>
+
+    <p>So you asked to encode to UTF-8, and you get an error about decoding ASCII.
+    It pays to look carefully at the error, it has clues about what operation is
+    being attempted, and how it failed.</p>
+
+    <p>Lastly, we encode an ASCII string to UTF-8, which is silly, encode
+    should be used on unicode string.  To make it work, Python performs the
+    same implicit decode to get a unicode string we can encode, but since the
+    string is ASCII, it succeeds, and then goes on to encode it as UTF-8,
+    producing the original byte string, since ASCII is a subset of UTF-8.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Bytes and Unicode</h1>
+    <p>Fact of Life #3</p>
+    <p>Need to keep them straight</p>
+    <p>Need to deal with both</p>
+    <div class="huge">
+        <p class="generic">&#x1F648; &nbsp; &#x1F649; &nbsp; &#x1F64A;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>This is the most important Fact of Life: bytes and unicode are both
+    important, and you need to deal with both of them.  You can't pretend
+    that everything is bytes, or everything is unicode.  You need to use 
+    each for their purpose, and explicitly convert between them as needed.</p>
+
+</div>
+
+<!-- }}} -->
+
+<!-- ** Python 3 {{{ **************************************** -->
+<div class="slide title">
+    <h1>Python 3</h1>
+    <div class='huge'>
+        <p class='generic'>&#x1F40D; &nbsp; &#x1F40D; &nbsp; &#x1F40D;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>We've seen the source of Unicode pain in Python 2, now let's take
+    a look at Python 3.  The biggest change from Python 2 to Python 3 is 
+    their treatment of Unicode.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Str vs bytes</h1>
+    <p>str: a sequence of code points (unicode)</p>
+    <p>bytes: a sequence of bytes</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(3, r"""
+        my_string = "Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
+        type(my_string)
+
+        my_bytes = b"Hello World"
+        type(my_bytes)
+        """)
+    ]]]-->
+    <div class='version-marker'>3</div>
+    <pre class='language-python language-python-3'>
+    <span class='line'>&gt;&gt;&gt; my_string = "Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"</span>
+    <span class='line'>&gt;&gt;&gt; type(my_string)</span>
+    <span class='line'>&lt;class 'str'&gt;</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; my_bytes = b"Hello World"</span>
+    <span class='line'>&gt;&gt;&gt; type(my_bytes)</span>
+    <span class='line'>&lt;class 'bytes'&gt;</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Just as in Python 2, Python 3 has two string types, one for unicode and
+    one for bytes, but they are named differently.</p>
+
+    <p>Now the "str" type that you get from a plain string literal stores unicode,
+    and the "bytes" types stores bytes.  You can create a bytes literal with a b
+    prefix.</p>
+
+    <p>So "str" in Python 2 is now called "bytes," and "unicode" in Python 2 is
+    now called "str".  This makes more sense than the Python 2 names, since 
+    Unicode is how you want all text stored, and byte strings are only for 
+    when you are dealing with bytes.</p>
+
+</div>
+
+<div class="slide">
+    <h1>No coercion!</h1>
+    <p>Python 3 won&rsquo;t implicitly change bytes &harr; unicode</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(3, r"""
+        "Hello " + b"world"
+
+        "Hello" == b"Hello"
+
+        d = {"Hello": "world"}
+        d[b"Hello"]
+        """)
+    ]]]-->
+    <div class='version-marker'>3</div>
+    <pre class='language-python language-python-3'>
+    <span class='line'>&gt;&gt;&gt; "Hello " + b"world"</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>TypeError: Can't convert 'bytes' object to str implicitly</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; "Hello" == b"Hello"</span>
+    <span class='line'>False</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; d = {"Hello": "world"}</span>
+    <span class='line'>&gt;&gt;&gt; d[b"Hello"]</span>
+    <span class='line'>Traceback (most recent call last):</span>
+    <span class='line'>KeyError: b'Hello'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>The biggest change in the Unicode support in Python 3 is that there is
+    no automatic decoding of byte strings.  If you try to combine a byte string
+    with a unicode string, you will get an error all the time, regardless of
+    the data involved!</p>
+
+    <p>All of those operations I showed where Python 2 silently converted byte
+    strings to unicode strings to complete an operation, every one of them is
+    an error in Python 3.</p>
+
+    <p>In addition, Python 2 considers a unicode string and a byte string
+    equal if they contain the same ASCII bytes, and Python 3 won't.  A
+    consequence of this is that unicode dictionary keys can't be found with
+    byte strings, and vice-versa, as they can be in Python 2.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Python 3 pain</h1>
+    <p>Mixing bytes and unicode is always <em>PAIN</em></p>
+    <p>You are forced to keep them straight</p>
+</div>
+
+<div class="text">
+    <p>This drastically changes the nature of Unicode pain in Python 3.  In
+    Python 2, mixing unicode and bytes succeeds so long as you only use ASCII
+    data.  In Python 3, it fails immediately regardless of the data.</p>
+
+    <p>So Python 2's pain is deferred: you think your program is correct, and
+    find out later that it fails with exotic characters.</p>
+
+    <p>With Python 3, your code fails immediately, so even if you are
+    only handling ASCII, you have to explicitly deal with the difference
+    between bytes and unicode.</p>
+
+    <p>Python 3 is strict about the difference between bytes and unicode.
+    You are forced to be clear in your code which you are dealing with.
+    This has been controversial, and can cause you pain.</p>
+
+</div>
+
+
+<div class="slide">
+    <h1>Reading files</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(3, r"""
+        import locale
+        """, r"""
+        open("hello.txt", "r").read()
+
+        open("hello.txt", "rb").read()
+
+        open("hi_utf8.txt", "r").read()
+
+        open("hi_utf8.txt", "r", 
+            encoding=locale.getpreferredencoding()).read()
+
+        open("hi_utf8.txt", "r", encoding="utf-8").read()
+
+        open("hi_utf8.txt", "rb").read()
+        """)
+    ]]]-->
+    <div class='version-marker'>3</div>
+    <pre class='language-python language-python-3'>
+    <span class='line'>&gt;&gt;&gt; open("hello.txt", "r").read()</span>
+    <span class='line'>'Hello, world!\n'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; open("hello.txt", "rb").read()</span>
+    <span class='line'>b'Hello, world!\n'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; open("hi_utf8.txt", "r").read()</span>
+    <span class='line'>'Hi \xe2\u201e\u2122\xc6\xb4\xe2\u02dc\u201a\xe2\u201e\u0152\xc3\xb8\xe1\xbc\xa4'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; open("hi_utf8.txt", "r", </span>
+    <span class='line'>...     encoding=locale.getpreferredencoding()).read()</span>
+    <span class='line'>'Hi \xe2\u201e\u2122\xc6\xb4\xe2\u02dc\u201a\xe2\u201e\u0152\xc3\xb8\xe1\xbc\xa4'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; open("hi_utf8.txt", "r", encoding="utf-8").read()</span>
+    <span class='line'>'Hi \u2119\u01b4\u2602\u210c\xf8\u1f24'</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; open("hi_utf8.txt", "rb").read()</span>
+    <span class='line'>b'Hi \xe2\x84\x99\xc6\xb4\xe2\x98\x82\xe2\x84\x8c\xc3\xb8\xe1\xbc\xa4'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>Because of this new strictness, Python 3 has changed how you read files.
+    Python has always had two modes for reading files: binary and text.  In Python 2, it 
+    only affected the line endings, and on Unix platforms, even that was a no-op.</p>
+
+    <p>In Python 3, the two modes produce different results.  When you open a file in text
+    mode, either with "r", or by defaulting the mode entirely, the data read from the 
+    file is implicitly decoded into Unicode, and you get str objects.</p>
+
+    <p>If you open a file in binary mode, by supplying "rb" as the mode, then the data
+    read from the file is bytes, with no processing done on them.</p>
+
+    <p>The implicit conversion from bytes to unicode uses the encoding returned
+    from locale.getpreferredencoding(), and it may not give you the results you
+    expect.  For example, when we read hi_utf8.txt, it's being decoded using
+    the locale's preferred encoding, which since I created these samples on
+    Windows, is "cp1252".  Like ISO 8859-1, CP-1252 is a one-byte character
+    code that will accept any byte value, so it will never raise a
+    UnicodeDecodeError.  That also means that it will happily decode data that
+    isn't actually CP-1252, and produce garbage.</p>
+
+    <p>To get the file read properly, you should specify an encoding to use.
+    The open() function now has an optional encoding parameter.</p>
+
+</div>
+
+<!-- }}} -->
+
+<!-- ** Pain relief {{{ ************************************* -->
+<div class="slide title">
+    <h1>Pain relief</h1>
+</div>
+
+<div class="text">
+    <p>OK, so how do we deal with all this pain? The good news it that the rules
+    to remember are simple, and they're the same for Python 2 and Python 3.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Pro tip #1: Unicode sandwich</h1>
+    <p>Bytes on the outside, unicode on the inside</p>
+    <p>Encode/decode at the edges</p>
+    <table class='diagram'>
+    <tr><td class='bare' colspan='2'>bytes bytes bytes bytes</td></tr>
+    <tr><td class='tborder rborder lborder'>decode</td><td class='bborder'>(Library)</td></tr>
+    <tr><td class='tall lborder rborder' colspan='2'>Unicode &nbsp; Unicode<br><br>Unicode &nbsp; Unicode</td></tr>
+    <tr><td class='bborder rborder lborder'>encode</td><td class='tborder'>(Library)</td></tr>
+    <tr><td class='bare' colspan='2'>bytes bytes bytes bytes</td></tr>
+    </table>
+</div>
+
+<div class="text">
+    <p>As we saw with Fact of Life #1, the data coming into and going out of
+    your program must be bytes.  But you don't need to deal with bytes on the
+    inside of your program.  The best strategy is to decode incoming bytes as
+    soon as possible, producing unicode.  You use unicode throughout your
+    program, and then when outputting data, encode it to bytes as late as
+    possible.</p>
+
+    <p>This creates a Unicode sandwich: bytes on the outside, Unicode on the
+    inside.</p>
+
+    <p>Keep in mind that sometimes, a library you're using may do some of these
+    conversions for you. The library may present you with Unicode input, or
+    will accept Unicode for output, and the library will take care of the edge
+    conversion to and from bytes.  For example, Django provides Unicode, as
+    does the json module.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Pro tip #2: Know what you have</h1>
+    <p>Bytes or Unicode?</p>
+    <p>If bytes, what encoding?</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(2, prolog_2, r"""
+        print type(my_unicode)
+
+        print repr(my_unicode)
+        """)
+    ]]]-->
+    <div class='version-marker'>2</div>
+    <pre class='language-python language-python-2'>
+    <span class='line'>&gt;&gt;&gt; print type(my_unicode)</span>
+    <span class='line'>&lt;type 'unicode'&gt;</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&gt;&gt;&gt; print repr(my_unicode)</span>
+    <span class='line'>u'Hi \u2119\u01b4\u2602\u210c\xf8\u1f24'</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>The second rule is, you have to know what kind of data you are dealing with.
+    At any point in your program, you need to know whether you have a byte string
+    or a unicode string.  This shouldn't be a matter of guessing, it should be
+    by design.</p>
+
+    <p>In addition, if you have a byte string, you should know what encoding it
+    is if you ever intend to deal with it as text.</p>
+
+    <p>When debugging your code, you can't simply print a value to see what it
+    is.  You need to look at the type, and you may need to look at the repr of
+    the value in order to get to the bottom of what data you have.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Encoding is out-of-band</h1>
+    <p>Fact of Life #4</p>
+    <p>You cannot infer the encoding of bytes</p>
+    <p>You must be told, or you have to guess</p>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    pre(r"""
+        Content-Type: text/html; charset=ISO-8859-4
+
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+        <"""+"""?xml version="1.0" encoding="UTF-8" ?"""+""">
+        
+        # -*- coding: iso8859-1 -*-
+        """)
+    ]]]-->
+    <pre>
+    <span class='line'>Content-Type: text/html; charset=ISO-8859-4</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&lt;meta http-equiv="Content-Type" content="text/html;charset=utf-8" /&gt;</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+    <span class='blankline'>&nbsp;</span>
+    <span class='line'># -*- coding: iso8859-1 -*-</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+</div>
+
+<div class="text">
+    <p>I said you have to understand what encoding your byte strings are.
+    Here's Fact of Life #4: You can't determine the encoding of a byte string
+    by examining it.  You need to know through other means. For example,
+    many protocols include ways to specify the encoding.  Here we have
+    examples from HTTP, HTML, XML, and Python source files.  You may
+    also know the encoding by prior arrangement, for example, the spec
+    for a data source may specify the encoding.</p>
+
+    <p>There are ways to guess at the encoding of the bytes, but they are
+    just guesses. The only way to be sure of the encoding is to find it 
+    out some other way.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Poo happens</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    import decode_table
+    def doit():
+        bytes = 'Hi\xe2\x84\x99\xc6\xb4\xe2\x98\x82\xe2\x84\x8c\xc3\xb8\xe1\xbc\xa4'
+        encodings = ["utf-8", "iso8859-1", "utf-16-le", "utf-16-be", "shift-jis"]
+        decode_table.output_table(bytes, encodings)
+    if_version(2, doit)
+    ]]]-->
+    <table class='decode_table'>
+    <tr class='bytes'><td class='label'>&nbsp;</td><td>48</td><td>69</td><td>e2</td><td>84</td><td>99</td><td>c6</td><td>b4</td><td>e2</td><td>98</td><td>82</td><td>e2</td><td>84</td><td>8c</td><td>c3</td><td>b8</td><td>e1</td><td>bc</td><td>a4</td></tr>
+    <tr class='chars'><td class='label'>utf-8</td><td>&#x48;</td><td>&#x69;</td><td colspan='3'>&#x2119;</td><td colspan='2'>&#x1b4;</td><td colspan='3'>&#x2602;</td><td colspan='3'>&#x210c;</td><td colspan='2'>&#xf8;</td><td colspan='3'>&#x1f24;</td></tr>
+    <tr class='chars'><td class='label'>iso8859-1</td><td>&#x48;</td><td>&#x69;</td><td>&#xe2;</td><td>&#x84;</td><td>&#x99;</td><td>&#xc6;</td><td>&#xb4;</td><td>&#xe2;</td><td>&#x98;</td><td>&#x82;</td><td>&#xe2;</td><td>&#x84;</td><td>&#x8c;</td><td>&#xc3;</td><td>&#xb8;</td><td>&#xe1;</td><td>&#xbc;</td><td>&#xa4;</td></tr>
+    <tr class='chars'><td class='label'>utf-16-le</td><td colspan='2'>&#x6948;</td><td colspan='2'>&#x84e2;</td><td colspan='2'>&#xc699;</td><td colspan='2'>&#xe2b4;</td><td colspan='2'>&#x8298;</td><td colspan='2'>&#x84e2;</td><td colspan='2'>&#xc38c;</td><td colspan='2'>&#xe1b8;</td><td colspan='2'>&#xa4bc;</td></tr>
+    <tr class='chars'><td class='label'>utf-16-be</td><td colspan='2'>&#x4869;</td><td colspan='2'>&#xe284;</td><td colspan='2'>&#x99c6;</td><td colspan='2'>&#xb4e2;</td><td colspan='2'>&#x9882;</td><td colspan='2'>&#xe284;</td><td colspan='2'>&#x8cc3;</td><td colspan='2'>&#xb8e1;</td><td colspan='2'>&#xbca4;</td></tr>
+    <tr class='chars'><td class='label'>shift-jis</td><td>&#x48;</td><td>&#x69;</td><td colspan='2'>&#x9083;</td><td colspan='2'>&#x536e;</td><td>&#xff74;</td><td colspan='2'>&#x7b18;</td><td colspan='2'>&#x3084;</td><td colspan='2'>&#x44a;</td><td>&#xff83;</td><td>&#xff78;</td><td colspan='2'>&#x7708;</td><td>&#xff64;</td></tr>
+    </table>
+    <!--[[[end]]] }}}-->
+    <div class='larger'>
+        <p class='generic'>&#x1f4a9;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>Here's an example of our exotic Unicode string, encoded as UTF-8, and
+    then mistakenly decoded in a variety of encodings.  As you can see, decoding
+    with an incorrect encoding might succeed, but produce the wrong characters.
+    Your program can't tell it's decoding wrong, only when people try to read
+    the text will you know something has gone wrong.</p>
+
+    <p>This is a good demonstration of Fact of Life #4: the same stream of bytes
+    is decodable using a number of different encodings.  The bytes themselves
+    don't indicate what encoding they use.</p>
+
+    <p>BTW, there's a term for this garbage display, from the Japanese who have
+    been dealing with this for years and years: Mojibake.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Data is dirty</h1>
+    <p>Fact of Life #5</p>
+    <p>Sometimes you are told wrong.</p>
+</div>
+
+<div class="text">
+    <p>Unfortunately, because the encoding for bytes has to be communicated
+    separately from the bytes themselves, sometimes the specified encoding is
+    wrong.  For example, you may pull an HTML page from a web server, and the
+    HTTP header claims the page is 8859-1, but in fact, it is encoded with
+    UTF-8.</p>
+
+    <p>In some cases, the encoding mismatch will succeed and cause mojibake.
+    Other times, the encoding is invalid for the bytes, and will cause a
+    UnicodeError of some sort.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Pro tip #3: Test Unicode</h1>
+    <p>&#x227;&#x188;&#x188;&#x1e17;&#x19e;&#x167;&#x1e17;&#x1e13;&#x20;&#x167;&#x1e17;&#x1e8b;&#x167;&#x20;&#x192;&#x1ff;&#x159;&#x20;&#x167;&#x1e17;&#x15f;&#x167;&#x12b;&#x19e;&#x260;</p>
+    <!-- <p>H̯ͮ̈́ͬͅe̯̩͎̱̪͕͗ͧͣ͆ạ̲͚͙̠́̆̇͐̚v̈́̑̇ͯ̄̈i̖͎̦̘͛͒̊̽l̳̻͛̌ͥ͑̽ͯÿ͇͍ͭͣͫͅ ̗̠ͮͪ͒͆̆̀ȧ̭̪̫̿̒̿cͣ̃c͙͉ẹ̣ͯͥ̈ͥ͒̈́n̘͔̐̓t̗̩͖̑͂e͖̭̰d̤͔̖̯̮̻̳ͭ͛͂̀ ̖̬͔̬t̪͛̌e̳̯̲̫̒̍x̳͇͉̱̆̇͊ͅt͋͊</p> -->
+    <p>ℛℯα∂α♭ℓℯ ♭ʊ☂ η☺т Ѧ$☾ℐℐ</p>
+    <p>¡ooʇ ןnɟǝsn sı uʍop-ǝpısdn</p>
+</div>
+
+<div class="text">
+    <p>It should go without saying: you should explicitly test your Unicode
+    support.  To do this, you need challenging Unicode data to pump through
+    your code.  If you are an English-only speaker, you may have a problem
+    doing this, because lots of non-ASCII data is hard to read.  Luckily, the
+    variety of Unicode code points mean you can construct complex Unicode
+    strings that are still readable by English speakers.</p>
+
+    <p>Here's an example of overly-accented text, readable pseudo-ASCII
+    text, and upside-down text.  One good source of these sorts of strings
+    are various web sites that offer strings like this for teenagers to
+    paste into social networking sites.</p>
+
+</div>
+
+<!-- }}} -->
+
+<div class="slide">
+    <h1>More Unicode</h1>
+    <p>Fact of Life #5&frac12;</p>
+    <div class="tight">
+    <p>BOM &bull; Surrogate pairs &bull; Decompositions</p>
+    <p>Combining marks &bull; Collations &bull; Normalization</p>
+    <p>Character categories &bull; BiDi &bull; Private use</p>
+    <p>Ligatures &bull; Character properties</p>
+    <p>Narrow/Wide &bull; File names &bull; Fonts</p>
+    </div>
+    <div class="huge">
+        <p class="generic">&#x2620;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>Depending on your application, you may need to dig deeper into
+    the other complexities in the Unicode world.  There are many
+    details that I haven't covered here, and they can be very involved.
+    I call this Fact of Life #5&frac12; because you may not have to
+    deal with any of this.</p>
+
+</div>
+
+<div class="slide">
+    <h1>Facts of Life</h1>
+    <p>#1: I/O is always bytes</p>
+    <p>#2: Need more than 256 symbols</p>
+    <p>#3: Need both bytes and Unicode</p>
+    <p>#4: Can&rsquo;t infer encodings</p>
+    <p>#5: Declared encodings can be wrong</p>
+    <div class='huge'>
+        <p class='generic' style='xxfont-size: 200%'>&#x1F426; &#x1F41D;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>To review, these are the five unavoidable Facts of Life:</p>
+
+    <ol>
+    <li>All input and output of your program is bytes.</li>
+    <li>The world needs more than 256 symbols to communicate text.</li>
+    <li>Your program has to deal with both bytes and Unicode.</li>
+    <li>A stream of bytes can't tell you its encoding.</li>
+    <li>Encoding specifications can be wrong.</li>
+    </ol>
+</div>
+
+<div class="slide">
+    <h1>Pro tips</h1>
+    <p>#1: Unicode sandwich</p>
+    <p>#2: Know what you have</p>
+    <p>#3: Test</p>
+    <div class='huge'>
+        <p class='generic'>&#x1f44c; &#x1f44d; &#x1F60E;</p>
+    </div>
+</div>
+
+<div class="text">
+    <p>These are the three Pro Tips to keep in mind as you build your software
+    to keep your code Unicode-clean:</p>
+
+    <ol>
+    
+    <li>Unicode sandwich: keep all text in your program as Unicode, and convert
+    as close to the edges as possible.</li>
+
+    <li>Know what your strings are: you should be able to explain which of your
+    strings are Unicode, which are bytes, and for your byte strings, what 
+    encoding they use.</li>
+
+    <li>Test your Unicode support.  Use exotic strings throughout your test
+    suites to be sure you're covering all the cases.</li>
+
+    </ol>
+
+    <p>If you follow these tips, you'll write good solid code that deals
+    well with Unicode, and won't fall over no matter how wild the Unicode
+    it encounters.</p>
+
+</div>
+
+
+<div class="slide">
+    <h1>See also</h1>
+    <p><a href='http://www.joelonsoftware.com/articles/Unicode.html'>The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a></p>
+    <p><a href='http://docs.python.org/library/unicodedata.html'>unicodedata module</a></p>
+    <p><a href='http://fsymbols.com/generators/encool'>"fancy" text generators</a></p>
+    <p>FileFormat.info has a good <a href='http://www.fileformat.info/info/unicode/'>Unicode section</a> with details of every Unicode character.</p>
+</div>
+
+<div class="text">
+    <p>Other resources you might find helpful:</p>
+    <p>Joel Spolsky wrote <a href='http://www.joelonsoftware.com/articles/Unicode.html'>The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a>,
+    which covers how Unicode works and why.  It has no Python-specific information,
+    but is better written than this talk!</p>
+    <p>If you need to deal with the semantics of arbitrary Unicode characters, the <a href='http://docs.python.org/library/unicodedata.html'>unicodedata module</a>
+    in the Python standard library has functions that can help.</p>
+    <p>For testing Unicode, the various <a href='http://fsymbols.com/generators/encool'>"fancy" text generators</a>
+    for use on social networks work great.</p>
+
+</div>
+
+
+<div class="slide final">
+    <h1>Thank You</h1>
+    <p>bit.ly/unipain</p>
+    <!--
+    <p>Ned Batchelder</p>
+    <p>http://nedbatchelder.com</p>
+    <p>@nedbat</p>
+    -->
+    <div class="incremental">
+    <style>
+    .credits {
+        margin: 1.5em auto;
+        width: 100%;
+    }
+    .credits .char {
+        width: 24%;
+        xborder: 1px solid black;
+        xpadding-top: .15em;
+    }
+
+    .credits .pic {
+        font-size: 200%;
+        font-family: Symbola, serif;
+        display: block;
+        padding-right: .2em;
+        padding-bottom: .1em;
+        clear: both;
+        float: left;
+    }
+    .credits .uplus {
+        padding-top: .6em;
+        font-size: 65%;
+        display: block;
+    }
+    .credits .name {
+        font-size: 40%;
+        display: block;
+    }
+    </style>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    import unicodedata
+    def credits(*chars):
+        NCOL = 4
+        cog.outl("<table class='credits'>")
+        for i, ch in enumerate(sorted(chars)):
+            try: 
+                name = unicodedata.name(ch)
+            except ValueError:
+                name = "??{ord:x}??".format(ord=ord(ch))
+            if i % NCOL == 0:
+                cog.outl("<tr>")
+            cog.outl("""
+                <td class='char'>
+                    <span class='pic'>&#x{ord:x};</span>
+                    <span class='uplus'>U+{ord:X}</span>
+                    <span class='name'>{name}</span>
+                </td>""".format(ord=ord(ch), name=name))
+            if i % NCOL == (NCOL-1):
+                cog.outl("</tr>")
+        if i % NCOL != (NCOL-1):
+            cog.outl("</tr>")
+        cog.outl("</table>")
+    if_version(3, credits,
+        "\u2603",       # snowman
+        "\U0001F4A9",   # poo
+        "\U0001F40D",   # snake
+        "\U0001F648", "\U0001F649", "\U0001F64A",    # see no evil
+        "\U0001F426", "\U0001F41D",     # bird + bee
+        "\u2620",       # skull
+        "\U0001f601",   # grinning
+        "\U0001f47d",   # alien
+        "\U0001f4a5",   # collision
+        "\U0001f61e",   # disappointed
+        "\U0001f620",   # angry
+        #"\U0001f615",   # confused
+        "\U0001f44c",   # ok sign
+        "\U0001f44d",   # thumbs up
+        "\U0001F60E",   # smiling with sunglasses
+        "\U0001F30E",   # world
+        "\U0001F30F",   # world
+    )
+    ]]]-->
+    <table class='credits'>
+    <tr>
+
+                <td class='char'>
+                    <span class='pic'>&#x2603;</span>
+                    <span class='uplus'>U+2603</span>
+                    <span class='name'>SNOWMAN</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x2620;</span>
+                    <span class='uplus'>U+2620</span>
+                    <span class='name'>SKULL AND CROSSBONES</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f30e;</span>
+                    <span class='uplus'>U+1F30E</span>
+                    <span class='name'>EARTH GLOBE AMERICAS</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f30f;</span>
+                    <span class='uplus'>U+1F30F</span>
+                    <span class='name'>EARTH GLOBE ASIA-AUSTRALIA</span>
+                </td>
+    </tr>
+    <tr>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f40d;</span>
+                    <span class='uplus'>U+1F40D</span>
+                    <span class='name'>SNAKE</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f41d;</span>
+                    <span class='uplus'>U+1F41D</span>
+                    <span class='name'>HONEYBEE</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f426;</span>
+                    <span class='uplus'>U+1F426</span>
+                    <span class='name'>BIRD</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f44c;</span>
+                    <span class='uplus'>U+1F44C</span>
+                    <span class='name'>OK HAND SIGN</span>
+                </td>
+    </tr>
+    <tr>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f44d;</span>
+                    <span class='uplus'>U+1F44D</span>
+                    <span class='name'>THUMBS UP SIGN</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f47d;</span>
+                    <span class='uplus'>U+1F47D</span>
+                    <span class='name'>EXTRATERRESTRIAL ALIEN</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f4a5;</span>
+                    <span class='uplus'>U+1F4A5</span>
+                    <span class='name'>COLLISION SYMBOL</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f4a9;</span>
+                    <span class='uplus'>U+1F4A9</span>
+                    <span class='name'>PILE OF POO</span>
+                </td>
+    </tr>
+    <tr>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f601;</span>
+                    <span class='uplus'>U+1F601</span>
+                    <span class='name'>GRINNING FACE WITH SMILING EYES</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f60e;</span>
+                    <span class='uplus'>U+1F60E</span>
+                    <span class='name'>SMILING FACE WITH SUNGLASSES</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f61e;</span>
+                    <span class='uplus'>U+1F61E</span>
+                    <span class='name'>DISAPPOINTED FACE</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f620;</span>
+                    <span class='uplus'>U+1F620</span>
+                    <span class='name'>ANGRY FACE</span>
+                </td>
+    </tr>
+    <tr>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f648;</span>
+                    <span class='uplus'>U+1F648</span>
+                    <span class='name'>SEE-NO-EVIL MONKEY</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f649;</span>
+                    <span class='uplus'>U+1F649</span>
+                    <span class='name'>HEAR-NO-EVIL MONKEY</span>
+                </td>
+
+                <td class='char'>
+                    <span class='pic'>&#x1f64a;</span>
+                    <span class='uplus'>U+1F64A</span>
+                    <span class='name'>SPEAK-NO-EVIL MONKEY</span>
+                </td>
+    </tr>
+    </table>
+    <!--[[[end]]] }}}-->
+    </div>
+</div>
+
+<!-- ** Attic {{{ -->
+<!-- *** Blank pieces {{{ -->
+<script type="hidden>
+
+<div class="slide">
+    <h1></h1>
+    <p></p>
+</div>
+
+<div class="text">
+    <p></p>
+
+</div>
+
+
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session(3, r"""
+        my_string = b"Hello World"
+        my_unicode = "Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
+        """)
+    ]]]-->
+    <div class='version-marker'>3</div>
+    <pre class='language-python language-python-3'>
+    <span class='line'>&gt;&gt;&gt; my_string = b"Hello World"</span>
+    <span class='line'>&gt;&gt;&gt; my_unicode = "Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"</span>
+    </pre>
+    <!--[[[end]]] }}}-->
+
+</script>
+<!-- }}} -->
+
+<!-- *** Notes {{{
+
+http://docs.python.org/howto/unicode.html
+
+
+
+        Harsh reality #1
+            world is built on bytes
+
+            files, network connections
+
+        Harsh reality #2
+            there are more than 256 symbols in the world's writing systems.
+
+        Trial and Error won't solve your problems.
+
+        Know what you have.
+            print repr(my_string) will help.
+
+    }}}    -->
+
+<!-- *** Layouts {{{ -->
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="left">@nedbat</span>
+        <span class="right">bit.ly/unipain</span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" data-name="alt">
+    <content></content>
+</div>
+<!-- }}} -->
+</body>
+</html>
+<!-- }}} -->

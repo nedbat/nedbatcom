@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page title='What&apos;s RSS?'>
+
+<history>
+<what when='20031106T201500'>Created.</what>
+<what when='20071116T074700'>Changed "weblog" to "blog" throughout. Mentioned Atom.</what>
+</history>
+
+<p>This page answers the question "What is RSS?" for two types of people:
+technical and non-technical.  Read the section that applies to you.
+</p>
+
+<h1>For non-technical people</h1>
+
+<p>RSS is a data format for blogs
+(<a href='site/whatisablog.html'>what's a blog?</a>)
+and other news-like websites to publish their stories.
+
+An RSS page is often called an RSS feed, because it is like a stream of stories
+being fed from one computer to another.
+
+RSS feeds aren't meant to be read by people directly <emdash/>
+they're meant to be read by software called an RSS reader.
+
+An RSS reader will read a number of different RSS feeds, and organize them
+for you so that you can browse through them to find the stories you want to read.
+</p>
+
+<h2>RSS readers</h2>
+
+<p>RSS readers can make blog reading more efficient by alerting you to updated
+blogs, and by displaying summaries or entire stories in your reader without you
+having to visit each blog individually.  RSS feeds include links back to the
+original blog so you can always choose to visit the original site from your
+reader if you choose.
+</p>
+
+<p>There are many different RSS readers to choose from, and they can run on
+your computer, or be accessed on the Web. Examples include:</p>
+
+<ul>
+<li>On the Mac,
+<a href='http://ranchero.com/netnewswire/'>NetNewsWire</a> is highly regarded.</li>
+<li>On Windows,
+<a href='http://www.awasu.com'>Awasu</a> is very full-featured.</li>
+<li>On the Web,
+<a href='http://bloglines.com'>Bloglines</a> is a nice RSS reader in a browser.</li>
+</ul>
+
+<p>There are many more readers than this,
+and more are being developed all the time.
+More extensive lists of reader software are available on the RSS Reader pages at
+<a href='http://www.ourpla.net/cgi/pikie?RssReaders'>Abbe Normal</a> and
+<a href='http://www.lights.com/weblogs/rss.html'>Weblogs Compendium</a>,
+or you can <a href='http://www.google.com?q=RSS+Readers'>search Google</a>
+for RSS Readers.</p>
+
+<h2>How it works</h2>
+
+<p>When a blog author pens yet another pithy post, she updates her
+blog to add the new story.
+People who visit the page in their browser will see the new entry.
+She (or her blog software) also updates her RSS feed, so that the
+new story is represented there as well.
+RSS readers check their RSS feeds periodically (often on a configurable
+schedule).  When they see that a feed has been updated, they read the
+updated RSS data, and mark the blog as having a new story to read.
+</p>
+
+<p>When you next look at your RSS reader, the blog will be highlighted
+(for example, it may appear in bold type), and the new story will be
+displayed for you to read.</p>
+
+<p>RSS readers try to make it really easy for you to subscribe to new
+feeds.  Often you don't need to worry about the location of the RSS feed,
+you can simply point the reader at the blog's home page, and it will
+figure out where the RSS feed is automatically.  Occasionally, this won't
+work, and you may need to locate the RSS feed yourself.  Many sites use
+an orange button for the RSS feed.</p>
+
+
+<h1>For technical people</h1>
+
+<p>RSS is an XML data format for weblogs and other news-like
+websites to publish their stories.
+</p>
+
+<p>There have been a handful of different RSS formats,
+known as
+<a href='http://backend.userland.com/rss091'>RSS 0.91</a>,
+<a href='http://web.resource.org/rss/1.0/spec'>RSS 1.0</a>, and
+<a href='http://blogs.law.harvard.edu/tech/rss'>RSS 2.0</a>.
+RSS readers seem quite happy to read any of these formats.</p>
+
+<p>The meaning of the acronym RSS has changed with the different versions,
+from "RDF Site Summary" to "Rich Site Summary" to "Really Simple Syndication".
+Who designed RSS is the subject of much debate, some of which has
+become inexplicably rancorous at times.</p>
+
+<p>In addition, there is a similar but different protocol called
+<a href='http://en.wikipedia.org/wiki/Atom_(standard)'>Atom</a> for syndicating
+blog stories.</p>
+
+<p>RSS includes at least the title and URL of the weblog,
+and for each item, the title, date, and description.
+The description can be as little as a plain text summary of the item, or
+the full HTML of the item, including images.</p>
+
+<p>If you are producing an RSS feed, you can check it with a
+<a href='http://aggregator.userland.com/validator'>feed validator</a>.</p>
+
+<h1>See also</h1>
+
+<ul>
+<li>XML.com's <a href='http://www.xml.com/pub/a/2002/12/18/dive-into-xml.html'>What is RSS?</a>
+article, which goes into more detail.</li>
+<li>My <apage pref='site/whatisablog.px'/>, which explains what a blog is.</li>
+<li>My <a href='blog/index.html'>blog</a>, which may cover similar topics
+from time to time.</li>
+</ul>
+
+</page>

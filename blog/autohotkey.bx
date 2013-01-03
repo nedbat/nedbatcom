@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20070415T083446'>
+<title>AutoHotkey</title>
+<category>tools</category>
+<body>
+<p>One problem I find with laptops: the keyboards have been modified to fit into
+the small space available.  Usually this means moving around the "extra" keys
+so that the letters and numbers can be full size.  And usually, one or more of
+these compromises seems really stupid to me.
+</p>
+
+<p>For example, my current Toshiba laptop has a bottom row of keys like this:</p>
+
+<code>[Ctrl][Fn][Alt][`~][     Space    ][Ins][Del][Alt]</code>
+
+<p>What!?  Ins, but no right Ctrl?  Are these people crazy? Who uses Ins any more?</p>
+
+<p>To fix this problem, I found <a href='http://www.autohotkey.com/'>AutoHotkey</a>,
+one of those single-minded Windows utilities which takes a seemingly small domain and
+makes the most of it.  AutoHotkey remaps keys and key sequences.  With it, I
+could remap the Ins key to mean Ctrl, fixing my keyboard.</p>
+
+<p>I also found that my left thumb was hurting more than my other digits, and that
+my Alt-Tab habit was aggravating it.  I would tuck my left thumb under to the left
+Alt key, and hit the Tab key with my ring finger.  Very quick, but also contorted.
+With AutoHotkey, I remapped that key combination to <em>not</em> do Alt-Tab,
+breaking me of the habit.  Now I use the right Alt key with my right hand, press the
+tab key with my left hand, and my discomfort is much reduced.</p>
+
+<p>The AutoHotkey scripting language can do many things, my little script only scratches
+the surface:</p>
+
+<code>
+Ins::Ctrl
+RAlt &amp; Tab::AltTab
+RAlt &amp; CapsLock::ShiftAltTab
+LAlt &amp; Tab::MsgBox Boo!
+</code>
+
+<p>This says:</p>
+
+<ul>
+    <li>Ins should be treated as Ctrl</li>
+    <li>Right-Alt and Tab should do an Alt-Tab</li>
+    <li>Right-Alt and CapsLock should do a Shift-Alt-Tab (rotate applications backwards)</li>
+    <li>Left-Alt and Tab should put up a message box that says "Boo!"</li>
+</ul>
+
+<p>There's lots more that AutoHotkey can do that I haven't even begun to explore, like
+sending Windows messages, manipulating windows, and so on.
+But the few things I need it to do, it does well.</p>
+
+</body>
+</entry>
+</blog>

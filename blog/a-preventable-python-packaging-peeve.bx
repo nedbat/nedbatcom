@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20100209T075837'>
+<title>A preventable Python packaging peeve</title>
+<category>python</category>
+<body>
+<p>Python packaging is a common theme on which to complain, and rightly so.
+It's no one's first love, so it tends not to get the devoted attention of say,
+Numpy.  And it's a hard problem to solve well.  So we have a mish-mash of tools
+that each do about 75% of the job.</p>
+
+<p>But there's one small aspect of Python packaging that could easily be solved
+well if people just attended to it:  Not enough Python projects clearly state
+what versions of Python they run on.</p>
+
+<p>For example, suppose you are in the market for a mock object library for your
+tests.  There's no shortage.  Less than a minute at PyPI produces
+<a href='http://pypi.python.org/pypi/mock/0.6.0'>mock</a>,
+<a href='http://pypi.python.org/pypi/MiniMock/1.2.5'>MiniMock</a>,
+<a href='http://pypi.python.org/pypi/mocktest/0.3.1'>mocktest</a>,
+<a href='http://pypi.python.org/pypi/Mocky/0.2'>Mocky</a>,
+<a href='http://pypi.python.org/pypi/pmock/0.3'>pmock</a>,
+<a href='http://pypi.python.org/pypi/mocker/0.10.1'>mocker</a>,
+<a href='http://pypi.python.org/pypi/mockito/0.2.0'>mockito</a>, and
+<a href='http://pypi.python.org/pypi/ludibrio/2.0'>ludibrio</a>.
+Some of those PyPI pages have extensive documentation.  Not a single one explicitly
+mentions the versions of Python supported.  And I don't mean 2.x vs. 3.x.  I want
+to know if it will run on 2.4 or not.  Ludibrio and Mocky offer a slight clue
+in that they are available for download as an egg, for 2.5 and 2.4 respectively.
+pMock mentions >= 2.3 support on the home page linked from the PyPI page.</p>
+
+<p>On top of all the other well-known difficulties people have with Python
+packaging, at the very least, we should be able to manage this: clearly state
+what versions of Python you support.  This is a simple three-step process:</p>
+
+<ol>
+<li>Decide what versions you want to support.</li>
+<li>Test your code on those versions.</li>
+<li>Add a sentence like this to your PyPI documentation: "SpockMocker runs
+on Python 2.5 and 2.6".</li>
+</ol>
+
+<p>The Python community will thank you.</p>
+
+</body>
+</entry>
+</blog>

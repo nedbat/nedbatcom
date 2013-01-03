@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20080429T065859'>
+<title>ReactOS</title>
+<category>windows</category>
+<via href='http://www.ericsink.com/entries/Save_Windows_XP.html'>eric sink</via>
+<body>
+<p>This has been around for a long time, but I'd never heard of it:
+<a href='http://www.reactos.org'>ReactOS</a> is an open-source re-implementation
+of Windows.  I guess it's possible to be fanatically devoted to both Windows
+and open source.  As mammoth a task as this sounds, it seems they are making
+progress.  Although they've been at it for about 
+<a href='http://www.reactos.org/en/about_history.html'>ten years</a>,
+they have <a href='http://www.reactos.org/en/tour.html'>screenshots of working code</a>,
+and an active subversion repository (they're
+<a href='http://svn.reactos.org/svn/reactos?view=rev&amp;revision=33186'>working
+on DirectX support</a> now).
+</p>
+
+<p>I wonder what the future will hold for ReactOS.  Microsoft will continue to
+build Windows, widening the gap between what Windows and ReactOS are,
+though if the reaction to Vista is any indication, perhaps XP
+and its ReactOS clone will be considered the golden age of Windows.
+At the same time, anti-Microsoft sentiment will continue to build among the open
+source community, either in the pro-Linux or pro-Apple flavor.
+</p>
+
+</body>
+</entry>
+</blog>

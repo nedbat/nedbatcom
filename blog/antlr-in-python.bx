@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050429T065825'>
+<title>ANTLR in Python</title>
+<category>python</category>
+<via />
+<body>
+<p>Updates often beget updates.
+Yesterday I tweaked my <a href='text/python-parsers.html'>Python parsing tools</a>, which
+prompted Bruce Dickey and <a href='http://www.mistgames.ru'>Sergej Zagursky</a> to write in
+to say that <a href='http://www.antlr.org/'>ANTLR</a> now generates Python parsers.
+</p>
+
+<p>ANTLR is a mature parser generator.  It is written in Java, but can generate parsers in
+Java, C++, C#, and now Python.  Due to its long history, it has a large user base, which
+means a large collection of <a href='http://www.antlr.org/grammar/list'>available grammars</a>.
+ANTLR is a powerful and popular system, and its addition to the Python toolset is good news.
+</p>
+
+</body>
+</entry>
+</blog>

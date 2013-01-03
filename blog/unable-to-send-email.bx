@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20050215T151131'>
+<title>Unable to send email</title>
+<category>admin</category>
+<category>email</category>
+<body>
+<p>Last Thursday, I obediently installed a number of Windows Updates. It all went fine.
+Once I had rebooted, I was no longer able to send via my personal email account.
+Odd, but I had seen it before.  Rebooting (and maybe scanpst'ing) had fixed it before,
+so I did those two things.  No luck.
+</p>
+
+<p>I finally fixed it, but mysteries remain.</p>
+
+<more>
+
+<p>I double-checked the name and password on the account.  They were fine.
+My ISP (RCN) requires that I use their SMTP server for sending outgoing
+mail, even though I don't use their POP server for receiving mail.
+My wife and son both use the same outgoing SMTP server with the same credentials,
+and they were able to send email, so I was confused.</p>
+
+<p>The onset of the problem coincided with my installation of Windows Updates,
+and only affected the one computer in three that had the Updates, so I naturally
+believed they were at fault.  Naively believing in a Newtonian universe, I read
+the knowledgebase articles about the fixes to see which sounded like it might
+be somewhere near an email stack.  I picked the most likely one and uninstalled
+it.  No change.</p>
+
+<p>Next, I used telnet to connect directly to the SMTP server
+(this <a href='http://www.fehcom.de/qmail/smtpauth.html'>tutorial on SMTP authentication</a>
+proved useful as a guide).
+Sure enough, the server rejected my username and password.
+I tried telnet'ing from my wife's Mac, just in case somehow the OS was interfering.
+Nope, the credentials were rejected there too.  But my wife could send mail.
+Checking her email account settings, I see that she's actually going in anonymously!
+I set the username and password, and she can still send email.</p>
+
+<p>Next, I wrung my hands for a long time, and bemoaned my fate, and generally got
+depressed about the impossibility of understanding and troubleshooting the complexity
+of modern computer systems.</p>
+
+<p>Next, I installed <a href='http://www.ethereal.com'>Ethereal</a> to capture the network
+traffic to see what is happening.  No surprise there:
+it shows Outlook doing just what I had done with telnet, and being denied access.</p>
+
+<p>Having figured out Ethereal enough to watch network traffic on a Windows machine,
+I figured I might as well install it on my son's computer to see how it is managing
+to send email.
+Here's the strangest part: He was sending the same credentials as me, and also being
+returned an "authentication failed" message.  But his Outlook Express simply ignored
+the error and sent the email anyway, and the SMTP server gladly accepted it and delivered it!</p>
+
+<p>To reiterate: the client-server interactions that worked went like this:</p>
+
+<ol>
+<li>Client: Let me in, it's ned.</li>
+<li>Server: I don't believe you: you can't come in.</li>
+<li>Client: Screw you, I'm coming in anyway!</li>
+<li>Server: That's OK, I was just kidding!</li>
+</ol>
+
+<p>Is this the state of SMTP security? No wonder we have a spam problem!</p>
+
+<p>So now at least I understand why some email was getting through, but what's wrong with the
+credentials anyway?  Next I went to my account page at RCN to see if the username and
+password are correct.  After all, the "successful" credentials were being flagged as
+wrong anyway, so maybe I didn't know my password?</p>
+
+<p>At the RCN account page, sure enough, it accepted my username and password, so it turns
+out I did know them after all.  I was about to change the password just to see if that
+would flush out some frogs, when I notice one of the options on the page: "Reactivate your email account".
+</p>
+
+<p>Aha!  Turns out that since I never use the POP half of my email account, they decided to
+deactivate it.  Reactivating it made everything work, at last!</p>
+
+<p>Remaining mysteries:</p>
+
+<ol>
+<li>Why didn't RCN try sending me an email to let me know the account was being deactivated.
+(I checked the POP account: there's no mail there, although maybe they dumped it when they
+deactivated it.)</li>
+<li>Why didn't RCN notice that the SMTP side of the account was quite active, thank you
+very much, and leave everything as it was?</li>
+<li>Why "deactivate" the account so that credentials fail, but then accept email anyway?</li>
+<li>Was the account deactivated last Thursday, or was one of the Windows Updates a fix
+so that Outlook would notice the credentials were deactivated?</li>
+<li>What do ordinary people do to keep their computers running smoothly?</li>
+</ol>
+
+</more>
+
+</body>
+</entry>
+</blog>

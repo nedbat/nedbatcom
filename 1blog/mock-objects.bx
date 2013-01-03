@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20040731T091847'>
+<title>Mock objects</title>
+<category>testing</category>
+<via />
+<body>
+<p>The appearance of <a href='http://pmock.sourceforge.net/'>pMock</a>
+got me reading about mock objects again.
+pMock is a mock object library for Python inspired by
+<a href='http://www.jmock.org/'>jMock</a>.
+Mock objects are a testing methodology whereby an object under test is
+surrounded by fake implementations of its supporting objects so that
+the behavior of the tested object can be isolated and minutely observed.
+</p>
+
+<p>Martin Fowler's article
+<a href='http://martinfowler.com/articles/mocksArentStubs.html'>Mocks Aren't Stubs</a>
+gets into some of the essence of mock objects, and how they differ from stub
+implementations.  As I understand Martin's point, stubs are passive implementations
+of an interface, while mock objects are active participants in the recording and
+checking of behavior across the interface.</p>
+
+<p>I've never used mock objects, and they seem quite complicated at first glance.
+But I'm interested in them because as I write more and more code, I get more and
+more interested in verifying its correctness automatically, pinning down the
+corners to control the complexity of all of the change inherent in a large
+development process.</p>
+
+</body>
+</entry>
+</blog>

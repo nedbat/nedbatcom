@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20060628T071055'>
+<title>The Vietnam of computer science</title>
+<category>db</category>
+<via id='damien'/>
+<body>
+<p><a href='http://blogs.tedneward.com/PermaLink,guid,33e0e84c-1a82-4362-bb15-eb18a1a1d91f.aspx'>The Vietnam of Computer Science</a>
+is an interesting piece, on a number of levels.  Ted Neward has undertaken
+to explain why Object Relational Mappers are difficult, and to illustrate
+his case, draws extensive analogies to the conflict in Vietnam.</p>
+
+<p>It is a good (if dense) overview of the technical challenges involved
+in mediating between the relational model and the object model, and there
+are many.  It even seems to be a good historical overview of the Vietnam War.
+</p>
+
+<p>The problem, if I can get a little meta here, is that Neward has taken on a challenge
+he can't neatly complete: to use Vietnam as a way to make the problems
+clearer.  The hook is a good one, it's very catchy, but he mires down his
+points with stretched analogies, and confusing references.
+There's just way too much Vietnam in the piece:</p>
+
+<quote><p>Given that it's impossible, then, 
+to "unleash the objects to their fullest capabilities", 
+as General Westmoreland might call it, 
+we're left with some kind of hybrid object-to-relational mapping approach, ...</p></quote>
+
+<p>How does it help to pull Westmoreland into this?  In fact, I glossed over
+the ten paragraphs of detailed history of the war.  I get the big picture:
+ORMs have poorly-specified conflicting goals, and once you are drawn into
+using (or building!) one, things can get more difficult rather than easier,
+until you are experiencing diminishing returns.</p>
+
+<p>Beyond that vague theme, the details of the war are merely a distraction
+from the computer science points (or is the ORM discussion a distraction from
+the Vietnam points?).  In the end, the analogy is no help.  Are we to look
+back on Vietnam and decide how it should have been handled, and do "the same thing"
+for our object/database interface?  What is the appropriate analogy here?</p>
+
+<p>And if we're choosing a war to compare to, why choose Vietnam?  Surely
+Iraq is the more interesting comparison.  After all, we all agree about
+Vietnam, but the ORM conflict is still in full swing, with proponents
+of all sides heatedly pursuing their causes.</p>
+
+<p>On the technical points, I like the discipline Ted Neward brings to the piece,
+including getting the root of "relational" right (it refers to the mathematical
+concept of a relation, which is a set of tuples, not to relationships expressed
+via foreign keys).  
+I recommend you read about the tough technical challenges, and skip the
+Vietnam quagmire.
+</p>
+
+<p>Neward also has posted some 
+<a href='http://blogs.tedneward.com/2006/06/27/Thoughts+On+Vietnam+Commentary.aspx'>follow-up thoughts</a>
+in response to criticisms of his post.
+</p>
+
+</body>
+</entry>
+</blog>

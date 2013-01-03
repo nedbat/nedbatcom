@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20051107T101144'>
+<title>Ajaxy Exception Catching</title>
+<category>python</category>
+<category>webpage</category>
+<category>exceptions</category>
+<via />
+<body>
+<p>I'm only just beginning to dig into all of the Python web frameworks
+(The <a href='http://python.meetup.com/48/'>Boston Python Meetup</a> group is doing a quickie
+comparison of frameworks on Thursday, and I'm on the hook for a
+<a href='http://turbogears.com'>TurboGears</a> application.)
+For the most part, I still don't understand what all the parts are, though I recognize the names
+going by in my RSS feeds.  I read about the developments with a vague interest, because it
+doesn't apply to me.
+</p>
+
+<p>But when I saw Ian Bicking's
+<a href='http://blog.ianbicking.org/ajaxy-exception-catching.html'>Ajaxy Exception Catching</a>
+screencast, my mouth dropped open.
+He's built something (WSGI middleware, what the heck is that?) that catches exceptions in your
+web application, and displays a stack trace in your browser.  Big deal.
+But you can also expand the line numbers to see context lines of code around the lines themselves. Nice.
+Then you can expand some more to see all of the local variables at each frame in the stack. Whoa!
+Then you can type arbitrary Python into an edit control and have it evaluated in the context of that frame.
+Magic!!
+</p>
+
+
+</body>
+</entry>
+</blog>
