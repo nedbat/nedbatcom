@@ -25,6 +25,11 @@
 <what when='20120429T162100'>updated for 3.5.2b1</what>
 <what when='20120503T233800'>updated for 3.5.2</what>
 <what when='20120929T093500'>updated for 3.5.3</what>
+<what when='20121117T094900'>Change from easy_install to pip.</what>
+<what when='20121128T203700'>Updated for 3.6b1.</what>
+<what when='20121223T180600'>Updated for 3.6b2.</what>
+<what when='20121229T112300'>Updated for 3.6b3.</what>
+<what when='20130105T174000'>Updated for 3.6</what>
 </history>
 <p>Coverage.py is a tool for measuring code coverage of Python programs. It
 monitors your program, noting which parts of the code have been executed, then
@@ -32,13 +37,13 @@ analyzes the source to identify code that could have been executed but was not.<
 <p>Coverage measurement is typically used to gauge the effectiveness of tests. It
 can show which parts of your code are being exercised by tests, and which are
 not.</p>
-<p>The latest version is coverage.py 3.5.3, released 29 September 2012.
+<p>The latest version is coverage.py 3.6, released 5 January 2013.
 It is supported on Python versions 2.3 through 3.3, and PyPy 1.8.</p>
 <h1>Quick start</h1>
 <p>Getting started is easy:</p>
 <ol class="arabic">
 <li><p class="first">Install coverage.py from the <a class="reference external" href="http://pypi.python.org/pypi/coverage">coverage page on the Python Package Index</a>,
-or by using &#8220;easy_install coverage&#8221;.  For a few more details, see
+or by using &#8220;pip install coverage&#8221;.  For a few more details, see
 <a class="reference internal" href="/code/coverage/install.html#install"><em>Installation</em></a>.</p>
 </li>
 <li><p class="first">Use <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> to run your program and gather data:</p>
@@ -67,11 +72,11 @@ listings detailing missed lines:</p>
 If you need more control over how your project is measured, you can use the
 <a class="reference internal" href="/code/coverage/api.html#api"><em>API</em></a>.</p>
 <p>Some test runners provide coverage integration to make it easy to use coverage
-while running tests.  For example, <a class="reference external" href="http://somethingaboutorange.com/mrl/projects/nose">nose</a> has a <a class="reference external" href="http://somethingaboutorange.com/mrl/projects/nose/0.11.1/plugins/cover.html">cover plug-in</a>.</p>
+while running tests.  For example, <a class="reference external" href="http://somethingaboutorange.com/mrl/projects/nose">nose</a> has a <a class="reference external" href="https://nose.readthedocs.org/en/latest/plugins/cover.html">cover plug-in</a>.</p>
 <p>You can fine-tune coverage&#8217;s view of your code by directing it to ignore parts
 that you know aren&#8217;t interesting.  See <a class="reference internal" href="/code/coverage/source.html#source"><em>Specifying source files</em></a> and <a class="reference internal" href="/code/coverage/excluding.html#excluding"><em>Excluding code from coverage</em></a> for
 details.</p>
-<h1>Getting help</h1>
+<h1 id="contact">Getting help</h1>
 <p>If the <a class="reference internal" href="/code/coverage/faq.html#faq"><em>FAQ</em></a> doesn&#8217;t answer your question, you can discuss
 coverage.py or get help using it on the <a class="reference external" href="http://lists.idyll.org/listinfo/testing-in-python">Testing In Python</a> mailing list.</p>
 <p>Bug reports are gladly accepted at the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issues">Bitbucket issue tracker</a>.
@@ -90,6 +95,8 @@ development.</p>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/branch.html">Branch coverage measurement</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/subprocess.html">Measuring subprocesses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/api.html">Coverage API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/code/coverage/contributing.html">Contributing to coverage.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/code/coverage/trouble.html">Things that cause trouble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/faq.html">FAQ and other help</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/changes.html">Major change history for coverage.py</a></li>
 </ul>

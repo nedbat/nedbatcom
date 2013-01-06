@@ -21,20 +21,111 @@
 <what when='20120429T162100'>updated for 3.5.2b1</what>
 <what when='20120503T233700'>updated for 3.5.2</what>
 <what when='20120929T093100'>updated for 3.5.3</what>
+<what when='20121129T060100'>updated for 3.6b1.</what>
+<what when='20121223T180600'>updated for 3.6b2.</what>
+<what when='20130105T173500'>updated for 3.6</what>
 </history>
 <p>These are the major changes for coverage.py.  For a more complete change
 history, see the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/CHANGES.txt">CHANGES.txt</a> file in the source tree.</p>
+<h1>Version 3.6 &#8212; 5 January 2013</h1>
+<p>Features:</p>
+<ul class="simple">
+<li>The <strong>report</strong>, <strong>html</strong>, and <strong>xml</strong> commands now accept a <tt class="docutils literal"><span class="pre">--fail-under</span></tt>
+switch that indicates in the exit status whether the coverage percentage was
+less than a particular value.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/139/easy-check-for-a-certain-coverage-in-tests">issue 139</a>.</li>
+<li>The reporting functions coverage.report(), coverage.html_report(), and
+coverage.xml_report() now all return a float, the total percentage covered
+measurement.</li>
+<li>The HTML report&#8217;s title can now be set in the configuration file, with the
+<tt class="docutils literal"><span class="pre">--title</span></tt> switch on the command line, or via the API.</li>
+<li>Configuration files now support substitution of environment variables, using
+syntax like <tt class="docutils literal"><span class="pre">${WORD}</span></tt>.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/97/allow-environment-variables-to-be">issue 97</a>.</li>
+</ul>
+<p>Packaging:</p>
+<ul class="simple">
+<li>The C extension is optionally compiled using a different more widely-used
+technique, taking another stab at fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/80/is-there-a-duck-typing-way-to-know-we-cant">issue 80</a> once and for all.</li>
+<li>When installing, now in addition to creating a &#8220;coverage&#8221; command, two new
+aliases are also installed.  A &#8220;coverage2&#8221; or &#8220;coverage3&#8221; command will be
+created, depending on whether you are installing in Python 2.x or 3.x.
+A &#8220;coverage-X.Y&#8221; command will also be created corresponding to your specific
+version of Python.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/111/when-installing-coverage-with-pip-not">issue 111</a>.</li>
+<li>The coverage.py installer no longer tries to bootstrap setuptools or
+Distribute.  You must have one of them installed first, as <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/202/get-rid-of-ez_setuppy-and">issue 202</a>
+recommended.</li>
+<li>The coverage.py kit now includes docs (closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/137/provide-docs-with-source-distribution">issue 137</a>) and tests.</li>
+</ul>
+<p>Docs:</p>
+<ul class="simple">
+<li>Added a page to the docs about <a class="reference internal" href="/code/coverage/contributing.html"><em>contributing</em></a> to
+coverage.py, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/171/how-to-contribute-and-run-tests">issue 171</a>.</li>
+<li>Added a page to the docs about <a class="reference internal" href="/code/coverage/trouble.html"><em>troublesome situations</em></a>,
+closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/226/make-readme-section-to-describe-when">issue 226</a>.</li>
+<li>Docstrings for the legacy singleton methods are more helpful.  Thanks Marius
+Gedminas.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/205/make-pydoc-coverage-more-friendly">issue 205</a>.</li>
+<li>The pydoc tool can now show docmentation for the class <cite>coverage.coverage</cite>.
+Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/206/pydoc-coveragecoverage-fails-with-an-error">issue 206</a>.</li>
+<li>Added some info to the TODO file, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/227/update-todo">issue 227</a>.</li>
+</ul>
+<p>Fixes:</p>
+<ul class="simple">
+<li>Wildcards in <tt class="docutils literal"><span class="pre">include=</span></tt> and <tt class="docutils literal"><span class="pre">omit=</span></tt> arguments were not handled properly
+in reporting functions, though they were when running.  Now they are handled
+uniformly, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/143/omit-doesnt-seem-to-work-in-coverage">issue 143</a> and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/163/problem-with-include-and-omit-filename">issue 163</a>.  <strong>NOTE</strong>: it is possible
+that your configurations may now be incorrect.  If you use <tt class="docutils literal"><span class="pre">include</span></tt> or
+<tt class="docutils literal"><span class="pre">omit</span></tt> during reporting, whether on the command line, through the API, or
+in a configuration file, please check carefully that you were not relying on
+the old broken behavior.</li>
+<li>Embarrassingly, the <cite>[xml] output=</cite> setting in the .coveragerc file simply
+didn&#8217;t work.  Now it does.</li>
+<li>Combining data files would create entries for phantom files if used with
+<tt class="docutils literal"><span class="pre">source</span></tt> and path aliases.  It no longer does.</li>
+<li><tt class="docutils literal"><span class="pre">debug</span> <span class="pre">sys</span></tt> now shows the configuration file path that was read.</li>
+<li>If an oddly-behaved package claims that code came from an empty-string
+filename, coverage.py no longer associates it with the directory name,
+fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/221/coveragepy-incompatible-with-pyratemp">issue 221</a>.</li>
+<li>The XML report now consistently uses filenames for the filename attribute,
+rather than sometimes using module names.  Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/67/xml-report-filenames-may-be-generated">issue 67</a>.
+Thanks, Marcus Cobden.</li>
+<li>Coverage percentage metrics are now computed slightly differently under
+branch coverage.  This means that completely unexecuted files will now
+correctly have 0% coverage, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/156/a-completely-unexecuted-file-shows-14">issue 156</a>.  This also means that your
+total coverage numbers will generally now be lower if you are measuring
+branch coverage.</li>
+<li>On Windows, files are now reported in their correct case, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/89/on-windows-all-packages-are-reported-in">issue 89</a>
+and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/203/duplicate-filenames-reported-when-filename">issue 203</a>.</li>
+<li>If a file is missing during reporting, the path shown in the error message
+is now correct, rather than an incorrect path in the current directory.
+Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/60/incorrect-path-to-orphaned-pyc-files">issue 60</a>.</li>
+<li>Running an HTML report in Python 3 in the same directory as an old Python 2
+HTML report would fail with a UnicodeDecodeError. This issue (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/193/unicodedecodeerror-on-htmlpy">issue 193</a>)
+is now fixed.</li>
+<li>Fixed yet another error trying to parse non-Python files as Python, this
+time an IndentationError, closing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/82/tokenerror-when-generating-html-report">issue 82</a> for the fourth time...</li>
+<li>If <cite>coverage xml</cite> fails because there is no data to report, it used to
+create a zero-length XML file.  Now it doesn&#8217;t, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/210/if-theres-no-coverage-data-coverage-xml">issue 210</a>.</li>
+<li>Jython files now work with the <tt class="docutils literal"><span class="pre">--source</span></tt> option, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/100/source-directive-doesnt-work-for-packages">issue 100</a>.</li>
+<li>Running coverage under a debugger is unlikely to work, but it shouldn&#8217;t fail
+with &#8220;TypeError: &#8216;NoneType&#8217; object is not iterable&#8221;.  Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/201/coverage-using-django-14-with-pydb-on">issue 201</a>.</li>
+<li>On some Linux distributions, when installed with the OS package manager,
+coverage.py would report its own code as part of the results.  Now it won&#8217;t,
+fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/214/coveragepy-measures-itself-on-precise">issue 214</a>, though this will take some time to be repackaged by the
+operating systems.</li>
+<li>When coverage.py ended unsuccessfully, it may have reported odd errors like
+<tt class="docutils literal"><span class="pre">'NoneType'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'isabs'</span></tt>.  It no longer does,
+so kiss <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/153/non-existent-filename-triggers">issue 153</a> goodbye.</li>
+</ul>
 <h1>Version 3.5.3 &#8212; 29 September 2012</h1>
 <ul class="simple">
 <li>Line numbers in the HTML report line up better with the source lines, fixing
-<cite>issue 197</cite>, thanks Marius Gedminas.</li>
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/197/line-numbers-in-html-report-do-not-align">issue 197</a>, thanks Marius Gedminas.</li>
 <li>When specifying a directory as the source= option, the directory itself no
 longer needs to have a <tt class="docutils literal"><span class="pre">__init__.py</span></tt> file, though its subdirectories do, to
 be considered as source files.</li>
 <li>Files encoded as UTF-8 with a BOM are now properly handled, fixing
 <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/179/htmlreporter-fails-when-source-file-is">issue 179</a>.  Thanks, Pablo Carballo.</li>
 <li>Fixed more cases of non-Python files being reported as Python source, and
-then not being able to parse them as Python.  Closes <cite>issue 82</cite> (again).
+then not being able to parse them as Python.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/82/tokenerror-when-generating-html-report">issue 82</a> (again).
 Thanks, Julian Berman.</li>
 <li>Fixed memory leaks under Python 3, thanks, Brett Cannon. Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/147/massive-memory-usage-by-ctracer">issue 147</a>.</li>
 <li>Optimized .pyo files may not have been handled correctly, <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/195/pyo-file-handling-in-codeunit">issue 195</a>.

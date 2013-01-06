@@ -7,6 +7,7 @@
 <what when='20091005T073900'>updated for 3.1.</what>
 <what when='20091127T201500'>updated for 3.2.</what>
 <what when='20110605T175500'>add the announcement mailing list.</what>
+<what when='20121231T104700'>Tweak the py3 text.</what>
 </history>
 <h1>Frequently asked questions</h1>
 <p><strong>Q: I use nose to run my tests, and its cover plugin doesn&#8217;t let me create
@@ -33,7 +34,7 @@ to run your program with coverage, then your entire program will be monitored.
 If you are using the <a class="reference internal" href="/code/coverage/api.html#api"><em>API</em></a>, you need to call coverage.start() before
 importing the modules that define your functions.</p>
 <p><strong>Q: Does coverage.py work on Python 3.x?</strong></p>
-<p>Yes, Pythons 3.1 and 3.2 are fully supported.</p>
+<p>Yes, Python 3 is fully supported.</p>
 <p><strong>Q: Isn&#8217;t coverage testing the best thing ever?</strong></p>
 <p>It&#8217;s good, but <a class="reference external" href="http://nedbatchelder.com/blog/200710/flaws_in_coverage_measurement.html">it isn&#8217;t perfect</a>.</p>
 <p><strong>Q: Where can I get more help with coverage.py?</strong></p>
@@ -52,7 +53,7 @@ Since 2004, <a class="reference external" href="http://nedbatchelder.com">Ned Ba
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/api.html" title="previous topic">Coverage API</a></span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/trouble.html" title="previous topic">Things that cause trouble</a></span>
     <span class='n'><i>Next:</i> <a href="/code/coverage/changes.html" title="next topic">Major change history for coverage.py</a>&#xa0;&#xbb;</span>
 </p>
 

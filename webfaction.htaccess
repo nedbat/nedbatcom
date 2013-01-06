@@ -77,6 +77,6 @@ RewriteRule ^code/modules/coverage.html$ /code/coverage [R=301,L]
 # If a production release is the latest, comment out the rewrite
 # rule that points to /code/coverage/beta.  If a beta release is
 # the latest, then uncomment it and fix the version number match.
-RewriteRule ^code/coverage/3\.6b[1-9]/?$ /code/coverage/beta [R=302,L]
+#RewriteRule ^code/coverage/3\.6b[1-9]/?$ /code/coverage/beta [R=302,L]
 RewriteRule ^code/coverage/[0-9][.].*/(.*)$ /code/coverage/$1 [R=301,L]
 RewriteRule ^code/coverage/[0-9][.].*$ /code/coverage [R=301,L]

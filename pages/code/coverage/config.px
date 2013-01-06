@@ -28,6 +28,10 @@ Lines beginning with <tt class="docutils literal"><span class="pre">#</span></tt
 values on multiple lines.</p>
 <p>Boolean values can be specified as <tt class="docutils literal"><span class="pre">on</span></tt>, <tt class="docutils literal"><span class="pre">off</span></tt>, <tt class="docutils literal"><span class="pre">true</span></tt>, <tt class="docutils literal"><span class="pre">false</span></tt>, <tt class="docutils literal"><span class="pre">1</span></tt>,
 or <tt class="docutils literal"><span class="pre">0</span></tt> and are case-insensitive.</p>
+<p>Environment variables can be substituted in by using dollar signs: <tt class="docutils literal"><span class="pre">$WORD</span></tt>
+<tt class="docutils literal"><span class="pre">${WORD}</span></tt> will be replaced with the value of <tt class="docutils literal"><span class="pre">WORD</span></tt> in the environment.
+A dollar sign can be inserted with <tt class="docutils literal"><span class="pre">$$</span></tt>.  Missing environment variables
+will result in empty strings with no error.</p>
 <p>Many sections and values correspond roughly to commands and options in
 the <a class="reference internal" href="/code/coverage/cmd.html#cmd"><em>command-line interface</em></a>.</p>
 <p>Here&#8217;s a sample configuration file:</p>
@@ -125,6 +129,8 @@ also apply to HTML output, where appropriate.</p>
 The file will be copied into the HTML output directory.  Don&#8217;t name it
 &#8220;style.css&#8221;.  This CSS is in addition to the CSS normally used, though you can
 overwrite as many of the rules as you like.</p>
+<p><tt class="docutils literal"><span class="pre">title</span></tt> (string, default &#8220;Coverage report&#8221;): the title to use for the report.
+Note this is text, not HTML.</p>
 <h1>[xml]</h1>
 <p>Values particular to XML reporting.  The values in the <tt class="docutils literal"><span class="pre">[report]</span></tt> section
 also apply to XML output, where appropriate.</p>

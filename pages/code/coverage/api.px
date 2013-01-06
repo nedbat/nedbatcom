@@ -11,7 +11,7 @@
 </history>
 <p>The API to coverage.py is very simple, contained in a single module called
 <cite>coverage</cite>.  Most of the interface is in a single class, also called
-<cite>coverage</cite>.  Methods on the coverage object correspond to operations available
+<cite>coverage</cite>.  Methods on the coverage object correspond roughly to operations available
 in the command line interface. For example, a simple use would be:</p>
 <code lang="python">import coverage
 
@@ -28,7 +28,7 @@ cov.html_report()</code>
 <dl class="class">
 <dt id="coverage.coverage">
 <em class="property">class </em><tt class="descclassname">coverage.</tt><tt class="descname">coverage</tt>(<em>data_file=None</em>, <em>data_suffix=None</em>, <em>cover_pylib=None</em>, <em>auto_data=False</em>, <em>timid=None</em>, <em>branch=None</em>, <em>config_file=True</em>, <em>source=None</em>, <em>omit=None</em>, <em>include=None</em>)</dt>
-<dd><p>Programmatic access to Coverage.</p>
+<dd><p>Programmatic access to coverage.py.</p>
 <p>To use:</p>
 <code lang="python">from coverage import coverage
 
@@ -151,7 +151,10 @@ overview starting point, with links to more detailed pages for
 individual modules.</p>
 <p><cite>extra_css</cite> is a path to a file of other CSS to apply on the page.
 It will be copied into the HTML directory.</p>
+<p><cite>title</cite> is a text string (not HTML) to use as the title of the HTML
+report.</p>
 <p>See <cite>coverage.report()</cite> for other arguments.</p>
+<p>Returns a float, the total percentage covered.</p>
 </dd></dl>
 
 <dl class="method">
@@ -169,6 +172,7 @@ statements, missing statements, and a list of lines missed.</p>
 <p><cite>include</cite> is a list of filename patterns.  Modules whose filenames
 match those patterns will be included in the report. Modules matching
 <cite>omit</cite> will not be included in the report.</p>
+<p>Returns a float, the total percentage covered.</p>
 </dd></dl>
 
 <dl class="method">
@@ -183,6 +187,8 @@ match those patterns will be included in the report. Modules matching
 <dd><p>Start measuring code coverage.</p>
 <p>Coverage measurement actually occurs in functions called after <cite>start</cite>
 is invoked.  Statements in the same scope as <cite>start</cite> won&#8217;t be measured.</p>
+<p>Once you invoke <cite>start</cite>, you must also call <cite>stop</cite> eventually, or your
+process might not shut down cleanly.</p>
 </dd></dl>
 
 <dl class="method">
@@ -212,6 +218,7 @@ is invoked.  Statements in the same scope as <cite>start</cite> won&#8217;t be m
 <p>Each module in <cite>morfs</cite> is included in the report.  <cite>outfile</cite> is the
 path to write the file to, &#8220;-&#8221; will write to stdout.</p>
 <p>See <cite>coverage.report()</cite> for other arguments.</p>
+<p>Returns a float, the total percentage covered.</p>
 </dd></dl>
 
 </dd></dl>
@@ -243,7 +250,7 @@ coverage.process_startup()</code>
 
 <p class='pmn pmnbot'>
     <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/subprocess.html" title="previous topic">Measuring subprocesses</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/faq.html" title="next topic">FAQ and other help</a>&#xa0;&#xbb;</span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/contributing.html" title="next topic">Contributing to coverage.py</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

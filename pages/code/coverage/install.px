@@ -12,17 +12,23 @@
 <what when='20120429T162500'>updated for 3.5.2b1.</what>
 <what when='20120503T234000'>updated for 3.5.2.</what>
 <what when='20120929T093600'>updated for 3.5.3.</what>
+<what when='20121117T095000'>Now setuptools is a pre-req.</what>
+<what when='20121128T203000'>updated for 3.6b1.</what>
+<what when='20121223T180800'>updated for 3.6b2.</what>
+<what when='20121229T112400'>updated for 3.6b3.</what>
+<what when='20130105T174400'>updated for 3.6.</what>
 </history>
-<p>Installing coverage.py is fairly standard:</p>
+<p>Installing coverage.py is done in the usual ways. You must have <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> installed already, and then you:</p>
 <ol class="arabic simple">
 <li>Download the appropriate kit from the
 <a class="reference external" href="http://pypi.python.org/pypi/coverage">coverage page on the Python Package Index</a>.</li>
 <li>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt>.</li>
 </ol>
 <p>or, use:</p>
-<code lang="console">$ easy_install coverage</code>
-<p>or even:</p>
 <code lang="console">$ pip install coverage</code>
+<p>or even:</p>
+<code lang="console">$ easy_install coverage</code>
 <h1>Installing from source</h1>
 <p>Coverage.py includes a C extension for speed. If you are installing from source,
 you may need to install the python-dev support files, for example with:</p>
@@ -36,7 +42,10 @@ C extension pre-compiled so there&#8217;s no need to worry about compilers.</p>
 <p>If all went well, you should be able to open a command prompt, and see
 coverage installed properly:</p>
 <code lang="console">$ coverage --version
-Coverage.py, version 3.5.3.  http://nedbatchelder.com/code/coverage</code>
+Coverage.py, version 3.6.  http://nedbatchelder.com/code/coverage</code>
+<p>You can also invoke coverage as a module:</p>
+<code lang="console">$ python -m coverage --version
+Coverage.py, version 3.6.  http://nedbatchelder.com/code/coverage</code>
 
 
 <p class='pmn pmnbot'>

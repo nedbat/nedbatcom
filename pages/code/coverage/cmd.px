@@ -15,10 +15,15 @@
 <what when='20120504T091800'>Added info about execution warnings, and 3.5.2 stuff.</what>
 <what when='20120807T211600'>Clarified the combine rules.</what>
 <what when='20121003T074600'>Fixed an option reference, https://bitbucket.org/ned/coveragepy/issue/200/documentation-mentions-output-xml-instead</what>
+<what when='20121117T091000'>Added command aliases.</what>
 </history>
 <p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
-is placed in your Python scripts directory.  Coverage has a number of commands
-which determine the action performed:</p>
+is placed in your Python scripts directory.  To help with multi-version
+installs, it will also create either a <tt class="docutils literal"><span class="pre">coverage2</span></tt> or <tt class="docutils literal"><span class="pre">coverage3</span></tt> alias,
+and a <tt class="docutils literal"><span class="pre">coverage-X.Y</span></tt> alias, depending on the version of Python you&#8217;re using.
+For example, when installing on Python 2.7, you will be able to use
+<tt class="docutils literal"><span class="pre">coverage</span></tt>, <tt class="docutils literal"><span class="pre">coverage2</span></tt>, or <tt class="docutils literal"><span class="pre">coverage-2.7</span></tt> on the command line.</p>
+<p>Coverage has a number of commands which determine the action performed:</p>
 <ul class="simple">
 <li><strong>run</strong> &#8211; Run a Python program and collect execution data.</li>
 <li><strong>report</strong> &#8211; Report coverage results.</li>
@@ -141,6 +146,11 @@ in <a class="reference internal" href="/code/coverage/source.html#source"><em>Sp
 encountered trying to find source files to report on.  This can be useful if
 some files are missing, or if your Python execution is tricky enough that file
 names are synthesized without real source files.</p>
+<p>If you provide a <tt class="docutils literal"><span class="pre">--fail-under</span></tt> value, the total percentage covered will be
+compared to that value.  If it is less, the command will exit with a status
+code of 2, indicating that the total coverage was less than your target.  This
+can be used as part of a pass/fail condition, for example in a continuous
+integration server.  This option isn&#8217;t available for <strong>annotate</strong>.</p>
 <h1 id="cmd-summary">Coverage summary</h1>
 <p>The simplest reporting is a textual summary produced with <strong>report</strong>:</p>
 <code lang="console">$ coverage report
@@ -182,11 +192,14 @@ file decorated to show the status of each line.</p>
 <p>Lines are highlighted green for executed, red for missing, and gray for
 excluded.  The counts at the top of the file are buttons to turn on and off
 the highlighting.</p>
-<p>If you prefer a different style for your HTML report, you can provide your
-own CSS file to apply, by specifying a CSS file in the [html] section of the
-configuration file.  See <a class="reference internal" href="/code/coverage/config.html#config-html"><em>[html]</em></a> for details.</p>
 <p>A number of keyboard shortcuts are available for navigating the report.
 Click the keyboard icon in the upper right to see the complete list.</p>
+<p>The title of the report can be set with the <tt class="docutils literal"><span class="pre">title</span></tt> setting in the
+<tt class="docutils literal"><span class="pre">[html]</span></tt> section of the configuration file, or the <tt class="docutils literal"><span class="pre">--title</span></tt> switch on
+the command line.</p>
+<p>If you prefer a different style for your HTML report, you can provide your
+own CSS file to apply, by specifying a CSS file in the <tt class="docutils literal"><span class="pre">[html]</span></tt> section of
+the configuration file.  See <a class="reference internal" href="/code/coverage/config.html#config-html"><em>[html]</em></a> for details.</p>
 <p>The <tt class="docutils literal"><span class="pre">-d</span></tt> argument specifies an output directory, defaulting to &#8220;htmlcov&#8221;:</p>
 <code lang="console">$ coverage html -d coverage_html</code>
 <p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>

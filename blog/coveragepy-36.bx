@@ -161,4 +161,40 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
 </body>
 </entry>
 
+<entry when='20130105T200600'>
+<title>Coverage.py 3.6</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+
+    <p>Coverage.py version 3.6 is ready.  It has a few new features since 3.5.3:</p>
+    
+    <ul>
+
+        <li>A new --fail-under switch on the reporting commands makes the
+            command exit with a failure status code if the total coverage is
+            below a given threshhold. This is great for build servers to raise
+            an alarm if coverage falls too low.</li>
+
+        <li>The reporting functions now return a float indicating the total
+            coverage.</li>
+
+        <li>The title of the HTML report can be set with a switch or a
+            configuration option.</li>
+
+        <li>Configuration files now expand environment variables for more
+            power and flexibility when configuring coverage.py</li>
+
+    </ul>
+
+    <p>There have also been more than 20 bugs fixed, take a look at the
+        <a href='/code/coverage/changes.html#h_Version_3.6__E2_80_94_5_January_2013'>change history</a>
+        for details.</p>
+
+    <p>I heartily recommend that everyone upgrade to <a href='http://pypi.python.org/pypi/coverage/3.6'>coverage.py 3.6</a> 
+        right away. Happy New Year!</p>
+
+</body>
+</entry>
+
 </blog>
