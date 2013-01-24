@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130124T164644'>
+<title>Byterun, and making cells</title>
+<category>python</category>
+<body>
+
+    <p>I started a new side project this month, called
+        <a href='https://github.com/nedbat/byterun'>Byterun</a>.
+        It's a pure-Python implementation of Python bytecode execution.
+        That is, it runs Python bytecode.</p>
+
+    <p>I did it because <a href='/code/coverage'>Coverage.py</a> has some bugs
+        in its branch coverage.  It analyzes your program for potential branches
+        by reading the bytecode rather than the source, and I think some of the
+        bugs are due to subtle misunderstandings on my part about how Python
+        bytecode works.</p>
+
+    <p>So I figured if I could have a working implementation of bytecode in Python,
+        it would be a good way to be sure I understood how they work.  I found
+        a ten-year-old implementation called pyvm2.py by Paul Swartz, and started
+        refurishing it, fixing bugs, adding missing opcodes, and bringing it up 
+        to 2.7 and 3.3.</p>
+
+    <p>It isn't finished yet, and supporting Python 2 and Python 3 might be a
+        bit difficult, but already it has helped me understand a few things
+        better, such as how generators are suspended and resumed: when the
+        generator function yields, instead of discarding the stack frame as a
+        normal function's return does, the frame object is held by the
+        generator object, so the next time a value is needed, the frame can be
+        resumed just where it was.</p>
+
+    <p>Closure cells make more sense now too, and I know how to create them by hand.
+        I was creating Python function objects with types.FunctionType.  But one of
+        its arguments is "closure", which must be a tuple of cell objects.  The types
+        module has ways of making functions, generators, classes, and so on, but has
+        no way to make a cell.</p>
+
+    <p>Turns out you can do it by creating a closure and grabbing its cells:</p>
+
+<code lang="py"><![CDATA[
+def make_cell(value):
+    # Construct an actual cell object by creating a closure right here,
+    # and grabbing the cell object out of the function we create.
+
+    return (lambda x: lambda: x)(value).func_closure[0]
+]]></code>
+
+    <p>A fine bit of Python haiku there...</p>
+
+</body>
+</entry>
+</blog>
