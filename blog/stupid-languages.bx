@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130125T184830'>
+<title>Stupid languages</title>
+<category>proglang</category>
+<category>js</category>
+<body>
+
+    <p>A popular pastime among programmers is to make fun of programming languages,
+        or at least the one you choose not to use.  For example, Gary Bernhardt's
+        5-minute talk <a href='https://www.destroyallsoftware.com/talks/wat'>WAT</a>
+        is all about unexpected behavior, mostly in Javascript.</p>
+
+    <p>Today brought another example of surprising Javascript behavior:</p>
+
+<code lang='js'>
+> ['10', '10', '10', '10', '10'].map(parseInt)
+[ 10, NaN, 2, 3, 4 ]
+</code>
+
+    <p>I looked at this and thought, like most others, "WAT??"  I wanted to understand
+        how Javascript produced this result, so I read up on Javascript's
+        <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/map'>map()</a>
+        function.  Once I read the docs, it was clear what was going on.</p>
+
+    <p>In most programming languages, the map function accepts a function of
+        one argument, invokes the function for all of the values in an array,
+        and produces the array of results.  Javascript doesn't work quite that
+        way.</p>
+
+    <p>In Javascript, the map function accepts a function of three arguments.
+        For each element in the array, the function is passed the element, the
+        index of the element, and the entire array.  So this map function makes
+        these function calls:</p>
+
+<code lang='js'>
+parseInt('10', 0, ['10', '10', '10', '10', '10'])
+parseInt('10', 1, ['10', '10', '10', '10', '10'])
+parseInt('10', 2, ['10', '10', '10', '10', '10'])
+parseInt('10', 3, ['10', '10', '10', '10', '10'])
+parseInt('10', 4, ['10', '10', '10', '10', '10'])
+</code>
+
+    <p>The second argument to parseInt is the base to use when converting the
+        string to an integer. A value of 0 means, "do the right thing," so the
+        first result is 10.  A base of 1 makes no sense, so the second result
+        is NaN.  And 2, 3, and 4 produce 2, 3, and 4.  Javascript silently
+        ignores extra arguments, so the array passed as the third argument has
+        no effect.</p>
+
+    <p>So is Javascript's map wrong? It behaves differently than the map found in
+        <a href='http://en.wikipedia.org/wiki/Map_%28higher-order_function%29#Language_comparison'>lots of other languages</a>
+        like Python, Ruby, Lisp, Perl, Haskell, and so on.  But it isn't wrong.</p>
+
+    <p>Working in more than one language, it's frustrating dealing with their
+        differences.  New Python learners chafe at the fact that Python names
+        work differently than C variables.  They want to know if function
+        arguments are call by value or call by reference (neither).  I saw a
+        person on IRC once who was upset that Python lists were called lists
+        instead of arrays.</p>
+
+    <p>Languages are different, that's why we have more than one of them.
+        Language designers have to strike a balance between familiarity and
+        innovation.  We'd be pretty suprised by a language that used something
+        other than "+" for adding numbers together, for example.  Eventually
+        though, the new language will diverge from the old, or what was the
+        point?</p>
+
+    <p>Javascript's map function feels a little clunky: it's focused on
+        integer-based iteration rather than on pure functional construction.
+        But it can do things the other maps can't easily, like create an array
+        of differences between elements, or a running total, and so on.  Other
+        languages have other solutions to those problems.</p>
+
+    <p>This isn't to say that all languages are equal, there are <a href='http://python.org'>better</a> and
+        <a href='http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/'>worse</a>, of course.
+        But too often I hear people ranting about a language being stupid for
+        some decision, without bothering to find out why it was done that way,
+        and what benefit they might get from it.</p>
+
+    <p>To which, I say: WAT!?</p>
+
+</body>
+</entry>
+</blog>
