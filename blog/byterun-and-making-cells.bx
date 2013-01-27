@@ -19,7 +19,7 @@
     <p>So I figured if I could have a working implementation of bytecode in Python,
         it would be a good way to be sure I understood how they work.  I found
         a ten-year-old implementation called pyvm2.py by Paul Swartz, and started
-        refurishing it, fixing bugs, adding missing opcodes, and bringing it up 
+        refurbishing it, fixing bugs, adding missing opcodes, and bringing it up
         to 2.7 and 3.3.</p>
 
     <p>It isn't finished yet, and supporting Python 2 and Python 3 might be a
