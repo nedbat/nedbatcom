@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130209T204059'>
+<title>A regular crossword</title>
+<category>regex</category>
+<category>games</category>
+<body>
+
+    <p>A friend shared a link to an unusual puzzle (click for a full-page PDF):</p>
+
+    <figurep href='http://www.coinheist.com/rubik/a_regular_crossword/grid.pdf'>
+        <img src='pix/regular_crossword.png' alt='A Regular Crossword' />
+    </figurep>
+
+    <p>Each row has a regular expression indicating the letters to fill
+        the row.  Each cell is at the intersection of three rows, so there
+        are a number of constraints to satisfy at each point.</p>
+
+    <p>Overlapping constraints are a good basis for logic puzzles.
+        Sudoku, Ken-Ken, Nonograms, and plenty of other puzzle forms
+        follow the same recipe: determine the contents of a cell,
+        based on multiple simultaneous constraints.</p>
+
+    <p>But the regexes here add an extra dimension.  Each of the regexes
+        here has a different form, resulting in different levels of
+        information.  Two rows have <b>.*</b>, or no information at all.
+        Another has <b>[CR]*</b>, so we know the entire row is C's and R's.
+        Each row has a different regex, so the interaction is varied
+        across the grid.</p>
+
+     <p>I wrote to the author, Dan Gulotta, about how he constructed
+        it, and he told me,</p>
+
+     <quote><p>I constructed the letter grid by building it up a few
+        letters at a time.  I started out with a blank grid and all of the
+        regular expressions set to '.*'.  At each step, I would find a
+        place where I wanted to add a few letters to the grid and then see
+        if I could replace some regular expressions with more constrained
+        ones in order to force those letters to be there.  In this way, I
+        was able to ensure that the solution was unique.</p></quote>
+
+    <p>A few times during my solving of the puzzle, I used the classic piece
+        of puzzle meta-information as part of the deduction: there is a
+        unique solution.  A friend of mine said he solved it without using
+        that fact, but I don't see a reason to avoid it.</p>
+
+    <p>By the way, I didn't realize this when I solved it, but there's another
+        level to the puzzle, which is to identify the phrase in it. It's part
+        of a larger <a href='www.coinheist.com/index.html'>puzzle competition</a>.</p>
+
+</body>
+</entry>
+</blog>

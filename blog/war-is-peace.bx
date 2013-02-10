@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130201T093134'>
+<title>War is peace</title>
+<category>security</category>
+<category>python</category>
+<category>ruby</category>
+<body>
+
+    <p>The Rails community has had a few high-profile security issues this week.
+        They are well-summarized, with an alarming list of what follow-ons to expect,
+        by Patrick McKenzie:
+        <a href='http://www.kalzumeus.com/2013/01/31/what-the-rails-security-issue-means-for-your-startup/'>What the Rails Security Issue Means for Your Startup</a>.</p>
+
+    <p><b>tl;dr</b>:</p>
+
+    <ul>
+        <li>Ruby's YAML parser will execute arbitrary Ruby code,</li>
+        <li>YAML is parsed all over the place in Rails, including for all JSON input,</li>
+        <li>Pretty much every Rails app is going to be compromised soon.</li>
+    </ul>
+
+    <p>The Python community is in a slightly better position. True, we have pickle in the standard
+        library, which has exactly the same problem, but it's rare to find applications that
+        accept pickles from untrusted sources.</p>
+
+    <box>Don't ever unpickle data you don't trust!</box>
+
+    <p>The 3rd-party YAML parser <a href='http://pypi.python.org/pypi/PyYAML'>PyYAML</a>
+        has the same issue as Ruby's YAML parser.  By default, it will let you create
+        arbitrary Python objects, which means it can run arbitrary Python code.
+        YAML isn't nearly as pervasive in the Python world, and we don't parse
+        JSON with the YAML parser usually, but this can still create security holes.</p>
+
+    <p>PyYAML has a .load() method and a .safe_load() method.  Why do serialization
+        implementers do this? If you must extend the format with dangerous features, provide
+        them in the non-obvious method.  Provide a .load() method and a .dangerous_load() method
+        instead.  At least that way people would have to decide to do the dangerous thing.
+        I would advocate for PyYAML to make this change now, who cares if backward compatibility
+        breaks?  Most people using .load() never intended to deserialize arbitrary Python objects
+        anyway, so they'll never notice.</p>
+
+    <box>If you use the PyYAML library in your code, check now that you are using the .safe_load()
+        method.</box>
+
+    <p>If you want automatic serialization of your user-defined classes, take a look at
+        <a href='http://home.gna.org/oomadness/en/cerealizer/index.html'>Cerealizer</a>, which
+        works similarly to pickle, but is built to be secure from the start.  I've never used
+        it, but it looks promising.</p>
+
+    <p>BTW, this whole circus reminded me of Allen Short's excellent lightning talk from PyCon 2010:
+        <a href='http://pyvideo.org/video/309/pycon-2010--plenary--saturday-evening-lightning-t'>Big Brother's Design Rules</a>
+        (skip to 17:30).  To summarize Allen's pithy maxims:</p>
+
+    <ul>
+        <li>War is Peace: assume you are at war, all input is an attack, and then you can be at peace.</li>
+        <li>Slavery is Freedom: the more you constrain your code's behavior, the more freedom you have to act.
+            The smaller your interface, the smaller your attack surface.</li>
+        <li>Ignorance is Strength: the less your code knows about, the fewer things it can break.
+            This is the principle of least authority.</li>
+    </ul>
+
+    <p>Allen in particular mentions that adding "conveniences" to your interface can make your life harder
+        later on.  In Ruby's case, there were two unneeded conveniences that combined to make things really
+        bad: parse JSON with the YAML parser, and let the YAML parser construct arbitrary Ruby objects.
+        Neither of these is actually needed by 99.999% of programs reading JSON, but now all of them
+        are compromisable.</p>
+
+    <p>Think hard about what your program does.  Stay safe.</p>
+
+</body>
+</entry>
+</blog>
