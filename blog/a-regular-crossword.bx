@@ -16,10 +16,12 @@
         the row.  Each cell is at the intersection of three rows, so there
         are a number of constraints to satisfy at each point.</p>
 
-    <p>Overlapping constraints are a good basis for logic puzzles.
-        Sudoku, Ken-Ken, Nonograms, and plenty of other puzzle forms
-        follow the same recipe: determine the contents of a cell,
-        based on multiple simultaneous constraints.</p>
+    <p>Overlapping constraints are a good basis for logic puzzles.  
+        <a href='blog/200604/advanced_sudoku_strategies.html'>Sudoku</a>,
+        <a href='blog/200910/todays_kenken.html'>Ken-Ken</a>,
+        <a href='blog/200302/picturelogic_and_nonograms.html'>Nonograms</a>,
+        and plenty of other puzzle forms follow the same recipe: determine the
+        contents of a cell, based on multiple simultaneous constraints.</p>
 
     <p>But the regexes here add an extra dimension.  Each of the regexes
         here has a different form, resulting in different levels of
@@ -46,7 +48,7 @@
 
     <p>By the way, I didn't realize this when I solved it, but there's another
         level to the puzzle, which is to identify the phrase in it. It's part
-        of a larger <a href='www.coinheist.com/index.html'>puzzle competition</a>.</p>
+        of a larger <a href='http://www.coinheist.com/index.html'>puzzle competition</a>.</p>
 
 </body>
 </entry>
