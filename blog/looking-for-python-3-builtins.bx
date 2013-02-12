@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130211T102524'>
+<title>Looking for Python 3 builtins</title>
+<category>python</category>
+<body>
+
+    <p>I discovered <a href='http://www.floyd.ch/?p=584'>Floyd's follow-up</a>
+        to my <a href='blog/201206/eval_really_is_dangerous.html'>Eval really is dangerous</a> post.
+        He catalogs a few interesting variations.  At the end, though, he mentions
+        the difficulty of finding the original builtins on Python 3.</p>
+
+    <p>If you remember, in Python 2, we did it like this:</p>
+
+<code lang="py"><![CDATA[
+[
+    c for c in ().__class__.__base__.__subclasses__() 
+    if c.__name__ == 'catch_warnings'
+][0]()._module.__builtins__
+]]></code>
+
+    <p>This relies on the fact that warnings.catch_warnings is defined, so we
+        can get it from object's subclasses, and on the fact that that object
+        has a _module attribute which is a module.</p>
+
+    <p>Python 3 doesn't seem to have that class defined right off the bat, so
+        we can't count on it for finding the builtins.  But, I figured, there
+        must be some other class that would serve the same purpose?</p>
+
+    <p>To find out, I tried searching for one.  Here's the code I used:</p>
+
+<code lang="py"><![CDATA[
+import types
+
+def is_builtins(v):
+    """Does v seem to be the builtins?"""
+    if hasattr(v, "open") and hasattr(v, "__import__"):
+        return True
+    if isinstance(v, dict):
+        return "open" in v and "__import__" in v
+    return False
+
+def construct_some(cl):
+    """Construct objects from class `cl`.
+
+    Yields (obj, description) tuples.
+
+    """
+    made = False
+    for args in [
+        (), ("x",), ("x", "y"), ("x", "y", "z"),
+        ("utf8",), ("os",), (1, 2, 3),
+        (0,0,0,0,0,b"KABOOM",(),(),(),"","",0,b""),
+        # Maybe there are other useful constructor args?
+    ]:
+        try:
+            obj = cl(*args)
+        except:
+            continue
+        desc = "{}.{}{}".format(cl.__module__, cl.__name__, args)
+        yield obj, desc
+        made = True
+    
+    if not made:
+        print("Couldn't make a {}.{}".format(cl.__module__, cl.__name__))
+
+def examine_attrs(obj, chain, seen, depth):
+    """Examine the attributes on `obj`, looking for builtins."""
+    if depth > 10:
+        return
+    if id(obj) in seen:
+        return
+    if isinstance(obj, (type(""), type(b""), type(u""))):
+        return
+    seen.add(id(obj))
+    for n in dir(obj):
+        try:
+            v = getattr(obj, n)
+        except:
+            continue
+        name = chain+"."+n
+        if is_builtins(v):
+            print("Looks like {} might be builtins".format(name))
+        else:
+            examine_attrs(v, name, seen, depth+1)
+
+examined = 0
+for cl in object.__subclasses__():
+    seen = set()
+    for obj, desc in construct_some(cl):
+        print("Constructed {}".format(desc))
+        examine_attrs(obj, desc, seen, 0)
+    examined += len(seen)
+
+print("Examined {} objects".format(examined))
+]]></code>
+
+    <p>This code iterates all the subclasses of object, and tries a bunch of
+        different constructor arguments to try to make one.  If it succeeds,
+        it recursively examines the attributes reachable from the object,
+        looking for an object or dict that has "open" and "__import__".</p>
+
+    <p>Running this on Python 3.3 sure enough doesn't find anything like builtins,
+        after examining 20k objects.  And running it on Python 2.7 finds only
+        the catch_warnings object we had before.</p>
+
+    <p>I wouldn't have guessed it was so unusual for an object to hold a reference
+        to a module.  Am I overlooking an important principle, or is this just
+        not something people do?</p>
+
+</body>
+</entry>
+
+
+
+<entry when='20130212T094200'>
+<title>Finding Python 3 builtins</title>
+<category>python</category>
+<body>
+
+    <p>Eryksun commented on <a href='blog/201302/looking_for_python_3_builtins.html'>yesterday's blog post</a>,</p>
+
+    <quote><p>You can recover __builtins__ from a function's __globals__:</p>
+
+        <p>f = [t for t in ().__class__.__base__.__subclasses__() 
+     if t.__name__ == 'Sized'][0].__len__
+     __builtins__ = f.__globals__['__builtins__']</p>
+    </quote>
+
+    <p>Sure enough, that gets you a reference to the built-ins, even in an 
+        eval with no builtins.  It points up two deficiencies in my searching
+        code from yesterday.  First, I was only examining constructed objects,
+        not the classes themselves, but more importantly, I was looking at object's
+        attributes but not the keys in dictionaries!</p>
+
+    <p>Here's the updated search code, which also has some nicer uses of generators:</p>
+
+<code lang='py'><![CDATA[
+"""Look for builtins..."""
+
+import types
+
+def is_builtins(v):
+    """Does v seem to be the builtins?"""
+    if hasattr(v, "open") and hasattr(v, "__import__"):
+        return True
+    if isinstance(v, dict):
+        return "open" in v and "__import__" in v
+    return False
+
+def construct_some(cl):
+    """Construct objects from class `cl`.
+
+    Yields (obj, description) tuples.
+
+    """
+    # First yield the class itself
+    classname = "{}.{}".format(cl.__module__, cl.__name__)
+    yield cl, classname
+
+    made = False
+    for args in [
+        (), ("x",), ("x", "y"), ("x", "y", "z"),
+        ("utf8",), ("os",), (1, 2, 3),
+        (0,0,0,0,0,b"KABOOM",(),(),(),"","",0,b""),
+        # Maybe there are other useful constructor args?
+    ]:
+        try:
+            obj = cl(*args)
+        except:
+            continue
+        desc = "{}{}".format(classname, args)
+        yield obj, desc
+        made = True
+    
+    if not made:
+        print("Couldn't make a {}".format(classname))
+
+def attributes(obj):
+    """Produce a sequence of (name, value), the attributes of `obj`."""
+    try:
+        for n in dir(obj):
+            if n in ('__dict__',):
+                continue
+            try:
+                yield n, getattr(obj, n)
+            except:
+                continue
+    except:
+        pass
+
+def items(obj):
+    """Produce a sequence of (key, value), the items of `obj`."""
+    try:
+        for k in obj.keys():
+            try:
+                yield k, obj[k]
+            except:
+                continue
+    except:
+        pass
+
+def attrs_and_items(obj, desc):
+    """Produce a sequence of (name, value, desc) for data from `obj`."""
+    for n, v in attributes(obj):
+        desc2 = "{}.{}".format(desc, n)
+        yield n, v, desc2
+    for k, v in items(obj):
+        desc2 = "{}[{!r}]".format(desc, k)
+        yield k, v, desc2
+
+def examine(obj, desc, seen, depth):
+    """Examine the data reachable from `obj`, looking for builtins."""
+    if depth > 10:
+        return
+    if id(obj) in seen:
+        return
+    if isinstance(obj, (type(""), type(b""), type(u""))):
+        return
+
+    seen.add(id(obj))
+
+    # Look at the attributes and items
+    for n, v, desc2 in attrs_and_items(obj, desc):
+        if is_builtins(v):
+            print("Looks like {} might be builtins".format(desc2))
+        else:
+            examine(v, desc2, seen, depth+1)
+
+
+examined = 0
+for cl in object.__subclasses__():
+    seen = set()
+    for obj, desc in construct_some(cl):
+        print("Examining {}".format(desc))
+        examine(obj, desc, seen, 0)
+    examined += len(seen)
+
+print("Examined {} objects".format(examined))
+]]></code>
+
+    <p>When I run this code, it finds things like,</p>
+
+<code>
+...
+Looks like reprlib.Repr.__init__.__globals__['builtins'] might be builtins
+Looks like os._wrap_close.__enter__.__globals__['lseek'].__self__.__loader__.find_module.__func__.__globals__['__builtins__'] might be builtins
+Looks like sre_parse.Pattern.__init__.__globals__['__loader__'].__class__.__init__.__globals__['__builtins__'] might be builtins
+Looks like sre_parse.SubPattern.__delitem__.__globals__['__builtins__'] might be builtins
+...
+</code>
+
+    <p>and many other similar lines.  The builtins were right there all along,
+        if you know where to look.</p>    
+
+</body>
+</entry>
+
+</blog>
