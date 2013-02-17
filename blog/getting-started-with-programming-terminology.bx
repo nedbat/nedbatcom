@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130217T145145'>
+<title>Getting started with programming terminology</title>
+<body>
+
+    <p>I sat in on a beginner's programming class a few weeks ago, and I was
+        struck by the bizarre words we routinely use, but which must sound
+        like nonsense to beginners.</p>
+
+    <p>Take the simple program:</p>
+
+<code lang="py"><![CDATA[
+print "Hello, world!"
+]]></code>
+
+    <p>What is the word "print" doing here?  Printing means to produce marks
+        on a piece of paper.  There's no paper involved.  And "Hello, world!"
+        is a string?  It certainly doesn't look like a piece of string.</p>
+
+    <p>Expressions have no range of emotion at all, arguments aren't debating 
+        anything.  Comprehensions are incomprehensible, floats just lie there.
+        You can't put a price on values, dictionaries have no order.</p>
+
+    <p>It's no wonder beginners think we're all nuts.</p>
+    
+</body>
+</entry>
+</blog>

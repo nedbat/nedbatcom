@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130214T201152'>
+<title>Hunting a random() bug</title>
+<category>python</category>
+<body>
+
+    <p>At <a href='http://edx.org'>edX</a>, we have Python behind the scenes in
+        courses to initialize the state of problems presented to students.
+        Often, these problems are randomized so that different students will
+        see different details in quantitative problems, but each student's
+        random seed is saved so that the student will see the same problem
+        if they revisit the page.</p>
+
+    <p>The seed is used to seed the random module before executing any chunk of
+        course Python, so that you can simply use the random module and know
+        that you'll get an appropriate value.</p>
+
+    <p>Today I found code like this in a course:</p>
+
+<code lang="py"><![CDATA[
+import q
+random.seed(the_seed)
+# ... generate the problem ...
+]]></code>
+
+    <p>My task was to refactor how information flowed around, and the_seed
+        wasn't going to be available, so I asked why the code was like this.
+        It seemed odd, because the random module had just been seeded before
+        this code was invoked, so why had the author bothered to re-seed the
+        module with the same seed?</p>
+
+    <p>The answer was that it was a mysterious bug from months ago where the
+        first time the code was run, it would produce a different result than
+        any other time, and the re-seeding solved it.  The q import seemed to
+        be messing with the random seed, but only the first time.</p>
+
+    <p>The "only first time" clue pointed to it being code that is run on
+        import.  Remember, Python modules are just a series of statements, and
+        when you import a module, it really executes all the statements.
+        There's no "import mode" that just collects function definitions.  If
+        you write a statement with a side effect at the top level of a module,
+        that side effect will happen when you import the module.</p>
+
+    <p>But statements in module are only executed the first time the module is
+        imported in a process.  Subsequent imports simply produce another
+        reference to the existing module object.  Everything pointed to a
+        statement running during import which stomped on the random module.</p>
+
+    <p>The q module imported a number of other modules, including numpy and
+        sympy.  But why would importing a module re-seed the random module?</p>
+
+    <p>A little experimenting showed that sympy was at fault here:</p>
+
+<code lang="py"><![CDATA[
+Python 2.7.3 (default, Aug  1 2012, 05:16:07) 
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> # Some baseline data
+>>> import random
+>>> random.seed(17)
+>>> random.random()
+0.5219839097124932
+>>> random.random()
+0.8066907771186791
+>>> random.random()
+0.9604947743238768
+>>> random.random()
+0.2896253777644655
+>>> 
+>>> # Re-seed, and import sympy
+>>> random.seed(17)
+>>> import sympy
+>>> random.random()
+0.8066907771186791
+>>>
+]]></code>
+
+    <p>Looking at the values, after importing sympy, we've skipped ahead one
+        number in our random sequence.  So sympy isn't re-seeding the generator,
+        it's consuming a random number.</p>
+
+    <p>To find out where, we resorted to a monkey-patching trick:  Replace
+        random.random with a booby-trap:</p>
+
+<code lang="py"><![CDATA[
+Python 2.7.3 (default, Aug  1 2012, 05:16:07) 
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import random
+>>> random.random = lambda: 1/0
+>>> import sympy
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/venv/lib/python2.7/site-packages/sympy/__init__.py", line 20, in <module>
+    from sympy.core import *
+  File "/venv/lib/python2.7/site-packages/sympy/core/__init__.py", line 8, in <module>
+    from expr import Expr, AtomicExpr
+  File "/venv/lib/python2.7/site-packages/sympy/core/expr.py", line 2020, in <module>
+    from mul import Mul
+  File "/venv/lib/python2.7/site-packages/sympy/core/mul.py", line 1197, in <module>
+    from numbers import Rational, igcd
+  File "/venv/lib/python2.7/site-packages/sympy/core/numbers.py", line 1993, in <module>
+    from function import FunctionClass
+  File "/venv/lib/python2.7/site-packages/sympy/core/function.py", line 43, in <module>
+    from sympy.utilities import default_sort_key
+  File "/venv/lib/python2.7/site-packages/sympy/utilities/__init__.py", line 13, in <module>
+    from runtests import test, doctest
+  File "/venv/lib/python2.7/site-packages/sympy/utilities/runtests.py", line 472, in <module>
+    class SymPyTests(object):
+  File "/venv/lib/python2.7/site-packages/sympy/utilities/runtests.py", line 475, in SymPyTests
+    seed=random.random()):
+  File "<stdin>", line 1, in <lambda>
+ZeroDivisionError: integer division or modulo by zero
+]]></code>
+
+    <p>OK, not sure why it's importing its tests when I try to use the package,
+        but looking at the code, here's the culprit:</p>
+
+<code lang="py"><![CDATA[
+class SymPyTests(object):
+    def __init__(self, ..., seed=random.random()):
+        #...
+        self._seed = seed
+]]></code>
+
+    <p>Here we can see the problem.  Remember that function arguments are
+        computed once, when the function is defined.  Since this function is
+        defined when the module is imported, random.random() will be called
+        during import, consuming one of our random numbers.</p>
+
+    <p>Better would be to define it like this:</p>
+
+<code lang="py"><![CDATA[
+class SymPyTests(object):
+    def __init__(self, ..., seed=None):
+        #...
+        self._seed = seed
+        if self._seed is None:
+            self._seed = random.random()
+]]></code>
+
+    <p>I'm not quite sure which behavior the author wanted, one seed for all
+        the instances, or one seed per instance.  I know I don't want importing
+        this module to change my random number sequence.</p>
+
+    <p>Amusingly enough, the behavior of the initializer is irrelevant, it's
+        only called in one place, and never defaults the seed argument:</p>
+
+<code lang="py"><![CDATA[
+def test(*paths, **kwargs):
+    ...
+    seed = kwargs.get("seed", None)
+    if seed is None:
+        seed = random.randrange(100000000)
+    t = SymPyTests(..., seed)
+]]></code>
+
+    <p>The best solution for our code would be to not rely on the module-level
+        random number sequence, and instead use our own Random object. Come to 
+        think of it, that's what sympy should do too.</p>
+
+    <p>BTW, looking at why sympy is importing test infrastructure when I import
+        it, there's this in sympy/utilities/__init__.py:</p>
+
+<code lang="py"><![CDATA[
+"""Some utilities that may help.
+"""
+from iterables import (flatten, group, take, subsets,
+    variations, numbered_symbols, cartes, capture, dict_merge,
+    postorder_traversal, preorder_traversal, interactive_traversal,
+    prefixes, postfixes, sift, topological_sort)
+
+from lambdify import lambdify
+from source import source
+
+from decorator import threaded, xthreaded
+
+from runtests import test, doctest
+
+from cythonutils import cythonized
+from timeutils import timed
+
+from misc import default_sort_key
+]]></code>
+
+    <p>This makes using utilities very convenient, since it contains everything
+        at the top level.  But the downside is it means you must always take
+        everything.  There is no way to import only part of utilities.  Even if
+        you use "from utilities.lambdify import lambdify," Python will execute
+        the utilities/__init__.py file, importing everything.</p>
+
+    <p>Lessons:</p>
+
+    <ul>
+        <li>Modules really execute when imported,</li>
+        <li>Function defaults are computed once when the function is defined,</li>
+        <li>Modifying global state like the random module's implicit sequence is bad,</li>
+        <li>Importing stuff into __init__.py makes your code monolithic and harder to use as you want, and</li>
+        <li>Monkey-patching can be a great way to debug problems.</li>
+    </ul>
+
+</body>
+</entry>
+</blog>
