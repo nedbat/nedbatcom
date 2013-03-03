@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130228T203737'>
+<title>Working at edX</title>
+<category>work</category>
+<category>me</category>
+<category>edu</category>
+<body>
+    
+    <p>This week I began a new job at <a href='http://edx.org'>edX</a>.  Well,
+        it isn't really a new job, I've been freelancing with them since
+        October, but now I'm an employee.</p>
+
+    <figurep href='http://edx.org'>
+        <img src='pix/edx.png' alt='edX logo'/>
+    </figurep>
+
+    <p>EdX is a non-profit formed by Harvard and MIT to put their courses
+        online.  Other top universities have joined, including Berkeley, Rice,
+        McGill, the Delft University of Technology, and others.</p>
+
+    <p>Online learning is huge these days, despite being saddled with the worst
+        acronym ever (MOOC, Massive Open Online Course), so there's no shortage
+        of interesting questions:</p>
+
+    <ul>
+        <li>How do you take an existing university course and put it online?</li>
+        <li>What can you do differently if you are educating 100,000 people at once?</li>
+        <li>What are the best tools to give professors to author courses?</li>
+        <li>How can you automatically grade students' responses even for challenging
+            material like programming or essays?</li>
+        <li>What will online education look like in 10 years? Where and how will
+            it be successful?</li>
+    </ul>
+
+    <p>There are plenty of smart people at edX working on these questions, and
+        I think we have a good chance at finding the right answers.  There's
+        stiff competition from Coursera and Udacity, but edX is a bit different,
+        both because it is a non-profit, and because we are chartered by our
+        universities to help them change on-campus education as well as online
+        education.</p>
+
+    <p>Almost everything is written in Python and Django, and we're aiming to
+        open-source what we can.</p>
+
+    <p>I'm excited.   I enjoyed freelancing for a few years, now I know how
+        that works, and I might go back to it someday.  But it feels good to be
+        in the middle of edX, helping build something great.</p>
+
+</body>
+</entry>
+</blog>
