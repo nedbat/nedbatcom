@@ -28,10 +28,7 @@
     };
 
     var select_line_by_number = function (container, lineno, single) {
-        //var the_line = container.find("."+sub_class + ":eq(" + (lineno-1) + ")");
-        console.log("selecting line num", lineno);
         var the_line = $(container.find("."+sub_class)[lineno-1]);
-        console.log("the_line is", the_line);
         select_line(container, the_line, single);
     };
 
@@ -53,33 +50,38 @@
         var the_selected = container.find("."+sub_class + ".selected"), 
             selected = 0;
         if (the_selected.length) {
-            var total_lines = container.find("."+sub_class).length;
-            var following_lines = the_selected.nextAll("."+sub_class).length;
-            selected = total_lines - following_lines;
+            var all_lines = container.find("."+sub_class);
+            selected = all_lines.index(the_selected) + 1;
         }
 
         switch (e.keyCode) {
-        case 71:    // G
+            case 71:    // G: top
             selected = 1;
             break;
 
-        case 74:    // J
+        case 74:    // J: down
             selected += 1;
             break;
 
-        case 75:    // K
+        case 75:    // K: up
             selected -= 1;
             break;
 
+        case 190:   // .: deselect
+        case 88:    // X: deselect
+            container.find("."+sub_class).removeClass("selected");
+            return;
+
         default:
-            //console.log('down: ' + e.keyCode);
+            console.log('down: ' + e.keyCode);
             return;
         }
 
         if (selected < 1 || selected > container.find("."+sub_class).length) {
             return;
         }
-        select_line_by_number(container, selected, true);
+        var single = !e.shiftKey;
+        select_line_by_number(container, selected, single);
     };
 
     var make_line_selectable = function (elements, opts) {
@@ -120,4 +122,3 @@
     };
 
 }(jQuery));
-
