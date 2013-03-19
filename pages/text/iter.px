@@ -2,6 +2,7 @@
 <history>
 <what when="20120424T144700">Created</what>
 <what when="20130316T170500">Updated to PyCon 2013</what>
+<what when="20130319T180800">Added video</what>
 </history>
 
 <!--
@@ -12,9 +13,13 @@ in it, so you might want to follow along here.
 Also, clicking the slide images on this page will jump into the full presentation at that point.</p>
 -->
 
-<p>This is a presentation for PyCon 2013.  You can read the slides and text on
+<p>This is a presentation I gave at PyCon 2013.  You can read the slides and text on
 this page, or open the <a href="text/iter/iter.html">actual presentation</a> in
-your browser (use right and left arrows to advance the slides).</p>
+your browser (use right and left arrows to advance the slides), or watch the video:</p>
+
+<p align="center">
+<iframe width="500" height="369" src="http://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
+</p>
 
 <figurep href="text/iter/iter.html#1"><img src="text/iter_000.png" alt="Loop like a native"/></figurep><!-- {{{ --><p>A talk for PyCon 2013.</p><figurep href="text/iter/iter.html#2"><img src="text/iter_001.png" alt="tl;dl"/></figurep><!-- {{{ --><p>This talk is billed as Beginner, and sounds like a beginner topic, but I
     prefer to think of it as Fundamental.  Plenty of expert Python programmers
@@ -336,5 +341,7 @@ your browser (use right and left arrows to advance the slides).</p>
     
     
     
+
+<pagecomments/>
 
 </page>
