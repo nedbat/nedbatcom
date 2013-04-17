@@ -1,0 +1,22 @@
+{# Prev/Main/Next navigation for the top and bottom of monthly blog pages. #}
+{% load tags %}
+
+<span class='p'>
+    {% if prev %}
+        {% ch '<<' %}
+        <a class='s' href='{{prev.monthurl}}' title='previous month' rel='prev'>{{prev.when|date:"F Y"}}</a>
+    {% endif %}
+</span>
+<span class='dn'> | </span>
+<span class='m'>
+    {% ch '>>' %}
+    <a class='s' href='/blog' title='main blog' rel='top'>Main</a>
+    {% ch '<<' %}
+</span>
+<span class='dn'> | </span>
+<span class='n'>
+    {% if next %}
+        <a class='s' href='{{next.monthurl}}' title='next month' rel='next'>{{next.when|date:"F Y"}}</a>
+        {% ch '>>' %}
+    {% endif %}
+</span>

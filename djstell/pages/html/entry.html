@@ -1,0 +1,75 @@
+{% load tags %}
+{% spaceless %}
+{# A single blog entry, used by the blog_entry tag. #}
+<div class='blog-entry' id='{{entry.entryid}}'>
+
+{# Start Head #}
+<div class='head'>
+    {# Title #}
+    {% if entry.title %}
+        <h3 class='title'>
+            <a class='s' href='{{entry.permaurl}}' rel='bookmark' title='Link to this post'>{{entry.title}}</a>
+        </h3>
+    {% endif %}
+
+    {# Date #}
+    <p class='date'>{{entry.when|date:"l j"}} <a class='s' href='{{entry.monthurl}}'>{{entry.when|date:"F Y"}}</a></p>
+</div>
+{# End Head #}
+
+{# Body #}
+
+{% ifequal mode 'brief' %}
+{{entry.to_brief_html|safe}}
+{% endifequal %}
+{% ifequal mode 'full' %}
+{{entry.to_html|safe}}
+{% endifequal %}
+
+{# End Body #}
+
+{# Start Footer #}
+<div class='foot'>
+    <span class='via'>
+
+    {# Categories #}
+    {% for tag in entry.tags.all %}
+        {% if forloop.first %}tagged: {% endif %}
+        <a href='{{tag.permaurl}}' rel='tag'>{{tag.name|lower}}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+
+    {# Separator for category and via. #}
+    {% if entry.tags.all and entry.via_set.all %}
+        {% ch "  " %}/{% ch "  " %}
+    {% endif %}
+    
+    {% reallyspaceless %}
+    {# Via #}
+    {% for via in entry.via_set.all %}
+        {% if forloop.first %}via: {% endif %}
+        {% if via.link %}
+            <a href='{{via.link.href}}'>{{via.link.text}}</a>
+        {% else %}
+            {% if via.href %}
+                <a href='{{via.href}}'>{{via.text}}</a>
+            {% else %}
+                <span>{{via.text}}</span>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    </span>
+
+    {# Reactions #}
+    {% ifequal mode 'brief' %}
+        <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'><?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></a></span>
+    {% endifequal %}
+    
+    {% ifequal mode 'full' %}
+        <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
+    {% endifequal %}
+    {% endreallyspaceless %}
+</div>
+{# End Footer #}
+
+</div>
+{% endspaceless %}

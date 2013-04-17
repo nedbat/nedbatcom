@@ -1,0 +1,41 @@
+{% extends "blogbase.html" %}
+{% load tags %}
+
+{# Don't index the content of the main blog page, it's all duplicates of individual entries. #}
+{% block meta %}
+{{ block.super }}
+<meta name='ROBOTS' content='NOINDEX'>
+{% endblock %}
+
+{% block body %}
+	<?php
+		require_once('inc/reactor_class.php');
+		$ror = new Reactor();
+		$ror->PrepareManyComments();
+	?>
+    
+    {# Real entries #}
+    {% for entry in entries|slice:":12" %}
+        {% blog_entry entry 'brief' %}
+    {% endfor %}
+    
+    {# Summary of older entries #}
+    <p><i>Older:</i></p>
+    {% for entry in entries|slice:"12:20" %}
+        <div class='archive'>
+            <p class='date'>{{entry.when|date:"D j"}}: </p>
+
+            <p>
+                <a href='{{entry.permaurl}}' class='s'>
+                    {{entry.title}}
+                </a>
+            </p>
+        </div>
+    {% endfor %}
+
+    {# Link to month page for the next oldest. #}
+    {% for entry in entries|slice:"20:21" %}
+    	<p><i><a href='{{entry.monthurl}}#{{entry.entryid}}'>Even older...</a></i></p>
+    {% endfor %}
+    
+{% endblock %}

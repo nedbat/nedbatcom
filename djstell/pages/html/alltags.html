@@ -1,0 +1,43 @@
+{% extends "blogbase.html" %}
+{% load tags %}
+
+{% block body %}
+    <p class='first'>
+        Here is my attempt at categorizing and making sense of my blog postings:
+    </p>
+
+	<div class='catlist'>
+        {% for tag in tags %}
+            <p class='catname'>
+                <a class='s' href='{{tag.permaurl}}'>
+                    {{tag.name}}
+                    <span class='dn'>: </span>
+                </a>
+            </p>
+            <p>
+                <a class='s' href='{{tag.permaurl}}'>
+                    {{tag.entry_set_no_drafts.count}}
+                    post{{tag.entry_set_no_drafts.count|pluralize}} about
+                    {{tag.about}}.
+                </a>
+            </p>
+        {% endfor %}
+        
+        <p class='catname'>
+            <a class='s' href='/blog/tag/none.html'>(None)</a>
+        </p>
+        <p>
+            <a class='s' href='/blog/tag/none.html'>
+                {{untagged|length}}
+                post{{untagged|length|pluralize}}
+                that have no tags at all.
+            </a>
+        </p>
+        
+    </div>    
+
+    <p>If tags don't do it for you, try
+        <a href='/site/search.html'>searching this site</a> with Google.
+    </p>
+
+{% endblock %}

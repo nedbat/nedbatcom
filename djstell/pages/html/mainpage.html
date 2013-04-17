@@ -1,0 +1,246 @@
+<?php ob_start(); ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load tags %}
+{# The Mighty Home Page!! #}
+{% spaceless %}
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="description" content="Ned Batchelder's personal web site, blog, writings, software, math, parenting, autism">
+<meta name="keywords" content="Ned Batchelder, python, software, blog, parenting, autism, math">
+<title>Ned Batchelder</title>
+
+{# RSS link #}
+<link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="RSS feed for Ned's blog">
+
+{# OpenId stuff #}
+<link rel="openid.server" href="http://www.myopenid.com/server">
+<link rel="openid.delegate" href="http://nedbat.myopenid.com/">
+<link rel="openid2.local_id" href="http://nedbat.myopenid.com">
+<link rel="openid2.provider" href="http://www.myopenid.com/server">
+<meta http-equiv="X-XRDS-Location" content="http://www.myopenid.com/xrds?username=nedbat.myopenid.com">
+
+{# Styling #}
+<style type="text/css">
+body {
+    font-size: 101%;  /* Trick to shut off divergent font rounding algorithms. */
+    font-family: verdana, sans-serif;
+    margin: 0 1em 1em 0;
+    padding: 0;
+    background: white;
+}
+p,h1,h2,h3,h4,h5,h6 {
+    padding: 0;
+    margin: 1em 0;
+}
+.first {
+    margin-top: 0;
+}
+#star {
+    background: url(/pix/dodeca3_640.jpg) no-repeat bottom right;
+    width: 400px;
+    height: 540px;
+    position: absolute; top: 0px; left: 0px;
+}
+#other {
+    position: absolute; top: 540px; left: 0px;
+    width: 350px;
+    font-size: 80%;
+    line-height: 1.5em;
+    padding: 0 1em;
+}
+#content {
+    position: absolute; top: 0px; left: 400px;
+    font-size: 80%;
+    line-height: 1.5em;
+    padding: 3em 1em 2em 0;
+}
+#pagetitle {
+    padding: 0.5em 0;
+    border-bottom: 1px solid #ccc;
+}
+h1 {
+    font-size: 180%;
+    border: none;
+}
+h2 {
+    font-size: 100%;
+}
+h3 {
+    font-size: 100%;
+    margin: 1em 0 0 0;
+    color: #000;
+}
+img {
+    border: 0;
+}
+.pilcrow {
+    color: #666;
+}
+.thinspace {
+    font-size: 66%;
+}
+.blog-entry h3, .section h3 {
+    display: inline;
+}
+.blog-entry p.date, .huh {
+    display: inline;
+    margin: 0 0 0 1em;
+    color: #666;
+}
+.section {
+    margin-top: 2em;
+    max-width: 50em;
+}
+.subsection {
+    margin-top: 1em;
+    max-width: 50em;
+}
+.readmore {
+    color: #666;
+    margin: 0 0 0 .5em;
+    font-style: italic;
+}
+.readmore a {
+    text-decoration: none; color: #666;
+}
+.readmore a:hover {
+    text-decoration: underline; color: #f00;
+}
+a.s {
+    text-decoration: none; color: #000;
+}
+a.s:hover {
+    text-decoration: underline; color: #f00;
+}
+a {
+    text-decoration: none; color: #008;
+}
+a:hover {
+    text-decoration: underline; color: #00f;
+}
+ul {
+    margin: 0; padding: 0; list-style:none;
+}
+li {
+    margin: 0; padding: 0;
+}
+li .readmore {
+    margin: 0;
+}
+li p {
+    margin: 0; padding: 0;
+}
+#search h3 {
+    display: inline; margin: 0 1em 0 0;
+}
+.copyright {
+    color: #999;
+    font-style: italic;
+    font-size: 85%;
+}
+.copyright a {
+    text-decoration: none; color: #999;
+}
+.copyright a:hover {
+    text-decoration: underline; color: #666;
+}
+{% comment %}
+.sqbull { /* not used yet: size varies from line to line. */
+    display:block; float:left; clear:left;
+    width: .4em; height: .25em;
+    margin: .7em .3em .3em 0em;
+    padding: 0;
+    border: 1px solid #666;
+}
+{% endcomment %}
+</style>
+<link rel='stylesheet' href='/printstyle.css' type='text/css' media='print'>
+{% include "analytics.html" %}
+</head>
+<body id='mainpage'>
+<div id='star'></div>
+
+<div id='content' class='body'>
+<div id='pagetitle'>
+<h1 style='display:inline'>Ned Batchelder </h1>
+<p style='display:inline;margin-left:5em'>
+<a class='s' href='/blog'>Blog</a> {% ch "." %}
+<a class='s' href='/code'>Code</a> {% ch "." %}
+<a class='s' href='/text'>Text</a> {% ch "." %}
+<a class='s' href='/site'>Site</a>
+</p>
+</div>
+
+<div class='section'>
+    {# -- Latest four entries: first two sentences. -- #}
+    {% for entry in recent_entries|slice:":4" %}
+        <div class='blog-entry'>
+            <h3><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h3>
+            <p class='date'> {% ch " " %}{{entry.when|date:"j"}}{% ch " " %}{{entry.when|date:"F"}}</p>
+            <p class='first'>{{entry.to_html|just_text|first_sentence:"2"|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
+        </div>
+    {% endfor %}
+</div>
+
+<div class='section'>
+{% reallyspaceless %}
+<p><b><a class='s' href='/blog'>More blog</a></b><span class='thinspace'>{% ch " " %}</span>{% ch "." %}{% ch "." %}<span class='thinspace'>&#32;</span>
+{% for tag in tags %}
+<a class='s' href='{{tag.permaurl}}'>{{tag.name|lower}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'>&#32;</span>
+{% endfor %}
+{% endreallyspaceless %}
+{% for y in archive_years %}
+<a class='s' href='/blog/archive{{y}}.html'>{{y}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span>
+{% endfor %}
+<a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss12.png' width='12' height='12' style='margin-bottom:-1px;' title='RSS feed of posts' alt='RSS feed'></a>
+<span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>
+</p>
+</div>
+
+<div class='section'>
+<div class='subsection'>
+<h3><a class='s' href='/code'>Code</a></h3>
+<p class='huh'>software for your use</p>
+<ul>
+    {% for x in code %}
+    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
+    {% endfor %}
+<li><span class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></span></li>
+</ul>
+</div>
+
+<div class='subsection'>
+<h3><a class='s' href='/text'>Text</a></h3>
+<p class='huh'>longer writings</p>
+<ul>
+    {% for x in text %}
+    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
+    {% endfor %}
+<li><span class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></span></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id='other'>
+{% comment %}
+<h3><a class='s' href='/site/hirened.html'>Hire me</a></h3>
+<p class='first'>I'm a freelancer, ready to help you.  Let's talk about your project and what I can do.<span class='readmore'> {% ch ">> " %}<a href='/site/hirened.html'>get in touch..</a></span>
+</p>
+{% endcomment %}
+
+<h3><a class='s' href='/site/aboutned.html' rel='author'>About me</a></h3>
+<p class='first'>I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>. I have a good-sized
+family: one wife and three boys, one autistic. We live outside of Boston.<span class='readmore'> {% ch ">> " %}<a href='/site/aboutned.html'>more..</a></span>
+</p>
+
+<div id='search'>
+{% search_box 0 "<h3>Search me</h3>" %}
+</div>
+
+<p class='copyright'><a class='s' href='/site/legal.html' rel='copyright license'>{% ch "(c) " %}{% year_range archive_years.-1 archive_years.0 %}</a></p>
+</div>
+
+</body>
+</html>
+{% endspaceless %}

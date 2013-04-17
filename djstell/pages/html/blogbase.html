@@ -1,0 +1,17 @@
+{% extends "page.html" %}
+{# The base for all blog pages. #}
+{% load tags %}
+
+{# All blog pages have links to the feeds. #}
+{% block pagelinks %}
+{{ block.super }}
+<link rel="alternate" type="application/rss+xml" href="http://nedbatchelder.com/blog/rss.xml" title="RSS feed for Ned's blog">
+{% endblock %}
+
+{# No page dateline for blog entries #}
+{% block dateline %}{% endblock %}
+
+{% block meta %}{% endblock %}
+{% block body %}{% endblock %}
+
+{% block sidebar %}{% sidebar 'blog' %}{% endblock %}

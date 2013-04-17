@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://nedbatchelder.com/rssfull2html.xslt" media="screen" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://purl.org/rss/1.0/">
+	<channel rdf:about="http://nedbatchelder.com//blog">
+		<title>Ned Batchelder's blog</title>
+		<link>http://nedbatchelder.com/blog</link>
+		<description>Ned Batchelder's personal blog.</description>
+		<dc:language>en-US</dc:language>
+		<image rdf:resource="http://nedbatchelder.com/pix/rss-banner.gif"/>
+		<items>
+			<rdf:Seq>
+				{% for entry in entries %}<rdf:li resource="http://nedbatchelder.com/{{entry.permaurl}}"/>{% endfor %}
+			</rdf:Seq>
+		</items>
+	</channel>
+	<image rdf:about="http://nedbatchelder.com/pix/rss-banner.gif">
+		<title>Ned Batchelder's blog</title>
+		<link>http://nedbatchelder.com/blog</link>
+		<url>http://nedbatchelder.com/pix/rss-banner.gif</url>
+	</image>
+	{% for entry in entries %}
+	<item rdf:about="http://nedbatchelder.com/{{entry.permaurl}}">
+		<title>{{entry.title}}</title>
+		<link>http://nedbatchelder.com/{{entry.permaurl}}</link>
+		{# RSS wants a very specific date format that the date filter doesn't do. #}
+		<dc:date>{{entry.when|date:"Y-m-d\TH:i:sO"|slice:":22"}}:00</dc:date>
+		<dc:creator>Ned Batchelder</dc:creator>
+		<description><![CDATA[{{entry.to_html|safe}}]]></description>
+	</item>
+	{% endfor %}
+</rdf:RDF>

@@ -1,0 +1,46 @@
+{% extends "blogbase.html" %}
+{% load tags %}
+
+{% block body %}
+    {% if entries %}
+        <p class='first'>
+            {% if tag %}
+                These are my blog postings about {{tag.about}}:
+            {% else %}
+                These are my blog postings with no tags:
+            {% endif %}
+        </p>
+
+        <div class='category'>
+            {% for entry in entries %}
+                <p class='date'>{{entry.when|date:"j M Y"}}:</p>
+        
+                {% reallyspaceless %}
+                <p>
+                    <a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a>
+                    {% if entry.tags.all.1 %}
+                        <span class='also'>{% ch '  ' %}also:
+                            {# Yuk: have to indent code this way to avoid unwanted spaces before the comma! #}
+                            {% for tag_other in entry.tags.all %}{% ifnotequal tag.tag tag_other.tag %}{% ifnotfirst %}, {% endifnotfirst %}
+                                    <a href='{{tag_other.permaurl}}'>{{tag_other.name|lower}}</a>{% endifnotequal %}{% endfor %}
+                        </span>
+                    {% endif %}
+                </p>
+                {% endreallyspaceless %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class='first'>That's funny, I could've sworn I had some entries tagged {{tag.name}}...</p>
+    {% endif %}
+
+    <p>
+        {% if tag %}    
+            Didn't find what you were looking for?
+            <a href='/site/search.html'>Search this site</a> with Google.
+        {% else %}
+            What better way to conquer the chaos of untagged postings than by
+            <a href='/site/search.html'>searching this site</a> with Google?
+        {% endif %}
+    </p>
+    
+{% endblock %}
