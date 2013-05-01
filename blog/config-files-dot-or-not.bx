@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130425T193102'>
+<title>Config files: dot or not?</title>
+<category>coverage</category>
+<body>
+    
+    <p><a href="/code/coverage">Coverage.py</a> reads a configuration file,
+        which by default is in .coveragerc, with a leading dot.  For years I thought 
+        <a href='http://www.pylint.org/'>Pylint</a> had no default config
+        file, because it wouldn't find .pylintrc, it turns out it looks by
+        default for pylintrc, no leading dot.</p>
+
+    <p>Which is correct?</p>
+
+    <p>I guess I was modeling .coveragerc on .bashrc, .vimrc, and all the other
+        files that clutter home directories everywhere. But is that right?  I
+        <a href='https://twitter.com/nedbat/status/300737626611273728'>asked on twitter</a> 
+        a few months ago:</p>
+
+    <quote><p>Should config files have initial dots or not? tox.ini vs .gitignore, for example. Reasons?</p></quote>
+
+    <p>A few people said they should have dots if they are in your home directory,
+        which is clearly true.  But these config files are not meant for the home directory.</p>
+
+    <p><a href='https://twitter.com/laprice/status/300740793390477312'>Larry Price responded</a>,</p>
+
+    <quote><p>essential versus incidental, .gitignore or .bashrc are incidental
+            to any given task, but tox.ini or settings.py are the task
+            itself.</p></quote>
+
+    <p>Hmm, an interesting point.  So is .coveragerc essential to coverage.py?  It's
+        only for overriding defaults, so it isn't required.  But it does specify how
+        coverage.py should behave.</p>
+
+    <p>Should it be coveragerc instead?  Or coverage.rc? Opinions?  Of course,
+        .coveragerc files will still be recognized if a new default is used. I
+        know this is a small point, but I'd like to follow the consensus if
+        there is one.</p>
+
+</body>
+</entry>
+</blog>
