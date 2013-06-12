@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130611T212546'>
+<title>Filter a list into two parts</title>
+<category>python</category>
+<body>
+
+<p>A recent discussion on comp.lang.python asked how to
+    <a href='https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.python/7JzJaOC8CQM'>Split a list into two parts based on a filter?</a>,
+    and the answers were interesting and insightful.
+</p>
+
+<p>The question was by Roy Smith. He asked about dividing a list of songs into
+    two lists based on a predicate, like this:</p>
+
+<code lang='python'>
+new_songs = [s for s in songs if s.is_new()]
+old_songs = [s for s in songs if not s.is_new()] 
+</code>
+
+<p>but without iterating the list twice and calling the predicate twice for
+    each element.  He also provided this implementation, which iterates the
+    list only once:</p>
+
+<code lang='python'>
+new_songs = []
+old_songs = []
+for s in songs:
+    if s.is_new():
+        new_songs.append(s)
+    else:
+        old_songs.append(s) 
+</code>
+
+<p>which got shortened to:</p>
+
+<code lang='python'>
+new_songs, old_songs = [], []
+for s in songs: 
+    (new_songs if s.is_new() else old_songs).append(s) 
+</code>
+
+<p>This works just fine for a simple list, but suppose the original sequence
+    to be divided was a generator, and you don't want to buffer all the values
+    in memory?  Is there a way to do this lazily?</p>
+
+<p>Usually, we go to the <a href='http://docs.python.org/2/library/itertools.html'>itertools module</a>
+    for things like this, but this problem is tricky:  we need to get two lazy
+    iterators at once.</p>
+
+<p>Chris Angelico came up with this remarkable machine, with a deque tweak
+    by Tim Chase:</p>
+
+<code lang='python'>
+def iterpartition(pred, it):
+    """Partition an iterable based on a predicate.
+
+    Returns two iterables, for those with pred False and those True.
+    """
+    falses, trues = collections.deque(), collections.deque()
+    it = iter(it)
+    def get_false():
+        while True:
+            if falses: 
+                yield falses.popleft()
+            else:
+                while True:
+                    val = next(it)
+                    if pred(val): 
+                        trues.append(val)
+                    else: 
+                        break
+                yield val
+    def get_true():
+        while True:
+            if trues: 
+                yield trues.popleft()
+            else:
+                while True:
+                    val = next(it)
+                    if not pred(val): 
+                        falses.append(val)
+                    else: 
+                        break
+                yield val
+    return get_false(), get_true() 
+</code>
+
+<p>Here two generators are created as closures, and returned as the result of
+    the function.  The generators cooperate to work over the original iterable,
+    calling the predicate only once for each element, and buffering only enough
+    values to find the next one you want.</p>
+
+<p>Peter Otten contributed this gem:</p>
+    
+<code lang='python'>
+def partition(items, predicate=bool):
+    a, b = itertools.tee((predicate(item), item) for item in items)
+    return ((item for pred, item in a if not pred),
+            (item for pred, item in b if pred))
+</code>
+
+<p>Here we finally have itertools helping us.  This behaves like Chris' code,
+    buffering enough values for either returned iterable to provide the next
+    requested value.  But we don't have to do the buffering, itertools.tee
+    does it for us, and the predicate is called only once for each element
+    in the iterable.  Itertools.tee gets a generator expression that produces
+    the original elements along with the result of calling the predicate. That
+    is tee'd into two iterables, which are then fed to two generator expressions
+    to select the proper values.  Clever.</p>
+
+<p>When I first read the question on the list, I didn't see how to improve
+    on the list-building code.  Now I've got two interesting implementations,
+    and I learned a few things!</p>
+
+
+</body>
+</entry>
+</blog>
