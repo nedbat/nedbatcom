@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130618T200949'>
+<title>Explaining descriptors</title>
+<category>python</category>
+<body>
+
+    <p>I've always found descriptors to be one of the more confusing corners of Python.
+        Partly, I think that's to do with the <a href='http://docs.python.org/2/howto/descriptor.html'>explanations in the docs</a>,
+        which I find opaque:
+    </p>
+
+    <quote><p>In general, a descriptor is an object attribute with “binding
+            behavior”, one whose attribute access has been overridden by
+            methods in the descriptor protocol.</p></quote>
+
+    <p>What is binding behavior, and why is it in quotes?  This lead sentence hints at
+        overriding attribute access, but doesn't tell me how it happens. It's a tall
+        wall to scale right at the start of the learning process.</p>
+
+    <p>The best explanation I've seen of what descriptors do and why you'd want to write them
+        was in Chris Beaumont's lightning talk at Boston Python, 
+        <a href='https://www.youtube.com/watch?v=9A1ycvcgc_U'>Demystifying Descriptors in 5 Minutes</a>.
+        The video quality was not great, but now Chris has written it up: <a href='http://bit.ly/dscrptrs'>Python Descriptors Demystified</a>.</p>
+
+    <figurep>
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/9A1ycvcgc_U" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    </figurep>
+
+    <p>(Sorry about the quality, we're getting much better... PS: subscribe to
+        our <a href='http://youtube.com/bostonpython'>YouTube channel</a>!)</p>
+
+    <p>Chris' insight was that instead of defining descriptors, and then
+        showing how you could make properties with them, he flipped that
+        explanation around: explain properties, then show how descriptors are
+        like generalized properties. Read the whole thing: <a href='http://bit.ly/dscrptrs'>Python Descriptors Demystified</a>.</p>
+
+    <p>When explaining things, you have to build from what people already know,
+        a step at a time.  I picture a student's understanding being like
+        geography.  What they know is a land mass, and when you teach them, you
+        are extending their land out into the unknown ocean.  You want to make
+        their island bigger, and there's a particular point out in the ocean
+        you want to encompass.</p>
+    
+    <p>Some technical descriptions will explain that distant point, and either
+        hope you can build the peninsula yourself, or expect to be able to
+        build backwards toward the mainland.  The classic descriptor
+        explanation is like that: provide a definition of the distant concept,
+        and hope students can make the leap.</p>
+
+    <p>Chris' explanation is more incremental.  Start with what we know, and extend
+        a little bit at a time, with motivations as we go. I love it.</p>
+
+    <p>BTW: I made some edits to the Python documentation, but they haven't been 
+        adopted: <a href='http://bugs.python.org/issue17894'>Edits to descriptor howto</a>.
+        Others have also suggested reorganizations of the docs about descriptors: 
+        <a href='http://bugs.python.org/issue12077'>Harmonizing descriptor protocol documentation</a>.</p>
+
+    <p>Descriptors are still an advanced feature, and I don't expect everyone to understand
+        and use them.  But they are not as complicated as they first seem, and the
+        explanations can do a better job helping people up that learning curve.</p>
+
+</body>
+</entry>
+</blog>
