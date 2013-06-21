@@ -23,7 +23,7 @@
         import cog
         from cogutil import *
         prolog_2 = r"""
-            import sys
+            import sys, hashlib
             my_unicode = u"Hi \u2119\u01b4\u2602\u210c\xf8\u1f24"
             my_utf8 = my_unicode.encode("utf8")
             my_string = "Hello World"
@@ -864,7 +864,7 @@
 </div>
 
 <div class="text">
-    <p>Bytes strings and unicode strings each have a method to convert it to
+    <p>Byte strings and unicode strings each have a method to convert it to
     the other type of string.  Unicode
     strings have a .encode() method that produces bytes, and byte strings have
     a .decode() method that produces unicode. Each takes an argument, which
@@ -939,7 +939,7 @@
 <div class="text">
     <p>Decoding can also produce errors.  Here we try to decode our UTF-8
     string as ASCII and get a UnicodeDecodeError because again, ASCII can only
-    accepts values up to 127, and our UTF-8 string has bytes outside that
+    accept values up to 127, and our UTF-8 string has bytes outside that
     range.</p>
 
     <p>Even UTF-8 can't decode any sequence of bytes.  Next we try to decode
@@ -1075,7 +1075,7 @@
 
     <p>The implicit encoding is ASCII because it's the only safe guess: ASCII
     is so widely accepted, and is a subset of so many encodings, that it's 
-    unlikely to be wrong.</p>
+    unlikely to produce false positives.</p>
 
 </div>
 

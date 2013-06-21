@@ -88,7 +88,7 @@ special symbols will appear.</p>
     point.</p><p>Notice that the word "string" is problematic.  Both "str" and "unicode"
     are kinds of strings, and it's tempting to call either or both of them
     "string," but it's better to use more specific terms to keep things
-    straight.</p><figurep href="text/unipain/unipain.html#19"><img src="text/unipain_018.png" alt=".encode() and .decode()"/></figurep><p>Bytes strings and unicode strings each have a method to convert it to
+    straight.</p><figurep href="text/unipain/unipain.html#19"><img src="text/unipain_018.png" alt=".encode() and .decode()"/></figurep><p>Byte strings and unicode strings each have a method to convert it to
     the other type of string.  Unicode
     strings have a .encode() method that produces bytes, and byte strings have
     a .decode() method that produces unicode. Each takes an argument, which
@@ -103,7 +103,7 @@ special symbols will appear.</p>
     in the form of the "codec" (short for coder/decoder), and the actual
     position of the character that caused the problem.</p><figurep href="text/unipain/unipain.html#21"><img src="text/unipain_020.png" alt="Decoding errors"/></figurep><p>Decoding can also produce errors.  Here we try to decode our UTF-8
     string as ASCII and get a UnicodeDecodeError because again, ASCII can only
-    accepts values up to 127, and our UTF-8 string has bytes outside that
+    accept values up to 127, and our UTF-8 string has bytes outside that
     range.</p><p>Even UTF-8 can't decode any sequence of bytes.  Next we try to decode
     some random junk, and it also produces a UnicodeDecodeError.   Actually,
     one of UTF-8's advantages is that there are invalid sequences of bytes,
@@ -137,7 +137,7 @@ special symbols will appear.</p>
     used for these implicit decodings is the value of
     sys.getdefaultencoding().</p><p>The implicit encoding is ASCII because it's the only safe guess: ASCII
     is so widely accepted, and is a subset of so many encodings, that it's 
-    unlikely to be wrong.</p><figurep href="text/unipain/unipain.html#25"><img src="text/unipain_024.png" alt="Implicit decoding errors"/></figurep><p>Of course, these implicit decodings are not immune to decoding errors.  If you
+    unlikely to produce false positives.</p><figurep href="text/unipain/unipain.html#25"><img src="text/unipain_024.png" alt="Implicit decoding errors"/></figurep><p>Of course, these implicit decodings are not immune to decoding errors.  If you
     try to combine a byte string with a unicode string and the byte string can't be
     decoded as ASCII, then the operation will raise a UnicodeDecodeError.</p><p>This is the source of those painful UnicodeErrors.  Your code
     inadvertently mixes unicode strings and byte strings, and as long as the
