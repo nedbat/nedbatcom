@@ -12,7 +12,7 @@ class CmdLine:
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
         self.BASE = None
-        self.ROOT = None
+        self.ROOT = r'html'
         self.HTACCESS = None
         self.all_words = "clean load make upload"
         self.text_ext='''
@@ -32,9 +32,11 @@ class CmdLine:
         self.HTACCESS = 'geometer.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
+    def do_file(self):
+        self.BASE = r'file:///C:/ned/web/stellated/html/'
+
     def do_tch(self):
         self.BASE = 'http://nedbatchelder.com'
-        self.ROOT = r'html'
         self.HTACCESS = 'totalchoice.htaccess'
         self.FTP = dict(
             host='72.9.232.138', hostdir='www',
@@ -47,7 +49,6 @@ class CmdLine:
 
     def do_wf(self):
         self.BASE = 'http://nedbatchelder.com'
-        self.ROOT = r'html'
         self.HTACCESS = 'webfaction.htaccess'
         self.FTP = dict(
             host='nedbat.webfactional.com', hostdir='webapps/main',
@@ -60,7 +61,6 @@ class CmdLine:
 
     def do_nednet(self):
         self.BASE = 'http://nedbatchelder.net'
-        self.ROOT = r'html'
         self.HTACCESS = 'nednet.htaccess'
         self.FTP = dict(
             host='nedbatchelder.net', hostdir='nedbatchelder.net',
@@ -142,7 +142,8 @@ class CmdLine:
         start = time.clock()
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
-        self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
+        if self.HTACCESS:
+            self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         now = time.clock()
         print "Time: %.2f sec" % (now - start)
 
