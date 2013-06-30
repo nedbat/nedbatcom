@@ -456,7 +456,7 @@
 <xsl:template match='box'>
 	<xsl:call-template name='checkblock'/>
 	<blockquote class='box'>
-		<xsl:apply-templates select='*|text()'/>
+		<xsl:apply-templates select='*|@*|text()'/>
 	</blockquote>
 </xsl:template>
 
