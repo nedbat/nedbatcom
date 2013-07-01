@@ -20,7 +20,7 @@ def clean_data():
 @transaction.commit_on_success
 def load_categories():
     Tag.create_from_xml(str(root/'categories.xml'))
-    
+
 @transaction.commit_on_success
 def load_entries():
     for subdir in blog_sources:
@@ -46,7 +46,7 @@ def create_bogus_blog_pages():
     blog = Article(path='blog/index.px', title='Blog', text='')
     blog.save()
     Section(article=blog, title='Blog').save()
-    
+
 @transaction.commit_on_success
 def load_links():
     Link.create_from_lx(str(root/'links/blogs.lx'))
@@ -62,26 +62,26 @@ def load_all():
     # Stats
     print
     print "%d total blog entries" % (Entry.objects.all().count())
-    
+
     # Show all the slugs
     if 0:
         for ent in Entry.objects.all().order_by('title'):
             print "%4d %s: %s" % (ent.id, ent.when, ent.slug)
-        
+
     # Yearly census
     if 0:
         years = Entry.objects.dates('when', 'year')
         for year in years:
             y = year.year
             print "%s: %d entries" % (y, Entry.objects.filter(when__year=y).count())
-    
+
     # Show draft titles
     if 1:
         drafts = Entry.drafts.all()
         print "%d drafts:" % (len(drafts))
         for d in drafts:
             print d.when, d.title
-    
+
     if 0:
         print "\nTags:"
         for t in Tag.objects.all().order_by('tag'):
