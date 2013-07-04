@@ -70,7 +70,7 @@ tracing without modifying the interpreter.</p>
 
 <h1>Python line numbers</h1>
 
-<p>The bytecode interpreter invokes the trace function every time a opcode to be
+<p>The bytecode interpreter invokes the trace function every time an opcode to be
 executed is the first opcode on a new source line. But how does it know which
 opcodes those are? The key is the co_lnotab member in the code object. This is a
 string, interpreted as pairs of one-byte unsigned integers. To re-use the
