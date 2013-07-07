@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <page title='Facts and myths about Python names and values'>
 <history>
-<what when='20130622T182400'>Created.</what>
+<what when='20130706T181500'>Created.</what>
 </history>
 
 <!--[[[cog
+    import textwrap
+    import urllib
+
+    import cog
+
     from graphy import CogGraphviz
+
+    def tutor_a_tag(code):
+        tutor_url_fmt = 'http://pythontutor.com/visualize.html#code={code}&mode=display&cumulative=false&heapPrimitives=false&drawParentPointers=false&textReferences=false&showOnlyOutputs=false&py=2'
+        url_code = urllib.quote(textwrap.dedent(code))
+        url = tutor_url_fmt.replace('&', '&amp;').format(code=url_code)
+        html = "<a href='{url}' target='_blank'>".format(url=url)
+        cog.outl(html)
+
 ]]]-->
 <!--[[[end]]]-->
 
@@ -42,8 +55,13 @@
 
 TODO:
     + reference counting?
-    - lists, dicts, and user-defined objects are mutable.
+    + lists, dicts, and user-defined objects are mutable.
     - rhs can make new values, but assignment does not.
+    + "frames": don't mention.
+    - placeholder for += 
+    - clarify CBV and CBR
+    + anchors for boxes.
+    - Include the NxM board example?
 -->
 
 
@@ -54,12 +72,14 @@ TODO:
     I'll explain how it all works, and present some facts and myths along the
     way.</p>
 
-<p>These are all the facts and myths:</p>
+<!--
+<p>These are all the facts and myths, but I'll cover them in detail below,
+    don't be alarmed:</p>
 
 <ul>
     <li>Fact: Names refer to values.</li>
     <li>Fact: Many names can refer to one value.</li>
-    <li>Fact: Values live as long as a name is referring to them.</li>
+    <li>Fact: Values live until no names refer to them.</li>
     <li>Fact: Assignment never copies data.</li>
     <li>Fact: Changes in a value are visible through all of its names.</li>
     <li>Myth: Python treats mutable and immutable values differently.</li>
@@ -70,20 +90,22 @@ TODO:
     <li>Fact: Names have no type, values have no scope.</li>
     <li>Fact: Values can't be deleted, only names can.</li>
     <li>Fact: Augmented assignment might be surprising.</li>
-    <li>Myth: Python is call-by-value.</li>
-    <li>Myth: Python is call-by-reference.</li>
     <li>Myth: Python has no variables.</li>
     <li>Myth? Python is confusing.</li>
 </ul>
+-->
 
-<p>Let's start at the top:</p>
 
+<h1>Names and values</h1>
 
-<box>Fact: Names refer to values.</box>
+<p>Let's start simple:</p>
+
+<box id='names_refer'>Fact: Names refer to values.</box>
 
 <p>As in many programming languages, a Python assignment statement associates a
     symbolic name on the left-hand side with a value on the right-hand side.
-    In Python, we say that names refer to values:</p>
+    In Python, we say that names refer to values, or a name is a reference to a
+    value:</p>
 
 <code lang="py"><![CDATA[
 x = 23
@@ -118,8 +140,13 @@ print(x+2)       # prints 25
 <p>I'll be using these diagrams to show how Python statements affect the names
     and values involved.</p>
 
+<p>Another way to explore what's going on with these code snippets is to try
+    them on <a href='http://pythontutor.com'>pythontutor.com</a>, which
+    cleverly diagrams your code as it runs.  I've included links there with
+    some of the examples.</p>
 
-<box>Fact: Many names can refer to one value.</box>
+
+<box id='many_names'>Fact: Many names can refer to one value.</box>
 
 <p>There's no rule that says a value can only have one name.  An assignment
     statement can make a second (or third, ...) name refer to the same
@@ -148,10 +175,10 @@ y = x
     the value in exactly the same way.</p>
 
 
-<box>Fact: Values live as long as a name is referring to them.</box>
+<box id='value_life'>Fact: Values live until nothing references them.</box>
 
-<p>Python keeps track of how many names refer to each value, and automatically
-    cleans up values that have no names.  This is called "garbage collection,"
+<p>Python keeps track of how many references each value has, and automatically
+    cleans up values that have none.  This is called "garbage collection,"
     and means that you don't have to get rid of values, they go away by
     themselves when they are no longer needed.</p>
 
@@ -160,7 +187,12 @@ y = x
     cleaning up a value is called reclaiming it.</p>
 
 
-<box>Fact: Assignment never copies data.</box>
+
+<h1>Assignment</h1>
+
+<p>An important fact about assignment:</p>
+
+<box id='no_copies'>Fact: Assignment never copies data.</box>
 
 <p>When values have more than one name, it's easy to get confused and think of
     it as two names and two values:</p>
@@ -168,8 +200,8 @@ y = x
 <code lang="py"><![CDATA[
 x = 23
 y = x
-# Now I have two values: x and y!
-# NO: you only have one value.
+# "Now I have two values: x and y!"
+# NO: you have two names, but only one value.
 ]]></code>
 
 <p>Assigning a value to a name never copies the data, it never makes a new
@@ -177,7 +209,8 @@ y = x
     the right.  In this case, we have only one 23, and x and y both refer to
     it, just as we saw in the last diagrams.</p>
 
-<p>Things get more interesting when we have more complicated values:</p>
+<p>Things get more interesting when we have more complicated values, like a
+    list:</p>
 
 <code lang="py"><![CDATA[
 nums = [1, 2, 3]
@@ -214,22 +247,22 @@ tri = nums
 </figurep>
 
 
-<p>Both "tri" and "nums" refer to the same list.  Remember: assignment never
-    makes new values, and it never copies data.  This assignment statement
-    doesn't magically turn my list into two lists.</p>
+<p>Remember: assignment never makes new values, and it never copies data.  This
+    assignment statement doesn't magically turn my list into two lists.</p>
 
 <p>At this point, we have one list, referred to by two names, which can lead
     to a big surprise which is common enough I'm going to give it a catchy
     name: the Mutable Presto-Chango.</p>
 
 
-<box>Fact: Changes in a value are visible through all of its names. (Mutable Presto-Chango)</box>
+<box id='presto_chango'>Fact: Changes in a value are visible through all of its names. (Mutable Presto-Chango)</box>
 
-<p>Values in Python can be mutable or immutable.  Immutable values include
-    numbers, strings, and tuples.  Almost everything else is mutable, including
-    lists, dicts, and user-defined objects.  Mutable means that the value has
-    methods that can change the value in-place.  Immutable means that the value
-    can never change, instead you create new values based on old ones.</p>
+<p>Values fall into two categories based on their type: mutable or immutable.
+    Immutable values include numbers, strings, and tuples.  Almost everything
+    else is mutable, including lists, dicts, and user-defined objects.  Mutable
+    means that the value has methods that can change the value in-place.
+    Immutable means that the value can never change, instead when you think you
+    are changing the value, you are really making new values from old ones.</p>
 
 <p>Since numbers are immutable, you can't change one in-place, you can only
     make a new value and assign it to the same name:</p>
@@ -277,22 +310,22 @@ nums.append(4)
     <!--[[[end]]]-->
 </figurep>
 
-<p>Here we haven't changed which value object nums refers to.  At first, the
+<p>Here we haven't changed which value nums refers to.  At first, the
     name nums refers to a three-element list.  Then we use the name nums to
     access the list, but we don't assign to nums, so the name continues to
     refer to the same list.  The append method modifies that list by appending
-    a 4 to it, but it's the same list, and nums still refers to it.  This
+    4 to it, but it's the same list, and nums still refers to it.  This
     distinction between assigning a name and changing a value is sometimes
     described as "rebinding the name vs. mutating the value."</p>
 
 <p>Notice that informal English descriptions can be ambigious.  We might say
-    that "x = x+1" is "changing x", and "nums.append(4)" is "changing nums,"
-    but they are very different kinds of change.  The first makes x refer to a
-    different object (rebinding), the second is modifying the value x refers to
+    that "x = x+1" is changing x, and "nums.append(4)" is changing nums, but
+    they are very different kinds of change.  The first makes x refer to a new
+    value (rebinding), the second is modifying the value x refers to
     (mutating).</p>
 
 <p>Here's where people get surprised: if two names refer to the same value, and
-    the value is mutated, then both names "see" the change:</p>
+    the value is mutated, then both names see the change:</p>
 
 <code lang="py"><![CDATA[
 nums = [1, 2, 3]
@@ -319,7 +352,7 @@ print(tri)      # [1, 2, 3, 4]
     <!--[[[end]]]-->
 </figurep>
 
-<p>Mutating is different than rebinding: calling .append(4) modifies the list
+<p>Then we mutate the list by calling .append(4), which modifies the list
     in place.  Since tri refers to that list, when we look at tri we see the
     same list as nums, which has been changed, so tri now shows four numbers
     also:</p>
@@ -338,7 +371,7 @@ print(tri)      # [1, 2, 3, 4]
 </figurep>
 
 
-<p>The Mutable Presto-Chango is the biggest issue people have with Python's
+<p>This Mutable Presto-Chango is the biggest issue people have with Python's
     names and values.  A value is shared by more than one name, and is
     modified, and all names see the change.  To make the Presto-Chango happen,
     you need:</p>
@@ -360,7 +393,7 @@ print(tri)      # [1, 2, 3, 4]
     copy values, and that would make your programs unbearably slow.</p>
 
 
-<box>Myth: Python treats mutable and immutable values differently.</box>
+<box id='myth_mutable_immutable'>Myth: Python treats mutable and immutable values differently.</box>
 
 <p>Because the Presto-Chango only happens with mutable values, some people
     believe that assignment works differently for mutable values than for
@@ -369,10 +402,12 @@ print(tri)      # [1, 2, 3, 4]
 <p>All assignment works the same: it makes a name refer to a value.  But with 
     an immutable value, no matter how many names are referring to the same
     value, the value can't be changed in-place, so you can never get into a
-    Presto-Chango situation.</p>
+    surprising Presto-Chango situation.</p>
 
 
-<box>Fact: Assignment never affects the old value of the name.</box>
+<!-- 
+
+<box id='old_value'>Fact: Assignment never affects the old value of the name.</box>
 
 <p>Assignment simply makes a name refer to a value.  If the name already
     referred to a value, the name is moved from the old value to the new value.
@@ -393,26 +428,26 @@ print(y)    # 1
 <p>Here are the diagrams, step by step:</p>
 
 <figurep>
-    <!--[[[cog
+    <!- -[ [ [cog
     g = CogGraphviz()
     g.codelabel("x = 1")
     g.int(1)
-    g.refer("x", 1)     
+    g.refer("x", 1)
     g.img(alt="x = 1")
-    ]]]-->
+    ] ] ]- ->
     <img src="text/names_dot/d008.png" alt="x = 1" align="top"/>
-    <!--[[[end]]]-->
-    <!--[[[cog
+    <!- -[ [ [end] ] ]- ->
+    <!- -[ [ [cog
     g = CogGraphviz()
     g.codelabel("y = x")
     g.int(1)
     g.refer("x", 1)
     g.refer("y", 1)
     g.img(alt="y = x")
-    ]]]-->
+    ] ] ]- ->
     <img src="text/names_dot/d009.png" alt="y = x" align="top"/>
-    <!--[[[end]]]-->
-    <!--[[[cog
+    <!- -[ [ [end] ] ]- ->
+    <!- -[ [ [cog
     g = CogGraphviz()
     g.codelabel("x = x + 1")
     g.name("y")
@@ -421,22 +456,29 @@ print(y)    # 1
     g.refer("x", 2)
     g.refer("y", 1)
     g.img(alt="x = x + 1")
-    ]]]-->
+    ] ] ]- ->
     <img src="text/names_dot/d010.png" alt="x = x + 1" align="top"/>
-    <!--[[[end]]]-->
+    <!- -[ [ [end] ] ]- ->
 </figurep>
 
 
 <p>If the assignment "y = x" meant, make y refer to x, then we should see y
-    with a value of 2.  But it doesnt: "y = x" means, make y refer to the value
+    with a value of 2.  But it doesn't: "y = x" means, make y refer to the value
     x refers to.  When we reassign x on the third line, that doesn't affect the
     old value of x at all, so y is unchanged.</p>
 
 <p>There is no mechanism in Python to make one name refer to another name.  The
     closest we can get is to have two names referring to the same value.</p>
 
+-->
 
-<box>Fact: References can be more than just names.</box>
+<h1>Python's diversity</h1>
+
+<p>I said earlier that Python has an underlying simplicity.  Its mechanisms are
+    quite simple, but they manifest in a number of ways.</p>
+
+
+<box id='references'>Fact: References can be more than just names.</box>
 
 <p>All of the examples I've been using so far used names as references to
     values, but other things can be references.  Python has a number of
@@ -445,7 +487,7 @@ print(y)    # 1
     of those can be used on the left-hand side of an assignment, and all the
     details I've been talking about apply to them.  Anything that can appear on
     the left-hand side of an assignment statement is a reference, and
-    everywhere I've said "name" you can substitute "reference".</p>
+    everywhere I say "name" you can substitute "reference".</p>
 
 <p>In our diagrams of lists, I've shown numbers as the elements, but really,
     each element is a reference to a number, so it should be drawn like this:</p>
@@ -470,7 +512,7 @@ print(y)    # 1
         """)
     g.img(alt="nums refers to a list, which refers to ints") 
     ]]]-->
-    <img src="text/names_dot/d011.png" alt="nums refers to a list, which refers to ints" align="top"/>
+    <img src="text/names_dot/d008.png" alt="nums refers to a list, which refers to ints" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -484,12 +526,16 @@ print(y)    # 1
     g.refer("nums", "list1")
     g.img(alt="nums refers to a list of numbers")
     ]]]-->
-    <img src="text/names_dot/d012.png" alt="nums refers to a list of numbers" align="top"/>
+    <img src="text/names_dot/d009.png" alt="nums refers to a list of numbers" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
+<p>If you have list elements referring to other mutable values, like sub-lists, 
+    it's important to remember that the list elements are just references to
+    values.</p>
 
-<p>Here are some other assignments:</p>
+<p>Here are some other assignments.  Each of these left-hand sides is a
+    reference:</p>
 
 <code lang="py"><![CDATA[
 my_obj.attr = 23
@@ -500,11 +546,18 @@ my_obj.attr[key][index].attr = "etc, etc"
 
 <p>and so on. Lots of Python data structures hold values, and each of those
     is a reference.  All of the rules here about names apply exactly the same
-    to any of these references.</p>
+    to any of these references.  For example, the garbage collector doesn't
+    just count names, it counts any kind of reference to decide when a value
+    can be reclaimed.</p>
+
+<p>Note that "i = x" assigns to the name i, but "i[0] = x" doesn't, it assigns
+    to the first element if i's value.  It's important to keep straight what
+    exactly is being assigned to.  Just because a name appears somewhere on the
+    left-hand side of the assignment statement doesn't mean the name is being
+    rebound.</p>
 
 
-
-<box>Fact: Lots of things are assignment</box>
+<box id='lots_of_assignment'>Fact: Lots of things are assignment</box>
 
 <p>Just as many things can serve as references, there are many operations in
     Python that are assignments.  Each of these lines is an assignment to the
@@ -514,6 +567,8 @@ my_obj.attr[key][index].attr = "etc, etc"
 X = ...
 for X in ...
 [... for X in ...]
+(... for X in ...)
+{... for X in ...}
 class X(...):
 def X(...):
 def fn(X): ... ; fn(12)
@@ -530,32 +585,35 @@ from ... import ... as X
     everything I've been saying about assignments applies to all of them
     uniformly.</p>
 
-<p>Let's examine the most interesting of these: calling a function.  When I
-    define a function, I name its formal parameters:</p>
+
+<box id='call_by_assign'>Fact: Python passes function arguments by assigning to them.</box>
+
+<p>Let's examine the most interesting of these alternate assignments: calling a
+    function.  When I define a function, I name its parameters:</p>
 
 <code lang="py"><![CDATA[
 def my_func(x, y):
     return x+y
 ]]></code>
 
-<p>Here x and y are the formal parameters of the function my_func.  When I call
+<p>Here x and y are the parameters of the function my_func.  When I call
     my_func, I provide actual values to be used as the arguments of the
-    function.  These values are assigned to the formal parameter names just as
-    if an assignment statement had been used:</p>
+    function.  These values are assigned to the parameter names just as if an
+    assignment statement had been used:</p>
 
 <code lang="py"><![CDATA[
 def my_func(x, y)
     return x+y
 
-print my_func(8, 9)
+print(my_func(8, 9))
 ]]></code>
 
 <p>When my_func is called, the name x has 8 assigned to it, and the name y has
-    9 assigned to it.  That assignment works exactly the same as the assignment
-    statements I've been talking about. The names x and y are local to the
-    function, so when the function returns, those names go away.  But if the
-    values they refer to are still referenced by other names, the values live
-    on.</p>
+    9 assigned to it.  That assignment works exactly the same as the simple
+    assignment statements we've been talking about. The names x and y are local
+    to the function, so when the function returns, those names go away.  But if
+    the values they refer to are still referenced by other names, the values
+    live on.</p>
 
 <p>Just like every other assignment, mutable values can be passed into
     functions, and changes to the value will be visible through all of its
@@ -563,6 +621,7 @@ print my_func(8, 9)
 
 <code lang="py"><![CDATA[
 def augment_twice(a_list, val):
+    """Put `val` on the end of `a_list` twice."""
     a_list.append(val)
     a_list.append(val)
 
@@ -571,8 +630,8 @@ augment_twice(nums, 4)
 print(nums)         # [1, 2, 3, 4, 4]
 ]]></code>
 
-<p>Let's take this step-by-step.  When we call augment_twice, the names and
-    values look like this:</p>
+<p>This can produce surprising results, so let's take this step-by-step.  When
+    we call augment_twice, the names and values look like this:</p>
 
 <figurep>
     <!--[[[cog
@@ -589,16 +648,17 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d013.png" alt="augment_twice(nums, 4)" align="top"/>
+    <img src="text/names_dot/d010.png" alt="augment_twice(nums, 4)" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
 <p>The local names in the function are drawn in a new frame. Calling the
-    function assigns the actual values to the parameter names.  Remember that
-    assignment never makes new values or copies any data, so the local names
-    refer to the same values that were passed in.</p>
+    function assigned the actual values to the parameter names, just like any
+    other assignment statement.  Remember that assignment never makes new
+    values or copies any data, so the here the local name a_list refers to the
+    same value that was passed in, nums.</p>
 
-<p>Then we call a_list.append twice:</p>
+<p>Then we call a_list.append twice, which mutates the list:</p>
 
 <figurep>
     <!--[[[cog
@@ -615,13 +675,12 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d014.png" alt="a_list.append(4)" align="top"/>
+    <img src="text/names_dot/d011.png" alt="a_list.append(4)" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
-<p>When the function ends, the local frame is destroyed, along with all the 
-    names it contains.  Values that are no longer referenced are reclaimed, but
-    others remain:</p>
+<p>When the function ends, the local names are destroyed.  Values that are no
+    longer referenced are reclaimed, but others remain:</p>
 
 <figurep>
     <!--[[[cog
@@ -631,19 +690,36 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d015.png" alt="print(nums)" align="top"/>
+    <img src="text/names_dot/d012.png" alt="print(nums)" align="top"/>
     <!--[[[end]]]-->
 </figurep>
+
+<p>You can try this example code yourself
+<!--[[[cog
+tutor_a_tag("""\
+def augment_twice(a_list, val):
+    a_list.append(val)
+    a_list.append(val)
+
+nums = [1, 2, 3]
+augment_twice(nums, 4)
+print(nums)         # [1, 2, 3, 4, 4]
+""")
+]]]-->
+<a href='http://pythontutor.com/visualize.html#code=def%20augment_twice%28a_list%2C%20val%29%3A%0A%20%20%20%20a_list.append%28val%29%0A%20%20%20%20a_list.append%28val%29%0A%0Anums%20%3D%20%5B1%2C%202%2C%203%5D%0Aaugment_twice%28nums%2C%204%29%0Aprint%28nums%29%20%20%20%20%20%20%20%20%20%23%20%5B1%2C%202%2C%203%2C%204%2C%204%5D%0A&amp;mode=display&amp;cumulative=false&amp;heapPrimitives=false&amp;drawParentPointers=false&amp;textReferences=false&amp;showOnlyOutputs=false&amp;py=2' target='_blank'>
+<!--[[[end]]]-->
+on pythontutor.com</a>.</p>
 
 <p>We passed the list into the function, which modified it.  No values were
     copied. Although this behavior might be surprising, it's essential. Without
     it, we couldn't write methods that modify objects.</p>
 
-<p>Here's another way to write the function, but it doesn't work. 
-    Let's see why.</p>
+<p>Here's another way to write the function, but it doesn't work.  Let's see
+    why.</p>
 
 <code lang="py"><![CDATA[
 def augment_twice_bad(a_list, val):
+    """Put `val` on the end of `a_list` twice."""
     a_list = a_list + [val, val]
 
 nums = [1, 2, 3]
@@ -669,7 +745,7 @@ print(nums)         # [1, 2, 3]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d016.png" alt="augment_twice_bad(nums, 4)" align="top"/>
+    <img src="text/names_dot/d013.png" alt="augment_twice_bad(nums, 4)" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -693,13 +769,12 @@ print(nums)         # [1, 2, 3]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d017.png" alt="a_list = a_list + [val, val]" align="top"/>
+    <img src="text/names_dot/d014.png" alt="a_list = a_list + [val, val]" align="top"/>
     <!--[[[end]]]-->
 </figurep>
 
-<p>When the function ends, its frame and local names are destroyed, and
-    any values no longer referenced are reclaimed, leaving us just where we
-    started:</p>
+<p>When the function ends, its local names are destroyed, and any values no
+    longer referenced are reclaimed, leaving us just where we started:</p>
 
 <figurep>
     <!--[[[cog
@@ -709,9 +784,24 @@ print(nums)         # [1, 2, 3]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d018.png" alt="print(nums)" align="top"/>
+    <img src="text/names_dot/d015.png" alt="print(nums)" align="top"/>
     <!--[[[end]]]-->
 </figurep>
+
+<p>(Try this code 
+<!--[[[cog
+tutor_a_tag("""\
+def augment_twice_bad(a_list, val):
+    a_list = a_list + [val, val]
+
+nums = [1, 2, 3]
+augment_twice_bad(nums, 4)
+print(nums)         # [1, 2, 3]
+""")
+]]]-->
+<a href='http://pythontutor.com/visualize.html#code=def%20augment_twice_bad%28a_list%2C%20val%29%3A%0A%20%20%20%20a_list%20%3D%20a_list%20%2B%20%5Bval%2C%20val%5D%0A%0Anums%20%3D%20%5B1%2C%202%2C%203%5D%0Aaugment_twice_bad%28nums%2C%204%29%0Aprint%28nums%29%20%20%20%20%20%20%20%20%20%23%20%5B1%2C%202%2C%203%5D%0A&amp;mode=display&amp;cumulative=false&amp;heapPrimitives=false&amp;drawParentPointers=false&amp;textReferences=false&amp;showOnlyOutputs=false&amp;py=2' target='_blank'>
+<!--[[[end]]]-->
+on pythontutor.com</a>.)</p>
 
 <p>It's really important to keep in mind the difference between mutating a
     value in place, and rebinding a name.  augment_twice worked because it
@@ -728,7 +818,7 @@ def augment_twice_good(a_list, val):
 
 nums = [1, 2, 3]
 nums = augment_twice_good(nums, 4)
-print(nums)         # [1, 2, 3, 4]
+print(nums)         # [1, 2, 3, 4, 4]
 ]]></code>
 
 <p>Here we make an entirely new value inside augment_twice_good, and return it
@@ -745,14 +835,20 @@ print(nums)         # [1, 2, 3, 4]
     and then to pick the one that works best for your particular problem.</p>
 
 
-<box>Fact: Any name can refer to any value at any time.</box>
-<box>Fact: Names have no type, values have no scope.</box>
+
+<h1>Dynamic typing</h1>
+
+<p>Some details about Python names and values:</p>
+
+<box id='any_value'>Fact: Any name can refer to any value at any time.</box>
 
 <p>Python is dynamically typed, which means that names have no type.  Any name
     can refer to any value at any time.  A name can refer to an integer, and
     then to a string, and then to a function, and then to a module.  Of course,
     this could be a very confusing program, and you shouldn't do it, but the
     Python language won't mind.</p>
+
+<box id='type_scope'>Fact: Names have no type, values have no scope.</box>
 
 <p>Just as names have no type, values have no scope.  When we say that a
     function has a local variable, we mean that the name is scoped to the
@@ -761,8 +857,7 @@ print(nums)         # [1, 2, 3, 4]
     value has other references, it will live on beyond the function call.  It
     is a local name, not a local value.</p>
 
-
-<box>Fact: Values can't be deleted, only names can.</box>
+<box id='no_delete'>Fact: Values can't be deleted, only names can.</box>
 
 <p>Python's memory management is so central to its behavior, not only do you
     not have to delete values, but there is no way to delete values.  You may
@@ -773,43 +868,137 @@ nums = [1, 2, 3]
 del nums
 ]]></code>
 
-<p>This does not delete the value nums.  It deletes the name nums.  The name
+<p>This does not delete the value nums, it deletes the name nums.  The name
     is removed from its scope, and then the usual reference counting kicks in:
     if nums' value had only that one reference, then the value will be
     reclaimed.  But if it had other references, then it will not.</p>
 
-
-
-
-<box>Fact: Augmented assignment might be surprising.</box>
-
-<p>Should I include this here?  I think not.</p>
-
-
-<box>Myth: Python is call-by-value.</box>
-<box>Myth: Python is call-by-reference.</box>
-
-<p>There's a common misconception that passing arguments to functions must
-    either be call by value, or it must be call by reference.  These two
-    techniques come from C and languages like it.  These are not the only two
-    choices, and Python uses neither of them.</p>
-
-
-<box>Myth: Python has no variables.</box>
+<box id='myth_no_variables'>Myth: Python has no variables.</box>
 
 <p>Some people like to say, "Python has no variables, it has names."  This
     slogan is misleading.  The truth is that Python has variables, they just
     work differently than variables in C.</p>
 
 <p>Names are Python's variables: they refer to values, and those values can
-    change (vary) over the course of your program.</p>
+    change (vary) over the course of your program. Just because another
+    language (albeit an important one) behaves differently is no reason to
+    describe Python as not having variables.</p>
 
 
-<box>Myth? Python is confusing.</box>
+
+
+<!--
+
+<box id='aug_assign'>Fact: Augmented assignment might be surprising.</box>
+
+<p>Python has other forms of assignment, where a value is manipulated and
+    assigned at once:</p>
+
+<code lang="py"><![CDATA[
+nums = [1, 2, 3]
+nums += [4]
+]]></code>
+
+<p>Conceptually, x += y should be the same as x = x + y, but in fact, they
+    are implemented differently.  Usually they have the same effect, but
+    sometimes there are subtle differences.</p>
+
+<p>"x = x + y" is implemented by adding x and y together, and assigning the result to x.
+    Adding them together is actually a complex dance, but for our purposes, it's roughly
+    x.__add__(y).  So these two lines are (roughly) equivalent:</p>
+
+<code lang="py"><![CDATA[
+x = x + y
+x = x.__add__(y)
+]]></code>
+
+<p>"x += y" is implemented by invoking a method on x, and assigning the result to x.
+    These two lines are roughly equivalent:</p>
+
+<code lang="py"><![CDATA[
+x += y
+x = x.__iadd__(y)   # Note the 'i' in __iadd__
+]]></code>
+
+<p>In the x.__add__(y) case, the result must be a new list, since the result of the
+    addition could be used for anything.  That new list is assigned to x, and
+    the old value of x is unreferenced.</p> 
+
+<p>But in the x.__iadd__(y) case, the result can only be assigned back to x, since
+    it's the result of a += statement.  So the list.__iadd__ implementation extends
+    the list, and returns itself rather than making a new list.</p>
+
+<p>As a result, list's += is more like .extend() than it is like +.</p>
+
+-->
+
+<!--
+
+<box>Copies are shallow</box>
+
+<figurep>
+    <!- -[ [ [cog
+    g = CogGraphviz()
+    g.codelabel("board = [['_']*3] * 3")
+    g.dot("""
+        board [NAMEATTRS]
+        placeholder [style=invis]
+        list1 [shape=record, label="{<0>|<1>|<2>}"]
+        list2 [shape=record, label="{<0>'_'|<1>'_'|<2>'_'}"]
+        placeholder -> list2 [label="", style=invis]
+        board -> list1:0
+        list1:0 -> list2:0
+        list1:1 -> list2:0
+        list1:2 -> list2:0 [constraint=False]
+        """)
+    g.img(alt="") 
+    ] ] ]- ->
+    <img src="text/names_dot/d016.png" alt="board = [['_']*3] * 3" align="top"/>
+    <!- -[ [ [end] ] ]- ->
+</figurep>
+
+-->
+
+<!--
+<box id='myth_cbv'>Myth: Python is call-by-value.</box>
+<box id='myth_cbr'>Myth: Python is call-by-reference.</box>
+
+<p>There's a common misconception that passing arguments to functions must
+    either be call by value, or it must be call by reference.  These two
+    techniques come from C and languages like it.  These are not the only two
+    choices, and Python uses neither of them.</p>
+
+-->
+
+<h1>Wrapping up</h1>
+
+<box id='myth_confusing'>Myth? Python is confusing.</box>
 
 <p>I hope this has helped clarify how names and values work in Python.  It's a
     very simple mechanism that can be surprising, but is very powerful.
     Especially if you are used to languages like C, you'll have to think about
     your values differently.</p>
+
+<p>There are lots of side trips that I skipped here:</p>
+
+<ul>
+    <li>Is Python call-by-value or not?</li> 
+    <li>Why do beginners find it hard to make a tic-tac-toe board in Python?</li>
+    <li>Why is "list += seq" not the same as "list = list + seq"?</li>
+    <li>Why is "is" different than "==" and how come "2 + 2 is 4", but "1000 + 1 is not 1001"?</li>
+    <li>What's the deal with mutable default arguments to functions?</li>
+</ul>
+
+<h1>See also</h1>
+
+<p>If you are looking for more information about these topics, try:</p>
+
+<ul>
+    <li><a href='http://pythontutor.com'>Python Tutor</a>, which visualizes program execution, including bindings of names to values.</li>
+    <li><a href='http://python.net/~mwh/hacks/objectthink.html'>How to Think Like a Pythonista</a>, which explains all this, with ASCII art!</li>
+    <li><a href='/blog'>My blog</a>, where posts occasionally appear about these sorts of things.</li>
+</ul>
+
+<pagecomments/>
 
 </page>
