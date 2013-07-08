@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130707T204353'>
+<title>Facts and myths about Python names and values</title>
+<category>python</category>
+<body>
+
+    <p>I've written a page about how Python names and values work:
+        <a href='/text/names.html'>Fact and myths about Python names and values</a>.</p>
+
+    <p>Other people have written about this, but maybe my small effort will
+        help.</p>
+
+    <p>As always, my problem with explaining stuff like this is knowing where
+        to start, and how to build, and what to leave out.  In other words,
+        trimming and linearizing the concept graph.</p>
+
+    <p>As a result, finishing a page like this just creates more drafts in my
+        mind.  Who knows where it will end??</p>
+
+    <p>One of the challenges with this piece was the diagrams.  I finally got a
+        tool chain working well enough with <a href='/cog/code'>Cog</a> and
+        <a href='http://graphviz.org'>Graphviz</a>.</p>
+
+</body>
+</entry>
+</blog>

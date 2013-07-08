@@ -987,6 +987,7 @@ x = x.__iadd__(y)   # Note the 'i' in __iadd__
     <li>Why is "list += seq" not the same as "list = list + seq"?</li>
     <li>Why is "is" different than "==" and how come "2 + 2 is 4", but "1000 + 1 is not 1001"?</li>
     <li>What's the deal with mutable default arguments to functions?</li>
+    <li>Why is it easy to make a list class attribute, but hard to make an int class attribute?</li>
 </ul>
 
 <h1>See also</h1>
