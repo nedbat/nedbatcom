@@ -393,7 +393,7 @@ print(tri)      # [1, 2, 3, 4]
     copy values, and that would make your programs unbearably slow.</p>
 
 
-<box id='myth_mutable_immutable'>Myth: Python treats mutable and immutable values differently.</box>
+<box id='myth_mutable_immutable'>Myth: Python assigns mutable and immutable values differently.</box>
 
 <p>Because the Presto-Chango only happens with mutable values, some people
     believe that assignment works differently for mutable values than for
