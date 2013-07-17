@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130716T214210'>
+<title>How many instructions in a print statement?</title>
+<category>python</category>
+<body>
+
+    <p>Hanging out in IRC channels, you see a lot of the same discussions pop
+        up over and over again.  One involves people who want to be "close to
+        the metal."  Either they want "no dependencies" (other than Python
+        itself, which is a large dependency), or they feel like they need to
+        know how things "really work" so they want to use sockets instead of
+        Flask, or something.</p>
+
+    <p>Today that topic came up again, and the low-level proponent said it was
+        important to know what's happening in the CPU when you do "print x".
+        My feeling is, modern CPUs are hella-complicated beasts, I have no idea
+        how they work, and it hasn't hindered me.</p>
+
+    <p>He thought you should at least have a rough idea of the instruction
+        count for something like that.  I asked him to tell me what he thought
+        it was.  He guessed 500 instructions for "print x" if x was an integer.
+        I guessed that a) he was off by a factor of at least 10, and b) that we
+        were both making incredibly wild guesses.</p>
+
+    <p>Conceptually, printing an integer isn't much work, but keep in mind that
+        print has to find sys.stdout, and manipulate reference counts, and
+        convert the int to a string, and deal with output buffering, etc, not
+        to mention the general mechanisms of Python bytecode interpretation,
+        memory management, and so on.</p>
+
+    <p>OK, so we had our two guesses, how to actually measure?  Linux has "perf
+        stat" which can measure all sorts of performance statistics, including
+        number of instructions executed.</p>
+
+    <p>I wrote a simple Python program:</p>
+
+<code lang="py"><![CDATA[
+import sys
+x = 1
+for i in range(int(sys.argv[1])):
+    print x
+]]></code>
+
+    <p>Running this, I can change the number of print statements from the
+        command line, and see how many instructions result by running it under
+        perf stat:</p>
+
+<code><![CDATA[
+ned@ubuntu:~$ perf stat python foo.py 10
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+
+ Performance counter stats for 'python foo.py 10':
+
+         11.913667 task-clock                #    0.883 CPUs utilized          
+                21 context-switches          #    0.002 M/sec                  
+                 0 cpu-migrations            #    0.000 K/sec                  
+             1,221 page-faults               #    0.102 M/sec                  
+        33,379,047 cycles                    #    2.802 GHz                    
+        19,506,536 stalled-cycles-frontend   #   58.44% frontend cycles idle   
+   <not supported> stalled-cycles-backend  
+        28,821,962 instructions              #    0.86  insns per cycle        
+                                             #    0.68  stalled cycles per insn
+         6,345,082 branches                  #  532.588 M/sec                  
+           292,467 branch-misses             #    4.61% of all branches        
+
+       0.013497566 seconds time elapsed
+]]></code>
+
+    <p>So, 28 million instructions for that program.  Running it again, I saw
+        that the total instruction count fluctuates quite a bit.  So I ran it
+        10 times to get an average: 28,696,694 instructions for 10 print
+        statements.</p>
+
+    <p>Then I ran it 10 times with 11 print statements, for an average of
+        28,705,257, or a difference of 8,563 instructions for the one extra
+        print statement.</p>
+
+    <p>Then I ran it 10 times with 30 print statements, averaged, subtracted,
+        and divided by 20, which should give me another per-print statement
+        instruction count.  This time it came out to 10,518 instructions per
+        additional print statement.</p>
+
+    <p>What did we learn?</p>
+
+    <ul>
+        <li>Linux has some cool tools.</li>
+        <li>Measuring instruction counts is an inexact science.</li>
+        <li>There's a lot more going on in a print statement than some people think.</li>
+        <li>Printing an integer in Python takes roughly 10,000 instructions.</li>
+    </ul>
+
+    <p>Finally, does this matter? I claim that if you want to think about
+        numbers of instructions, then Python (or any other language of its
+        kind) is not for you.  Sure, it's useful to understand the big picture
+        of what goes into Python execution, but tomorrow when I go to work, how
+        does this help me?  It's important to know things like the
+        performance characteristics of data structures, and have an idea of the
+        forces at work on your system.</p>
+    
+    <p>But number of instructions? Meh.</p> 
+
+</body>
+</entry>
+</blog>
