@@ -6,7 +6,7 @@ import path
 from django.db import transaction
 from djstell.pages.models import Article, Section, Entry, Tag, Link
 
-root = path.path(r'c:\ned\web\stellated')
+root = path.path(".")
 page_sources = 'pages'.split()
 blog_sources = 'blog 0blog 1blog'.split()
 

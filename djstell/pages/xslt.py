@@ -41,7 +41,7 @@ def pathtitle(path):
 ns['pathtitle'] = wrapit(pathtitle)
 
 # The transform from xml to html for content.
-xslt = etree.parse(r'c:\ned\web\stellated\content.xslt')
+xslt = etree.parse(r'content.xslt')
 xslt_xform = etree.XSLT(xslt)
 
 def content_transform(name, xmltext, child=None, params={}):
