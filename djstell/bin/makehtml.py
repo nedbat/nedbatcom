@@ -8,6 +8,15 @@ import logging, os, shutil, sys, time
 from stellated import XuffApp
 import password
 
+def timed(fn):
+    def wrapped(*args, **kwargs):
+        start = time.clock()
+        ret = fn(*args, **kwargs)
+        now = time.clock()
+        print "%s time: %.2fs" % (fn.__name__, now - start)
+        return ret
+    return wrapped
+
 class CmdLine:
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
@@ -124,12 +133,14 @@ class CmdLine:
             )
         self.xuff.copytree(dst=dst+"/files", src='files', include='*.*')
 
+    @timed
     def do_clean(self):
         if os.path.exists(settings.DATABASE_NAME):
             os.remove(settings.DATABASE_NAME)
         if os.access(self.ROOT, os.F_OK):
             shutil.rmtree(self.ROOT)
 
+    @timed
     def do_load(self):
         from django.core.management import call_command
         call_command('syncdb', verbosity=False, interactive=False)
@@ -138,15 +149,14 @@ class CmdLine:
     def do_1blog(self):
         loadpages.blog_sources = ['1blog']
 
+    @timed
     def do_make(self):
-        start = time.clock()
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
-        now = time.clock()
-        print "Time: %.2f sec" % (now - start)
 
+    @timed
     def do_upload(self):
         handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter("%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s", "%H:%M:%S"))
@@ -177,11 +187,11 @@ class CmdLine:
             print ":: %s ::" % word
             doit()
 
+    @timed
     def main(self, argv):
         start = time.clock()
         self.exec_words(argv)
         now = time.clock()
-        print "Time: %.2f sec" % (now - start)
 
 if __name__ == '__main__':
     cmdline = CmdLine()
