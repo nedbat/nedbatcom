@@ -17,7 +17,7 @@
 
 <p>To help me learn all the ins and outs of the CPython bytecode, I started <a href='https://github.com/nedbat/byterun'>byterun</a>,
     a pure-Python implementation of a Python bytecode runner, or VM.  Actually, I didn't
-    start it, I found a thing written by Paul Swartz, and rehabilitated it.  It works pretty well,
+    start it, I found a thing written by Paul Swartz, and renovated and extended it.  It works pretty well,
     but isn't complete.  In particular, some of the more complex bytecodes, dealing with
     the block stack, don't work properly on Python 3.  I would love some help finishing
     byterun.</p>
