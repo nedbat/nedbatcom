@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130812T071721'>
+<title>I need help with coverage.py</title>
+<category>coverage</category>
+<body>
+
+<p>Coverage.py is kind of stuck.  I haven't done much to it in the last six months or so.
+    Well, I've <a href='https://bitbucket.org/ned/coveragepy/src/2c5fb3a8b81cc56d8ad57dd1bd83ef7740f0d65d/CHANGES.txt?at=default'>fixed six bugs</a>,
+    but I haven't released them because I want to fix more.
+</p>
+
+<p>In particular, I want to fix the <a href='https://bitbucket.org/ned/coveragepy/issues?component=branch&amp;status=new'>branch coverage bugs</a>.
+    When I wrote the branch coverage feature, I based it on bytecode analysis of the code.
+    Coverage.py finds the possible branches by looking at the bytecode to decide which of them can jump to which .  Some of those
+    bugs are because I don't fully understand CPython bytecode.</p>
+
+<p>To help me learn all the ins and outs of the CPython bytecode, I started <a href='https://github.com/nedbat/byterun'>byterun</a>,
+    a pure-Python implementation of a Python bytecode runner, or VM.  Actually, I didn't
+    start it, I found a thing written by Paul Swartz, and rehabilitated it.  It works pretty well,
+    but isn't complete.  In particular, some of the more complex bytecodes, dealing with
+    the block stack, don't work properly on Python 3.  I would love some help finishing
+    byterun.</p>
+
+<p>Then I need to figure out if analyzing bytecode is a reasonable way to find branches
+    in a program.  I think when I started down this path, I thought that everything would
+    be compiled to simple bytecodes like "if cond jump to x," but that's not what happens.
+    Bytecodes like <a href='http://docs.python.org/2/library/dis.html'>WITH_CLEANUP</a> are
+    complex beasts with sub-optimal documentation, and they behave slightly differently in Python 2
+    and Python 3.</p>
+
+<p>Of course I would rather not rip out the bytecode approach and implement an AST approach,
+    but I would like to know whether that's the way to get branch coverage that truly works
+    well.</p>
+
+<p>I'm looking for collaborators to help get through this issue.  I need to get past it so
+    I can get back to implementing features people want, like gevent support, or faster reporting,
+    or getting rid of pickles!</p>
+
+</body>
+</entry>
+</blog>
