@@ -14,7 +14,7 @@ class Graphviz(object):
     SNIPS = {
         'INTATTRS':     'shape=circle',
         'NAMEATTRS':    'shape=box, style=filled, fillcolor=lightgray, fontname=monospace',
-        'PROLOG':       'digraph d { graph [rankdir=LR, dpi=300]; node [fontsize=20, fontname=serif];',
+        'PROLOG':       'digraph d { graph [rankdir=LR, dpi=300]; node [fontsize=20];',
         'EPILOG':       '}',
     }
 
