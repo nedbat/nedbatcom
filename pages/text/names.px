@@ -5,22 +5,8 @@
 </history>
 
 <!--[[[cog
-    import textwrap
-    import urllib
-
-    import cog
-
-    from graphy import CogGraphviz
-
+    from graphy import CogGraphviz, tutor_a_tag
     CogGraphviz.we_are_here('text', 'names_dot')
-
-    def tutor_a_tag(code):
-        tutor_url_fmt = 'http://pythontutor.com/visualize.html#code={code}&mode=display&cumulative=false&heapPrimitives=false&drawParentPointers=false&textReferences=false&showOnlyOutputs=false&py=2'
-        url_code = urllib.quote(textwrap.dedent(code))
-        url = tutor_url_fmt.replace('&', '&amp;').format(code=url_code)
-        html = "<a href='{url}' target='_blank'>".format(url=url)
-        cog.outl(html)
-
 ]]]-->
 <!--[[[end]]]-->
 

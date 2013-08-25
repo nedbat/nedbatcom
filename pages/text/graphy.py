@@ -5,6 +5,8 @@ import itertools
 import os
 import os.path
 import subprocess
+import textwrap
+import urllib
 
 import cog
 import Image
@@ -115,6 +117,14 @@ class CogGraphviz(Graphviz):
 
     @classmethod
     def we_are_here(cls, here, dot_dir):
+        """
+        Set the directories to use for subsequent `img` calls.
+
+        Call this once at the top of the file, like this::
+
+            CogGraphviz.we_are_here('text', 'names_dot')
+
+        """
         cls.HERE = here
         cls.DOT_DIR = dot_dir
 
@@ -131,3 +141,14 @@ class CogGraphviz(Graphviz):
         full_path = "/".join([self.HERE, self.DOT_DIR, dot_file])
         alt = alt or self.default_alt
         cog.outl('<img src="{0}" alt="{1}" align="top"/>'.format(full_path, cgi.escape(alt, quote=True)))
+
+
+def tutor_a_tag(code):
+    """
+    Produce an <a> tag to pythontutor.com.
+    """
+    tutor_url_fmt = 'http://pythontutor.com/visualize.html#code={code}&mode=display&cumulative=false&heapPrimitives=false&drawParentPointers=false&textReferences=false&showOnlyOutputs=false&py=2'
+    url_code = urllib.quote(textwrap.dedent(code))
+    url = tutor_url_fmt.replace('&', '&amp;').format(code=url_code)
+    html = "<a href='{url}' target='_blank'>".format(url=url)
+    cog.outl(html)
