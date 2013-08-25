@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<page title='More about Python names and values'>
+<history>
+<what when='20130825T093800'>Created.</what>
+</history>
+
+<!--[[[cog
+    from graphy import CogGraphviz, tutor_a_tag
+    CogGraphviz.we_are_here('text', 'namesmore_dot')
+]]]-->
+<!--[[[end]]]-->
+
+<p>In <apage pref='text/names.px'/>, I described how Python's names and values
+    work.  There I posed some other questions.  Let's answer some of them.
+    Here's some more about that TODO.</p>
+
+<h1>Making a game board</h1>
+
+<p>Beginners like writing games, and games often involve a grid-like board.
+    Python doesn't have a native two-dimensional array, so we use a list of lists.
+    Making a checkerboard full of zeros can be done with a literal list:</p>
+
+<code lang="py"><![CDATA[
+board = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+]
+]]></code>
+
+<p>but that's tedious and it seems like we could do it more compactly.  Lists
+    can be multiplied by integers to replicate elements.  This produces a list
+    of eight zeros:</p>
+
+<code lang="py"><![CDATA[
+row = [0] * 8
+]]></code>
+
+<p>so let's try making a board:</p>
+
+<code lang="py"><![CDATA[
+# Construct the empty board
+board = [ [0]*8 ] * 8
+# Put a 1 in the upper-left corner
+board[0][0] = 1
+pprint(board)
+]]></code>
+
+<code><![CDATA[
+[[1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0],
+ [1, 0, 0, 0, 0, 0, 0, 0]]
+]]></code>
+
+<p>Huh? Somehow setting one cell changed the first cell in every row!?</p>
+
+<p>Remember that Python never implicitly copies data.  When you replicate a list
+    with multiplication, you get the same value referenced many times.  When we
+    made the single row, we made a list with eight references to the same zero:</p>
+
+<figurep>
+    <!--[[[cog
+    g = CogGraphviz()
+    g.codelabel("row = [0] * 8")
+    g.dot("""
+        row [NAMEATTRS]
+        { rank="same"
+        X [style="invis"]
+        0 [INTATTRS]
+        }
+        list1 [shape=record, label="{<0>|<1>|<2>|<3>|<4>|<5>|<6>|<7>}"]
+        row -> list1:0
+        list1:0:s -> 0
+        list1:1:s -> 0
+        list1:2:s -> 0
+        list1:3:s -> 0
+        list1:4:s -> 0
+        list1:5:s -> 0
+        list1:6:s -> 0
+        list1:7:s -> 0
+        list1:7:e -> X [label="", style="invis", weight=20]
+        X -> 0 [label="", style="invis"]
+        """)
+    g.img(alt="row is a list with eight references to the same zero") 
+    ]]]-->
+    <img src="text/namesmore_dot/d000.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>When we make the board, the same behavior of replicating a list applies, so the board is
+    actually eight references to the same list:</p>
+
+<figurep>
+    <!--[[[cog
+    g = CogGraphviz()
+    g.codelabel("board = [ [0]*8 ] * 8")
+    g.dot("""
+        board [NAMEATTRS]
+        list1 [shape=record, label="{<0>|<1>|<2>|<3>|<4>|<5>|<6>|<7>}"]
+        {
+            rankdir=LR;
+            rank="same";
+            list2 [shape=record, label="{<0>|<1>|<2>|<3>|<4>|<5>|<6>|<7>}"]
+        }
+        board -> list2:0
+        {
+            rankdir=LR;
+            rank="same";
+            X [style="invis"]
+            0 [INTATTRS]
+        }
+        list1:0:s -> 0
+        list1:1:s -> 0
+        list1:2:s -> 0
+        list1:3:s -> 0
+        list1:4:s -> 0
+        list1:5:s -> 0
+        list1:6:s -> 0
+        list1:7:s -> 0
+
+        list2:0:s -> list1:0
+        list2:1:s -> list1:0
+        list2:2:s -> list1:0
+        list2:3:s -> list1:0
+        list2:4:s -> list1:0
+        list2:5:s -> list1:0
+        list2:6:s -> list1:0
+        list2:7:s -> list1:0
+        list1:7:e -> X [label="", style="invis", weight=20]
+        X -> 0 [label="", style="invis"]
+        """)
+    g.img(alt="row is a list with eight references to the same zero") 
+    ]]]-->
+    <img src="text/namesmore_dot/d001.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>When we assign to board[0][0], we are changing one element, but that element is visible through
+    all eight rows, because all eight rows are actually references to the same list:</p>
+
+<figurep>
+    <!--[[[cog
+    g = CogGraphviz()
+    g.codelabel("board[0][0] = 1")
+    g.dot("""
+        board [NAMEATTRS]
+        list1 [shape=record, label="{<0>|<1>|<2>|<3>|<4>|<5>|<6>|<7>}"]
+        list2 [shape=record, label="{<0>|<1>|<2>|<3>|<4>|<5>|<6>|<7>}"]
+        board -> list2:0
+        subgraph nums {
+            rankdir=LR;
+            rank="same";
+            X [style="invis"]
+            0 [INTATTRS]
+            1 [INTATTRS]
+            }
+        list1:0:s -> 1 [weight=10]
+        list1:1:s -> 0
+        list1:2:s -> 0
+        list1:3:s -> 0
+        list1:4:s -> 0
+        list1:5:s -> 0
+        list1:6:s -> 0
+        list1:7:s -> 0
+        list1:7:e -> X [label="", style="invis", weight=20]
+        list2:0:s -> list1:0
+        list2:1:s -> list1:0
+        list2:2:s -> list1:0
+        list2:3:s -> list1:0
+        list2:4:s -> list1:0
+        list2:5:s -> list1:0
+        list2:6:s -> list1:0
+        list2:7:s -> list1:0
+        X -> 0 [label="", style="invis"]
+        0 -> 1 [label="", style="invis"]
+        """)
+    g.img(alt="row is a list with eight references to the same zero") 
+    ]]]-->
+    <img src="text/namesmore_dot/d002.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <!--[[[end]]]-->
+</figurep>
+
+
+
+
+
+
+<h1>See also</h1>
+
+<p>If you are looking for more information about these topics, try:</p>
+
+<ul>
+    <li><a href='http://pythontutor.com'>Python Tutor</a>, which visualizes program execution, including bindings of names to values.</li>
+    <li><a href='http://python.net/~mwh/hacks/objectthink.html'>How to Think Like a Pythonista</a>, which explains all this, with ASCII art!</li>
+    <li><a href='/blog'>My blog</a>, where posts occasionally appear about these sorts of things.</li>
+</ul>
+
+<pagecomments/>
+
+</page>
