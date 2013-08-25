@@ -108,12 +108,19 @@ class Graphviz(object):
 
 class CogGraphviz(Graphviz):
     # Where are we in the stellated tree
-    HERE = 'text'
-    DOT_DIR = 'names_dot'
+    HERE = 'you_need_to_set_this'
+    DOT_DIR = 'this_one_too'
 
     diagram_id = itertools.count()
 
+    @classmethod
+    def we_are_here(cls, here, dot_dir):
+        cls.HERE = here
+        cls.DOT_DIR = dot_dir
+
     def img(self, alt=""):
+        assert os.path.isdir(self.DOT_DIR)
+
         dot_file = 'd{0:03d}.png'.format(next(self.diagram_id))
         dot_path = os.path.join(self.DOT_DIR, dot_file)
 

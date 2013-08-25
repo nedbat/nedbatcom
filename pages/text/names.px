@@ -12,6 +12,8 @@
 
     from graphy import CogGraphviz
 
+    CogGraphviz.we_are_here('text', 'names_dot')
+
     def tutor_a_tag(code):
         tutor_url_fmt = 'http://pythontutor.com/visualize.html#code={code}&mode=display&cumulative=false&heapPrimitives=false&drawParentPointers=false&textReferences=false&showOnlyOutputs=false&py=2'
         url_code = urllib.quote(textwrap.dedent(code))
