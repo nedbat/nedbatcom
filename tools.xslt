@@ -417,6 +417,7 @@
 <xsl:template name='do_img'>
 	<xsl:param name='src' select='@src' />
 	<xsl:param name='alt' select='@alt' />
+	<xsl:param name='scale' select='@scale' />
 
 	<!-- All <img> tags should have an alt= attribute. -->
 	<xsl:if test='string(@alt)=""'>
@@ -436,8 +437,8 @@
 			<xsl:value-of select='$alt' />
 		</xsl:attribute>
 		<xsl:if test='string(@width)=""'>
-			<xsl:variable name='width' select='xuff:imgwidth(string($src))' />
-			<xsl:variable name='height' select='xuff:imgheight(string($src))' />
+			<xsl:variable name='width' select='xuff:imgwidth(string($src), string($scale))' />
+			<xsl:variable name='height' select='xuff:imgheight(string($src), string($scale))' />
 
 			<xsl:if test='$width'>
 				<xsl:attribute name='width'>

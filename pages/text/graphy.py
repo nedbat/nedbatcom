@@ -16,7 +16,7 @@ class Graphviz(object):
     SNIPS = {
         'INTATTRS':     'shape=circle',
         'NAMEATTRS':    'shape=box, style=filled, fillcolor=lightgray, fontname=monospace',
-        'PROLOG':       'digraph d { graph [rankdir=LR, dpi=300]; node [fontsize=20];',
+        'PROLOG':       'digraph d { graph [rankdir=LR, dpi=600]; node [fontsize=20];',
         'EPILOG':       '}',
     }
 
@@ -129,7 +129,7 @@ class CogGraphviz(Graphviz):
         cls.DOT_DIR = dot_dir
 
     def img(self, alt=""):
-        assert os.path.isdir(self.DOT_DIR)
+        assert os.path.isdir(self.DOT_DIR), "%r must be an existing directory" % self.DOT_DIR
 
         dot_file = 'd{0:03d}.png'.format(next(self.diagram_id))
         dot_path = os.path.join(self.DOT_DIR, dot_file)
@@ -140,7 +140,7 @@ class CogGraphviz(Graphviz):
 
         full_path = "/".join([self.HERE, self.DOT_DIR, dot_file])
         alt = alt or self.default_alt
-        cog.outl('<img src="{0}" alt="{1}" align="top"/>'.format(full_path, cgi.escape(alt, quote=True)))
+        cog.outl('<img src="{0}" alt="{1}" align="top" scale="0.5"/>'.format(full_path, cgi.escape(alt, quote=True)))
 
 
 def tutor_a_tag(code):
