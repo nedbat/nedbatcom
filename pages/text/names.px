@@ -5,7 +5,7 @@
 </history>
 
 <!--[[[cog
-    from graphy import CogGraphviz, tutor_a_tag
+    from helpers.graphy import CogGraphviz, tutor_a_tag
     CogGraphviz.we_are_here('text', 'names_dot')
 ]]]-->
 <!--[[[end]]]-->
@@ -539,7 +539,7 @@ my_obj.attr[key][index].attr = "etc, etc"
     can be reclaimed.</p>
 
 <p>Note that "i = x" assigns to the name i, but "i[0] = x" doesn't, it assigns
-    to the first element if i's value.  It's important to keep straight what
+    to the first element of i's value.  It's important to keep straight what
     exactly is being assigned to.  Just because a name appears somewhere on the
     left-hand side of the assignment statement doesn't mean the name is being
     rebound.</p>
