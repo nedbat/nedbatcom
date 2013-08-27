@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding='UTF-8'?>
-<page title='More about Python names and values'>
-<history>
-<what when='20130825T093800'>Created.</what>
-</history>
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130827T071017' draft='y'>
+<title>Names and values: making a game board</title>
+<category></category>
+<body>
 
 <!--[[[cog
-    from graphy import CogGraphviz, tutor_a_tag
-    CogGraphviz.we_are_here('text', 'namesmore_dot')
+    from helpers.graphy import CogGraphviz, tutor_a_tag
+    CogGraphviz.we_are_here('blog', 'gameboard_dot')
 ]]]-->
 <!--[[[end]]]-->
 
@@ -33,9 +34,10 @@ board = [
 ]
 ]]></code>
 
-<p>but that's tedious and it seems like we could do it more compactly.  Lists
-    can be multiplied by integers to replicate elements.  This produces a list
-    of eight zeros:</p>
+<p>but that's tedious, especially if you need a 100<times/>100 board. Even if
+    you don't, it seems like we could do it more compactly.  Python lets you
+    multiply lists by integers to replicate elements.  This code produces a
+    list of eight zeros:</p>
 
 <code lang="py"><![CDATA[
 row = [0] * 8
@@ -93,7 +95,7 @@ pprint(board)
         """)
     g.img(alt="row is a list with eight references to the same zero") 
     ]]]-->
-    <img src="text/namesmore_dot/d000.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <img src="blog/gameboard_dot/d000.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -141,7 +143,7 @@ pprint(board)
         """)
     g.img(alt="row is a list with eight references to the same zero") 
     ]]]-->
-    <img src="text/namesmore_dot/d001.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <img src="blog/gameboard_dot/d001.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -186,25 +188,48 @@ pprint(board)
         """)
     g.img(alt="row is a list with eight references to the same zero") 
     ]]]-->
-    <img src="text/namesmore_dot/d002.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
+    <img src="blog/gameboard_dot/d002.png" alt="row is a list with eight references to the same zero" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
+<p>Perhaps this is clearer if you consider that these two ways to make the board
+    are exactly the same:</p>
+
+<code lang="py"><![CDATA[
+# Make it all at once
+board = [ [0] * 8 ] * 8
+
+# Make a row, then make a board
+row = [0] * 8
+board = [ row ] * 8
+]]></code>
+
+<p>Assigning the row to its own variable doesn't change the behavior, but when
+    we see it assigned to a name, it's more obvious that you'll get eight
+    references to the same row.</p>
+
+<p>So why didn't that one assignment change every zero in the board? As the
+    diagram shows, there's only one zero referred to by all 64 elements.
+    TODO.</p> 
+
+<p>The compact way to make a board that works correctly is to use a list
+    comprehension to make each row:</p>
+
+<code lang="py"><![CDATA[
+board = [ [0]*8 for _ in range(8) ]
+]]></code>
+
+<p>With this code, we use [0]*8 to make the row, which is fine because
+    assignment will correctly update a single element in that row.  The list
+    comprehension makes a list with eight of those, but instead of each one
+    being a reference to the same row, the row is recomputed each time, so a
+    new list is made for each row.</p>
+
+<p>I used underscore as the loop variable as a convention that means, I won't 
+    be using this value at all.  Underscore isn't special, it's just a valid
+    identifier that is used in cases like these.</p>
 
 
-
-
-
-<h1>See also</h1>
-
-<p>If you are looking for more information about these topics, try:</p>
-
-<ul>
-    <li><a href='http://pythontutor.com'>Python Tutor</a>, which visualizes program execution, including bindings of names to values.</li>
-    <li><a href='http://python.net/~mwh/hacks/objectthink.html'>How to Think Like a Pythonista</a>, which explains all this, with ASCII art!</li>
-    <li><a href='/blog'>My blog</a>, where posts occasionally appear about these sorts of things.</li>
-</ul>
-
-<pagecomments/>
-
-</page>
+</body>
+</entry>
+</blog>
