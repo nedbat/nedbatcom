@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20130827T071017' draft='y'>
+<entry when='20130827T202000'>
 <title>Names and values: making a game board</title>
-<category></category>
+<category>python</category>
 <body>
 
 <!--[[[cog
@@ -12,14 +12,13 @@
 <!--[[[end]]]-->
 
 <p>In <apage pref='text/names.px'/>, I described how Python's names and values
-    work.  There I posed some other questions.  Let's answer some of them.
-    Here's some more about that TODO.</p>
+    work.  There I posed some other questions, one of which was:</p>
 
-<h1>Making a game board</h1>
+<box>Why do beginners find it hard to make a tic-tac-toe board in Python?</box>
 
-<p>Beginners like writing games, and games often involve a grid-like board.
-    Python doesn't have a native two-dimensional array, so we use a list of lists.
-    Making a checkerboard full of zeros can be done with a literal list:</p>
+<p>Writing a game often involves a grid-like board.  Python doesn't have a
+    native two-dimensional array, so you can use a list of lists.  Making a
+    checkerboard full of zeros can be done with a literal list:</p>
 
 <code lang="py"><![CDATA[
 board = [
@@ -34,20 +33,38 @@ board = [
 ]
 ]]></code>
 
-<p>but that's tedious, especially if you need a 100<times/>100 board. Even if
-    you don't, it seems like we could do it more compactly.  Python lets you
-    multiply lists by integers to replicate elements.  This code produces a
-    list of eight zeros:</p>
+<p>But that's tedious, especially if you need a 100<times/>100 board. Even if
+    you don't, it seems like you could do it more compactly.  Python lets you
+    multiply lists by integers to replicate elements, so you can use this code
+    to produce a list of eight zeros:</p>
 
 <code lang="py"><![CDATA[
 row = [0] * 8
 ]]></code>
 
-<p>so let's try making a board:</p>
+<p>Let's try using that technique twice, once to make a row, and then again to
+    fill out the board:</p>
 
 <code lang="py"><![CDATA[
 # Construct the empty board
 board = [ [0]*8 ] * 8
+pprint(board)
+]]></code>
+
+<code><![CDATA[
+[[0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0]]
+]]></code>
+
+<p>It works!  Now let's change one of the cells:</p>
+
+<code lang="py"><![CDATA[
 # Put a 1 in the upper-left corner
 board[0][0] = 1
 pprint(board)
@@ -64,11 +81,14 @@ pprint(board)
  [1, 0, 0, 0, 0, 0, 0, 0]]
 ]]></code>
 
-<p>Huh? Somehow setting one cell changed the first cell in every row!?</p>
+<p>Huh? Somehow setting one cell changed the first cell in every row!? What's
+    going on?</p>
 
-<p>Remember that Python never implicitly copies data.  When you replicate a list
-    with multiplication, you get the same value referenced many times.  When we
-    made the single row, we made a list with eight references to the same zero:</p>
+<p>Just as with assignment, list multiplication doesn't copy data
+    (<a href="/text/names.html#no_copies">Fact: assignment never copies
+    data</a>.) When we replicate a list with multiplication, we get the same
+    value referenced many times.  When we made the single row, we made a
+    list with eight references to the same zero:</p>
 
 <figurep>
     <!--[[[cog
@@ -192,6 +212,8 @@ pprint(board)
     <!--[[[end]]]-->
 </figurep>
 
+<p>In Facts and Myths, I called this the <a href="/text/names.html#presto_chango">Mutable Presto-Chango</a>.</p>
+
 <p>Perhaps this is clearer if you consider that these two ways to make the board
     are exactly the same:</p>
 
@@ -208,15 +230,22 @@ board = [ row ] * 8
     we see it assigned to a name, it's more obvious that you'll get eight
     references to the same row.</p>
 
-<p>So why didn't that one assignment change every zero in the board? As the
-    diagram shows, there's only one zero referred to by all 64 elements.
-    TODO.</p> 
+<p>OK, but why didn't setting one element change all 64 zeros?  The diagram
+    shows that there's only one zero, referenced by all the elements of the
+    board.</p>
+
+<p>Two names can refer to the same value.  In fact, in our case, eight names
+    refer to the same value.  The names are board[0][0], board[0][1], ...,
+    board[0][7].  Changing one of those names to refer to 1 won't make all of
+    them refer to it, any more than if the eight names had been "a", "b", ...,
+    "h".  (<a href="/text/names.html#reassign">Fact: Names are reassigned
+    independently of other names</a>.)</p>
 
 <p>The compact way to make a board that works correctly is to use a list
     comprehension to make each row:</p>
 
 <code lang="py"><![CDATA[
-board = [ [0]*8 for _ in range(8) ]
+board = [ [0] * 8 for i in range(8) ]
 ]]></code>
 
 <p>With this code, we use [0]*8 to make the row, which is fine because
@@ -225,9 +254,38 @@ board = [ [0]*8 for _ in range(8) ]
     being a reference to the same row, the row is recomputed each time, so a
     new list is made for each row.</p>
 
-<p>I used underscore as the loop variable as a convention that means, I won't 
-    be using this value at all.  Underscore isn't special, it's just a valid
-    identifier that is used in cases like these.</p>
+<p>It's important to keep straight two different syntaxes that look very
+    similar:</p>
+
+<code lang="py"><![CDATA[
+# List multiplication, doesn't work right:
+board1 = [ [0] * 8 ] * 8
+
+# List comprehension, does work right:
+board2 = [ [0] * 8 for i in range(8) ]
+]]></code>
+
+<p>In the first case, [0]*8 is calculated once, placed into a one-element list,
+    and then replicated 8 times, giving 8 references to the same row.  In the
+    second case, [0]*8 is the expression in the list comprehension, and so is
+    evaluated anew eight times, producing eight distinct lists to serve as our
+    rows.</p>
+
+<p>If this is still confusing, <apage pref='text/names.px'/> has more details, or 
+<!--[[[cog
+tutor_a_tag("""\
+# List multiplication, doesn't work right:
+board1 = [ [0] * 8 ] * 8
+board1[0][0] = 1
+
+# List comprehension, does work right:
+board2 = [ [0] * 8 for i in range(8) ]
+board2[0][0] = 1
+""")
+]]]-->
+<a href='http://pythontutor.com/visualize.html#code=%23%20List%20multiplication%2C%20doesn%27t%20work%20right%3A%0Aboard1%20%3D%20%5B%20%5B0%5D%20%2A%208%20%5D%20%2A%208%0Aboard1%5B0%5D%5B0%5D%20%3D%201%0A%0A%23%20List%20comprehension%2C%20does%20work%20right%3A%0Aboard2%20%3D%20%5B%20%5B0%5D%20%2A%208%20for%20i%20in%20range%288%29%20%5D%0Aboard2%5B0%5D%5B0%5D%20%3D%201%0A&amp;mode=display&amp;cumulative=false&amp;heapPrimitives=false&amp;drawParentPointers=false&amp;textReferences=false&amp;showOnlyOutputs=false&amp;py=2' target='_blank'>
+<!--[[[end]]]-->
+try the code on pythontutor.com</a>.</p>
 
 
 </body>
