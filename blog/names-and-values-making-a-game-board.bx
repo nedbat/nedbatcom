@@ -167,6 +167,9 @@ pprint(board)
     <!--[[[end]]]-->
 </figurep>
 
+<p>(BTW: if you know how to make graphviz draw diagrams with more manual
+    control, I'd love to hear from you...)</p>
+
 <p>When we assign to board[0][0], we are changing one element, but that element is visible through
     all eight rows, because all eight rows are actually references to the same list:</p>
 
