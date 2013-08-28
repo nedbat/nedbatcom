@@ -163,6 +163,35 @@ y = x
     the value in exactly the same way.</p>
 
 
+<box id='reassign'>Fact: Names are reassigned independently of other names.</box>
+
+<p>If two names refer to the same value, this doesn't magically link the
+    two names.  Reassigning one of them won't reassign the other also:</p>
+
+<code lang="py"><![CDATA[
+x = 23
+y = x
+x = 12
+]]></code>
+
+<figurep>
+    <!--[[[cog
+    g = CogGraphviz()
+    g.int(12)
+    g.int(23)
+    g.refer("y", 12)
+    g.refer("x", 23)
+    g.img(alt="x and y aren't magically linked")
+    ]]]-->
+    <img src="text/names_dot/d002.png" alt="x and y aren't magically linked" align="top" scale="0.5"/>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>When we said "y = x", that doesn't mean that they will always be the
+    same forever.  Reassigning x leaves y alone.  Imagine the chaos if
+    it didn't!</p>
+
+
 <box id='value_life'>Fact: Values live until nothing references them.</box>
 
 <p>Python keeps track of how many references each value has, and automatically
@@ -211,7 +240,7 @@ nums = [1, 2, 3]
     g.refer("nums", "list1")
     g.img(alt="nums refers to a list of numbers")
     ]]]-->
-    <img src="text/names_dot/d002.png" alt="nums refers to a list of numbers" align="top" scale="0.5"/>
+    <img src="text/names_dot/d003.png" alt="nums refers to a list of numbers" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -230,7 +259,7 @@ tri = nums
     g.refer("tri", "list1")
     g.img(alt="nums and tri both refer to the same list")
     ]]]-->
-    <img src="text/names_dot/d003.png" alt="nums and tri both refer to the same list" align="top" scale="0.5"/>
+    <img src="text/names_dot/d004.png" alt="nums and tri both refer to the same list" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -280,7 +309,7 @@ nums.append(4)
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d004.png" alt="nums = [1, 2, 3]" align="top" scale="0.5"/>
+    <img src="text/names_dot/d005.png" alt="nums = [1, 2, 3]" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -294,7 +323,7 @@ nums.append(4)
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d005.png" alt="nums.append(4)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d006.png" alt="nums.append(4)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -336,7 +365,7 @@ print(tri)      # [1, 2, 3, 4]
     g.refer("tri", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d006.png" alt="tri = nums" align="top" scale="0.5"/>
+    <img src="text/names_dot/d007.png" alt="tri = nums" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -354,7 +383,7 @@ print(tri)      # [1, 2, 3, 4]
     g.refer("tri", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d007.png" alt="nums.append(4)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d008.png" alt="nums.append(4)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -500,7 +529,7 @@ print(y)    # 1
         """)
     g.img(alt="nums refers to a list, which refers to ints") 
     ]]]-->
-    <img src="text/names_dot/d008.png" alt="nums refers to a list, which refers to ints" align="top" scale="0.5"/>
+    <img src="text/names_dot/d009.png" alt="nums refers to a list, which refers to ints" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -514,7 +543,7 @@ print(y)    # 1
     g.refer("nums", "list1")
     g.img(alt="nums refers to a list of numbers")
     ]]]-->
-    <img src="text/names_dot/d009.png" alt="nums refers to a list of numbers" align="top" scale="0.5"/>
+    <img src="text/names_dot/d010.png" alt="nums refers to a list of numbers" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -636,7 +665,7 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d010.png" alt="augment_twice(nums, 4)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d011.png" alt="augment_twice(nums, 4)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -663,7 +692,7 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d011.png" alt="a_list.append(4)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d012.png" alt="a_list.append(4)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -678,7 +707,7 @@ print(nums)         # [1, 2, 3, 4, 4]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d012.png" alt="print(nums)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d013.png" alt="print(nums)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -733,7 +762,7 @@ print(nums)         # [1, 2, 3]
     g.refer("val", 4)
     g.img()
     ]]]-->
-    <img src="text/names_dot/d013.png" alt="augment_twice_bad(nums, 4)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d014.png" alt="augment_twice_bad(nums, 4)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -757,7 +786,7 @@ print(nums)         # [1, 2, 3]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d014.png" alt="a_list = a_list + [val, val]" align="top" scale="0.5"/>
+    <img src="text/names_dot/d015.png" alt="a_list = a_list + [val, val]" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
@@ -772,7 +801,7 @@ print(nums)         # [1, 2, 3]
     g.refer("nums", "list1")
     g.img()
     ]]]-->
-    <img src="text/names_dot/d015.png" alt="print(nums)" align="top" scale="0.5"/>
+    <img src="text/names_dot/d016.png" alt="print(nums)" align="top" scale="0.5"/>
     <!--[[[end]]]-->
 </figurep>
 
