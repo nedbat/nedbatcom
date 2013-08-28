@@ -131,7 +131,10 @@ class CmdLine:
         self.xuff.copytree(src='pix', dst=dst+"/pix",
             include='*.gif *.jpg *.png *.swf'
             )
-        self.xuff.copytree(dst=dst+"/files", src='files', include='*.*')
+        self.xuff.copytree(src='blog', dst=dst+"/blog",
+            include='*.gif *.jpg *.png *.swf'
+            )
+        self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
     @timed
     def do_clean(self):
