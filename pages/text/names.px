@@ -177,10 +177,10 @@ x = 12
 <figurep>
     <!--[[[cog
     g = CogGraphviz()
-    g.int(12)
     g.int(23)
-    g.refer("y", 12)
-    g.refer("x", 23)
+    g.int(12)
+    g.refer("y", 23)
+    g.refer("x", 12)
     g.img(alt="x and y aren't magically linked")
     ]]]-->
     <img src="text/names_dot/d002.png" alt="x and y aren't magically linked" align="top" scale="0.5"/>
