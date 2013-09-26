@@ -12,7 +12,8 @@
     <p>We use meetup.com to handle RSVPs for events.  I have a small <a href="https://github.com/BostonPython/fingertools/blob/master/attendees.py">program</a>
         that queries the meetup.com API for people who have RSVP'd "yes" to 
         an event.  I use it to get a list of names, then I shuffle the names,
-        make an iterator, then pick names off it:</p>
+        make an iterator, then pick names off it.  I do this on the big screen
+        in an interactive prompt:</p>
 
 <code lang='python'><![CDATA[
 >>> import random
