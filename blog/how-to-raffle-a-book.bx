@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20130925T210201'>
+<title>How to raffle a book</title>
+<category>python</category>
+<body>
+
+    <p>I'm an organizer for <a href="http://bostonpython.com">Boston Python</a>,
+        and we like to raffle off books at events.  I've got a technique I like
+        for doing it.  Here it is recorded for posterity.</p>
+
+    <p>We use meetup.com to handle RSVPs for events.  I have a small <a href="https://github.com/BostonPython/fingertools/blob/master/attendees.py">program</a>
+        that queries the meetup.com API for people who have RSVP'd "yes" to 
+        an event.  I use it to get a list of names, then I shuffle the names,
+        make an iterator, then pick names off it:</p>
+
+<code lang='python'><![CDATA[
+>>> import random
+>>> from attendees import yes
+>>> people = yes(120746442)     # The event number from meetup.com
+>>> len(people)
+174
+>>> random.shuffle(people)      # Give them a good shake
+>>> pick = iter(people)         # Make an iterator
+>>> print next(pick)            # Now pick people!
+Ned Batchelder
+>>> print next(pick)
+Jessica McKellar
+>>> print next(pick)
+Jason Michalski
+>>> # etc...
+>>>]]></code>
+
+    <p>Iterables like the list of people's names are usually iterated completely
+        with a for loop or a list comprehension.  But you can step them one
+        item at a time if you like.  iter() creates an iterator from an iterable
+        (confusing, I know...), then you can use next() to get the next item
+        from the iterable.</p>
+
+    <p>There aren't many reasons to use iterators like this, but occasionally
+        it can be useful.</p>
+
+</body>
+</entry>
+</blog>
