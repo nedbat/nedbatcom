@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131003T093937'>
+<title>Finding stale pyc files</title>
+<category>howto</category>
+<category>unix</category>
+<body>
+
+    <p>Recently I was debugging one of those "it can't happen" kinds of problems,
+        and wanted to make sure I didn't have any stale .pyc files lying around.
+        I figured the "find" command could find pairs of files whose dates
+        compared incorrectly, but I didn't know how to do it.</p>
+
+    <p>I asked in the #bash IRC channel, and they gave me this:</p>
+
+<code>
+find . -name '*.pyc' -exec bash -c 'test "$1" -ot "${1%c}"' -- {} \; -print  #stalepyc
+</code>
+
+    <p>It's one of those Unix-isms I wont be able to remember (yet?), so I'll
+        leave it here to find again when I need it later.</p>
+
+    <p>Notice I've added a <a href="/blog/201307/hashtags_for_commands.html">bashtag</a>
+        to it so I can search for it in my command history.  (I wish I had come
+        up that name!).</p>
+
+    <p>I'm sure there are other ways to find stale files, maybe even better ones?</p>
+
+
+</body>
+</entry>
+</blog>
