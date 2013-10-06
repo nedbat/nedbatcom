@@ -8,6 +8,7 @@
 <what when='20100824T092900'>added precision.</what>
 <what when='20110604T184400'>updated for 3.5.</what>
 <what when='20110827T212700'>updated for 3.5.1</what>
+<what when='20130926T222300'>updated for 3.6.1</what>
 </history>
 <p>Coverage.py options can be specified in a configuration file.  This makes it
 easier to re-run coverage with consistent settings, and also allows for
@@ -17,9 +18,9 @@ specification of options that are otherwise only available in the
 sub-processes.  See <a class="reference internal" href="/code/coverage/subprocess.html#subprocess"><em>Measuring subprocesses</em></a> for more details.</p>
 <p>The default name for configuration files is <tt class="docutils literal"><span class="pre">.coveragerc</span></tt>, in the same
 directory coverage.py is being run in.  Most of the settings in the
-configuration file are tied to your source code and how it should be
-measured, so it should be stored with your source, and checked into
-source control, rather than put in your home directory.</p>
+configuration file are tied to your source code and how it should be measured,
+so it should be stored with your source, and checked into source control,
+rather than put in your home directory.</p>
 <h1>Syntax</h1>
 <p>A coverage.py configuration file is in classic .ini file format: sections are
 introduced by a <tt class="docutils literal"><span class="pre">[section]</span></tt> header, and contain <tt class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">value</span></tt> entries.
@@ -70,6 +71,8 @@ to more than one command.</p>
 standard library.</p>
 <p><tt class="docutils literal"><span class="pre">data_file</span></tt> (string, default &#8221;.coverage&#8221;): the name of the data file to use
 for storing or reporting coverage.</p>
+<p><tt class="docutils literal"><span class="pre">debug</span></tt> (multi-string): a list of debug options.  See <a class="reference internal" href="/code/coverage/cmd.html#cmd-run-debug"><em>the run
+&#8211;debug option</em></a> for details.</p>
 <p><tt class="docutils literal"><span class="pre">include</span></tt> (multi-string): a list of filename patterns, the files to include
 in measurement or reporting.  See <a class="reference internal" href="/code/coverage/source.html#source"><em>Specifying source files</em></a> for details.</p>
 <p><tt class="docutils literal"><span class="pre">omit</span></tt> (multi-string): a list of filename patterns, the files to leave out
@@ -82,21 +85,21 @@ measure during execution.  See <a class="reference internal" href="/code/coverag
 <p><tt class="docutils literal"><span class="pre">timid</span></tt> (boolean, default False): use a simpler but slower trace method.
 Try this if you get seemingly impossible results.</p>
 <h1 id="config-paths">[paths]</h1>
-<p>The entries in this section are lists of file paths that should be
-considered equivalent when combining data from different machines:</p>
+<p>The entries in this section are lists of file paths that should be considered
+equivalent when combining data from different machines:</p>
 <code lang="python">[paths]
 source =
     src/
     /jenkins/build/*/src
     c:\myproj\src</code>
-<p>The names of the entries are ignored, you may choose any name that
-you like.  The value is a lists of strings.  When combining data
-with the <tt class="docutils literal"><span class="pre">combine</span></tt> command, two file paths will be combined
-if they start with paths from the same list.</p>
-<p>The first value must be an actual file path on the machine where
-the reporting will happen, so that source code can be found.
-The other values can be file patterns to match against the paths
-of collected data.</p>
+<p>The names of the entries are ignored, you may choose any name that you like.
+The value is a lists of strings.  When combining data with the <tt class="docutils literal"><span class="pre">combine</span></tt>
+command, two file paths will be combined if they start with paths from the same
+list.</p>
+<p>The first value must be an actual file path on the machine where the reporting
+will happen, so that source code can be found.  The other values can be file
+patterns to match against the paths of collected data, or they can be absolute
+or relative file paths on the current machine.</p>
 <p>See <a class="reference internal" href="/code/coverage/cmd.html#cmd-combining"><em>Combining data files</em></a> for more information.</p>
 <h1>[report]</h1>
 <p>Values common to many kinds of reporting.</p>
@@ -117,10 +120,10 @@ a partial branch.  More details are in <a class="reference internal" href="/code
 you are replacing all the partial branch regexes so you&#8217;ll need to also
 supply the &#8220;pragma: no branch&#8221; regex if you still want to use it.</p>
 <p><tt class="docutils literal"><span class="pre">precision</span></tt> (integer): the number of digits after the decimal point to
-display for reported coverage percentages.  The default is 0, displaying
-for example &#8220;87%&#8221;.  A value of 2 will display percentages like &#8220;87.32%&#8221;.</p>
-<p><tt class="docutils literal"><span class="pre">show_missing</span></tt> (boolean, default False): when running a summary report,
-show missing lines.  See <a class="reference internal" href="/code/coverage/cmd.html#cmd-summary"><em>Coverage summary</em></a> for more information.</p>
+display for reported coverage percentages.  The default is 0, displaying for
+example &#8220;87%&#8221;.  A value of 2 will display percentages like &#8220;87.32%&#8221;.</p>
+<p><tt class="docutils literal"><span class="pre">show_missing</span></tt> (boolean, default False): when running a summary report, show
+missing lines.  See <a class="reference internal" href="/code/coverage/cmd.html#cmd-summary"><em>Coverage summary</em></a> for more information.</p>
 <h1 id="config-html">[html]</h1>
 <p>Values particular to HTML reporting.  The values in the <tt class="docutils literal"><span class="pre">[report]</span></tt> section
 also apply to HTML output, where appropriate.</p>

@@ -15,8 +15,8 @@ about.</p>
 <h1 id="source-execution">Execution</h1>
 <p>When running your code, the <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> command will by default measure
 all code, unless it is part of the Python standard library.</p>
-<p>You can specify source to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt> command-line switch,
-or the <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">source</span></tt> configuration value.  The value is a list of directories
+<p>You can specify source to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt> command-line switch, or
+the <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">source</span></tt> configuration value.  The value is a list of directories
 or package names.  If specified, only source inside these directories or
 packages will be measured.  Specifying the source option also enables
 coverage.py to report on unexecuted files, since it can search the source tree

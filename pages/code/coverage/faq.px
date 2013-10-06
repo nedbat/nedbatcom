@@ -16,9 +16,9 @@ HTML or XML reports.  What should I do?</strong></p>
 This will write coverage data into a .coverage file.  Then run coverage.py from
 the <a class="reference internal" href="/code/coverage/cmd.html#cmd"><em>command line</em></a> to create the reports you need from that data.</p>
 <p><strong>Q: Why do unexecutable lines show up as executed?</strong></p>
-<p>Usually this is because you&#8217;ve updated your code and run coverage on it
-again without erasing the old data.  Coverage records line numbers executed, so
-the old data may have recorded a line number which has since moved, causing
+<p>Usually this is because you&#8217;ve updated your code and run coverage on it again
+without erasing the old data.  Coverage records line numbers executed, so the
+old data may have recorded a line number which has since moved, causing
 coverage to claim a line has been executed which cannot be.</p>
 <p>If you are using the <tt class="docutils literal"><span class="pre">-x</span></tt> command line action, it doesn&#8217;t erase first by
 default.  Switch to the <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> command, or use the <tt class="docutils literal"><span class="pre">-e</span></tt> switch to
@@ -44,8 +44,7 @@ mailing list.</p>
 <p>Announcements of new coverage.py releases are sent to the
 <a class="reference external" href="http://groups.google.com/group/coveragepy-announce">coveragepy-announce</a> mailing list.</p>
 <p><a class="reference external" href="http://nedbatchelder.com/site/aboutned.html">I can be reached</a> in a number of ways, I&#8217;m happy to answer questions about
-using coverage.py.  I&#8217;m also available hourly for consultation or custom
-development.</p>
+using coverage.py.</p>
 <h1>History</h1>
 <p>Coverage.py was originally written by <a class="reference external" href="http://garethrees.org/">Gareth Rees</a>.
 Since 2004, <a class="reference external" href="http://nedbatchelder.com">Ned Batchelder</a> has extended and maintained it with the help of

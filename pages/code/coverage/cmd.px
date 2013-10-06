@@ -104,6 +104,19 @@ This could be because you asked to measure only modules that never ran,
 or for other reasons.</p>
 </li>
 </ul>
+<p id="cmd-run-debug">The <tt class="docutils literal"><span class="pre">--debug</span></tt> option instructs coverage to log internal details of its
+operation, to help with diagnosing problems.  It takes a comma-separated list
+of options, each indicating a facet of operation to log to stderr:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">trace</span></tt>: print every decision about whether to trace a file or not. For
+files not being traced, the reason is also given.</li>
+<li><tt class="docutils literal"><span class="pre">config</span></tt>: before starting, dump all the <a class="reference internal" href="/code/coverage/config.html#config"><em>configuration</em></a>
+values.</li>
+<li><tt class="docutils literal"><span class="pre">sys</span></tt>: before starting, dump all the system and environment information,
+as with <a class="reference internal" href="#cmd-debug"><em>coverage debug sys</em></a>.</li>
+<li><tt class="docutils literal"><span class="pre">dataio</span></tt>: log when reading or writing any data file.</li>
+<li><tt class="docutils literal"><span class="pre">pid</span></tt>: annotate all debug output with the process id.</li>
+</ul>
 <h1 id="cmd-datafile">Data file</h1>
 <p>Coverage collects execution data in a file called &#8221;.coverage&#8221;.  If need be, you
 can set a new file name with the COVERAGE_FILE environment variable.</p>
@@ -118,9 +131,9 @@ the <tt class="docutils literal"><span class="pre">-a</span></tt> flag on the <s
 coverage can combine multiple files into one for reporting. Use the <tt class="docutils literal"><span class="pre">-p</span></tt> flag
 during execution to append distinguishing information to the .coverage data
 file name.</p>
-<p>Once you have created a number of these files, you can copy them all to a single
-directory, and use the <strong>combine</strong> command to combine them into one .coverage
-data file:</p>
+<p>Once you have created a number of these files, you can copy them all to a
+single directory, and use the <strong>combine</strong> command to combine them into one
+.coverage data file:</p>
 <code lang="console">$ coverage combine</code>
 <p>If the different machines run your code from different places in their file
 systems, coverage won&#8217;t know how to combine the data.  You can tell coverage
@@ -208,10 +221,10 @@ is a data file that is used to speed up reporting the next time.  If you
 generate a new report into the same directory, coverage.py will skip
 generating unchanged pages, making the process faster.</p>
 <h1 id="cmd-annotation">Text annotation</h1>
-<p>The <strong>annotate</strong> command produces a text annotation of your source code.  With a
-<tt class="docutils literal"><span class="pre">-d</span></tt> argument specifying an output directory, each Python file becomes a text
-file in that directory.  Without <tt class="docutils literal"><span class="pre">-d</span></tt>, the files are written into the same
-directories as the original Python files.</p>
+<p>The <strong>annotate</strong> command produces a text annotation of your source code.  With
+a <tt class="docutils literal"><span class="pre">-d</span></tt> argument specifying an output directory, each Python file becomes a
+text file in that directory.  Without <tt class="docutils literal"><span class="pre">-d</span></tt>, the files are written into the
+same directories as the original Python files.</p>
 <p>Coverage status for each line of source is indicated with a character prefix:</p>
 <code lang="console">&gt; executed
 ! missing (not executed)

@@ -32,8 +32,8 @@ function is not reported as missing:</p>
     def __repr__(self): # pragma: no cover
         return &quot;&lt;MyObject&gt;&quot;</code>
 <p>Excluded code is executed as usual, and its execution is recorded in the
-coverage data as usual. When producing reports though, coverage excludes it from
-the list of missing code.</p>
+coverage data as usual. When producing reports though, coverage excludes it
+from the list of missing code.</p>
 <h1>Branch coverage</h1>
 <p>When measuring <a class="reference internal" href="/code/coverage/branch.html#branch"><em>branch coverage</em></a>, a condtional will not be
 counted as a branch if one of its choices is excluded:</p>
@@ -44,16 +44,16 @@ counted as a branch if one of its choices is excluded:</p>
     else:       # pragma: no cover
         # x is always true.
         blah3()</code>
-<p>Because the <tt class="docutils literal"><span class="pre">else</span></tt> clause is excluded, the <tt class="docutils literal"><span class="pre">if</span></tt> only has one possible
-next line, so it isn&#8217;t considered a branch at all.</p>
+<p>Because the <tt class="docutils literal"><span class="pre">else</span></tt> clause is excluded, the <tt class="docutils literal"><span class="pre">if</span></tt> only has one possible next
+line, so it isn&#8217;t considered a branch at all.</p>
 <h1>Advanced exclusion</h1>
 <p>Coverage identifies exclusions by matching lines against a list of regular
 expressions. Using <a class="reference internal" href="/code/coverage/config.html#config"><em>configuration files</em></a> or the coverage
 <a class="reference internal" href="/code/coverage/api.html#api"><em>API</em></a>, you can add to that list. This is useful if you have
 often-used constructs to exclude that can be matched with a regex. You can
 exclude them all at once without littering your code with exclusion pragmas.</p>
-<p>For example, you might decide that __repr__ functions are usually only used
-in debugging code, and are uninteresting to test themselves.  You could exclude
+<p>For example, you might decide that __repr__ functions are usually only used in
+debugging code, and are uninteresting to test themselves.  You could exclude
 all of them by adding a regex to the exclusion list:</p>
 <code lang="python">[report]
 exclude_lines = def __repr__</code>

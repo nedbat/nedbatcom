@@ -30,6 +30,7 @@
 <what when='20121223T180600'>Updated for 3.6b2.</what>
 <what when='20121229T112300'>Updated for 3.6b3.</what>
 <what when='20130105T174000'>Updated for 3.6</what>
+<what when='20131005T210000'>Updated for 3.7</what>
 </history>
 <p>Coverage.py is a tool for measuring code coverage of Python programs. It
 monitors your program, noting which parts of the code have been executed, then
@@ -37,8 +38,8 @@ analyzes the source to identify code that could have been executed but was not.<
 <p>Coverage measurement is typically used to gauge the effectiveness of tests. It
 can show which parts of your code are being exercised by tests, and which are
 not.</p>
-<p>The latest version is coverage.py 3.6, released 5 January 2013.
-It is supported on Python versions 2.3 through 3.3, and PyPy 1.8.</p>
+<p>The latest version is coverage.py 3.7, released 6 October 2013.
+It is supported on Python versions 2.3 through 3.4, and PyPy 2.1.</p>
 <h1>Quick start</h1>
 <p>Getting started is easy:</p>
 <ol class="arabic">
@@ -80,10 +81,10 @@ details.</p>
 <p>If the <a class="reference internal" href="/code/coverage/faq.html#faq"><em>FAQ</em></a> doesn&#8217;t answer your question, you can discuss
 coverage.py or get help using it on the <a class="reference external" href="http://lists.idyll.org/listinfo/testing-in-python">Testing In Python</a> mailing list.</p>
 <p>Bug reports are gladly accepted at the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issues">Bitbucket issue tracker</a>.
-Bitbucket also hosts the <a class="reference external" href="http://bitbucket.org/ned/coveragepy">code repository</a>.</p>
+Bitbucket also hosts the <a class="reference external" href="http://bitbucket.org/ned/coveragepy">code repository</a>. There is a <a class="reference external" href="https://github.com/nedbat/coveragepy">mirrored repo</a> on
+Github.</p>
 <p><a class="reference external" href="http://nedbatchelder.com/site/aboutned.html">I can be reached</a> in a number of ways. I&#8217;m happy to answer questions about
-using coverage.py.  I&#8217;m also available hourly for consultation or custom
-development.</p>
+using coverage.py.</p>
 <h1>More information</h1>
 <div class="toctree-wrapper compound">
 <ul>

@@ -9,9 +9,9 @@
 there are some situations it can&#8217;t cope with.  This page details some known
 problems, with possible courses of action, and links to coverage.py bug reports
 with more information.</p>
-<p>I would love to <a class="reference internal" href="/code/coverage/index.html#contact"><em>hear from you</em></a> if you have information about any of
-these problems, even just to explain to me why you want them to start working
-properly.</p>
+<p>I would love to <a class="reference internal" href="/code/coverage/index.html#contact"><em>hear from you</em></a> if you have information about
+any of these problems, even just to explain to me why you want them to start
+working properly.</p>
 <p>If your problem isn&#8217;t discussed here, you can of course search the <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py
 bug tracker</a> directly to see if there is some mention of it.</p>
 <h1>Things that don&#8217;t work</h1>
@@ -28,7 +28,10 @@ discussed or linked to in <a class="reference external" href="https://bitbucket.
 <li><a class="reference external" href="http://www.gevent.org/">gevent</a>, which is based on <a class="reference external" href="http://greenlet.readthedocs.org/">greenlet</a>, and is similar to <a class="reference external" href="http://eventlet.net/">eventlet</a>. All
 of these manipulate the C stack, and therefore confuse coverage.py.
 <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/149/coverage-gevent-looks-broken">Issue 149</a> has some pointers to more information.</li>
-<li><a class="reference external" href="docs.python.org/library/sys.html#sys.settrace">sys.settrace</a> is the Python feature that coverage.py uses to see what&#8217;s
+<li><a class="reference external" href="http://docs.python.org/library/thread.html">thread</a>, in the Python standard library, is the low-level threading
+interface.  Threads created with this module will not be traced.  Use the
+higher-level <a class="reference external" href="http://docs.python.org/library/threading.html">threading</a> module instead.</li>
+<li><a class="reference external" href="http://docs.python.org/library/sys.html#sys.settrace">sys.settrace</a> is the Python feature that coverage.py uses to see what&#8217;s
 happening in your program.  If another part of your program is using
 sys.settrace, then it will conflict with coverage.py, and it won&#8217;t be
 measured properly.</li>
@@ -45,11 +48,13 @@ DecoratorTools fiddles with the trace function.  You  will need to use
 <h1>Really obscure things</h1>
 <ul class="simple">
 <li>Python 2.5 had a bug (<a class="reference external" href="http://bugs.python.org/issue1569356">1569356</a>) that could make your program behave
-differently when being measured with coverage.  This is diagnosed in <a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/51/turbogears-15-test-failing-with-coverage">issue 51</a>.</li>
+differently when being measured with coverage.  This is diagnosed in
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/51/turbogears-15-test-failing-with-coverage">issue 51</a>.</li>
 </ul>
 <h1>Still having trouble?</h1>
-<p>If your problem isn&#8217;t mentioned here, and isn&#8217;t already reported in the <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py bug tracker</a>,
-please <a class="reference internal" href="/code/coverage/index.html#contact"><em>get in touch with me</em></a>, we&#8217;ll figure out a solution.</p>
+<p>If your problem isn&#8217;t mentioned here, and isn&#8217;t already reported in the
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py bug tracker</a>, please <a class="reference internal" href="/code/coverage/index.html#contact"><em>get in touch with me</em></a>,
+we&#8217;ll figure out a solution.</p>
 
 
 <p class='pmn pmnbot'>

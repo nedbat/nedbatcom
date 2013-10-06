@@ -84,22 +84,22 @@ Ran 364 tests in 11.458s
 OK
 (and so on...)</code>
 <p>Tox runs the complete test suite twice for each version of Python you have
-installed.  The first run uses the Python implementation of the trace
-function, the second uses the C implementation.</p>
+installed.  The first run uses the Python implementation of the trace function,
+the second uses the C implementation.</p>
 <p>To limit tox to just a few versions of Python, use the <tt class="docutils literal"><span class="pre">-e</span></tt> switch:</p>
 <code lang="console">$ tox -e py27,py33</code>
 <p>To run just a few tests, you can use nose test selector syntax:</p>
-<code lang="console">$ tox test.test_misc:SetupPyTest.test_metadata</code>
-<p>This looks in <cite>test/test_misc.py</cite> to find the <cite>SetupPyTest</cite> class, and runs the
-<cite>test_metadata</cite> test method.</p>
+<code lang="console">$ tox tests.test_misc:SetupPyTest.test_metadata</code>
+<p>This looks in <cite>tests/test_misc.py</cite> to find the <cite>SetupPyTest</cite> class, and runs
+the <cite>test_metadata</cite> test method.</p>
 <p>Of course, run all the tests on every version of Python you have, before
 submitting a change.</p>
 <h1>Lint, etc</h1>
 <p>I try to keep the coverage.py as clean as possible.  I use pylint to alert me
 to possible problems:</p>
 <code lang="console">$ make lint
-pylint --rcfile=.pylintrc coverage setup.py test
-python -m tabnanny coverage setup.py test
+pylint --rcfile=.pylintrc coverage setup.py tests
+python -m tabnanny coverage setup.py tests
 python igor.py check_eol</code>
 <p>The source is pylint-clean, even if it&#8217;s because there are pragmas quieting
 some warnings.  Please try to keep it that way, but don&#8217;t let pylint warnings

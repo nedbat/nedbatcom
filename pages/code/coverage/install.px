@@ -17,6 +17,7 @@
 <what when='20121223T180800'>updated for 3.6b2.</what>
 <what when='20121229T112400'>updated for 3.6b3.</what>
 <what when='20130105T174400'>updated for 3.6.</what>
+<what when='20131005T210600'>updated for 3.7.</what>
 </history>
 <p>Installing coverage.py is done in the usual ways. You must have <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
 or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> installed already, and then you:</p>
@@ -30,22 +31,23 @@ or <a class="reference external" href="http://packages.python.org/distribute/">D
 <p>or even:</p>
 <code lang="console">$ easy_install coverage</code>
 <h1>Installing from source</h1>
-<p>Coverage.py includes a C extension for speed. If you are installing from source,
-you may need to install the python-dev support files, for example with:</p>
+<p>Coverage.py includes a C extension for speed. If you are installing from
+source, you may need to install the python-dev support files, for example
+with:</p>
 <code lang="console">$ sudo apt-get install python-dev</code>
 <h1>Installing on Windows</h1>
 <p>For Windows, kits are provided on the <a class="reference external" href="http://pypi.python.org/pypi/coverage">PyPI page</a> for different versions of
-Python and different CPU architectures. These kits require that <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a> be
-installed as a pre-requisite, but otherwise are self-contained.  They have the
-C extension pre-compiled so there&#8217;s no need to worry about compilers.</p>
+Python and different CPU architectures. These kits require that <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+be installed as a pre-requisite, but otherwise are self-contained.  They have
+the C extension pre-compiled so there&#8217;s no need to worry about compilers.</p>
 <h1>Checking the installation</h1>
-<p>If all went well, you should be able to open a command prompt, and see
-coverage installed properly:</p>
+<p>If all went well, you should be able to open a command prompt, and see coverage
+installed properly:</p>
 <code lang="console">$ coverage --version
-Coverage.py, version 3.6.  http://nedbatchelder.com/code/coverage</code>
+Coverage.py, version 3.7.  http://nedbatchelder.com/code/coverage</code>
 <p>You can also invoke coverage as a module:</p>
 <code lang="console">$ python -m coverage --version
-Coverage.py, version 3.6.  http://nedbatchelder.com/code/coverage</code>
+Coverage.py, version 3.7.  http://nedbatchelder.com/code/coverage</code>
 
 
 <p class='pmn pmnbot'>

@@ -45,8 +45,8 @@ the measured to the possible indicates missing branches.</p>
 <p>The idea of tracking how lines follow each other was from <a class="reference external" href="http://ivory.idyll.org/blog">Titus Brown</a>.
 Thanks, Titus!</p>
 <h1>Excluding code</h1>
-<p>If you have <a class="reference internal" href="/code/coverage/excluding.html#excluding"><em>excluded code</em></a>, a condtional will not be
-counted as a branch if one of its choices is excluded:</p>
+<p>If you have <a class="reference internal" href="/code/coverage/excluding.html#excluding"><em>excluded code</em></a>, a condtional will not be counted
+as a branch if one of its choices is excluded:</p>
 <code lang="python">def only_one_choice(x):
     if x:
         blah1()
@@ -54,8 +54,8 @@ counted as a branch if one of its choices is excluded:</p>
     else:       # pragma: no cover
         # x is always true.
         blah3()</code>
-<p>Because the <tt class="docutils literal"><span class="pre">else</span></tt> clause is excluded, the <tt class="docutils literal"><span class="pre">if</span></tt> only has one possible
-next line, so it isn&#8217;t considered a branch at all.</p>
+<p>Because the <tt class="docutils literal"><span class="pre">else</span></tt> clause is excluded, the <tt class="docutils literal"><span class="pre">if</span></tt> only has one possible next
+line, so it isn&#8217;t considered a branch at all.</p>
 <h1>Structurally partial branches</h1>
 <p>Sometimes branching constructs are used in unusual ways that don&#8217;t actually
 branch.  For example:</p>
@@ -76,9 +76,9 @@ while i &lt; 999999999:    # pragma: no branch
     if eventually():
         break</code>
 <p>Here the while loop will never complete because the break will always be taken
-at some point.  Coverage.py can&#8217;t work that out on its own, but the
-&#8220;no branch&#8221; pragma indicates that the branch is known to be partial, and
-the line is not flagged.</p>
+at some point.  Coverage.py can&#8217;t work that out on its own, but the &#8220;no branch&#8221;
+pragma indicates that the branch is known to be partial, and the line is not
+flagged.</p>
 
 
 <p class='pmn pmnbot'>
