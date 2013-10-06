@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131006T100624'>
+<title>Coverage.py 3.7</title>
+<category>coverage</category>
+<category>mycode</category>
+<body>
+
+    <p>The latest version of coverage.py has just hit PyPI: 
+        <a href="https://pypi.python.org/pypi/coverage/3.7">coverage.py v3.7</a>.  
+        This is mostly a bug fix release, but I also added a few new minor 
+        behavior changes.</p>
+
+    <p>Details of the changes are in the 
+        <a href="/code/coverage/changes.html#changes-37">change log</a>.</p>
+
+    <p>This will be the last version numbered 3.x.  The next version will be
+        4.0, and will drop support for older Pythons (&lt;2.6), old interfaces
+        that aren't used any more, etc.</p>
+
+</body>
+</entry>
+</blog>
