@@ -31,7 +31,8 @@ history, see the <a class="reference external" href="http://bitbucket.org/ned/co
 <h1 id="changes-37">Version 3.7 &#8212; 6 October 2013</h1>
 <ul class="simple">
 <li>Added the <tt class="docutils literal"><span class="pre">--debug</span></tt> switch to <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt>.  It accepts a list of
-options indicating the type of internal activity to log to stderr.</li>
+options indicating the type of internal activity to log to stderr. For
+details, see <a class="reference internal" href="/code/coverage/cmd.html#cmd-run-debug"><em>the run &#8211;debug options</em></a>.</li>
 <li>Improved the branch coverage facility, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/92/finally-clauses-arent-treated-properly-in">issue 92</a> and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/175/branch-coverage-gets-confused-in-certain">issue 175</a>.</li>
 <li>Running code with <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-m</span></tt> now behaves more like Python does,
 setting sys.path properly, which fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/207/run-m-cannot-find-module-or-package-in">issue 207</a> and <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/242/running-a-two-level-package-doesnt-work">issue 242</a>.</li>
