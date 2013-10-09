@@ -12,7 +12,9 @@
     <p>So I made this list of the high points, what's in each version of Python 2.x.
         Items with a star were introduced with a __future__ import.</p>
 
-    <h1>2.1: April 2001</h1>
+    <p>BTW: there's also a list for the 3.x series: <a href="/blog/201310/whats_in_which_python_3.html">What's in which Python 3?</a></p>
+
+    <h1>2.1: April 17th, 2001</h1>
     <ul>
         <li>Nested scopes *</li>
         <li>"from __future__"</li>
@@ -22,7 +24,7 @@
 
     <p><a href='http://docs.python.org/whatsnew/2.1.html'>Full list of 2.1 changes</a>.</p>
 
-    <h1>2.2: December 2001</h1>
+    <h1>2.2: December 21st, 2001</h1>
     <ul>
         <li>New-style classes</li>
         <li>Iterators</li>
@@ -33,7 +35,7 @@
 
     <p><a href='http://docs.python.org/whatsnew/2.2.html'>Full list of 2.2 changes</a>.</p>
 
-    <h1>2.3: July 2003</h1>
+    <h1>2.3: July 29th, 2003</h1>
     <ul>
         <li>Set datatype module</li>
         <li>Boolean datatype</li>
@@ -45,7 +47,7 @@
 
     <p><a href='http://docs.python.org/whatsnew/2.3.html'>Full list of 2.3 changes</a>.</p>
 
-    <h1>2.4: December 2004</h1>
+    <h1>2.4: November 30th, 2004</h1>
     <ul>
         <li>Native set datatype</li>
         <li>Generator expressions</li>
@@ -57,7 +59,7 @@
 
     <p><a href='http://docs.python.org/whatsnew/2.4.html'>Full list of 2.4 changes</a>.</p>
 
-    <h1>2.5: August 2006</h1>
+    <h1>2.5: September 19th, 2006</h1>
     <ul>
         <li>The "with" statement *</li>
         <li>Conditional expressions</li>
@@ -70,7 +72,7 @@
     
     <p><a href='http://docs.python.org/whatsnew/2.5.html'>Full list of 2.5 changes</a>.</p>
 
-    <h1>2.6: October 2008</h1>
+    <h1>2.6: October 1st, 2008</h1>
     <ul>
         <li>The multiprocessing package</li>
         <li>str.format()</li>
@@ -83,7 +85,7 @@
 
     <p><a href='http://docs.python.org/whatsnew/2.6.html'>Full list of 2.6 changes</a>.</p>
 
-    <h1>2.7: July 2010</h1>
+    <h1>2.7: July 3rd, 2010</h1>
     <ul>
         <li>Set literals syntax</li>
         <li>Dictionary and set comprehensions</li>
@@ -94,4 +96,72 @@
 
 </body>
 </entry>
+
+
+<entry when='20131008T201600'>
+<title>What's in which Python 3?</title>
+<category>python</category>
+<body>
+
+    <p>Two years ago I wrote a post called
+        <a href="/blog/201109/whats_in_which_python.html">What's in which Python?</a>
+        which summarized the changes in the Python 2.x releases.  Today when I
+        showed it to someone, they asked, "Do you have one for 3.x?"</p>
+
+    <p>Here it is.  Some things to remember about Python 3:</p>
+    
+    <ul>
+        <li>3.0 came out about the same time as 2.6, so they share a number
+            of features.  2.7 came out between 3.1 and 3.2, so there's overlap
+            there as well.</li>
+        <li>A <a href="http://www.python.org/dev/peps/pep-3003/">language moratorium</a>
+            prevented significant changes in 3.2.</li>
+    </ul>
+
+    <h1>3.0: December 3rd, 2008</h1>
+    <ul>
+        <li>strings are now unicode, no u"" literals</li>
+        <li>print as a function</li>
+        <li>iterators instead of lists: range, .keys, .items, .values, zip, map, filter</li>
+        <li>nonlocal</li>
+        <li>function annotations</li>
+        <li>lots of things moved in the standard library</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.0.html'>Full list of 3.0 changes</a>.</p>
+
+    <h1>3.1: June 27th, 2009</h1>
+    <ul>
+        <li>OrderedDict and Counter classes</li>
+        <li>__main__.py</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.1.html'>Full list of 3.1 changes</a>.</p>
+
+    <h1>3.2: February 20th, 2011</h1>
+    <ul>
+        <li>argparse</li>
+        <li>concurrent.futures</li>
+        <li>__pycache__ directories</li>
+        <li>hasattr doesn't swallow all exceptions</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.2.html'>Full list of 3.2 changes</a>.</p>
+
+    <h1>3.3: September 29th, 2012</h1>
+    <ul>
+        <li>yield from</li>
+        <li>u"" literals are back</li>
+        <li>unittest.mock</li>
+        <li>hash randomization</li>
+        <li>New flexible string representation</li>
+        <li>venv module</li>
+        <li>more of import implemented in Python</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.3.html'>Full list of 3.3 changes</a>.</p>
+
+</body>
+</entry>
+
 </blog>
