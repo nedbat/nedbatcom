@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131012T155544'>
+<title>Range overlap in two compares</title>
+<category>coding</category>
+<body>
+
+    <p>I was helping a co-worker with a quick hackathon project 
+        (<a href="https://github.com/edx/patch-juggler">patch-juggler</a>, 
+        which will hopefully grow into an interactive rebase GUI), and he had
+        a function to determine whether two ranges overlap.</p>
+
+    <p>His code used eight comparisons to check whether the endpoint of one of
+        the ranges was contained within the other range.  In Python it would
+        look like this:</p>
+
+<code lang="py"><![CDATA[
+def overlap(start1, end1, start2, end2):
+    """Does the range (start1, end1) overlap with (start2, end2)?"""
+    return (
+        start1 <= start2 <= end1 or
+        start1 <= end2 <= end1 or
+        start2 <= start1 <= end2 or
+        start2 <= end1 <= end2
+    )
+]]></code>
+
+    <p>I said you could do it in two comparisons rather than eight, but could
+        never remember the trick.</p>
+
+    <p>Looking online, I found this
+        <a href="http://stackoverflow.com/a/325964">great explanation</a>
+        on Stack Overflow.  I'll restate it in my own words:</p>
+
+    <p>Instead of thinking about how overlapping ranges might relate, consider
+        what conditions have to be true for the ranges <em>not</em> to overlap.
+        It's much simpler: either range1 is entirely less than range2, or
+        range1 is entirely greater than range2.</p>
+
+    <p>Since the ranges are ordered (start &lt;= end), range1 less than range2
+        is true if end1 &lt; start2.  Similarly range1 greater
+        than range2 can be determined with end2 &lt; start1.</p>
+
+    <p>So we can check for non-overlapping ranges with two compares. Inverting
+        the result tells us whether they overlap:</p>
+
+<code lang="py"><![CDATA[
+def overlap(start1, end1, start2, end2):
+    """Does the range (start1, end1) overlap with (start2, end2)?"""
+    return not (end1 < start2 or end2 < start1)
+]]></code>
+
+    <p>De Morgan's laws mean that we can change it to this:</p>
+
+<code lang="py"><![CDATA[
+def overlap(start1, end1, start2, end2):
+    """Does the range (start1, end1) overlap with (start2, end2)?"""
+    return end1 >= start2 and end2 >= start1
+]]></code>
+
+    <p>Just looking at this final code, it's hard to see the logic.  It's 
+        even harder to think about it without holding out two fingers on each
+        hand and waving them around to picture overlapping ranges!  But with
+        the reasoning about non-overlapping ranges, it makes perfect sense.</p>
+
+    <p>This is one of those programming nuggets that makes me happy, I can't
+        explain why.</p>
+
+</body>
+</entry>
+</blog>
