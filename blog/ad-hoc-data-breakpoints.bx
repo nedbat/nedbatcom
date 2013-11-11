@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131110T145015'>
+<title>Ad-hoc data breakpoints</title>
+<category>debugging</category>
+<category>python</category>
+<body>
+
+    <p>A co-worker had a problem running a large test suite with nose.  Modules
+        were being imported from the wrong directory.  Somehow, sys.path was
+        having a "project/lib" directory stuffed into it, and we couldn't
+        figure out why. (tl;dr: it was nose's fault, and we should have known
+        about it, and it shouldn't have been doing it in the first place.)</p>
+
+    <p>We searched our code for "sys.path.insert" and found more of them than
+        we liked, but none of them accounted for the modification we were seeing.
+        What we wanted was to run the tests in a debugger, with a data breakpoint
+        set: stop when sys.path is modified.</p>
+
+    <p>Unfortunately, pdb doesn't support breakpoints like that, maybe other 
+        debuggers do?  So we whipped up an ad-hoc data breakpoint:</p>
+
+<code lang="py"><![CDATA[
+import pdb, sys
+
+def trace(frame, event, arg):
+    if sys.path[0].endswith("lib"):
+        pdb.set_trace()
+    return trace
+
+sys.settrace(trace)
+]]></code>
+
+    <p>(Yes, it's a little irksome that there are two different spellings of 
+        "set trace" there...)</p>
+
+    <p>A trace function is a Python function registered with the interpreter
+        with sys.settrace().  This function will be called for every line of
+        Python executed.  Trace functions are the basis of debuggers, profilers,
+        and code coverage tools.</p>
+
+    <p>Here we've written a very simple one: check to see if sys.path has been
+        modified in the way we care about, and if so, break into the debugger.
+        To be honest, I wasn't quite sure what would happen if I tried to break
+        into the debugger from inside a trace function, but when we ran the test
+        suite with this code in place, it worked perfectly.  We were dropped
+        into the debugger just after nose added a "lib" directory to sys.path.</p>
+
+    <p>As it happens, nose tries to be helpful by adding a "src" and "lib"
+        directory to the path, even though that's an unusual layout for Python
+        projects.  Luckily, there's a nose option to disable that bit of
+        helpfulness, and our tests run just fine now.</p>
+
+    <p>If you find yourself in a similar situation, consider a simple trace
+        function.  It's an advanced technique, but you don't have to get too
+        tricky, and can really tell you a lot about what your program is
+        doing.</p>
+
+</body>
+</entry>
+</blog>
