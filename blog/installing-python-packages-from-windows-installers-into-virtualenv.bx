@@ -87,6 +87,10 @@ registry as <em>the</em> Python.  When you run your Windows package installer,
 it will go into your virtualenv.  Don't forget to run it again at the end to
 put things back the way they were.</p>
 
+<p>And of course, because this script modifies the registry, you will have
+    to have elevated privileges (Run As Administrator, or whatever..) in order
+    for it to succeed.</p>
+
 </body>
 </entry>
 </blog>
