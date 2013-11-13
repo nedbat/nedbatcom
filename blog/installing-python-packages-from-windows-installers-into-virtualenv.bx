@@ -42,7 +42,7 @@ to register Python installations</a>, to create what I've called the_python.py:<
 # script to register Python 2.0 or later for use with win32all
 # and other extensions that require Python registry settings
 #
-# Adapted by Ned Batchelder from a script
+# Adapted by Ned Batchelder and Alex Waters from a script
 # written by Joakim Low for Secret Labs AB / PythonWare
 #
 # source:
@@ -51,6 +51,9 @@ to register Python installations</a>, to create what I've called the_python.py:<
 import sys
 
 from _winreg import *
+import ctypes
+import ctypes.wintypes
+import os.path
 
 # tweak as necessary
 version = sys.version[:3]
@@ -77,9 +80,48 @@ def RegisterPy():
     SetValue(reg, pythonkey, REG_SZ, pythonpath)
     CloseKey(reg)
     print "--- Python %s at %s is now registered!" % (version, installpath)
+    raw_input('Press any key...')
+
+
+class SHELLEXECUTEINFO(ctypes.Structure):
+    _fields_ = (
+        ("cbSize",ctypes.wintypes.DWORD),
+        ("fMask",ctypes.c_ulong),
+        ("hwnd",ctypes.wintypes.HANDLE),
+        ("lpVerb",ctypes.c_char_p),
+        ("lpFile",ctypes.c_char_p),
+        ("lpParameters",ctypes.c_char_p),
+        ("lpDirectory",ctypes.c_char_p),
+        ("nShow",ctypes.c_int),
+        ("hInstApp",ctypes.wintypes.HINSTANCE),
+        ("lpIDList",ctypes.c_void_p),
+        ("lpClass",ctypes.c_char_p),
+        ("hKeyClass",ctypes.wintypes.HKEY),
+        ("dwHotKey",ctypes.wintypes.DWORD),
+        ("hIconOrMonitor",ctypes.wintypes.HANDLE),
+        ("hProcess",ctypes.wintypes.HANDLE),
+    )
+
+def need_admin():
+    ShellExecuteEx = ctypes.windll.shell32.ShellExecuteEx
+    ShellExecuteEx.restype = ctypes.wintypes.BOOL
+    sei = SHELLEXECUTEINFO()
+    sei.cbSize = ctypes.sizeof(sei)
+    sei.lpVerb = "runas"
+    sei.lpFile = sys.executable
+    sei.lpParameters = os.path.abspath(__file__)
+    sei.nShow = 1
+    ShellExecuteEx(ctypes.byref(sei))
+
 
 if __name__ == "__main__":
-    RegisterPy()
+    try:
+        RegisterPy()
+    except WindowsError as e:
+        if e.errno == 13:
+            need_admin()
+        else:
+            raise
 ]]></code>
 
 <p>Use your desired Python to run this script, and it will be entered into the
@@ -87,9 +129,9 @@ registry as <em>the</em> Python.  When you run your Windows package installer,
 it will go into your virtualenv.  Don't forget to run it again at the end to
 put things back the way they were.</p>
 
-<p>And of course, because this script modifies the registry, you will have
-    to have elevated privileges (Run As Administrator, or whatever..) in order
-    for it to succeed.</p>
+<p>Updated Nov 12, 2013: Alex Waters ([Tritium] on #python) revised the program
+    to detect the need for elevated privileges and automatically re-run itself
+    with privileges.  This makes it much more convenient.  Thanks, Alex!</p>
 
 </body>
 </entry>
