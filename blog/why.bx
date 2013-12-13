@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131208T075426'>
+<title>Why ask why?</title>
+<body>
+
+    <p>I help people with Python questions, and often those people are only
+        casual acquaintances (at <a href='http://bostonpython.com'>Boston Python</a>)
+        or complete strangers (in the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel).
+        There's a common misunderstanding that can crop up in these situations.
+        It has to do with asking why.</p>
+        
+    <p>While helping, I often ask the asker, "why?"  For example, someone will
+        need help with the two Python installations on their laptop.  I'll ask,
+        "Why did you install a second Python?" When I did this the other night,
+        another guy chuckled, because he thought I meant, "You shouldn't have
+        installed a second Python."</p>
+
+    <p>This is a common reaction.  Asking why is perceived as a rebuke.  "Why
+        did you XYZ?" is taken to mean, "You dummy, you shouldn't have XYZed!"
+        But when I ask it, I really do mean, "I want to understand what led you
+        to XYZ."</p>
+
+    <p>English can be difficult that way, especially over a purely textual,
+        cue-less medium like IRC.  One way to soften the apparent bluntness is
+        to add more words.  For example, instead of:</p>
+    
+    <box>Why did you install another Python?</box>
+
+    <p>this might go over better:</p>
+    
+    <box>Do you mind if I ask you why you installed another Python?
+        Understanding the reason might provide an important clue.</box>
+
+    <p>So if I ask you why, don't take it personally.  I really do want to know
+        the reason for something.  If I want to chide you for making a mistake,
+        I'll say something like, "You shouldn't have XYZed," or, "I don't think
+        it was a good idea to XYZ."</p>
+
+    <p>Sometimes even when people understand I'm looking for reasons, they
+        bristle at the question. They insist the reasons aren't important, and
+        why can't I just answer a simple question?</p>
+
+    <p>I ask because 75% of the time, my answer changes once I know the bigger
+        picture.  It's common for people to start with a problem, and work
+        towards a solution, and get stuck.  Then they ask about the thing they
+        are stuck on.  That's natural.  But it's also common that the reason
+        they are stuck is there was a better path to start down in the first
+        place.  Understanding the reasons can help find that better path.</p>
+
+    <p>Asking why can help find those earlier choices, and lay out the entire
+        problem.  Having all the information means we can work together to find
+        the best solution.</p>
+    
+    <p>If I ask you to explain the larger problem, don't take it personally.
+        Solving complex problems is hard, and it's easy to choose a first step
+        that makes the second step more difficult than it needs to be.  When a
+        helper asks about the bigger picture, they aren't trying to make you
+        look silly, they're trying to help you find the best solution.</p>
+
+    <p>This phenomenon has a name: <a href='http://meta.stackoverflow.com/questions/66377/what-is-the-xy-problem/66378#66378'>the XY problem</a>.
+        You have problem X, you choose solution Y, and when it doesn't work,
+        you ask about Y instead of asking about X.  Despite some people's
+        disdain for this dynamic, it's very common and people shouldn't be put
+        down for it.  Sometimes the asker can't see that there were alternatives
+        earlier on.  Sometimes the asker is trying to not take up too much of
+        the helper's time by asking a focused question.  Whatever the reason, it
+        happens all the time, and helpers should get out of the helping
+        business if XY problems make them mad.</p>
+
+    <p>Askers: if someone asks you why, or says you have an "XY problem," that
+        means they are trying to help you find the best solution.  Don't feel
+        bad.  We're all struggling together to learn and overcome
+        complexity.</p>
+
+</body>
+</entry>
+</blog>
