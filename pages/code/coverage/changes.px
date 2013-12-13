@@ -25,9 +25,16 @@
 <what when='20121223T180600'>updated for 3.6b2.</what>
 <what when='20130105T173500'>updated for 3.6</what>
 <what when='20131005T205700'>updated for 3.7</what>
+<what when='20131212T213100'>updated for 3.7.1</what>
 </history>
 <p>These are the major changes for coverage.py.  For a more complete change
 history, see the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/CHANGES.txt">CHANGES.txt</a> file in the source tree.</p>
+<h1 id="changes-371">Version 3.7.1 &#8212; 13 December 2013</h1>
+<ul class="simple">
+<li>Improved the speed of HTML report generation by about 20%.</li>
+<li>Fixed the mechanism for finding OS-installed static files for the HTML report
+so that it will actually find OS-installed static files.</li>
+</ul>
 <h1 id="changes-37">Version 3.7 &#8212; 6 October 2013</h1>
 <ul class="simple">
 <li>Added the <tt class="docutils literal"><span class="pre">--debug</span></tt> switch to <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt>.  It accepts a list of

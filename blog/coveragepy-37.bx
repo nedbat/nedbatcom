@@ -20,4 +20,28 @@
 
 </body>
 </entry>
+
+<entry when='20131213T072700'>
+<title>Coverage.py 3.7.1</title>
+<category>coverage</category>
+<category>mycode</category>
+<body>
+
+    <p>I've just released the latest version of coverage.py:
+        <a href="https://pypi.python.org/pypi/coverage/3.7.1">coverage.py v3.7.1</a>.  
+        The only changes are performance improvements in the HTML report, and
+        a little restructuring to make Debian packaging a little easier.</p>
+
+    <p>The next version will be 4.0, and I'm looking for feedback about major
+        changes you'd like to see.  Coverage.py has never had an API-centric
+        mindset, for example.  Breaking backward compatibility will be OK if
+        there's a good reason, and I'm dropping support for older Pythons, so
+        it should be easier to make changes.</p>
+
+    <p>Send me your ideas.</p>
+
+</body>
+</entry>
+
+
 </blog>

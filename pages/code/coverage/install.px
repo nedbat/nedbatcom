@@ -18,6 +18,7 @@
 <what when='20121229T112400'>updated for 3.6b3.</what>
 <what when='20130105T174400'>updated for 3.6.</what>
 <what when='20131005T210600'>updated for 3.7.</what>
+<what when='20131212T213500'>updated for 3.7.1.</what>
 </history>
 <p>Installing coverage.py is done in the usual ways. You must have <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
 or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> installed already, and then you:</p>
@@ -44,10 +45,10 @@ the C extension pre-compiled so there&#8217;s no need to worry about compilers.<
 <p>If all went well, you should be able to open a command prompt, and see coverage
 installed properly:</p>
 <code lang="console">$ coverage --version
-Coverage.py, version 3.7.  http://nedbatchelder.com/code/coverage</code>
+Coverage.py, version 3.7.1.  http://nedbatchelder.com/code/coverage</code>
 <p>You can also invoke coverage as a module:</p>
 <code lang="console">$ python -m coverage --version
-Coverage.py, version 3.7.  http://nedbatchelder.com/code/coverage</code>
+Coverage.py, version 3.7.1.  http://nedbatchelder.com/code/coverage</code>
 
 
 <p class='pmn pmnbot'>
