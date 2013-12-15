@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131215T101202'>
+<title>Running Python commands on Mac</title>
+<category>python</category>
+<category>mac</category>
+<category>unix</category>
+<body>
+
+    <p>I was experimenting with pydoc yesterday, and was baffled by how it was
+        running.  Turns out Mac OS X does some tricky stuff to support multiple
+        versions of Python.</p>
+
+    <p>If you type "pydoc" at a shell prompt, it works properly:</p>
+
+<code><![CDATA[
+$ pydoc
+pydoc - the Python documentation tool
+
+pydoc.py <name> ...
+    Show text documentation on something.  <name> may be the name of a
+    (etc...)
+]]></code>
+
+    <p>If you ask which file is being run, it's /usr/bin/pydoc, and you can
+        look at that file:</p>
+
+<code><![CDATA[
+$ which pydoc
+/usr/bin/pydoc
+$ more /usr/bin/pydoc
+#!/usr/bin/python
+
+import sys, os
+import glob, re
+
+partA = """\
+python version %d.%d.%d can't run %s.  Try the alternative(s):
+
+"""
+partB = """
+Run "man python" for more information about multiple version support in
+Mac OS X.
+"""
+
+sys.stderr.write(partA % (sys.version_info[:3] + (sys.argv[0],)))
+(etc...)
+]]></code>
+
+    <p>Notice that this file will always write "python version X.Y.Z can't run...,"
+        which is not the output we're getting. Weird!</p>
+
+    <p>(BTW, if you have activated a virtualenv, you may have an alias, so
+        that "pydoc" is actually "python -m pydoc".  Is there an equivalent to
+        "which" that will include that fact it in its output?)</p>
+
+    <p>But even without the virtualenv alias, this file isn't being run.  Why
+        not?  The answer is in the shebang line:</p>
+
+<code><![CDATA[
+#!/usr/bin/python
+]]></code>
+
+    <p>Unix uses the shebang line to find a program to run the file.  So typing
+        "pydoc" at the prompt will find /usr/bin/pydoc, then find the shebang
+        line, and will actually run this:</p>
+
+<code><![CDATA[
+/usr/bin/python /usr/bin/pydoc
+]]></code>
+
+    <p>Seems simple enough: invoke Python, and have it run the code in
+        /usr/bin/pydoc.  So why isn't Python running the Python code we saw?
+        The answer is that /usr/bin/python is not a Python interpreter!</p>
+
+    <p>On OS X, /usr/bin/python examines various settings and then invokes a
+        real Python interpreter of the correct version: <a href='https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/python.1.html'>python.1 man page</a>.
+        A quick look at the readable text inside the executable confirms that 
+        it is not a full interpreter, and that it is concerned with versions:</p>
+
+<code><![CDATA[
+$ strings /usr/bin/python
+python
+/System/Library/Frameworks/Python.framework/Versions/
+/Resources/Python.app/Contents/MacOS/Python
+pythonw
+VERSIONER_DEBUG
+VERSIONER_PYTHON_VERSION
+%s environment variable error (ignored)
+VERSIONER_PYTHON_PREFER_32_BIT
+no user %d
+%s: too long
+%s: Can't append "%s"
+prefer32bit=%d version=%s
+Executable path too long
+proc_pidpath
+PATH
+/usr/bin:/bin
+alloca: out of memory
+realpath couldn't resolve "%s"
+%s: Can't append "%s"
+argv=%s path=%s
+posix_spawnattr_init
+posix_spawnattr_setflags
+posix_spawnattr_setbinpref_np
+posix_spawnattr_setbinpref_np only copied %d of %d
+posix_spawn: %s
+%s -> %s
+versionarg: Out of memory
+read_plist: %s: open
+read_plist: %s: stat
+read_plist: %s: mmap
+read_plist: %s: CFDataCreateWithBytesNoCopy failed
+(cfstrdup also failed)
+read_plist: %s: CFPropertyListCreateFromXMLData failed: %s
+read_plist: %s: plist not a dictionary
+Prefer-32-Bit
+read_plist: %s: Prefer-32-Bit not a boolean
+Version
+read_plist: %s: %s: Version unknown
+read_plist: %s: Version not a string
+true
+false
+0123456789
+/Preferences/com.apple.versioner.python.plist
+/usr/bin/
+]]></code>
+
+    <p>So this finder is given "/usr/bin/pydoc" as an argument, and it decides
+        what to really run.  It's special-casing "/usr/bin", and actually
+        invoking /usr/bin/pydoc2.7.  The real /usr/bin/pydoc file is there only
+        to be executed when the version-selection mechanism fails, which is why
+        it simply prints messages about not being able to find the right
+        version.</p>
+
+    <p>It seems that the switcher doesn't care much what command
+        you're trying to run.  If it's in /usr/bin, and there's a file
+        alongside it with the same name but the current Python version
+        appended, then it will run the versioned one.</p>
+
+    <p>All this can be verified by an experiment.  I created /usr/bin/foo with
+        these contents:</p>
+
+<code lang="python"><![CDATA[
+#!/usr/bin/python
+import sys
+print sys.argv
+print "Plain!"
+]]></code>
+
+    <p>and a /usr/bin/foo2.7 with this:</p>
+
+<code lang="python"><![CDATA[
+#!/usr/bin/python
+import sys
+print sys.argv
+print "Versioned!"
+]]></code>
+
+    <p>Then I ran it a number of different ways (the current directory is in
+        the prompt):</p>
+
+<code><![CDATA[
+~ $ foo
+['/usr/bin/foo2.7']
+Versioned!
+~ $ /usr/bin/foo
+['/usr/bin/foo2.7']
+Versioned!
+~ $ foo2.7
+['/usr/bin/foo2.7']
+Versioned!
+~ $ /usr/bin/foo2.7
+['/usr/bin/foo2.7']
+Versioned!
+~ $ cd /usr/bin
+/usr/bin $ foo
+['/usr/bin/foo2.7']
+Versioned!
+/usr/bin $ foo2.7
+['/usr/bin/foo2.7']
+Versioned!
+/usr/bin $ ./foo
+['./foo']
+Plain!
+]]></code>
+
+    <p>Notice that the Python switcher runs the versioned file whenever it's
+        identified as being from /usr/bin.  But when run so that the shell
+        doesn't identify it that way, even when it's the exact same file, the
+        Python switcher decides it shouldn't interfere, and it runs the exact
+        file specified.</p>
+
+    <p>Tricky.</p>
+
+</body>
+</entry>
+</blog>
