@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
 <entry when='20131215T101202'>
-<title>Running Python commands on Mac</title>
+<title>Versioned Python commands on Mac</title>
 <category>python</category>
 <category>mac</category>
 <category>unix</category>
@@ -144,8 +144,7 @@ false
 <code lang="python"><![CDATA[
 #!/usr/bin/python
 import sys
-print sys.argv
-print "Plain!"
+print sys.argv, "Plain!"
 ]]></code>
 
     <p>and a /usr/bin/foo2.7 with this:</p>
@@ -153,8 +152,7 @@ print "Plain!"
 <code lang="python"><![CDATA[
 #!/usr/bin/python
 import sys
-print sys.argv
-print "Versioned!"
+print sys.argv, "Versioned!"
 ]]></code>
 
     <p>Then I ran it a number of different ways (the current directory is in
@@ -162,27 +160,20 @@ print "Versioned!"
 
 <code><![CDATA[
 ~ $ foo
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 ~ $ /usr/bin/foo
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 ~ $ foo2.7
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 ~ $ /usr/bin/foo2.7
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 ~ $ cd /usr/bin
 /usr/bin $ foo
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 /usr/bin $ foo2.7
-['/usr/bin/foo2.7']
-Versioned!
+['/usr/bin/foo2.7'] Versioned!
 /usr/bin $ ./foo
-['./foo']
-Plain!
+['./foo'] Plain!
 ]]></code>
 
     <p>Notice that the Python switcher runs the versioned file whenever it's
