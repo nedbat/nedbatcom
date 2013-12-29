@@ -23,11 +23,11 @@ def sidebar(which, force=False):
     inc = settings.PHP_INCLUDE
     if force:
         inc = False
-        
+
     c = {}
-    c['which'] = which    
+    c['which'] = which
     c['include'] = inc
-    
+
     if inc:
         return c
 
@@ -98,12 +98,12 @@ class IfNotFirstNode(Node):
         if 'forloop' in context and '_iffirst' not in context['forloop']:
             self._checked = False
             context['forloop']['_iffirst'] = True
-            
+
         if self._checked:
             content = self.nodelist.render(context)
         else:
             content = ''
-            
+
         self._checked = True
         return content
 
@@ -165,10 +165,10 @@ def first_sentence(value, number=1):
         if sentence.count('"') % 2:
             # A sentence has to have an even number of quotes.
             continue
-        
+
         # We have a complete sentence.
         number -= 1
-    
+
     return sentence
 
 @register.filter()
