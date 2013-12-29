@@ -19,16 +19,28 @@
 <div class='blogroll'>
 
     <ul class='first'>
-        <li>Search this site:
+        <li class='first'>Search this site:
             {% search_box %}
         </li>
 
-        <li class='first'>
+        <li>
             {# <a href='/site/hirened.html'>Hire me</a> {% ch ' . ' %} #}
             <a href='/site/aboutned.html' rel='author'>About me</a>
         </li>
 
-        <li>Twitter: <a href='http://twitter.com/nedbat'>@nedbat</a></li>
+        <li class='inline'>Also me: 
+            <ul>
+                <li><a href='http://twitter.com/nedbat'>twitter</a>{% ch ' .' %} </li>
+                <li><a href='mailto:ned@nedbatchelder.com'>email</a></li>
+            </ul>
+        </li>
+
+        <li class='inline'>Tip me:
+            <ul>
+                <li><a href='http://gittip.com/nedbat'>gittip</a>{% ch ' .' %} </li>
+                <li><a href='bitcoin:1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH?amount=0.01&label=Ned%20Batchelder'>bitcoin</a></li>
+            </ul>
+        </li>
 
         {% comment %}
         {# Flattr: https://flattr.com/thing/343733/Neds-stuff #}
@@ -153,7 +165,10 @@
                     text-decoration: none;
                     '
                 >RSS</a>
-            (<a href='/site/whatisrss.html'>huh?</a>)</li>
+            {% comment %}
+            (<a href='/site/whatisrss.html'>huh?</a>)
+            {% endcomment %}
+            </li>
         {% endif %}
         
         {% comment %}
