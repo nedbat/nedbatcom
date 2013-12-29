@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.template import Library, Node
 from django.template.defaultfilters import stringfilter
 from djstell.pages.sitemap import sitemap
@@ -64,18 +65,18 @@ def year_range(year1, year2):
 
 special_ch = {
     '':     '',
-    '>>':   '&#xbb;',
-    '<<':   '&#xab;',
-    '(c)':  '&#xa9;',
-    'S':    '&#xa7;',
-    '*':    '&#x2022;',
-    '.':    '&#xb7;',
-    '-':    '&#x2013;',
-    '--':   '&#x2014;',
-    ':>':   '&#x25b6;',
-    'o':    '&#x25e6;',
-    '[]':   '&#x25ab;',
-    '<>':   '&#x25c7;',
+    '>>':   '&#xbb;',       # »  RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+    '<<':   '&#xab;',       # «  LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+    '(c)':  '&#xa9;',       # ©  COPYRIGHT SIGN
+    'S':    '&#xa7;',       # §  SECTION SIGN
+    '*':    '&#x2022;',     # •  BULLET
+    '.':    '&#xb7;',       # ·  MIDDLE DOT
+    '-':    '&#x2013;',     # –  EN DASH
+    '--':   '&#x2014;',     # —  EM DASH
+    ':>':   '&#x25b6;',     # ▶  BLACK RIGHT-POINTING TRIANGLE
+    'o':    '&#x25e6;',     # ◦  WHITE BULLET
+    '[]':   '&#x25ab;',     # ▫  WHITE SMALL SQUARE
+    '<>':   '&#x25c7;',     # ◇  WHITE DIAMOND
     }
 
 @register.simple_tag
