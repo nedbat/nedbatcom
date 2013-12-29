@@ -18,7 +18,7 @@ def add_entries(c, ents):
         c['min_date'] = ents[-1].when
         c['max_date'] = ents[0].when
     c['crumbs'] = blog_crumbs
-    
+
 def abs_url(url):
     absurl = settings.BASE
     if not absurl.endswith('/') and not url.startswith('/'):
@@ -63,7 +63,7 @@ def month(request, year, month):
     c = RequestContext(request)
     add_entries(c, ents)
     c['title'] = ents[0].when.strftime("%B %Y")     # October 2007
-    
+
     # next and prev
     c['prev_ent'] = c['next_ent'] = None
     prev = Entry.objects.filter(when__lt=ents[-1].when).order_by('-when')[:1]
@@ -72,7 +72,7 @@ def month(request, year, month):
     next = Entry.objects.filter(when__gt=ents[0].when).order_by('when')[:1]
     if next:
         c['next_ent'] = next[0]
-    
+
     return render_to_response('blogmonth.html', c)
 
 def archiveyear(request, year):
@@ -83,7 +83,7 @@ def archiveyear(request, year):
     c['year'] = year
     c['title'] = "Blog Archive: %s" % year
     return render_to_response('blogarchive.html', c)
-    
+
 def archiveall(request):
     ents = list(Entry.objects.all().order_by('-when'))
     c = RequestContext(request)
@@ -91,7 +91,7 @@ def archiveall(request):
     c['type'] = 'complete'
     c['title'] = "Blog Archive: Complete"
     return render_to_response('blogarchive.html', c)
-    
+
 def tags(request):
     tags = Tag.objects.all().order_by('name')
     c = RequestContext(request)
@@ -181,7 +181,7 @@ def index(request):
     c['title'] = a.title
     c['body'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
-    
+
     # Tags to display: the 32 most-popular ones, but not "me", "site", etc.
     bad_tags = ('me', 'site', 'mycode')
     tags = Tag.objects.all().exclude(tag__in=bad_tags)
@@ -189,10 +189,10 @@ def index(request):
     tags = tags[:32]
     tags = sorted(tags, key=lambda t: t.name)
     c['tags'] = tags
-    
+
     # Blog info
     c['archive_years'] = [ d.year for d in Entry.objects.dates('when', 'year', order='DESC') ]
-    
+
     title, url, description = 'title', 'url', 'description'
     # Code
     c['code'] = [
