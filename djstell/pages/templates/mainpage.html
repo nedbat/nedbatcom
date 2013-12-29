@@ -78,13 +78,19 @@ img {
 .thinspace {
     font-size: 66%;
 }
-.blog-entry h3, .section h3 {
+.blog-entry h3, .section h3, .oneline h3 {
     display: inline;
 }
 .blog-entry p.date, .huh {
     display: inline;
     margin: 0 0 0 1em;
     color: #666;
+}
+.oneline {
+    margin: 1em 0;
+}
+.oneline p {
+    display: inline;
 }
 .section {
     margin-top: 2em;
@@ -199,7 +205,7 @@ li p {
 <div class='section'>
 <div class='subsection'>
 <h3><a class='s' href='/code'>Code</a></h3>
-<p class='huh'>software for your use</p>
+<p class='huh'>software I made</p>
 <ul>
     {% for x in code %}
     <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
@@ -210,7 +216,7 @@ li p {
 
 <div class='subsection'>
 <h3><a class='s' href='/text'>Text</a></h3>
-<p class='huh'>longer writings</p>
+<p class='huh'>words I wrote</p>
 <ul>
     {% for x in text %}
     <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
@@ -228,13 +234,34 @@ li p {
 </p>
 {% endcomment %}
 
+<div class='oneline'>
 <h3><a class='s' href='/site/aboutned.html' rel='author'>About me</a></h3>
-<p class='first'>I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>. I have a good-sized
-family: one wife and three boys, one autistic. We live outside of Boston.<span class='readmore'> {% ch ">> " %}<a href='/site/aboutned.html'>more..</a></span>
+<p class='first'>{% ch " ." %}{% ch "." %}
+I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>,
+<a href='http://susansenator.com'>a wife</a> and three boys, one autistic.
+I help organize <a href='http://bostonpython.com'>Boston Python</a>.
+<span class='readmore'> {% ch ">> " %}<a href='/site/aboutned.html'>more..</a></span>
 </p>
+</div>
 
 <div id='search'>
 {% search_box 0 "<h3>Search me</h3>" %}
+</div>
+
+<div class='oneline'>
+<h3 class='inline'>Also me</h3>
+<p>{% ch " ." %}{% ch "." %}
+<a class='s' href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %}
+<a class='s' href='http://github.com/nedbat'>github</a>{% ch " ." %}
+<a class='s' href='http://bitbucket.com/ned'>bitbucket</a>{% ch " ." %}
+<a class='s' href='http://gittip.com/nedbat'>gittip</a>{% ch " ." %}
+<a class='s' href='http://lnkd.in/Z43kH3'>linkedin</a>{% ch " ." %}
+<a class='s' href='bitcoin:1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH?amount=0.01&label=Ned%20Batchelder'>bitcoin</a>{% ch " ." %}
+<a class='s' href='http://edx.org'>work</a>{% ch " ." %}
+<a class='s' href='/NedBatchelder.pdf'>resume</a>{% ch " ." %}
+<a class='s' href='irc://irc.freenode.net/#python'>irc</a>{% ch " ." %}
+<a class='s' href='mailto:ned@nedbatchelder.com'>email</a>
+</p>
 </div>
 
 <p class='copyright'><a class='s' href='/site/legal.html' rel='copyright license'>{% ch "(c) " %}{% year_range archive_years.-1 archive_years.0 %}</a></p>

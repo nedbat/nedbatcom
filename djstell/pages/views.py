@@ -182,11 +182,11 @@ def index(request):
     c['body'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
 
-    # Tags to display: the 32 most-popular ones, but not "me", "site", etc.
+    # Tags to display: the most populated ones, but not "me", "site", etc.
     bad_tags = ('me', 'site', 'mycode')
     tags = Tag.objects.all().exclude(tag__in=bad_tags)
     tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
-    tags = tags[:32]
+    tags = tags[:28]
     tags = sorted(tags, key=lambda t: t.name)
     c['tags'] = tags
 
@@ -203,9 +203,9 @@ def index(request):
 
     # Text
     c['text'] = [
+        { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
         { title: 'Stopping spambots with hashes and honeypots', url: 'text/stopbots.html', description: 'no more CAPTCHAs' },
         #{ title: 'Exceptions in the rainforest', url: 'text/exceptions-in-the-rainforest.html', description: 'where throw and catch fit it' },
-        { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
         { title: 'A good thing about autism', url: 'text/autism-examined.html', description: 'a view from the trenches' },
     ]
 
