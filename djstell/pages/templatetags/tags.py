@@ -71,6 +71,7 @@ special_ch = {
     'S':    '&#xa7;',       # §  SECTION SIGN
     '*':    '&#x2022;',     # •  BULLET
     '.':    '&#xb7;',       # ·  MIDDLE DOT
+    ':':    '&#xb7;&#xb7;', #    two middle dots, a strange colon-like thing
     '-':    '&#x2013;',     # –  EN DASH
     '--':   '&#x2014;',     # —  EM DASH
     ':>':   '&#x25b6;',     # ▶  BLACK RIGHT-POINTING TRIANGLE

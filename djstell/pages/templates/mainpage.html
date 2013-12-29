@@ -189,7 +189,7 @@ li p {
 
 <div class='section'>
 {% reallyspaceless %}
-<p><b><a class='s' href='/blog'>More blog</a></b><span class='thinspace'>{% ch " " %}</span>{% ch "." %}{% ch "." %}<span class='thinspace'>&#32;</span>
+<p><b><a class='s' href='/blog'>More blog</a></b><span class='thinspace'>{% ch " " %}</span>{% ch ":" %}<span class='thinspace'>&#32;</span>
 {% for tag in tags %}
 <a class='s' href='{{tag.permaurl}}'>{{tag.name|lower}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'>&#32;</span>
 {% endfor %}
@@ -208,7 +208,7 @@ li p {
 <p class='huh'>software I made</p>
 <ul>
     {% for x in code %}
-    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
+    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
 <li><span class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></span></li>
 </ul>
@@ -219,7 +219,7 @@ li p {
 <p class='huh'>words I wrote</p>
 <ul>
     {% for x in text %}
-    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " ." %}{% ch "." %} {{x.description}}</li>
+    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
 <li><span class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></span></li>
 </ul>
@@ -236,7 +236,7 @@ li p {
 
 <div class='oneline'>
 <h3><a class='s' href='/site/aboutned.html' rel='author'>About me</a></h3>
-<p class='first'>{% ch " ." %}{% ch "." %}
+<p class='first'>{% ch " :" %}
 I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>,
 <a href='http://susansenator.com'>a wife</a> and three boys, one autistic.
 I help organize <a href='http://bostonpython.com'>Boston Python</a>.
@@ -250,7 +250,7 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 
 <div class='oneline'>
 <h3 class='inline'>Also me</h3>
-<p>{% ch " ." %}{% ch "." %}
+<p>{% ch " :" %}
 <a class='s' href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %}
 <a class='s' href='http://github.com/nedbat'>github</a>{% ch " ." %}
 <a class='s' href='http://bitbucket.com/ned'>bitbucket</a>{% ch " ." %}
