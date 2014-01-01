@@ -109,6 +109,7 @@
         </li>
         {% endif %}
         
+        {% comment %}
         {% if tags %}
         <li><a href='/blog/tags.html'>Tags</a>:
             <ul class='compact'>
@@ -126,15 +127,32 @@
         {% endif %}
         
         {% if archive_years %}
-        <li><a href='/blog/archiveall.html'>Archives</a>:
-            <ul class='compact'>
+        <li class='inline'><a href='/blog/archiveall.html'>Archives</a>:
+            <ul>
                 {% for y in archive_years %}
-                <li>{% ch '>> ' %}<a href='/blog/archive{{y}}.html'>{{y}}</a></li>
+                <li>
+                <a href='/blog/archive{{y}}.html'>{{y}}</a>{% if not forloop.last %}{% ch " ." %}{% endif %}
+                </li>
                 {% endfor %}
             </ul>
         </li>
         {% endif %}
-        
+        {% endcomment %}
+
+        {% if moreblog %}
+        <li class='inline'>More blog:
+            <ul>
+                {% for link in moreblog %}
+                <li>
+                    <a href='{{link.link}}'>{{link.text|lower|safe}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span>
+                </li>
+                {% endfor %}
+                <li><a href='/blog/tags.html'><i>all tags</i></a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
+                <li><a href='/blog/archiveall.html'><b><i>everything!</i></b></a></li>
+            </ul>
+        </li>
+        {% endif %}
+
         {% comment %}
         {% if blogroll %}
         <li>You might like:

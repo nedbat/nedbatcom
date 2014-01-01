@@ -32,10 +32,32 @@ def sidebar(which, force=False):
     if inc:
         return c
 
+    def combined_more_blog():
+        """Yield a sequence of shuffled-together tags and years."""
+        avoid_tags = ('me', 'site', 'blogs')
+        tags = Tag.objects.all().exclude(tag__in=avoid_tags)
+        tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
+        tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
+        tags = iter(tags)
+
+        years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
+        years = ({'link': '/blog/archive{0}.html'.format(y), 'text': "{0:02d}".format(y % 100)} for y in years)
+        years = iter(years)
+
+        # Interleave them: two tags, a year, two tags, a year, etc.
+        try:
+            while True:
+                yield next(tags)
+                yield next(tags)
+                yield next(years)
+        except StopIteration:
+            pass
+
     if which == 'blog':
         c['tpt'] = False    # Not interested in showing this any more.
         c['archive_years'] = [ d.year for d in Entry.objects.dates('when', 'year', order='DESC') ]
         c['tags'] = Tag.objects.filter(sidebar=True).order_by('tag')
+        c['moreblog'] = list(combined_more_blog())
         c['more_tag_count'] = Tag.objects.filter(sidebar=False).count()
         c['blogroll'] = Link.objects.filter(sidebar=True).order_by('text')
         #c['tabblos'] = 'favs'
