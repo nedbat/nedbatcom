@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20131230T195302'>
+<title>Un-ABC</title>
+<category>python</category>
+<body>
+
+    <p>Python is well-known for its duck-typing: objects are examined for what
+        they can do rather than for what type they are.  But if you like being
+        strict about the methods derived classes have to implement, you can 
+        use the abstract base classes in the <a href='http://docs.python.org/3/library/abc.html'>abc</a> module.
+    </p>
+
+    <p>They let you define a class, with some methods defined as abstract,
+        and if those methods aren't defined in a subclass, the subclass can't
+        be instantiated:</p>
+
+<code lang="python"><![CDATA[
+# abstract.py
+from abc import ABCMeta, abstractmethod
+
+class Abstract(metaclass=ABCMeta):
+
+    def concrete(self):
+        print("I am concrete")
+
+    @abstractmethod
+    def not_defined_yet(self):
+        raise NotImplementedError
+
+a = Abstract()
+]]></code>
+
+<p>produces:</p>
+
+<code><![CDATA[
+Traceback (most recent call last):
+  File "abstract.py", line 13, in <module>
+    a = Abstract()
+TypeError: Can't instantiate abstract class Abstract with abstract methods not_defined_yet
+]]></code>
+
+    <p>This is great when you want to be strict, and can remind you of your
+        pleasant days writing Java!  But like Java, you can find yourself in
+        situations where you have an abstract base class with a handful of
+        abstract methods, and know that you only need a few of them.  The usual
+        remedy at this point is to define all the missing methods knowing
+        they'll never be called.  This is the worst of "keeping the compiler
+        happy": you know what you need, but the type checking insists that you
+        go through the motions.</p>
+
+    <p>Here's another option: a class decorator that erases the list of
+        abstract methods, so that the class can be instantiated:</p>
+
+<code lang="python"><![CDATA[
+def unabc(cls):
+    cls.__abstractmethods__ = ()
+    return cls
+]]></code>
+
+    <p>Now we can make a subclass of our abstract base class, not define any
+        methods, and still instantiate the class:</p>
+
+<code lang="python"><![CDATA[
+@unabc
+class ShutUpAbc(Abstract):
+    pass
+
+just_do_it = ShutUpAbc()    # yay!
+]]></code>
+
+    <p>If we want to get fancier, we can! The missing abstract methods aren't
+        going to be called (we think!) but we can provide stub methods just in
+        case.  The stub methods will raise an error with a message naming the
+        method.  For extra bells and whistles, the message will be settable
+        in the decorator, and the decorator will be usable with or without
+        a customized message:</p>
+
+<code lang="python"><![CDATA[
+def unabc(arg):
+    """
+    Add stub methods to a class to satisfy abstract base classes.
+
+    Usage::
+
+        @unabc
+        class NotAbstract(SomeAbstractClass):
+            pass
+
+        @unabc('Fake {}')
+        class NotAbstract(SomeAbstractClass):
+            pass
+    """
+
+    def _unabc(cls, msg=arg):
+        def make_stub_method(ab_name):
+            def stub_method(self, *args, **kwargs):
+                meth_name = cls.__name__ + "." + ab_name
+                raise NotImplementedError(msg.format(meth_name))
+            return stub_method
+
+        for ab_name in cls.__abstractmethods__:
+            setattr(cls, ab_name, make_stub_method(ab_name))
+
+        # No more abstract methods!
+        cls.__abstractmethods__ = ()
+        return cls
+
+    # Handle the possibility that unabc is called without a custom message.
+    if isinstance(arg, type):
+        return _unabc(arg, "{} isn't implemented, and won't be!")
+    else:
+        return _unabc
+]]></code>
+
+    <p>Here the _unabc function is the actual decorator.  It loops over all the
+        abstract method names, and makes a new stub method for each one.  The
+        make_stub_method function is needed because we need to close over the
+        ab_name variable so it will have the proper value when called.</p>
+
+    <p>Then stub_method is defined as the actual method that will be added to
+        the class with setattr.  Yes, this is four defs nested inside each
+        other: one to define the decorator you use, one to be the actual
+        decorator applied to the class, one to form a closure so we can define
+        stub methods, and one to create the stub methods themselves!</p>
+
+    <p>The last part here is to deal with the two ways the unabc decorator can
+        be used: if it's used without an argument, then the class in question
+        will be the argument, and the isinstance check will be true.  In that
+        case, we'll use the argument as the class, and provide a default
+        message. If the argument isn't a class, then we return _unabc, and the
+        argument is already provided as a default msg for the _unabc
+        function.</p>
+
+    <p>BTW: all the code above is Python 3.  The only thing to change for
+        Python 2 is how the ABCMeta metaclass is associated with your abstract
+        class:</p>
+
+<code lang="python"><![CDATA[
+class Abstract(object):
+    __metaclass__ = ABCMeta
+    ...
+]]></code>
+
+</body>
+</entry>
+</blog>
