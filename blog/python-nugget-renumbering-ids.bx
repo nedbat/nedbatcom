@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140105T092324'>
+<title>Python nugget: renumbering ids</title>
+<category>python</category>
+<body>
+
+    <p>While writing a test suite, I wrote a helper function to renumber the
+        ids in SVG figures.  It had enough interesting bits that I'll share it
+        here, and maybe I'll get suggestions on better ways to do it.</p>
+
+    <p>BTW: The test is for an SVG-drawing library that I hacked together to
+        replace the graphviz diagrams I made for <apage pref="text/names.px"/>.
+        Graphviz is frustrating if you know what you want things to look like,
+        so when I turned that article into a <a href='http://dl.dropboxusercontent.com/u/86933/prznames/names.html'>presentation</a>,
+        I re-did the diagrams in SVG.  Now I want to make that library more
+        formal, so I need tests!</p>
+
+    <p>The first tests are just the figures from the presentation, packaged as
+        unit tests.  But the figures have ids in them which are auto-assigned,
+        and if the tests run in a different order than the original figures,
+        the ids will be different.  So I wrote a helper function that finds the
+        ids and renumbers them, to canonicalize the SVG.</p>
+
+    <p>I chose to use regexes, since formally parsing the SVG to find the ids
+        would involve not just XML parsing but CSS parsing, and this domain is
+        specialized enough and tightly-controlled enough that I'm condfident
+        that a regex will do a good job.</p>
+
+    <p>First the code, then we'll go over it line by line:</p>
+
+<code lang="py" number="1"><![CDATA[ 
+def renumber_svg_ids(svg):
+    """Renumber the ids in `svg`.
+
+    Ids are either "id='id10'" or "#id10".  Same ids get
+    the same renumbered id, to keep the meaning the same.
+
+    Return the same svg string, but with new ids.
+
+    """
+    id_map = {}
+    new_ids = ("newid{}".format(i) for i in itertools.count())
+
+    def new_repl(match, new_id_fmt):
+        r"""re.sub function for renumbering.
+
+        The `match` object has an id in \1.  Re-number it with a new id,
+        then return `new_id_fmt` with the new id in place of "{}".
+
+        """
+        found_id = match.group(1)
+        if found_id not in id_map:
+            id_map[found_id] = next(new_ids)
+        return new_id_fmt.format(id_map[found_id])
+
+    # Replace ids that look like: id="id123"
+    svg = re.sub(
+        r"""\bid=['"](id\d+)['"]""",
+        functools.partial(new_repl, new_id_fmt="id='{}'"),
+        svg
+    )
+    # Replace ids that look like: #id123
+    svg = re.sub(
+        r"""#(id\d+)\b""",
+        functools.partial(new_repl, new_id_fmt="#{}"),
+        svg
+    )
+
+    return svg
+]]></code>
+
+    <p>At heart, this function is conceptually simple: take a string, and
+        return the string with the ids replaced.  Since the same id can appear
+        multiple times in the string, we need to be careful to replace the same
+        id with the same replacement.  To keep track of what was replaced with
+        what, at line 10, id_map is a dictionary mapping old ids to new
+        ids.</p>
+
+    <p>At line 11, we have a generator expression that will make new ids for
+        us.  <a href="http://docs.python.org/2/library/itertools.html#itertools.count">itertools.count</a> is an infinite sequence of integers; we format
+        those into the form "newid123", and the generator expression gives us
+        an infinite stream of those ids.</p>
+
+    <p>The heart of renumber_svg_ids is a function for use with <a href="http://docs.python.org/2/library/re.html#re.sub">re.sub</a>.  The
+        simple and common way to use re.sub is to give it a regex pattern and a
+        string replacement.  But instead of a string replacement, you can use a
+        function.  Every match is passed to the function as a match object, and
+        the string returned by the function is used as the replacement.</p>
+
+    <p>Our function new_repl on line 13 takes a match object and a format
+        string for the replacement.  Line 20 gets the actual id out of the
+        match object: <a href="http://docs.python.org/2/library/re.html#re.MatchObject.group">match.group(1)</a> returns the string matched by the first
+        parenthesized group in the regex pattern, so found_id will be something
+        like "id123".</p>
+
+    <p>On line 21, if the id isn't in our map, then we haven't seen this id yet,
+        so we make a new id by pulling the next value from our generator
+        expression.  Generators are usually consumed in a for-loop of some kind,
+        but you can use the <a href="http://docs.python.org/2/library/functions.html#next">next()</a> builtin to just grab the next value from
+        one.</p>
+
+    <p>Finally we use the new_id_fmt format string, giving it the new id, and
+        return the result on line 23.</p>
+
+    <p>It's unusual to see nested functions in Python, but they work fine. One
+        issue is variable scope: notice that we use id_map inside the new_repl
+        function, but id_map is defined in the outer function.  This works so
+        long as we don't reassign the id_map name.  That won't work right in
+        Python 2, you'd need the Python 3 <a href="http://docs.python.org/3/reference/simple_stmts.html#the-nonlocal-statement">nonlocal</a> keyword.  Luckily we don't
+        need to reassign the name, we just use methods on it.  Those methods
+        modify the value, but that's still not an assignment to the name, so we
+        are OK.</p>
+
+    <p>Now that we have our re.sub replacement function, we're going to use it
+        twice, once to replace "id='id123'" instances, and once for "#id123".
+        You may have noticed an odd thing about our new_repl function: it takes
+        two arguments.  But the function re.sub will call only takes one: the
+        match object.  We need two arguments so that the replacement format
+        could be different for the two times we're going to use it.</p>
+
+    <p>To turn our two-argument function into two different one-argument
+        functions, we use <a href="http://docs.python.org/2/library/functools.html#functools.partial">functools.partial</a>.  You give it a function, and some
+        arguments, and it returns a new function that will call your function
+        with those arguments pre-supplied.  In our case, line 28 uses
+        functools.partial to make a new function that is our new_repl with the
+        given string as new_id_fmt.  The result is a function of only the one
+        remaining argument, the match object, which is just what re.sub
+        wants.</p>
+
+    <p>Lines 26 and 32 are our two calls to re.sub, they each make replacements
+        in the svg string, and the final result is returned at the end.</p>
+
+    <p>A few minor things to note: on line 14, the docstring for new_repl is a
+        raw string, because I have a backslash in it that I want to remain
+        literal, although the "\1" is an obscure way to refer to the first
+        group, and in any case the docstring of an inner function is unlikely
+        to ever appear anywhere else, so who's reading it? On line 27, I used a
+        triple-quoted string even for a single-line string, because it let me
+        avoid escaping the two kinds of quotes I have in the regex.</p>
+
+    <p>Of course, there's still room for new ways to do things.  Line 21, the
+        check if the value is already in the dictionary, raises an eyebrow:
+        Python has better ways to do that sort of thing.  The <a href="http://docs.python.org/2/library/collections.html#collections.defaultdict">defaultdict</a> class
+        can automatically create values for missing keys.</p>
+
+    <p>So we can re-write the top of our function like this (with docstrings
+        removed for brevity):</p>
+
+<code lang="py"><![CDATA[
+def renumber_svg_ids(svg):
+    new_ids = ("newid{}".format(i) for i in itertools.count())
+    id_map = collections.defaultdict(lambda: next(new_ids))
+
+    def new_repl(match, new_id_fmt):
+        found_id = match.group(1)
+        return new_id_fmt.format(id_map[found_id])
+]]></code>
+
+    <p>The new_ids generator is exactly the same.  But now we use it in a
+        defaultdict.  When a key is missing, defaultdict will invoke the lambda
+        function, which will use next() to get the next id.  Now the body of
+        new_repl has no conditional in it at all, it simply looks up the found
+        id in the map.  If it's not there already, the defaultdict will make a
+        new one, and if it is there, it will simply return the saved value. For
+        bonus points, you could replace our new lambda function with another
+        call to functools.partial.</p>
+
+    <p>In the back of my mind, I'm wondering if there isn't a better way to
+        accomplish this entirely.  Maybe find all the ids in one pass, and then
+        replace them all in another?</p>
+
+</body>
+</entry>
+</blog>
