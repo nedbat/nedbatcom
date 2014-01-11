@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140111T113720'>
+<title>Comments should be sentences</title>
+<category>coding</category>
+<body>
+
+    <p>If you really want to write high-quality polished code, you have to
+        attend to many details.  A small one that is often overlooked: comments
+        should be complete sentences.   (Throughout, "comment"
+        includes docstrings and any other English you write about your code.) 
+        Start comments with a capital, have a
+        subject and a verb, and end them with a period.</p>
+
+    <p>There are a few reasons for this.  First, your program should be
+        readable.  Just as you choose variable names to have meaning so that
+        people can read your code, you should write your comments so that
+        people can read them.  Capitals are a clear indication of the start of
+        a sentence, and a period is a clear indication of the end:</p>
+
+<code lang='py'><![CDATA[
+# BAD:
+# try to read the thing
+
+# BETTER:
+# Try to read the thing.
+]]></code>
+
+    <p>Is that first comment complete? Was there meant to be a qualifying
+        clause?  The thing that what?  Sure, the second sentence doesn't
+        explain the thing either, but at least we can see that the author
+        didn't just wander away in the middle of a thought.</p>
+
+    <p>By writing complete sentences you are more likely to include some small
+        helper that will get your meaning across, and people will be better
+        able to grasp what your words mean. Isn't that why you wrote them?</p>
+
+    <p>The second reason to write complete sentences is to focus you on what
+        you are writing.  You think about each statement in your program, why
+        aren't you thinking about the comments?  Maybe if you capitalize and
+        punctuate your text, you'll realize that a few grunted words aren't
+        really what you want to put there:</p>
+
+<code lang='py'><![CDATA[
+# EVEN BETTER:
+# Try to read the configuration file, but it's OK if
+# it's missing because we don't require a config file.
+]]></code>
+
+    <p>Some would argue that this comment is too many words, that you shouldn't
+        explain in that much detail, that the code should be more
+        self-explanatory.  That's great, now you're thinking about what the
+        comment is doing, and making them better.  I'm not suggesting writing
+        longer comments just for bulk, if you can say it in fewer words, do,
+        but make them good words in a complete sentence.</p>
+
+    <p>Paying more attention to the comments will help you write better code.
+        I can't tell you how many times I've written what I thought was a
+        perfecty good function or line of code, then gone to write the comment
+        or docstring, and realized a better way to do it, or even just a better
+        name.  Explaining yourself to others is a really good way to understand
+        what you are doing. Understanding what you are doing is a really good
+        way to write good code.</p>
+
+    <p>Another reason to make your comments complete sentences: it makes it
+        easier to extend them later:</p>
+
+<code lang='py'><![CDATA[
+# ORIGINALLY:
+# try to read the thing
+
+# THEN SOMEONE ADDS:
+# try to read the thing. Don't worry if it
+# doesn't exist
+]]></code>
+
+    <p>The person who adds the second sentence had to add the period to the
+        first, and now it looks really strange that the second sentence is
+        unterminated. If the first sentence had been a real sentence, the
+        second sentence could be added naturally.</p>
+
+    <p>Many coders will look at this advice and complain that it is way too
+        nit-picking, that punctuation in comments is irrelevant, that since
+        it's natural language, it's readable as it is, we don't have to worry
+        about trivialities like punctuation they are wrong text needs
+        punctuation to be readable leaving it out just makes it hard to parse
+        the sentences see what i did there?</p>
+
+    <p>One last reason for full sentences: the programming variant of the 
+        <a href='http://en.wikipedia.org/wiki/Broken_windows_theory'>broken
+        windows theory</a> says that if you take care of small things,
+        others are more likely to take care of the bigger things.  Polished
+        code is more likely to be maintained well and will set the tone for
+        more polished code in the future.</p>
+
+    <p>And isn't that what we all want? Write complete sentences.</p>
+
+</body>
+</entry>
+</blog>
