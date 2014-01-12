@@ -8,7 +8,7 @@ import datetime, time, re
 
 if 0:
     f_plain_text = open("all-site.txt", "w")
-    
+
     def save_plain_text(elt):
         for xpath in ["p", "ul/li"]:
             for p in elt.findall(xpath):
@@ -33,7 +33,7 @@ class ModelMixin:
             return etree.parse(xmlfile).getroot()
         except Exception, e:
             raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
-            
+
 class Article(models.Model, ModelMixin):
     """ An article represented by a .px file.
     """
@@ -49,7 +49,7 @@ class Article(models.Model, ModelMixin):
 
     def __repr__(self):
         return "<Article %r>" % self.title
-    
+
     def to_html(self):
         dpath = self.path
         dpath = dpath[:dpath.rfind('.')] + ".html"
@@ -82,7 +82,7 @@ class Article(models.Model, ModelMixin):
         art.lang = p.get('lang', 'en')
         art.sort = int(p.get('order', '500'))
         art.comments = bool(p.findall('pagecomments'))
-        
+
         for copyright in p.findall('copyright'):
             art.copyright = copyright.text
 
@@ -91,7 +91,7 @@ class Article(models.Model, ModelMixin):
             art.meta += "<meta name='ROBOTS' content='NOINDEX'>"
 
         art.save()
-        
+
         # Save the history.
         for what in p.findall('history/what'):
             ww = WhatWhen(when=datetime_from_8601(what.get('when')), what=what.text, article=art)
@@ -106,10 +106,10 @@ class Article(models.Model, ModelMixin):
             s.sort = int(section.get('order', '500'))
             s.article = art
             s.save()
-            
+
         save_plain_text(p)
 
-            
+
 class Section(models.Model):
     """ An identified section in the site.
     """
@@ -117,14 +117,14 @@ class Section(models.Model):
     sort = models.IntegerField(default=500)
     sitemap = models.BooleanField(default=True)
     article = models.ForeignKey(Article)
-    
+
 class WhatWhen(models.Model):
     """ An edit indicator, many to one with pages.
     """
     when = models.DateTimeField()
     what = models.CharField(max_length=200)
     article = models.ForeignKey(Article)
-    
+
     def __repr__(self):
         return "<WhatWhen %s: %r>" % (self.when, self.what)
 
@@ -137,7 +137,7 @@ class Tag(models.Model, ModelMixin):
     sidebar = models.BooleanField()
     #related = models.ManyToManyField('self') # TODO
     # TODO: there's a <tag> thingy too, but that seems really redundant...
-    
+
     def __repr__(self):
         return "<Tag: %s>" % self.tag
 
@@ -151,13 +151,13 @@ class Tag(models.Model, ModelMixin):
             tag.about = cat.find('about').text
             tag.sidebar = cat.get('sidebar', '') == 'y'
             tag.save()
-           
+
     def permaurl(self):
         return "blog/tag/%s.html" % self.tag
-    
+
     def entry_set_no_drafts(self):
      return self.entry_set.filter(draft=False)
-    
+
 
 class Link(models.Model, ModelMixin):
     """ A link to somewhere else, for blogroll and via.
@@ -166,10 +166,10 @@ class Link(models.Model, ModelMixin):
     slug = models.CharField(max_length=30)
     text = models.CharField(max_length=200)
     sidebar = models.BooleanField()
-    
+
     def __repr__(self):
         return "<Link %s>" % self.slug
-    
+
     @staticmethod
     def create_from_lx(lxfile):
         root = ModelMixin.parse_xml(lxfile)
@@ -212,10 +212,10 @@ class Entry(models.Model, ModelMixin):
     all_entries = models.Manager()
     objects = NoDraftsManager()
     drafts = DraftsManager()
-    
+
     def __repr__(self):
         return "<Entry %s: %r>" % (self.when, self.title)
-    
+
     @staticmethod
     def create_from_bx(bxfile):
         root = ModelMixin.parse_xml(bxfile)
@@ -249,7 +249,7 @@ class Entry(models.Model, ModelMixin):
                     v.save()
 
             save_plain_text(e.find("body"))
-                
+
     def to_brief_html(self):
         return self.to_html(blogmode='brief')
 
@@ -267,10 +267,10 @@ class Entry(models.Model, ModelMixin):
 
     def monthurl(self):
         return "blog/%04d%02d.html" % (self.when.year, self.when.month)
-    
+
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")
-    
+
 class Via(models.Model):
     """ A source for a blog entry, either a link_id or an href and text.
     """
@@ -307,7 +307,7 @@ def fix_blog_link(match):
     except Entry.DoesNotExist:
         return "/blog/no_such_article.html"
     return entry.permaurl()
-    
+
 def fix_blog_links(text):
     """ Replace links to blog posts with the correct URLs.
     """
