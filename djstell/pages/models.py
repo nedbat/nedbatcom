@@ -40,7 +40,7 @@ class Article(models.Model, ModelMixin):
     path = models.CharField(max_length=200, db_index=True)
     title = models.CharField(max_length=200)
     text = models.TextField()
-    comments = models.BooleanField()
+    comments = models.BooleanField(default=False)
     sort = models.IntegerField(default=500)
     sitemap = models.BooleanField(default=True)
     lang = models.CharField(max_length=5)
@@ -165,7 +165,7 @@ class Link(models.Model, ModelMixin):
     href = models.CharField(max_length=1000)
     slug = models.CharField(max_length=30)
     text = models.CharField(max_length=200)
-    sidebar = models.BooleanField()
+    sidebar = models.BooleanField(default=False)
 
     def __repr__(self):
         return "<Link %s>" % self.slug

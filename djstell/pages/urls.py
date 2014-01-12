@@ -1,4 +1,5 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url
+from django.views.generic.base import TemplateView
 
 PLANET_PYTHON_TAGS = [
     'python', 'pycon', 'math', 'proglang', 'ruby', 'js',
@@ -11,28 +12,28 @@ PLANET_PYTHON_TAGS = [
     ]
 
 urlpatterns = patterns('djstell.pages.views',
-    (r'^index.html$', 'index'),
-    (r'^blog/index.html$', 'blogmain'),
-    (r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d).html$', 'month'),
-    (r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', 'entry'),
+    url(r'^index.html$', 'index'),
+    url(r'^blog/index.html$', 'blogmain'),
+    url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d).html$', 'month'),
+    url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', 'entry'),
 
-    (r'^blog/tags.html$', 'tags'),
-    (r'^blog/tag/none.html$', 'untagged'),
-    (r'^blog/tag/(?P<slug>.*).html$', 'tag'),
+    url(r'^blog/tags.html$', 'tags'),
+    url(r'^blog/tag/none.html$', 'untagged'),
+    url(r'^blog/tag/(?P<slug>.*).html$', 'tag'),
 
-    (r'^blog/archive(?P<year>\d\d\d\d).html$', 'archiveyear'),
-    (r'^blog/archiveall.html$', 'archiveall'),
+    url(r'^blog/archive(?P<year>\d\d\d\d).html$', 'archiveyear'),
+    url(r'^blog/archiveall.html$', 'archiveall'),
 
-    (r'^blog/rss.xml$', 'blog_rss'),
-    (r'^blog/planetpython.xml$', 'tags_rss', {'tags': PLANET_PYTHON_TAGS}),
-    (r'^blog/moved.php$', 'blog_moved_php'),
+    url(r'^blog/rss.xml$', 'blog_rss'),
+    url(r'^blog/planetpython.xml$', 'tags_rss', {'tags': PLANET_PYTHON_TAGS}),
+    url(r'^blog/moved.php$', 'blog_moved_php'),
 
-    (r'^(?P<path>(text|code|site)/.*)$', 'article'),
-    (r'^(?P<path>err404.html)$', 'article'),
+    url(r'^(?P<path>(text|code|site)/.*)$', 'article'),
+    url(r'^(?P<path>err404.html)$', 'article'),
 
-    (r'^sidebar_(?P<which>\w+).inc$', 'sidebar'),
+    url(r'^sidebar_(?P<which>\w+).inc$', 'sidebar'),
     )
 
 urlpatterns += patterns('',
-    (r'^tabblo_badge_(?P<tabblos>\w+).html$', 'django.views.generic.simple.direct_to_template', {'template': 'tabblo_badge.html'}),
+    url(r'^tabblo_badge_(?P<tabblos>\w+).html$', TemplateView.as_view(template_name='tabblo_badge.html')),
     )

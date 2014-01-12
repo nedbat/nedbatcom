@@ -138,8 +138,8 @@ class CmdLine:
 
     @timed
     def do_clean(self):
-        if os.path.exists(settings.DATABASE_NAME):
-            os.remove(settings.DATABASE_NAME)
+        if os.path.exists(settings.DATABASES['default']['NAME']):
+            os.remove(settings.DATABASES['default']['NAME'])
         if os.access(self.ROOT, os.F_OK):
             shutil.rmtree(self.ROOT)
 
