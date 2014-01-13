@@ -10,9 +10,9 @@ import password
 
 def timed(fn):
     def wrapped(*args, **kwargs):
-        start = time.clock()
+        start = time.time()
         ret = fn(*args, **kwargs)
-        now = time.clock()
+        now = time.time()
         print "%s time: %.2fs" % (fn.__name__, now - start)
         return ret
     return wrapped
