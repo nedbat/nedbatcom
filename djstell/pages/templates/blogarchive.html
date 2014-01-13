@@ -24,10 +24,10 @@
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
     </p>
-    
+
     <div class='archive'>
         {% for entry in entries %}
-    
+
             {% ifchanged %}
             <h1>
                 <a class='s' href='{{entry.monthurl}}'>
@@ -35,11 +35,11 @@
                 </a>
             </h1>
             {% endifchanged %}
-            
+
             {% ifchanged %}
             <p class='date'>{{ entry.when|date:"D j"}}: </p>
             {% endifchanged %}
-            
+
             <p>
                 <a class='s' href='{{entry.permaurl}}'>
                     {{entry.title}}
@@ -47,7 +47,7 @@
             </p>
 
         {% endfor %}
-    
+
     </div>
-    
+
 {% endblock %}

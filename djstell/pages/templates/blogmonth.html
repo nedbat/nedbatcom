@@ -20,11 +20,11 @@
         {% prev_main_next prev_ent next_ent %}
     </p>
     {% endif %}
-    
+
     {% for entry in entries %}
         {% blog_entry entry 'brief' %}
     {% endfor %}
-    
+
     {% if prev_ent or next_ent %}
     <p class='pmn pmnbot'>
         {% prev_main_next prev_ent next_ent %}

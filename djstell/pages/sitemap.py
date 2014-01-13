@@ -10,11 +10,11 @@ class Page:
         self.title
         self.sort
         self.sitemap
-        
+
 class SiteMap:
     def __init__(self):
         self.map = {}   # from path to a page-like object
-        
+
         # Load the articles
         for article in Article.objects.all():
             if article.section_set.all():
@@ -27,10 +27,10 @@ class SiteMap:
             p, f = os.path.split(section.article.path)
             if f == 'index.px' and p and '/' not in p:
                 self.top.append((section.title, section.article.permaurl(short=True)))
-        
+
     def top_levels(self):
         pass
-    
+
     def breadcrumbs(self, article):
         """ Return a list of pairs:
                 [('title', 'url'), ...]
@@ -51,9 +51,8 @@ class SiteMap:
 
     def top_areas(self):
         return self.top
-    
+
 sitemap = SiteMap()
 
 if __name__ == '__main__':
     pprint.pprint(sitemap.top_areas())
-   

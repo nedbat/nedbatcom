@@ -42,7 +42,7 @@
     {% if entry.tags.all and entry.via_set.all %}
         {% ch "  " %}/{% ch "  " %}
     {% endif %}
-    
+
     {% reallyspaceless %}
     {# Via #}
     {% for via in entry.via_set.all %}
@@ -63,7 +63,7 @@
     {% ifequal mode 'brief' %}
         <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'><?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></a></span>
     {% endifequal %}
-    
+
     {% ifequal mode 'full' %}
         <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
     {% endifequal %}

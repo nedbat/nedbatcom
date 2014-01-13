@@ -42,7 +42,7 @@ def print_queries(showsql=1, outfile=sys.stdout):
 class LogQueriesMiddleware:
     """ Log the queries for each path
     """
-    
+
     if settings.LOG_SQL:
         def process_response(self, request, response):
             fp = file(os.path.join(r'c:\tmp', request.path.replace('/', '_')), 'a')
@@ -50,4 +50,3 @@ class LogQueriesMiddleware:
             print_queries(True, fp)
             fp.close()
             return response
-    

@@ -14,7 +14,7 @@
         <div class='category'>
             {% for entry in entries %}
                 <p class='date'>{{entry.when|date:"j M Y"}}:</p>
-        
+
                 {% reallyspaceless %}
                 <p>
                     <a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a>
@@ -34,7 +34,7 @@
     {% endif %}
 
     <p>
-        {% if tag %}    
+        {% if tag %}
             Didn't find what you were looking for?
             <a href='/site/search.html'>Search this site</a> with Google.
         {% else %}
@@ -42,5 +42,5 @@
             <a href='/site/search.html'>searching this site</a> with Google?
         {% endif %}
     </p>
-    
+
 {% endblock %}

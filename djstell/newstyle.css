@@ -9,7 +9,7 @@ body {
 }
 
 table#logo_banner {
-	table-layout: fixed; 
+	table-layout: fixed;
 	width: 840px;
 	border: 5px solid #999;
 }
@@ -238,7 +238,7 @@ a.s:hover
 }
 
 .blog-entry .date {
-	font-size: 85%; 
+	font-size: 85%;
 	color: gray; margin: 0; padding: 0;
 }
 
@@ -251,8 +251,8 @@ a.s:hover
 	clear: both;
 }
 
-.blog-entry .via { 
-	float: right 
+.blog-entry .via {
+	float: right
 }
 
 /* The style for blog entries highlighted by being a fragment target. */

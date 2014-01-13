@@ -7,14 +7,14 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     {% block meta %}{{meta|safe}}{% endblock %}
     <base href='{{settings.BASE}}'>
-    
+
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}
     <link rel='stylesheet' href='style.css' type='text/css'>
     <link rel='stylesheet' href='printstyle.css' type='text/css' media='print'>
     {% endblock %}
-    
+
     <script type='text/javascript' src='nedbatchelder.js'></script>
     {% include "analytics.html" %}
 </head>
@@ -31,7 +31,7 @@
                 <span class='path'>
                     <a href='/'>Ned Batchelder</a> : {% top_areas %}
                 </span><br>
-                
+
                 {# The title #}
                 {#<!-- google_ad_section_start -->#}
                 <span class='headslug'>{{title}}</span><br>
@@ -85,10 +85,10 @@
                         ?>
                         {#<!-- google_ad_section_end -->#}
                     {% endif %}
-                    
+
                 </div>
             </td>
-        
+
             <td id='menu' valign='top'>
                 {#<!-- google_ad_section_start(weight=ignore) -->#}
                 <div class='sidebar'>

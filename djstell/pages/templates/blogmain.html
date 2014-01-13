@@ -13,12 +13,12 @@
 		$ror = new Reactor();
 		$ror->PrepareManyComments();
 	?>
-    
+
     {# Real entries #}
     {% for entry in entries|slice:":12" %}
         {% blog_entry entry 'brief' %}
     {% endfor %}
-    
+
     {# Summary of older entries #}
     <p><i>Older:</i></p>
     {% for entry in entries|slice:"12:20" %}
@@ -37,5 +37,5 @@
     {% for entry in entries|slice:"20:21" %}
     	<p><i><a href='{{entry.monthurl}}#{{entry.entryid}}'>Even older...</a></i></p>
     {% endfor %}
-    
+
 {% endblock %}
