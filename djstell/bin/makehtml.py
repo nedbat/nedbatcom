@@ -37,7 +37,7 @@ class CmdLine:
     def do_local(self):
         import socket
         self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
-        self.ROOT = r'c:\www'
+        self.ROOT = r'html_local'
         self.HTACCESS = 'geometer.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
