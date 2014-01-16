@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140114T063219'>
+<title>Git choose your own adventure</title>
+<category>howto</category>
+<category>srcctrl</category>
+<body>
+
+    <p>Seth Robertson has written a great tutorial on how to fix mistakes in git:
+        <a href='http://sethrobertson.github.io/GitFixUm/fixup.html'>On undoing, fixing, or removing commits in git</a>.
+        I love it for two reasons.
+    </p>
+
+    <p>First, it really does help you find your way through a thicket of
+        options in the confusing world of git.  I love git, but it is a power
+        tool that has hurt many, and good instructions for the baffled are hard
+        to come by.</p>
+
+    <p>More interestingly, Seth has come up with an innovative way to provide
+        the instructions.  When writing detailed technical help, things are
+        never straightforward, literally.  There are always points in the flow
+        where you have to say, "Now, you may have done A or you may have done
+        B, and what happens next depends on your choice."  Rather than try to
+        keep all that in a linear English flow as most of us do, Seth has
+        provided an actual branching structure to the text.</p>
+
+    <p>When you try to keep it linear, you end up with something that reads
+        like the instructions for an IRS tax form, because they have a
+        similarly complex documentation challenge.  By actually branching, Seth
+        has made it possible to focus on the situation you are actually in.</p>
+
+    <p>And although the page looks as bare-bones as they come (it could have
+        been designed in 1994), the choices you make are recorded and
+        appear as breadcrumbs right where you are in the text.</p>
+
+    <p>I can see extending this technique.  Imagine in a set of instructions
+        where the user has to choose the name of a directory, they enter the 
+        name into a text box, and then the rest of the instructions have the
+        actual name filled in so the commands they have to type don't need
+        metasyntactic placeholders like &lt;YOURDIRECTORY&gt;.</p>
+
+    <p>Help for confused people should be more helpful, and keeping track of
+        the twisty paths like this is a really nice way to do it. I'd love to
+        see other examples.  Explaining things is hard, and new ways to do it
+        are fascinating.</p>
+
+</body>
+</entry>
+</blog>
