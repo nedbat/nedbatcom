@@ -1,70 +1,70 @@
 /* Style sheet for nedbatchelder.com */
 body {
-	font-size: 101%;  /* Trick to shut off divergent font rounding algorithms. */
-	font-family: verdana, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #999;
-	background: url(pix/hilbert.gif);
+    font-size: 101%;  /* Trick to shut off divergent font rounding algorithms. */
+    font-family: verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #999;
+    background: url(pix/hilbert.gif);
 }
 
 table#logo_banner {
-	width: 840px;
-	border: 5px solid #999;
+    width: 840px;
+    border: 5px solid #999;
 }
 
 td#logo {
-	width: 120px;
-	border-right: 5px solid #999;
-	background: #fff;
+    width: 120px;
+    border-right: 5px solid #999;
+    background: #fff;
 }
 
 td#banner {
- 	width: 695px;
- 	padding: 10px;
-	background: #fff;
-	text-align: left;
-	font-size: 85%;
+    width: 695px;
+    padding: 10px;
+    background: #fff;
+    text-align: left;
+    font-size: 85%;
 }
 
 table#content_menu {
-	width: 840px;
-	border: 5px solid #999; border-top-width: 0;
+    width: 840px;
+    border: 5px solid #999; border-top-width: 0;
 }
 
 td#menu {
-	width: 175px;
-	border-left: 5px solid #999;
-	padding: 10px;
-	background: #eee;
-	text-align: left;
-	font-size: 70%;
+    width: 175px;
+    border-left: 5px solid #999;
+    padding: 10px;
+    background: #eee;
+    text-align: left;
+    font-size: 70%;
 }
 
 td#content {
-	width: 620px;
-	padding: 10px;
-	background: #fff;
-	font-family: verdana, sans-serif;
-	font-size: 80%;
-	text-align: left;
+    width: 620px;
+    padding: 10px;
+    background: #fff;
+    font-family: verdana, sans-serif;
+    font-size: 80%;
+    text-align: left;
 }
 
 td#copyright {
-	padding: 0 10px;
-	border-top: 5px solid #999;
-	text-align: left;
-	background: #eee;
-	color: black;
+    padding: 0 10px;
+    border-top: 5px solid #999;
+    text-align: left;
+    background: #eee;
+    color: black;
 }
 
 .dn {
-	display: none !important;
+    display: none !important;
 }
 
 p,h1,h2,h3,h4,h5,h6 {
-	padding: 0;
-	margin: 1em 0;
+    padding: 0;
+    margin: 1em 0;
 }
 
 table {
@@ -83,132 +83,132 @@ table.tight td {
 }
 
 #menu p, #menu li, #menu blockquote {
-	line-height: 1.1em;
+    line-height: 1.1em;
 }
 
 /* Not sure why I made listed blockquotes smaller text... */
 /* Changed my mind: they aren't smaller. */
 li blockquote {
-	font-size: 100%;
+    font-size: 100%;
 }
 
 /* ..but we don't want to do it for listed code. */
 li blockquote.code {
-	font-size: 100%;
+    font-size: 100%;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-family: verdana, sans-serif;
+    font-family: verdana, sans-serif;
 }
 
 .first {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .body {
-	line-height: 1.5em;
+    line-height: 1.5em;
 }
 
 .thinspace {
-	font-size: 66%;
+    font-size: 66%;
 }
 
 /* H1's have a line underneath them. */
 .body h1 {
-	font-size: 100%;
-	border-bottom: 1px solid silver;
+    font-size: 100%;
+    border-bottom: 1px solid silver;
 }
 
 .body h2 {
-	font-size: 100%;
+    font-size: 100%;
 }
 
 /* H3's are run-in with the text. */
 .body h3 {
-	font-size: 100%; display: inline; line-height: 1.35em;
-	float: left;
-	margin: 0 1.5em 0 0;
+    font-size: 100%; display: inline; line-height: 1.35em;
+    float: left;
+    margin: 0 1.5em 0 0;
 }
 
 .body table {
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .body td {
-	border: 1px solid #ccc;
-	vertical-align: top;
-	padding: .25em .5em;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: .25em .5em;
 }
 
 .body th {
-	border: 1px solid #ccc;
-	border-bottom: 1px solid #999;
-	vertical-align: top;
-	padding: .25em .5em;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #999;
+    vertical-align: top;
+    padding: .25em .5em;
 }
 
 .body #comments td {
-	border-width: 0px;
+    border-width: 0px;
 }
 
 .copyright {
-	font-size: 70%;
-	font-style: italic;
-	color: #333;
+    font-size: 70%;
+    font-style: italic;
+    color: #333;
 }
 
 .copyright a {
-	text-decoration: none;
-	color: #333;
+    text-decoration: none;
+    color: #333;
 }
 
 .copyright a:hover {
-	text-decoration: underline;
-	color: red;
+    text-decoration: underline;
+    color: red;
 }
 
 .dateline {
-	font-family: verdana, sans-serif;
-	margin-top: 0;
-	text-align: right;
-	font-size: 85%;
-	font-style: italic;
-	color: gray;
+    font-family: verdana, sans-serif;
+    margin-top: 0;
+    text-align: right;
+    font-size: 85%;
+    font-style: italic;
+    color: gray;
 }
 
 .docinfo {
-	font-family: verdana, sans-serif;
-	margin-top: 0;
-	margin-left: 35%;
-	width: 65%;
-	text-align: right;
-	font-size: 85%;
-	font-style: italic;
-	color: gray;
+    font-family: verdana, sans-serif;
+    margin-top: 0;
+    margin-left: 35%;
+    width: 65%;
+    text-align: right;
+    font-size: 85%;
+    font-style: italic;
+    color: gray;
 }
 
 ul {
-	margin-top: .5em;
-	margin-bottom: .5em;
-	list-style-type: square;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    list-style-type: square;
 }
 
 li {
-	margin-bottom: .4em;
+    margin-bottom: .4em;
 }
 
 ul li ul {
-	margin-top: .5em;
+    margin-top: .5em;
 }
 
 dl {
-	margin-top: .5em;
-	margin-bottom: .5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
 }
 dt,dd {
-	margin-bottom: .4em;
+    margin-bottom: .4em;
 }
 
 .sidebar
@@ -244,7 +244,7 @@ dt,dd {
 .blogroll ul li.inline
 { display: inline-block; margin-top: .4em; }
 
-.blogroll ul li.inline ul 
+.blogroll ul li.inline ul
 { display: inline; font-weight: normal; line-height: 1.3em; padding-left: .25em; }
 
 .blogroll ul li.inline ul li
@@ -272,16 +272,16 @@ a.s:hover
 { text-decoration: underline; color: red }
 
 .blog-entry .head {
-	font-family: verdana, sans-serif;
-	padding-bottom: .2em; margin-bottom: 0;
+    font-family: verdana, sans-serif;
+    padding-bottom: .2em; margin-bottom: 0;
 }
 
 .blog-entry .foot {
-	font-family: verdana, sans-serif;
-	font-size: 85%; color: gray;
-	font-style: italic;
-	border-bottom: solid 1px silver;
-	padding-bottom: 12pt; margin-bottom: 6pt;
+    font-family: verdana, sans-serif;
+    font-size: 85%; color: gray;
+    font-style: italic;
+    border-bottom: solid 1px silver;
+    padding-bottom: 12pt; margin-bottom: 6pt;
 }
 
 .blog-entry .foot a
@@ -291,102 +291,102 @@ a.s:hover
 { text-decoration: underline; color: red }
 
 .blog-entry .title {
-	margin: 0;
-	font-size: 115%;
-	font-weight: bold;
-	display: block; float: none;
+    margin: 0;
+    font-size: 115%;
+    font-weight: bold;
+    display: block; float: none;
 }
 
 .blog-entry .date {
-	font-size: 85%; 
-	color: gray; margin: 0; padding: 0;
+    font-size: 85%;
+    color: gray; margin: 0; padding: 0;
 }
 
 .blog-entry .date a.s {
-	color: gray;
+    color: gray;
 }
 
 .blog-entry p {
-	margin: 0 0 1em 0;
-	clear: both;
+    margin: 0 0 1em 0;
+    clear: both;
 }
 
-.blog-entry .via { 
-	float: right 
+.blog-entry .via {
+    float: right
 }
 
 /* The style for blog entries highlighted by being a fragment target. */
 .hilitefragment {
-	background: #ffa;
-	padding: 1em 1em 0 1em;
-	border: 1px solid #880;
+    background: #ffa;
+    padding: 1em 1em 0 1em;
+    border: 1px solid #880;
 }
 
 /* Archive page: make the dates hang left to align all the titles. */
 
 .archive p {
-	font-size: 100%;
-	font-family: verdana, sans-serif;
-	margin: 0 0 0 5.5em;
-	line-height: 1.45em;
+    font-size: 100%;
+    font-family: verdana, sans-serif;
+    margin: 0 0 0 5.5em;
+    line-height: 1.45em;
 }
 
 .archive p.date {
-	width: 5em;
-	text-align: right;
-	padding: 0 0 0 0;
-	margin: 0 0 -1.45em 0;
-	color: gray;
+    width: 5em;
+    text-align: right;
+    padding: 0 0 0 0;
+    margin: 0 0 -1.45em 0;
+    color: gray;
 }
 
 /* Category page: Like archive, but the dates are wider. */
 
 .category p {
-	font-size: 100%;
-	font-family: verdana, sans-serif;
-	margin: 0 0 0 8.5em;
-	line-height: 1.45em;
+    font-size: 100%;
+    font-family: verdana, sans-serif;
+    margin: 0 0 0 8.5em;
+    line-height: 1.45em;
 }
 
 .category p.date {
-	width: 8em;
-	text-align: right;
-	padding: 0 0 0 0;
-	margin: 0 0 -1.45em 0;
-	color: gray;
+    width: 8em;
+    text-align: right;
+    padding: 0 0 0 0;
+    margin: 0 0 -1.45em 0;
+    color: gray;
 }
 
 .catlist p {
-	margin: 0 0 0 10.5em;
-	line-height: 1.45em;
+    margin: 0 0 0 10.5em;
+    line-height: 1.45em;
 }
 
 .catlist p.catname {
-	padding: 0 0 0 0;
-	margin: 0 0 -1.45em 0;
-	width: 10em;
-	text-align: right;
-	font-weight: bold;
+    padding: 0 0 0 0;
+    margin: 0 0 -1.45em 0;
+    width: 10em;
+    text-align: right;
+    font-weight: bold;
 }
 
 .also {
-	font-size: 85%; color: gray;
-	font-style: italic; text-decoration: none;
+    font-size: 85%; color: gray;
+    font-style: italic; text-decoration: none;
 }
 
 .also a {
-	text-decoration: none; color: gray
+    text-decoration: none; color: gray
 }
 
 .also a:hover {
-	text-decoration: underline; color: red
+    text-decoration: underline; color: red
 }
 
 /* Monthly pages: prev/main/next links at the top and bottom. */
 .pmntop {
-	border-bottom: solid 1px silver;
-	padding: 0 0 2em 0;
-	margin: 0 0 .5em 0;
+    border-bottom: solid 1px silver;
+    padding: 0 0 2em 0;
+    margin: 0 0 .5em 0;
 }
 
 .pmnbot {
@@ -395,11 +395,11 @@ a.s:hover
 }
 
 .pmn {
-	font-family: verdana, sans-serif;
+    font-family: verdana, sans-serif;
 }
 
 .pmn span {
-	font-size: 80%;
+    font-size: 80%;
     display: block;
     line-height: 1em;
     margin: 0 0 -1em 0;
@@ -417,276 +417,276 @@ a.s:hover
 
 /* Block quotes */
 blockquote {
-	font-size: 100%;
-	margin: 1em 2em;
-	border-left: 1px solid #c0c0c0;
-	padding: 0;
-	background-color: #f0f0f0;
+    font-size: 100%;
+    margin: 1em 2em;
+    border-left: 1px solid #c0c0c0;
+    padding: 0;
+    background-color: #f0f0f0;
 }
 
 blockquote div {
-	margin: 0;
-	padding: .6em 1em .1em 1em;
+    margin: 0;
+    padding: .6em 1em .1em 1em;
 }
 
 blockquote div p {
-	margin: .4em 0;
+    margin: .4em 0;
 }
 
 blockquote div ol {
-	margin: .4em 0;
-	padding-left: 1.5em;
+    margin: .4em 0;
+    padding-left: 1.5em;
 }
 
 blockquote div ul {
-	margin: .4em 0;
-	padding-left: 1.5em;
+    margin: .4em 0;
+    padding-left: 1.5em;
 }
 
 tt {
-	font-size: 90%; line-height: 130%;
-	font-family: Menlo, "courier new", monospace;
+    font-size: 90%; line-height: 130%;
+    font-family: Menlo, "courier new", monospace;
 }
 
 blockquote.code {
-	padding: .3em;
-	border: none;
-	white-space: nowrap;
-	overflow: auto;
-	width: 540px;
-	line-height: 1;
+    padding: .3em;
+    border: none;
+    white-space: nowrap;
+    overflow: auto;
+    width: 540px;
+    line-height: 1;
 }
 
 /* Code samples can't be as wide in a list element.. */
 ul .code, ol .code, li .code {
-	width: 510px;
+    width: 510px;
 }
 dd .code {
-	width: 500px;
+    width: 500px;
 }
 dd li .code {
-	width: 470px;	/* even narrower doubly-nested. */
+    width: 470px;   /* even narrower doubly-nested. */
 }
 
 .code a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .code p.name {
-	text-align: right;
-	font-style: italic;
-	margin: 0 0 -1em 0;
-	padding: 0;
+    text-align: right;
+    font-style: italic;
+    margin: 0 0 -1em 0;
+    padding: 0;
 }
 
 .code .linenos
 {
-	background: #f8f8f8;
-	color: #aaa;
-	font-size: 80%;
-	text-align: right;
-	border-right: 1px solid #bbb;
-	padding: 0;
-	margin: 0;
+    background: #f8f8f8;
+    color: #aaa;
+    font-size: 80%;
+    text-align: right;
+    border-right: 1px solid #bbb;
+    padding: 0;
+    margin: 0;
 }
 
 table.sourcetable {
-	/* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
-	 * need to cancel out the padding. */
-	margin: -0.3em;
+    /* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
+     * need to cancel out the padding. */
+    margin: -0.3em;
 }
 
 .sourcetable td {
-	border: none;
+    border: none;
 }
 
 .sourcetable td.linenos {
-	width: 3em;
+    width: 3em;
 }
 
 div.linenodiv {
-	padding: 0 1em 0 0;
+    padding: 0 1em 0 0;
 }
 
 div.linenodiv pre {
-	margin: .3em 0 0 0;
+    margin: .3em 0 0 0;
 }
 
 .sourcetable td.code {
-	width: 100%;
-	padding: 0 0.5em;
+    width: 100%;
+    padding: 0 0.5em;
 }
 
 .codeword {
-	font-size: 100%;
-	font-family: "lucida console", monospace;
-	background-color: #e8e8e8;
+    font-size: 100%;
+    font-family: "lucida console", monospace;
+    background-color: #e8e8e8;
 }
 
 .box {
-	border: 1px solid;
-	border-color: #ccc #999 #999 #ccc;
-	padding: .3em .6em;
-	background-color: #ffc;
+    border: 1px solid;
+    border-color: #ccc #999 #999 #ccc;
+    padding: .3em .6em;
+    background-color: #ffc;
 }
 
 img {
-	border: none;
+    border: none;
 }
 
 .body img {
-	margin: 0 .5em;	/* So that side-by-side images will have some space between them */
+    margin: 0 .5em; /* So that side-by-side images will have some space between them */
 }
 
 .body img.floatimg {
-	float: left;
-	margin: 0 1.5em .8em 0;
+    float: left;
+    margin: 0 1.5em .8em 0;
 }
 
 .body img.floatimg.right {
-	float: right;
-	margin: 0 0 .8em 1.5em;
+    float: right;
+    margin: 0 0 .8em 1.5em;
 }
 
 .tweet a.user, .tweet a.date {
-	text-decoration: none; color: inherit;
+    text-decoration: none; color: inherit;
 }
 
 .tweet a.user:hover, .tweet a.date:hover {
-	text-decoration: underline; color: inherit;
+    text-decoration: underline; color: inherit;
 }
 
 .comments {
-	font-family: verdana, sans-serif;
+    font-family: verdana, sans-serif;
 }
 
 .comments h1 {
-	border: none;
-	margin: 0;
-	padding: 1em;
-	background: #eee;
+    border: none;
+    margin: 0;
+    padding: 1em;
+    background: #eee;
 }
 
 .comments h2 {
-	border: none;
-	border-top: 1px solid #eee;
-	margin: 0 0 1em 0;
-	padding: 1em 0 .5em 0;
-	font-style: italic; font-weight: normal;
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 0 0 1em 0;
+    padding: 1em 0 .5em 0;
+    font-style: italic; font-weight: normal;
 }
 
 .comment .who {
-	font-family: verdana, sans-serif;
-	float: left;
+    font-family: verdana, sans-serif;
+    float: left;
 }
 
 .comment .who a {
-	color: black;
+    color: black;
 }
 
 .comment .when {
-	font-family: verdana, sans-serif;
-	float: right;
-	font-size: 85%; color: gray; margin-top: 0;
+    font-family: verdana, sans-serif;
+    float: right;
+    font-size: 85%; color: gray; margin-top: 0;
 }
 
 .comment .head {
-	margin-bottom: 20pt;
+    margin-bottom: 20pt;
 }
 
 .comment img.gravatar {
-	float: left;
-	margin: 3px 0 0 -50px;
-	border: 1px solid #eee;
+    float: left;
+    margin: 3px 0 0 -50px;
+    border: 1px solid #eee;
 }
 
 .comments .comment {
-	font-family: georgia, serif;
-	border-top: solid 1px #eee;
-	padding: .5em 10pt 0 50px;
-	margin-top: 6pt;
-	overflow: auto;
-	width: 540px;
+    font-family: georgia, serif;
+    border-top: solid 1px #eee;
+    padding: .5em 10pt 0 50px;
+    margin-top: 6pt;
+    overflow: auto;
+    width: 540px;
 }
 
 .comments .comment.preview {
-	background-color: #ffff80;
-	border: 1px solid #cccccc;
-	padding: .5em 10pt 0 54px;
+    background-color: #ffff80;
+    border: 1px solid #cccccc;
+    padding: .5em 10pt 0 54px;
 }
 
 .comments #commentform {
-	margin-top: 6pt;
-	border-top: solid 1px #eee;
-	padding-top: 0;
+    margin-top: 6pt;
+    border-top: solid 1px #eee;
+    padding-top: 0;
 }
 
 .comments .notice {
-	font-size: 90%;
-	color: gray;
+    font-size: 90%;
+    color: gray;
 }
 
 .comments .label {
-	font-size: 90%;
-	text-align: right;
-	color: #666666;
-	margin-right: 6px;
-	width: 42px;
+    font-size: 90%;
+    text-align: right;
+    color: #666666;
+    margin-right: 6px;
+    width: 42px;
 }
 
 .comment .commenttext {
-	clear: right
+    clear: right
 }
 
 .comments .errormsg {
-	color: #800;
-	font-weight: bold;
-	background: #faa;
-	padding: 2pt 4pt;
-	border: 1px solid red;
-	margin: 0;
+    color: #800;
+    font-weight: bold;
+    background: #faa;
+    padding: 2pt 4pt;
+    border: 1px solid red;
+    margin: 0;
 }
 
 /* Search word highlighting */
 .searchword0 {
-	background-color: #CFFFB9;	/* green */
-	text-decoration: inherit;
+    background-color: #CFFFB9;  /* green */
+    text-decoration: inherit;
 }
 
 .searchword1 {
-	background-color: #FFCFCF;	/* pink */
-	text-decoration: inherit;
+    background-color: #FFCFCF;  /* pink */
+    text-decoration: inherit;
 }
 
 .searchword2 {
-	background-color: #DCDAFF;	/* blue */
-	text-decoration: inherit;
+    background-color: #DCDAFF;  /* blue */
+    text-decoration: inherit;
 }
 
 .searchwelcome {
-	border: solid 1px silver;
-	background: #ffc;
-	margin-bottom: 2em;
-	padding: 0 1em;
+    border: solid 1px silver;
+    background: #ffc;
+    margin-bottom: 2em;
+    padding: 0 1em;
 }
 
 /* Google Ads box */
 .googleads {
-	margin-top: 2em;
-	text-align: center;
+    margin-top: 2em;
+    text-align: center;
 }
 
 /* Sphinx-generated module documentation.  Easier to change the CSS than the .py... */
 tt.descname, tt.descclassname {
-	font-weight: bold;
-	font-family: verdana, sans-serif;
-	}
+    font-weight: bold;
+    font-family: verdana, sans-serif;
+    }
 em.property {
-	font-style: normal;
-	}
+    font-style: normal;
+    }
 .internal.reference em, .external.reference em {
-	font-style: normal;
-	}
+    font-style: normal;
+    }
 
 /* Code styling.  There are a lot of different styles! */
 
