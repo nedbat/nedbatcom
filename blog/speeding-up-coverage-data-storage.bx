@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140118T150358'>
+<title>Speeding up coverage data storage</title>
+<category>coverage</category>
+<body>
+
+    <p>I chatted this morning with Alex Gaynor about speeding up coverage.py
+        on PyPy.  He's already made some <a href='http://morepypy.blogspot.com/2013/10/making-coveragepy-faster-under-pypy.html'>huge improvements</a>,
+        by changing PyPy so that settrace doesn't defeat the JIT.</p>
+
+    <p>We got to talking about speeding how coverage stores data during
+        execution.  What coverage stores depends on how you use it.  For
+        statement coverage, it needs to store a set of numbers for each file.
+        The numbers are the line numbers that have been executed.  Currently
+        coverage stores these in a dictionary, using the numbers as keys, and
+        None as a value.</p>
+
+    <p>If you use branch coverage, then coverage needs to store pairs of
+        numbers, the line number jumped from and the line number jumped to, for
+        each line transition. It currently stores these in a dictionary with a
+        tuple of two numbers as keys, and None as a value.  (Yes, it should
+        really be an actual set.)</p>
+
+    <p>For statement coverage, a faster data structure would be a bit-vector: a
+        large chunk of contiguous memory where each bit represents a number. To
+        store a number, set the bit corresponding to the number.  This would
+        definitely be faster than the dictionary.</p>
+
+    <p>But for branch pairs, what options do we have?  A general
+        pair-of-integers data structure is probably too complex.  But I had a
+        hunch that our data had idiosyncracies we could take advantage of.  In
+        particular, for most of our pairs of numbers, the two numbers will be
+        close together, since many branches are just a few statements forward
+        in the code.</p>
+
+    <p>To test this hunch, I made a quick experiment.  I reached for the nearest
+        large project (<a href='https://github.com/edx/edx-platform'>Open edX</a>),
+        and changed its .coveragerc files to use the Python tracer.  Then I 
+        hacked a counter into the Python tracer which would tally up, for each
+        line transition, what was the delta between the source and the destination.</p>
+
+    <p>After running the tests, I had data like this:</p>
+
+<code>
+-159: 6
+   ...
+  -6: 10439
+  -5: 5548
+  -4: 7856
+  -3: 22892
+  -2: 13976
+  -1: 363659
+   0: 141834
+   1: 2160602
+   2: 471227
+   3: 474249
+   4: 159185
+   5: 67638
+   6: 93216
+   7: 54037
+   ...
+  21: 565
+  22: 5197
+  23: 1834
+  24: 975
+  25: 117251
+  26: 5316
+  27: 9907
+  28: 3030
+  29: 3397
+  30: 1555
+   ...
+  37: 20413
+  38: 40443
+  39: 2732
+  40: 23349
+   ...
+ 348: 222
+ 349: 810
+ 350: 86
+ 351: 80478
+ 352: 9
+   ...
+ 367: 2
+ 368: 318
+ 369: 179
+ 370: 14903
+ 371: 1530
+ 372: 713
+ 373: 14
+   ...
+1553: 15
+1558: 81
+1561: 1014
+   ...
+2396: 1
+2412: 35
+2431: 34
+2512: 34
+2555: 37
+2575: 34
+2624: 37
+2656: 37
+2678: 37
+</code>
+
+    <p>The data showed what I suspected: there's a huge bulge around zero,
+        since most branches are to points nearby in the code.  There are also
+        spikes elsewhere, like the 80k branches that went 351 lines forward.
+        And I don't understand why the seven largest jumps all occurred 34 or 
+        37 times?</p>
+
+    <p>In any case, this pointed to a possible storage strategy.  My first idea
+        was a handful of bit-vectors, say 10.  To store the pair (a, b), you
+        use the difference b-a (which is the value our data above shows) to
+        choose a particular bit-vector, and store a in that vector.  If b-a is
+        more than 10, then you fallback a dictionary.  Since most values of b-a
+        are in that small range, we'll mostly use the bit-vector, and save
+        time.</p>
+
+    <p>A variant of this idea is instead of using a bit-vector, use a vector
+        of ints.  To store (a, b), you set bit number b-a in the a'th int.
+        If b-a is too large, then you fallback to a dictionary.  To properly
+        capture the biggest bulge around zero, you'd pick an offset like -2,
+        and instead of b-a, you'd use b-a+offset as the bit index, so that a
+        delta of -2 would be stored in bit 0.</p>
+
+    <p>A quick program tried out various values of the width of the int, and
+        the offset from zero.  The results:</p>
+
+<code>
+Int size 8, offset 0: 68.05%
+Int size 32, offset 0: 73.28%
+Int size 64, offset 0: 77.73%
+Int size 8, offset -1: 73.87%
+Int size 32, offset -6: 80.74%
+Int size 64, offset -7: 85.50%
+</code>    
+
+    <p>This says that if we use a vector of bytes, with an offset of -1, then
+        73% of the data will use the vector, the rest would go to the dictionary.
+        If we use 64-bit ints with an offset of -7, then 85% of them would be
+        fast.</p>
+
+    <p>One factor not accounted for here: you'd also have to limit the length
+        of the int vector, starting line numbers larger than the length of the
+        vector would also have to go into the dictionary, but that should also
+        be a small factor.</p>
+
+    <p>I'm not taking on any of this work now, but it's fascinating to work
+        through the details. It might make an interesting pull request...</p>
+
+</body>
+</entry>
+</blog>
