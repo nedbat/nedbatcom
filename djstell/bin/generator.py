@@ -137,7 +137,8 @@ class StaticGenerator(object):
 
         handler = DummyHandler()
         response = handler(request)
-
+        if response.status_code != 200:
+            print "*** {} from {}".format(response.status_code, path)
         return response.content
 
     def get_filename_from_path(self, path):

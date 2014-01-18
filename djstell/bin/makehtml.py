@@ -105,7 +105,7 @@ class CmdLine:
             '/index.html',
             ]
 
-        months = set([ "/"+e.monthurl() for e in Entry.objects.all() ])
+        months = set(e.monthurl() for e in Entry.objects.all())
         resources += list(months)
 
         years = [ '/blog/archive%4d.html' % d.year for d in Entry.objects.dates('when', 'year') ]
