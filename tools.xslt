@@ -132,6 +132,7 @@
         
                     <xsl:when test='starts-with(@href,"http://") or starts-with(@href,"ftp://")'>
                         <xsl:attribute name='class'>offsite</xsl:attribute>
+                        <xsl:attribute name='rel'>external</xsl:attribute>
                         <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
                     </xsl:when>
         
@@ -310,7 +311,7 @@
 
 <xsl:template match='bulletsep'>
     <!-- Todo: how do I make this work with <bullet/> below instead of entities? -->
-    <p align='center'>&#x2022;&#160;&#160;&#160;&#160;&#x2022;&#160;&#160;&#160;&#160;&#x2022;</p>
+    <p class='bulletsep'>&#x2022;&#160;&#160;&#160;&#160;&#x2022;&#160;&#160;&#160;&#160;&#x2022;</p>
 </xsl:template>
 
 <!-- Includes -->
@@ -325,7 +326,7 @@
         <xsl:if test='@name'>
             <p class='name'><xsl:value-of select='@name'/></p>
         </xsl:if>
-        <tt>
+        <code>
             <xsl:choose>
             <xsl:when test='@lang'>
                 <xsl:value-of
@@ -343,7 +344,7 @@
                 </xsl:call-template>
             </xsl:otherwise>
             </xsl:choose>
-        </tt>
+        </code>
     </blockquote>
 </xsl:template>
 
@@ -391,7 +392,7 @@
 
 <xsl:template match='figurep'>
     <xsl:call-template name='checkblock'/>
-    <p align='center'>
+    <p class='figure'>
         <xsl:choose>
             <xsl:when test='thumbnail|object|iframe'>
                 <xsl:apply-templates select='*' />

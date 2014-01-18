@@ -11,12 +11,14 @@ body {
 table#logo_banner {
     width: 840px;
     border: 5px solid #999;
+    margin: 0 auto;
 }
 
 td#logo {
     width: 120px;
     border-right: 5px solid #999;
     background: #fff;
+    text-align: center;
 }
 
 td#banner {
@@ -30,6 +32,7 @@ td#banner {
 table#content_menu {
     width: 840px;
     border: 5px solid #999; border-top-width: 0;
+    margin: 0 auto;
 }
 
 td#menu {
@@ -39,6 +42,7 @@ td#menu {
     background: #eee;
     text-align: left;
     font-size: 70%;
+    vertical-align: top;
 }
 
 td#content {
@@ -48,6 +52,7 @@ td#content {
     font-family: verdana, sans-serif;
     font-size: 80%;
     text-align: left;
+    vertical-align: top;
 }
 
 td#copyright {
@@ -73,13 +78,21 @@ table {
     border-spacing: 0;
     border: 0;
 }
-table.tight td {
-    margin: 0;
+td {
     padding: 0;
+    margin: 0;
 }
 
 .vmid {
     vertical-align: middle;
+}
+
+p.figure {
+    text-align: center;
+}
+
+p.bulletsep {
+    text-align: center;
 }
 
 #menu p, #menu li, #menu blockquote {
@@ -443,7 +456,7 @@ blockquote div ul {
     padding-left: 1.5em;
 }
 
-tt {
+code {
     font-size: 90%; line-height: 130%;
     font-family: Menlo, "courier new", monospace;
 }

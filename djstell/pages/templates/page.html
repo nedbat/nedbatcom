@@ -1,4 +1,4 @@
-<?php ob_start(); ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php ob_start(); ?><!DOCTYPE HTML>
 {% load tags %}
 {# Basic structure of a page on the site. #}
 {% spaceless %}
@@ -19,8 +19,7 @@
 </head>
 
 <body>
-    <center>
-    <table id='logo_banner' cellpadding='0' cellspacing='0' width='100%'>
+    <table id='logo_banner'>
         <tr>
             <td id='logo'>
                 <a href='/'><img src='/dodeca3_100.gif' width='100' height='120' alt='[*]'></a>
@@ -43,9 +42,9 @@
             </td>
         </tr>
     </table>
-    <table id='content_menu' cellpadding='0' cellspacing='0'>
+    <table id='content_menu'>
         <tr>
-            <td id='content' valign='top'>
+            <td id='content'>
                 <div class='body'>
                     {# An empty div for main.js to write a search intro into. #}
                     <div id='searchwelcome'></div>
@@ -88,7 +87,7 @@
                 </div>
             </td>
 
-            <td id='menu' valign='top'>
+            <td id='menu'>
                 {#<!-- google_ad_section_start(weight=ignore) -->#}
                 <div class='sidebar'>
                     {# Find a left-side sidebar menu for this page. #}
@@ -118,7 +117,6 @@
         </tr>
 
     </table>
-    </center>
 
 </body>
 
