@@ -153,7 +153,7 @@ class Tag(models.Model, ModelMixin):
             tag.save()
 
     def permaurl(self):
-        return "blog/tag/%s.html" % self.tag
+        return "/blog/tag/%s.html" % self.tag
 
     def entry_set_no_drafts(self):
      return self.entry_set.filter(draft=False)
@@ -263,10 +263,10 @@ class Entry(models.Model, ModelMixin):
         return content_transform(self.title, fix_blog_links(self.text), 'body', params=params)
 
     def permaurl(self):
-        return "blog/%04d%02d/%s.html" % (self.when.year, self.when.month, self.slug)
+        return "/blog/%04d%02d/%s.html" % (self.when.year, self.when.month, self.slug)
 
     def monthurl(self):
-        return "blog/%04d%02d.html" % (self.when.year, self.when.month)
+        return "/blog/%04d%02d.html" % (self.when.year, self.when.month)
 
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")

@@ -187,7 +187,12 @@
 
 <!-- A link to another of our own pages. -->
 <xsl:template match='apage'>
-    <a href='{concat(substring-before(@pref, ".px"), ".html")}'>
+    <a>
+        <xsl:attribute name='href'>
+            <xsl:call-template name='makeuri'>
+                <xsl:with-param name='uri' select='concat(substring-before(@pref, ".px"), ".html")' />
+            </xsl:call-template>
+        </xsl:attribute>
         <xsl:choose>
             <xsl:when test='text()'>
                 <xsl:value-of select='text()'/>

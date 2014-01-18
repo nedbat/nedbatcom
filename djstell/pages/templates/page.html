@@ -6,16 +6,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     {% block meta %}{{meta|safe}}{% endblock %}
-    <base href='{{settings.BASE}}'>
 
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}
-    <link rel='stylesheet' href='style.css' type='text/css'>
-    <link rel='stylesheet' href='printstyle.css' type='text/css' media='print'>
+    <link rel='stylesheet' href='/style.css' type='text/css'>
+    <link rel='stylesheet' href='/printstyle.css' type='text/css' media='print'>
     {% endblock %}
 
-    <script type='text/javascript' src='nedbatchelder.js'></script>
+    <script type='text/javascript' src='/nedbatchelder.js'></script>
     {% include "analytics.html" %}
 </head>
 
@@ -23,8 +22,8 @@
     <center>
     <table id='logo_banner' cellpadding='0' cellspacing='0' width='100%'>
         <tr>
-            <td id='logo' align='center'>
-                <a href='/'><img src='dodeca3_100.gif' width='100' height='120' alt='[*]'></a>
+            <td id='logo'>
+                <a href='/'><img src='/dodeca3_100.gif' width='100' height='120' alt='[*]'></a>
             </td>
             <td id='banner'>
                 {# Above the title: a horizontal version of the root pagemenu. #}
