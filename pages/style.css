@@ -67,6 +67,21 @@ p,h1,h2,h3,h4,h5,h6 {
 	margin: 1em 0;
 }
 
+table {
+    display: table;
+    border-collapse:separate;
+    border-spacing: 0;
+    border: 0;
+}
+table.tight td {
+    margin: 0;
+    padding: 0;
+}
+
+.vmid {
+    vertical-align: middle;
+}
+
 #menu p, #menu li, #menu blockquote {
 	line-height: 1.1em;
 }

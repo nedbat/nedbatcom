@@ -1,4 +1,4 @@
-<?php ob_start(); ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php ob_start(); ?><!DOCTYPE HTML>
 {% load tags %}
 {# The Mighty Home Page!! #}
 {% spaceless %}
@@ -30,6 +30,20 @@ body {
 p,h1,h2,h3,h4,h5,h6 {
     padding: 0;
     margin: 1em 0;
+}
+table {
+    display: table;
+    border-collapse:separate;
+    border-spacing: 0;
+    border: 0;
+}
+
+table.tight td {
+   margin: 0;
+   padding: 0;
+}
+.vmid {
+   vertical-align: middle;
 }
 .first {
     margin-top: 0;

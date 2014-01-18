@@ -2,13 +2,13 @@
 <form action="http://www.google.com/cse" id="searchbox_007818501792991951010:s9hiibxg-ty" style="margin-top:6px;">
     <input type="hidden" name="cx" value="007818501792991951010:s9hiibxg-ty">
     {# OK, look: this table is Bad, but it works, and nothing else does! #}
-    <table cellpadding='0' cellspacing='0'>
+    <table class="tight">
         <tr>
             {% if label %}
-                <td valign='middle'>{{label|safe}}</td>
+                <td class="vmid">{{label|safe}}</td>
             {% endif %}
-            <td valign='middle'><input type="text" name="q" style='border:1px solid #7e9db9;padding:2px;width:144px;height:16px;'></td>
-            <td valign='middle'><input id="submit" type="image" title="Search" src="/pix/search.png"></td>
+            <td class="vmid"><input type="text" name="q" style='border:1px solid #7e9db9;padding:2px;width:144px;height:16px;'></td>
+            <td class="vmid"><input id="submit" class="vmid" type="image" title="Search" alt="Search" src="/pix/search.png"></td>
         </tr>
     </table>
 </form>
