@@ -1,6 +1,6 @@
 [default]
 ignore = 
     .treerc
-    html html?
+    html html? html_*
     *.md5
     *.pack.js *.min.js

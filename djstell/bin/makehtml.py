@@ -37,12 +37,13 @@ class CmdLine:
     def do_local(self):
         import socket
         self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
-        self.ROOT = r'html_local'
+        self.ROOT = 'html_local'
         self.HTACCESS = 'geometer.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
     def do_file(self):
-        self.BASE = r'file:///C:/ned/web/stellated/html/'
+        self.BASE = 'file:///Users/ned/web/stellated/html_local'
+        self.ROOT = 'html_local'
 
     def do_tch(self):
         self.BASE = 'http://nedbatchelder.com'
