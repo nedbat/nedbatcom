@@ -27,6 +27,7 @@ td#banner {
     background: #fff;
     text-align: left;
     font-size: 85%;
+    vertical-align: middle;
 }
 
 table#content_menu {
@@ -42,7 +43,6 @@ td#menu {
     background: #eee;
     text-align: left;
     font-size: 70%;
-    vertical-align: top;
 }
 
 td#content {
@@ -52,7 +52,6 @@ td#content {
     font-family: verdana, sans-serif;
     font-size: 80%;
     text-align: left;
-    vertical-align: top;
 }
 
 td#copyright {
@@ -81,6 +80,7 @@ table {
 td {
     padding: 0;
     margin: 0;
+    vertical-align: top;
 }
 
 .vmid {
@@ -151,19 +151,17 @@ h1,h2,h3,h4,h5,h6 {
 
 .body td {
     border: 1px solid #ccc;
-    vertical-align: top;
     padding: .25em .5em;
 }
 
 .body th {
     border: 1px solid #ccc;
     border-bottom: 1px solid #999;
-    vertical-align: top;
     padding: .25em .5em;
 }
 
 .body #comments td {
-    border-width: 0px;
+    border-width: 0;
 }
 
 .copyright {
@@ -628,15 +626,33 @@ img {
     padding: .5em 10pt 0 54px;
 }
 
-.comments #commentform {
+#commentform {
     margin-top: 6pt;
     border-top: solid 1px #eee;
     padding-top: 0;
 }
 
+#commentform table {
+    width: 100%;
+}
+
+#commentform td {
+    padding: 2px;
+}
+
+#commentform td.labels {
+    width: 0%;
+}
+
+#commentform td.inputs {
+    width: 100%;
+}
+
 .comments .notice {
     font-size: 90%;
+    text-align: right;
     color: gray;
+    font-style: italic;
 }
 
 .comments .label {
