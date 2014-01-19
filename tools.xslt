@@ -5,7 +5,8 @@
     version="1.0"
 
     xmlns:xuff='http://www.stellated.com/xuff'
-    exclude-result-prefixes='xuff'
+    exclude-result-prefixes='xuff svg'
+    xmlns:svg="http://www.w3.org/2000/svg"
     >
 
 <!-- Pinpoint an element. -->
@@ -406,6 +407,9 @@
                 <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
                     <xsl:call-template name='figurep_img'/>
                 </a>
+            </xsl:when>
+            <xsl:when test='svg:*'>
+                <xsl:copy-of select="svg:*|@*" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:call-template name='figurep_img'/>
