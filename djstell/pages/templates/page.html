@@ -11,11 +11,11 @@
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}
-    <link rel='stylesheet' href='/style.css' type='text/css'>
-    <link rel='stylesheet' href='/printstyle.css' type='text/css' media='print'>
+    <link rel='stylesheet' href='{{settings.BASE}}/style.css' type='text/css'>
+    <link rel='stylesheet' href='{{settings.BASE}}/printstyle.css' type='text/css' media='print'>
     {% endblock %}
 
-    <script type='text/javascript' src='/nedbatchelder.js'></script>
+    <script type='text/javascript' src='{{settings.BASE}}/nedbatchelder.js'></script>
     {% include "analytics.html" %}
 </head>
 
