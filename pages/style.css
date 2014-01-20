@@ -650,9 +650,12 @@ img {
 
 .comments .notice {
     font-size: 90%;
-    text-align: right;
     color: gray;
     font-style: italic;
+}
+
+.comments .notice.right {
+    text-align: right;
 }
 
 .comments .label {
