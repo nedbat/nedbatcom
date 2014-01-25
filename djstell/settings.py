@@ -57,10 +57,14 @@ ADMIN_MEDIA_PREFIX = '/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '6wws-8*df&1#^_ddh^tj%@!ho)n9vwi)y#%gwt2ur_e!-ack11'
 
+CONN_MAX_AGE = None
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 
 # List of processors used by RequestContext to populate the context.
