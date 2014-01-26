@@ -156,6 +156,11 @@ class CmdLine:
     def do_1blog(self):
         loadpages.blog_sources = ['1blog']
 
+    def do_narrow(self):
+        """Total hack expedient to only process some blog posts."""
+        # Change this pattern if you want to fiddle with another one.
+        loadpages.blog_pattern = "names*.bx"
+
     def do_slow(self):
         self.use_processes = False
 

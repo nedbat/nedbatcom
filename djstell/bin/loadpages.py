@@ -9,6 +9,7 @@ from djstell.pages.models import Article, Section, Entry, Tag, Link
 root = path.path(".")
 page_sources = 'pages'.split()
 blog_sources = 'blog 0blog 1blog'.split()
+blog_pattern = '*.bx'
 
 @transaction.commit_on_success
 def clean_data():
@@ -24,7 +25,7 @@ def load_categories():
 @transaction.commit_on_success
 def load_entries():
     for subdir in blog_sources:
-        files = list((root/subdir).walk(pattern='*.bx'))
+        files = list((root/subdir).walk(pattern=blog_pattern))
         print "Loading %d files from %s" % (len(files), subdir)
         for f in files:
             try:
