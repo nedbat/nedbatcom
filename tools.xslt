@@ -399,7 +399,12 @@
                 <xsl:apply-templates select='*' />
             </xsl:when>
             <xsl:when test='@href'>
-                <a href='{@href}'>
+                <a>
+                    <xsl:attribute name='href'>
+                        <xsl:call-template name='makeuri'>
+                            <xsl:with-param name='uri' select='@href' />
+                        </xsl:call-template>
+                    </xsl:attribute>
                     <xsl:call-template name='figurep_img'/>
                 </a>
             </xsl:when>
@@ -560,7 +565,12 @@
 
 <xsl:template match='download'>
     <i><xsl:text>Download:&#160;</xsl:text></i>
-    <a href='{@path}'>
+    <a>
+        <xsl:attribute name='href'>
+            <xsl:call-template name='makeuri'>
+                <xsl:with-param name='uri' select='@path' />
+            </xsl:call-template>
+        </xsl:attribute>
         <xsl:choose>
             <xsl:when test='@file'>
                 <xsl:value-of select='@file'/>
