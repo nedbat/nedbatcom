@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140126T142246'>
+<title>SVG figures with Cupid</title>
+<category>graphics</category>
+<category>mycode</category>
+<body>
+
+    <p>When I wrote <apage pref="text/names.px"/>, I included figures drawn
+        with Graphviz.  I made a light wrapper to help, but the figures were
+        mostly just Graphviz.  For example, this code:</p>
+
+<code lang="py"><![CDATA[
+g = CogGraphviz()
+g.codelabel("nums = [1, 2, 3]")
+g.dot("""
+    nums [NAMEATTRS]
+    list1 [shape=record, label="{<0>|<1>|<2>}"]
+    nums -> list1:0
+    subgraph nums {
+        rankdir=LR;
+        1 [INTATTRS]
+        2 [INTATTRS]
+        3 [INTATTRS]
+        }
+    list1:0 -> 1
+    list1:1 -> 2
+    list1:2 -> 3
+    """)
+g.img(alt="nums refers to a list, which refers to ints") 
+]]></code>
+
+    <p>produced this figure:</p>
+
+<figurep>
+    <img src='pix/names_d009.png' alt='A list of three numbers' align="top" scale="0.5" />
+</figurep>
+
+    <p>The beauty of Graphviz is that you describe the topology of your graph,
+        and it lays it out for you.  The problem is, if you care about the layout,
+        it is very difficult to control. Why are the 1, 2, 3 where they are?
+        How do I move them?  I couldn't figure it out.  And I wanted to have
+        new shapes, and control where the lines joined, etc.</p>
+
+    <p>So I wrote a library called <a href='https://github.com/nedbat/cupid'>Cupid</a>
+        to help me make the figures the way I wanted them.  Cupid is an API that
+        generates SVG figures.  Half of it is generic "place this rectangle here"
+        kinds of SVG operations, and half is very specific to the names-and-values
+        diagrams I wanted to create.</p>
+    
+    <p>Now to make that same figure, I use this code:</p>
+
+<code lang="py"><![CDATA[
+fig = start_figure(title="nums refers to a list, which refers to ints")
+fig.top_code("nums = [1, 2, 3]")
+n_nums = fig.auto_name("nums")
+l_nums = fig.list(length=3, pos=fig.val_for_name(n_nums))
+fig.reference(n_nums, l_nums[0])
+y_ints = fig.y+10
+for i in range(3):
+    i_num = fig.int(top=(l_nums[1].cx+(i-1)*35, y_ints), text=str(i+1))
+    fig.connect(
+        l_nums[i].center, 90, i_num.north, 90, 
+        start_marker=fig.DOT, class_="arrow"
+    )
+finish_figure(fig)
+]]></code>
+
+<figurep>
+    <svg baseProfile="full" height="120.5" version="1.1" width="198.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><title>nums refers to a list, which refers to ints</title><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker><marker id="id11" markerHeight="4" markerWidth="4" orient="auto" refX="2" refY="2" viewBox="0,0,4,4"><circle cx="2" cy="2" fill="black" r="2" stroke="none" /></marker></defs><g transform="translate(-55.0,-4.0)"><polygon class="name" points="57,37.5 116.25,37.5 120,52.5 116.25,67.5 57,67.5" /><text dy=".3em" text-anchor="middle" x="86.625" y="52.5">nums</text><rect class="list" height="30" width="24" x="165" y="37.5" /><rect class="list" height="30" width="24" x="189" y="37.5" /><rect class="list" height="30" width="24" x="213" y="37.5" /><path class="arrow" d="M 120,52 C 131,52 131,52 142,52 C 153,52 153,52 165,52" fill="none" marker-end="url(#id10)" /><circle class="int value" cx="166" cy="107.5" r="15" /><text dy=".3em" text-anchor="middle" x="166" y="107.5">1</text><circle class="int value" cx="201" cy="107.5" r="15" /><text dy=".3em" text-anchor="middle" x="201" y="107.5">2</text><circle class="int value" cx="236" cy="107.5" r="15" /><text dy=".3em" text-anchor="middle" x="236" y="107.5">3</text><path class="arrow" d="M 177,52 C 177,62 176,63 171,72 C 166,81 166,82 166,92" fill="none" marker-end="url(#id10)" marker-start="url(#id11)" /><path class="arrow" d="M 201,52 C 201,62 201,62 201,72 C 201,82 201,82 201,92" fill="none" marker-end="url(#id10)" marker-start="url(#id11)" /><path class="arrow" d="M 225,52 C 225,62 225,63 230,72 C 235,81 236,82 236,92" fill="none" marker-end="url(#id10)" marker-start="url(#id11)" /><text class="top_code" dy=".3em" text-anchor="middle" x="154" y="15">nums = [1, 2, 3]</text></g></svg>
+</figurep>
+
+    <p>The new code is more complicated than the old code, but I can predict
+        what it will do, and if I want it to do something new, I can extend
+        Cupid.</p>
+
+    <p>Cupid isn't the handiest thing, but I can make it do what I want. This
+        is my way with this site: I want it the way I want it, I enjoy writing
+        the tools that let me make it that way, and I don't mind writing code
+        to produce figures when other people would use a mouse.</p>
+
+</body>
+</entry>
+</blog>

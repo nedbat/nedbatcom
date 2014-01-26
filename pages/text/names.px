@@ -541,7 +541,7 @@ print(y)    # 1
     fig = start_figure(title="nums refers to a list, which refers to ints")
     fig.top_code("nums = [1, 2, 3]")
     n_nums = fig.auto_name("nums")
-    l_nums = fig.list(texts=[""]*3, pos=fig.val_for_name(n_nums))
+    l_nums = fig.list(length=3, pos=fig.val_for_name(n_nums))
     fig.reference(n_nums, l_nums[0])
     y_ints = fig.y+10
     ints = [fig.int(top=(l_nums[1].cx+(i-1)*35, y_ints), text=str(i+1)) for i in range(3)]
