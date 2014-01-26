@@ -113,7 +113,7 @@ After that change, the code worked perfectly.
 </p>
 
 <p>But while I was researching the __asm keyword, I discovered a Microsoft built-in
-function: <a href='msdn.microsoft.com/library/en-us/vclang/html/vclrf_ReturnAddress.asp'>_ReturnAddress</a>.
+function: <a href='http://msdn.microsoft.com/library/en-us/vclang/html/vclrf_ReturnAddress.asp'>_ReturnAddress</a>.
 Using this, I could get rid of some of the inline assembly language, including the bit that
 I had to fix:</p>
 
