@@ -72,7 +72,8 @@ class StaticGenerator(object):
 
     """
 
-    def __init__(self, resources):
+    def __init__(self, resources, use_processes=False):
+        self.use_processes = use_processes
         self.resources = self.extract_resources(resources)
         self.server_name = self.get_server_name()
         try:
@@ -172,8 +173,15 @@ class StaticGenerator(object):
 
     def publish(self):
         """Publishes all resources"""
-        for path in self.resources:
-            self.publish_from_path(path)
+        if self.use_processes:
+            from multiprocessing import Pool
+            pool = Pool()
+            pool.map(publish_one_in_subprocess, self.resources)
+            pool.close()
+            pool.join()
+        else:
+            for path in self.resources:
+                self.publish_from_path(path)
 
     def delete_from_path(self, path):
         """Deletes file, attempts to delete directory"""
@@ -195,10 +203,14 @@ class StaticGenerator(object):
         for path in self.resources:
             self.delete_from_path(path)
 
-def quick_publish(resources):
-    gen = StaticGenerator(resources)
+def quick_publish(resources, use_processes=False):
+    gen = StaticGenerator(resources, use_processes=use_processes)
     gen.publish()
 
 def quick_delete(resources):
     gen = StaticGenerator(resources)
     gen.delete()
+
+def publish_one_in_subprocess(resource):
+    gen = StaticGenerator([resource], use_processes=False)
+    gen.publish()

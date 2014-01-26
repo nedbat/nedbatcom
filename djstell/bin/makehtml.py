@@ -34,6 +34,7 @@ class CmdLine:
             *.zip *.gz *.tgz
             *.ttf
             '''
+        self.use_processes = True
 
     def do_local(self):
         import socket
@@ -83,6 +84,7 @@ class CmdLine:
             )
 
     def generate(self, baseurl, dst):
+        settings.SERVER_NAME = "example.com"    # Doesn't matter...
         settings.WEB_ROOT = dst
         settings.BASE = baseurl
         settings.PHP = False
@@ -112,7 +114,7 @@ class CmdLine:
         years = [ '/blog/archive%4d.html' % d.year for d in Entry.objects.dates('when', 'year') ]
         resources += years
 
-        generator.quick_publish(resources)
+        generator.quick_publish(resources, use_processes=self.use_processes)
 
         # Build the JS file as the concatenation of others.
         js = file("js/ingredients.txt").read().split()
@@ -153,6 +155,9 @@ class CmdLine:
 
     def do_1blog(self):
         loadpages.blog_sources = ['1blog']
+
+    def do_slow(self):
+        self.use_processes = False
 
     @timed
     def do_make(self):
