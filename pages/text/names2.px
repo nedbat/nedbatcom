@@ -2,14 +2,15 @@
 <page title='Facts and myths about Python names and values'>
 <history>
 <what when='20130706T181500'>Created.</what>
+<what when='20140126T090200'>SVG figures, tweaked text.</what>
 </history>
 
 <!--[[[cog
+    import itertools
+
     from helpers.graphy import tutor_a_tag
     from cupid.pyfig import PyFig
 
-    import itertools
-    
     num = itertools.count()
 
     def start_figure(unit=15, title=None):
@@ -120,7 +121,7 @@ print(x+2)       # prints 25
     experienced with the C language, you might like to think of it as a
     pointer, but if that means nothing to you then don't worry about it.</p>
 
-<p>To help explain what's going on, I'll use diagrams.  A gray rectangle is a
+<p>To help explain what's going on, I'll use diagrams.  A gray rectangular tag-like shape is a
     name, with an arrow pointing to its value. Here's the name x refering to an
     integer 23:</p>
 
@@ -137,7 +138,8 @@ print(x+2)       # prints 25
 </figurep>
 
 <p>I'll be using these diagrams to show how Python statements affect the names
-    and values involved.</p>
+    and values involved.  (The diagrams are SVG, if they don't render, let me
+    know.)</p>
 
 <p>Another way to explore what's going on with these code snippets is to try
     them on <a href='http://pythontutor.com'>pythontutor.com</a>, which
@@ -625,6 +627,12 @@ from ... import ... as X
     everything I've been saying about assignments applies to all of them
     uniformly.</p>
 
+<p>For the most part, these statements define X in the same scope as the
+    statement, but not all of them, especially the comprehensions, and the
+    details differ slightly between Python 2 and Python 3.  But they are all
+    real assignments, and every fact about assignment applies to all of
+    them.</p>
+
 
 <box id='call_by_assign'>Fact: Python passes function arguments by assigning to them.</box>
 
@@ -670,7 +678,7 @@ augment_twice(nums, 4)
 print(nums)         # [1, 2, 3, 4, 4]
 ]]></code>
 
-<p>This can produce surprising results, so let's take this step-by-step.  When
+<p>This can produce surprising results, so let's take this step by step.  When
     we call augment_twice, the names and values look like this:</p>
 
 <figurep>
