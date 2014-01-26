@@ -6,12 +6,8 @@
 </history>
 
 <!--[[[cog
-    import itertools
-
     from helpers.graphy import tutor_a_tag
     from cupid.pyfig import PyFig
-
-    num = itertools.count()
 
     def start_figure(unit=15, title=None):
         fig = PyFig(unit=unit, title=title, name_shape='tag', draw_grid=False)
