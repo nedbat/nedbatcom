@@ -1,5 +1,6 @@
 """Static file generator for Django."""
 
+# Modified by Ned Batchelder, starting with:
 __version__ = '1.1, 2007-01-09'
 
 # The MIT License
