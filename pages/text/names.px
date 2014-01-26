@@ -1032,7 +1032,9 @@ x = x.__iadd__(y)   # Note the 'i' in __iadd__
 
 <ul>
     <li>Is Python call-by-value or not?</li> 
-    <li>Why do beginners find it hard to make a tic-tac-toe board in Python?</li>
+    <li>Why do beginners find it hard to make a tic-tac-toe board in Python?
+        Answered in <a href="blog/201308/names_and_values_making_a_game_board.html">Names and values: making a game board</a>.
+        </li>
     <li>Why is "list += seq" not the same as "list = list + seq"?</li>
     <li>Why is "is" different than "==" and how come "2 + 2 is 4", but "1000 + 1 is not 1001"?</li>
     <li>What's the deal with mutable default arguments to functions?</li>
