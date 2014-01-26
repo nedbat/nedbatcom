@@ -843,6 +843,10 @@ svg text {
     fill: black;
 }
 
+svg text.top_code {
+    font-family: monospace;
+}
+
 svg .arrow {
     fill: none;
     stroke: black;

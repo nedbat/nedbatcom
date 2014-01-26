@@ -27,6 +27,7 @@ class CmdLine:
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess
+            *.svg
             '''
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
@@ -124,16 +125,16 @@ class CmdLine:
     def copy_verbatim(self, dst):
         self.xuff.copytree(src='pages', dst=dst,
             include='''
-                    *.html *.css *.xslt *.js *.gif *.jpg *.png *.ttf
+                    *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
                     *.txt *.ida *.php *.ico *.htaccess *.xml
                     *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
                     '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
-            include='*.gif *.jpg *.png *.swf'
+            include='*.gif *.jpg *.png *.svg *.swf'
             )
         self.xuff.copytree(src='blog', dst=dst+"/blog",
-            include='*.gif *.jpg *.png *.swf'
+            include='*.gif *.jpg *.png *.svg *.swf'
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
