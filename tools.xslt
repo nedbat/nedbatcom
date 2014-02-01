@@ -367,8 +367,7 @@
         <!--</nobr>-->
         <br/>
         <xsl:call-template name='code-replace'>
-            <xsl:with-param name='code'
-                select='substring-after($code,"&#10;")'/>
+            <xsl:with-param name='code' select='substring-after($code,"&#10;")'/>
         </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
@@ -651,9 +650,13 @@
             <li>
                 <a>
                     <xsl:attribute name='href'>
-                        <xsl:value-of select='$dpath' />
-                        <xsl:text>#h_</xsl:text>
-                        <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
+                        <xsl:call-template name='makeuri'>
+                            <xsl:with-param name='uri'>
+                                <xsl:value-of select='$dpath' />
+                                <xsl:text>#h_</xsl:text>
+                                <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
+                            </xsl:with-param>
+                        </xsl:call-template>
                     </xsl:attribute>
                     <xsl:value-of select='text()' />
                 </a>
