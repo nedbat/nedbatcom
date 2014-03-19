@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140306T184019'>
+<title>The right way to accept Bitcoin?</title>
+<body>
+
+    <p>A few months ago, I rejiggered a bit of my home page and sidebar, and I
+        added a link to accept Bitcoin. (You know, in case you wanted to
+        <a href='https://coinbase.com/checkouts/c2a7f9652ecc0f6bf9c240c05109305f'>throw some my way</a>!)
+    </p>
+
+    <p>I couldn't find a simple description of how create a link that would let
+        people send me Bitcoin, but I was able to create a link at
+        Coinbase:</p>
+
+    <quote><p><a href='https://coinbase.com/checkouts/c2a7f9652ecc0f6bf9c240c05109305f'>https://coinbase.com/checkouts/c2a7f9652ecc0f6bf9c240c05109305f</a></p></quote>
+
+    <p>It seems to work, but is there a more Bitcoin-native way to do it? This
+        links to a particular checkout at Coinbase, meaning I've set a
+        particular amount.  Coinbase also creates new addresses for every
+        transaction, which confuses me.</p>
+
+    <p>Is there a link that will let me accept Bitcoin better than what
+        Coinbase does?</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140314T100319'>
+<title>Pi day</title>
+<category>python</category>
+<body>
+
+<p>Happy Pi day! Celebrate with delicious circular pastries!</p>
+
+<p>In an ongoing (and wildly premature!) thread on the Python-Dev mailing list,
+    people are debating the possible shapes of Python 4, and Barry pointed out
+    that <a href='https://mail.python.org/pipermail/python-dev/2014-March/133030.html'>Guido
+    doesn't like two-digit minor versions</a>.</p>
+
+<p>I can understand that, version numbers look like floats, and 3.1 is the same
+    as 3.10.  But in this case I think we should forge on to 3.10, 3.11, etc.
+    Partly to avoid the inevitable panic that a switch to 4.x will entail, no
+    matter what the actual semantics.  But mostly so that we can get to version
+    3.14, which will of course be known as PiPy, joining in merry celebration
+    with friends <a href='https://pypi.python.org'>PyPI</a> and 
+    <a href="http://pypy.org/">PyPy</a>!
+</p>
+
+</body>
+</entry>
+</blog>
