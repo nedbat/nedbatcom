@@ -23,10 +23,11 @@ class CmdLine:
         self.BASE = None
         self.ROOT = r'html'
         self.HTACCESS = None
+        self.PHPINI = None
         self.all_words = "clean load make upload"
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
-            *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess
+            *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess *.ini
             *.svg
             '''
         self.binary_ext='''
@@ -62,6 +63,7 @@ class CmdLine:
     def do_wf(self):
         self.BASE = 'http://nedbatchelder.com'
         self.HTACCESS = 'webfaction.htaccess'
+        self.PHPINI = 'webfaction.php.ini'
         self.FTP = dict(
             host='nedbat.webfactional.com', hostdir='webapps/main',
             user='nedbat', password=password.WEBFACTION,
@@ -170,6 +172,8 @@ class CmdLine:
         self.copy_verbatim(self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
+        if self.PHPINI:
+            self.xuff.copyfile(self.PHPINI, self.ROOT+"/php.ini")
 
     @timed
     def do_upload(self):

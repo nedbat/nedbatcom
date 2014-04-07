@@ -4,14 +4,8 @@
 AddType image/x-icon ico
 
 # Treat .html files as PHP and .py as plain text
-AddHandler application/x-httpd-php .php .php3 .phtml .html .htm .php4
+AddHandler php52-cgi .php .php3 .phtml .html .htm .php4
 #AddHandler text/plain .py
-
-# Treat .html files as PHP.
-<IfModule !php5_module>
-RewriteCond %{REQUEST_URI} \.html$
-RewriteRule (.*) http://127.0.0.1:2480/$1 [P]
-</IfModule>
 
 # Get XML files served properly for interpretation and charset issues.
 AddType text/xml .xslt
@@ -22,18 +16,6 @@ ErrorDocument 404 /err404.html
 
 # Serving a directory should try these files in turn.
 DirectoryIndex home.php index.php index.html index.htm
-
-# Change the include path to get Reactor to work.
-<IfModule php5_module>
-php_value include_path ".:/home/nedbat/webapps/main/reactor:/home/nedbat/webapps/main:/usr/local/lib/php"
-php_value register_globals 0
-# Advice from http://www.ragepank.com/articles/26/disable-phpsessid/ to disable PHPSESSID
-php_value session.use_only_cookies 1
-php_value session.use_trans_sid 0
-
-# Compress the output of PHP if the browser is up for it.
-php_flag zlib.output_compression on
-</IfModule>
 
 # Serve Python files literally: http://community.webfaction.com/questions/5527/statically-serve-py-files
 <FilesMatch "\.py$">
