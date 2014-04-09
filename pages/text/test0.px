@@ -98,11 +98,11 @@ class Portfolio(object):
 from portfolio1 import Portfolio
 
 p = Portfolio()
-print("Empty portfolio cost: %s" % p.cost())
+print "Empty portfolio cost: %s" % p.cost()
 p.buy("IBM", 100, 176.48)
-print("With 100 IBM @ 176.48: %s" % p.cost())
+print "With 100 IBM @ 176.48: %s" % p.cost()
 p.buy("HPQ", 100, 36.15)
-print("With 100 HPQ @ 36.15: %s" % p.cost())
+print "With 100 HPQ @ 36.15: %s" % p.cost()
 </code><!--[[[end]]] }}}--><p>When we run it, we get:</p><!--[[[cog include_file("porttest1.out", px=True) ]]] {{{ --><code lang="text">
 $ python porttest1.py
 Empty portfolio cost: 0.0
@@ -118,17 +118,17 @@ With 100 HPQ @ 36.15: 21263.0
 from portfolio1 import Portfolio
 
 p = Portfolio()
-print("Empty portfolio cost: %s, should be 0.0" % p.cost())
-p.buy("IBM", 100, 176.48)
-print("With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost())
+print "Empty portfolio cost: %s, should be 0.0" % p.cost()
+p.buy("IBM", 100, 176)
+print "With 100 IBM @ 176: %s, should be 17600.0" % p.cost()
 p.buy("HPQ", 100, 36.15)
-print("With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost())
+print "With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost()
 </code><!--[[[end]]] }}}--><p>This is better: we don't have to calculate the expected results, they
     are recorded right there in the output:</p><!--[[[cog include_file("porttest2.out", px=True) ]]] {{{ --><code lang="text">
 $ python porttest2.py
 Empty portfolio cost: 0.0, should be 0.0
-With 100 IBM @ 176.48: 17648.0, should be 17648.0
-With 100 HPQ @ 36.15: 21263.0, should be 21263.0
+With 100 IBM @ 176: 17600.0, should be 17600.0
+With 100 HPQ @ 36.15: 21215.0, should be 21263.0
 </code><!--[[[end]]] }}}--><p>But we still have to examine all the output and compare the actual
     result to the expected result.  Keep in mind, the code here is very small,
     so it doesn't seem like a burden.  But in a real system, you might have
@@ -140,14 +140,14 @@ With 100 HPQ @ 36.15: 21263.0, should be 21263.0
     statement.  If the condition is false, it raises an AssertionError
     exception:</p><!--[[[cog include_file("porttest3.py", px=True, start=4) ]]] {{{ --><code lang="python">
 p = Portfolio()
-print("Empty portfolio cost: %s, should be 0.0" % p.cost())
+print "Empty portfolio cost: %s, should be 0.0" % p.cost()
 assert p.cost() == 0.0
-p.buy("IBM", 100, 176.48)
-print("With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost())
-assert p.cost() == 17648.0
+p.buy("IBM", 100, 176)
+print "With 100 IBM @ 176: %s, should be 17600.0" % p.cost()
+assert p.cost() == 17600.0
 p.buy("HPQ", 100, 36.15)
-print("With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost())
-assert p.cost() == 21263.0
+print "With 100 HPQ @ 36.15: %s, should be 21215.0" % p.cost()
+assert p.cost() == 21215.0
 </code><!--[[[end]]] }}}--><p>So now we have the results checked automatically.  If one of the results
     is incorrect, the assert statement will raise an exception.</p><p>Assertions like these are at the heart of automated testing, and you'll
     see a lot of them in real tests, though as we'll see, they take slightly
@@ -228,7 +228,7 @@ class PortfolioTest(unittest.TestCase):
     methods in it, and run them all.</p><p>We can see from the output that it ran 1 test, and it passed:</p><!--[[[cog include_file("test_port1.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port1
 .
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 1 test in 0.000s
 
 OK
@@ -265,7 +265,7 @@ class PortfolioTest(unittest.TestCase):
     which is why you see "..." in the test output here:</p><!--[[[cog include_file("test_port2.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port2
 ...
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 3 tests in 0.000s
 
 OK
@@ -283,15 +283,15 @@ OK
     had succeeded.</p><figurep href="text/test0/test0.html#24"><img alt="What failure looks like" scale="0.5" src="text/test0/test0_023.png"/></figurep><!-- {{{ --><p>So far, all of our tests have passed.  What happens when they fail?</p><!--[[[cog include_file("test_port2_broken.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port2_broken
 F..
-=================================================================
+============================================================
 FAIL: test_buy_one_stock (test_port2_broken.PortfolioTest)
------------------------------------------------------------------
+------------------------------------------------------------
 Traceback (most recent call last):
   File "test_port2_broken.py", line 14, in test_buy_one_stock
     assert p.cost() == 17648.0
 AssertionError
 
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 3 tests in 0.000s
 
 FAILED (failures=1)
@@ -360,15 +360,15 @@ class PortfolioTest(PortfolioTestCase):
     stacktrace is displayed:</p><!--[[[cog include_file("test_port3_broken2.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port3_broken2
 E..
-=================================================================
+============================================================
 ERROR: test_buy_one_stock (test_port3_broken2.PortfolioTest)
------------------------------------------------------------------
+------------------------------------------------------------
 Traceback (most recent call last):
   File "test_port3_broken2.py", line 13, in test_buy_one_stock
-    p.buyxxxxx("IBM", 100, 176.48)
-AttributeError: 'Portfolio' object has no attribute 'buyxxxxx'
+    p.buyXX("IBM", 100, 176.48)
+AttributeError: 'Portfolio' object has no attribute 'buyXX'
 
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 3 tests in 0.000s
 
 FAILED (errors=1)
@@ -383,15 +383,15 @@ def test_bad_input(self):
     exception, so the test ends with an Error status:</p><!--[[[cog include_file("test_port4_broken.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port4_broken
 E...
-=================================================================
+============================================================
 ERROR: test_bad_input (test_port4_broken.PortfolioTest)
------------------------------------------------------------------
+------------------------------------------------------------
 Traceback (most recent call last):
   File "test_port4_broken.py", line 24, in test_bad_input
     p.buy("IBM")
 TypeError: buy() takes exactly 4 arguments (2 given)
 
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 4 tests in 0.000s
 
 FAILED (errors=1)
@@ -406,7 +406,7 @@ def test_bad_input(self):
     so that it can handle the exception when it is raised:</p><!--[[[cog include_file("test_port4.out", px=True) ]]] {{{ --><code lang="text">
 $ python -m unittest test_port4
 ....
------------------------------------------------------------------
+------------------------------------------------------------
 Ran 4 tests in 0.000s
 
 OK
