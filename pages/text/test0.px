@@ -40,7 +40,7 @@
     floss of development: everyone knows they should do it more, but they
     don't, and they feel guilty about it.</p><p>BTW: illustrations by my son Ben!</p><figurep href="text/test0/test0.html#5"><img alt="Yeah, it's hard" scale="0.5" src="text/test0/test0_004.png"/></figurep><!-- {{{ --><p>It's true, testing is not easy.  It's real engineering that takes
     real thought and hard work.  But it pays off in the end.</p><p>How often have you heard someone say, "I wrote a lot of tests, but it
-    wasn't worth it, so I deleted them."  They don't.  Tests are good.</p><figurep href="text/test0/test0.html#6"><img alt="Reality" scale="0.5" src="text/test0/test0_005.png"/></figurep><!-- {{{ --><p>The fact is that developing software is a constant battle against chaos,
+    wasn't worth it, so I deleted them."  They don't.  Tests are good.</p><figurep href="text/test0/test0.html#6"><img alt="Chaos!" scale="0.5" src="text/test0/test0_005.png"/></figurep><!-- {{{ --><p>The fact is that developing software is a constant battle against chaos,
     in all sorts of little ways.  You carefully organize your ideas in lines of
     code, but things change.  You add extra lines later, and they don't quite
     work as you want.  New components are added to the system and your previous
@@ -52,7 +52,7 @@
             bad about the style of code we get,</li>
         <li>we'll use unittest to write tests the right way,</li>
         <li>and we'll talk about a more advanced topic, mocks.</li>
-    </ol><h1>Starting from first principles</h1><figurep href="text/test0/test0.html#8"><img alt="Starting from first principles" scale="0.5" src="text/test0/test0_007.png"/></figurep><!-- {{{ --><p>We'll start with a real (if tiny) piece of code, and start testing
+    </ol><h1>First principles</h1><figurep href="text/test0/test0.html#8"><img alt="First principles" scale="0.5" src="text/test0/test0_007.png"/></figurep><!-- {{{ --><p>We'll start with a real (if tiny) piece of code, and start testing
     it.  First we'll do it manually, and then grow in sophistication from there,
     adding to our tests to solve problems we see along the way.</p><p>Keep in mind, the first few iterations of these tests are not the good
     way to write tests.  I'll let you know when we've gotten to the right
@@ -119,16 +119,16 @@ from portfolio1 import Portfolio
 
 p = Portfolio()
 print "Empty portfolio cost: %s, should be 0.0" % p.cost()
-p.buy("IBM", 100, 176)
-print "With 100 IBM @ 176: %s, should be 17600.0" % p.cost()
+p.buy("IBM", 100, 176.48)
+print "With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost()
 p.buy("HPQ", 100, 36.15)
 print "With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost()
 </code><!--[[[end]]] }}}--><p>This is better: we don't have to calculate the expected results, they
     are recorded right there in the output:</p><!--[[[cog include_file("porttest2.out", px=True) ]]] {{{ --><code lang="text">
 $ python porttest2.py
 Empty portfolio cost: 0.0, should be 0.0
-With 100 IBM @ 176: 17600.0, should be 17600.0
-With 100 HPQ @ 36.15: 21215.0, should be 21263.0
+With 100 IBM @ 176.48: 17648.0, should be 17648.0
+With 100 HPQ @ 36.15: 21263.0, should be 21263.0
 </code><!--[[[end]]] }}}--><p>But we still have to examine all the output and compare the actual
     result to the expected result.  Keep in mind, the code here is very small,
     so it doesn't seem like a burden.  But in a real system, you might have
@@ -142,12 +142,12 @@ With 100 HPQ @ 36.15: 21215.0, should be 21263.0
 p = Portfolio()
 print "Empty portfolio cost: %s, should be 0.0" % p.cost()
 assert p.cost() == 0.0
-p.buy("IBM", 100, 176)
-print "With 100 IBM @ 176: %s, should be 17600.0" % p.cost()
-assert p.cost() == 17600.0
+p.buy("IBM", 100, 176.48)
+print "With 100 IBM @ 176.48: %s, should be 17648.0" % p.cost()
+assert p.cost() == 17648.0
 p.buy("HPQ", 100, 36.15)
-print "With 100 HPQ @ 36.15: %s, should be 21215.0" % p.cost()
-assert p.cost() == 21215.0
+print "With 100 HPQ @ 36.15: %s, should be 21263.0" % p.cost()
+assert p.cost() == 21263.0
 </code><!--[[[end]]] }}}--><p>So now we have the results checked automatically.  If one of the results
     is incorrect, the assert statement will raise an exception.</p><p>Assertions like these are at the heart of automated testing, and you'll
     see a lot of them in real tests, though as we'll see, they take slightly
@@ -158,11 +158,8 @@ assert p.cost() == 21215.0
     program:</p><!--[[[cog include_file("porttest3_broken.out", px=True) ]]] {{{ --><code lang="text">
 $ python porttest3_broken.py
 Empty portfolio cost: 0.0, should be 0.0
-With 100 IBM @ 176.48: 17600.0, should be 17648.0
-Traceback (most recent call last):
-  File "porttest3_broken.py", line 9, in &lt;module&gt;
-    assert p.cost() == 17648.0
-AssertionError
+With 100 IBM @ 176.48: 17648.0, should be 17648.0
+With 100 HPQ @ 36.15: 21263.0, should be 21263.0
 </code><!--[[[end]]] }}}--><p>We can only see a single failure, then the rest of the program is
     skipped, and we don't know the results of the rest of the tests.  This
     limits the amount of information our tests can give us.</p><figurep href="text/test0/test0.html#15"><img alt="Getting complicated!" scale="0.5" src="text/test0/test0_014.png"/></figurep><!-- {{{ --><p>As you can see, we're starting to build up a real program here. To make
@@ -392,7 +389,7 @@ Traceback (most recent call last):
 TypeError: buy() takes exactly 4 arguments (2 given)
 
 ------------------------------------------------------------
-Ran 4 tests in 0.000s
+Ran 4 tests in 0.001s
 
 FAILED (errors=1)
 </code><!--[[[end]]] }}}--><p>That's not good, we want all our tests to pass.</p><figurep href="text/test0/test0.html#30"><img alt="assertRaises" scale="0.5" src="text/test0/test0_029.png"/></figurep><!-- {{{ --><p>To properly handle the error-raising function call, we use a method
