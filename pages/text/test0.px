@@ -3,15 +3,12 @@
 <what when="20140318T205000">Created</what>
 </history>
 
-<!-- {{{ --><p>This is a presentation I am giving at PyCon 2014.  You can read the
-    slides and text on this page, or open the <a href="text/test0/test0.html">actual presentation</a>
-    in your browser (use right and left arrows to advance the slides).</p><!--
-    or watch the video:</p>
-
-    <p align="center">
-    <iframe width="500" height="369" src="http://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
-    </p>
-    --><p>There is also a zipfile of <a href="text/test0/test0.zip">all the code examples</a>.</p><figurep href="text/test0/test0.html#1"><img alt="Getting Started Testing" scale="0.5" src="text/test0/test0_000.png"/></figurep><figurep href="text/test0/test0.html#2"><img alt="Goals" scale="0.5" src="text/test0/test0_001.png"/></figurep><!-- {{{ --><p>Writing correct code is complicated, it's hard.  How do you know when
+<!-- {{{ --><p>This is a presentation I gave at PyCon 2014.  You can read the
+    slides and text on this page, open the <a href="text/test0/test0.html">actual presentation</a>
+    in your browser (use right and left arrows to advance the slides),
+    or watch the video:</p><p align="center">
+    <iframe width="500" height="369" src="http://www.youtube.com/embed/FxSsnHeWQBY" frameborder="0" allowfullscreen="allowfullscreen"/>
+    </p><p>There is also a zipfile of <a href="text/test0/test0.zip">all the code examples</a>.</p><figurep href="text/test0/test0.html#1"><img alt="Getting Started Testing" scale="0.5" src="text/test0/test0_000.png"/></figurep><figurep href="text/test0/test0.html#2"><img alt="Goals" scale="0.5" src="text/test0/test0_001.png"/></figurep><!-- {{{ --><p>Writing correct code is complicated, it's hard.  How do you know when
     you've gotten it right, and how do you know your code has stayed right
     even after you've changed it?</p><p>The best we know to do this is with automated testing.  Testing is a
     large topic, with its own tools and techniques.  It can be
@@ -158,8 +155,11 @@ assert p.cost() == 21263.0
     program:</p><!--[[[cog include_file("porttest3_broken.out", px=True) ]]] {{{ --><code lang="text">
 $ python porttest3_broken.py
 Empty portfolio cost: 0.0, should be 0.0
-With 100 IBM @ 176.48: 17648.0, should be 17648.0
-With 100 HPQ @ 36.15: 21263.0, should be 21263.0
+With 100 IBM @ 176.48: 17648.0, should be 17600.0
+Traceback (most recent call last):
+  File "porttest3_broken.py", line 9, in &lt;module&gt;
+    assert p.cost() == 17600.0
+AssertionError
 </code><!--[[[end]]] }}}--><p>We can only see a single failure, then the rest of the program is
     skipped, and we don't know the results of the rest of the tests.  This
     limits the amount of information our tests can give us.</p><figurep href="text/test0/test0.html#15"><img alt="Getting complicated!" scale="0.5" src="text/test0/test0_014.png"/></figurep><!-- {{{ --><p>As you can see, we're starting to build up a real program here. To make
@@ -389,7 +389,7 @@ Traceback (most recent call last):
 TypeError: buy() takes exactly 4 arguments (2 given)
 
 ------------------------------------------------------------
-Ran 4 tests in 0.001s
+Ran 4 tests in 0.000s
 
 FAILED (errors=1)
 </code><!--[[[end]]] }}}--><p>That's not good, we want all our tests to pass.</p><figurep href="text/test0/test0.html#30"><img alt="assertRaises" scale="0.5" src="text/test0/test0_029.png"/></figurep><!-- {{{ --><p>To properly handle the error-raising function call, we use a method
