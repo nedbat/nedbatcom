@@ -115,13 +115,13 @@
         was a handful of bit-vectors, say 10.  To store the pair (a, b), you
         use the difference b-a (which is the value our data above shows) to
         choose a particular bit-vector, and store a in that vector.  If b-a is
-        more than 10, then you fallback a dictionary.  Since most values of b-a
+        more than 10, then you fall back to a dictionary.  Since most values of b-a
         are in that small range, we'll mostly use the bit-vector, and save
         time.</p>
 
     <p>A variant of this idea is instead of using a bit-vector, use a vector
         of ints.  To store (a, b), you set bit number b-a in the a'th int.
-        If b-a is too large, then you fallback to a dictionary.  To properly
+        If b-a is too large, then you fall back to a dictionary.  To properly
         capture the biggest bulge around zero, you'd pick an offset like -2,
         and instead of b-a, you'd use b-a+offset as the bit index, so that a
         delta of -2 would be stored in bit 0.</p>
