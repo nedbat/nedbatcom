@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140503T075741'>
+<title>Github monoculture</title>
+<category>online</category>
+<category>srcctrl</category>
+<body>
+
+    <p>I continue to notice an unsettling trend: the rise of the Github
+        monoculture.  More and more, people seem to believe that Github is
+        the center of the programming universe.</p>
+
+    <p>Don't get me wrong, I love Github.  It succeeded at capturing and
+        promoting the social aspect of development better than any other site.
+        And git, despite its flaws, is a great version control system.</p>
+
+    <p>And just to be clear, I am not talking about the recent 
+        <a href="http://techcrunch.com/2014/03/15/julie-ann-horvath-describes-sexism-and-intimidation-behind-her-github-exit/">turmoil about Github's
+            internal culture</a>.  That's a problem, but not the one I'm talking
+        about.</p>
+
+    <p>Someone said to me, "I couldn't find coverage.py on Github."  Right,
+        because it's hosted on <a href="https://bitbucket.org/ned/coveragepy">Bitbucket</a>.
+        When a developer thinks, "I want to find the source for package XYZ,"
+        why do they go to the Github search bar instead of Google?  Do people
+        really so believe that Github is the only place for code that it has
+        supplanted Google as the way to find things?</p>
+
+    <p>Another example: I'm contributing a chapter to the <a href="https://github.com/aosabook/500lines">500 lines book</a>
+        (irony: the link is to Github).  Here in the README, to summarize authors,
+        we are asked to provide a Github username and a Twitter handle.
+        I suggested that a homepage URL is a more powerful and flexible way for
+        authors to invite the curious to learn more about them.  This suggestion
+        was readily adopted (in a pending pull request), but the fact that the
+        first thing to mind was Github+Twitter is another sign of people's 
+        mindset that these sites are the only places, not just some places.</p>
+
+    <p>Don't get me started on the irony of shops whose workflow is interrupted
+        when Github is down.  Git is a distributed version control system,
+        right?</p>
+
+    <p>Some people go so far as to say, as Brandon Weiss has, <a href="http://anti-pattern.com/github-is-your-resume-now">Github is your resume</a>.
+        I would hope they do not mean it literally, but instead as a shorthand for,
+        "your public code will be more useful to potential employers than your
+        list of previous jobs."  But reading Brandon's post, he means it literally,
+        going so far as to recommend that you carefully garden your public repos
+        to be sure that only the best work is visible.  So much for collaboration.</p>
+
+    <p>There's even a site that will read information from Github and produce a
+        <a href="http://resume.github.io">Github resume</a> for you, here's
+        <a href="http://resume.github.io/?nedbat">mine</a>.  It's cute, but
+        does it really tell you about me?  No.</p>
+
+    <p>There is power in everyone using the same tools.  Github succeeds
+        because it makes it simple for code to flow from developer to
+        developer, and for people to find each other and work together.  Still,
+        other tools do some things better.  Gerrit is a better code review
+        workflow.  Mercurial is easier for people to get started with.</p>
+
+    <p>Github has done a good job providing an API that makes it possible for
+        other tools to integrate with them.  But if <a href="http://travis-ci.org">Travis</a>
+        only works with Github, that just reinforces the monoculture.  Eventually
+        someone will have a better idea than Github, or even git.  But the more
+        everyone believes that Github is the only game in town, the higher the barrier
+        will be to adopting the next great idea.</p>
+
+    <p>I love git and Github, but they should be a choice, not the only
+        choice.</p>
+
+</body>
+</entry>
+</blog>
