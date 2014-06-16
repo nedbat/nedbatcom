@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140608T160006'>
+<title>Template coverage measurement</title>
+<category>coverage</category>
+<body>
+
+    <p>As the maintainer of <a href="/code/coverage">coverage.py</a>, it's
+        always been intriguing that web applications have so much code in 
+        template files.  Coverage.py measures Python execution, so the logic
+        in the template files goes un-measured.</p>
+    
+    <p>(Of course, in a web application, there's even more Javascript code,
+        which coverage.py also can't help with, but there are other tools that
+        measure Javascript coverage.)</p>
+
+    <p>Recently I started experimenting with measuring templates as well as
+        pure Python code.  Mako templates compile to Python files, which are
+        then executed.  Coverage.py can see the execution in the compiled
+        Python files, so once we have a way to back-map the lines from the Mako
+        output back to the Mako template, we have the start of a usable Mako
+        coverage measurement.</p>
+
+    <p>This Mako experiment is on the tip of the <a href='https://bitbucket.org/ned/coveragepy'>coverage.py repo</a>,
+        and requires some code on the tip of Mako.  The code isn't right yet,
+        but it shows the idea.  Eventually, this should be a plugin to coverage.py
+        provided by Mako, but for now, we're just trying to prove out the concept.</p>
+
+    <p>If you want to try the Mako coverage (please do!), configure Mako to put
+        your compiled .py files someplace convenient (like a mako/ directory in
+        your project), then set this environment variable:</p>
+
+<code>
+$ export COVERAGE_MAKO_PATH=/mako/
+</code>
+
+    <p>Jinja also compiles templates to Python files, but Django does not.
+        Django is very popular, so I would like to support those templates also.
+        Dmitry Trofimov wrote <a href="https://github.com/traff/dtcov">dtcov</a>
+        to measure Django template coverage.  He does a tricky thing: in the
+        trace function, determine if you are inside the Django template engine,
+        and if so, walk the stack and look at the locals to grab line numbers.</p>
+
+    <p>As written dtcov looks too compute-intensive to run on full-sized
+        projects, but I think the idea could work.  I'm planning to experiment
+        with it this week.</p>
+
+</body>
+</entry>
+</blog>

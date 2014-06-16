@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140523T073252'>
+<title>Pythons are deaf, so are some Pythonistas</title>
+<category>gatherings</category>
+<body>
+
+    <p>I had coffee the other day with <a href='https://twitter.com/en_zyme'>Nathan Kohn</a>.
+        He goes by the nickname en_zyme, and it's easy to see why.  He relishes
+        the role of bringing pairs of people together to see what kind of new
+        reaction can result.</p>
+
+    <p>This time, it was to meet <a href="http://blog.deafpolitics.org/2010/12/deaf-education-numbering-our-flaws.html">Jonathan Henner</a>,
+        a doctoral student of his at Boston University.  The topic was how to
+        include deaf people in the Python community.</p>
+
+    <p>The discussion was wide-ranging, and I'm sure I've forgotten interesting
+        tangents, but I got this jumble of notes:</p>
+
+    <p>Accommodating the deaf at Python community gatherings is a challenge
+        because it means getting either an <a href="http://en.wikipedia.org/wiki/American_Sign_Language">ASL</a>
+        interpreter, or a <a href="http://nad.org/issues/technology/captioning/cart">CART</a>
+        provider to close-caption presentations live.  This presents a few hurdles:</p>
+
+    <ul>
+        <li>Neither solution is best for all deaf people.  Some prefer ASL, but
+            ASL doesn't have a large technical vocabulary.  CART has the advantage
+            that it also helps those that are a little hard of hearing, or too far
+            back in the room, or even with speakers who have an accent.  But some
+            deaf people find CART to be like reading a second language.</li>
+
+        <li>ASL interpreters and CART providers cost real money, and need space
+            and special equipment.</li>
+
+        <li>For international gatherings, such as PyCon 2015 in Montreal, there's
+            the language question.  Montreal may have more <a href="http://en.wikipedia.org/wiki/French_Sign_Language">LSF</a>
+            interpreters.</li>
+
+        <li>For project nights, which involve small-group interactions, we talked
+            about having the communication over IRC, even among people sitting
+            together.</li>
+    </ul>
+
+    <p>Programming is a good career for the deaf, since it is heavily textual,
+        but they may have a hard time accessing the curriculum for it.
+        Jonathan is exploring the possibility of creating classes in ASL, since
+        that is many deaf people's first language.  A common misconception is
+        that ASL is simply English spoken with the hands, but it is not.</p>
+
+    <p>We talked a bit about the overlap between the deaf and autistic worlds.
+        The <a href="http://www.tlcdeaf.org/page.cfm?p=386">Walden school</a>
+        near Boston specializes in deaf students with other mental or emotional
+        impairments, including autism.  Jonathan made a claim that made me
+        think: that deafness and autism are the two disabilities that have
+        their own sub-culture.  I don't know if that is true, I'm sure people
+        with other disabilities will disagree, but it's interesting to
+        discuss.</p>
+
+    <p>There were a lot of avenues to explore, I'm not sure what will come of
+        it all.  It would be great to broaden Python's reach into another
+        community of people who haven't had full access to tech.</p>
+
+    <p>Has anyone had any experience doing this?  Thoughts?</p>
+
+</body>
+</entry>
+</blog>
