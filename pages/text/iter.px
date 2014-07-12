@@ -21,7 +21,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
 <iframe width="500" height="369" src="http://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
 </p>
 
-<figurep href="text/iter/iter.html#1"><img src="text/iter_000.png" alt="Loop like a native"/></figurep><!-- {{{ --><p>A talk for PyCon 2013.</p><figurep href="text/iter/iter.html#2"><img src="text/iter_001.png" alt="tl;dl"/></figurep><!-- {{{ --><p>This talk is billed as Beginner, and sounds like a beginner topic, but I
+<figurep href="text/iter/iter.html#1"><img alt="Loop like a native" src="text/iter_000.png"/></figurep><!-- {{{ --><p>A talk for PyCon 2013.</p><figurep href="text/iter/iter.html#2"><img alt="tl;dl" src="text/iter_001.png"/></figurep><!-- {{{ --><p>This talk is billed as Beginner, and sounds like a beginner topic, but I
     prefer to think of it as Fundamental.  Plenty of expert Python programmers
     aren't making enough use of the tools I'm going to talk about.</p><p>Python has a nice model of abstract iteration which can be used to
     increase the expressiveness of your programs.  Python's iteration tools are
@@ -29,7 +29,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     programmers coming from other "similar" languages.</p><p>My goal here is to show Python iteration in a light that would encourage
     programmers to explore more of its possibilities.</p><p>All programs iterate over data, of various sorts.  When using iteration,
     you should be as direct as you can, and you should use more abstractions to
-    make your loops as clear and direct as you can.</p><h1>~ Iteration basics ~</h1><figurep href="text/iter/iter.html#3"><img src="text/iter_002.png" alt="~ Iteration basics ~"/></figurep><figurep href="text/iter/iter.html#4"><img src="text/iter_003.png" alt="Iteration"/></figurep><!-- {{{ --><p>Let's say you have a list of numbers, and you want to print each of
+    make your loops as clear and direct as you can.</p><h1>~ Iteration basics ~</h1><figurep href="text/iter/iter.html#3"><img alt="~ Iteration basics ~" src="text/iter_002.png"/></figurep><figurep href="text/iter/iter.html#4"><img alt="Iteration" src="text/iter_003.png"/></figurep><!-- {{{ --><p>Let's say you have a list of numbers, and you want to print each of
     them.  One way to do it is shown in the first code sample: start a counter
     at zero, and as long as the counter is less than the length of the list,
     access that element of the list, and print it. Then increment the counter,
@@ -51,7 +51,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     values directly.</p><p>The last code sample shows the right way to write this loop.  "for v in
     my_list" gives us each value in my_list in the variable v, with no need to
     fiddle around with the index i at all.  What started as a five-line while
-    loop with two variables is now a two-line loop with only one.</p><figurep href="text/iter/iter.html#5"><img src="text/iter_004.png" alt="The for loop"/></figurep><!-- {{{ --><p>The for loop is Python's versatile swiss-army-knife iteration tool.  It
+    loop with two variables is now a two-line loop with only one.</p><figurep href="text/iter/iter.html#5"><img alt="The for loop" src="text/iter_004.png"/></figurep><!-- {{{ --><p>The for loop is Python's versatile swiss-army-knife iteration tool.  It
     can iterate over all sorts of Python objects.  Any Python object can be
     "iterable," which means it can provide a stream of values.  Any iterable
     can be used in a for loop.  The for loop extracts values from the stream,
@@ -61,10 +61,10 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     all sorts of values.  And you can often re-shape your iterations to use the
     for loop more powerfully.</p><p>An iterable in Python is any value that can provide a stream of values.
     In our first example, the list of numbers was the iterable, but there
-    are lots of other examples.</p><figurep href="text/iter/iter.html#6"><img src="text/iter_005.png" alt="Lists &#8658; elements"/></figurep><!-- {{{ --><p>There are many different iterable objects in Python, and each provides
+    are lots of other examples.</p><figurep href="text/iter/iter.html#6"><img alt="Lists &#8658; elements" src="text/iter_005.png"/></figurep><!-- {{{ --><p>There are many different iterable objects in Python, and each provides
     its stream of values in its own way.  As we've seen, if you iterate
-    a list, it will provide its elements in order.</p><figurep href="text/iter/iter.html#7"><img src="text/iter_006.png" alt="Strings &#8658; characters"/></figurep><!-- {{{ --><p>If you iterate a string, it will produce a stream of the characters in
-    the string.</p><figurep href="text/iter/iter.html#8"><img src="text/iter_007.png" alt="Dicts &#8658; keys"/></figurep><!-- {{{ --><p>If you iterate a dictionary, it will give you its keys.  This might be a
+    a list, it will provide its elements in order.</p><figurep href="text/iter/iter.html#7"><img alt="Strings &#8658; characters" src="text/iter_006.png"/></figurep><!-- {{{ --><p>If you iterate a string, it will produce a stream of the characters in
+    the string.</p><figurep href="text/iter/iter.html#8"><img alt="Dicts &#8658; keys" src="text/iter_007.png"/></figurep><!-- {{{ --><p>If you iterate a dictionary, it will give you its keys.  This might be a
     little surprising, what about the values?  Dictionaries are best thought of
     as a container of keys, where each key also has a value associated with it.
     If you want, you can choose to use methods on the dictionary to iterate
@@ -74,11 +74,11 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     Dictionaries promise to give you all of the keys, with no extras, and no
     duplicates, but make no guarantee about the order of the keys.</p><p>This demonstrates an important point: iterating a value doesn't mean you
     can index into it.  Iteration only knows how to get the next value, it
-    can't get the first, or the last, or the third-from-now.</p><figurep href="text/iter/iter.html#9"><img src="text/iter_008.png" alt="Files &#8658; lines"/></figurep><!-- {{{ --><p>An open file is iterable, its values are strings, one for each line in
+    can't get the first, or the last, or the third-from-now.</p><figurep href="text/iter/iter.html#9"><img alt="Files &#8658; lines" src="text/iter_008.png"/></figurep><!-- {{{ --><p>An open file is iterable, its values are strings, one for each line in
     the file.  This is extremely convenient, since this is often the way text
     files are consumed, one line at a time.</p><p>In this example I've printed repr(line) so you can see that the lines
     still have a newline at the end, every byte in the file is provided
-    somewhere.</p><figurep href="text/iter/iter.html#10"><img src="text/iter_009.png" alt="Stdlib has interesting iterables"/></figurep><!-- {{{ --><p>The standard library provides a number of other examples of iterable
+    somewhere.</p><figurep href="text/iter/iter.html#10"><img alt="Stdlib has interesting iterables" src="text/iter_009.png"/></figurep><!-- {{{ --><p>The standard library provides a number of other examples of iterable
     values.</p><p>The re module searches for a regex pattern in a string.  The finditer
     function takes a pattern and a string, and iterates over all the places
     that pattern matches that string.  It's a good way to process a number of
@@ -95,7 +95,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     sequence and cycles around it forever, so the sequence produced here is
     infinite: 17, 17, 17, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, ...</p><p>These are just a few examples of using iterables to represent a variety
     of kinds of iteration, and doing it naturally without resorting to index
-    variables.</p><figurep href="text/iter/iter.html#11"><img src="text/iter_010.png" alt="Other uses for iterables"/></figurep><!-- {{{ --><p>In addition to provide lot of interesting iterable values, Python also
+    variables.</p><figurep href="text/iter/iter.html#11"><img alt="Other uses for iterables" src="text/iter_010.png"/></figurep><!-- {{{ --><p>In addition to provide lot of interesting iterable values, Python also
     uses iterables in lots of places, not just in for loops.  Here are a few
     examples.</p><p>The list() function creates a list using the values it gets from its
     iterable argument. Keep in mind, the argument can be any iterable.
@@ -112,15 +112,15 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     value.</p><p>The join method on a string takes a stream of strings, and joins them
     all together into one long string.</p><p>These are just a few examples of using iterables outside of for loops,
     as streams of values that can be passed to functions, computed with, and so
-    on.</p><h1>~ Common questions ~</h1><figurep href="text/iter/iter.html#12"><img src="text/iter_011.png" alt="~ Common questions ~"/></figurep><!-- {{{ --><p>When learning about Python's iteration, there are common questions that
-    keep coming up.  Let's look at a few.</p><figurep href="text/iter/iter.html#13"><img src="text/iter_012.png" alt="Q: How do I get the index?"/></figurep><!-- {{{ --><p>OK, back to our list of numbers.  We know now that we can iterate it
+    on.</p><h1>~ Common questions ~</h1><figurep href="text/iter/iter.html#12"><img alt="~ Common questions ~" src="text/iter_011.png"/></figurep><!-- {{{ --><p>When learning about Python's iteration, there are common questions that
+    keep coming up.  Let's look at a few.</p><figurep href="text/iter/iter.html#13"><img alt="Q: How do I get the index?" src="text/iter_012.png"/></figurep><!-- {{{ --><p>OK, back to our list of numbers.  We know now that we can iterate it
     directly, without need for Rube Goldberg integers.  But sometimes you
     really need the index.  Perhaps you just want to print the values with
     their position.</p><p>Some will go back to the range(len()) twistiness, but there's a better
     way.</p><p>The second code example shows how to use the enumerate() function to
     get two values at each iteration: i is the index of the value, and v is 
     the value.  Now we can print the value with its index, again without 
-    resorting to iterating over integers.</p><figurep href="text/iter/iter.html#14"><img src="text/iter_013.png" alt="A: enumerate() makes useful pairs"/></figurep><!-- {{{ --><p>In addition to looping over iterables, you can manipulate iterables to
+    resorting to iterating over integers.</p><figurep href="text/iter/iter.html#14"><img alt="A: enumerate() makes useful pairs" src="text/iter_013.png"/></figurep><!-- {{{ --><p>In addition to looping over iterables, you can manipulate iterables to
     produce new iterables that might be more convenient for you.  The built-in
     enumerate() function takes one iterable, and produces a stream of pairs.
     Each value from the iterable is paired with a number, starting with
@@ -131,37 +131,37 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     values, as in the bottom example.  The variables num and name are assigned
     to the number of each name, and the name itself, from the list "names".
     This is a convenient way to iterate over the values in a stream while also
-    using their index.</p><figurep href="text/iter/iter.html#15"><img src="text/iter_014.png" alt="Iteration vs indexing"/></figurep><!-- {{{ --><p>An important advantage to the enumerate style of numbering: it works
+    using their index.</p><figurep href="text/iter/iter.html#15"><img alt="Iteration vs indexing" src="text/iter_014.png"/></figurep><!-- {{{ --><p>An important advantage to the enumerate style of numbering: it works
     with any iterable.  When iterating over integers, you need the second Rube
     Goldberg step of indexing into the iterable with the index.  Many iterables
     don't support this operation.  You can't index an open file to get the
     100th line, for example.</p><p>The enumerate() technique works with any iterable, and so is much more
-    powerful, in addition to being more compact and direct.</p><figurep href="text/iter/iter.html#16"><img src="text/iter_015.png" alt="The other bad way"/></figurep><!-- {{{ --><p>By the way, another common style of getting the index of an iterable is
+    powerful, in addition to being more compact and direct.</p><figurep href="text/iter/iter.html#16"><img alt="The other bad way" src="text/iter_015.png"/></figurep><!-- {{{ --><p>By the way, another common style of getting the index of an iterable is
     show here: keep a separate counter, and increment it to keep it in step
     with the enumeration.  This is just a goofy sidecar bolted on the side of
     your loop.  It works, but adds extra complexity.  If the loop is more
     complex than shown here, it is easy for it to become long enough that the
     index increment gets lost.  It's much better to keep the loop simple.
-    Fewer moving parts mean fewer bugs.</p><figurep href="text/iter/iter.html#17"><img src="text/iter_016.png" alt="Q: How do I loop over two lists?"/></figurep><!-- {{{ --><p>OK, so we don't need to iterate over integers just to number the items
+    Fewer moving parts mean fewer bugs.</p><figurep href="text/iter/iter.html#17"><img alt="Q: How do I loop over two lists?" src="text/iter_016.png"/></figurep><!-- {{{ --><p>OK, so we don't need to iterate over integers just to number the items
     in our iteration.  The next challenge from the integer-lovers is, "how do I
     loop over two lists at once?"</p><p>The integer way is to again loop over a range of integers, and then use
-    list indexing on the two lists to get the corresponding values.</p><figurep href="text/iter/iter.html#18"><img src="text/iter_017.png" alt="A: zip() makes pair-wise loops"/></figurep><!-- {{{ --><p>But again, there's no need to resort to integers.</p><p>The zip() built-in function takes a pair of streams, and "zips" them
+    list indexing on the two lists to get the corresponding values.</p><figurep href="text/iter/iter.html#18"><img alt="A: zip() makes pair-wise loops" src="text/iter_017.png"/></figurep><!-- {{{ --><p>But again, there's no need to resort to integers.</p><p>The zip() built-in function takes a pair of streams, and "zips" them
     together to produce a stream of pairs.  In this example, we have two lists:
     "names" has names in it, and "heights" has heights that go with each name.
     zip(names, heights) will produce a stream of pairs, each pairing a name
     with the corresponding height.  Using multiple assignment, we unpack the
     pairs into the variables name and height.</p><p>Notice again that because we don't rely on list indexing, zip() can work
-    with arbitrary iterables, not just lists.</p><figurep href="text/iter/iter.html#19"><img src="text/iter_018.png" alt="dict() accepts a stream of pairs"/></figurep><!-- {{{ --><p>Here's another example of the power of iterables.  The dict() function
+    with arbitrary iterables, not just lists.</p><figurep href="text/iter/iter.html#19"><img alt="dict() accepts a stream of pairs" src="text/iter_018.png"/></figurep><!-- {{{ --><p>Here's another example of the power of iterables.  The dict() function
     will accept a stream of key/value pairs, and construct a dictionary from
     them.  If we have two parallel lists, "names" containing strings, and
     "heights" containing numbers, zip(names, heights) will produce a stream of
     pairs, and dict() will use that stream, and produce exactly the dictionary
-    we want.</p><figurep href="text/iter/iter.html#20"><img src="text/iter_019.png" alt="Powerful"/></figurep><!-- {{{ --><p>One last example of the power of iteration.  Suppose we've made our
+    we want.</p><figurep href="text/iter/iter.html#20"><img alt="Powerful" src="text/iter_019.png"/></figurep><!-- {{{ --><p>One last example of the power of iteration.  Suppose we've made our
     dictionary of buildings and their heights.</p><p>We can use a few different uses of the max() function to find the
     greatest height, the name and height of the tallest landmark, or just the
     name. A great deal of power can be packed into a concise expression.</p><p>Python's iteration primitives give you the power to loop over
-    tall_buildings in a single bound!</p><h1>~ Customizing iteration ~</h1><figurep href="text/iter/iter.html#21"><img src="text/iter_020.png" alt="~ Customizing iteration ~"/></figurep><!-- {{{ --><p>We've seen the power of Python's iteration primitives.  Let's talk about
-    ways to customize your iterations.</p><figurep href="text/iter/iter.html#22"><img src="text/iter_021.png" alt="Make your own iteration"/></figurep><!-- {{{ --><p>Another style of indirect iteration is iterating over a sequence but
+    tall_buildings in a single bound!</p><h1>~ Customizing iteration ~</h1><figurep href="text/iter/iter.html#21"><img alt="~ Customizing iteration ~" src="text/iter_020.png"/></figurep><!-- {{{ --><p>We've seen the power of Python's iteration primitives.  Let's talk about
+    ways to customize your iterations.</p><figurep href="text/iter/iter.html#22"><img alt="Make your own iteration" src="text/iter_021.png"/></figurep><!-- {{{ --><p>Another style of indirect iteration is iterating over a sequence but
     picking and choosing among the items.  Here we have a list of numbers, and
     we want to do_something() with the even ones.  In first code example, we
     loop over the numbers, and test each to see if it is even. Only if it is,
@@ -173,7 +173,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     but this is a toy example.  If the test were more complicated, or if it had
     to be performed in many places, it would be a clear win to abstract the
     selection into a function like evens().</p><p>By writing evens(), we're abstracting our iteration, and creating new
-    sequences to iterate over.</p><figurep href="text/iter/iter.html#23"><img src="text/iter_022.png" alt="Generators"/></figurep><!-- {{{ --><p>Generators are a way to create your own iterables by writing a
+    sequences to iterate over.</p><figurep href="text/iter/iter.html#23"><img alt="Generators" src="text/iter_022.png"/></figurep><!-- {{{ --><p>Generators are a way to create your own iterables by writing a
     function.</p><p>A normal function returns one value, with the return statement.  A
     generator looks just like a function, but instead of a return statement, it
     has one or more yield statements.  Calling the generator function creates
@@ -181,7 +181,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     statement executed produces another value in the stream.</p><p>Here's a toy example of a generator, just containing two yield
     statements.  If you iterate it with a for loop, you can see that
     hello_world() produced a stream of two values, "Hello", and "world".</p><p>Real generators are not this simple, typically the body of the function
-    would itself have a loop, with yield statements within it.</p><figurep href="text/iter/iter.html#24"><img src="text/iter_023.png" alt="Evens generator"/></figurep><!-- {{{ --><p>We can re-write our evens() function as a generator.  The code is almost
+    would itself have a loop, with yield statements within it.</p><figurep href="text/iter/iter.html#24"><img alt="Evens generator" src="text/iter_023.png"/></figurep><!-- {{{ --><p>We can re-write our evens() function as a generator.  The code is almost
     the same, but instead of building a list and returning it at the end of the
     function, we simply yield the values as we find them.</p><p>We use it the same way: call evens(), passing it the iterable we want it
     to work on, and it returns an iterator that will produce the even values
@@ -209,7 +209,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     in the generator retain their values for the whole course of the stream.
     This makes it a very convenient way to write iterables.</p><p>The iterator finally ends when the generator returns, either with an
     explicit return statement, or by executing the last statement in the
-    generator.</p><figurep href="text/iter/iter.html#25"><img src="text/iter_024.png" alt="Abstracting your iteration"/></figurep><!-- {{{ --><p>With generators, we have a very powerful tool for abstracting iteration.
+    generator.</p><figurep href="text/iter/iter.html#25"><img alt="Abstracting your iteration" src="text/iter_024.png"/></figurep><!-- {{{ --><p>With generators, we have a very powerful tool for abstracting iteration.
     Just as functions are great for abstracting a series of statements, and 
     classes are great for abstracting a collection of data and the methods that
     operate on it, generators are great for abstracting iteration.</p><p>As a real-world example, consider a program that reads a text file and
@@ -221,7 +221,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     this line of text and goes on to the next line in the file.  Similarly, if the
     line is blank, we continue to the next line in the file.</p><p>Finally, if the line isn't a comment or blank, then we process it in whatever
     way we like.  When all of the logic is considered, this loop calls do_something()
-    on all of the non-blank non-comment lines from the file.</p><figurep href="text/iter/iter.html#26"><img src="text/iter_025.png" alt="Your own generator"/></figurep><!-- {{{ --><p>Our line-processing program works just fine, but it mixed together two
+    on all of the non-blank non-comment lines from the file.</p><figurep href="text/iter/iter.html#26"><img alt="Your own generator" src="text/iter_025.png"/></figurep><!-- {{{ --><p>Our line-processing program works just fine, but it mixed together two
     concerns. The first is, what are the interesting lines in the file, and
     which should be ignored?  Second, what should we do with the interesting
     lines?  These two questions may have nothing to do with each other.  You
@@ -240,7 +240,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     we were iterating over all the lines in the file, and "manually" skipping
     over the uninteresting ones.  With our new generator, we can think instead
     of iterating over the interesting lines in the file.  This lets us work at
-    a higher level of abstraction.</p><figurep href="text/iter/iter.html#27"><img src="text/iter_026.png" alt="Q: How do I break out of two loops?"/></figurep><!-- {{{ --><p>As a last example of rethinking iteration, consider looping over a
+    a higher level of abstraction.</p><figurep href="text/iter/iter.html#27"><img alt="Q: How do I break out of two loops?" src="text/iter_026.png"/></figurep><!-- {{{ --><p>As a last example of rethinking iteration, consider looping over a
     two-dimensional structure like a spreadsheet.  A simple way to do it is to
     use two nested loops: the first loops over the rows, and the second loops
     over the columns.  Together the two loop variables can be used to access a
@@ -250,7 +250,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     break statement shown here will only break out of the column loop, and will
     leave the row loop untouched, so the search will continue from the
     beginning of the next row.</p><p>There are ways to write the code so that both loops will end, but they
-    are messy and confusing.</p><figurep href="text/iter/iter.html#28"><img src="text/iter_027.png" alt="A: Make the double loop single"/></figurep><!-- {{{ --><p>A more interesting solution is to change the iteration by abstracting
+    are messy and confusing.</p><figurep href="text/iter/iter.html#28"><img alt="A: Make the double loop single" src="text/iter_027.png"/></figurep><!-- {{{ --><p>A more interesting solution is to change the iteration by abstracting
     away the two-dimensional nature.  Here we have a generator called
     range_2d(): it takes a width and height, and produces a stream of pairs
     (x,y) that range over the entire 2D space of coordinates.  It does this
@@ -266,13 +266,13 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     by saying, "once for each row, look at every cell in the row," which is the
     English equivalent of our double loop. Instead, you'd say, "look at every
     cell in the spreadsheet," which is what our new loop says.</p><p>Our generator lets us define "look at every cell" abstractly so that our
-    main program can use the most expressive way to get the job done.</p><figurep href="text/iter/iter.html#29"><img src="text/iter_028.png" alt="Better: iterate cells"/></figurep><!-- {{{ --><p>An even better solution would be for the spreadsheet to have a .cells()
+    main program can use the most expressive way to get the job done.</p><figurep href="text/iter/iter.html#29"><img alt="Better: iterate cells" src="text/iter_028.png"/></figurep><!-- {{{ --><p>An even better solution would be for the spreadsheet to have a .cells()
     method that provided an iterator over all cells.  Notice our range_2d
     solution still meant talking about integers, though they were pairs of
     integers.</p><p>Iterating over pairs of integers when we really want to be iterating
     over cells is just another form of Rube Goldberg thinking.  Much better is
     to add custom methods to compound objects that let you iterate directly
-    over the values you're interested in.</p><h1>~ Low-level iteration ~</h1><figurep href="text/iter/iter.html#30"><img src="text/iter_029.png" alt="~ Low-level iteration ~"/></figurep><figurep href="text/iter/iter.html#31"><img src="text/iter_030.png" alt="Lower level"/></figurep><!-- {{{ --><p>Before we talk about how to make your objects iterable, a quick word
+    over the values you're interested in.</p><h1>~ Low-level iteration ~</h1><figurep href="text/iter/iter.html#30"><img alt="~ Low-level iteration ~" src="text/iter_029.png"/></figurep><figurep href="text/iter/iter.html#31"><img alt="Lower level" src="text/iter_030.png"/></figurep><!-- {{{ --><p>Before we talk about how to make your objects iterable, a quick word
     about the low-level mechanics of iteration.</p><p>There are really two kinds of objects involved in iteration you need to
     know about.  We've been talking about iterables, which are objects that
     consist of a number of values.  They can't actually be looped over
@@ -288,18 +288,18 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     ahead values, you can't rewind the stream, you can't ask what the last
     value was, and so on and so on.</p><p>All you can do is ask for the next value, and you'll either get one, or
     you'll get a StopIteration exception.  Some iterables provide more
-    operations, but the only one that is guaranteed is next().</p><figurep href="text/iter/iter.html#32"><img src="text/iter_031.png" alt="Low-level iteration"/></figurep><!-- {{{ --><p>With the low-level next() operation, we can use iterables in other ways
+    operations, but the only one that is guaranteed is next().</p><figurep href="text/iter/iter.html#32"><img alt="Low-level iteration" src="text/iter_031.png"/></figurep><!-- {{{ --><p>With the low-level next() operation, we can use iterables in other ways
     than just looping over them entirely.  For example, with an open file,
     we can read the first line with next(), then use a for loop to read the
     rest of the file.</p><p>Notice the for loop doesn't re-read the first line in the file.  An open
     file object is an iterator, it knows where it is in the file, and pulling
-    values from it will give you the next line at the current position.</p><figurep href="text/iter/iter.html#33"><img src="text/iter_032.png" alt="Making your object iterable"/></figurep><!-- {{{ --><p>The ultimate way to abstract your iterations is to make your own objects
+    values from it will give you the next line at the current position.</p><figurep href="text/iter/iter.html#33"><img alt="Making your object iterable" src="text/iter_032.png"/></figurep><!-- {{{ --><p>The ultimate way to abstract your iterations is to make your own objects
     iterable.  By implementing the special method __iter__, your object is
     iterable.  All __iter__ has to do is return an iterator of some kind.</p><p>The simplest way to do that is to use the iter() function on some
     collection you have.  Here we have a self.tasks list, and our __iter__ can
     simply return iter(self.tasks).</p><p>Once we do that, our object can be iterated just like any other Python
     value.  Here we use it in a for loop, but it can also be used in all the
-    other ways iterators can.</p><figurep href="text/iter/iter.html#34"><img src="text/iter_033.png" alt="__iter__ generators"/></figurep><!-- {{{ --><p>A more powerful way to write __iter__ is to use a generator.  Remember
+    other ways iterators can.</p><figurep href="text/iter/iter.html#34"><img alt="__iter__ generators" src="text/iter_033.png"/></figurep><!-- {{{ --><p>A more powerful way to write __iter__ is to use a generator.  Remember
     that calling a generator returns an iterator, just what __iter__ has to
     do.</p><p>Here we've changed our to-do list to only produce the not-done tasks
     when it's iterated.</p><p>Remember that your object can be iterable in more than one way.  You can
@@ -308,7 +308,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     from the self.tasks list.  The .done() method returns the done tasks, using
     a feature we haven't seen yet, a generator expression.</p><p>I used three different techniques for these three iterator methods, just
     as a demonstration of a range of possibilities. The power here is in
-    providing customized iteration using all the tools Python gives us.</p><h1>~ Wrapping up ~</h1><figurep href="text/iter/iter.html#35"><img src="text/iter_034.png" alt="~ Wrapping up ~"/></figurep><!-- {{{ --><p>There is much more in this topic than can be covered in a short talk:</p><ul><li>The "iterator protocol" is the actual sequence of function and
+    providing customized iteration using all the tools Python gives us.</p><h1>~ Wrapping up ~</h1><figurep href="text/iter/iter.html#35"><img alt="~ Wrapping up ~" src="text/iter_034.png"/></figurep><!-- {{{ --><p>There is much more in this topic than can be covered in a short talk:</p><ul><li>The "iterator protocol" is the actual sequence of function and
         method calls that happen to create and consume iterables.  It can
         be useful for advanced uses of iterables.</li>
 
@@ -325,7 +325,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
         <li>itertools is a module in the Python standard library full of 
         functions for creating, manipulating, and consuming iterables.</li>
 
-    </ul><figurep href="text/iter/iter.html#36"><img src="text/iter_035.png" alt="sum(slides)"/></figurep><!-- {{{ --><p>To summarize:</p><ul><li>Iteration is a fundamental tool in all programming.</li>
+    </ul><figurep href="text/iter/iter.html#36"><img alt="sum(slides)" src="text/iter_035.png"/></figurep><!-- {{{ --><p>To summarize:</p><ul><li>Iteration is a fundamental tool in all programming.</li>
 
         <li>Python has a simple yet powerful model for iteration that is used
         throughout the language and standard library.</li>
@@ -333,7 +333,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
         <li>Using the tool that iterables provide, you can re-think your
         iterations to make them clearer, more concise, and more powerful.</li>
     </ul><p>Once you start using these tools and ideas, you'll feel like you have
-    superpowers too!</p><figurep href="text/iter/iter.html#37"><img src="text/iter_036.png" alt="Questions?"/></figurep>
+    superpowers too!</p><figurep href="text/iter/iter.html#37"><img alt="Questions?" src="text/iter_036.png"/></figurep>
 
 
 
