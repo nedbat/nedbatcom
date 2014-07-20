@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140720T125827'>
+<title>Tracking pull request ages with d3</title>
+<body>
+
+    <p>At edX, I help with the <a href="http://openedx.org">Open edX</a>
+        community, which includes being a traffic cop with the flow of pull
+        requests.  We have 15 or so different repos that make up the entire
+        platform, so it's tricky to get a picture of what's happening
+        where.</p>
+
+    <p>So I made a chart:</p>
+
+    <figurep href="http://dash.openedx.org/age.html">
+        <img src="pix/dash_openedx.png" alt="Pull requests, charted by age." scale=".5"/>
+    </figurep>
+
+    <p>The various teams internal to edX are responsible for reviewing pull
+        requests in their areas of expertise, so this chart is organized by
+        teams, with most-loaded at the top.  The colors indicate the time since
+        the pull request was opened.  The bars are clickable, showing details
+        of the pull requests in each bunch.</p>
+
+    <p>This was a fun project because of the new stuff I got to play with along
+        the way.  The pull request data is gathered by a Python program running
+        on Heroku, using the GitHub API of course.  The summary of the
+        appropriate pull requests are stored in a JSON file. A GitHub webhook
+        pings Heroku when a pull request changes, and the Python updates the
+        JSON.</p>
+
+    <p>Then I used <a href="http://d3js.org/">d3.js</a> in the HTML page to
+        retrieve the JSON, slice and dice it, and build an SVG chart.  The
+        <a href="http://dash.openedx.org">clickable bars</a> open to show HTML
+        tables embedded with a foreignObject.  This was complicated to get
+        right, but drawing the tables with SVG would be painful, and drawing
+        the bars with HTML would be painful.  This let me use the best tool for
+        each job.</p>
+
+    <p>D3.js is an impressive piece of work, but took some getting used to.
+        <a href="http://bost.ocks.org/mike/">Mike Bostock's writings</a> helped
+        explain what was going on.  The key insight: d3 is not a charting library.
+        It's a way to use data to create pages, of turning data into DOM nodes.</p>
+
+    <p>So far, the chart seems to have helped edX stay aware of how pull
+        requests are moving.  It hasn't made everything speedy, but at least we
+        know where things are stalled, and it has encourage teams to try to
+        avoid being at the top.  I'd like to add more to it, for example, other
+        ways of sorting and grouping, and more information about the pull
+        requests themselves.</p>
+
+</body>
+</entry>
+</blog>
