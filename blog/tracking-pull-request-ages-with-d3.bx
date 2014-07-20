@@ -31,7 +31,7 @@
 
     <p>Then I used <a href="http://d3js.org/">d3.js</a> in the HTML page to
         retrieve the JSON, slice and dice it, and build an SVG chart.  The
-        <a href="http://dash.openedx.org">clickable bars</a> open to show HTML
+        <a href="http://dash.openedx.org/age.html">clickable bars</a> open to show HTML
         tables embedded with a foreignObject.  This was complicated to get
         right, but drawing the tables with SVG would be painful, and drawing
         the bars with HTML would be painful.  This let me use the best tool for
