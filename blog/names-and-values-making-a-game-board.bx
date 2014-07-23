@@ -53,6 +53,7 @@ row = [0] * 8
     fill out the board:</p>
 
 <code lang="py"><![CDATA[
+from pprint import pprint
 # Construct the empty board
 board = [ [0]*8 ] * 8
 pprint(board)
