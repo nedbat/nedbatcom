@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140730T074702'>
+<title>Creative looping</title>
+<category>python</category>
+<body>
+
+    <p>One of the interesting things about helping beginning programmers is to
+        see the way they think.  After programming for so long, and using
+        Python for so long, it's hard to remember how confusing it can all be.
+        Beginners can reacquaint us with the difficulties.</p>
+
+    <p>Python has a handy way to iterate over all the elements of a sequence,
+        such as a list:</p>
+
+<code lang="python"><![CDATA[
+for x in seq:
+    doit(x)
+]]></code>
+
+    <p>But if you've only learned a few basic things, or are coming from a
+        language like C or Javascript, you might do it like this:</p>
+
+<code lang="python"><![CDATA[
+i = 0
+while i < len(seq):
+    x = seq[i]
+    doit(x)
+    i += 1
+]]></code>
+
+    <p>(BTW, I did a talk at the PyCon before last all about iteration in
+        Python, including these sorts of comparisons of techniques: 
+        <a href="text/iter.html">Loop Like a Native</a>.)</p>
+
+    <p>Once you learn about the range() builtin function, you know you can loop
+        over the indexes of the sequence like this:</p>
+
+<code lang="python"><![CDATA[
+for i in range(len(seq)):
+    x = seq[i]
+    doit(x)
+]]></code>
+
+    <p>These two styles of loop are commonly seen.  But when I saw this
+        <a href="http://stackoverflow.com/questions/16247677/how-to-remove-n-from-readline-in-python">on Stackoverflow</a>, 
+        I did a double-take:</p>
+
+<code lang="python"><![CDATA[
+i = 0
+while i in range(len(seq)):
+    x = seq[i]
+    doit(x)
+    i += 1
+]]></code>
+
+    <p>This is truly creative! It's an amalgam of the two beginner loops we've
+        already seen, and at first glance, looks like a syntax error.</p>
+
+    <p>In fact, this works in both Python 2 and Python 3.  In Python 2, range()
+        produces a list, and lists support the "in" operator for checking element
+        membership.  In Python 3, range() produces a range object which also
+        supports "in".</p>
+
+    <p>So each time around the loop, a new range is constructed, and it's
+        examined for the value of i.  It works, although it's baroque and performs
+        poorly in Python 2, being O(n<sup>2</sup>) instead of O(n).</p>
+
+    <p>People are creative! Just when I thought there's no other ways to loop
+        over a list, a new technique arrives!</p>
+
+</body>
+</entry>
+</blog>
