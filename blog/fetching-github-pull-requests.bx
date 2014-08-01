@@ -44,7 +44,7 @@
 
 <code><![CDATA[
 [alias]
-copr  = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
+copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
                     git checkout pr/$1; }; f"
 ]]></code>
 
