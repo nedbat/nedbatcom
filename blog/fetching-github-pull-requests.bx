@@ -73,8 +73,8 @@ $ git copr 789 upstream    # gets and switches to pr/789 from upstream
     as "true").  So what does "&amp;&amp; :" add to the command? Seemed like it
     was pointless; we were stumped.</p>
 
-<p>Then I also asked why aliases take the form they do.  Our copr alias has this
-    form:</p>
+<p>Then I also asked why other aliases took the form they did.  Our copr alias
+    has this form:</p>
 
 <code>"!f() { command1; command2; }; f"</code>
 
