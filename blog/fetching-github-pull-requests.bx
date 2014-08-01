@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140731T183342'>
+<title>Fetching GitHub pull requests</title>
+<category>git</category>
+<body>
+
+<p>When reviewing GitHub pull requests, I sometimes want to get the proposed
+    code onto my own machine, for running it, or just reading it in my own
+    editor.  Here are a few ways to do it, with a digression into git/alias/shell
+    weirdness tacked on the end.</p>
+
+<p>If the pull request is from a branch in the same repo, you can just check out
+    the branch by name:</p>
+
+<code>$ git checkout joe/proposed-feature</code>
+
+<p>But you might not remember the name of the branch, or it might be in a different
+    fork.  Better is to be able to request the code by the pull request number.</p>
+
+<p>The first technique I found was to modify the repo's .git/config file so that when
+    you fetch code from the remote, it automatically pulls the pull request
+    branches also.  On GitHub, pull requests are at refspecs like "refs/pull/1234"
+    (no, I don't really know what refspecs are, but I look forward to the day
+    when I do...)  Bert Belder <a href="https://gist.github.com/piscisaureus/3342247">wrote
+    up a description of how to tweak your repo</a> to automatically pull down
+    all the pull request branches.  You add this line to the [remote "origin"]
+    section of your .git/config:</p>
+
+<code>fetch = +refs/pull/*/head:refs/remotes/origin/pr/*</code>
+
+<p>Now when you "git fetch origin", you'll get all the pull request branches,
+    and you can simply check out the one you want with "git checkout pr/1234".</p>
+
+<p>But this means having to edit your repo's .git/config file before you can get the
+    pull request code.  If you have many repos, you're always going to be finding
+    the ones that haven't been tweaked yet.</p>
+
+<p>A technique I liked better is on Corey Frang's gist, provided by Rico Sta. Cruz:
+    <a href="https://gist.github.com/gnarf/5406589">Global .gitconfig aliases
+    for pull request management</a>.  Here, you update your single ~/.gitconfig
+    file to define a new command that will pull down a pull request branch when
+    you need it:</p>
+
+<code><![CDATA[
+[alias]
+copr  = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
+                    git checkout pr/$1; }; f"
+]]></code>
+
+<p>(That should all be on one line, but I wanted it to be readable here.) This
+    gives us a new command, "git copr" (for CheckOut Pull Request) that gets
+    branches from pull requests:</p>
+
+<code>
+$ git copr 1234            # gets and switches to pr/1234 from origin
+$ git copr 789 upstream    # gets and switches to pr/789 from upstream
+</code>
+
+<p>This technique has the advantage that once you define the alias, it's 
+    available in any repo, and also, it both fetches the branch and switches
+    you to it.</p>
+
+<p>BTW: finding and collecting these kinds of shortcuts can be daunting, because
+    if you don't understand every bit of them, then you're in <a href="http://en.wikipedia.org/wiki/Cargo_cult">cargo-cult</a>
+    territory.  "This thing worked for someone else, and if I copy it here, then
+    it will work for me!"</p>
+
+<p>In a few of the aliases on these pages, I see that the commands end with "&amp;&amp; :".
+    I asked about this in the #git IRC channel, and was told that it was pointless:
+    "&amp;&amp;" joins two shell commands, and runs the second one if the first
+    one succeeded, and ":" is a shell built-in that simply succeeds (it's the same
+    as "true").  So what does "&amp;&amp; :" add to the command? Seemed like it
+    was pointless; we were stumped.</p>
+
+<p>Then I also asked why aliases take the form they do.  Our copr alias has this
+    form:</p>
+
+<code>"!f() { command1; command2; }; f"</code>
+
+<p>The bang character escapes from git syntax to the shell.  Then we define a
+    shell function called f with two commands in it, then we call the
+    function. Why define the function?  Why not just define the alias to be the
+    two commands?</p>
+
+<p>More discussion and experimentation turned up the answer.  The way git
+    invokes the shell, the arguments to the alias are available as $1, $2, etc,
+    but they are also appended to the command line.  As an example, let's
+    define three different git aliases, each of which uses two arguments:</p>
+
+<code lang="python"><![CDATA[
+[alias]
+    ee1 = "!echo 2 is $2 stop; echo 1 is $1 stop"
+    ee2 = "!echo 2 is $2 stop; echo 1 is $1 stop && :"
+    ee3 = "!f() { echo 2 is $2 stop; echo 1 is $1 stop; }; f"
+]]></code>
+
+<p>When we try these, the first does a bad thing, but the second and third are
+    good:</p>
+
+<code lang="python"><![CDATA[
+$ git ee1 one two
+1 is one stop
+2 is two stop one two
+$ git ee2 one two
+1 is one stop
+2 is two stop
+$ git ee3 one two
+1 is one stop
+2 is two stop
+]]></code>
+
+<p>The second one works because the ":" command eats up the extra arguments.
+    The third one works because the eventual command run is "f one two", so the
+    values are passed to the function. So the "&amp;&amp; :" wasn't pointless
+    afterall, it was needed to make the arguments work properly.</p> 
+
+<p>From previous cargo-cult expeditions, my ~/.gitconfig has other aliases using
+    a different form:</p>
+
+<code lang="python"><![CDATA[
+[alias]
+    ee4 = !sh -c 'echo 1 is $1 stop && echo 2 is $2 stop'
+    ee5 = !sh -c 'echo 1 is $1 stop && echo 2 is $2 stop' -
+]]></code>
+
+<p>These do this:</p>
+
+<code><![CDATA[
+$ git ee4 one two
+1 is two stop
+2 is stop
+$ git ee5 one two
+1 is one stop
+2 is two stop
+]]></code>
+
+<p>(No, I have no idea why ee4 does what it does.)  So we have three odd forms
+    that all are designed to let you access arguments positionally, but not
+    get confused by them:</p>
+
+<code><![CDATA[
+[alias]
+    cmd1 = "!command1 && command2 && :"
+    cmd2 = "!f() { command1; command2; }; f"
+    cmd3 = !sh -c 'command1 && command2' -
+]]></code>
+
+<p>All of them work, I like the function-defining one best, it seems most
+    programmery, and least shell-tricky. I'm sure there's something here I'm
+    misunderstanding, or a subtlety I'm overlooking, but I've learned stuff
+    today.</p>
+
+</body>
+</entry>
+</blog>
