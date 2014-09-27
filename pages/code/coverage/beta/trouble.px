@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<page title='Things that cause trouble' >
+
+  <history>
+<what when='20121231T085200'>brand new docs.</what>
+</history>
+<p>Coverage works well, and I want it to properly measure any Python program, but
+there are some situations it can&#8217;t cope with.  This page details some known
+problems, with possible courses of action, and links to coverage.py bug reports
+with more information.</p>
+<p>I would love to <a class="reference internal" href="/code/coverage/index.html#contact"><em>hear from you</em></a> if you have information about
+any of these problems, even just to explain to me why you want them to start
+working properly.</p>
+<p>If your problem isn&#8217;t discussed here, you can of course search the <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py
+bug tracker</a> directly to see if there is some mention of it.</p>
+<h1>Things that don&#8217;t work</h1>
+<p>There are a number of popular modules, packages, and libraries that prevent
+coverage.py from working properly:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.python.org/library/os#os.execl">execv</a>, or one of its variants.  These end the current program and replace
+it with a new one.  This doesn&#8217;t save the collected coverage data, so your
+program that calls execv will not be fully measured.  A patch for coverage.py
+is in <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/43/coverage-measurement-fails-on-code">issue 43</a>.</li>
+<li><a class="reference external" href="http://docs.python.org/library/multiprocessing.html">multiprocessing</a> launches processes to provide parallelism.  These
+processes don&#8217;t get measured by coverage.py.  Some possible fixes are
+discussed or linked to in <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/117/enable-coverage-measurement-of-code-run-by">issue 117</a>.</li>
+<li><a class="reference external" href="http://www.gevent.org/">gevent</a>, which is based on <a class="reference external" href="http://greenlet.readthedocs.org/">greenlet</a>, and is similar to <a class="reference external" href="http://eventlet.net/">eventlet</a>. All
+of these manipulate the C stack, and therefore confuse coverage.py.
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/149/coverage-gevent-looks-broken">Issue 149</a> has some pointers to more information.</li>
+<li><a class="reference external" href="http://docs.python.org/library/thread.html">thread</a>, in the Python standard library, is the low-level threading
+interface.  Threads created with this module will not be traced.  Use the
+higher-level <a class="reference external" href="http://docs.python.org/library/threading.html">threading</a> module instead.</li>
+<li><a class="reference external" href="http://docs.python.org/library/sys.html#sys.settrace">sys.settrace</a> is the Python feature that coverage.py uses to see what&#8217;s
+happening in your program.  If another part of your program is using
+sys.settrace, then it will conflict with coverage.py, and it won&#8217;t be
+measured properly.</li>
+</ul>
+<h1>Things that require &#8211;timid</h1>
+<p>Some packages interfere with coverage measurement, but you might be able to
+make it work by using the <tt class="docutils literal"><span class="pre">--timid</span></tt> command-line switch, or the <tt class="docutils literal"><span class="pre">[run]</span>
+<span class="pre">timid=True</span></tt> configuration option.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://pypi.python.org/pypi/DecoratorTools">DecoratorTools</a>, or any package which uses it, notably <a class="reference external" href="http://turbogears.org/">TurboGears</a>.
+DecoratorTools fiddles with the trace function.  You  will need to use
+<tt class="docutils literal"><span class="pre">--timid</span></tt>.</li>
+</ul>
+<h1>Really obscure things</h1>
+<ul class="simple">
+<li>Python 2.5 had a bug (<a class="reference external" href="http://bugs.python.org/issue1569356">1569356</a>) that could make your program behave
+differently when being measured with coverage.  This is diagnosed in
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/51/turbogears-15-test-failing-with-coverage">issue 51</a>.</li>
+</ul>
+<h1>Still having trouble?</h1>
+<p>If your problem isn&#8217;t mentioned here, and isn&#8217;t already reported in the
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py bug tracker</a>, please <a class="reference internal" href="/code/coverage/index.html#contact"><em>get in touch with me</em></a>,
+we&#8217;ll figure out a solution.</p>
+
+
+<p class='pmn pmnbot'>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/contributing.html" title="previous topic">Contributing to coverage.py</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/faq.html" title="next topic">FAQ and other help</a>&#xa0;&#xbb;</span>
+</p>
+
+</page>

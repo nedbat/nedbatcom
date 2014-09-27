@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Installation' index='no'>
+<page title='Installation' >
 
   <history>
 <what when='20100725T225600'>new for 3.4.</what>
@@ -16,45 +16,46 @@
 <what when='20121128T203000'>updated for 3.6b1.</what>
 <what when='20121223T180800'>updated for 3.6b2.</what>
 <what when='20121229T112400'>updated for 3.6b3.</what>
+<what when='20130105T174400'>updated for 3.6.</what>
+<what when='20131005T210600'>updated for 3.7.</what>
+<what when='20131212T213500'>updated for 3.7.1.</what>
+<what when='20140927T102700'>updated for 4.0a1.</what>
 </history>
-
-                <box>
-                These docs are for a beta release, 3.6b3. 
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>Installing coverage.py is done in the usual ways. You must have <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
-or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> installed already, and then you:</p>
+<p>Installing coverage.py is done in the usual ways. The simplest way is with
+pip:</p>
+<code lang="console">$ pip install coverage</code>
+<p>To install a pre-release version, you will need to specify <tt class="docutils literal"><span class="pre">--pre</span></tt>:</p>
+<code lang="console">$ pip install --pre coverage</code>
+<p>The alternate old-school technique is:</p>
 <ol class="arabic simple">
+<li>Install (or already have installed) <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a> or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a>.</li>
 <li>Download the appropriate kit from the
 <a class="reference external" href="http://pypi.python.org/pypi/coverage">coverage page on the Python Package Index</a>.</li>
 <li>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt>.</li>
 </ol>
-<p>or, use:</p>
-<code lang="console">$ pip install coverage</code>
-<p>or even:</p>
-<code lang="console">$ easy_install coverage</code>
 <h1>Installing from source</h1>
-<p>Coverage.py includes a C extension for speed. If you are installing from source,
-you may need to install the python-dev support files, for example with:</p>
+<p>Coverage.py includes a C extension for speed. If you are installing from
+source, you may need to install the python-dev support files, for example
+with:</p>
 <code lang="console">$ sudo apt-get install python-dev</code>
 <h1>Installing on Windows</h1>
 <p>For Windows, kits are provided on the <a class="reference external" href="http://pypi.python.org/pypi/coverage">PyPI page</a> for different versions of
-Python and different CPU architectures. These kits require that <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a> be
-installed as a pre-requisite, but otherwise are self-contained.  They have the
-C extension pre-compiled so there&#8217;s no need to worry about compilers.</p>
+Python and different CPU architectures. These kits require that <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+be installed as a pre-requisite, but otherwise are self-contained.  They have
+the C extension pre-compiled so there&#8217;s no need to worry about compilers.</p>
 <h1>Checking the installation</h1>
-<p>If all went well, you should be able to open a command prompt, and see
-coverage installed properly:</p>
+<p>If all went well, you should be able to open a command prompt, and see coverage
+installed properly:</p>
 <code lang="console">$ coverage --version
-Coverage.py, version 3.6b3.  http://nedbatchelder.com/code/coverage/3.6b3</code>
+Coverage.py, version 4.0a1.  http://nedbatchelder.com/code/coverage</code>
 <p>You can also invoke coverage as a module:</p>
 <code lang="console">$ python -m coverage --version
-Coverage.py, version 3.6b3.  http://nedbatchelder.com/code/coverage/3.6b3</code>
+Coverage.py, version 4.0a1.  http://nedbatchelder.com/code/coverage</code>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/index.html" title="previous topic">coverage.py</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/cmd.html" title="next topic">Coverage command line usage</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/index.html" title="previous topic">coverage.py</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/cmd.html" title="next topic">Coverage command line usage</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

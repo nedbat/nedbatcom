@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Specifying source files' index='no'>
+<page title='Specifying source files' >
 
   <history>
 <what when='20100725T172000'>new in 3.4</what>
 </history>
-
-                <box>
-                These docs are for a beta release, 3.6b3. 
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>When coverage.py is running your program and measuring its execution, it needs
+<p>When coverage.py is running your program and measuring its execution, it needs
 to know what code to measure and what code not to.  Measurement imposes a speed
 penalty, and the collected data must be stored in memory and then on disk.
 More importantly, when reviewing your coverage reports, you don&#8217;t want to be
@@ -20,8 +15,8 @@ about.</p>
 <h1 id="source-execution">Execution</h1>
 <p>When running your code, the <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">run</span></tt> command will by default measure
 all code, unless it is part of the Python standard library.</p>
-<p>You can specify source to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt> command-line switch,
-or the <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">source</span></tt> configuration value.  The value is a list of directories
+<p>You can specify source to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt> command-line switch, or
+the <tt class="docutils literal"><span class="pre">[run]</span> <span class="pre">source</span></tt> configuration value.  The value is a list of directories
 or package names.  If specified, only source inside these directories or
 packages will be measured.  Specifying the source option also enables
 coverage.py to report on unexecuted files, since it can search the source tree
@@ -54,12 +49,12 @@ command.</p>
 collected, so the data you&#8217;re looking for may not be in the data available for
 reporting.</p>
 <p>Note that these are ways of specifying files to measure.  You can also exclude
-individual source lines.  See <a class="reference internal" href="/code/coverage/beta/excluding.html#excluding"><em>Excluding code from coverage</em></a> for details.</p>
+individual source lines.  See <a class="reference internal" href="/code/coverage/excluding.html#excluding"><em>Excluding code from coverage</em></a> for details.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/config.html" title="previous topic">Configuration files</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/excluding.html" title="next topic">Excluding code from coverage</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/config.html" title="previous topic">Configuration files</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/excluding.html" title="next topic">Excluding code from coverage</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>
