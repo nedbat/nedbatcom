@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140927T152026'>
+<title>How should I distribute coverage.py alphas?</title>
+<category>coverage</category>
+<body>
+
+    <p>I thought today was going to be a good day.  I was going to release the
+        first alpha version of coverage.py 4.0.  I finally finished the support
+        for gevent and other concurrency libraries like it, and I wanted to get
+        the code out for people to try it.</p>
+
+    <p>So I made the kits and pushed them to PyPI.  I used to not do that,
+        because people would get the betas by accident.  But pip now understands
+        about pre-releases and real releases, and won't install an alpha version
+        by default.  Only if you explicitly use --pre will you get an alpha.</p>
+
+    <p>About 10 minutes after I pushed the kits, someone I was chatting with on
+        IRC said, "Did you just release a new version of coverage?"  Turns out
+        his Travis build was failing.</p>
+
+    <p>He was using coveralls to report his coverage statistics, and it was
+        failing.  Turns out coveralls uses internals from coverage.py to do its
+        work, and I've made big refactorings to the internals, so their code
+        was broken.  But how did the alpha get installed in the first place?</p>
+
+    <p>He was using tox, and it turns out that when tox installs dependencies,
+        it defaults to using the --pre switch!  Why? I don't know.</p>
+
+    <p>OK, I figured I would just hide the new version on PyPI.  That way, if
+        people wanted to try it, they could use "pip install coverage==4.0a1",
+        and no one else would be bothered with it.  Nope: pip will find the
+        newer version even if it is hidden on PyPI.  Why?  I don't know.</p>
+
+    <p>In my opinion:</p>
+
+    <ul>
+        <li>Coveralls shouldn't have used coverage.py internals.</li>
+        <li>Tox shouldn't use the --pre switch by default.</li>
+        <li>Pip shouldn't install hidden versions when there is no version
+            information specified.</li>
+    </ul>
+
+    <p>So now the kit is removed entirely from PyPI while I figure out a new
+        approach.  Some possibilities, none of them great:</p>
+
+    <ol>
+
+        <li>Distribute the kit the way I used to, with a download on my site.
+            This sucks because I don't know if there's a way to do this so that
+            pip will find it, and I don't know if it can handle pre-built
+            binary kits like that.</li>
+
+        <li>Do whatever I need to do to coverage.py so that coveralls will
+            continue to work.  This sucks because I don't know how much I will
+            have to add back, and I don't want to establish a precedent, and it
+            doesn't solve the problem that people really don't expect to be
+            using alphas of their testing tools on Travis.</li>
+
+        <li>Make a new package on PyPI: coverage-prerelease, and instruct
+            people to install from there.  This sucks because tools like
+            coveralls won't refer to it, so either you can't ever use it with
+            coveralls, or if you install it alongside, then you have two
+            versions of coverage fighting with each other? I think?</li>
+
+        <li>Make a pull request against coveralls to fix their use of the
+            now-missing coverage.py internals.  This sucks (but not much)
+            because I don't want to have to understand their code, and I don't
+            have a simple way to run it, and I wish they had tried to stick to
+            supported methods in the first place.</li>
+
+        <li>Leave it broken, and let people fix it by overriding their tox.ini
+            settings to not use --pre, or wait until people complain to coveralls
+            and they fix their code. This sucks because there will be lots of
+            people with broken builds.</li>
+
+    </ol>
+
+    <p>Software is hard, yo.</p>
+
+</body>
+</entry>
+</blog>

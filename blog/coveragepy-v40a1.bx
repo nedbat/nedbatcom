@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20140928T093611'>
+<title>Coverage.py v4.0a1</title>
+<category>coverage</category>
+<body>
+
+    <p>The first alpha of the next major version of coverage.py is available:
+        <a href="https://pypi.python.org/pypi/coverage/4.0a1">coverage.py v4.0a1</a>.  
+    </p>
+
+    <p>The big new feature is support for the gevent, greenlet, and eventlet
+        concurrency libraries.  Previously, these libraries' behind-the-scenes
+        stack swapping would confuse coverage.py.  Now coverage adapts to give
+        accurate coverage measurement.  To enable it, use the "concurrency"
+        setting to specify which library you are using.</p>
+
+    <p>Huge thanks to Peter Portante for getting the concurrency support
+        started, and Joe Jevnik for the last final push.</p>
+
+    <p>Also new is that coverage.py will read its configuration from setup.cfg
+        if there is no .coveragerc file.  This lets you keep more of your
+        project configuration in one place.</p>
+
+    <p>Lastly, the textual summary report now shows missing branches if you are
+        using branch coverage.</p>
+
+    <p>One warning: I'm moving around lots of internals.  People have a tendency
+        to use what they need to to get their plugin or tool to work, so some
+        of those third-party packages may now be broken.  Let me know what you
+        find.</p>
+
+    <p>Full details of other changes are in the 
+        <a href="https://bitbucket.org/ned/coveragepy/src/175fd36ea47ea668066965c80343e1de34f2a94a/CHANGES.txt?at=coverage-4.0a1">CHANGES.txt</a> file.
+    </p>
+
+</body>
+</entry>
+</blog>
