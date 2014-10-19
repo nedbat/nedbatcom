@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <page title="A Whirlwind Excursion through Python C Extensions">
 <history>
 <what when="20090216T063742">Created.</what>
@@ -20,13 +21,19 @@
     
 -->
 
-<p>This is a presentation for PyCon 2009 in Chicago.  Here is video of me
+<p>This is a presentation for PyCon 2009 in Chicago.  
+A <a href="http://pyvideo.org/video/230/pycon-2009--a-whirlwind-excursion-through-writing">video of me presenting it</a>
+is available on pyvideo.org.</p>
+
+<!--
+Here is video of me
 presenting it in Chicago:</p>
 
 <p align="center">
 <embed src="http://blip.tv/play/AfiIcJWmLQ" type="application/x-shockwave-flash" width="550" height="450" allowscriptaccess="always" allowfullscreen="true">
 </embed>
 </p>
+-->
 
 <p>Python can be extended with extensions written in C. It's a complex topic,
 this will be a quick 45 minute introduction.
