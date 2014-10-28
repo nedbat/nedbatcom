@@ -57,7 +57,7 @@
         nobr|wbr|
         small|big|
         script|input|button|
-        object|param|embed|iframe|
+        object|param|embed|iframe|video|source|
         style
         '>
     <xsl:copy>
@@ -394,7 +394,7 @@
     <xsl:call-template name='checkblock'/>
     <p class='figure'>
         <xsl:choose>
-            <xsl:when test='thumbnail|object|iframe'>
+            <xsl:when test='thumbnail|object|iframe|video'>
                 <xsl:apply-templates select='*' />
             </xsl:when>
             <xsl:when test='@href'>

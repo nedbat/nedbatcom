@@ -23,7 +23,15 @@
 
 <p>This is a presentation for PyCon 2009 in Chicago.  
 A <a href="http://pyvideo.org/video/230/pycon-2009--a-whirlwind-excursion-through-writing">video of me presenting it</a>
-is available on pyvideo.org.</p>
+is available on pyvideo.org, or right here if your browser supports mp4:</p>
+
+<figurep>
+    <video width="550" controls="controls">
+        <source type="video/mp4"
+            src="http://05d2db1380b6504cc981-8cbed8cf7e3a131cd8f1c3e383d10041.r93.cf2.rackcdn.com/pycon-us-2009/230_pycon-2009-a-whirlwind-excursion-through-writing-a-c-extension-68.mp4"
+            />
+    </video>
+</figurep>
 
 <!--
 Here is video of me
