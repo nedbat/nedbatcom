@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20141207T181944'>
+<title>What is the Lotus Notes of today?</title>
+<body>
+
+<p>I have a document challenge.  It's a perfect job for Lotus Notes. What do I
+    use in its place today?</p>
+
+<p>I want to keep track of a bunch of web sites, say 100-200 of them.  For
+    each, I want a free-form document that lets me keep notes about them. But I
+    also have structured information I want to track for each, like an email
+    contact, a GitHub repo, some statistics, and so on.  I want to be able to
+    display these documents in summarized lists, so that some of the structured
+    information is displayed in a table, and I can sort and filter the
+    documents based on that information.</p>
+
+<p>This is exactly what Lotus Notes did well.  Is there something that can do
+    it now?  Ideally, it would be part of a Confluence wiki, but other options
+    would be good too. (Please don't say SharePoint...)</p>
+
+<p><a href="http://couchdb.apache.org/">CouchDB</a> is the perfect backend for
+    a system like this (no wonder, it was written by Damien Katz, and inspired
+    by his time at Lotus), but is there a GUI client that makes it a complete
+    application?</p>
+
+<p>Say what you will about Lotus Notes, it was really good at this kind of
+    job.</p>
+
+</body>
+</entry>
+</blog>
