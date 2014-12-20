@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20141213T072340'>
+<title>Seeing what the computer sees</title>
+<category>python</category>
+<body>
+
+<p>One of the challenging things about programming is being able to really see
+    code the way the computer is going to see it.  Sometimes the human-only
+    signals are so strong, we can't ignore them.  This is one of the reasons
+    I like indentation-significant languages like Python: people attend to the
+    indentation whether the computer does or not, so you might as well have
+    the people and computers looking at the same thing.</p>
+
+<p>I was reminded of this problem yesterday while trying to debug a
+    <a href="https://github.com/mitodl/mit_lti_flask_sample">sample application</a>
+    I was toying with.  It has a config file with some strings and dicts in it.
+    It reads in part like this:</p>
+
+<code lang="python"><![CDATA[
+SECRET_KEY = 'you-will-never-guess'
+""" secret key for authentication
+"""
+
+PYLTI_URL_FIX = {
+""" Remap URL to fix edX's misrepresentation of https protocol.
+    You can add another dict entry if you have trouble with the
+    PyLti URL.
+"""
+
+    "https://localhost:8000/": {
+        "https://localhost:8000/": "http://localhost:8000/"
+    },
+    "https://localhost/": {
+        "https://localhost/":"http://192.168.33.10/"
+    }
+}
+]]></code>
+
+<p>When I saw this file, I thought, "That's a weird way to comment things,"
+    but didn't worry more about it.  Then later when the response was failing,
+    I debugged into it, and realized what was wrong with this file.  Before
+    reading on, do you see what it is?</p>
+
+<p><bulletsep/></p>
+<p><bulletsep/></p>
+<p><bulletsep/></p>
+
+<p>Python concatenates adjacent string literals.  This is handy for making long
+    strings without having to worry about backslashes.  In real code, this
+    feature is little-used, and it happens in a surprising place here.  The
+    "docstring" for the dictionary is implicitly concatenated to the first key.
+    PYLTI_URL_FIX has a key that's 163 characters long: " Remap URL to ...
+    URL.\nhttps://localhost:8000/", including three newlines.</p>
+
+<p>But SECRET_KEY isn't affected.  Why? Because the SECRET_KEY assignment line
+    is a complete statement all by itself, so it doesn't continue onto the next
+    line.  Its "docstring" is a statement all by itself.  The PYLTI_URL_FIX
+    docstring is inside the braces of the dictionary, so it's all part of one
+    13-line statement.  All the tokens are considered together, and the adjacent
+    strings are concatenated.</p>
+
+<p>As odd as this code was, it was still hard to see what was going to happen,
+    because the first string was clearly meant as a comment, both in its token
+    form (a multiline string, starting in the first column) and in its content
+    (English text explaining the dictionary).  The second string is clearly
+    intended as a key in the dict (short, containing data, indented).  But all
+    of those signals are human signals, not computer signals.  So I as a human
+    attended to them and misunderstood what would happen when the computer saw
+    the same text and ignored those signals.</p>
+
+<p>The <a href="https://github.com/mitodl/mit_lti_flask_sample/pull/12">fix</a>
+    of course is to use conventional comments. Programming is hard, yo.
+    Stick to the conventions.</p>
+
+</body>
+</entry>
+</blog>
