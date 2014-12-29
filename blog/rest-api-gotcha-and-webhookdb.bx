@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20141220T114454'>
+<title>REST API gotcha, and webhookdb</title>
+<category></category>
+<body>
+
+<p>For the <a href="http://openedx.org">Open edX</a> project, we like to 
+    collect statistics about our pull requests.  GitHub provides a 
+    <a href="https://developer.github.com/v3/">very capable API</a> that gives
+    me all sorts of information.
+</p>
+
+<p>Across more than 30 repos, we have more than 9500 pull requests. To get
+    detailed information about all of them would require at least 9500 requests
+    to the GitHub API.  But GitHub rate-limits API use, so I can only make 5000
+    requests in an hour, so I can't collect details across all of our pull
+    requests.</p>
+
+<p>Most of those pull requests are old, and closed. They haven't changed in a
+    long time.  GitHub supports ETags, and any request that responds with 304
+    Not Modified isn't counted against your rate limit.  So I should be able to
+    use ETags to mostly get cached information, and still be able to get
+    details for all of my pull requests.</p>
+
+<p>I'm using <a href='http://docs.python-requests.org/'>requests</a> to access
+    the API.  The <a href='http://cachecontrol.readthedocs.org/'>CacheControl</a>
+    package offers really easy integration of http caching:</p>
+
+<code lang="python">
+from cachecontrol import CacheControlAdapter
+from cachecontrol.caches import FileCache
+
+# ...
+
+session = requests.Session()
+adapter = CacheControlAdapter(cache=FileCache(".webcache"))
+session.mount("http://", adapter)
+session.mount("https://", adapter)
+</code>
+
+<p>I ran my program with this, and it didn't seem to help: I was still running
+    out of requests against the API.  Doing a lot of debugging, I figured out
+    why. The reason is instructive for API design.</p>
+
+<p>When you ask the GitHub API for details of a pull request, you get a JSON
+    response that looks like this (many details omitted, see the 
+    <a href='https://developer.github.com/v3/pulls/#get-a-single-pull-request'>GitHub API docs</a>
+    for the complete response):</p>
+
+
+<code lang="javascript">
+{
+  "id": 1,
+  "url": "https://api.github.com/repos/octocat/Hello-World/pulls/1347",
+  "number": 1347,
+  "state": "open",
+  "title": "new-feature",
+  "body": "Please pull these awesome changes",
+  "created_at": "2011-01-26T19:01:12Z",
+  "updated_at": "2011-01-26T19:01:12Z",
+  "closed_at": "2011-01-26T19:01:12Z",
+  "merged_at": "2011-01-26T19:01:12Z",
+  "head": {
+    "label": "new-topic",
+    "ref": "new-topic",
+    "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+    "user": {
+      "login": "octocat",
+      ...
+    },
+    "repo": {
+      "id": 1296269,
+      "owner": {
+        "login": "octocat",
+        ...
+      },
+      "name": "Hello-World",
+      "full_name": "octocat/Hello-World",
+      "description": "This your first repo!",
+      "private": false,
+      "fork": false,
+      "url": "https://api.github.com/repos/octocat/Hello-World",
+      "homepage": "https://github.com",
+      "language": null,
+      "forks_count": 9,
+      "stargazers_count": 80,
+      "watchers_count": 80,
+      "size": 108,
+      "default_branch": "master",
+      "open_issues_count": 0,
+      "has_issues": true,
+      "has_wiki": true,
+      "has_pages": false,
+      "has_downloads": true,
+      "pushed_at": "2011-01-26T19:06:43Z",
+      "created_at": "2011-01-26T19:01:12Z",
+      "updated_at": "2011-01-26T19:14:43Z",
+      "permissions": {
+        "admin": false,
+        "push": false,
+        "pull": true
+      }
+    }
+  },
+  "base": {
+    "label": "master",
+    "ref": "master",
+    "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+    "user": {
+      "login": "octocat",
+      ...
+    },
+    "repo": {
+      "id": 1296269,
+      "owner": {
+        "login": "octocat",
+        ...
+      },
+      "name": "Hello-World",
+      "full_name": "octocat/Hello-World",
+      "description": "This your first repo!",
+      "private": false,
+      "fork": false,
+      "url": "https://api.github.com/repos/octocat/Hello-World",
+      "homepage": "https://github.com",
+      "language": null,
+      "forks_count": 9,
+      "stargazers_count": 80,
+      "watchers_count": 80,
+      "size": 108,
+      "default_branch": "master",
+      "open_issues_count": 0,
+      "has_issues": true,
+      "has_wiki": true,
+      "has_pages": false,
+      "has_downloads": true,
+      "pushed_at": "2011-01-26T19:06:43Z",
+      "created_at": "2011-01-26T19:01:12Z",
+      "updated_at": "2011-01-26T19:14:43Z",
+      "permissions": {
+        "admin": false,
+        "push": false,
+        "pull": true
+      }
+    }
+  },
+  "user": {
+    "login": "octocat",
+    ...
+  },
+  "merge_commit_sha": "e5bd3914e2e596debea16f433f57875b5b90bcd6",
+  "merged": false,
+  "mergeable": true,
+  "merged_by": {
+    "login": "octocat",
+    ...
+  },
+  "comments": 10,
+  "commits": 3,
+  "additions": 100,
+  "deletions": 3,
+  "changed_files": 5
+}
+</code>
+
+<p>GitHub has done a common thing with their REST API: they include details of
+    related objects.  So this pull request response also includes details of
+    the users involved, and the repos involved, and the repos include details
+    of their users, and so on.</p>
+
+<p>The ETag for a response fingerprints the entire response.  That means that
+    if any data in the response changes, the ETag will change, which means that
+    the cached copy will be ignored and the full response will be returned.</p>
+
+<p>Look again at the repo information included: open_issues_count changes every
+    time an issue is opened or closed. A pull request is a kind of issue,
+    so that happens a lot.  There's also pushed_at and updated_at, which will 
+    change frequently.</p>
+
+<p>So when I'm getting details about a pull request that has been closed and
+    dormant for (let's say) a year, the ETag will still change many times a
+    day, because of other irrelevant activity in the repo.  I didn't need those
+    repo details on the pull request in the first place, but I always thought
+    it was just harmless bulk.  Nope, it's actively hurting my ability to use
+    the API effectively.</p>
+
+<p>Some REST API's give you control over the fields returned, or related objects
+    included in responses, but GitHub's does not.  I don't know how to use the
+    GitHub API the way I wanted to.</p>
+
+<p>So the pull request response has lots of details I don't need (the repo's
+    owner's avatar URL?), and omit plenty of details I'm likely to need, like
+    commits, comments, and so on.  I understand, they aren't including
+    one-to-many information at all, but I'd rather see the one-to-many than the
+    almost certainly useless one-to-one information that is included, and is
+    making automatic caching impossible.</p>
+
+<p>Luckily, my co-worker David Baumgold had a good idea and the energy to implement
+    it: <a href="https://github.com/singingwolfboy/webhookdb">webhookdb</a>
+    replicates GitHub data to a relational database, using webhooks to keep the
+    two in sync.  It works great: now I can make queries against Postgres to
+    get details of pull requests!  No rate limiting, and I can use SQL if it's
+    a better way to express my questions.</p>
+
+</body>
+</entry>
+</blog>
