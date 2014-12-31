@@ -72,6 +72,11 @@
         h1|h2|h3|h4|h5|h6|
         blockquote|form
         '>
+    <xsl:param name='h_id'>
+        <xsl:text>h_</xsl:text>
+        <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
+    </xsl:param>
+
     <xsl:call-template name='checkblock' />
 
     <xsl:copy>
@@ -85,16 +90,28 @@
         </xsl:if>
 
         <!-- Give header tags an id as well. -->
-        <xsl:if test='self::h1|self::h2|self::h3'>
-            <xsl:if test='not(@id)'>
-                <xsl:attribute name='id'>
-                    <xsl:text>h_</xsl:text>
-                    <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
-                </xsl:attribute>
-            </xsl:if>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test='self::h1|self::h2|self::h3'>
+                <xsl:if test='not(@id)'>
+                    <xsl:attribute name='id'>
+                        <xsl:value-of select='$h_id'/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:apply-templates select='@*|text()' />
+                <a class='headerlink'>
+                    <xsl:attribute name='href'>
+                        <xsl:text>#</xsl:text>
+                        <xsl:value-of select='$h_id'/>
+                    </xsl:attribute>
+                </a>
+                <xsl:apply-templates select='*' />
+            </xsl:when>
 
-        <xsl:apply-templates select='*|@*|text()' />
+            <xsl:otherwise>
+                <xsl:apply-templates select='@*|text()|*' />
+            </xsl:otherwise>
+        </xsl:choose>
+
     </xsl:copy>
 </xsl:template>
 

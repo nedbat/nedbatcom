@@ -114,6 +114,17 @@ h1,h2,h3,h4,h5,h6 {
     font-family: verdana, sans-serif;
 }
 
+h1[id]:hover a.headerlink:after,
+h2[id]:hover a.headerlink:after,
+h3[id]:hover a.headerlink:after {
+    content: "\00A0\00B6";   /* space-pilcrow */
+}
+
+a.headerlink {
+    color: #888;
+    text-decoration: none;
+}
+
 .first {
     margin-top: 0;
 }
