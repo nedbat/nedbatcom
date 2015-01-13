@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150111T201708'>
+<title>Cog 2.4</title>
+<category>cog</category>
+<body>
+
+<p>The recent holidays gave us Christmas and New Year's Day on a Thursday,
+    so I also had two Fridays off. This gave me two four-day weekends in a row.
+    At the same time, I got a pull request against <a href="/code/cog/">Cog</a> from Doug Hellmann.
+    Together, these gave me the time and the reason to update Cog.
+</p>
+
+<p>So I cleaned up the couple of old pull requests, and open issues, and
+    modernized the repo quite a bit.</p>
+
+<p><a href="http://pypi.python.org/pypi/cogapp/2.4">Cog 2.4</a> is available
+    now, with three new features:</p>
+
+<ul>
+
+    <li>A --delimiters option lets you control the three delimiters that
+        separate the cog code and result from the rest of the file. Thanks,
+        Doug Hellman.</li>
+
+    <li>A -n=ENCODING option that lets you specify the encoding for the input
+        and output files. Thanks, Petr Gladkiy.</li>
+
+    <li>A --verbose option that lets you control how much chatter is in the
+        output while cogging.</li>
+
+</ul>
+
+<p>It was nice to revisit this old friend, and be able to tend it and ship it.</p>
+
+</body>
+</entry>
+</blog>
