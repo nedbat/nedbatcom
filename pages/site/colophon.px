@@ -8,13 +8,15 @@
 <what when='20041015T160400'>Removed the old alternatives, added rssfull and atom validation.</what>
 <what when='20051129T083800'>Added link to Xuff px bx.</what>
 <what when='20080117T075000'>Update to Django process.</what>
+<what when='20150119T095100'>Add GitHub link.</what>
 </history>
 
 <p>This web site is created with content in XML files, run through
 <a href='http://djangoproject.com'>Django</a> driven by
 <a href='http://superjared.com/projects/static-generator/'>StaticGenerator</a>
 to produce HTML.
-The whole process is managed by a Python script.</p>
+The whole process is managed by a Python script.  It's all on 
+<a href="https://github.com/nedbat/nedbatcom">GitHub</a> if you dare.</p>
 
 <p>I wanted a purely text-based process that produced purely static HTML.
 I wanted it to be text-based because it's easy to manipulate text,
