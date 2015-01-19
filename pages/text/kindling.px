@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<page title='Kindling projects'>
+<history>
+<what when='20150119T083500'>Created.</what>
+</history>
+
+<p>New programmers often need small projects to work on as they hone their
+    skills.  Exercises in courses are too small, and don't leave much room for
+    self-direction or extending to follow the interests of the student.  "Real"
+    projects, either in the open-source world or at work, tend to be
+    overwhelming and come with real-world constraints that prevent
+    experimentation and pure coding practice.</p>
+
+<p>Kindling projects are meant to fill this gap: simple enough that a new learner
+    can take them on, but with possibilities for extension and creativity.  
+    Large enough that there isn't one right answer, but designed to be hacked
+    on by a learner simply to flex their muscles.</p>
+    
+<p>This is a list of ideas, and pointers to lists of ideas, of projects that
+    beginners can tackle.  If you have an idea to add, send it in.</p>
+
+
+<h1>Lists of projects</h1>
+
+<p>Other peoples' lists of project ideas.  A word of warning: the lists can be
+    overwhelming.  Don't try to take them all in: scan the list until you find
+    one that strikes your fancy, and forget the rest.</p>
+
+<ul>
+<li><a href="https://github.com/karan/Projects">Mega Project List</a>: Karan Goel
+    has a list of project ideas, with solutions in separate repo.  These range
+    from very simple (FizzBuzz) to very difficult (SQL Query Analyzer).</li>
+
+<li><a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>: A collection
+    of <a href="http://rosettacode.org/wiki/Category:Programming_Tasks">programming tasks</a>,
+    with solutions in many languages.  These tend to be smaller exercises.</li>
+
+<li><a href="http://puzzles.bostonpython.com/">Boston Python Puzzles</a>: puzzles
+    written to be solved by writing Python programs.</li>
+
+<li><a href="http://rosalind.info">Rosalind</a>: A site devoted to teaching
+    bioinformatics skills, with exercises in Python.</li>
+
+<li><a href="http://programminghistorian.org/">The Programming Historian</a>:
+    tutorials that help humanists, especially historians, learn digital
+    techniques, including programming.</li>
+
+<li><a href="http://programmingpraxis.com/">Programming Praxis</a>: "This blog
+    publishes new programming exercises weekly, at least, so that savvy
+    programmers can maintain their skills by working the exercises and thinking
+    outside their normal skill set, whatever that is."</li>
+
+<li><a href="http://codekata.com/">CodeKata</a>: "A kata is an exercise in
+    karate where you repeat a form many, many times, making little improvements
+    in each. The intent behind code kata is similar. Each is a short exercise
+    (perhaps 30 minutes to an hour long). Some involve programming, and can be
+    coded in many different ways. Some are open ended, and involve thinking
+    about the issues behind programming. These are unlikely to have a single
+    correct answer."</li>
+    
+<li><a href="https://projecteuler.net/">Project Euler</a>: A collection of
+    math/programming problems.  Many require math expertise to solve.</li>
+
+</ul>
+
+<h1>Projects</h1>
+
+<p>Individual project ideas.</p>
+
+<ul>
+
+<li><a href="/text/madlibs.html">Madlibs</a>: a simple text-based game with
+    lots of possibilities for features.</li>
+
+<li>Re-implement a Unix command to work the way you want.  Find, grep, and ls
+    are good options.</li>
+
+</ul>
+
+
+<pagecomments/>
+
+</page>
