@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150117T071454'>
+<title>Coverage.py for Django templates</title>
+<category>coverage</category>
+<category>django</category>
+<body>
+
+<p>A long experiment has come to fruition: coverage.py support for Django
+    templates.  I've added plugin support to coverage.py, and implemented a
+    plugin for Django templates.  If you want to try it in its current alpha
+    state, read on.</p>
+
+<p>The plugin itself is pip installable:</p>
+
+<code><![CDATA[
+$ pip install django_coverage_plugin
+]]></code>
+
+<p>To run it, add these settings to your .coveragerc:</p>
+
+<code lang="python"><![CDATA[
+[run]
+# Makes it slower, won't be needed eventually
+timid = True
+
+plugins =
+    django_coverage_plugin
+]]></code>
+
+<p>Then run your tests under coverage.py.  It requires coverage.py >= 4.0a2, so
+    it may not work with other coverage-related tools such as test-runner
+    coverage plugins, or coveralls.io.  The plugin works on Django >= 1.4, and
+    Python 2 or 3.</p>
+
+<p>You will see your templates listed in your coverage report alongside your
+    Python modules. They have a .html extension but no directory, that's still
+    to be fixed.</p>
+
+<p>The technique used to measure the coverage is the same that Dmitry Trofimov
+    used in dtcov, but integrated into coverage.py as a plugin, and made more
+    performant.  I'd love to see how well it works in a real production
+    project.  If you want to help me with it, feel free to
+    <a href="mailto:ned@nedbatchelder.com">drop me an email</a>.</p>
+
+<p>The coverage.py plugin mechanism is designed to be generally useful for
+    hooking into the collection and reporting phases of coverage.py,
+    specifically to support non-Python files.  I've also got a plugin for Mako
+    templates, but it needs some fixes from Mako.  If you have non-Python files
+    you'd like to support in coverage.py, let's talk.</p>
+
+</body>
+</entry>
+</blog>
