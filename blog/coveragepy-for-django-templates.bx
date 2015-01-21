@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
+
 <entry when='20150117T071454'>
 <title>Coverage.py for Django templates</title>
 <category>coverage</category>
@@ -51,4 +52,36 @@ plugins =
 
 </body>
 </entry>
+
+<entry when='20150120T211900'>
+<title>Coverage.py 4.0a3</title>
+<category>coverage</category>
+<body>
+
+<p>Lots of things happening in coverage.py world these days.  Turns out I broke
+    the XML report a long time ago, so that directories were not reported as
+    packages.  I honestly don't know why I let that sit for so long.  It's
+    fixed now, but I feel bad that I've ignored people's bug reports and pull
+    requests. I'll try to be more responsive.</p>
+
+<p>The fix is in <a href="https://pypi.python.org/pypi/coverage/4.0a3">coverage.py v4.0a3</a>.
+    Also, the reports now use file names instead of a weird hybrid.  Previously,
+    the file "a/b/c.py" was reported as "a/b/c".  Now it is shown as "a/b/c.py".
+    This works better where non-Python files can be reported, so we can't assume
+    the extension is .py.</p>
+
+<p>Oh, did I mention that now you can
+    <a href="/blog/201501/coveragepy_for_django_templates.html">coverage-measure
+    your Django templates</a>?</p>
+
+<p>Also in the XML report, there's now a configuration setting to determine
+    the directory depth that will be reported as packages.  The default is that
+    all directories will be reported as packages, but if you set the depth to 2,
+    then only the upper two layers of directories will be reported.</p>
+
+<p>Try <a href="https://pypi.python.org/pypi/coverage/4.0a3">coverage.py v4.0a3</a>.</p>
+
+</body>
+</entry>
+
 </blog>
