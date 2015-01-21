@@ -17,7 +17,9 @@
     on by a learner simply to flex their muscles.</p>
     
 <p>This is a list of ideas, and pointers to lists of ideas, of projects that
-    beginners can tackle.  If you have an idea to add, send it in.</p>
+    beginners can tackle.  If you have an idea to add, send it in.  I don't
+    personally have experience with most of these pointers, so if you have a
+    strong opinion about one, I'd be interested to hear it.</p>
 
 
 <h1>Lists of projects</h1>
@@ -61,7 +63,13 @@
 <li><a href="https://projecteuler.net/">Project Euler</a>: A collection of
     math/programming problems.  Many require math expertise to solve.</li>
 
+<!-- Suggested by Vaibhav Sagar, vaibhavsagar@gmail.com -->
+<li><a href="http://pythonpracticeprojects.com/">Python Practice Projects</a>:
+    a short list of detailed project descriptions, if you want specific
+    instructions.</li>
+
 </ul>
+
 
 <h1>Projects</h1>
 
@@ -75,8 +83,55 @@
 <li>Re-implement a Unix command to work the way you want.  Find, grep, and ls
     are good options.</li>
 
+<!-- Suggested by Ben Hyde, bhyde@pobox.com -->
+<li>Write a static site generator: start with whatever input format you like,
+    and create a pile of static HTML pages from it.</li>
+
+<!-- Suggested by Eric Hanchrow, eric.hanchrow@gmail.com -->
+<li>Anagram generator.  Eric Hanchrow has a <a href="https://github.com/offby1/anagrams">collection
+        of them written in many languages</a>.</li>
+
+<!-- Suggested by Eric Hanchrow, eric.hanchrow@gmail.com -->
+<li>An IRC bot. Who doesn't want to write their own IRC bot?  You have a choice
+    here: low-level direct with sockets (difficult to get exactly right), or
+    higher-level with a framework like Twisted (harder to get started, but lots
+    of details handled for you).</li>
+
 </ul>
 
+
+<h1>Challenges</h1>
+
+<p>These are series of exercises designed to teach a particular set of
+    concepts.  They are much more guided than projects, but can also be a good
+    way to level-up your skills.</p>
+
+<ul>
+
+<!-- Suggested by Jeremy Beker, gothmog@confusticate.com -->
+<li><a href="http://cryptopals.com/">Matasano Crypto Challenges</a>: learn
+    cryptography concepts by working through a series of challenges and
+    exercises.</li>
+
+<!-- Suggested by Jeremy Beker, gothmog@confusticate.com -->
+<li><a href="http://eudyptula-challenge.org/">The Eudyptula Challenge</a>: a
+    series of programming exercises for the Linux kernel, conducted over email,
+    just as Linux kernel development is.</li>
+</ul>
+
+<h1>Other</h1>
+
+<ul>
+
+<!-- Suggested by Michael Smith, michael@smith-li.com -->
+<li><a href="https://www.interviewcake.com/">Interview Cake</a>: a pay site
+    that offers practice coding problems of the kind you might find in a coding
+    interview.</li>
+
+</ul>
+
+<p>BTW: comments are welcome.  Comments suggesting new links will be
+    incorporated and deleted.</p>
 
 <pagecomments/>
 
