@@ -83,6 +83,10 @@
 <li>Re-implement a Unix command to work the way you want.  Find, grep, and ls
     are good options.</li>
 
+<!-- Suggested by Julia Hansbrough -->
+<li>It's a bit of a cliche, but: implement a blog.  The good news is, you
+    already know how it should work.</li>
+
 <!-- Suggested by Ben Hyde, bhyde@pobox.com -->
 <li>Write a static site generator: start with whatever input format you like,
     and create a pile of static HTML pages from it.</li>
@@ -92,10 +96,16 @@
         of them written in many languages</a>.</li>
 
 <!-- Suggested by Eric Hanchrow, eric.hanchrow@gmail.com -->
-<li>An IRC bot. Who doesn't want to write their own IRC bot?  You have a choice
+<li>An IRC bot: who doesn't want to write their own IRC bot?  You have a choice
     here: low-level direct with sockets (difficult to get exactly right), or
     higher-level with a framework like Twisted (harder to get started, but lots
     of details handled for you).</li>
+
+<!-- Suggested by Julia Hansbrough -->
+<li>Twitter bot: watch a Twitter stream, make new tweets.  Watch for certain
+    words, transform tweets into other tweets, come up with something creative.
+    Look into how <a href="http://en.wikipedia.org/wiki/ELIZA">ELIZA</a> worked
+    to produce interactions with simple logic.</li>
 
 </ul>
 
@@ -118,6 +128,7 @@
     series of programming exercises for the Linux kernel, conducted over email,
     just as Linux kernel development is.</li>
 </ul>
+
 
 <h1>Other</h1>
 
