@@ -2,6 +2,7 @@
 <page title='Kindling projects'>
 <history>
 <what when='20150119T083500'>Created.</what>
+<what when='20150201T082900'>Added Game of Life and Programming Koans</what>
 </history>
 
 <p>New programmers often need small projects to work on as they hone their
@@ -46,6 +47,14 @@
 <li><a href="http://programminghistorian.org/">The Programming Historian</a>:
     tutorials that help humanists, especially historians, learn digital
     techniques, including programming.</li>
+
+<!-- Suggested by Blake Winton <bwinton@latte.ca> -->
+<li><a href="http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans">Programming Koans</a>:
+    "Clone a GitHub repository that has 200 or so failing test cases. Then, you
+    work your way through the test cases, writing functions and filling in the
+    blanks, getting the tests to pass one by one. The first few tests are very
+    basic and assume no prior knowledge of the language, and then they build on
+    each other, moving to more advanced topics."</li>
 
 <li><a href="http://programmingpraxis.com/">Programming Praxis</a>: "This blog
     publishes new programming exercises weekly, at least, so that savvy
@@ -106,6 +115,12 @@
     words, transform tweets into other tweets, come up with something creative.
     Look into how <a href="http://en.wikipedia.org/wiki/ELIZA">ELIZA</a> worked
     to produce interactions with simple logic.</li>
+
+<!-- Suggested by Pierre Lebeaupin <lebpierre@wanadoo.fr> -->
+<li><a href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a>:
+    a classic computer science toy.  Simple implementations aren't difficult
+    to implement, faster ones can become very involved.  You have a choice of
+    how to produce output: terminal, curses, GUI, etc.</li>
 
 </ul>
 
