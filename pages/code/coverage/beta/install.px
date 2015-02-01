@@ -21,7 +21,12 @@
 <what when='20131212T213500'>updated for 3.7.1.</what>
 <what when='20140927T102700'>updated for 4.0a1.</what>
 </history>
-<p>Installing coverage.py is done in the usual ways. The simplest way is with
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>Installing coverage.py is done in the usual ways. The simplest way is with
 pip:</p>
 <code lang="console">$ pip install coverage</code>
 <p>To install a pre-release version, you will need to specify <tt class="docutils literal"><span class="pre">--pre</span></tt>:</p>
@@ -54,8 +59,8 @@ Coverage.py, version 4.0a1.  http://nedbatchelder.com/code/coverage</code>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/index.html" title="previous topic">coverage.py</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/cmd.html" title="next topic">Coverage command line usage</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/index.html" title="previous topic">coverage.py</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/cmd.html" title="next topic">Coverage command line usage</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

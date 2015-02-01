@@ -5,11 +5,16 @@
   <history>
 <what when='20121231T085200'>brand new docs.</what>
 </history>
-<p>Coverage works well, and I want it to properly measure any Python program, but
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>Coverage works well, and I want it to properly measure any Python program, but
 there are some situations it can&#8217;t cope with.  This page details some known
 problems, with possible courses of action, and links to coverage.py bug reports
 with more information.</p>
-<p>I would love to <a class="reference internal" href="/code/coverage/index.html#contact"><em>hear from you</em></a> if you have information about
+<p>I would love to <a class="reference internal" href="/code/coverage/beta/index.html#contact"><em>hear from you</em></a> if you have information about
 any of these problems, even just to explain to me why you want them to start
 working properly.</p>
 <p>If your problem isn&#8217;t discussed here, you can of course search the <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py
@@ -53,13 +58,13 @@ differently when being measured with coverage.  This is diagnosed in
 </ul>
 <h1>Still having trouble?</h1>
 <p>If your problem isn&#8217;t mentioned here, and isn&#8217;t already reported in the
-<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py bug tracker</a>, please <a class="reference internal" href="/code/coverage/index.html#contact"><em>get in touch with me</em></a>,
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">coverage.py bug tracker</a>, please <a class="reference internal" href="/code/coverage/beta/index.html#contact"><em>get in touch with me</em></a>,
 we&#8217;ll figure out a solution.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/contributing.html" title="previous topic">Contributing to coverage.py</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/faq.html" title="next topic">FAQ and other help</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/contributing.html" title="previous topic">Contributing to coverage.py</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/faq.html" title="next topic">FAQ and other help</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

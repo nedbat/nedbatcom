@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Measuring subprocesses' >
+<page title='Measuring sub-processes' >
 
   <history>
 <what when='20100224T201800'>new for 3.3.</what>
 <what when='20100725T211700'>updated for 3.4.</what>
 </history>
-<p>Complex test suites may spawn subprocesses to run tests, either to run them in
-parallel, or because subprocess behavior is an important part of the system
-under test. Measuring coverage in those subprocesses can be tricky because you
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>Complex test suites may spawn sub-processes to run tests, either to run them in
+parallel, or because sub-process behavior is an important part of the system
+under test. Measuring coverage in those sub-processes can be tricky because you
 have to modify the code spawning the process to invoke coverage.py.</p>
 <p>There&#8217;s an easier way to do it: coverage.py includes a function,
-<a class="reference internal" href="/code/coverage/api.html#coverage.process_startup" title="coverage.process_startup"><tt class="xref py py-func docutils literal"><span class="pre">coverage.process_startup()</span></tt></a> designed to be invoked when Python starts.  It
+<a class="reference internal" href="/code/coverage/beta/api.html#coverage.process_startup" title="coverage.process_startup"><tt class="xref py py-func docutils literal"><span class="pre">coverage.process_startup()</span></tt></a> designed to be invoked when Python starts.  It
 examines the <tt class="docutils literal"><span class="pre">COVERAGE_PROCESS_START</span></tt> environment variable, and if it is set,
 begins coverage measurement. The environment variable&#8217;s value will be used as
-the name of the <a class="reference internal" href="/code/coverage/config.html#config"><em>configuration file</em></a> to use.</p>
+the name of the <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>configuration file</em></a> to use.</p>
 <p>When using this technique, be sure to set the parallel option to true so that
 multiple coverage.py runs will each write their data to a distinct file.</p>
-<h1>Configuring Python for subprocess coverage</h1>
-<p>Measuring coverage in subprocesses is a little tricky.  When you spawn a
-subprocess, you are invoking Python to run your program.  Usually, to get
+<h1>Configuring Python for sub-process coverage</h1>
+<p>Measuring coverage in sub-processes is a little tricky.  When you spawn a
+sub-process, you are invoking Python to run your program.  Usually, to get
 coverage measurement, you have to use coverage.py to run your program.  Your
-subprocess won&#8217;t be using coverage.py, so we have to convince Python to use
-coverage even when not explicitly invokved.</p>
+sub-process won&#8217;t be using coverage.py, so we have to convince Python to use
+coverage even when not explicitly invoked.</p>
 <p>To do that, we&#8217;ll configure Python to run a little coverage.py code when it
 starts.  That code will look for an environment variable that tells it to start
 coverage measurement at the start of the process.</p>
 <p>To arrange all this, you have to do two things: set a value for the
 <tt class="docutils literal"><span class="pre">COVERAGE_PROCESS_START</span></tt> environment variable, and then configure Python to
-invoke <a class="reference internal" href="/code/coverage/api.html#coverage.process_startup" title="coverage.process_startup"><tt class="xref py py-func docutils literal"><span class="pre">coverage.process_startup()</span></tt></a> when Python processes start.</p>
+invoke <a class="reference internal" href="/code/coverage/beta/api.html#coverage.process_startup" title="coverage.process_startup"><tt class="xref py py-func docutils literal"><span class="pre">coverage.process_startup()</span></tt></a> when Python processes start.</p>
 <p>How you set <tt class="docutils literal"><span class="pre">COVERAGE_PROCESS_START</span></tt> depends on the details of how you create
-subprocesses.  As long as the environment variable is visible in your
-subprocess, it will work.</p>
+sub-processes.  As long as the environment variable is visible in your
+sub-process, it will work.</p>
 <p>You can configure your Python installation to invoke the <tt class="docutils literal"><span class="pre">process_startup</span></tt>
 function in two ways:</p>
 <ol class="arabic">
@@ -54,13 +59,13 @@ create the file in a system-defined directory, so you may need privileges to
 write it.</p>
 <p>Note that if you use one of these techniques, you must undo them if you
 uninstall coverage.py, since you will be trying to import it during Python
-startup.  Be sure to remove the change when you uninstall coverage.py, or use a
-more defensive approach to importing it.</p>
+start-up.  Be sure to remove the change when you uninstall coverage.py, or use
+a more defensive approach to importing it.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/branch.html" title="previous topic">Branch coverage measurement</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/api.html" title="next topic">Coverage API</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/branch.html" title="previous topic">Branch coverage measurement</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/api.html" title="next topic">Coverage API</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

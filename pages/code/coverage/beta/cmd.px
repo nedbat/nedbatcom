@@ -18,7 +18,12 @@
 <what when='20121117T091000'>Added command aliases.</what>
 <what when='20140924T193000'>Added --concurrency</what>
 </history>
-<p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
 is placed in your Python scripts directory.  To help with multi-version
 installs, it will also create either a <tt class="docutils literal"><span class="pre">coverage2</span></tt> or <tt class="docutils literal"><span class="pre">coverage3</span></tt> alias,
 and a <tt class="docutils literal"><span class="pre">coverage-X.Y</span></tt> alias, depending on the version of Python you&#8217;re using.
@@ -47,7 +52,7 @@ $ coverage run --help</code>
 line can also be set in the configuration file.  This can be a better way to
 control coverage.py since the configuration file can be checked into source
 control, and can provide options that other invocation techniques (like test
-runner plugins) may not offer. See <a class="reference internal" href="/code/coverage/config.html#config"><em>Configuration files</em></a> for more details.</p>
+runner plugins) may not offer. See <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>Configuration files</em></a> for more details.</p>
 <h1 id="cmd-execution">Execution</h1>
 <p>You collect execution data by running your Python program with the <strong>run</strong>
 command:</p>
@@ -60,10 +65,10 @@ and specify an importable module name instead, just as you can with the
 Python <tt class="docutils literal"><span class="pre">-m</span></tt> switch:</p>
 <code lang="console">$ coverage run -m packagename.modulename arg1 arg2
 blah blah ..your program's output.. blah blah</code>
-<p>If you want <a class="reference internal" href="/code/coverage/branch.html#branch"><em>branch coverage</em></a> measurement, use the <tt class="docutils literal"><span class="pre">--branch</span></tt>
+<p>If you want <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>branch coverage</em></a> measurement, use the <tt class="docutils literal"><span class="pre">--branch</span></tt>
 flag.  Otherwise only statement coverage is measured.</p>
 <p>You can specify the code to measure with the <tt class="docutils literal"><span class="pre">--source</span></tt>, <tt class="docutils literal"><span class="pre">--include</span></tt>, and
-<tt class="docutils literal"><span class="pre">--omit</span></tt> switches.  See <a class="reference internal" href="/code/coverage/source.html#source-execution"><em>Specifying source files</em></a> for
+<tt class="docutils literal"><span class="pre">--omit</span></tt> switches.  See <a class="reference internal" href="/code/coverage/beta/source.html#source-execution"><em>Specifying source files</em></a> for
 details of their interpretation.  Remember to put options for run after &#8220;run&#8221;,
 but before the program invocation:</p>
 <code lang="console">$ coverage run --source=dir1,dir2 my_program.py arg1 arg2
@@ -79,9 +84,7 @@ code as well as your own, add the <tt class="docutils literal"><span class="pre"
 <p>If your coverage results seem to be overlooking code that you know has been
 executed, try running coverage again with the <tt class="docutils literal"><span class="pre">--timid</span></tt> flag.  This uses a
 simpler but slower trace method.  Projects that use DecoratorTools, including
-TurboGears, will need to use <tt class="docutils literal"><span class="pre">--timid</span></tt> to get correct results.  This option
-can also be enabled by setting the environment variable COVERAGE_OPTIONS to
-<tt class="docutils literal"><span class="pre">--timid</span></tt>.</p>
+TurboGears, will need to use <tt class="docutils literal"><span class="pre">--timid</span></tt> to get correct results.</p>
 <p>If you are measuring coverage in a multi-process program, or across a number of
 machines, you&#8217;ll want the <tt class="docutils literal"><span class="pre">--parallel-mode</span></tt> switch to keep the data separate
 during measurement.  See <a class="reference internal" href="#cmd-combining"><em>Combining data files</em></a> below.</p>
@@ -116,7 +119,7 @@ of options, each indicating a facet of operation to log to stderr:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">trace</span></tt>: print every decision about whether to trace a file or not. For
 files not being traced, the reason is also given.</li>
-<li><tt class="docutils literal"><span class="pre">config</span></tt>: before starting, dump all the <a class="reference internal" href="/code/coverage/config.html#config"><em>configuration</em></a>
+<li><tt class="docutils literal"><span class="pre">config</span></tt>: before starting, dump all the <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>configuration</em></a>
 values.</li>
 <li><tt class="docutils literal"><span class="pre">sys</span></tt>: before starting, dump all the system and environment information,
 as with <a class="reference internal" href="#cmd-debug"><em>coverage debug sys</em></a>.</li>
@@ -144,12 +147,12 @@ single directory, and use the <strong>combine</strong> command to combine them i
 <p>If the different machines run your code from different places in their file
 systems, coverage won&#8217;t know how to combine the data.  You can tell coverage
 how the different locations correlate with a <tt class="docutils literal"><span class="pre">[paths]</span></tt> section in your
-configuration file.  See <a class="reference internal" href="/code/coverage/config.html#config-paths"><em>[paths]</em></a> for details.</p>
+configuration file.  See <a class="reference internal" href="/code/coverage/beta/config.html#config-paths"><em>[paths]</em></a> for details.</p>
 <p>If you are collecting and renaming your own data files, you&#8217;ll need to name
 them properly for <strong>combine</strong> to find them.   It looks for files named after
 the data file (defaulting to &#8221;.coverage&#8221;, overridable with COVERAGE_FILE), with
 a dotted suffix.  All such files in the current directory will be combined.
-Here are some examples of combinable data files:</p>
+Here are some examples of data files that can be combined:</p>
 <code lang="console">.coverage.machine1
 .coverage.20120807T212300
 .coverage.last_good_run.ok</code>
@@ -160,7 +163,7 @@ Here are some examples of combinable data files:</p>
 to report on a subset of the data collected.</p>
 <p>The <tt class="docutils literal"><span class="pre">--include</span></tt> and <tt class="docutils literal"><span class="pre">--omit</span></tt> flags specify lists of filename patterns. They
 control which files to report on, and are described in more detail
-in <a class="reference internal" href="/code/coverage/source.html#source"><em>Specifying source files</em></a>.</p>
+in <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a>.</p>
 <p>The <tt class="docutils literal"><span class="pre">-i</span></tt> or <tt class="docutils literal"><span class="pre">--ignore-errors</span></tt> switch tells coverage.py to ignore problems
 encountered trying to find source files to report on.  This can be useful if
 some files are missing, or if your Python execution is tricky enough that file
@@ -193,10 +196,10 @@ my_other_module              56      6    89%   17-23
 -------------------------------------------------------
 TOTAL                        91     12    87%</code>
 <p>If you are using branch coverage, then branch statistics will be reported in
-the Branch and BrMiss columns, the Missing column will detail the missed
-branches:</p>
+the Branch and BrPart (for Partial Branch) columns, the Missing column will
+detail the missed branches:</p>
 <code lang="console">$ coverage report -m
-Name                      Stmts   Miss Branch BrMiss  Cover   Missing
+Name                      Stmts   Miss Branch BrPart  Cover   Missing
 ---------------------------------------------------------------------
 my_program                   20      4     10      2    80%   33-35, 36-&gt;38, 39
 my_module                    15      2      3      0    86%   8, 12
@@ -229,7 +232,7 @@ Click the keyboard icon in the upper right to see the complete list.</p>
 the command line.</p>
 <p>If you prefer a different style for your HTML report, you can provide your
 own CSS file to apply, by specifying a CSS file in the <tt class="docutils literal"><span class="pre">[html]</span></tt> section of
-the configuration file.  See <a class="reference internal" href="/code/coverage/config.html#config-html"><em>[html]</em></a> for details.</p>
+the configuration file.  See <a class="reference internal" href="/code/coverage/beta/config.html#config-html"><em>[html]</em></a> for details.</p>
 <p>The <tt class="docutils literal"><span class="pre">-d</span></tt> argument specifies an output directory, defaulting to &#8220;htmlcov&#8221;:</p>
 <code lang="console">$ coverage html -d coverage_html</code>
 <p>Other common reporting options are described above in <a class="reference internal" href="#cmd-reporting"><em>Reporting</em></a>.</p>
@@ -273,8 +276,8 @@ and <tt class="docutils literal"><span class="pre">data</span></tt> to show a su
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/install.html" title="previous topic">Installation</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/config.html" title="next topic">Configuration files</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/install.html" title="previous topic">Installation</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/config.html" title="next topic">Configuration files</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

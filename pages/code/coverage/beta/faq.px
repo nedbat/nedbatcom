@@ -9,12 +9,17 @@
 <what when='20110605T175500'>add the announcement mailing list.</what>
 <what when='20121231T104700'>Tweak the py3 text.</what>
 </history>
-<h1>Frequently asked questions</h1>
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <h1>Frequently asked questions</h1>
 <p><strong>Q: I use nose to run my tests, and its cover plugin doesn&#8217;t let me create
 HTML or XML reports.  What should I do?</strong></p>
 <p>First run your tests and collect coverage data with <a class="reference external" href="http://somethingaboutorange.com/mrl/projects/nose">nose</a> and its plugin.
 This will write coverage data into a .coverage file.  Then run coverage.py from
-the <a class="reference internal" href="/code/coverage/cmd.html#cmd"><em>command line</em></a> to create the reports you need from that data.</p>
+the <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd"><em>command line</em></a> to create the reports you need from that data.</p>
 <p><strong>Q: Why do unexecutable lines show up as executed?</strong></p>
 <p>Usually this is because you&#8217;ve updated your code and run coverage on it again
 without erasing the old data.  Coverage records line numbers executed, so the
@@ -29,9 +34,9 @@ lines do not?</strong></p>
 definition lines are executed without coverage measurement, then coverage is
 started, then the function is called.  This means the body is measured, but
 the definition of the function itself is not.</p>
-<p>To fix this, start coverage earlier.  If you use the <a class="reference internal" href="/code/coverage/cmd.html#cmd"><em>command line</em></a>
+<p>To fix this, start coverage earlier.  If you use the <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd"><em>command line</em></a>
 to run your program with coverage, then your entire program will be monitored.
-If you are using the <a class="reference internal" href="/code/coverage/api.html#api"><em>API</em></a>, you need to call coverage.start() before
+If you are using the <a class="reference internal" href="/code/coverage/beta/api.html#api"><em>API</em></a>, you need to call coverage.start() before
 importing the modules that define your functions.</p>
 <p><strong>Q: Coverage is much slower than I remember, what&#8217;s going on?</strong></p>
 <p>Make sure you are using the C trace function.  Coverage.py provides two
@@ -57,12 +62,12 @@ using coverage.py.</p>
 <h1>History</h1>
 <p>Coverage.py was originally written by <a class="reference external" href="http://garethrees.org/">Gareth Rees</a>.
 Since 2004, <a class="reference external" href="http://nedbatchelder.com">Ned Batchelder</a> has extended and maintained it with the help of
-<a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/AUTHORS.txt">many others</a>.  The <a class="reference internal" href="/code/coverage/changes.html#changes"><em>change history</em></a> has all the details.</p>
+<a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/AUTHORS.txt">many others</a>.  The <a class="reference internal" href="/code/coverage/beta/changes.html#changes"><em>change history</em></a> has all the details.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/trouble.html" title="previous topic">Things that cause trouble</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/changes.html" title="next topic">Major change history for coverage.py</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/trouble.html" title="previous topic">Things that cause trouble</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/changes.html" title="next topic">Major change history for coverage.py</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

@@ -5,7 +5,12 @@
   <history>
 <what when='20121112T154100'>brand new docs.</what>
 </history>
-<p>I welcome contributions to coverage.py.  Over the years, dozens of people have
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>I welcome contributions to coverage.py.  Over the years, dozens of people have
 provided patches of various sizes to add features or fix bugs.  This page
 should have all the information you need to make a contribution.</p>
 <p>One source of history or ideas are the <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issues?status=new&amp;status=open">bug reports</a> against coverage.py.
@@ -98,7 +103,7 @@ submitting a change.</p>
 <p>I try to keep the coverage.py as clean as possible.  I use pylint to alert me
 to possible problems:</p>
 <code lang="console">$ make lint
-pylint --rcfile=.pylintrc coverage setup.py tests
+pylint coverage setup.py tests
 python -m tabnanny coverage setup.py tests
 python igor.py check_eol</code>
 <p>The source is pylint-clean, even if it&#8217;s because there are pragmas quieting
@@ -119,8 +124,8 @@ patch is great too.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/api.html" title="previous topic">Coverage API</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/trouble.html" title="next topic">Things that cause trouble</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/plugin.html" title="previous topic">Coverage Plugins</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/trouble.html" title="next topic">Things that cause trouble</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

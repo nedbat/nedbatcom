@@ -10,7 +10,12 @@
 <what when='20121111T235800'>added a bit of clarification.</what>
 <what when='20140819T132600'>change class name to Coverage</what>
 </history>
-<p>The API to coverage.py is very simple, contained in a single module called
+
+                <box>
+                These docs are for an ALPHA release, 4.0a1.
+                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
+                </box>
+                <p>The API to coverage.py is very simple, contained in a single module called
 <cite>coverage</cite>.  Most of the interface is in a single class, called
 <cite>Coverage</cite>.  Methods on the Coverage object correspond roughly to operations
 available in the command line interface. For example, a simple use would be:</p>
@@ -28,10 +33,10 @@ cov.html_report()</code>
 <h1 id="the-coverage-module">The coverage module</h1>
 <dl class="class">
 <dt id="coverage.Coverage">
-<em class="property">class </em><tt class="descclassname">coverage.</tt><tt class="descname">Coverage</tt>(<em>data_file=None</em>, <em>data_suffix=None</em>, <em>cover_pylib=None</em>, <em>auto_data=False</em>, <em>timid=None</em>, <em>branch=None</em>, <em>config_file=True</em>, <em>source=None</em>, <em>omit=None</em>, <em>include=None</em>, <em>debug=None</em>, <em>debug_file=None</em>, <em>concurrency=None</em>, <em>plugins=None</em>)</dt>
+<em class="property">class </em><tt class="descclassname">coverage.</tt><tt class="descname">Coverage</tt>(<em>data_file=None</em>, <em>data_suffix=None</em>, <em>cover_pylib=None</em>, <em>auto_data=False</em>, <em>timid=None</em>, <em>branch=None</em>, <em>config_file=True</em>, <em>source=None</em>, <em>omit=None</em>, <em>include=None</em>, <em>debug=None</em>, <em>concurrency=None</em>)</dt>
 <dd><p>Programmatic access to coverage.py.</p>
 <p>To use:</p>
-<code lang="python">from coverage import coverage
+<code lang="python">from coverage import Coverage
 
 cov = Coverage()
 cov.start()
@@ -64,13 +69,11 @@ measured.</p>
 <cite>include</cite> will be measured, files that match <cite>omit</cite> will not.  Each
 will also accept a single string argument.</p>
 <p><cite>debug</cite> is a list of strings indicating what debugging information is
-desired. <cite>debug_file</cite> is the file to write debug messages to,
-defaulting to stderr.</p>
+desired.</p>
 <p><cite>concurrency</cite> is a string indicating the concurrency library being used
 in the measured code.  Without this, coverage.py will get incorrect
 results.  Valid strings are &#8220;greenlet&#8221;, &#8220;eventlet&#8221;, &#8220;gevent&#8221;, or
 &#8220;thread&#8221; (the default).</p>
-<p><cite>plugins</cite> TODO.</p>
 <dl class="method">
 <dt id="coverage.Coverage.analysis">
 <tt class="descname">analysis</tt>(<em>morf</em>)</dt>
@@ -174,7 +177,7 @@ report.</p>
 
 <dl class="method">
 <dt id="coverage.Coverage.report">
-<tt class="descname">report</tt>(<em>morfs=None</em>, <em>show_missing=True</em>, <em>ignore_errors=None</em>, <em>file=None</em>, <em>omit=None</em>, <em>include=None</em>)</dt>
+<tt class="descname">report</tt>(<em>morfs=None</em>, <em>show_missing=True</em>, <em>ignore_errors=None</em>, <em>file=None</em>, <em>omit=None</em>, <em>include=None</em>, <em>skip_covered=False</em>)</dt>
 <dd><p>Write a summary report to <cite>file</cite>.</p>
 <p>Each module in <cite>morfs</cite> is listed, with counts of statements, executed
 statements, missing statements, and a list of lines missed.</p>
@@ -207,8 +210,8 @@ process might not shut down cleanly.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="coverage.Coverage.sysinfo">
-<tt class="descname">sysinfo</tt>()</dt>
+<dt id="coverage.Coverage.sys_info">
+<tt class="descname">sys_info</tt>()</dt>
 <dd><p>Return a list of (key, value) pairs showing internal information.</p>
 </dd></dl>
 
@@ -234,11 +237,11 @@ path to write the file to, &#8220;-&#8221; will write to stdout.</p>
 
 <h1>Starting coverage automatically</h1>
 <p>This function is used to start coverage measurement automatically when Python
-starts.  See <a class="reference internal" href="/code/coverage/subprocess.html#subprocess"><em>Measuring subprocesses</em></a> for details.</p>
+starts.  See <a class="reference internal" href="/code/coverage/beta/subprocess.html#subprocess"><em>Measuring sub-processes</em></a> for details.</p>
 <dl class="function">
 <dt id="coverage.process_startup">
 <tt class="descclassname">coverage.</tt><tt class="descname">process_startup</tt>()</dt>
-<dd><p>Call this at Python startup to perhaps measure coverage.</p>
+<dd><p>Call this at Python start-up to perhaps measure coverage.</p>
 <p>If the environment variable COVERAGE_PROCESS_START is defined, coverage
 measurement is started.  The value of the variable is the config file
 to use.</p>
@@ -258,8 +261,8 @@ coverage.process_startup()</code>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/subprocess.html" title="previous topic">Measuring subprocesses</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/contributing.html" title="next topic">Contributing to coverage.py</a>&#xa0;&#xbb;</span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/subprocess.html" title="previous topic">Measuring sub-processes</a></span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/plugin.html" title="next topic">Coverage Plugins</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>
