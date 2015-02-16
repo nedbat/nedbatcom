@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150216T121542'>
+<title>CPyChecker</title>
+<category>python</category>
+<body>
+
+<p>Coverage.py has a trace function written in C, for speed.  It uses the
+    Python C API, which is notoriously tricky to get right because you have to
+    manage reference counts yourself.</p>
+
+<p>I've made some significant changes to the trace function recently, to add
+    plugin support to the C tracer.  Adding tests for badly behaved plugins,
+    I managed to crash Python.  Not a traceback, a for-real crash in CPython.</p>
+
+<p>Naturally, this means something is wrong in my C extension.  Poring over the
+    code, I couldn't see anything amiss.  I'd long been intrigued by the idea
+    of David Malcolm's CPyTracer, a plugin to gcc that performs static path
+    analysis to find mistakes in Python C extensions, so I decided to give it
+    a try.</p>
+
+<p>The best instructions are on A. Jesse Jiryu Davis' blog:
+    <a href="http://emptysqua.re/blog/analyzing-python-c-extensions-with-cpychecker/">Analyzing Python C Extensions With CPyChecker</a>.
+    I installed Fedora as suggested, and got the compiler running without much
+    trouble (I just typed "yum" every time I wanted to type "apt-get").</p>
+
+<p>The simple way to run the checker worked fine:</p>
+
+<code lang="bash"><![CDATA[
+CC=~/gcc-python-plugin/gcc-with-cpychecker python setup.py build
+]]></code>
+
+<p>This generates very nice HTML reports (<a href="/files/tracer.c.CTracer_init-refcount-errors.v2.html">like this</a>)
+    in two different styles that walk you through a path through your code that
+    leads to a bad outcome.  Well, supposedly a bad outcome.  I found as Jesse
+    did that there are false positives.</p>
+
+<p>With the default settings, the checker only considers 256 paths through a
+    function then stops, to avoid combinatorial explosions.  But my functions
+    had many more paths than that.</p>
+
+<p>I increased the memory size of my Fedora Vagrantfile, then told CPyChecker
+    to push on to examine a quarter million paths:</p>
+    
+<code lang="bash"><![CDATA[
+CC=~/gcc-python-plugin/gcc-with-cpychecker \
+    CFLAGS="--maxtrans 250000" python setup.py build
+]]></code>
+
+<p>This found <a href="https://bitbucket.org/ned/coveragepy/commits/7713d4e070ac9c97870b54d907bbf61c9e415e2d">a few issues</a>,
+    but did not resolve the crash I'm experiencing.  Next step: rebuild CPython
+    --with-pydebug.</p>
+
+<p>BTW, <a href="http://www.behnel.de/">Stefan Behnel</a> has rewritten my
+    extension in Cython, and I really should seriously consider switching over,
+    so that this kind of thing doesn't happen any more.</p>
+
+</body>
+</entry>
+</blog>
