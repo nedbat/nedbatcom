@@ -15,7 +15,7 @@
     The test suite has 8000 tests.</p>
 
 <p>I noticed that running the test suite left a number of temporary directories
-    behind in /tmp.  They all had names like tmpf738fh2, made by the tempfile
+    behind in /tmp.  They all had names like tmp_dwqP1Y, made by the tempfile
     module in the standard library.  Our tests have many calls to mkdtemp,
     which requires the caller to delete the directory when done. Clearly, some
     of these cleanups were not happening.</p>
@@ -61,9 +61,12 @@ real_get_candidate_names = tempfile._get_candidate_names
 
 def get_candidate_names_hacked():
     stack = "-".join(
-        os.path.basename(t[1]).replace(".py", "")
-        for t in inspect.stack()[5:1:-1]
+        "{}{}".format(
+            os.path.basename(t[1]).replace(".py", ""),
+            t[2],
         )
+        for t in inspect.stack()[4:1:-1]
+    )
     for name in real_get_candidate_names():
         yield "_" + stack + "_" + name
 
@@ -71,29 +74,27 @@ tempfile._get_candidate_names = get_candidate_names_hack
 ]]></code>
 
 <p>This code uses inspect.stack to get the call stack.  We slice it oddly, to
-    get the closest four calling frames in the right order.  Then we extract
+    get the closest three calling frames in the right order.  Then we extract
     the filenames from the frames, strip off the ".py", and concatenate them
-    together.  This gives us a string that indicates the caller.</p>
+    together along with the line number.  This gives us a string that indicates
+    the caller.</p>
 
-<p>The real _get_candidate_names function is used to get a
-    generator of good random names, and we add our stack inspection onto the
-    name, and yield it.</p>
+<p>The real _get_candidate_names function is used to get a generator of good
+    random names, and we add our stack inspection onto the name, and yield
+    it.</p>
 
 <p>Then we can monkeypatch our function into tempfile.  Now as long as this
     module gets imported before any temporary files are created, the files
     will have names like this:</p>
 
 <code>
-tmp_testcases-case-case-test_import_export_DVPmzy/
-tmp_test_video-test_video-test_video-tempfile_2upTdS.srt
+tmp_case53-case78-test_import_export289_DVPmzy/
+tmp_test_video36-test_video143-tempfile455_2upTdS.srt
 </code>
 
-<p>The first shows that the file was created in test_import_export.py, called
-    from case.py, from case.py from testcases.py.  The second shows that
-    test_video.py has a few functions calling eventually into tempfile.py.
-    This was enough for me to go find the misbehaved code. If it hadn't
-    narrowed it down enough, adding line numbers would have helped, but I
-    didn't need that.</p>
+<p>The first shows that the file was created in test_import_export.py at line 289, called
+    from case.py line 78, from case.py line 53.  The second shows that
+    test_video.py has a few functions calling eventually into tempfile.py.</p>
 
 <p>I would be very reluctant to monkeypatch private functions inside other
     modules for production code.  But as a quick debugging trick, it works
