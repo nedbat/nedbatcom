@@ -70,7 +70,7 @@ def get_candidate_names_hacked():
     for name in real_get_candidate_names():
         yield "_" + stack + "_" + name
 
-tempfile._get_candidate_names = get_candidate_names_hack
+tempfile._get_candidate_names = get_candidate_names_hacked
 ]]></code>
 
 <p>This code uses inspect.stack to get the call stack.  We slice it oddly, to
