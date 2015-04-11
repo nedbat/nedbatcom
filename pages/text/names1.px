@@ -1,0 +1,672 @@
+<page title="Python Names and Values">
+<history>
+<what when="20150329T182200">Created</what>
+</history>
+
+<!-- {{{ --><p>This is a presentation I am giving at PyCon 2015.  You can read the slides
+and text on this page, or open the <a href="text/names1/names1.html">actual
+presentation</a> in your browser (use right and left arrows to advance the
+slides). The figures in the presentation are animated, which you won't
+see on this page, click through the <a href="text/names1/names1.html">actual presentation</a>
+to see them in their full glory.
+<!--, or watch the video:--></p><!--
+<p align="center">
+<iframe width="500" height="369" src="http://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
+</p>
+--><p>Also, this is a re-working of an earlier piece with the same name:
+<apage pref="text/names.px"/>.  It covers the same ideas, but with different
+text and figures.</p><figurep href="text/names1/names1.html#1"><img alt="Facts and Myths about Names and Values" scale="0.5" src="text/names1_pix/000.png"/></figurep><!-- {{{ --><p>This talk is about some fundamental concepts in Python: names and
+values.</p><p>These lessons apply to both Python 2 and Python 3.</p><figurep href="text/names1/names1.html#2"><img alt="Python is simple" scale="0.5" src="text/names1_pix/001.png"/></figurep><!-- {{{ --><p>Python is a very approachable language.  Often it works just as you 
+    expect if you come to it from other languages.  But you might suddenly
+    encounter surprising behavior.</p><p>The underlying mechanisms of Python are often quite simple, but their
+    combined effects might not be what you expect.  By understanding the
+    mechanisms, you can reason about their effects.</p><p>Today I'll be talking about names, values, assignment, and mutability.</p><figurep href="text/names1/names1.html#3"><img alt="Names refer to values" scale="0.5" src="text/names1_pix/002.png"/></figurep><!-- {{{ --><p>As in many programming languages, a Python assignment statement associates a
+    symbolic name on the left-hand side with a value on the right-hand side.
+    In Python, we say that names refer to values, or a name is a reference to a
+    value:</p><code lang="py">
+x = 23
+</code><p>Now the name "x" refers to the value 23.  The next time we use the name x,
+    we'll get the value 23:</p><code lang="python">
+print(x)        # prints 23
+</code><p>Another way people describe this is, x is bound to 23.</p><p>Exactly how the name refers to the value isn't really important.  If you're
+    experienced with the C language, you might like to think of it as a
+    pointer, but if that means nothing to you then don't worry about it.</p><p>To help explain what's going on, I'll use diagrams.  A gray rectangular tag-like shape is a
+    name, with an arrow pointing to its value. The slide shows the name x referring to an
+    integer 23.</p><figurep href="text/names1/names1.html#4"><img alt="Many names can refer to one value" scale="0.5" src="text/names1_pix/003.png"/></figurep><!-- {{{ --><p>There's no rule that says a value can only have one name.  An assignment
+    statement can make a second (or third, ...) name refer to the same
+    value.</p><code lang="py">
+x = 23
+y = x
+</code><p>Now x and y both refer to the same value</p><p>Neither x or y is the "real" name.  They have equal status: each refers to
+    the value in exactly the same way.</p><figurep href="text/names1/names1.html#5"><img alt="Names are reassigned independently" scale="0.5" src="text/names1_pix/004.png"/></figurep><!-- {{{ --><p>If two names refer to the same value, this doesn't magically link the
+    two names.  Reassigning one of them won't reassign the other also:</p><code lang="py">
+x = 23
+y = x
+x = 12
+</code><p>When we said "y = x", that doesn't mean that they will always be the
+    same forever.  Reassigning x leaves y alone.  Imagine the chaos if
+    it didn't!</p><p>Also important to note is that Python has no mechanism for making a name
+    refer to another name.  That is, there is no way to make y be a permanent
+    alias for x no matter how x is reassigned.</p><figurep href="text/names1/names1.html#6"><img alt="Values live until no references" scale="0.5" src="text/names1_pix/005.png"/></figurep><!-- {{{ --><p>Python keeps track of how many references each value has, and automatically
+    cleans up values that have none.  This is called "garbage collection,"
+    and means that you don't have to get rid of values, they go away by
+    themselves when they are no longer needed.</p><p>Exactly how Python keeps track is an implementation detail, but if you hear
+    the term "reference counting," that's an important part of it.  Sometimes
+    cleaning up a value is called reclaiming it.</p><figurep href="text/names1/names1.html#7"><img alt="Assignment never copies data" scale="0.5" src="text/names1_pix/006.png"/></figurep><!-- {{{ --><p>An important fact about assignment: assignment never copies data.</p><p>When values have more than one name, it's easy to get confused and think of
+    it as two names and two values:</p><code lang="py">
+x = 23
+y = x
+# "Now I have two values: x and y!"
+# NO: you have two names, but only one value.
+</code><p>Assigning a value to a name never copies the data, it never makes a new
+    value.  Assignment just makes the name on the left refer to the value on
+    the right.  In this case, we have only one 23, and x and y both refer to
+    it, just as we saw in the last diagrams.</p><p>Things get more interesting when we have more complicated values, like a
+    list:</p><code lang="py">
+nums = [1, 2, 3]
+</code><p>Now if we assign nums to another name, we'll have two names referring to the
+    same list:</p><code lang="py">
+nums = [1, 2, 3]
+other = nums
+</code><p>Remember: assignment never makes new values, and it never copies data.  This
+    assignment statement doesn't magically turn my list into two lists.</p><p>At this point, we have one list, referred to by two names, which can lead
+    to a big surprise.</p><figurep href="text/names1/names1.html#8"><img alt="Changes are visible through all names" scale="0.5" src="text/names1_pix/007.png"/></figurep><!-- {{{ --><p>Here we create our list again, and assign it to both nums and other.  Then
+we append another value to nums.  When we print other, it has the 4 appended to
+it.  This suprises many people.</p><p>Because there was only ever one list, both names see the change. The
+assignment to other didn't make a copy of the list, and the append operation
+didn't copy the list before appending the value.  There is only one list, and
+if you modify it through one of its names, the change will be visible through
+all of the names.</p><figurep href="text/names1/names1.html#9"><img alt="Mutable aliasing!" scale="0.5" src="text/names1_pix/008.png"/></figurep><!-- {{{ --><p>This is an important enough effect, and one that is surprising to enough
+people, that it bears repeating.  If a mutable value has more than one name,
+and the value changes, then all names see the change.</p><p>In the small code samples we've been looking at, it's easy to see where
+there are two names for one list.  But as we'll see with function calls, the
+two names could be quite far apart, and the change in value very far from the
+surprise discovery.</p><p>I've used the word "mutable" here for the first time.  It means a value that
+can change in place.  In our code same, the name nums refers to the same object
+through all four lines of code.  But the value that object contains has
+changed.</p><figurep href="text/names1/names1.html#10"><img alt="Immutable values can't alias" scale="0.5" src="text/names1_pix/009.png"/></figurep><!-- {{{ --><p>Not all values in Python are mutable.  Numbers, strings, and tuples are all
+immutable.  There is no operation on any of these values that can change them
+in place.  All you can do is make new object from old objects.</p><p>In our three line code sample here, x refers to the string "hello".  Then y
+also refers to that string.  In the last line, the + operator doesn't extend
+the existing string, it creates an entirely new string by concatenating "hello"
+and " there".  Then x refers to that new string.</p><p>The old string is unaffected.  This is guaranteed with strings because they
+are immutable.  No method on a string modifies the string, they all return new
+strings.</p><p>The aliasing problem can't happen with immutable values because one of the
+conditions is impossible: you can't change the vaue in place.</p><figurep href="text/names1/names1.html#11"><img alt="&quot;Change&quot; is unclear" scale="0.5" src="text/names1_pix/010.png"/></figurep><!-- {{{ --><p>One of the difficulties in talking about these concepts is the word
+"change".  Informally, we say that adding 1 to x "changes" x:</p><code lang="py">
+x = x + 1
+</code><p>We also say that that appending to num "changes" num:</p><code lang="py">
+num.append(7)       # changes num
+</code><p>But these are two very different operations.  The first is
+<strong>rebinding</strong> x.  x+1 creates an entirely new object, and then the
+assignment statement makes x refer to it.  Appending to num is <strong>mutating</strong>
+num.  The name num still refers to the same object, but that object has been 
+modified, its value has been updated in-place.</p><p>The words "rebinding" and "mutating" are too awkward to use all the time,
+but when we're doing a close reading of a piece of code to understand how it
+works, they can be very useful for distinguishing between the two different
+kinds of change.</p><p>Of course, you can also rebind a name that refers to a list.  This is another
+way to have nums become a list with a 7 on the end:</p><code lang="py">
+nums = nums + [7]
+</code><p>As with integers, the + operator here makes an entirely new list, and then
+the name nums is rebound to it.</p><p>On the other hand, there is no way to mutate a number.  They are immutable,
+literally they cannot be mutated.</p><figurep href="text/names1/names1.html#12"><img alt="Mutable and immutable are assigned the same" scale="0.5" src="text/names1_pix/011.png"/></figurep><!-- {{{ --><p>One of the common misconceptions about Python is that assignment works
+differently for mutable values than for immutable values.  This is not true.
+Assignment is very simple: it makes the name on the left side refer to the
+value on the right side.</p><p>When people say that assignment work differently, they are misdiagnosing the
+mutable aliasing problem.  They see two different effects in two pieces of
+code, and know that one involves a mutable value, and the other an immutable
+value, and mistakenly believe that it's the assignment step that differs
+between the two pieces of code.</p><p>Python's underlying mechanisms are often much simpler than people give them
+credit for.  Assignment always does exactly the same thing, regardless of the
+value on the right-hand side.</p><figurep href="text/names1/names1.html#13"><img alt="Assignment variants" scale="0.5" src="text/names1_pix/012.png"/></figurep><!-- {{{ --><p>Python provides other kinds of assignment than the simple equals sign. For
+example, both numbers and lists offer += .</p><p>Conceptually, these two lines are the same:</p><code lang="py">
+x += y
+x = x + y
+</code><p>The way += works in Python, though, it is implemented by the value x.  These
+two lines are actually the same:</p><code lang="py">
+x += y
+x = x.__iadd__(y)
+</code><p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(y)",
+because the method will not be found on the object itself, only on the class.)
+The meaning of += depends on the type of x, because that value provides the
+implementation of __iadd__ that will be used.</p><p>For numbers, += works just as you'd expect.  But lists give us another
+surprise.  With lists, "nums = nums+more" will rebind nums to a new list formed
+by concatentating nums and more.  But "nums += more" actually modifies nums
+in-place, as a mutating operation.</p><p>The reason is that list implements __iadd__ like this (except in C, not
+Python):</p><code lang="py">
+class List:
+    def __iadd__(self, other):
+        self.extend(other)
+        return self
+</code><p>When you execute "nums += more", you're getting the same effect as:</p><code lang="py">
+nums = nums.__iadd__(more)
+</code><p>which, because of the implementation of __iadd__, acts like this:</p><code lang="py">
+nums.extend(more)
+nums = nums
+</code><p>So there is a rebinding operation here, but first, there's a mutating
+operation, and the rebinding operation is a no-op.</p><p>The moreal of the story here is to understand the behavior of the primitives
+you are using!</p><figurep href="text/names1/names1.html#14"><img alt="References can be more than just names" scale="0.5" src="text/names1_pix/013.png"/></figurep><!-- {{{ --><p>All of the examples I've been using so far used names as references to
+values, but other things can be references.  Python has a number of
+compound data structures each of which hold references to values: list
+elements, dictionary keys and values, object attributes, and so on.  Each
+of those can be used on the left-hand side of an assignment, and all the
+details I've been talking about apply to them.  Anything that can appear on
+the left-hand side of an assignment statement is a reference, and
+everywhere I say "name" you can substitute "reference".</p><p>In the diagrams of lists so far, I've shown numbers stored in the boxes,
+but really, each element is a reference, so they should really be drawn like
+this, with arrows from the boxes to values outside of them:</p><figurep>
+    <!--[[[cog
+    fig = make_pyfig(title="nums refers to a list, which refers to ints")
+    fig.top_code("nums = [1, 2, 3]")
+    n_nums = fig.auto_name("nums")
+    l_nums = fig.list(length=3, pos=fig.val_for_name(n_nums))
+    fig.reference(n_nums, l_nums[0])
+    y_ints = fig.y+10
+    ints = [fig.int(top=(l_nums[1].cx+(i-1)*35, y_ints), text=str(i+1)) for i in range(3)]
+    for i in range(3):
+        fig.connect(l_nums[i].center, 90, ints[i].north, 90, start_marker=fig.DOT, class_="arrow")
+    cog.outl(fig.tostring())
+    ]]]-->
+    <svg baseprofile="full" height="191.5" version="1.1" width="304.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><title>nums refers to a list, which refers to ints</title><defs><marker id="id29" markerheight="10" markerwidth="10" orient="auto" refx="10" refy="5" viewbox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none"/></marker><marker id="id30" markerheight="4" markerwidth="4" orient="auto" refx="2" refy="2" viewbox="0,0,4,4"><circle cx="2" cy="2" fill="black" r="2" stroke="none"/></marker></defs><g transform="translate(-93.0,-8.0)"><polygon class="name" points="95,62.5 193.75,62.5 200,87.5 193.75,112.5 95,112.5"/><text dy=".3em" text-anchor="middle" x="144.375" y="87.5">nums</text><rect class="list" height="50" width="40" x="275" y="62.5"/><rect class="list" height="50" width="40" x="315" y="62.5"/><rect class="list" height="50" width="40" x="355" y="62.5"/><path class="arrow" d="M 200,87 C 218,87 218,87 237,87 C 256,87 256,87 275,87" fill="none" marker-end="url(#id29)"/><circle class="int value" cx="300" cy="172.5" r="25"/><text dy=".3em" text-anchor="middle" x="300" y="172.5">1</text><circle class="int value" cx="335" cy="172.5" r="25"/><text dy=".3em" text-anchor="middle" x="335" y="172.5">2</text><circle class="int value" cx="370" cy="172.5" r="25"/><text dy=".3em" text-anchor="middle" x="370" y="172.5">3</text><path class="arrow" d="M 295,87 C 295,102 295,102 297,117 C 299,132 300,132 300,147" fill="none" marker-end="url(#id29)" marker-start="url(#id30)"/><path class="arrow" d="M 335,87 C 335,102 335,102 335,117 C 335,132 335,132 335,147" fill="none" marker-end="url(#id29)" marker-start="url(#id30)"/><path class="arrow" d="M 375,87 C 375,102 374,102 372,117 C 370,132 370,132 370,147" fill="none" marker-end="url(#id29)" marker-start="url(#id30)"/><text class="top_code" dy=".3em" text-anchor="middle" x="245" y="25">nums = [1, 2, 3]</text></g></svg>
+    <!--[[[end]]]-->
+</figurep><p>But that gets complicated quickly, so I've used a visual shorthand, with
+the numbers in the boxes themselves.</p><figurep>
+    <!--[[[cog
+    fig = make_pyfig(title="nums refers to a list of numbers")
+    fig.top_code("nums = [1, 2, 3]")
+    n_nums = fig.auto_name("nums")
+    l_nums = fig.list(texts="123", pos=fig.val_for_name(n_nums))
+    fig.reference(n_nums, l_nums[0])
+    cog.outl(fig.tostring())
+    ]]]-->
+    <svg baseprofile="full" height="106.5" version="1.1" width="304.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><title>nums refers to a list of numbers</title><defs><marker id="id31" markerheight="10" markerwidth="10" orient="auto" refx="10" refy="5" viewbox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none"/></marker></defs><g transform="translate(-93.0,-8.0)"><polygon class="name" points="95,62.5 193.75,62.5 200,87.5 193.75,112.5 95,112.5"/><text dy=".3em" text-anchor="middle" x="144.375" y="87.5">nums</text><rect class="list" height="50" width="40" x="275" y="62.5"/><text dy=".3em" text-anchor="middle" x="295" y="87.5">1</text><rect class="list" height="50" width="40" x="315" y="62.5"/><text dy=".3em" text-anchor="middle" x="335" y="87.5">2</text><rect class="list" height="50" width="40" x="355" y="62.5"/><text dy=".3em" text-anchor="middle" x="375" y="87.5">3</text><path class="arrow" d="M 200,87 C 218,87 218,87 237,87 C 256,87 256,87 275,87" fill="none" marker-end="url(#id31)"/><text class="top_code" dy=".3em" text-anchor="middle" x="245" y="25">nums = [1, 2, 3]</text></g></svg>
+    <!--[[[end]]]-->
+</figurep><figurep href="text/names1/names1.html#15"><img alt="Lots of things are references" scale="0.5" src="text/names1_pix/014.png"/></figurep><!-- {{{ --><p>Here are some other assignments.  Each of these left-hand sides is a
+reference:</p><code lang="py">
+my_obj.attr = 23
+my_dict[key] = 24
+my_list[index] = 25
+my_obj.attr[key][index].attr = "etc, etc"
+</code><p>and so on. Lots of Python data structures hold values, and each of those is
+a reference.  All of the rules here about names apply exactly the same to any
+of these references.  For example, the garbage collector doesn't just count
+names, it counts any kind of reference to decide when a value can be
+reclaimed.</p><p>Note that "i = x" assigns to the name i, but "i[0] = x" does not assign to
+the name i.  It assigns to the first element of i's value.  It's important to
+keep straight what exactly is being assigned to.  Just because a name appears
+somewhere on the left-hand side of the assignment statement doesn't mean the
+name is being rebound.</p><figurep href="text/names1/names1.html#16"><img alt="Lots of things are assignments" scale="0.5" src="text/names1_pix/015.png"/></figurep><!-- {{{ --><p>Just as many things can serve as references, there are many operations in
+    Python that are assignments.  Each of these lines is an assignment to the
+    name X:</p><code lang="py">
+X = ...
+for X in ...
+[... for X in ...]
+(... for X in ...)
+{... for X in ...}
+class X(...):
+def X(...):
+def fn(X): ... ; fn(12)
+with ... as X:
+except ... as X:
+import X
+from ... import X
+import ... as X
+from ... import ... as X
+</code><p>I don't mean that these statements act kind of like assignments.  I mean
+that these are assignments: they all make the name X refer to a value, and
+everything I've been saying about assignments applies to all of them
+uniformly.</p><p>For the most part, these statements define X in the same scope as the
+statement, but not all of them, especially the comprehensions, and the details
+differ slightly between Python 2 and Python 3.  But they are all real
+assignments, and every fact about assignment applies to all of them.</p><figurep href="text/names1/names1.html#17"><img alt="For loops" scale="0.5" src="text/names1_pix/016.png"/></figurep><!-- {{{ --><p>For-loops are an interesting example. When you write code like this:</p><code lang="py">
+for x in sequence:
+    something(x)
+</code><p>it executes kind of like this:</p><code lang="py">
+x = sequence[0]
+something(x)
+x = sequence[1]
+something(x)
+# and so on...
+</code><p>The actual mechanics of getting values from the sequence is more involved
+than simple indexing like I've shown here.  But the point is that each element
+in the sequence is assigned to x just as if it had been done with a simple
+assignment statement.  And again, all the rules about assignments and how they
+work apply to this assignment.</p><figurep href="text/names1/names1.html#18"><img alt="For loops" scale="0.5" src="text/names1_pix/017.png"/></figurep><!-- {{{ --><p>Let's say we have a list of numbers, and we want to multiply them all by 10,
+so if we started with [1, 2, 3], we want to modify the list to become [10, 20, 30].
+A simple approach might be this:</p><code lang="py">
+nums = [1, 2, 3]
+for x in nums:          # x = nums[0] ...
+    x = x * 10
+print(nums)             # [1, 2, 3]   :(
+</code><p>but it doesn't work.  To see why, remember that on the first iteration, x is
+another name for nums[0].  As we learned earlier, when you have two names
+referring to one value, and you reassign one of the names, the other name
+doesn't also change.  In this case, we reassign x (with "x = x * 10"), so x is
+now 10, but nums[0] still refers to the old value, 1.</p><p>Our loop never modifies the original list because we are simply reassigning
+the name x over and over again.</p><p>The best advice is to avoid mutating lists, and instead to make new lists:</p><code lang="py">
+nums = [ 10*x for x in nums ]
+</code><figurep href="text/names1/names1.html#19"><img alt="Function arguments are assignments" scale="0.5" src="text/names1_pix/018.png"/></figurep><!-- {{{ --><p>Function arguments are perhaps the most important thing that doesn't look
+like an assignment, but is.  When you define a function, you specify its 
+formal parameters, as x is here:</p><code lang="py">
+def func(x):
+    print(x)
+</code><p>When you call a function, you provide actual argument values:</p><code lang="py">
+num = 17
+func(num)
+print(num)
+</code><p>Here num is the value supplied for the parameter x.  When the function is
+called, we get the exact same behavior as if we had executed "x = num".  The
+actual value is assigned to the parameter.</p><p>Each function call creates a stack frame, which is a container for the names
+local to that function.  The name x is local to the function, but the assignment
+semantics are the same.</p><p>When we are inside func, there is a value (17) with two names: num in the
+calling frame, and x in the function's frame.</p><p>When the function returns, the function's stack frame is destroyed, which
+destroys the names it contains, which may or may not reclaim values if they
+were the last names referring to the values.</p><figurep href="text/names1/names1.html#20"><img alt="untitled" scale="0.5" src="text/names1_pix/019.png"/></figurep><!-- {{{ --><p>Let's try to write a useful function.  We want to append a value twice to a
+list.  We'll write it three different ways.  Two of them work (but
+differently), and one is completely useless.  It will be instructive to
+understand why the three versions behave differently.</p><p>Here is our first version of append_twice:</p><code lang="py">
+def append_twice(a_list, val):
+    a_list.append(val)
+    a_list.append(val)
+</code><p>This is very simple, and does exactly what it claims to do.</p><p>We call it like this:</p><code lang="py">
+nums = [1, 2, 3]
+append_twice(nums, 7)
+print(nums)         # [1, 2, 3, 7, 7]
+</code><p>When we call append_twice, we pass it nums.  This assigns nums to the
+parameter a_list, so now there are two names for the list, nums in the caller,
+and a_list in the append_twice function.  Then we append val onto the list
+twice.  These appends work on a_list, which is the same list as nums in the
+caller, so we are directly modifying the caller's list.</p><p>When the function ends, the frame is destroyed, which removes the local name
+a_list.  Since that wasn't the only reference to the list, removing the name
+a_list doesn't reclaim the list itself.</p><p>Back in the caller, we print the nums list, and see that it has indeed
+been modified.</p><figurep href="text/names1/names1.html#21"><img alt="" scale="0.5" src="text/names1_pix/020.png"/></figurep><!-- {{{ --><p>Now let's try a different implementation:</p><code lang="py">
+def append_twice_bad(a_list, val):
+    a_list = a_list + [val, val]
+    return
+
+nums = [1, 2, 3]
+append_twice_bad(nums, 7)
+print(nums)         # [1, 2, 3]
+</code><p>Here we take another approach: inside the function, we extend the list by
+adding two values to the original list.  But this function doesn't work at all.
+As before, we pass nums into the function, so we have both a_list and nums
+referring to the original list.  But then we create an entirely new list, and
+assign it to a_list.</p><p>When the function ends, the frame is destroyed, and the name a_list along
+with it.  The new augemented list was only referred to by a_list, so it is also
+reclaimed.  All of our work is lost!</p><p>Back in the caller, we see no effect at all, because the original list was
+never modified. The impulse here was good: functions that modify values passed
+into them are good ways to get unexpected aliasing bugs.  Making new lists can
+avoid these problems. Luckily, there's an easy thing we can do to make this
+function useful.</p><figurep href="text/names1/names1.html#22"><img alt="" scale="0.5" src="text/names1_pix/021.png"/></figurep><!-- {{{ --><p>Here we have nearly the same function, but once we've made our new a_list,
+we return it:</p><code lang="py">
+def append_twice_good(a_list, val):
+    a_list = a_list + [val, val]
+    return a_list
+
+nums = [1, 2, 3]
+nums = append_twice_good(nums, 7)
+print(nums)         # [1, 2, 3, 7, 7]
+ </code><p>Then in the caller, we don't simply call append_twice_good, we assign its
+return value to nums again.  The function has made a new list, and by returning
+it, we can decide what to do with it. In this case, we want nums to be the new
+list, so we simply assign it to nums.  The old value is reclaimed, and the new
+value remains.</p><figurep href="text/names1/names1.html#23"><img alt="Three append_twice functions" scale="0.5" src="text/names1_pix/022.png"/></figurep><!-- {{{ --><p>Here are the three versions of the function, for comparison.  The first
+function mutates the list in-place.  The second version makes a new list but
+fails to do anything useful with it.  The third version makes a new list, and
+returns it so that we can use it.</p><figurep href="text/names1/names1.html#24"><img alt="Any name &#8594; any value @ any time" scale="0.5" src="text/names1_pix/023.png"/></figurep><!-- {{{ --><p>Python is dynamically typed, which means that names have no type.  Any name
+can refer to any value at any time.  A name can refer to an integer, and then
+to a string, and then to a function, and then to a module.  Of course, this
+could be a very confusing program, and you shouldn't do it, but the Python
+language won't mind.</p><figurep href="text/names1/names1.html#25"><img alt="Names have no type" scale="0.5" src="text/names1_pix/024.png"/></figurep><!-- {{{ --><p>Just as names have no type, values have no scope.  When we say that a
+function has a local variable, we mean that the name is scoped to the function:
+you can't use the name outside the function, and when the function returns, the
+name is destroyed.  But as we've seen, if the name's value has other
+references, it will live on beyond the function call.  It is a local name, not
+a local value.</p><p>Values can be created, used, and ultimately destroyed all up and down the 
+call stack.  There is no rule about when values can be created, and how long
+they can live.</p><figurep href="text/names1/names1.html#26"><img alt="Other topics" scale="0.5" src="text/names1_pix/025.png"/></figurep><!-- {{{ --><p>Here are a number of quick topics that I didn't have time to cover in depth.</p><p><strong>"Python has no variables"</strong>  In all honesty, the original
+reason I started writing this talk was because I would see people try to
+explain how Python works by saying that Python has no variables.  This is
+obviously wrong.  What they mean is that Python variables work differently than
+variables in C, though even that statement is hard to understand.</p><p>At one time, teaching Python pretty much meant teaching it to people who
+knew C.  That need is dwindling over time.  But even if we are dealing with
+many C refugees, there's no reason to let C own the word "variable", leaving
+Python to come up with some other word.  It's OK for two languages to use the
+same word in slightly different ways.</p><p>Thankfully, this mantra is falling out of favor!</p><p><strong>Call by value or call by reference?</strong>  People also get tangled
+up trying to explain whether Python uses call by value, or call by reference.
+The answer is: neither.  This is a false dichotomy, again because people are
+trying to mis-apply concepts from one language onto all languages.</p><p>Python uses a calling convention a little different from either pure call by
+value or pure call by reference.  Some people call it call by object, or call
+by assignment.</p><p><strong>Making a 2D list:</strong> the simple way to make a nested list
+(let's say an 8x8 board for checkers) doesn't work.  You get a list of eight zeros,
+but the outer list has eight references to that single list, rather than eight
+seperate lists of zeros.  The second form gives you the correct structure.
+You can read more about that in this blog post: 
+<a href="blog/201308/names_and_values_making_a_game_board.html">Names and values: making a game board</a>.
+</p><p><strong>pythontutor.com</strong> is a site that lets you enter your own
+Python code, and it will diagram and animate its behavior.  The diagrams aren't
+as pretty as mine, but it works on your code!</p><figurep href="text/names1/names1.html#27"><img alt="Questions?" scale="0.5" src="text/names1_pix/026.png"/></figurep><!-- {{{ --><p>Thanks for your attention, I hope this has been helpful.</p><p>Python's mechanisms are very simple, often simpler than people believe.
+Understand them, and your programs will not surprise you in bad ways!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<pagecomments/>
+
+</page>
