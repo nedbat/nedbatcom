@@ -3,19 +3,23 @@
 <what when="20150329T182200">Created</what>
 </history>
 
-<!-- {{{ --><p>This is a presentation I am giving at PyCon 2015.  You can read the slides
+<p>This is a presentation I gave at PyCon 2015 in Montreal.  You can read the slides
 and text on this page, or open the <a href="text/names1/names1.html">actual
 presentation</a> in your browser (use right and left arrows to advance the
 slides). The figures in the presentation are animated, which you won't
 see on this page, click through the <a href="text/names1/names1.html">actual presentation</a>
 to see them in their full glory.
-<!--, or watch the video:--></p><!--
+You can also watch the video of me presenting it:</p>
+
 <p align="center">
-<iframe width="500" height="369" src="http://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
+<iframe width="500" height="369" src="http://www.youtube.com/embed/_AEJHKGk9ns" frameborder="0" allowfullscreen="allowfullscreen"/>
 </p>
---><p>Also, this is a re-working of an earlier piece with the same name:
+
+<p>Also, this is a re-working of an earlier piece with the same name:
 <apage pref="text/names.px"/>.  It covers the same ideas, but with different
-text and figures.</p><figurep href="text/names1/names1.html#1"><img alt="Facts and Myths about Names and Values" scale="0.5" src="text/names1_pix/000.png"/></figurep><!-- {{{ --><p>This talk is about some fundamental concepts in Python: names and
+text and figures.</p>
+
+<figurep href="text/names1/names1.html#1"><img alt="Facts and Myths about Names and Values" scale="0.5" src="text/names1_pix/000.png"/></figurep><!-- {{{ --><p>This talk is about some fundamental concepts in Python: names and
 values.</p><p>These lessons apply to both Python 2 and Python 3.</p><figurep href="text/names1/names1.html#2"><img alt="Python is simple" scale="0.5" src="text/names1_pix/001.png"/></figurep><!-- {{{ --><p>Python is a very approachable language.  Often it works just as you 
     expect if you come to it from other languages.  But you might suddenly
     encounter surprising behavior.</p><p>The underlying mechanisms of Python are often quite simple, but their
@@ -652,14 +656,6 @@ Understand them, and your programs will not surprise you in bad ways!</p>
 
     
     
-
-
-
-
-
-
-
-
 
 
 
