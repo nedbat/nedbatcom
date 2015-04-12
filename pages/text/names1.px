@@ -96,7 +96,7 @@ the existing string, it creates an entirely new string by concatenating "hello"
 and " there".  Then x refers to that new string.</p><p>The old string is unaffected.  This is guaranteed with strings because they
 are immutable.  No method on a string modifies the string, they all return new
 strings.</p><p>The aliasing problem can't happen with immutable values because one of the
-conditions is impossible: you can't change the vaue in place.</p><figurep href="text/names1/names1.html#11"><img alt="&quot;Change&quot; is unclear" scale="0.5" src="text/names1_pix/010.png"/></figurep><!-- {{{ --><p>One of the difficulties in talking about these concepts is the word
+conditions is impossible: you can't change the value in place.</p><figurep href="text/names1/names1.html#11"><img alt="&quot;Change&quot; is unclear" scale="0.5" src="text/names1_pix/010.png"/></figurep><!-- {{{ --><p>One of the difficulties in talking about these concepts is the word
 "change".  Informally, we say that adding 1 to x "changes" x:</p><code lang="py">
 x = x + 1
 </code><p>We also say that that appending to num "changes" num:</p><code lang="py">
