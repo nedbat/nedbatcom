@@ -46,7 +46,8 @@
     subtly.</p><p>You know the feeling: on a bad day, it seems like everything is out to
     get you, the world is populated by gremlins and monsters, and they are all
     trying to get at your code.</p><p>You have to fight that chaos, and the weapon you have is automated
-    tests.</p><p>OK, enough of the sermon, let's talk about how to write tests.</p><figurep href="text/test0/test0.html#7"><img alt="Roadmap" scale="0.5" src="text/test0/test0_006.png"/></figurep><!-- {{{ --><p>The rest of the talk is divided into three parts:</p><ol><li>We'll grow some tests in an ad-hoc way, examining what's good and
+    tests.</p><p>OK, enough of the sermon, let's talk about how to write tests.</p><figurep href="text/test0/test0.html#7"><img alt="Roadmap" scale="0.5" src="text/test0/test0_006.png"/></figurep><!-- {{{ --><p>The rest of the talk is divided into three parts:</p><ol>
+        <li>We'll grow some tests in an ad-hoc way, examining what's good and
             bad about the style of code we get,</li>
         <li>we'll use unittest to write tests the right way,</li>
         <li>and we'll talk about a more advanced topic, mocks.</li>
@@ -669,7 +670,9 @@ class PortfolioValueTest(unittest.TestCase):
     the non-test callers of the code, which you might not want.  But it can
     also make the code more modular, since it has fewer implicit connections to
     other components.  Again, this is a tradeoff, and you have to choose
-    carefully how deeply to use the technique.</p><h1>Also</h1><figurep href="text/test0/test0.html#50"><img alt="Also" scale="0.5" src="text/test0/test0_049.png"/></figurep><!-- {{{ --><p>Testing is a huge topic, there are many paths to take from here.</p><figurep href="text/test0/test0.html#51"><img alt="Tools" scale="0.5" src="text/test0/test0_050.png"/></figurep><!-- {{{ --><p>Other tools:</p><ul><li><a href="https://docs.python.org/2/library/unittest.html#unittest.TestCase.addCleanup">addCleanup</a> 
+    carefully how deeply to use the technique.</p><h1>Also</h1><figurep href="text/test0/test0.html#50"><img alt="Also" scale="0.5" src="text/test0/test0_049.png"/></figurep><!-- {{{ --><p>Testing is a huge topic, there are many paths to take from here.</p><figurep href="text/test0/test0.html#51"><img alt="Tools" scale="0.5" src="text/test0/test0_050.png"/></figurep><!-- {{{ --><p>Other tools:</p><ul>
+
+        <li><a href="https://docs.python.org/2/library/unittest.html#unittest.TestCase.addCleanup">addCleanup</a> 
         is a method on test cases.  It lets you register clean up functions to
         be called when the test is done.  This has the advantage that partially
         set up tests can be torn down, and you can register clean up functions
@@ -710,7 +713,9 @@ class PortfolioValueTest(unittest.TestCase):
         shared among all collaborators, and historical results kept for
         tracking progress.</li>
 
-    </ul><figurep href="text/test0/test0.html#52"><img alt="Topics" scale="0.5" src="text/test0/test0_051.png"/></figurep><!-- {{{ --><p>Other topics:</p><ul><li>Test-driven development (TDD) is a style of development where you
+    </ul><figurep href="text/test0/test0.html#52"><img alt="Topics" scale="0.5" src="text/test0/test0_051.png"/></figurep><!-- {{{ --><p>Other topics:</p><ul>
+
+        <li>Test-driven development (TDD) is a style of development where you
         write tests before you write your code.  This isn't so much to ensure
         that your code is tested as it is to give you a chance to think hard
         about how your code will be used before you write the code.  Advocates
