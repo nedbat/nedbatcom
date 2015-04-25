@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150425T075100'>
+<title>How I make presentations</title>
+<category>site</category>
+<category>mycode</category>
+<body>
+
+<p>I like giving talks.  I spend a lot of time on my presentation slides, and
+    have a typically idiosyncratic toolchain for them.  This is how I make
+    them. <strong>Note:</strong> <em>I am not recommending that anyone else
+    make slides this way.  If you like it, fine, but most people will prefer
+    more common tools.</em></p>
+
+<p>I generally favor text-based tools over WYSIWYG, and slides are no exception.
+    For simple presentations, I will use Google Docs.  But PyCon talks are not
+    simple.  They usually involve technical details, or involved explanations,
+    and I want to have code helping me make them.  I choose text tools for the
+    control they give me, not for convenience.</p>
+
+<p>HTML-based presentations are popular, and they suit my need for text-based
+    tooling.  Other options include Markdown- or ReST-based tools, but they
+    remove control rather than provide it, so I prefer straight-up HTML.</p>
+
+<p>There are a number of HTML-based presentation tools, like
+    <a href="http://bartaz.github.io/impress.js">impress.js</a> and 
+    <a href="http://lab.hakim.se/reveal-js">reveal.js</a>.  For reasons lost
+    in the mists of time, I long ago chose one that no one else seems to use:
+    <a href="https://github.com/Seldaek/slippy">Slippy</a>.   Maybe someday I
+    will switch, but Slippy does what I need.</p>
+
+<p>To make a Slippy presentation, I create a .html file, open it in vim, and
+    start typing.  Each slide is a &lt;div class="slide"&gt;.  To see and
+    present the slides, I just open that HTML file in a browser.  If you want
+    to see an actual artifact, click the "actual presentation" link on any of
+    my recent talks, or take a look at the repo for one of them:</p>
+
+<ul>
+    <li><a href="text/names1.html">Facts and Myths about Names and Values</a> (<a href="https://github.com/nedbat/prznames">repo</a>)</li>
+    <li><a href="text/test0.html">Getting Started Testing</a> (<a href="https://github.com/nedbat/test0">repo</a>)</li>
+    <li><a href="text/iter.html">Loop Like a Native</a> (<a href="https://github.com/nedbat/iter">repo</a>)</li>
+    <li><a href="text/unipain.html">Pragmatic Unicode, or, How Do I Stop the Pain?</a> (<a href="https://github.com/nedbat/unipain">repo</a>)</li>
+</ul>
+
+<p>When I need more power than just my own typing, I want to use Python to
+    produce content.  In <a href="text/unipain.html">Pragmatic Unicode</a>, I
+    used it to produce tables of character translations, and to run the Python
+    code samples.  In <a href="text/names1.html">Names and Values</a>, I used
+    it to write <a href="blog/201401/svg_figures_with_cupid.html">Cupid</a> figures.</p>
+
+<p>To run Python code that can create content in my HTML file, I use
+    <a href="code/cog/">Cog</a>, a tool I wrote that can execute Python code
+    inline in a text file, and put the output back into the file.  I originally
+    wrote it to solve a different problem, but it works great here.  It lets
+    me stick with a workflow where I have one file that contains both the
+    program and result.</p>
+
+<p>Sometimes, I don't need Cog.  <a href="text/iter.html">Loop Like a Native</a>
+    is just static text, with no need, so it's not in there.</p>
+
+<p>For explaining code, it's very helpful to be able to highlight individual
+    lines in a snippet on the screen.  I couldn't find a way to do this, so I
+    wrote <a href="text/names1/lineselect.js">lineselect.js</a>, a jQuery
+    plugin to let me select individual lines.  While presenting, I use a
+    presentation remote with volume control buttons, and remap those keys to
+    j and k so that I can manually move the line selection as I talk.</p>
+
+<p>As I write the presentation, I like working out what I am going to say by
+    writing it out in English.  This helps me find the right way to explain
+    things, but has another huge advantage: it means I have a written
+    presentation as well as a visual one.  It frustrates me to hear about
+    someone's great presentation, and then to have two options of how to learn
+    from it: either watch a video, or look at slides with no words behind
+    them.</p>
+
+<p>When I write the English, I put it into the .html file also, interleaved
+    with the slides, as &lt;div class="text"&gt;.  CSS lets me hide those divs
+    during the presentation, but I can work in my HTML file and see the slides
+    near the text.</p>
+
+<p>For publication on my site, I have a Python program that parses the HTML and
+    extracts the text divs into a .px file for insertion into my typically
+    idiosyncratic <a href="site/colophon.html">site publication toolchain</a>.</p>
+
+<p>Producing that .px file also involves producing PNGs from the slides.
+    Slippy comes with a <a href="http://phantomjs.org/">phantomjs</a> program
+    to do this which works well. The px-producing program inserts those PNGs
+    into the page.</p>
+
+<p>As I say, I'm not explaining this to convince you to make slides this way.
+    Most people will vastly prefer a more convenient set of tools.  I like the
+    control this gives me, and I like writing the kind of tooling I need to
+    make them this way.  To each her own.</p>
+
+</body>
+</entry>
+</blog>
