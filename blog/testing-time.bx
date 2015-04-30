@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150429T200600'>
+<title>Testing time</title>
+<category>testing</category>
+<body>
+
+<p>A recent pull request for coverage.py by Conrad Ho added a timestamp to the
+    HTML report pages.  Of course, it included tests. They needed a little
+    cleaning up, because they dealt with the current time, and that always
+    gets involved.</p>
+
+<p>The
+    <a href="https://bitbucket.org/ned/coveragepy/commits/5ca71b85c47c3d45931601b2ad45ddb057d6ce05">original
+    test</a> looked like this:</p>
+
+<code lang="python"><![CDATA[
+def test_has_date_stamp_in_index(self):
+    self.run_coverage()
+    with open("htmlcov/index.html") as f:
+        index = f.read()
+    time_stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+    self.assertIn("<p>Created on {}</p>".format(time_stamp), index)
+]]></code>
+
+<p>Here, run_coverage creates the HTML report, then the test reads the HTML
+    file directly, computes the expected timestamp, and then checks that the
+    expected timestamp is in the file.</p>
+
+<p>Seems straightforward enough, but there's a problem.  Deep inside
+    run_coverage is a call to datetime.now() to get the current time to create
+    the timestamp.  Then in our test, we call datetime.now() again to create
+    the expected timestamp.  The problem is that because we call now() twice,
+    they will return different times.  Even formatting to hours and minutes as
+    we do, the timestamps could be different.</p>
+
+<p>This test will very occasionally fail: it is a flaky test, which is a very
+    bad thing.  Some of the existing tests in the test suite weren't changed
+    in this pull request, but they also become flaky.  They looked kind of
+    like this:</p>
+
+<code lang="python"><![CDATA[
+def test_html_delta_from_source_change(self):
+    self.run_coverage()
+    index1 = self.get_html_index_content()
+
+    # ... change some stuff ...
+
+    self.run_coverage()
+    index2 = self.get_html_index_content()
+    self.assertMultiLineEqual(index1, index2)
+]]></code>
+
+<p>Here, we're creating two different HTML reports, and asserting that they are
+    the same.  But run_coverage() in each calls now() at different times, so
+    the timestamps can differ in them.  Some might say that the chances are
+    really small, and a very occasional test failure is not worth the extra
+    complexity.  True story: the first time these tests were run on Travis,
+    they failed because of different timestamps!</p>
+
+<p>One way to solve time problems like this is to mock out datetime.now(), but
+    <a href="blog/201209/mocking_datetimetoday.html">that can be complicated</a>.
+    So I took different approaches.</p>
+
+<p>The second tests were straightforward to make impervious to the time
+    changes.  In that case, I
+    <a href="https://bitbucket.org/ned/coveragepy/commits/f040027819bf92801e9484e93673e49fc62ebc71">amended get_html_index_content</a>
+    to strip out the timestamp:</p>
+
+<code lang="python"><![CDATA[
+def get_html_index_content(self):
+    """Return the content of index.html, with timestamps scrubbed."""
+    with open("htmlcov/index.html") as f:
+        index = f.read()
+    index = re.sub(
+        r"created at \d{4}-\d{2}-\d{2} \d{2}:\d{2}",
+        r"created at YYYY-MM-DD HH:MM",
+        index,
+    )
+    return index
+]]></code>
+
+<p>Now the text of index.html doesn't have the timestamp, so the value of now()
+    doesn't matter, and the tests aren't flaky.  These are tests of other
+    aspects than the timestamp, so it's fine to just remove the timestamp.</p>
+
+<p>But the first tests were about the timestamp itself, we can't just scrub it
+    from the output.  For those tests, I chose a different approach: extract
+    the timestamp from the HTML, and check that it is a very recent timestamp:</p>
+
+<code lang="python"><![CDATA[
+def test_has_date_stamp_in_files(self):
+    self.run_coverage()
+    with open("htmlcov/index.html") as f:
+        self.assert_correct_timestamp(f.read())
+
+def assert_correct_timestamp(self, html):
+    """Extract the timestamp from `html`, and assert it is recent."""
+    timestamp_pat = r"created at (\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})"
+    m = re.search(timestamp_pat, html)
+    self.assertTrue(m, "Didn't find a timestamp!")
+    timestamp = datetime.datetime(*map(int, m.groups()))
+
+    age = datetime.datetime.now() - timestamp
+    self.assertEqual(age.days, 0)
+    # The timestamp only records the minute, so the delta could be from
+    # 12:00 to 12:01:59, or two minutes.
+    self.assertLessEqual(
+        abs(age.seconds),
+        120,
+        "Timestamp is wrong: {0}".format(timestamp)
+    )
+]]></code>
+
+<p>Here I have a new method, assert_correct_timestamp. It takes the content of
+    the HTML, extracts the timestamp with a regex, converts it into a datetime,
+    and then checks that the datetime is recent.  This fixes the flaky test: it
+    will not fail due to shifting time windows.</p>
+
+<p>But now the test method has a bunch of code for figuring out if the datetime
+    is recent.  And it has a bug: I used abs(age.seconds) &lt; 120, which will
+    pass if the datetime is in the near future as well as in the near past.</p>
+
+<p>This test has two ideas in it: get the timestamp from the HTML code, and
+    check if it is recent.  Better would be to
+    <a href="https://bitbucket.org/ned/coveragepy/commits/510aa19a8bbfba34d5c223f9e78a7b67221dae7f">factor out that second part</a>
+    into its own datetime assert method:</p>
+
+<code lang="python"><![CDATA[
+def assert_recent_datetime(self, dt, seconds=10, msg=None):
+    """Assert that `dt` marks a time at most `seconds` seconds ago."""
+    age = datetime.datetime.now() - dt
+    self.assertEqual(age.days, 0, msg)
+    self.assertGreaterEqual(age.seconds, 0, msg)
+    self.assertLessEqual(age.seconds, seconds, msg)
+]]></code>
+
+<p>This assert method is purely about datetimes and their recency.  We've fixed
+    the bug with the near future.  Now we can test this assert method directly
+    to be sure we have the logic right:</p>
+
+<code lang="python"><![CDATA[
+def test_assert_recent_datetime(self):
+    def now_delta(seconds):
+        """Make a datetime `seconds` seconds from now."""
+        return datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+
+    # Default delta is 10 seconds.
+    self.assert_recent_datetime(now_delta(0))
+    self.assert_recent_datetime(now_delta(-9))
+    with self.assertRaises(AssertionError):
+        self.assert_recent_datetime(now_delta(-11))
+    with self.assertRaises(AssertionError):
+        self.assert_recent_datetime(now_delta(1))
+
+    # Delta is settable.
+    self.assert_recent_datetime(now_delta(0), seconds=120)
+    self.assert_recent_datetime(now_delta(-100), seconds=120)
+    with self.assertRaises(AssertionError):
+        self.assert_recent_datetime(now_delta(-1000), seconds=120)
+    with self.assertRaises(AssertionError):
+        self.assert_recent_datetime(now_delta(1), seconds=120)
+]]></code>
+
+<p>And with all that in place, we can simplify our HTML report test:</p>
+
+<code lang="python"><![CDATA[
+def assert_correct_timestamp(self, html):
+    """Extract the timestamp from `html`, and assert it is recent."""
+    timestamp_pat = r"created at (\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})"
+    m = re.search(timestamp_pat, html)
+    self.assertTrue(m, "Didn't find a timestamp!")
+    timestamp = datetime.datetime(*map(int, m.groups()))
+    # The timestamp only records the minute, so the delta could be from
+    # 12:00:00 to 12:01:59, or two minutes.
+    self.assert_recent_datetime(
+        timestamp,
+        seconds=120,
+        msg="Timestamp is wrong: {0}".format(timestamp),
+        )
+]]></code>
+
+<p>Nice.</p>
+
+</body>
+</entry>
+</blog>
