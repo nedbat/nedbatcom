@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150502T161137'>
+<title>Be careful deleting files around git</title>
+<category>git</category>
+<body>
+
+<p>Working in a Python project, it's common to have a clean-up step that
+    deletes all the .pyc files, like this:</p>
+
+<code lang="sh"><![CDATA[
+$ find . -name '*.pyc' -delete
+]]></code>
+
+<p>This works great, but there's a slight chance of a problem: Git records
+    information about branches in files within the .git directory.  These files
+    have the same name as the branch.</p>
+
+<p>Try this:</p>
+
+<code lang="sh"><![CDATA[
+$ git checkout -b cleanup-all-.pyc
+]]></code>
+
+<p>This makes a branch called "cleanup-all-.pyc".  After making a commit, I
+    will have files named .git/refs/heads/cleanup-all-.pyc and
+    logs/refs/heads/cleanup-all-.pyc. Now if I run my find command, it will
+    delete those files inside the .git directory, and my branch will be
+    lost.</p>
+
+<p>One way to fix it is to tell find not to delete the file if it's found in
+    the .git directory:</p>
+
+<code lang="sh"><![CDATA[
+$ find . -name '*.pyc' -not -path './.git/*' -delete
+]]></code>
+
+<p>A better way is:</p>
+
+<code lang="sh"><![CDATA[
+$ find . -name '.git' -prune -o -name '*.pyc' -delete
+]]></code>
+
+<p>The first command examines every file in .git, but won't delete the .pyc it
+    finds there.  The second command will skip the entire .git directory, and
+    not waste time examining it.</p>
+
+</body>
+</entry>
+</blog>
