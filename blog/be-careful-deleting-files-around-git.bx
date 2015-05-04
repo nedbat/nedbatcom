@@ -38,12 +38,16 @@ $ find . -name '*.pyc' -not -path './.git/*' -delete
 <p>A better way is:</p>
 
 <code lang="sh"><![CDATA[
-$ find . -name '.git' -prune -o -name '*.pyc' -delete
+$ find . -name '.git' -prune -o -name '*.pyc' -exec rm {} \;
 ]]></code>
 
 <p>The first command examines every file in .git, but won't delete the .pyc it
     finds there.  The second command will skip the entire .git directory, and
     not waste time examining it.</p>
+
+<p>UPDATE: I originally had -delete in that latter command, but find doesn't
+    like -prune and -delete together.  It seems simplistic and unfortunate,
+    but there it is.</p>
 
 </body>
 </entry>
