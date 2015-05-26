@@ -1,12 +1,18 @@
 # Generate HTML pages for nedbatchelder.com
 
+import logging, os, shutil, socket, sys, time
+
 from django.conf import settings
-from djstell.pages.models import Entry, Article, Tag
+from django.core.management import call_command
+
+from stellated import XuffApp
+
 import generator
 import loadpages
-import logging, os, shutil, sys, time
-from stellated import XuffApp
 import password
+
+from djstell.pages.models import Entry, Article, Tag
+
 
 def timed(fn):
     def wrapped(*args, **kwargs):
@@ -17,7 +23,8 @@ def timed(fn):
         return ret
     return wrapped
 
-class CmdLine:
+
+class CmdLine(object):
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
         self.BASE = None
@@ -38,7 +45,6 @@ class CmdLine:
         self.use_processes = True
 
     def do_local(self):
-        import socket
         self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = 'html_local'
         self.HTACCESS = 'geometer.htaccess'
@@ -119,20 +125,21 @@ class CmdLine:
         generator.quick_publish(resources, use_processes=self.use_processes)
 
         # Build the JS file as the concatenation of others.
-        js = file("js/ingredients.txt").read().split()
-        outjs = file(dst+"/nedbatchelder.js", "w")
-        for f in js:
-            outjs.write(file("js/"+f).read())
-            outjs.write("\n")
-        outjs.close()
+        with open("js/ingredients.txt") as ingredients:
+            js = ingredients.read().split()
+        with open(dst+"/nedbatchelder.js", "w") as outjs:
+            for f in js:
+                with open("js/"+f) as jsin:
+                    outjs.write(jsin.read())
+                outjs.write("\n")
 
     def copy_verbatim(self, dst):
         self.xuff.copytree(src='pages', dst=dst,
             include='''
-                    *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
-                    *.txt *.ida *.php *.ico *.htaccess *.xml
-                    *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
-                    '''
+                *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
+                *.txt *.ida *.php *.ico *.htaccess *.xml
+                *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
+                '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
             include='*.gif *.jpg *.png *.svg *.swf'
@@ -151,7 +158,6 @@ class CmdLine:
 
     @timed
     def do_load(self):
-        from django.core.management import call_command
         call_command('syncdb', verbosity=False, interactive=False)
         loadpages.load_all()
 
