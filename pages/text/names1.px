@@ -283,7 +283,7 @@ twice.  These appends work on a_list, which is the same list as nums in the
 caller, so we are directly modifying the caller's list.</p><p>When the function ends, the frame is destroyed, which removes the local name
 a_list.  Since that wasn't the only reference to the list, removing the name
 a_list doesn't reclaim the list itself.</p><p>Back in the caller, we print the nums list, and see that it has indeed
-been modified.</p><figurep href="text/names1/names1.html#21"><img alt="" scale="0.5" src="text/names1_pix/020.png"/></figurep><!-- {{{ --><p>Now let's try a different implementation:</p><code lang="py">
+been modified.</p><figurep href="text/names1/names1.html#21"><img alt="untitled" scale="0.5" src="text/names1_pix/020.png"/></figurep><!-- {{{ --><p>Now let's try a different implementation:</p><code lang="py">
 def append_twice_bad(a_list, val):
     a_list = a_list + [val, val]
     return
@@ -301,7 +301,7 @@ reclaimed.  All of our work is lost!</p><p>Back in the caller, we see no effect 
 never modified. The impulse here was good: functions that modify values passed
 into them are good ways to get unexpected aliasing bugs.  Making new lists can
 avoid these problems. Luckily, there's an easy thing we can do to make this
-function useful.</p><figurep href="text/names1/names1.html#22"><img alt="" scale="0.5" src="text/names1_pix/021.png"/></figurep><!-- {{{ --><p>Here we have nearly the same function, but once we've made our new a_list,
+function useful.</p><figurep href="text/names1/names1.html#22"><img alt="untitled" scale="0.5" src="text/names1_pix/021.png"/></figurep><!-- {{{ --><p>Here we have nearly the same function, but once we've made our new a_list,
 we return it:</p><code lang="py">
 def append_twice_good(a_list, val):
     a_list = a_list + [val, val]
