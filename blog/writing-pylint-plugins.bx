@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150530T152747'>
+<title>Writing pylint plugins</title>
+<category></category>
+<body>
+
+<p>Of the popular Python static checkers, <a href="http://pylint.org">pylint</a>
+    seems to be the most forceful: it raises alarms more aggressively than
+    the others.  This can be annoying, but thankfully it also has detailed
+    controls over what it complains about.</p>
+
+<p>It is also extensible: you can write plugins that add checkers for your
+    code.  At edX, we've started doing this for problems we see that pylint
+    doesn't already check for.</p>
+
+<p><a href="https://github.com/edx/edx-lint">edx-lint</a> is our repo of pylint
+    extras, including plugins and a simple tool for keeping a central pylintrc
+    file and using it in a number of repos.</p>
+
+<p>The documentation for pylint internals is not great.  <a href="http://docs.pylint.org/plugins.html">It exists</a>,
+    but too quickly recommends reading the source to understand what's going
+    on.  The good news is that all of the built-in pylint checkers use the
+    same mechanisms you will, so there are plenty of examples to follow.</p>
+
+<p>A pylint checker is basically an abstract syntax tree (AST) walker, but over
+    a richer AST than Python provides natively. Writing a checker involves some
+    boilerplate that I don't entirely understand, but the meat of it is a simple
+    function that examines the AST.</p>
+
+<p>One problem we've had in our code is getting engineers to understand the
+    idiosyncratic way that translation functions are used.  When you use the
+    gettext functions in your code, you have to use a literal string as the
+    first argument.  This is because the function will not only be called at
+    runtime, but is also analyzed statically by the string extraction tools.</p>
+
+<p>So this is good:</p>
+
+<code lang="python"><![CDATA[
+    welcome = gettext("Welcome, {}!").format(user_name)
+]]></code>
+
+<p>but this won't work properly:</p>
+
+<code lang="python"><![CDATA[
+    welcome = gettext("Welcome, {}!".format(user_name))
+]]></code>
+
+<p>The difference is subtle, but crucial.  And both will work with the English
+    string, so the bug can be hard to catch. So we wrote a pylint checker to
+    flag the bad case.</p>
+
+<p>The checker is <a href="https://github.com/edx/edx-lint/blob/master/edx_lint/pylint/i18n_check.py">i18n_check.py</a>,
+    and here is the important part:</p>
+
+<code lang="python"><![CDATA[
+TRANSLATION_FUNCTIONS = set([
+    '_',
+    'gettext',
+    'ngettext', 'ngettext_lazy',
+    'npgettext', 'npgettext_lazy',
+    'pgettext', 'pgettext_lazy',
+    'ugettext', 'ugettext_lazy', 'ugettext_noop',
+    'ungettext', 'ungettext_lazy',
+])
+
+def visit_callfunc(self, node):
+    if not isinstance(node.func, astroid.Name):
+        # It isn't a simple name, can't deduce what function it is.
+        return
+
+    if node.func.name not in self.TRANSLATION_FUNCTIONS:
+        # Not a function we care about.
+        return
+
+    if not self.linter.is_message_enabled(self.MESSAGE_ID):
+        return
+
+    first = node.args[0]
+    if isinstance(first, astroid.Const):
+        if isinstance(first.value, basestring):
+            # The first argument is a constant string! All is well!
+            return
+
+    # Bad!
+    self.add_message(self.MESSAGE_ID, args=node.func.name, node=node)
+]]></code>
+
+<p>Because the method is named "visit_callfunc", it will be invoked for every
+    function call found in the code.  The "node" variable is the AST node for
+    the function call.  In the first line, we look at the expression for the
+    function being called.  It could be a name, or it could be some other
+    expression.  Most function calls will be a simple name, but if it isn't a
+    name, then we don't know enough to tell if this is one of the translation
+    functions, so we return without flagging a problem.</p>
+
+<p>Next we look at the name of the function.  If it isn't one of the dozen or
+    so functions that will translate the string, then we aren't interested in
+    this function call, so again, return without taking any action.</p>
+
+<p>The next check is to see if this checker is even enabled.  I think there's
+    a better way to do this, but I'm not sure.</p>
+
+<p>Finally we can do the interesting check: we look at the first argument to
+    the function, which remember, is not a calculated value, but a node in the
+    abstract syntax tree representing the code that will calculate the
+    value.</p>
+
+<p>The only acceptable value is a string constant.  So we can check if the
+    first argument is a Const node.  Then we can examine the actual literal
+    value, to see that it's a string.  If it is, then everything is good, and
+    we can return without an alarm.</p>
+
+<p>But if the first argument is not a string constant, then we can use
+    self.add_message to add a warning message to the pylint output.  Elsewhere
+    in the file, we defined MESSAGE_ID to refer to the message:</p>
+
+<code lang="python"><![CDATA[
+"i18n function %s() must be called with a literal string"
+]]></code>
+
+<p>Our add_message call uses that string, providing an argument for the string
+    formatter, so the message will have the actual function name in it, and
+    also provides the AST node, so that the message can indicate the file and
+    line where the problem happened.</p>
+
+<p>That's the whole checker.  If you're interested, the edx-lint repo also
+    shows how to test checkers, which is done with sample .py files, and .txt
+    files with the pylint messages they should generate.</p>
+
+<p>We have a few other checkers also: checks that setUp and tearDown call their
+    super() counterparts properly, and a check that range isn't called with
+    a needless first argument.</p>
+
+<p>The checker I'd like to write is one that can tell you that this:</p>
+
+<code lang="python"><![CDATA[
+self.assertTrue(len(x) == 2)
+]]></code>
+
+<p>should be re-written as:</p>
+
+<code lang="python"><![CDATA[
+self.assertEqual(len(x), 2)
+]]></code>
+
+<p>and other similar improvements to test assertions.</p>
+
+<p>Once you write a pylint checker, you start to get ideas for others that
+    might work well.  I can see it becoming a kind of mania...</p>
+
+</body>
+</entry>
+</blog>
