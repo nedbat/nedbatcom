@@ -171,6 +171,10 @@ a.headerlink {
     padding: .25em .5em;
 }
 
+.body table.noborder, .body table.noborder th, .body table.noborder td {
+    border-width: 0;
+}
+
 .body #comments td {
     border-width: 0;
 }

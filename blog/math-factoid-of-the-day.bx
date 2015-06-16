@@ -21,4 +21,27 @@
 </body>
 </entry>
 
+<entry when='20150616T090600'>
+<title>Math factoid of the day: 53</title>
+<category>me</category>
+<category>math</category>
+<body>
+
+<p>53 is a hex-palindrome: 53<sub>10</sub> = 35<sub>16</sub>, or in programming
+    terminology: 53 == 0x35.</p>
+
+<p>In fact, the only numbers with this property (other than the trivial
+    single-digit numbers) are multiples of 53:</p>
+
+<table class="noborder">
+<tr><td align="right">53 &#160;&#160;=</td><td>35<sub>16</sub></td><td>= &#160;&#160;53 <times/> 1</td></tr>
+<tr><td align="right">371 &#160;&#160;=</td><td>173<sub>16</sub></td><td>= &#160;&#160;53 <times/> 7</td></tr>
+<tr><td align="right">5141 &#160;&#160;=</td><td>1415<sub>16</sub></td><td>= &#160;&#160;53 <times/> 97</td></tr>
+<tr><td align="right">99481 &#160;&#160;=</td><td>18499<sub>16</sub></td><td>= &#160;&#160;53 <times/> 1877</td></tr>
+<tr><td align="right">8520280 &#160;&#160;=</td><td>0820258<sub>16</sub></td><td>= &#160;&#160;53 <times/> 160760</td></tr>
+</table>
+
+</body>
+</entry>
+
 </blog>
