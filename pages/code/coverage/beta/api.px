@@ -2,20 +2,7 @@
 
 <page title='Coverage API' >
 
-  <history>
-<what when='20090524T134300'>brand new docs.</what>
-<what when='20090613T164000'>final touches for 3.0</what>
-<what when='20100221T151500'>docs for 3.3 (on the plane back from PyCon)</what>
-<what when='20100725T211700'>updated for 3.4.</what>
-<what when='20121111T235800'>added a bit of clarification.</what>
-<what when='20140819T132600'>change class name to Coverage</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>The API to coverage.py is very simple, contained in a single module called
+  <p>The API to coverage.py is very simple, contained in a single module called
 <cite>coverage</cite>.  Most of the interface is in a single class, called
 <cite>Coverage</cite>.  Methods on the Coverage object correspond roughly to operations
 available in the command line interface. For example, a simple use would be:</p>
@@ -58,10 +45,19 @@ used.  This is important for some environments where manipulation of
 tracing functions breaks the faster trace function.</p>
 <p>If <cite>branch</cite> is true, then branch coverage will be measured in addition
 to the usual statement coverage.</p>
-<p><cite>config_file</cite> determines what config file to read.  If it is a string,
-it is the name of the config file to read.  If it is True, then a
-standard file is read (&#8221;.coveragerc&#8221;).  If it is False, then no file is
-read.</p>
+<p><cite>config_file</cite> determines what configuration file to read:</p>
+<blockquote>
+<div><ul class="simple">
+<li>If it is &#8221;.coveragerc&#8221;, it is interpreted as if it were True,
+for backward compatibility.</li>
+<li>If it is a string, it is the name of the file to read.  If the
+file can&#8217;t be read, it is an error.</li>
+<li>If it is True, then a few standard files names are tried
+(&#8221;.coveragerc&#8221;, &#8220;setup.cfg&#8221;).  It is not an error for these files
+to not be found.</li>
+<li>If it is False, then no configuration file is read.</li>
+</ul>
+</div></blockquote>
 <p><cite>source</cite> is a list of file paths or package names.  Only code located
 in the trees indicated by the file paths or package names will be
 measured.</p>
@@ -117,11 +113,14 @@ excluded lines have &#8220;-&#8221;, and missing lines have &#8221;!&#8221;.</p>
 
 <dl class="method">
 <dt id="coverage.Coverage.combine">
-<tt class="descname">combine</tt>()</dt>
+<tt class="descname">combine</tt>(<em>data_dirs=None</em>)</dt>
 <dd><p>Combine together a number of similarly-named coverage data files.</p>
 <p>All coverage data files whose name starts with <cite>data_file</cite> (from the
 coverage() constructor) will be read, and combined together into the
 current measurements.</p>
+<p><cite>data_dirs</cite> is a list of directories from which data files should be
+combined. If no list is passed, then the data files from the current
+directory will be combined.</p>
 </dd></dl>
 
 <dl class="method">
@@ -181,9 +180,9 @@ report.</p>
 <dd><p>Write a summary report to <cite>file</cite>.</p>
 <p>Each module in <cite>morfs</cite> is listed, with counts of statements, executed
 statements, missing statements, and a list of lines missed.</p>
-<p><cite>include</cite> is a list of filename patterns.  Modules whose filenames
-match those patterns will be included in the report. Modules matching
-<cite>omit</cite> will not be included in the report.</p>
+<p><cite>include</cite> is a list of filename patterns.  Files that match will be
+included in the report. Files matching <cite>omit</cite> will not be included in
+the report.</p>
 <p>Returns a float, the total percentage covered.</p>
 </dd></dl>
 
@@ -262,7 +261,7 @@ coverage.process_startup()</code>
 
 <p class='pmn pmnbot'>
     <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/subprocess.html" title="previous topic">Measuring sub-processes</a></span>
-    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/plugin.html" title="next topic">Coverage Plugins</a>&#xa0;&#xbb;</span>
+    <span class='n'><i>Next:</i> <a href="/code/coverage/beta/plugins.html" title="next topic">Plugins</a>&#xa0;&#xbb;</span>
 </p>
 
 </page>

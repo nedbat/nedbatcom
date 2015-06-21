@@ -2,31 +2,7 @@
 
 <page title='Installation' >
 
-  <history>
-<what when='20100725T225600'>new for 3.4.</what>
-<what when='20100820T151500'>updated for 3.4b1.</what>
-<what when='20100906T134800'>updated for 3.4b2.</what>
-<what when='20110604T213400'>updated for 3.5b1.</what>
-<what when='20110629T082400'>updated for 3.5.</what>
-<what when='20110923T081900'>updated for 3.5.1.</what>
-<what when='20120429T162500'>updated for 3.5.2b1.</what>
-<what when='20120503T234000'>updated for 3.5.2.</what>
-<what when='20120929T093600'>updated for 3.5.3.</what>
-<what when='20121117T095000'>Now setuptools is a pre-req.</what>
-<what when='20121128T203000'>updated for 3.6b1.</what>
-<what when='20121223T180800'>updated for 3.6b2.</what>
-<what when='20121229T112400'>updated for 3.6b3.</what>
-<what when='20130105T174400'>updated for 3.6.</what>
-<what when='20131005T210600'>updated for 3.7.</what>
-<what when='20131212T213500'>updated for 3.7.1.</what>
-<what when='20140927T102700'>updated for 4.0a1.</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>Installing coverage.py is done in the usual ways. The simplest way is with
+  <p>Installing coverage.py is done in the usual ways. The simplest way is with
 pip:</p>
 <code lang="console">$ pip install coverage</code>
 <p>To install a pre-release version, you will need to specify <tt class="docutils literal"><span class="pre">--pre</span></tt>:</p>
@@ -43,6 +19,8 @@ pip:</p>
 source, you may need to install the python-dev support files, for example
 with:</p>
 <code lang="console">$ sudo apt-get install python-dev</code>
+<p>or for Python 3.x:</p>
+<code lang="console">$ sudo apt-get install python3-dev</code>
 <h1>Installing on Windows</h1>
 <p>For Windows, kits are provided on the <a class="reference external" href="http://pypi.python.org/pypi/coverage">PyPI page</a> for different versions of
 Python and different CPU architectures. These kits require that <a class="reference external" href="http://pypi.python.org/pypi/setuptools">setuptools</a>
@@ -51,11 +29,17 @@ the C extension pre-compiled so there&#8217;s no need to worry about compilers.<
 <h1>Checking the installation</h1>
 <p>If all went well, you should be able to open a command prompt, and see coverage
 installed properly:</p>
-<code lang="console">$ coverage --version
-Coverage.py, version 4.0a1.  http://nedbatchelder.com/code/coverage</code>
+<pre class="literal-block">
+$ coverage --version
+Coverage.py, version 4.0a6.
+Documentation at <a class="reference external" href="https://coverage.readthedocs.org/en/">https://coverage.readthedocs.org/en/</a>4.0a6
+</pre>
 <p>You can also invoke coverage as a module:</p>
-<code lang="console">$ python -m coverage --version
-Coverage.py, version 4.0a1.  http://nedbatchelder.com/code/coverage</code>
+<pre class="literal-block">
+$ python -m coverage --version
+Coverage.py, version 4.0a6.
+Documentation at <a class="reference external" href="https://coverage.readthedocs.org/en/">https://coverage.readthedocs.org/en/</a>4.0a6
+</pre>
 
 
 <p class='pmn pmnbot'>

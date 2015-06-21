@@ -2,15 +2,7 @@
 
 <page title='Specifying source files' >
 
-  <history>
-<what when='20100725T172000'>new in 3.4</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>When coverage.py is running your program and measuring its execution, it needs
+  <p>When coverage.py is running your program and measuring its execution, it needs
 to know what code to measure and what code not to.  Measurement imposes a speed
 penalty, and the collected data must be stored in memory and then on disk.
 More importantly, when reviewing your coverage reports, you don&#8217;t want to be

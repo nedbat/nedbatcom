@@ -2,15 +2,7 @@
 
 <page title='Things that cause trouble' >
 
-  <history>
-<what when='20121231T085200'>brand new docs.</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>Coverage works well, and I want it to properly measure any Python program, but
+  <p>Coverage works well, and I want it to properly measure any Python program, but
 there are some situations it can&#8217;t cope with.  This page details some known
 problems, with possible courses of action, and links to coverage.py bug reports
 with more information.</p>
@@ -27,12 +19,6 @@ coverage.py from working properly:</p>
 it with a new one.  This doesn&#8217;t save the collected coverage data, so your
 program that calls execv will not be fully measured.  A patch for coverage.py
 is in <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/43/coverage-measurement-fails-on-code">issue 43</a>.</li>
-<li><a class="reference external" href="http://docs.python.org/library/multiprocessing.html">multiprocessing</a> launches processes to provide parallelism.  These
-processes don&#8217;t get measured by coverage.py.  Some possible fixes are
-discussed or linked to in <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/117/enable-coverage-measurement-of-code-run-by">issue 117</a>.</li>
-<li><a class="reference external" href="http://www.gevent.org/">gevent</a>, which is based on <a class="reference external" href="http://greenlet.readthedocs.org/">greenlet</a>, and is similar to <a class="reference external" href="http://eventlet.net/">eventlet</a>. All
-of these manipulate the C stack, and therefore confuse coverage.py.
-<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/149/coverage-gevent-looks-broken">Issue 149</a> has some pointers to more information.</li>
 <li><a class="reference external" href="http://docs.python.org/library/thread.html">thread</a>, in the Python standard library, is the low-level threading
 interface.  Threads created with this module will not be traced.  Use the
 higher-level <a class="reference external" href="http://docs.python.org/library/threading.html">threading</a> module instead.</li>
@@ -49,12 +35,6 @@ make it work by using the <tt class="docutils literal"><span class="pre">--timid
 <li><a class="reference external" href="http://pypi.python.org/pypi/DecoratorTools">DecoratorTools</a>, or any package which uses it, notably <a class="reference external" href="http://turbogears.org/">TurboGears</a>.
 DecoratorTools fiddles with the trace function.  You  will need to use
 <tt class="docutils literal"><span class="pre">--timid</span></tt>.</li>
-</ul>
-<h1>Really obscure things</h1>
-<ul class="simple">
-<li>Python 2.5 had a bug (<a class="reference external" href="http://bugs.python.org/issue1569356">1569356</a>) that could make your program behave
-differently when being measured with coverage.  This is diagnosed in
-<a class="reference external" href="http://bitbucket.org/ned/coveragepy/issue/51/turbogears-15-test-failing-with-coverage">issue 51</a>.</li>
 </ul>
 <h1>Still having trouble?</h1>
 <p>If your problem isn&#8217;t mentioned here, and isn&#8217;t already reported in the

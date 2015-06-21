@@ -2,53 +2,15 @@
 
 <page title='coverage.py' >
 
-  <history>
-<what when='20090524T134300'>brand new docs.</what>
-<what when='20090613T164000'>final touches for 3.0</what>
-<what when='20090618T195900'>minor tweaks</what>
-<what when='20090707T205200'>changes for 3.0.1</what>
-<what when='20090913T084400'>new command line syntax</what>
-<what when='20091004T211900'>version 3.1</what>
-<what when='20091127T155100'>version 3.2</what>
-<what when='20091205T161429'>version 3.2 for real.</what>
-<what when='20100224T204700'>version 3.3</what>
-<what when='20100306T181500'>version 3.3.1</what>
-<what when='20100725T211700'>updated for 3.4.</what>
-<what when='20100820T151500'>updated for 3.4b1.</what>
-<what when='20100906T134700'>updated for 3.4b2.</what>
-<what when='20100919T163500'>updated for 3.4 release.</what>
-<what when='20110213T081200'>claim true 3.2 compatibility.</what>
-<what when='20110604T114800'>update for 3.5b1</what>
-<what when='20110629T082300'>update for 3.5</what>
-<what when='20110827T221800'>update for 3.5.1b1</what>
-<what when='20110923T081800'>update for 3.5.1</what>
-<what when='20120429T162100'>updated for 3.5.2b1</what>
-<what when='20120503T233800'>updated for 3.5.2</what>
-<what when='20120929T093500'>updated for 3.5.3</what>
-<what when='20121117T094900'>Change from easy_install to pip.</what>
-<what when='20121128T203700'>Updated for 3.6b1.</what>
-<what when='20121223T180600'>Updated for 3.6b2.</what>
-<what when='20121229T112300'>Updated for 3.6b3.</what>
-<what when='20130105T174000'>Updated for 3.6</what>
-<what when='20131005T210000'>Updated for 3.7</what>
-<what when='20131212T213300'>Updated for 3.7.1</what>
-<what when='20140924T073000'>Updated for 4.0a1</what>
-<what when='20150124T023900'>Updated for 4.0a4</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>Coverage.py is a tool for measuring code coverage of Python programs. It
+  <p>Coverage.py is a tool for measuring code coverage of Python programs. It
 monitors your program, noting which parts of the code have been executed, then
 analyzes the source to identify code that could have been executed but was not.</p>
 <p>Coverage measurement is typically used to gauge the effectiveness of tests. It
 can show which parts of your code are being exercised by tests, and which are
 not.</p>
-<p>The latest version is coverage.py 4.0a1, released 27 September 2014.
-It is supported on Python versions 2.6 through 3.4, PyPy 2.2 through 2.4,
-and PyPy3 2.3 and 2.4.
+<p>The latest version is coverage.py 4.0a6, released 21 June 2015.
+It is supported on Python versions 2.6, 2.7, 3.3, 3.4, and 3.5b2, as well
+as PyPy 2.4 and 2.6, and PyPy3 2.4.
 <strong>This is a pre-release build.  The usual warnings about possible bugs apply.</strong>
 The latest stable version is coverage.py 3.7.1, <a class="reference external" href="http://nedbatchelder.com/code/coverage">described here</a>.</p>
 <h1>Quick start</h1>
@@ -75,7 +37,7 @@ TOTAL                        76     10    87%</code>
 listings detailing missed lines:</p>
 <code lang="console">$ coverage html</code>
 <p>Then visit htmlcov/index.html in your browser, to see a
-<a class="reference external" href="/code/coverage/sample_html_beta/index.html">report like this one</a>.</p>
+<a class="reference external" href="http://nedbatchelder.com/code/coverage/sample_html_beta/index.html">report like this one</a>.</p>
 </li>
 </ol>
 <h1>Using coverage.py</h1>
@@ -107,7 +69,7 @@ using coverage.py.</p>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/branch.html">Branch coverage measurement</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/subprocess.html">Measuring sub-processes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/api.html">Coverage API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/plugin.html">Coverage Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/contributing.html">Contributing to coverage.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/trouble.html">Things that cause trouble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="/code/coverage/beta/faq.html">FAQ and other help</a></li>

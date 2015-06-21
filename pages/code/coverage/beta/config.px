@@ -2,21 +2,7 @@
 
 <page title='Configuration files' >
 
-  <history>
-<what when='20100223T201600'>new for 3.3</what>
-<what when='20100725T211700'>updated for 3.4.</what>
-<what when='20100824T092900'>added precision.</what>
-<what when='20110604T184400'>updated for 3.5.</what>
-<what when='20110827T212700'>updated for 3.5.1</what>
-<what when='20130926T222300'>updated for 3.6.1</what>
-<what when='20140925T064700'>updated for 4.0a1</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>Coverage.py options can be specified in a configuration file.  This makes it
+  <p>Coverage.py options can be specified in a configuration file.  This makes it
 easier to re-run coverage with consistent settings, and also allows for
 specification of options that are otherwise only available in the
 <a class="reference internal" href="/code/coverage/beta/api.html#api"><em>API</em></a>.</p>
@@ -96,6 +82,8 @@ of measurement or reporting.  See <a class="reference internal" href="/code/cove
 <p><tt class="docutils literal"><span class="pre">parallel</span></tt> (boolean, default False): append the machine name, process
 id and random number to the data file name to simplify collecting data from
 many processes.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-combining"><em>Combining data files</em></a> for more information.</p>
+<p><tt class="docutils literal"><span class="pre">plugins</span></tt> (multi-string): a list of plugin package names. See <a class="reference internal" href="/code/coverage/beta/plugins.html#plugins"><em>Plugins</em></a>
+for more information.</p>
 <p><tt class="docutils literal"><span class="pre">source</span></tt> (multi-string): a list of packages or directories, the source to
 measure during execution.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
 <p><tt class="docutils literal"><span class="pre">timid</span></tt> (boolean, default False): use a simpler but slower trace method.

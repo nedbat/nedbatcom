@@ -2,18 +2,7 @@
 
 <page title='Excluding code from coverage' >
 
-  <history>
-<what when='20090613T090500'>brand new docs.</what>
-<what when='20100224T200900'>updated for 3.3.</what>
-<what when='20100725T211700'>updated for 3.4.</what>
-<what when='20110604T184400'>updated for 3.5.</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>You may have code in your project that you know won&#8217;t be executed, and you want
+  <p>You may have code in your project that you know won&#8217;t be executed, and you want
 to tell coverage to ignore it.  For example, you may have debugging-only code
 that won&#8217;t be executed during your unit tests. You can tell coverage to exclude
 this code during reporting so that it doesn&#8217;t clutter your reports with noise

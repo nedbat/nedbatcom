@@ -2,19 +2,7 @@
 
 <page title='FAQ and other help' >
 
-  <history>
-<what when='20090613T141800'>brand new docs.</what>
-<what when='20091005T073900'>updated for 3.1.</what>
-<what when='20091127T201500'>updated for 3.2.</what>
-<what when='20110605T175500'>add the announcement mailing list.</what>
-<what when='20121231T104700'>Tweak the py3 text.</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <h1>Frequently asked questions</h1>
+  <h1>Frequently asked questions</h1>
 <p><strong>Q: I use nose to run my tests, and its cover plugin doesn&#8217;t let me create
 HTML or XML reports.  What should I do?</strong></p>
 <p>First run your tests and collect coverage data with <a class="reference external" href="http://somethingaboutorange.com/mrl/projects/nose">nose</a> and its plugin.

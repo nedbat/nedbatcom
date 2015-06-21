@@ -2,28 +2,7 @@
 
 <page title='Coverage command line usage' >
 
-  <history>
-<what when='20090524T134300'>brand new docs.</what>
-<what when='20090613T164000'>final touches for 3.0</what>
-<what when='20090913T084400'>new command line syntax</what>
-<what when='20091004T170700'>changes for 3.1</what>
-<what when='20091127T200700'>changes for 3.2</what>
-<what when='20100223T200600'>changes for 3.3</what>
-<what when='20100725T211700'>updated for 3.4</what>
-<what when='20110827T212500'>updated for 3.5.1, combining aliases</what>
-<what when='20120119T075600'>Added some clarification from George Paci</what>
-<what when='20120504T091800'>Added info about execution warnings, and 3.5.2 stuff.</what>
-<what when='20120807T211600'>Clarified the combine rules.</what>
-<what when='20121003T074600'>Fixed an option reference, https://bitbucket.org/ned/coveragepy/issue/200/documentation-mentions-output-xml-instead</what>
-<what when='20121117T091000'>Added command aliases.</what>
-<what when='20140924T193000'>Added --concurrency</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
+  <p>When you install coverage.py, a command-line script simply called <tt class="docutils literal"><span class="pre">coverage</span></tt>
 is placed in your Python scripts directory.  To help with multi-version
 installs, it will also create either a <tt class="docutils literal"><span class="pre">coverage2</span></tt> or <tt class="docutils literal"><span class="pre">coverage3</span></tt> alias,
 and a <tt class="docutils literal"><span class="pre">coverage-X.Y</span></tt> alias, depending on the version of Python you&#8217;re using.

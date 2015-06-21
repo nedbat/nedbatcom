@@ -2,48 +2,20 @@
 
 <page title='Major change history for coverage.py' >
 
-  <history>
-<what when='20090524T134300'>brand new docs.</what>
-<what when='20090613T164000'>final touches for 3.0</what>
-<what when='20090706T205000'>changes for 3.0.1</what>
-<what when='20091004T170700'>changes for 3.1</what>
-<what when='20091128T072200'>changes for 3.2</what>
-<what when='20091205T161525'>3.2 final</what>
-<what when='20100221T151900'>changes for 3.3</what>
-<what when='20100306T181400'>changes for 3.3.1</what>
-<what when='20100725T211700'>updated for 3.4.</what>
-<what when='20100820T151500'>updated for 3.4b1</what>
-<what when='20100906T133800'>updated for 3.4b2</what>
-<what when='20100919T163400'>updated for 3.4 release.</what>
-<what when='20110604T214100'>updated for 3.5b1</what>
-<what when='20110629T082200'>updated for 3.5</what>
-<what when='20110923T081600'>updated for 3.5.1</what>
-<what when='20120429T162100'>updated for 3.5.2b1</what>
-<what when='20120503T233700'>updated for 3.5.2</what>
-<what when='20120929T093100'>updated for 3.5.3</what>
-<what when='20121129T060100'>updated for 3.6b1.</what>
-<what when='20121223T180600'>updated for 3.6b2.</what>
-<what when='20130105T173500'>updated for 3.6</what>
-<what when='20131005T205700'>updated for 3.7</what>
-<what when='20131212T213100'>updated for 3.7.1</what>
-<what when='20150124T134800'>updated for 4.0a4</what>
-</history>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a1.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <p>These are the major changes for coverage.py.  For a more complete change
+  <p>These are the major changes for coverage.py.  For a more complete change
 history, see the <a class="reference external" href="http://bitbucket.org/ned/coveragepy/src/tip/CHANGES.txt">CHANGES.txt</a> file in the source tree.</p>
-<h1 id="changes-40">Version 4.0a4 pre-release &#8212; ??? 2015</h1>
+<h1 id="changes-40">Version 4.0a6 pre-release &#8212; 21 June 2015</h1>
 <p>Backward incompatibilities:</p>
 <ul class="simple">
-<li>CPython versions supported are now Python 2.6, 2.7, 3.3, and 3.4.
-PyPy2 2.4 and PyPy3 2.4 are also supported.</li>
+<li>CPython versions supported are now Python 2.6, 2.7, 3.3, 3.4 and 3.5b2.
+PyPy2 2.4, 2.6, and PyPy3 2.4 are also supported.</li>
 <li>The original command line switches (<cite>-x</cite> to run a program, etc) are no
 longer supported.</li>
 <li>The <tt class="docutils literal"><span class="pre">COVERAGE_OPTIONS</span></tt> environment variable is no longer supported.  It was
 a hack for <tt class="docutils literal"><span class="pre">--timid</span></tt> before configuration files were available.</li>
+<li>The original module-level function interface to coverage is no longer
+supported.  You must now create a <tt class="docutils literal"><span class="pre">coverage.Coverage</span></tt> object, and use
+methods on it.</li>
 </ul>
 <p>Major new features:</p>
 <ul class="simple">
@@ -54,6 +26,14 @@ the final insight that completed the work.</li>
 <li>The HTML report now has filtering.  Type text into the Filter box on the
 index page, and only modules with that text in the name will be shown.
 Thanks, Danny Allen.</li>
+<li>Plugins: third parties can write plugins to add file support for non-Python
+files, such as web application templating engines, or languages that compile
+down to Python.  A plugin for measuring Django template coverage is
+available: <a class="reference external" href="https://pypi.python.org/pypi/django_coverage_plugin">django_coverage_plugin</a></li>
+<li>Wildly experimental: support for measuring processes started by the
+multiprocessing module.  To use, set <tt class="docutils literal"><span class="pre">--concurrency=multiprocessing</span></tt>,
+either on the command line or in the .coveragerc file (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/117/enable-coverage-measurement-of-code-run-by">issue 117</a>). Thanks,
+Eduardo Schettino.  Currently, this does not work on Windows.</li>
 </ul>
 <p>New features:</p>
 <ul class="simple">
@@ -68,14 +48,22 @@ they are 100% covered, closing <a class="reference external" href="https://bitbu
 as the <tt class="docutils literal"><span class="pre">[report]</span> <span class="pre">fail_under</span></tt> options.  This closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/314/fail_under-param-not-working-in-coveragerc">issue 314</a>.</li>
 <li>The <tt class="docutils literal"><span class="pre">report</span></tt> command can now show missing branches when reporting on branch
 coverage.  Thanks, Steve Leonard. Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/230/show-line-no-for-missing-branches-in">issue 230</a>.</li>
+<li>The <tt class="docutils literal"><span class="pre">coverage</span> <span class="pre">combine</span></tt> command now accepts any number of directories as
+arguments, and will combine all the data files from those directories.  This
+means you don&#8217;t have to copy the files to one directory before combining.
+Thanks, Christine Lytwynec.  Finishes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/354/coverage-combine-should-take-a-list-of">issue 354</a>.</li>
 <li>A new configuration option for the XML report: <tt class="docutils literal"><span class="pre">[xml]</span> <span class="pre">package_depth</span></tt>
 controls which directories are identified as packages in the report.
 Directories deeper than this depth are not reported as packages.
 The default is that all directories are reported as packages.
 Thanks, Lex Berezhny.</li>
+<li>The COVERAGE_DEBUG environment variable can be used to set the <cite>[run]debug</cite>
+configuration option to control what internal operations are logged.</li>
 </ul>
 <p>Improvements:</p>
 <ul class="simple">
+<li>Coverage.py now always adds the current directory to sys.path, so that
+plugins can import files in the current directory (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/358/all-coverage-commands-should-adjust">issue 358</a>).</li>
 <li>The <tt class="docutils literal"><span class="pre">--debug</span></tt> switch can now be used on any command.</li>
 <li>The XML report now contains a &lt;source&gt; element, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/94/coverage-xml-doesnt-produce-sources">issue 94</a>.  Thanks
 Stan Hu.</li>
@@ -85,6 +73,11 @@ for better support of non-Python files, and also fixed <a class="reference exter
 <li>The XML report now reports each directory as a package again.  This was a bad
 regression, I apologize.  This was reported in <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/235/package-name-is-missing-in-xml-report">issue 235</a>, which is now
 fixed.</li>
+<li>A new warning is possible, if a desired file isn&#8217;t measured because it was
+imported before coverage was started (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/353/40a3-introduces-an-unexpected-third-case">issue 353</a>).</li>
+<li>The <cite>coverage.process_startup</cite> function now will start coverage measurement
+only once, no matter how many times it is called.  This fixes problems due
+to unusual virtualenv configurations (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/340/keyerror-subpy">issue 340</a>).</li>
 </ul>
 <p>API changes:</p>
 <ul class="simple">
@@ -92,6 +85,9 @@ fixed.</li>
 of <tt class="docutils literal"><span class="pre">coverage</span></tt>, though the old name still works, for backward compatibility.</li>
 <li>You can now programmatically adjust the configuration of coverage by setting
 items on <cite>Coverage.config</cite> after construction.</li>
+<li>If the <cite>config_file</cite> argument to the Coverage constructor is specified as
+&#8221;.coveragerc&#8221;, it is treated as if it were True.  This means setup.cfg is
+also examined, and a missing file is not considered an error (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/357/behavior-changed-when-coveragerc-is">issue 357</a>).</li>
 </ul>
 <p>Bug fixes:</p>
 <ul class="simple">
@@ -101,6 +97,13 @@ column is a &#8220;partial branches&#8221; column so that both reports show the 
 numbers.  This closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/342/console-and-html-coverage-reports-differ">issue 342</a>.</li>
 <li>The <tt class="docutils literal"><span class="pre">fail-under</span></tt> value is now rounded the same as reported results,
 preventing paradoxical results, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/284/fail-under-should-show-more-precision">issue 284</a>.</li>
+<li>Branch coverage couldn&#8217;t properly handle certain extremely long files. This
+is now fixed (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/359/xml-report-chunk-error">issue 359</a>).</li>
+<li>Branch coverage didn&#8217;t understand yield statements properly.  Mickie Betz
+persisted in pursuing this despite Ned&#8217;s pessimism.  Fixes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/308/yield-lambda-branch-coverage">issue 308</a> and
+<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/324/yield-in-loop-confuses-branch-coverage">issue 324</a>.</li>
+<li>Files with incorrect encoding declaration comments are no longer ignored by
+the reporting commands, fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/351/files-with-incorrect-encoding-are-ignored">issue 351</a>.</li>
 <li>Empty files are now reported as 100% covered in the XML report, not 0%
 covered (<a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/345/xml-reports-line-rate-0-for-empty-files">issue 345</a>).</li>
 <li>The XML report will now create the output directory if need be, fixing
