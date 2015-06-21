@@ -84,4 +84,43 @@ plugins =
 </body>
 </entry>
 
+
+<entry when='20150621T172600'>
+<title>Coverage.py 4.0a6</title>
+<category>coverage</category>
+<body>
+
+<p>A new alpha of Coverage.py 4.0 is available: <a href="https://pypi.python.org/pypi/coverage/4.0a6">coverage.py 4.0a6</a>.
+    (Yes, there are many alphas: I'm changing a lot, and want to let it bake
+    well before locking things in.)</p>
+
+<p>Also available is the latest version of the Django coverage plugin:
+    <a href="https://pypi.python.org/pypi/django_coverage_plugin/0.5">django_coverage_plugin 0.5</a>.
+    This uses the new plugin support in Coverage.py 4.0 to implement coverage
+    measurement of Django templates.</p>
+
+<p>Other changes since 4.0a5:</p>
+
+<ul>
+    <li>Python 3.5 is supported.</li>
+
+    <li>The old-style module-level function interface is no longer supported.
+        I'm not sure what this might break.  Try your coverage-related
+        tools!</li>
+
+    <li>Branch coverage got better: extremely long files are supported and
+        yield statements are supported better.</li>
+
+    <li>A few encoding-related bugs were fixed (for seemingly the fourteenth
+        time...)</li>
+
+</ul>
+
+<p>Try <a href="https://pypi.python.org/pypi/coverage/4.0a6">Coverage.py v4.0a6</a>.
+    If you are interested, there is a complete list of changes since the last
+    stable release: <a href="https://bitbucket.org/ned/coveragepy/src/59e8c54ff03245302d627126f71febdd3121717c/CHANGES.txt">CHANGES.txt</a></p>
+
+</body>
+</entry>
+
 </blog>
