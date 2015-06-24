@@ -86,7 +86,7 @@ and the value changes, then all names see the change.</p><p>In the small code sa
 there are two names for one list.  But as we'll see with function calls, the
 two names could be quite far apart, and the change in value very far from the
 surprise discovery.</p><p>I've used the word "mutable" here for the first time.  It means a value that
-can change in place.  In our code same, the name nums refers to the same object
+can change in place.  In our code sample, the name nums refers to the same object
 through all four lines of code.  But the value that object contains has
 changed.</p><figurep href="text/names1/names1.html#10"><img alt="Immutable values can't alias" scale="0.5" src="text/names1_pix/009.png"/></figurep><!-- {{{ --><p>Not all values in Python are mutable.  Numbers, strings, and tuples are all
 immutable.  There is no operation on any of these values that can change them
