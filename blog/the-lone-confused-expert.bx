@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150708T072445'>
+<title>The Lone Confused Expert</title>
+<category>online</category>
+<body>
+
+<p>If you participate in mailing lists or IRC long enough, you will encounter a
+    type of person I call The Lone Confused Expert.  These are people who know
+    a lot, but have gotten something wrong along the way. They have a
+    fundamental misconception somewhere that is weaving through their
+    conclusions.</p>
+
+<p>Others will try to correct their wrong worldview, but because the Lone
+    Confused Expert is convinced of their own intelligence, they view these
+    conversations as further evidence that they know a great deal and that
+    everyone around them is wrong, and doesn't understand.</p>
+
+<p>I'm fascinated by the Lone Confused Expert.  I want to understand the one
+    wrong turn they took.  One of the things I like about teaching is seeing
+    people's different views (some right, some wrong) on the topics we're
+    discussing.  Understanding how others grasp a concept teaches me something
+    about the concept, and about the people.</p>
+
+<p>But the LCE is just a tantalizing mystery, because we never get to uncover
+    their fundamental understandings.  The discussions just turn into giant
+    foodfights over their incorrect conclusions.</p>
+
+<p>As an example, recently in the #python IRC channel, someone learning Python
+    said (paraphrased),</p>
+
+<quote><p>Python calls old datatypes new names to make them sound like new
+    things.  A dict is just a rebranded list.</p></quote>
+
+<!--
+#python_freenode_nedbat/20150704.log:[21:50:54] <master> its not a dict (lol, rebranded list), and its not a tuple (lol, rebranded fixed len array)
+#python_freenode_nedbat/20150704.log:[21:52:21] <nedbat> master: what is "rebranded list" ?
+#python_freenode_nedbat/20150704.log:[21:53:07] <master> also yes, lol, calling old datatypes new names to sound like new things is silly
+-->
+
+<p>I'd like to know what this person thought a dict was, and how they missed
+    its essential nature, which is nothing like what other people call lists.
+    Perhaps they were thinking of Lisp's association lists?  That seems
+    unlikely because they were also very dismissive of languages other than
+    C/C++.</p>
+
+<p>Typical of The Lone Confused Expert, the discussion balloons as more people
+    see the odd misconceptions being defended as a higher truth.  The more
+    people flow in to try to correct The Expert, the more they stick to their
+    guns and mock the sheeple that simply believe what they've been told rather
+    than attaining their rarer understanding.</p>
+
+<p>Two more examples, from the Python-List mailing list:</p>
+
+<ul>
+<li>"<a href="https://mail.python.org/pipermail/python-list/2015-June/692743.html">You can't estimate probabilities with a program.</a>"</li>
+<li>"<a href="https://mail.python.org/pipermail/python-list/2013-October/657569.html">On punch cards, there's no meaningful definition of parsing, because there are no tokens.</a>"</li>
+</ul>
+
+<p>At a certain level, these statements are simply wrong.  But I think
+    somewhere deep in The Lone Confused Expert's mind, there's a kernel of
+    truth that's been misapplied, some principle that's been extended beyond
+    its utility, to produce these ideas.  I want to understand that process.
+    I want to see where they stepped off the path.</p>
+
+<p>There's just no way to get at it, because the LCE won't examine and discuss
+    their own beliefs.  Challenges are viewed as attacks on their intelligence,
+    which they hold in higher esteem than their knowledge.</p>
+
+<p>In idle moments, these statements come back to me, and I try to puzzle through
+    what the through process could be.  How can someone know what a punched card
+    is, but also think that characters on it cannot be tokenized?</p>
+
+<p>I wonder if a face-to-face discussion would work better.  People can be
+    surprisingly different in person than they are online. It's easy to feel
+    attacked if you have a dozen people talking to you at once.  I've never had
+    the opportunity to meet one of these Lone Confused Experts in real life.
+    Maybe I don't want to?</p>
+
+</body>
+</entry>
+</blog>
