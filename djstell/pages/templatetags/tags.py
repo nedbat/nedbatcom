@@ -69,8 +69,8 @@ def sidebar(which, force=False):
     return c
 
 @register.inclusion_tag('searchbox.html')
-def search_box(image=True, label=''):
-    return {'image':image, 'label':label}
+def search_box(label=''):
+    return {'label': label}
 
 @register.simple_tag
 def year_range(year1, year2):

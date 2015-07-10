@@ -1,6 +1,6 @@
-{# Google CSE Search Box Begins #}
-<form action="http://www.google.com/cse" id="searchbox_007818501792991951010:s9hiibxg-ty" style="margin-top:6px;">
-    <input type="hidden" name="cx" value="007818501792991951010:s9hiibxg-ty">
+{# Self-made janky Google search box, since Google custom site search is busted. #}
+<form action="http://www.google.com/search" style="margin-top:6px;">
+    <input type="hidden" name="q" value="site:nedbatchelder.com">
     {# OK, look: this table is Bad, but it works, and nothing else does! #}
     <table>
         <tr>
@@ -12,28 +12,3 @@
         </tr>
     </table>
 </form>
-{% if image %}
-{# code adapted from http://www.google.com/coop/cse/brand?form=searchbox_007818501792991951010%3As9hiibxg-ty&lang=en #}
-<script type="text/javascript">
-    (function() {
-        var f = document.getElementById('searchbox_007818501792991951010:s9hiibxg-ty');
-        if (f && f.q) {
-            var q = f.q;
-            var b = function() {
-                if (q.value == '') {
-                    q.style.background = '#fff url(http:\x2F\x2Fwww.google.com\x2Fcoop\x2Fintl\x2Fen\x2Fimages\x2Fgoogle_custom_search_watermark.gif) left no-repeat';
-                }
-            };
-            var f = function() {
-                q.style.background = '#fff';
-            };
-            q.onfocus = f;
-            q.onblur = b;
-            if (!/[&?]q=[^&]/.test(location.search)) {
-                b();
-            }
-        }
-    })();
-</script>
-{% endif %}
-{# Google CSE Search Box Ends #}
