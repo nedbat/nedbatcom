@@ -123,4 +123,44 @@ plugins =
 </body>
 </entry>
 
+
+<entry when='20150802T212500'>
+<title>Coverage.py 4.0b1</title>
+<category>coverage</category>
+<body>
+
+<p>I think Coverage.py v4.0 is ready.  But to be on the safe side, I'm
+    releasing it as a beta because there have been a ton of changes since
+    v3.7.1.  Try it: <a href="https://pypi.python.org/pypi/coverage/4.0b1">coverage.py 4.0b1</a>.</p>
+
+<p>Changes since 4.0a6:</p>
+
+<ul>
+    <li>The data storage has been completely revamped.  There's a new API to
+    access the stored data: <a href="http://coverage.readthedocs.org/en/coverage-4.0b1/api_coveragedata.html">coverage.CoverageData</a>.</li>
+
+    <li>The XML report has a new missing-branches attribute which breaks
+    conformance to the Cobertura DTD.</li>
+
+    <li>Missing branches in the HTML report now have a bit more information in
+    the right-hand annotations.  Hopefully this will make their meaning
+    clearer.</li>
+
+    <li>The private method Coverage._harvest_data is gone.  Some third-party
+    tools relied on this.  Please test your integrations.</li>
+
+    <li>The speed is back to 3.7.1 levels.</li>
+</ul>
+
+<p>If you are interested, there is a complete list of changes:
+    <a href="https://bitbucket.org/ned/coveragepy/src/1595fcb94a21cc0f4d8eabb2cabb2faee3efe766/CHANGES.txt?at=default">CHANGES.txt</a>.</p>
+
+<p>Also available is the latest version of the Django coverage plugin:
+    <a href="https://pypi.python.org/pypi/django_coverage_plugin/0.6">django_coverage_plugin 0.6</a>.
+    This uses the new plugin support in Coverage.py 4.0 to implement coverage
+    measurement of Django templates.</p>
+
+</body>
+</entry>
+
 </blog>
