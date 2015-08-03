@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Excluding code from coverage' >
+<page title='Excluding code from coverage.py' index='no'>
 
   <p>You may have code in your project that you know won&#8217;t be executed, and you want
-to tell coverage to ignore it.  For example, you may have debugging-only code
-that won&#8217;t be executed during your unit tests. You can tell coverage to exclude
-this code during reporting so that it doesn&#8217;t clutter your reports with noise
-about code that you don&#8217;t need to hear about.</p>
-<p>Coverage will look for comments marking clauses for exclusion.  In this code,
-the &#8220;if debug&#8221; clause is excluded from reporting:</p>
+to tell coverage.py to ignore it.  For example, you may have debugging-only
+code that won&#8217;t be executed during your unit tests. You can tell coverage.py to
+exclude this code during reporting so that it doesn&#8217;t clutter your reports with
+noise about code that you don&#8217;t need to hear about.</p>
+<p>Coverage.py will look for comments marking clauses for exclusion.  In this
+code, the &#8220;if debug&#8221; clause is excluded from reporting:</p>
 <code lang="python">a = my_function1()
 if debug:   # pragma: no cover
     msg = &quot;blah blah&quot;
@@ -26,10 +26,10 @@ function is not reported as missing:</p>
     def __repr__(self): # pragma: no cover
         return &quot;&lt;MyObject&gt;&quot;</code>
 <p>Excluded code is executed as usual, and its execution is recorded in the
-coverage data as usual. When producing reports though, coverage excludes it
+coverage data as usual. When producing reports though, coverage.py excludes it
 from the list of missing code.</p>
-<h1>Branch coverage</h1>
-<p>When measuring <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>branch coverage</em></a>, a conditional will not be
+<h1>Branch coverage<a class="headerlink" href="#branch-coverage" title="Permalink to this headline">¶</a></h1>
+<p>When measuring <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><span>branch coverage</span></a>, a conditional will not be
 counted as a branch if one of its choices is excluded:</p>
 <code lang="python">def only_one_choice(x):
     if x:
@@ -38,12 +38,12 @@ counted as a branch if one of its choices is excluded:</p>
     else:       # pragma: no cover
         # x is always true.
         blah3()</code>
-<p>Because the <tt class="docutils literal"><span class="pre">else</span></tt> clause is excluded, the <tt class="docutils literal"><span class="pre">if</span></tt> only has one possible next
+<p>Because the <code class="docutils literal"><span class="pre">else</span></code> clause is excluded, the <code class="docutils literal"><span class="pre">if</span></code> only has one possible next
 line, so it isn&#8217;t considered a branch at all.</p>
-<h1>Advanced exclusion</h1>
-<p>Coverage identifies exclusions by matching lines against a list of regular
-expressions. Using <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>configuration files</em></a> or the coverage
-<a class="reference internal" href="/code/coverage/beta/api.html#api"><em>API</em></a>, you can add to that list. This is useful if you have
+<h1>Advanced exclusion<a class="headerlink" href="#advanced-exclusion" title="Permalink to this headline">¶</a></h1>
+<p>Coverage.py identifies exclusions by matching lines against a list of regular
+expressions. Using <a class="reference internal" href="/code/coverage/beta/config.html#config"><span>configuration files</span></a> or the coverage
+<a class="reference internal" href="/code/coverage/beta/api.html#api"><span>API</span></a>, you can add to that list. This is useful if you have
 often-used constructs to exclude that can be matched with a regex. You can
 exclude them all at once without littering your code with exclusion pragmas.</p>
 <p>For example, you might decide that __repr__ functions are usually only used in
@@ -62,13 +62,13 @@ exclude_lines =
     raise NotImplementedError
     if 0:
     if __name__ == .__main__.:</code>
-<p>Note that when using the <tt class="docutils literal"><span class="pre">exclude_lines</span></tt> option in a configuration file, you
+<p>Note that when using the <code class="docutils literal"><span class="pre">exclude_lines</span></code> option in a configuration file, you
 are taking control of the entire list of regexes, so you need to re-specify the
 default &#8220;pragma: no cover&#8221; match if you still want it to apply.</p>
 <p>A similar pragma, &#8220;no branch&#8221;, can be used to tailor branch coverage
-measurement.  See <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>Branch coverage measurement</em></a> for details.</p>
-<h1>Excluding source files</h1>
-<p>See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for ways to limit what files coverage.py measures or reports
+measurement.  See <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><span>Branch coverage measurement</span></a> for details.</p>
+<h1>Excluding source files<a class="headerlink" href="#excluding-source-files" title="Permalink to this headline">¶</a></h1>
+<p>See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for ways to limit what files coverage.py measures or reports
 on.</p>
 
 

@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Configuration files' >
+<page title='Configuration files' index='no'>
 
   <p>Coverage.py options can be specified in a configuration file.  This makes it
-easier to re-run coverage with consistent settings, and also allows for
+easier to re-run coverage.py with consistent settings, and also allows for
 specification of options that are otherwise only available in the
-<a class="reference internal" href="/code/coverage/beta/api.html#api"><em>API</em></a>.</p>
+<a class="reference internal" href="/code/coverage/beta/api.html#api"><span>API</span></a>.</p>
 <p>Configuration files also make it easier to get coverage testing of spawned
-sub-processes.  See <a class="reference internal" href="/code/coverage/beta/subprocess.html#subprocess"><em>Measuring sub-processes</em></a> for more details.</p>
-<p>The default name for configuration files is <tt class="docutils literal"><span class="pre">.coveragerc</span></tt>, in the same
+sub-processes.  See <a class="reference internal" href="/code/coverage/beta/subprocess.html#subprocess"><span>Measuring sub-processes</span></a> for more details.</p>
+<p>The default name for configuration files is <code class="docutils literal"><span class="pre">.coveragerc</span></code>, in the same
 directory coverage.py is being run in.  Most of the settings in the
 configuration file are tied to your source code and how it should be measured,
 so it should be stored with your source, and checked into source control,
 rather than put in your home directory.</p>
 <p>A different name for the configuration file can be specified with the
-<tt class="docutils literal"><span class="pre">--rcfile=FILE</span></tt> command line option.</p>
-<p>Coverage.py will read settings from a <tt class="docutils literal"><span class="pre">setup.cfg</span></tt> file if no other
+<code class="docutils literal"><span class="pre">--rcfile=FILE</span></code> command line option.</p>
+<p>Coverage.py will read settings from a <code class="docutils literal"><span class="pre">setup.cfg</span></code> file if no other
 configuration file is used.  In this case, the section names have &#8220;coverage:&#8221;
-prefixed, so the <tt class="docutils literal"><span class="pre">[run]</span></tt> options described below will be found in the
-<tt class="docutils literal"><span class="pre">[coverage:run]</span></tt> section of <tt class="docutils literal"><span class="pre">setup.cfg</span></tt>.</p>
-<h1>Syntax</h1>
+prefixed, so the <code class="docutils literal"><span class="pre">[run]</span></code> options described below will be found in the
+<code class="docutils literal"><span class="pre">[coverage:run]</span></code> section of <code class="docutils literal"><span class="pre">setup.cfg</span></code>.</p>
+<h1>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h1>
 <p>A coverage.py configuration file is in classic .ini file format: sections are
-introduced by a <tt class="docutils literal"><span class="pre">[section]</span></tt> header, and contain <tt class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">value</span></tt> entries.
-Lines beginning with <tt class="docutils literal"><span class="pre">#</span></tt> or <tt class="docutils literal"><span class="pre">;</span></tt> are ignored as comments.</p>
+introduced by a <code class="docutils literal"><span class="pre">[section]</span></code> header, and contain <code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">value</span></code> entries.
+Lines beginning with <code class="docutils literal"><span class="pre">#</span></code> or <code class="docutils literal"><span class="pre">;</span></code> are ignored as comments.</p>
 <p>Strings don&#8217;t need quotes. Multi-valued strings can be created by indenting
 values on multiple lines.</p>
-<p>Boolean values can be specified as <tt class="docutils literal"><span class="pre">on</span></tt>, <tt class="docutils literal"><span class="pre">off</span></tt>, <tt class="docutils literal"><span class="pre">true</span></tt>, <tt class="docutils literal"><span class="pre">false</span></tt>, <tt class="docutils literal"><span class="pre">1</span></tt>,
-or <tt class="docutils literal"><span class="pre">0</span></tt> and are case-insensitive.</p>
-<p>Environment variables can be substituted in by using dollar signs: <tt class="docutils literal"><span class="pre">$WORD</span></tt>
-or <tt class="docutils literal"><span class="pre">${WORD}</span></tt> will be replaced with the value of <tt class="docutils literal"><span class="pre">WORD</span></tt> in the environment.
-A dollar sign can be inserted with <tt class="docutils literal"><span class="pre">$$</span></tt>.  Missing environment variables
+<p>Boolean values can be specified as <code class="docutils literal"><span class="pre">on</span></code>, <code class="docutils literal"><span class="pre">off</span></code>, <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">false</span></code>, <code class="docutils literal"><span class="pre">1</span></code>,
+or <code class="docutils literal"><span class="pre">0</span></code> and are case-insensitive.</p>
+<p>Environment variables can be substituted in by using dollar signs: <code class="docutils literal"><span class="pre">$WORD</span></code>
+or <code class="docutils literal"><span class="pre">${WORD}</span></code> will be replaced with the value of <code class="docutils literal"><span class="pre">WORD</span></code> in the environment.
+A dollar sign can be inserted with <code class="docutils literal"><span class="pre">$$</span></code>.  Missing environment variables
 will result in empty strings with no error.</p>
 <p>Many sections and values correspond roughly to commands and options in
-the <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd"><em>command-line interface</em></a>.</p>
+the <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd"><span>command-line interface</span></a>.</p>
 <p>Here&#8217;s a sample configuration file:</p>
 <code lang="python"># .coveragerc to control coverage.py
 [run]
@@ -60,35 +60,41 @@ ignore_errors = True
 
 [html]
 directory = coverage_html_report</code>
-<h1 id="config-run">[run]</h1>
+<h1 id="config-run">[run]<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
 <p>These values are generally used when running product code, though some apply
 to more than one command.</p>
-<p><tt class="docutils literal"><span class="pre">branch</span></tt> (boolean, default False): whether to measure
-<a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>branch coverage</em></a> in addition to statement coverage.</p>
-<p><tt class="docutils literal"><span class="pre">cover_pylib</span></tt> (boolean, default False): whether to measure the Python
+<p><code class="docutils literal"><span class="pre">branch</span></code> (boolean, default False): whether to measure
+<a class="reference internal" href="/code/coverage/beta/branch.html#branch"><span>branch coverage</span></a> in addition to statement coverage.</p>
+<p><code class="docutils literal"><span class="pre">cover_pylib</span></code> (boolean, default False): whether to measure the Python
 standard library.</p>
-<p><tt class="docutils literal"><span class="pre">concurrency</span></tt> (string, default &#8220;thread&#8221;): the name of the concurrency
-library in use by the product code.  If your program uses <a class="reference external" href="http://www.gevent.org/">gevent</a>,
-<a class="reference external" href="http://greenlet.readthedocs.org/en/latest/">greenlet</a>, or <a class="reference external" href="http://eventlet.net/">eventlet</a>, you must name that library in this option, or
-coverage will produce very wrong results.</p>
-<p><tt class="docutils literal"><span class="pre">data_file</span></tt> (string, default &#8221;.coverage&#8221;): the name of the data file to use
+<p><code class="docutils literal"><span class="pre">concurrency</span></code> (string, default &#8220;thread&#8221;): the name of the concurrency library
+in use by the product code.  If your program uses <a class="reference external" href="https://docs.python.org/2/library/multiprocessing.html">multiprocessing</a>,
+<a class="reference external" href="http://www.gevent.org/">gevent</a>, <a class="reference external" href="http://greenlet.readthedocs.org/en/latest/">greenlet</a>, or <a class="reference external" href="http://eventlet.net/">eventlet</a>, you must name that library in this
+option, or coverage.py will produce very wrong results.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.0.</span></p>
+</div>
+<p><code class="docutils literal"><span class="pre">data_file</span></code> (string, default &#8221;.coverage&#8221;): the name of the data file to use
 for storing or reporting coverage.</p>
-<p><tt class="docutils literal"><span class="pre">debug</span></tt> (multi-string): a list of debug options.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-run-debug"><em>the run
-&#8211;debug option</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">include</span></tt> (multi-string): a list of filename patterns, the files to include
-in measurement or reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">omit</span></tt> (multi-string): a list of filename patterns, the files to leave out
-of measurement or reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">parallel</span></tt> (boolean, default False): append the machine name, process
+<p><code class="docutils literal"><span class="pre">debug</span></code> (multi-string): a list of debug options.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-run-debug"><span>the run
+&#8211;debug option</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">include</span></code> (multi-string): a list of filename patterns, the files to include
+in measurement or reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">note</span></code> (string): an arbitrary string that will be written to the data file.
+You can use the <code class="xref py py-meth docutils literal"><span class="pre">CoverageData.run_infos()</span></code> method to retrieve this string
+from a data file.</p>
+<p><code class="docutils literal"><span class="pre">omit</span></code> (multi-string): a list of filename patterns, the files to leave out
+of measurement or reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">parallel</span></code> (boolean, default False): append the machine name, process
 id and random number to the data file name to simplify collecting data from
-many processes.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-combining"><em>Combining data files</em></a> for more information.</p>
-<p><tt class="docutils literal"><span class="pre">plugins</span></tt> (multi-string): a list of plugin package names. See <a class="reference internal" href="/code/coverage/beta/plugins.html#plugins"><em>Plugins</em></a>
+many processes.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-combining"><span>Combining data files</span></a> for more information.</p>
+<p><code class="docutils literal"><span class="pre">plugins</span></code> (multi-string): a list of plugin package names. See <a class="reference internal" href="/code/coverage/beta/plugins.html#plugins"><span>Plugins</span></a>
 for more information.</p>
-<p><tt class="docutils literal"><span class="pre">source</span></tt> (multi-string): a list of packages or directories, the source to
-measure during execution.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">timid</span></tt> (boolean, default False): use a simpler but slower trace method.
+<p><code class="docutils literal"><span class="pre">source</span></code> (multi-string): a list of packages or directories, the source to
+measure during execution.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">timid</span></code> (boolean, default False): use a simpler but slower trace method.
 Try this if you get seemingly impossible results.</p>
-<h1 id="config-paths">[paths]</h1>
+<h1 id="config-paths">[paths]<a class="headerlink" href="#paths" title="Permalink to this headline">¶</a></h1>
 <p>The entries in this section are lists of file paths that should be considered
 equivalent when combining data from different machines:</p>
 <code lang="python">[paths]
@@ -97,57 +103,63 @@ source =
     /jenkins/build/*/src
     c:\myproj\src</code>
 <p>The names of the entries are ignored, you may choose any name that you like.
-The value is a lists of strings.  When combining data with the <tt class="docutils literal"><span class="pre">combine</span></tt>
+The value is a lists of strings.  When combining data with the <code class="docutils literal"><span class="pre">combine</span></code>
 command, two file paths will be combined if they start with paths from the same
 list.</p>
 <p>The first value must be an actual file path on the machine where the reporting
 will happen, so that source code can be found.  The other values can be file
 patterns to match against the paths of collected data, or they can be absolute
 or relative file paths on the current machine.</p>
-<p>See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-combining"><em>Combining data files</em></a> for more information.</p>
-<h1 id="config-report">[report]</h1>
+<p>See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-combining"><span>Combining data files</span></a> for more information.</p>
+<h1 id="config-report">[report]<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h1>
 <p>Values common to many kinds of reporting.</p>
-<p><tt class="docutils literal"><span class="pre">exclude_lines</span></tt> (multi-string): a list of regular expressions.  Any line of
+<p><code class="docutils literal"><span class="pre">exclude_lines</span></code> (multi-string): a list of regular expressions.  Any line of
 your source code that matches one of these regexes is excluded from being
-reported as missing.  More details are in <a class="reference internal" href="/code/coverage/beta/excluding.html#excluding"><em>Excluding code from coverage</em></a>.  If you use this
+reported as missing.  More details are in <a class="reference internal" href="/code/coverage/beta/excluding.html#excluding"><span>Excluding code from coverage.py</span></a>.  If you use this
 option, you are replacing all the exclude regexes, so you&#8217;ll need to also
 supply the &#8220;pragma: no cover&#8221; regex if you still want to use it.</p>
-<p><tt class="docutils literal"><span class="pre">ignore_errors</span></tt> (boolean, default False): ignore source code that can&#8217;t be
+<p><code class="docutils literal"><span class="pre">fail_under</span></code> (integer): a target coverage percentage. If the total coverage
+measurement is under this value, then exit with a status code of 2.</p>
+<p><code class="docutils literal"><span class="pre">ignore_errors</span></code> (boolean, default False): ignore source code that can&#8217;t be
 found.</p>
-<p><tt class="docutils literal"><span class="pre">include</span></tt> (multi-string): a list of filename patterns, the files to include
-in reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">omit</span></tt> (multi-string): a list of filename patterns, the files to leave out
-of reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><em>Specifying source files</em></a> for details.</p>
-<p><tt class="docutils literal"><span class="pre">partial_branches</span></tt> (multi-string): a list of regular expressions.  Any line
+<p><code class="docutils literal"><span class="pre">include</span></code> (multi-string): a list of filename patterns, the files to include
+in reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">omit</span></code> (multi-string): a list of filename patterns, the files to leave out
+of reporting.  See <a class="reference internal" href="/code/coverage/beta/source.html#source"><span>Specifying source files</span></a> for details.</p>
+<p><code class="docutils literal"><span class="pre">partial_branches</span></code> (multi-string): a list of regular expressions.  Any line
 of code that matches one of these regexes is excused from being reported as
-a partial branch.  More details are in <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><em>Branch coverage measurement</em></a>.  If you use this option,
+a partial branch.  More details are in <a class="reference internal" href="/code/coverage/beta/branch.html#branch"><span>Branch coverage measurement</span></a>.  If you use this option,
 you are replacing all the partial branch regexes so you&#8217;ll need to also
 supply the &#8220;pragma: no branch&#8221; regex if you still want to use it.</p>
-<p><tt class="docutils literal"><span class="pre">precision</span></tt> (integer): the number of digits after the decimal point to
+<p><code class="docutils literal"><span class="pre">precision</span></code> (integer): the number of digits after the decimal point to
 display for reported coverage percentages.  The default is 0, displaying for
 example &#8220;87%&#8221;.  A value of 2 will display percentages like &#8220;87.32%&#8221;.</p>
-<p><tt class="docutils literal"><span class="pre">show_missing</span></tt> (boolean, default False): when running a summary report, show
-missing lines.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-summary"><em>Coverage summary</em></a> for more information.</p>
-<p><tt class="docutils literal"><span class="pre">skip_covered</span></tt> (boolean, default False): when running a summary report,
-skip 100% covered files. See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-summary"><em>Coverage summary</em></a> for more information.</p>
-<h1 id="config-html">[html]</h1>
-<p>Values particular to HTML reporting.  The values in the <tt class="docutils literal"><span class="pre">[report]</span></tt> section
+<p><code class="docutils literal"><span class="pre">show_missing</span></code> (boolean, default False): when running a summary report, show
+missing lines.  See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-summary"><span>Coverage summary</span></a> for more information.</p>
+<p><code class="docutils literal"><span class="pre">skip_covered</span></code> (boolean, default False): Don&#8217;t include files in the report
+that are 100% covered files. See <a class="reference internal" href="/code/coverage/beta/cmd.html#cmd-summary"><span>Coverage summary</span></a> for more information.</p>
+<h1 id="config-html">[html]<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h1>
+<p>Values particular to HTML reporting.  The values in the <code class="docutils literal"><span class="pre">[report]</span></code> section
 also apply to HTML output, where appropriate.</p>
-<p><tt class="docutils literal"><span class="pre">directory</span></tt> (string, default &#8220;htmlcov&#8221;): where to write the HTML report files.</p>
-<p><tt class="docutils literal"><span class="pre">extra_css</span></tt> (string): the path to a file of CSS to apply to the HTML report.
+<p><code class="docutils literal"><span class="pre">directory</span></code> (string, default &#8220;htmlcov&#8221;): where to write the HTML report files.</p>
+<p><code class="docutils literal"><span class="pre">extra_css</span></code> (string): the path to a file of CSS to apply to the HTML report.
 The file will be copied into the HTML output directory.  Don&#8217;t name it
 &#8220;style.css&#8221;.  This CSS is in addition to the CSS normally used, though you can
 overwrite as many of the rules as you like.</p>
-<p><tt class="docutils literal"><span class="pre">title</span></tt> (string, default &#8220;Coverage report&#8221;): the title to use for the report.
+<p><code class="docutils literal"><span class="pre">title</span></code> (string, default &#8220;Coverage report&#8221;): the title to use for the report.
 Note this is text, not HTML.</p>
-<h1 id="config-xml">[xml]</h1>
-<p>Values particular to XML reporting.  The values in the <tt class="docutils literal"><span class="pre">[report]</span></tt> section
+<h1 id="config-xml">[xml]<a class="headerlink" href="#xml" title="Permalink to this headline">¶</a></h1>
+<p>Values particular to XML reporting.  The values in the <code class="docutils literal"><span class="pre">[report]</span></code> section
 also apply to XML output, where appropriate.</p>
-<p><tt class="docutils literal"><span class="pre">output</span></tt> (string, default &#8220;coverage.xml&#8221;): where to write the XML report.</p>
+<p><code class="docutils literal"><span class="pre">output</span></code> (string, default &#8220;coverage.xml&#8221;): where to write the XML report.</p>
+<p><code class="docutils literal"><span class="pre">package_depth</span></code> (integer, default 99): controls which directories are
+identified as packages in the report.  Directories deeper than this depth are
+not reported as packages.  The default is that all directories are reported as
+packages.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/cmd.html" title="previous topic">Coverage command line usage</a></span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/cmd.html" title="previous topic">Coverage.py command line usage</a></span>
     <span class='n'><i>Next:</i> <a href="/code/coverage/beta/source.html" title="next topic">Specifying source files</a>&#xa0;&#xbb;</span>
 </p>
 

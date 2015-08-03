@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,7 +165,7 @@
 <p id="t20" class="pln">&nbsp; &nbsp; <span class="com"># Find initial whitespace chunk in the first line.</span><span class="strut">&nbsp;</span></p>
 <p id="t21" class="pln">&nbsp; &nbsp; <span class="com"># This is the best prefix we can hope for.</span><span class="strut">&nbsp;</span></p>
 <p id="t22" class="stm run hide_run">&nbsp; &nbsp; <span class="nam">pat</span> <span class="op">=</span> <span class="str">r&#39;\s*&#39;</span><span class="strut">&nbsp;</span></p>
-<p id="t23" class="stm par run hide_run"><span class="annotate" title="no jump to this line number">25</span>&nbsp; &nbsp; <span class="key">if</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">strings</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">,</span> <span class="nam">bytes_types</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t23" class="stm par run hide_run"><span class="annotate" title="Line 23 was executed, but never jumped to line 25">23&#x202F;&#x219B;&#x202F;25 [?]</span>&nbsp; &nbsp; <span class="key">if</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">strings</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">,</span> <span class="nam">bytes_types</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t24" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">pat</span> <span class="op">=</span> <span class="nam">to_bytes</span><span class="op">(</span><span class="nam">pat</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t25" class="stm run hide_run">&nbsp; &nbsp; <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">re</span><span class="op">.</span><span class="nam">match</span><span class="op">(</span><span class="nam">pat</span><span class="op">,</span> <span class="nam">strings</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">)</span><span class="op">.</span><span class="nam">group</span><span class="op">(</span><span class="num">0</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t26" class="pln"><span class="strut">&nbsp;</span></p>
@@ -170,7 +173,7 @@
 <p id="t28" class="pln">&nbsp; &nbsp; <span class="com"># the prefix as matches each string.</span><span class="strut">&nbsp;</span></p>
 <p id="t29" class="stm run hide_run">&nbsp; &nbsp; <span class="key">for</span> <span class="nam">s</span> <span class="key">in</span> <span class="nam">strings</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t30" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">for</span> <span class="nam">i</span> <span class="key">in</span> <span class="nam">range</span><span class="op">(</span><span class="nam">len</span><span class="op">(</span><span class="nam">prefix</span><span class="op">)</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t31" class="stm par run hide_run"><span class="annotate" title="no jump to this line number">32</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">prefix</span><span class="op">[</span><span class="nam">i</span><span class="op">]</span> <span class="op">!=</span> <span class="nam">s</span><span class="op">[</span><span class="nam">i</span><span class="op">]</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t31" class="stm par run hide_run"><span class="annotate" title="Line 31 was executed, but never jumped to line 32">31&#x202F;&#x219B;&#x202F;32 [?]</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">prefix</span><span class="op">[</span><span class="nam">i</span><span class="op">]</span> <span class="op">!=</span> <span class="nam">s</span><span class="op">[</span><span class="nam">i</span><span class="op">]</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t32" class="stm mis">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">prefix</span><span class="op">[</span><span class="op">:</span><span class="nam">i</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t33" class="stm mis">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">break</span><span class="strut">&nbsp;</span></p>
 <p id="t34" class="stm run hide_run">&nbsp; &nbsp; <span class="key">return</span> <span class="nam">prefix</span><span class="strut">&nbsp;</span></p>
@@ -198,7 +201,7 @@
 <p id="t56" class="stm run hide_run"><span class="key">def</span> <span class="nam">commonPrefix</span><span class="op">(</span><span class="nam">strings</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t57" class="pln">&nbsp; &nbsp; <span class="str">&quot;&quot;&quot; Find the longest string that is a prefix of all the strings.</span><span class="strut">&nbsp;</span></p>
 <p id="t58" class="pln"><span class="str">&nbsp; &nbsp; &quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
-<p id="t59" class="stm par run hide_run"><span class="annotate" title="no jump to this line number">60</span>&nbsp; &nbsp; <span class="key">if</span> <span class="key">not</span> <span class="nam">strings</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t59" class="stm par run hide_run"><span class="annotate" title="Line 59 was executed, but never jumped to line 60">59&#x202F;&#x219B;&#x202F;60 [?]</span>&nbsp; &nbsp; <span class="key">if</span> <span class="key">not</span> <span class="nam">strings</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="stm mis">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">return</span> <span class="str">&#39;&#39;</span><span class="strut">&nbsp;</span></p>
 <p id="t61" class="stm run hide_run">&nbsp; &nbsp; <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">strings</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t62" class="stm run hide_run">&nbsp; &nbsp; <span class="key">for</span> <span class="nam">s</span> <span class="key">in</span> <span class="nam">strings</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -220,8 +223,8 @@
 <div id="footer">
     <div class="content">
         <p>
-            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org/en/4.0a6">coverage.py v4.0a6</a>,
-            created at 2015-06-21 13:15
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org/en/coverage-4.0b1">coverage.py v4.0b1</a>,
+            created at 2015-08-02 20:40
         </p>
     </div>
 </div>

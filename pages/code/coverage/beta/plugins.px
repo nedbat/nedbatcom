@@ -1,93 +1,94 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<page title='Plugins' >
+<page title='Plugins' index='no'>
 
-  <p>Coverage.py&#8217;s behavior can be extended by writing plugins.  A plugin is a
+  <div class="versionadded">
+<p><span class="versionmodified">New in version 4.0.</span></p>
+</div>
+<p>Coverage.py&#8217;s behavior can be extended with third-party plugins.  A plugin is a
 separately installed Python class that you register in your .coveragerc.
 Plugins can be used to implement coverage measurement for non-Python files.</p>
-<h1>Using plugins</h1>
+<h1>Using plugins<a class="headerlink" href="#using-plugins" title="Permalink to this headline">¶</a></h1>
 <p>To use a coverage.py plugin, you install it, and configure it.  For this
-example, let&#8217;s say you want to use one called fred_plugin.</p>
+example, let&#8217;s say there&#8217;s a Python package called <code class="docutils literal"><span class="pre">something</span></code> that provides a
+coverage.py plugin called <code class="docutils literal"><span class="pre">something.plugin</span></code>.</p>
 <ol class="arabic">
-<li><p class="first">Install the plugin as you would any other Python package:</p>
-<code lang="python">pip install fred_plugin</code>
+<li><p class="first">Install the plugin&#8217;s package as you would any other Python package:</p>
+<code lang="python">pip install something</code>
 </li>
 <li><p class="first">Configure coverage.py to use the plugin.  You do this by editing (or
-creating) your .coveragerc file, as described in <a class="reference internal" href="/code/coverage/beta/config.html#config"><em>Configuration files</em></a>.  The
-<tt class="docutils literal"><span class="pre">plugins</span></tt> setting indicates your plugin:</p>
+creating) your .coveragerc file, as described in <a class="reference internal" href="/code/coverage/beta/config.html#config"><span>Configuration files</span></a>.  The
+<code class="docutils literal"><span class="pre">plugins</span></code> setting indicates your plugin.  It&#8217;s a list of importable module
+names of plugins:</p>
 <code lang="python">[run]
 plugins =
-    fred_plugin</code>
+    something.plugin</code>
 </li>
 <li><p class="first">If the plugin needs its own configuration, you can add those settings in
 the .coveragerc file in a section named for the plugin:</p>
-<code lang="python">[fred_plugin]
+<code lang="python">[something.plugin]
 option1 = True
 option2 = abc.foo</code>
 <p>Check the documentation for the plugin to see if it takes any options, and
 what they are.</p>
 </li>
-<li><p class="first">Run your tests as you usually would.  NOTE: You will see a warning when
-coverage starts:</p>
-<code lang="python">Coverage.py warning: Setting timid=True to support plugins.</code>
-<p>This means that coverage will run slower than it usually would.  This
-limitation is part of the initial alpha release, it will be gone in the
-final version.</p>
+<li><p class="first">Run your tests as you usually would.</p>
 </li>
 </ol>
-<h1 id="plugin-api">Plugin API</h1>
+<h1 id="plugin-api">Plugin API<a class="headerlink" href="#module-coverage" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="coverage.plugin.CoveragePlugin">
-<em class="property">class </em><tt class="descclassname">coverage.plugin.</tt><tt class="descname">CoveragePlugin</tt>(<em>options=None</em>)</dt>
+<dt id="coverage.CoveragePlugin">
+<em class="property">class </em><code class="descclassname">coverage.</code><code class="descname">CoveragePlugin</code><a class="headerlink" href="#coverage.CoveragePlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for coverage.py plugins.</p>
-<p>To write a coverage.py plugin, create a subclass of <cite>CoveragePlugin</cite>.
-You can override methods here to participate in various aspects of
-coverage.py&#8217;s processing.</p>
+<p>To write a coverage.py plugin, create a module with a subclass of
+<a class="reference internal" href="#coverage.CoveragePlugin" title="coverage.CoveragePlugin"><code class="xref py py-class docutils literal"><span class="pre">CoveragePlugin</span></code></a>.  You can override methods in your class to
+participate in various aspects of coverage.py&#8217;s processing.</p>
 <p>Currently the only plugin type is a file tracer, for implementing
 measurement support for non-Python files.  File tracer plugins implement
-the <a class="reference internal" href="#coverage.plugin.CoveragePlugin.file_tracer" title="coverage.plugin.CoveragePlugin.file_tracer"><tt class="xref py py-meth docutils literal"><span class="pre">file_tracer()</span></tt></a> method to claim files and the <a class="reference internal" href="#coverage.plugin.CoveragePlugin.file_reporter" title="coverage.plugin.CoveragePlugin.file_reporter"><tt class="xref py py-meth docutils literal"><span class="pre">file_reporter()</span></tt></a>
+the <a class="reference internal" href="#coverage.CoveragePlugin.file_tracer" title="coverage.CoveragePlugin.file_tracer"><code class="xref py py-meth docutils literal"><span class="pre">file_tracer()</span></code></a> method to claim files and the <a class="reference internal" href="#coverage.CoveragePlugin.file_reporter" title="coverage.CoveragePlugin.file_reporter"><code class="xref py py-meth docutils literal"><span class="pre">file_reporter()</span></code></a>
 method to report on those files.</p>
-<p>Any plugin can optionally implement <a class="reference internal" href="#coverage.plugin.CoveragePlugin.sys_info" title="coverage.plugin.CoveragePlugin.sys_info"><tt class="xref py py-meth docutils literal"><span class="pre">sys_info()</span></tt></a> to provide debugging
+<p>Any plugin can optionally implement <a class="reference internal" href="#coverage.CoveragePlugin.sys_info" title="coverage.CoveragePlugin.sys_info"><code class="xref py py-meth docutils literal"><span class="pre">sys_info()</span></code></a> to provide debugging
 information about their operation.</p>
-<p>When the plugin is constructed, it will be passed a dictionary of
-plugin-specific options read from the .coveragerc configuration file.
-The base class stores these on the <cite>self.options</cite> attribute.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                <dl class="method">
-<dt id="coverage.plugin.CoveragePlugin.file_reporter">
-<tt class="descname">file_reporter</tt>(<em>filename</em>)</dt>
+<p>Coverage.py will store its own information on your plugin, with attributes
+starting with &#8220;_coverage_&#8221;.  Don&#8217;t be startled.</p>
+<p>To register your plugin, define a function called <cite>coverage_init</cite> in your
+module:</p>
+<code lang="python">def coverage_init(reg, options):
+    reg.add_file_tracer(MyPlugin())</code>
+<p>The <cite>reg.add_file_tracer</cite> method takes an instance of your plugin.  If your
+plugin takes options, the <cite>options</cite> argument is a dictionary of your
+plugin&#8217;s options from the .coveragerc file.</p>
+<dl class="method">
+<dt id="coverage.CoveragePlugin.file_reporter">
+<code class="descname">file_reporter</code>(<em>filename</em>)<a class="headerlink" href="#coverage.CoveragePlugin.file_reporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the FileReporter class to use for filename.</p>
 <p>This will only be invoked if <cite>filename</cite> returns non-None from
-<a class="reference internal" href="#coverage.plugin.CoveragePlugin.file_tracer" title="coverage.plugin.CoveragePlugin.file_tracer"><tt class="xref py py-meth docutils literal"><span class="pre">file_tracer()</span></tt></a>.  It&#8217;s an error to return None.</p>
+<a class="reference internal" href="#coverage.CoveragePlugin.file_tracer" title="coverage.CoveragePlugin.file_tracer"><code class="xref py py-meth docutils literal"><span class="pre">file_tracer()</span></code></a>.  It&#8217;s an error to return None.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.CoveragePlugin.file_tracer">
-<tt class="descname">file_tracer</tt>(<em>filename</em>)</dt>
+<dt id="coverage.CoveragePlugin.file_tracer">
+<code class="descname">file_tracer</code>(<em>filename</em>)<a class="headerlink" href="#coverage.CoveragePlugin.file_tracer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a FileTracer object for a file.</p>
 <p>Every source file is offered to the plugin to give it a chance to take
 responsibility for tracing the file.  If your plugin can handle the
-file, then return a <a class="reference internal" href="#coverage.plugin.FileTracer" title="coverage.plugin.FileTracer"><tt class="xref py py-class docutils literal"><span class="pre">FileTracer</span></tt></a> object.  Otherwise return None.</p>
+file, then return a <a class="reference internal" href="#coverage.FileTracer" title="coverage.FileTracer"><code class="xref py py-class docutils literal"><span class="pre">FileTracer</span></code></a> object.  Otherwise return None.</p>
 <p>There is no way to register your plugin for particular files.  Instead,
 this method is invoked for all files, and can decide whether it can
 trace the file or not.  Be prepared for <cite>filename</cite> to refer to all
 kinds of files that have nothing to do with your plugin.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                </dd></dl>
+<p><cite>filename</cite> is a string, the path to the file being considered.  This is
+the absolute real path to the file.  If you are comparing to other
+paths, be sure to take this into account.</p>
+<p>Returns a <a class="reference internal" href="#coverage.FileTracer" title="coverage.FileTracer"><code class="xref py py-class docutils literal"><span class="pre">FileTracer</span></code></a> object to use to trace <cite>filename</cite>, or
+None if this plugin cannot trace this file.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.CoveragePlugin.sys_info">
-<tt class="descname">sys_info</tt>()</dt>
+<dt id="coverage.CoveragePlugin.sys_info">
+<code class="descname">sys_info</code>()<a class="headerlink" href="#coverage.CoveragePlugin.sys_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of information useful for debugging.</p>
-<p>This method will be invoked for <tt class="docutils literal"><span class="pre">--debug=sys</span></tt>.  Your
+<p>This method will be invoked for <code class="docutils literal"><span class="pre">--debug=sys</span></code>.  Your
 plugin can return any information it wants to be displayed.</p>
 <p>The return value is a list of pairs: (name, value).</p>
 </dd></dl>
@@ -95,46 +96,40 @@ plugin can return any information it wants to be displayed.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="coverage.plugin.FileTracer">
-<em class="property">class </em><tt class="descclassname">coverage.plugin.</tt><tt class="descname">FileTracer</tt></dt>
+<dt id="coverage.FileTracer">
+<em class="property">class </em><code class="descclassname">coverage.</code><code class="descname">FileTracer</code><a class="headerlink" href="#coverage.FileTracer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Support needed for files during the tracing phase.</p>
-<p>You may construct this object from <a class="reference internal" href="#coverage.plugin.CoveragePlugin.file_tracer" title="coverage.plugin.CoveragePlugin.file_tracer"><tt class="xref py py-meth docutils literal"><span class="pre">CoveragePlugin.file_tracer()</span></tt></a> any
+<p>You may construct this object from <a class="reference internal" href="#coverage.CoveragePlugin.file_tracer" title="coverage.CoveragePlugin.file_tracer"><code class="xref py py-meth docutils literal"><span class="pre">CoveragePlugin.file_tracer()</span></code></a> any
 way you like.  A natural choice would be to pass the filename given to
 <cite>file_tracer</cite>.</p>
 <dl class="method">
-<dt id="coverage.plugin.FileTracer.dynamic_source_filename">
-<tt class="descname">dynamic_source_filename</tt>(<em>filename</em>, <em>frame</em>)</dt>
+<dt id="coverage.FileTracer.dynamic_source_filename">
+<code class="descname">dynamic_source_filename</code>(<em>filename</em>, <em>frame</em>)<a class="headerlink" href="#coverage.FileTracer.dynamic_source_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dynamically computed source filename.</p>
 <p>Some plugins need to compute the source filename dynamically for each
 frame.</p>
 <p>This function will not be invoked if
-<a class="reference internal" href="#coverage.plugin.FileTracer.has_dynamic_source_filename" title="coverage.plugin.FileTracer.has_dynamic_source_filename"><tt class="xref py py-meth docutils literal"><span class="pre">has_dynamic_source_filename()</span></tt></a> returns False.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                </dd></dl>
+<a class="reference internal" href="#coverage.FileTracer.has_dynamic_source_filename" title="coverage.FileTracer.has_dynamic_source_filename"><code class="xref py py-meth docutils literal"><span class="pre">has_dynamic_source_filename()</span></code></a> returns False.</p>
+<p>Returns the source filename for this frame, or None if this frame
+shouldn&#8217;t be measured.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileTracer.has_dynamic_source_filename">
-<tt class="descname">has_dynamic_source_filename</tt>()</dt>
+<dt id="coverage.FileTracer.has_dynamic_source_filename">
+<code class="descname">has_dynamic_source_filename</code>()<a class="headerlink" href="#coverage.FileTracer.has_dynamic_source_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this FileTracer have dynamic source filenames?</p>
 <p>FileTracers can provide dynamically determined filenames by
 implementing dynamic_source_filename.  Invoking that function is
-expensive. To determine whether to invoke it, coverage.py uses
-the result of this function to know if it needs to bother invoking
-<a class="reference internal" href="#coverage.plugin.FileTracer.dynamic_source_filename" title="coverage.plugin.FileTracer.dynamic_source_filename"><tt class="xref py py-meth docutils literal"><span class="pre">dynamic_source_filename()</span></tt></a>.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                </dd></dl>
+expensive. To determine whether to invoke it, coverage.py uses the
+result of this function to know if it needs to bother invoking
+<a class="reference internal" href="#coverage.FileTracer.dynamic_source_filename" title="coverage.FileTracer.dynamic_source_filename"><code class="xref py py-meth docutils literal"><span class="pre">dynamic_source_filename()</span></code></a>.</p>
+<p>Returns true if <a class="reference internal" href="#coverage.FileTracer.dynamic_source_filename" title="coverage.FileTracer.dynamic_source_filename"><code class="xref py py-meth docutils literal"><span class="pre">dynamic_source_filename()</span></code></a> should be called to get
+dynamic source filenames.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileTracer.line_number_range">
-<tt class="descname">line_number_range</tt>(<em>frame</em>)</dt>
+<dt id="coverage.FileTracer.line_number_range">
+<code class="descname">line_number_range</code>(<em>frame</em>)<a class="headerlink" href="#coverage.FileTracer.line_number_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the range of source line numbers for a given a call frame.</p>
 <p>The call frame is examined, and the source line number in the original
 file is returned.  The return value is a pair of numbers, the starting
@@ -144,36 +139,27 @@ executed.</p>
 <p>This function might decide that the frame doesn&#8217;t indicate any lines
 from the source file were executed.  Return (-1, -1) in this case to
 tell coverage.py that no lines should be recorded for this frame.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                </dd></dl>
+</dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileTracer.source_filename">
-<tt class="descname">source_filename</tt>()</dt>
+<dt id="coverage.FileTracer.source_filename">
+<code class="descname">source_filename</code>()<a class="headerlink" href="#coverage.FileTracer.source_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>The source filename for this file.</p>
 <p>This may be any filename you like.  A key responsibility of a plugin is
 to own the mapping from Python execution back to whatever source
 filename was originally the source of the code.</p>
-
-                <box>
-                These docs are for an ALPHA release, 4.0a6.
-                For the latest released version, see <a href='/code/coverage'>coverage.py</a>.
-                </box>
-                </dd></dl>
+<p>Returns the filename to credit with this execution.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="coverage.plugin.FileReporter">
-<em class="property">class </em><tt class="descclassname">coverage.plugin.</tt><tt class="descname">FileReporter</tt>(<em>filename</em>)</dt>
+<dt id="coverage.FileReporter">
+<em class="property">class </em><code class="descclassname">coverage.</code><code class="descname">FileReporter</code>(<em>filename</em>)<a class="headerlink" href="#coverage.FileReporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Support needed for files during the reporting phase.</p>
 <dl class="method">
-<dt id="coverage.plugin.FileReporter.flat_rootname">
-<tt class="descname">flat_rootname</tt>()</dt>
+<dt id="coverage.FileReporter.flat_rootname">
+<code class="descname">flat_rootname</code>()<a class="headerlink" href="#coverage.FileReporter.flat_rootname" title="Permalink to this definition">¶</a></dt>
 <dd><p>A base for a flat filename to correspond to this file.</p>
 <p>Useful for writing files about the code where you want all the files in
 the same directory, but need to differentiate same-named files from
@@ -183,8 +169,8 @@ different directories.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileReporter.should_be_python">
-<tt class="descname">should_be_python</tt>()</dt>
+<dt id="coverage.FileReporter.should_be_python">
+<code class="descname">should_be_python</code>()<a class="headerlink" href="#coverage.FileReporter.should_be_python" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does it seem like this file should contain Python?</p>
 <p>This is used to decide if a file reported as part of the execution of
 a program was really likely to have contained Python in the first
@@ -192,14 +178,14 @@ place.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileReporter.source">
-<tt class="descname">source</tt>()</dt>
+<dt id="coverage.FileReporter.source">
+<code class="descname">source</code>()<a class="headerlink" href="#coverage.FileReporter.source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the source for the code, a Unicode string.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="coverage.plugin.FileReporter.source_token_lines">
-<tt class="descname">source_token_lines</tt>()</dt>
+<dt id="coverage.FileReporter.source_token_lines">
+<code class="descname">source_token_lines</code>()<a class="headerlink" href="#coverage.FileReporter.source_token_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the &#8216;tokenized&#8217; text for the code.</p>
 </dd></dl>
 
@@ -208,7 +194,7 @@ place.</p>
 
 
 <p class='pmn pmnbot'>
-    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/api.html" title="previous topic">Coverage API</a></span>
+    <span class='p'>&#xab;&#xa0;<i>Previous:</i> <a href="/code/coverage/beta/api_coveragedata.html" title="previous topic">The CoverageData class</a></span>
     <span class='n'><i>Next:</i> <a href="/code/coverage/beta/contributing.html" title="next topic">Contributing to coverage.py</a>&#xa0;&#xbb;</span>
 </p>
 
