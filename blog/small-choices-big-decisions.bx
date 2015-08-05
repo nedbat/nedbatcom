@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150805T072443'>
+<title>Small choices, big decisions: coverage run --append</title>
+<category>development</category>
+<category>testing</category>
+<body>
+
+<p>A seemingly simple change to fix a small bug lead me to some interesting
+    software design choices.  I'll try to explain.</p>
+
+<p>In the new beta of <a href="http://nedbatchelder.com/code/coverage">coverage.py</a>,
+    I had a regression where the "run --append" option didn't work when there
+    wasn't an existing data file.  The problem was code in class CoverageScript
+    in cmdline.py that looked like this:</p>
+
+<code lang="python"><![CDATA[
+if options.append:
+    self.coverage.combine(".coverage")
+self.coverage.save()
+]]></code>
+
+<p>If there was no .coverage data file, then this code would fail. The fix was
+    really simple: just check if the file exists before trying to combine
+    it:</p>
+
+<code lang="python"><![CDATA[
+if options.append:
+    if os.path.exists(".coverage"):
+        self.coverage.combine(".coverage")
+self.coverage.save()
+]]></code>
+
+<p>(Of course, all of these code examples have been simplified from the actual
+    code...)</p>
+
+<p>The problem with this has to do with how the CoverageScript class is tested.
+    It's responsible for dealing with the command-line syntax, and invoking
+    methods on a coverage.Coverage object.  To make the testing faster and more
+    focused, test_cmdline.py uses mocking.  It doesn't use an actual Coverage
+    object, it uses a mock, and checks that the right methods are being invoked
+    on it.</p>
+
+<p>The test for this bit of code looked like this, using a mocking helper that
+    works from a sketch of methods being invoked:</p>
+
+<code lang="python"><![CDATA[
+self.cmd_executes("run --append foo.py", """\
+    .Coverage()
+    .start()
+    .run_python_file('foo.py', ['foo.py'])
+    .stop()
+    .combine('.coverage')
+    .save()
+    """, path_exists=True)
+]]></code>
+
+<p>This test means that "run --append foo.py" will make a Coverage object with
+    no arguments, then call cov.start(), then cov.run_python_file with two
+    arguments, etc.</p>
+
+<p>The problem is that the product code (cmdline.py) will actually call
+    os.path.exists, and maybe call .combine, depending on what it finds.  This
+    mocking test can't easily take that into account. The design of cmdline.py
+    was that it was a thin-ish wrapper over the methods on a Coverage object.
+    This made the mocking strategy straightforward.  Adding logic in cmdline.py
+    makes the testing more complicated.</p>
+
+<p>OK, second approach: change Coverage.combine() to take a missing_ok=True
+    parameter.  Now cmdline.py could tell combine() to not freak out if the
+    file didn't exist, and we could remove the os.path.exists conditional from
+    cmdline.py.  The code would look like this:</p>
+
+<code lang="python"><![CDATA[
+if options.append:
+    self.coverage.combine(".coverage", missing_ok=True)
+self.coverage.save()
+]]></code>
+
+<p>and the test would now look like this:</p>
+
+<code lang="python"><![CDATA[
+self.cmd_executes("run --append foo.py", """\
+    .Coverage()
+    .start()
+    .run_python_file('foo.py', ['foo.py'])
+    .stop()
+    .combine('.coverage', missing_ok=True)
+    .save()
+    """, path_exists=True)
+]]></code>
+
+<p>Coverage.combine() is part of the public API to coverage.py.  Was I really
+    going to extend that supported API for this use case? It would mean
+    documenting, testing, and promising to support that option "forever".
+    There's no nice way to add an unsupported argument to a supported
+    method.</p>
+
+<p>Extending the supported API to simplify my testing seemed like the tail
+    wagging the dog.  I'm all for letting testing concerns inform a design.
+    Often the tests are simply proxies for the users of your API, and what makes
+    the testing easier will also make for a better, more modular design.</p>
+
+<p>But this just felt like me being lazy.  I didn't want combine() to have a
+    weird option just to save the caller from having to check if the file
+    exists.  I imagined explaining this option to someone else, and I didn't
+    want my future self to have to sheepishly admit, "yeah, it made my tests
+    easier..."</p>
+
+<p>What finally turned me back from this choice was the principle of saying
+    "no." Sometimes the best way to keep a product simple and good is to say
+    "no" to extraneous features.  Setting aside all the testing concerns, this
+    option on Coverage.combine() just felt extraneous.</p>
+
+<p>Having said "no" to changing the public API, it's back to a conditional in
+    cmdline.py.  To make testing CoverageScript easier, I use dependency
+    injection to give the object a function to check for files.  CoverageScript
+    already had parameters on the constructor for this purpose, for example to
+    get the stand-in for the Coverage class itself.  Now the constructor will
+    look like:</p>
+
+<code lang="python"><![CDATA[
+class CoverageScript(object):
+    """The command-line interface to coverage.py."""
+
+    def __init__(self, ..., _path_exists=None):
+        ...
+        self.path_exists = _path_exists or os.path.exists
+
+    def do_run(self, options, args):
+        ...
+
+        if options.append:
+            if self.path_exists(".coveragerc"):
+                self.coverage.combine(".coveragerc")
+        self.coverage.save()
+]]></code>
+
+<p>and the test code can provide a mock for _path_exists and check its
+    arguments:</p>
+
+<code lang="python"><![CDATA[
+self.cmd_executes("run --append foo.py", """\
+    .Coverage()
+    .start()
+    .run_python_file('foo.py', ['foo.py'])
+    .stop()
+    .path_exists('.coverage')
+    .combine('.coverage')
+    .save()
+    """, path_exists=True)
+]]></code>
+
+<p>Yes, this makes the testing more involved.  But that's my business, and this
+    doesn't change the public interface in ways I didn't like.</p>
+
+<p>When I started writing this blog post, I was absolutely certain I had made
+    the right choice.  As I wrote it, I wavered a bit.  Would missing_ok=True
+    be so bad to add to the public interface? Maybe not. It's not such a
+    stretch, and a user of the API might plausibly convince me that it's
+    genuinely helpful to them.  If that happens, I can reverse all this. That
+    would be ok too. Decisions, decisions...</p>
+
+</body>
+</entry>
+</blog>
