@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150817T170941'>
+<title>Using context managers in test setUp</title>
+<category>python</category>
+<body>
+
+<p>Python's context managers are the general mechnism underlying the "with"
+    statement.  They're a nice abstraction of doing a thing, and then later
+    undoing it.  The classic example is opening a file and then later closing
+    it:</p>
+
+<code lang="python"><![CDATA[
+with open("some_file.txt") as f:
+    # do things with f..
+
+# f is closed by the time you get here.
+]]></code>
+
+<p>But context managers can be used for other do-then-later-undo types of
+    behavior.  Here's a context manager that changes the current directory,
+    then later changes it back:</p>
+
+<code lang="python"><![CDATA[
+import contextlib
+
+@contextlib.contextmanager
+def change_dir(new_dir):
+    """Change directory, and then change back.
+
+    Use as a context manager, it will give you the new directory, 
+    and later restore the old one.
+
+    """
+    old_dir = os.getcwd()
+    os.chdir(new_dir)
+    yield os.getcwd()
+    os.chdir(old_dir)
+
+...
+
+with change_dir("/path/to/new/dir"):
+    # do something while in the new directory.
+]]></code>
+
+<p>Context managers are objects that have __enter__ and __exit__ methods, but
+    here we've used a very handy decorator from contextlib to make a context
+    manager using the yield statement.</p>
+
+<p>Now, suppose you have a context manager that neatly encapsulates your needed
+    behavior, and further suppose that you are writing unit tests, and wish to
+    get this behavior in your setUp and tearDown methods.  How do you do
+    it?</p>
+
+<p>You can't use a with statement, because you need the "do" part of the
+    context manager to happen in setUp, and then you need the "later undo" part
+    of it to happen in tearDown.  The syntax-indicated scope of the with
+    statement won't work.</p>
+
+<p>You can do it using the context manager protocol directly to perform the
+    actions you need.  And unittest has a mechanism better than tearDown:
+    addCleanup takes a callable, and guarantees to call it when the test is
+    done.  So both the before-test logic and the after-test logic can be
+    expressed in one place.</p>
+
+<p>Here's how: write a helper function to use a context manager in a setUp
+    function:</p>
+
+<code lang="python"><![CDATA[
+def setup_with_context_manager(testcase, cm):
+    """Use a contextmanager to setUp a test case."""
+    val = cm.__enter__()
+    testcase.addCleanup(cm.__exit__, None, None, None)
+    return val
+]]></code>
+
+
+<p>Now where you would have used a context manager like this:</p>
+
+<code lang="python"><![CDATA[
+with ctxmgr(a, b, c) as v:
+    # do something with v
+]]></code>
+
+<p>you can do this in your setUp function:</p>
+
+<code lang="python"><![CDATA[
+def setUp(self):
+    self.v = setup_with_context_manager(self, ctxmgr(a, b, c))
+
+def test_foo(self):
+    # do something with self.v
+]]></code>
+
+<p>Simple and clean.</p>
+
+<p>Notice that @contextlib.contextmanager lets us write a generator, then use a
+    decorator to turn it into a context manager.  There's a lot of Python
+    features at work here in a very small space, which is kind of cool.  Then
+    we use addCleanup to take a callable as a first-class object to get the
+    clean up we need, which is even more cool.</p>
+
+<p>One caveat about this technique: a context manager's __exit__ method can be
+    called with information about an exception in progress.  The mechanism
+    shown here will never do that.  I'm not sure it even should, considering
+    how it's being used in a test suite.  But just beware.</p>
+
+</body>
+</entry>
+</blog>
