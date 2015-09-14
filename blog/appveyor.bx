@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150914T063906'>
+<title>Appveyor</title>
+<category>development</category>
+<body>
+
+<p>I've just done a bunch of work on continuous integration for coverage.py.
+    The biggest change is that now I've got <a href="https://ci.appveyor.com/project/nedbat/coveragepy">Appveyor</a>
+    running Windows tests and building Windows kits.</p>
+
+<p>Appveyor is a good service: the docs are helpful, and the support forum
+    seems to be an obsession with the staff, especially Feodor Fitsner, who
+    have always answered my questions within 12 hours regardless of when I ask
+    them.</p>
+
+<p>Oliver Grisel has a <a href="https://github.com/ogrisel/python-appveyor-demo">demonstration
+    of building wheels on Appveyor</a> which was very helpful in getting
+    started.</p>
+
+<p>Of course, part of the problem with supporting Windows is that it is unfamiliar
+    to many of us.  Appveyor provides the platform on which to run, but we still
+    have to come up with the steps ourselves.  And Python is a bit unfamiliar
+    to Appveyor, so the steps include installing Python.  It all gets a bit
+    tangled.</p>
+
+<p>The high point in my adventure came with <a href="https://bitbucket.org/ned/coveragepy/src/57b20c6ced7b26e3bb46d93da9be837f9bed7f77/appveyor.yml?at=default&amp;fileviewer=file-view-default#appveyor.yml-112">this line</a>:</p>
+
+<code><![CDATA[
+install:
+ - "python -c \"import os; open('python{0}.{1}.bat'.format(*os.environ['TOXENV'][2:]), 'w').write('@{0}\\\\python \\x25*\\n'.format(os.environ['PYTHON']))\""
+]]></code>
+
+<p>Explanation: like most CI services, Appveyor is configured with a YAML file.
+    This line is part of the install step before tests are run.  It's a Windows
+    command line.  Our appveyor.yml file installs a number of versions of
+    Python, because Appveyor doesn't have all the versions we need pre-installed.
+    So each job sets two environment variables: PYTHON is the path to the Python
+    installation directory (for example, "C:\Python35") and TOXENV is the tox
+    environment to use ("py35").</p>
+
+<p>The problem is that tox has a built-in mapping from environment ("py35") to
+    Python directory, and that mapping is wrong if we've had to install custom
+    versions of Python in unusual places.  For one thing, we install both 32-
+    and 64-bit versions, in different directories, and Tox doesn't know where
+    to find them.</p>
+
+<p>So this line writes a file called "python3.5.bat" so that when Tox tries to
+    run "python3.5", it will find it.  The bat file simply has the actual path
+    to the Python installation in it.  The trick with this line was getting
+    all of the escaping right: it's a YAML file containing a Windows command
+    line which runs Python code to write a Windows bat file.  "\x25" being the
+    same as "%" definitely saved my sanity.</p>
+
+<p>And getting code like this right is especially tricky because to run it on
+    the CI system, you have to commit it and push it, and wait for the builds.
+    It's like building a ship in a bottle: you can imagine the intricacy you
+    need to create, and you can see the results of your efforts, but you have
+    only a very tenuous set of tools to manipulate the process.</p>
+
+<p>(In fact, as I write this, the Python 2.6 jobs are failing for both
+    coverage.py and python-appveyor-demo, not sure why.  It seems like the
+    get-pip.py installation step is failing, but get-pip.py doesn't talk about
+    what it is doing, so I'm not sure what's wrong.  Back to the bottle...)</p>
+
+<p>One of the nice things Appveyor does that some other CI systems don't is to
+    hold onto build artifacts so that you can download them directly from Appveyor.
+    This makes building wheels and kits there really convenient.  I wrote a
+    <a href="https://bitbucket.org/ned/coveragepy/src/default/ci/download_appveyor.py">script
+    to download all the artifacts from the latest build</a>, so now it's really
+    easy for me to include Windows runs in my coverage measurement, and I can
+    build my own kits instead of having to ask other people to do it for
+    me.</p>
+
+<p>Along the way, I started another tool to help diagnose problems on remote
+    machines: <a href="https://github.com/nedbat/pydoctor">PyDoctor</a>.  (I
+    know, there already is a pydoctor, I should probably change the name. Ideas
+    welcome.)</p>
+
+<p>After all the CI work, I feel like I have a vast distributed pinball machine.
+    Every time I commit to Bitbucket:</p>
+
+<ul>
+    <li>documentation is built on <a href="http://coverage.readthedocs.org/en/default/">Read The Docs</a></li>
+    <li>it's mirrored to GitHub, which then:
+        <ul>
+            <li>starts Linux builds on <a href="https://travis-ci.org/nedbat/coveragepy">Travis</a></li>
+            <li>kicks off Windows builds on <a href="https://ci.appveyor.com/project/nedbat/coveragepy">Appveyor</a></li>
+            <li>updates requirements on <a href="https://requires.io/github/nedbat/coveragepy/requirements/?branch=master">Requires.io</a></li>
+            <li>also starts a build on <a href="https://circleci.com/gh/nedbat/coveragepy">Circle CI</a> because I wanted to compare it to Travis.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>These services are incredibly useful, but keeping them configured and 
+    running smoothly is an art and an adventure in and of itself.</p>
+
+</body>
+</entry>
+</blog>

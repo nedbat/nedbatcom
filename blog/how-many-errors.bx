@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150907T130301'>
+<title>How many errors?</title>
+<category>coding</category>
+<body>
+
+<p>A co-worker mentioned to me the other day that our test runner would run
+    methods with the word "test" in the name, even if they didn't start with
+    "test_".  This surprised him and me, so I went looking into exactly how the
+    function names were matched.</p>
+
+<p>What I found was surprising: a single line of code with between three and
+    five errors, depending on how you wanted to count them.</p>
+
+<p>This is the <a href="https://github.com/nose-devs/nose/blob/50f18fc88dde23e5429c8729f9ca258fed0217cd/nose/config.py#L150">line of code</a>:</p>
+
+<code lang="python"><![CDATA[
+self.testMatch = re.compile(r'(?:^|[\\b_\\.%s-])[Tt]est' % os.sep)
+]]></code>
+
+<p>Regexes are complicated, and it is easy to make mistakes.  I'm not writing
+    this to point fingers, or to label people as stupid.  The point is that
+    code is inherently complicated, and scrutiny and review are very very
+    important for keeping things working.</p>
+
+<p>The regex here is using an r"" string, as all regexes should.  But notice
+    there are two instances of double backslashes.  The r"" string means that
+    the regex will actually have two double backslashes. Each of them therefore
+    means, "match a backslash."  So we have a character class (in the square
+    brackets, also called character ranges) with backslash in it twice.  That's
+    needless, one is enough.</p>
+
+<p>But looking closer, what's that "b" doing in there?  It will actually match
+    a "b" character.  Which means that "abtest" will match this pattern, but
+    "bctest" will not.  Surely that's a mistake.</p>
+
+<p>Going back in the history of the repo, we see that the line used to be:</p>
+
+<code lang="python"><![CDATA[
+self.testMatch = re.compile(r'(?:^|[\b_\.%s-])[Tt]est' % os.sep)
+]]></code>
+
+<p>That is, the backslashes used to be single rather than double.  The doubling
+    happened during a documentation pass: the docs needed the backslashes
+    doubled, and I guess a misguided attempt at symmetry also doubled the
+    backslashes in the code.</p>
+
+<p>But with this older line, we can see that the intent of the backslashes was
+    to get "\b" and "\." into the character set.  The "\." wasn't necessary, a
+    dot isn't special in a character set, so just "." would have been fine.</p>
+
+<p>What's the "\b" for?  The Python <a href="https://docs.python.org/2/library/re.html">re docs</a>
+    say,</p>
+
+<quote><p>Matches the empty string, but only at the beginning or end of a word.</p></quote>
+
+<p>So the intent here was to force the word "test" to be at the boundary of a
+    word.  In which case, why include dot or dash in the regex?  They would
+    already define the boundary of a word.</p>
+
+<p>But reading further in the re docs:</p>
+
+<quote><p>Inside a character range, \b represents the backspace character, for
+        compatibility with Python’s string literals.</p></quote>
+
+<p>So the "\b" didn't match word boundaries at all, it matched a backspace
+    character.  I'm guessing it never encountered a backspace character in
+    the directory, class, and function names it was being used on.</p>
+
+<p>OK, so that probably explains how the dot and dash got there: the \b wasn't
+    doing its job, and rather than get to the bottom of it, a developer threw
+    in the explicit characters needed.</p>
+
+<p>Let's look at os.sep.  That's the platform-specific pathname separator:
+    slash on Unix-like systems, backslash on Windows.  String formatting is
+    being used to insert it into the character class, so that the pathname
+    separator will also be OK before the word "test".  (Remember: if the \b had
+    worked, we wouldn't need this at all.)</p>
+
+<p>Look more closely at the result of that string formatting though: on
+    Windows, the %s will be replaced with a backslash.  The character class
+    will then end with ".\-]".  In a character class, backslashes still serve
+    their escaping function, so this is the same as ".-]".  That is, the
+    backslash won't be used as a literal backslash at all. On Windows, this
+    os.sep interpolation was pointless.  (Keep in mind: this problem was solved
+    when the incorrect backslash doubling happened.)</p>
+
+<p>What's our final tally?  I don't know, depends how you count.  The line
+    still has bugs ("abtest" vs "bctest"), and a long and checkered past.</p>
+
+<p>Think carefully about what you write.  Review it well.  Get others to help.
+    If something doesn't seem to be working, figure out why. Be careful out
+    there.</p>
+
+</body>
+</entry>
+</blog>
