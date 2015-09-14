@@ -82,10 +82,10 @@ install:
 
 <ul>
     <li>documentation is built on <a href="http://coverage.readthedocs.org/en/default/">Read The Docs</a></li>
+    <li>kicks off Windows builds on <a href="https://ci.appveyor.com/project/nedbat/coveragepy">Appveyor</a></li>
     <li>it's mirrored to GitHub, which then:
         <ul>
             <li>starts Linux builds on <a href="https://travis-ci.org/nedbat/coveragepy">Travis</a></li>
-            <li>kicks off Windows builds on <a href="https://ci.appveyor.com/project/nedbat/coveragepy">Appveyor</a></li>
             <li>updates requirements on <a href="https://requires.io/github/nedbat/coveragepy/requirements/?branch=master">Requires.io</a></li>
             <li>also starts a build on <a href="https://circleci.com/gh/nedbat/coveragepy">Circle CI</a> because I wanted to compare it to Travis.</li>
         </ul>
