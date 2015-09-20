@@ -55,6 +55,13 @@ RewriteRule ^reactor/comment.php - [G]
 
 # The coverage.py page has moved
 RewriteRule ^code/modules/coverage.html$ /code/coverage [R=301,L]
+# Coverage.py samples are now in /files
+RewriteRule ^code/coverage/sample_html/(.*)$ /files/sample_coverage_html/$1 [R=301,L]
+RewriteRule ^code/coverage/sample_html_beta/(.*)$ /files/sample_coverage_html_beta/$1 [R=301,L]
+
+# Coverage.py docs are now on rtfd.org
+RewriteRule ^code/coverage/(.*)$ http://coverage.readthedocs.org/en/latest/$1 [R=301,L]
+
 # and now there are version-specific URLs out there.
 # If a production release is the latest, comment out the rewrite
 # rule that points to /code/coverage/beta.  If a beta release is
