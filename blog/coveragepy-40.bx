@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20150920T151333'>
+<title>Coverage.py 4.0</title>
+<category>coverage</category>
+<body>
+
+<p>After more than 20 months, <a href='https://pypi.python.org/pypi/coverage'>coverage.py 4.0</a> is available.
+    This version brings a number of significant changes:</p>
+
+<ul>
+    <li>Plugin support for measuring non-Python files, such as <a href="https://pypi.python.org/pypi/django_coverage_plugin">Django templates</a>.</li>
+    <li>Support for concurrency libraries such as gevent, greenlet, and eventlet.</li>
+    <li>Live filtering in the HTML report.</li>
+    <li>More than 50 issues closed, including improved branch coverage.</li>
+    <li>Documentation is now on <a href="http://coverage.readthedocs.org">Read The Docs</a>.</li>
+</ul>
+
+<p>The <a href="http://coverage.readthedocs.org/en/latest/changes.html">full changes are in the docs</a>.</p>
+
+<p>A number of things internal to coverage.py have changed in incompatible
+    ways.  Helper tools sometimes build on internal interfaces.  If you find
+    that coverage.py 4.0 seems broken in some way, please update to the latest
+    versions of your helper libraries while diagnosing the problem.</p>
+
+<p>If you have any problems, please let me know.</p>
+
+<p>Next up for coverage.py: some form of the often requested feature,
+    "<a href="https://bitbucket.org/ned/coveragepy/issues/170/show-who-tests-what">show
+    who tests what</a>".  If you are interested in that, get in touch, or
+    comment on the issue.</p>
+
+</body>
+</entry>
+</blog>
