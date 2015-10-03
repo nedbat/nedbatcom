@@ -199,7 +199,7 @@ RuntimeError: function attributes not accessible in restricted mode
 
 <p>So, can eval be made safe?  Hard to say.  At this point, my best guess is
     that you can't do any harm if you can't use any double underscores, so maybe if
-    exclude any string with double underscores you are safe.  Maybe...</p>
+    you exclude any string with double underscores you are safe.  Maybe...</p>
 
 
 <p><b>Update:</b> from a <a href='http://www.reddit.com/r/Python/comments/hftnp/ask_rpython_recovering_cleared_globals/'>thread on Reddit about recovering cleared globals</a>,
