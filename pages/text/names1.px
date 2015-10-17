@@ -148,7 +148,7 @@ nums = nums.__iadd__(more)
 nums.extend(more)
 nums = nums
 </code><p>So there is a rebinding operation here, but first, there's a mutating
-operation, and the rebinding operation is a no-op.</p><p>The moreal of the story here is to understand the behavior of the primitives
+operation, and the rebinding operation is a no-op.</p><p>The moral of the story here is to understand the behavior of the primitives
 you are using!</p><figurep href="text/names1/names1.html#14"><img alt="References can be more than just names" scale="0.5" src="text/names1_pix/013.png"/></figurep><!-- {{{ --><p>All of the examples I've been using so far used names as references to
 values, but other things can be references.  Python has a number of
 compound data structures each of which hold references to values: list
