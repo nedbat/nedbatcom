@@ -237,6 +237,15 @@ dt,dd {
     margin-bottom: .4em;
 }
 
+input[type="search"] { -webkit-appearance: textfield; }
+
+input.searchbox {
+    border: 1px solid #7e9db9;
+    padding: 2px;
+    width: 144px;
+    height: 16px;
+}
+
 .sidebar
 { line-height: 1.1em; margin-top: 0; font-weight: bold }
 
