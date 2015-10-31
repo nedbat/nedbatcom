@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20151030T052543'>
+<title>Pip science experiments</title>
+<category></category>
+<body>
+
+<p>My day job is working on <a href="http://open.edx.org">Open edX</a>.  It's
+    large, and our requirements files are getting unruly.  In particular, our
+    <a href="https://github.com/edx/edx-platform/blob/master/requirements/edx/github.txt">requirements file for installing our other GitHub repos</a>
+    has grown very long in the tooth.</p>
+
+<p>First, we have a mix of -e installs and non-e installs.  -e means, check out
+    the git working tree, and then install it as the code.  This makes it easy
+    to use the code: you can skip the discipline of writing and properly
+    maintaining a setup.py.  Just changing the SHA in the github URL should
+    bring in new code.</p>
+
+<p>We also have inconsistent use of "#egg" syntax in the URLs, and we don't
+    always include the version number, and when we do, we use one of three
+    different syntaxes for it.</p>
+
+<p>Worse, we'd developed a cargo-cult mentality about the mysteries of what pip
+    might do.  No one had confidence about the different behavior to expect
+    from the different syntaxes.  Sometimes updated code was being installed,
+    and sometimes not.</p>
+
+<p>I did an experiment where I made a simple package with just a version number
+    in it (<a href="https://github.com/nedbat/version_dummy">version_dummy</a>),
+    and I tried installing it in various ways.  I found that I had to include a
+    version number in the hash fragment at the end of the URL to get it to
+    update properly.  Then another engineer did a similar experiment and came
+    to the opposite conclusion, that just changing the SHA would be enough.</p>
+
+<p>As bad as cargo-culting is, this was even worse: two experiments designed to
+    answer the same question, with different results!  It was time to get serious.</p>
+
+<p>An important property of science is reproducibility: another investigator
+    should be able to run your experiment to see if they get the same results.
+    On top of that, I knew I'd want to re-run my own experiment many times as I
+    thought of new twists to try.</p>
+
+<p>So I wrote a <a href="https://github.com/nedbat/version_dummy/blob/master/experiment.sh">shell
+    script that automated the installation and verification of versions</a>.
+    You can run it yourself: create a new virtualenv, then run the script.</p>
+
+<p>I asked in the #pypa IRC channel for help with my mystery, and they had the
+    clue I needed to get to the bottom of why we got two different answers. I
+    had a git URL that looked like this:</p>
+
+<code><![CDATA[
+git+https://github.com/nedbat/version_dummy@123abc456#egg=version_dummy
+]]></code>
+
+<p>He had a URL like this:</p>
+
+<code><![CDATA[
+git+https://github.com/otherguy/example@789xyz456#egg=example
+]]></code>
+
+<p>These look similar enough that they should behave the same, right?  The
+    difference is that mine has an underscore in the name, and his does not.
+    My suffix ('#egg=version_dummy') is being parsed inside pip as if the
+    package name was "version" and the version was "dummy"!  This meant that
+    updating the SHA wouldn't install new code, because pip thought it knew what
+    version it would get ("dummy"), and that's the version it already had, so
+    why install it?</p>
+
+<p>Writing my <a href="https://github.com/nedbat/version_dummy/blob/master/experiment.sh">experiment.sh</a>
+    script gave me a good place to try out different scenarios of updating my
+    version_dummy from version 1.0 to 2.0.</p>
+
+<p>Things I learned:</p>
+
+<ul>
+
+    <li>-e installs work even if you only change the SHA, although there
+        remains superstition around the office that this is not true.  That
+        might just be superstition, or there might be scenarios where it fails
+        that I haven't tried yet.</li>
+
+    <li>If you use a non-e install, you have to supply an explicit version
+        number on the URL, because punctuation in the package name can confuse
+        pip.</li>
+
+    <li>If you install a package non-e, and then update it with a -e
+        install, you will have both installed, and you'll need to uninstall it
+        twice to really get rid of it.</li>
+
+    <li>There are probably more scenarios that I haven't tried yet that will
+        come back to bite me later. :(</li>
+
+</ul>
+
+<p>If anyone has more information, I'm really interested.</p>
+
+</body>
+</entry>
+</blog>
