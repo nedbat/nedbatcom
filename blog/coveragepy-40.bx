@@ -45,4 +45,17 @@
 </body>
 </entry>
 
+<entry when='20151105T114500'>
+<title>Coverage.py 4.0.2</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://coverage.readthedocs.org/en/coverage-4.0.2/changes.html#changes-402">I fixed three more bugs</a>
+    in coverage.py 4.0.1 to produce <a href="https://pypi.python.org/pypi/coverage/4.0.2">coverage.py 4.0.2</a>.
+    Non-ASCII characters in program source and filenames should work better,
+    and if you are setting your own trace function, that works again... :)</p>
+
+</body>
+</entry>
+
 </blog>
