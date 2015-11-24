@@ -58,4 +58,17 @@
 </body>
 </entry>
 
+<entry when='20151124T094300'>
+<title>Coverage.py 4.0.3</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://coverage.readthedocs.org/en/coverage-4.0.3/changes.html#changes-403">I fixed five bugs</a>
+    in coverage.py 4.0.2 to produce <a href="https://pypi.python.org/pypi/coverage/4.0.3">coverage.py 4.0.3</a>.
+    XML reports now have correct &lt;source&gt; elements in complex cases, and
+    a mysterious problem that seriously borked really unusual cases has been fixed.</p>
+
+</body>
+</entry>
+
 </blog>
