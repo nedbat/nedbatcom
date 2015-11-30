@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20151129T074500'>
+<title>Funding free software</title>
+<category>business</category>
+<body>
+
+<p>Open source software is great.  It's hard to remember that there was a time
+    before Linux, Apache, Python, Ruby, Postgres, etc.  These days, when you
+    want to build something, you can start with an enormous amount of
+    high-quality free infrastructure already available to you.</p>
+
+<p>But there's a problem with open source: the work that goes into it is
+    largely unpaid. The work that happens is because of individuals' free time
+    and spare energy.  There are exceptions: many companies contribute to open
+    source, some even fund developers full-time to work on it.  But the
+    ecosystem is full of useful and important projects that only exist because
+    someone gave away their time and energy.</p>
+
+<p>Not having real funding is holding back open source, because it makes it
+    hard to get started (you have to have spare time and energy), and it makes
+    it hard to stick with it.  Two recent blog posts underscore this last point:
+    David MacIver's <a href="http://www.drmaciver.com/2015/08/throwing-in-the-towel/">Throwing in the Towel</a>,
+    and Ryan Bigg's <a href="http://ryanbigg.com/2015/11/open-source-work/">Open source work</a>.</p>
+
+<p>We've gotten pretty far on this model.  But we can do a lot better if we
+    find ways to put real resources (money) into the system.  Russell Keith-Magee
+    said the whole thing better than I could in his PyCon AU 2015 talk, 
+    <a href="https://www.youtube.com/watch?v=mY8B2lXIu6g">Money, Money, Money:
+    Writing software, in a rich (wo)man's world</a>:</p>
+
+    <quote><p>If a company can find money for foosball tables and meditative
+            ball-pits, they should be able to find the resources to help
+            maintain the software on which they've been basing their
+            success.</p></quote>
+
+<p>Russell has started a <a href="https://github.com/pybee/paying-the-piper">GitHub repo as a conversation</a>
+    about how we might be able to make changes.  Each issue in
+    <a href="https://github.com/pybee/paying-the-piper">Paying the Piper</a> is
+    an idea for funding open source, with discussion.  Please go be part of
+    it.</p>
+
+<p>Personally, I think we should try <a href="https://github.com/pybee/paying-the-piper/issues/57">asking companies to donate</a>,
+    and if we make it dead simple enough for them to do the right thing, they
+    just might.</p>
+
+<p><b>Questions for everyone:</b> do you think you could get your employer to
+    donate to an open-source funding non-profit? What are the hurdles? What
+    could we do together to get them over those hurdles?</p>
+
+<p>Django is at the forefront of this, having just funded a part-time fund-raising
+    position: <a href="https://www.djangoproject.com/weblog/2015/nov/23/introducing-dsfs-director-advancement/">Introducing the DSF's Director of Advancement</a>.
+    It will be very interesting to see how that works out.</p>
+
+<p>I have a double interest in this: first, the general interest in seeing the
+    Python world grow and flourish.  Second, my own work on coverage.py would
+    be a little easier if there were some money flowing back. It wouldn't have
+    to be much, I'm not thinking I could support myself with it, but some
+    tangible return would make the time easier to justify.</p>
+
+</body>
+</entry>
+</blog>
