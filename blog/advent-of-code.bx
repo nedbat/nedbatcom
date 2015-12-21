@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20151219T082522'>
+<title>Advent of Code</title>
+<category>coding</category>
+<category>edu</category>
+<body>
+
+<p>Combining traditional Christmas advent calendars with online programming
+    exercises: <a href="http://adventofcode.com">Advent of Code</a> is a nicely
+    made collection of programming problems.</p>
+
+<p>One of the things I like about these problems is there are always two parts,
+    and you don't see the second part of the problem until you have solved the
+    first part.  This usually leads to refactorings or repurposing of your code,
+    which is a valuable exercise in and of itself.</p>
+
+<p>For many of the problems, there are interesting follow-on questions.  One
+    common one would be, "Write the code that generates the sample inputs to
+    be sure there's a single answer."  For some of the problems, any random
+    input would do, but for some, there's a constraint that has to be met.</p>
+
+<p>I have a collection of approachable problems at <a pref="text/kindling.px"/>.
+    If Advent of Code will stay up after Christmas, I'll definitely add it to
+    that page.</p>
+
+<p><a href="http://adventofcode.com/day/19">Today's</a> is the first where a
+    simple brute force approach isn't going to work, and I'll need a cleverer
+    algorithm... Hmmm...</p>
+
+</body>
+</entry>
+</blog>
