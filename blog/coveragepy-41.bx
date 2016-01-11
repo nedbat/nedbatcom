@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160110T203100'>
+<title>Coverage.py 4.1b1</title>
+<category>coverage</category>
+<body>
+
+<p>I wasn't planning on any big features for Coverage.py 4.1, but I ended up
+    making a big change. tl;dr: branch coverage is implemented differently, and
+    as a result, your coverage totals are slightly different.  Try it:
+    <a href="https://pypi.python.org/pypi/coverage/4.1b1">Coverage.py 4.1 beta 1</a>.
+    </p>
+
+<p>Because of Python 3.5's async and await keywords, the existing branch
+    analysis based on bytecode was completely out of gas.  The code had long
+    felt jury-rigged, and there were long-standing bugs that seemed impossible
+    to solve.  The async features compiled very differently than their
+    synchronous counterparts, and I didn't see a way to bring them into the
+    bytecode fold.</p>
+
+<p>So I ripped out the bytecode analysis and replaced it with AST (Abstract
+    Syntax Tree) analysis.  I like it much better: it's based on the structure
+    of the code that people see and can reason about.  Four old bugs were fixed
+    as a result, along with the two or three new bugs reported on Python 3.5.</p>
+
+<p>As a result though, coverage.py now calculates totals differently, because
+    the full set of possible code paths is different.  So your results will
+    likely shift a little bit, especially if you are using branch measurement.
+    They might be higher, they might be lower.  For example, class docstrings
+    now count as executable statements (because they are executable
+    statements), and paths through "except" clauses probably were being
+    overlooked.</p>
+
+<p>Please try it out and let me know if you see anything wrong.  I won't be
+    surprised if there are complex code structures that are analyzed wrong somehow.
+    <a href="https://pypi.python.org/pypi/coverage/4.1b1">Coverage.py 4.1b1</a>:
+    you know you want it...</p>
+
+</body>
+</entry>
+
+</blog>
