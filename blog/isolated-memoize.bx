@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160116T070304'>
+<title>Isolated @memoize</title>
+<category>python</category>
+<category>testing</category>
+<body>
+
+<p>When calling functions that are expensive, and expected to return the same
+    results for the same input, lots of people like using an @memoize
+    decorator.  It uses a cache to quickly return the same results if they have
+    been produced before.  Here's a simplified one, adapted from
+    <a href="https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize">a
+    collection of @memoize implementations</a>:</p>
+
+<code lang="python"><![CDATA[
+def memoize(func):
+    cache = {}
+
+    def memoizer(*args, **kwargs):
+        key = str(args) + str(kwargs)
+        if key not in cache:
+            cache[key] = func(*args, **kwargs)
+        return cache[key]
+
+    return memoizer
+
+@memoize
+def expensive_fn(a, b):
+    return a + b        # Not actually expensive!
+]]></code>
+
+<p>This is great, and does what we want: repeated calls to expensive_fn with
+    the same arguments will use the cached values instead of actually invoking
+    the function.</p>
+
+<p>But there's a potential problem: the cache dictionary is a global.  Don't be
+    fooled by the fact that it isn't literally a global: it doesn't use the
+    <codeword>global</codeword> keyword, and it isn't a module-level variable.
+    But it is global in the sense that there is only one cache dictionary for
+    expensive_fn for the entire process.</p>
+
+<p>Globals can interfere with disciplined testing.  One ideal of automated
+    tests in a suite is that each test be isolated from all the others.  What
+    happens in test1 shouldn't affect test99.  But here, if test1 and test99
+    both call expensive_fn with arguments (1, 2), then test1 will run the
+    function, but test99 will get the cached value.  Worse, if I run the
+    complete suite, test99 gets a cached value, but if I run test99 alone, it
+    runs the function.</p>
+
+<p>This might not be a problem, if expensive_fn is truly a
+    <a href="https://en.wikipedia.org/wiki/Pure_function">pure function</a>
+    with no side effects.  But sometimes that's not the case.</p>
+
+<p>I inherited a project that used @memoize to retrieve some fixed data from a
+    web site. @memoize is great here because it means each resource will be
+    fetched only once, no matter how the program uses them.  The test suite
+    used <a href="https://betamax.readthedocs.org/en/latest/">Betamax</a> to
+    fake the network access.</p>
+
+<p>Betamax is great: it automatically monitors network access, and stores a
+    "cassette" for each test case, which is a JSON record of what was requested
+    and returned.  The next time the tests are run, the cassette is used, and
+    the network access is faked.</p>
+
+<p>The problem is that test1's cassette will have the network request for the
+    memoized resource, and test99's cassette will not, because it never
+    requested the resource, because @memoize made the request unnecessary.  Now
+    if I run test99 by itself, it has no way to get the resource, and the test
+    fails.  Test1 and test99 weren't properly isolated, because they shared the
+    global cache of memoized values.</p>
+
+<p>My solution was to use an @memoize that I could clear between tests.
+    Instead of writing my own, I used the lru_cache decorator from functools (or from the functools32 if you are still using Python 2.7).
+    It offers a .cache_clear function that can be used to clear all the values
+    from the hidden global cache.  It's on each decorated function, so we have
+    to keep a list of them:</p>
+
+<code lang="python"><![CDATA[
+import functools
+
+# A list of all the memoized functions, so that
+# `clear_memoized_values` can clear them all.
+_memoized_functions = []
+
+def memoize(func):
+    """Cache the value returned by a function call."""
+    func = functools.lru_cache()(func)
+    _memoized_functions.append(func)
+    return func
+
+def clear_memoized_values():
+    """Clear all the values saved by @memoize, to ensure isolated tests."""
+    for func in _memoized_functions:
+        func.cache_clear()
+]]></code>
+
+<p>Now an automatic fixture (for py.test) or a setUp function, can clear the
+    cache before each test:</p>
+
+<code lang="python"><![CDATA[
+# For py.test:
+
+@pytest.fixture(autouse=True)
+def reset_all_memoized_functions():
+    """Clears the values cached by @memoize before each test."""
+    clear_memoized_values()
+
+# For unittest:
+
+class MyTestCaseBase(unittest.TestCase):
+    def setUp(self):
+        super().setUp()
+        clear_memoized_values()
+]]></code>
+
+<p>In truth, it might be better to distinguish between the various reasons for
+    using @memoize.  A pure function might be fine to cache between tests, who
+    cares when the value is computed?  But other uses clearly should be
+    isolated.  @memoize isn't magic, you have to think about what it is doing
+    for you, and when you want to have more control.</p>
+
+</body>
+</entry>
+</blog>
