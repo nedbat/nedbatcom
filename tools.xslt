@@ -421,6 +421,7 @@
                             <xsl:with-param name='uri' select='@href' />
                         </xsl:call-template>
                     </xsl:attribute>
+                    <xsl:copy-of select="@target" />
                     <xsl:call-template name='figurep_img'/>
                 </a>
             </xsl:when>
