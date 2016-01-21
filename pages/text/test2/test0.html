@@ -1139,7 +1139,7 @@ AssertionError
 
 </div><!-- }}} -->
 
-<div class="slide">
+<div class="hidden_slide">
     <h1>Good tests</h1>
     <ul>
         <li>Automated</li>
@@ -1205,8 +1205,8 @@ AssertionError
 <div class="slide">
     <h1>unittest</h1>
     <ul>
-        <li>Standard library</li>
-        <li>Infrastructure for well-structured tests</li>
+        <li>In the standard library</li>
+        <li>Based on test classes</li>
         <li>Patterned on xUnit</li>
         <li>Wordy, "not Pythonic"</li>
     </ul>
@@ -1251,7 +1251,7 @@ AssertionError
         <div class='line'>├── README.rst</div>
         <div class='line'>├── setup.py</div>
         <div class='line'>├── tests</div>
-        <div class='line'>│   ├── __init__.py                  # maybe...</div>
+        <div class='line'>│   ├── __init__.py                  <span class='c'># maybe...</span></div>
         <div class='line'>│   ├── test_a_thing.py</div>
         <div class='line'>│   ├── test_another_thing.py</div>
         <div class='line'>│   ├── test_more_things.py</div>
@@ -1321,12 +1321,12 @@ AssertionError
     <!--
     $ py.test –q test_port1_pytest.py
     .
-    1 passed in 0.00 seconds
+    1 passed in 0.01 seconds
     -->
     <div class="code text"> <!-- {{{ -->
     <div class="line"><span class="lineno">1</span> $&#xA0;py.test&#xA0;-q&#xA0;test_port1_pytest.py&nbsp;</div>
     <div class="line"><span class="lineno">2</span> .&nbsp;</div>
-    <div class="line"><span class="lineno">3</span> 1&#xA0;passed&#xA0;in&#xA0;0.00&#xA0;seconds&nbsp;</div>
+    <div class="line"><span class="lineno">3</span> 1&#xA0;passed&#xA0;in&#xA0;0.01&#xA0;seconds&nbsp;</div>
     </div><!-- }}} -->
     <!--[[[end]]] }}}-->
     <ul>
@@ -1341,7 +1341,7 @@ AssertionError
         # py.test runs the tests as if I had written:
         try:
             test_buy_one_stock()
-        except AssertionError:
+        except:
             [record failure]
         else:
             [record success]
@@ -1351,7 +1351,7 @@ AssertionError
     <div class="line"><span class="c">#&#xA0;py.test&#xA0;runs&#xA0;the&#xA0;tests&#xA0;as&#xA0;if&#xA0;I&#xA0;had&#xA0;written:</span>&nbsp;</div>
     <div class="line"><span class="k">try</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">test_buy_one_stock</span><span class="p">()</span>&nbsp;</div>
-    <div class="line"><span class="k">except</span>&#xA0;<span class="ne">AssertionError</span><span class="p">:</span>&nbsp;</div>
+    <div class="line"><span class="k">except</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">failure</span><span class="p">]</span>&nbsp;</div>
     <div class="line"><span class="k">else</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">success</span><span class="p">]</span>&nbsp;</div>
@@ -1470,21 +1470,21 @@ OK
         # py.test runs the tests as if I had written:
         try:
             test_empty()
-        except AssertionError:
+        except:
             [record failure]
         else:
             [record success]
 
         try:
             test_buy_one_stock()
-        except AssertionError:
+        except:
             [record failure]
         else:
             [record success]
 
         try:
             test_buy_two_stocks()
-        except AssertionError:
+        except:
             [record failure]
         else:
             [record success]
@@ -1495,7 +1495,7 @@ OK
     <div class="line"><span class="k">try</span><span class="p">:</span>&nbsp;</div>
     <div class="line"><span class="hll">&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">test_empty</span><span class="p">()</span>
     </span>&nbsp;</div>
-    <div class="line"><span class="k">except</span>&#xA0;<span class="ne">AssertionError</span><span class="p">:</span>&nbsp;</div>
+    <div class="line"><span class="k">except</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">failure</span><span class="p">]</span>&nbsp;</div>
     <div class="line"><span class="k">else</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">success</span><span class="p">]</span>&nbsp;</div>
@@ -1503,7 +1503,7 @@ OK
     <div class="line"><span class="k">try</span><span class="p">:</span>&nbsp;</div>
     <div class="line"><span class="hll">&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">test_buy_one_stock</span><span class="p">()</span>
     </span>&nbsp;</div>
-    <div class="line"><span class="k">except</span>&#xA0;<span class="ne">AssertionError</span><span class="p">:</span>&nbsp;</div>
+    <div class="line"><span class="k">except</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">failure</span><span class="p">]</span>&nbsp;</div>
     <div class="line"><span class="k">else</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">success</span><span class="p">]</span>&nbsp;</div>
@@ -1511,7 +1511,7 @@ OK
     <div class="line"><span class="k">try</span><span class="p">:</span>&nbsp;</div>
     <div class="line"><span class="hll">&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">test_buy_two_stocks</span><span class="p">()</span>
     </span>&nbsp;</div>
-    <div class="line"><span class="k">except</span>&#xA0;<span class="ne">AssertionError</span><span class="p">:</span>&nbsp;</div>
+    <div class="line"><span class="k">except</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">failure</span><span class="p">]</span>&nbsp;</div>
     <div class="line"><span class="k">else</span><span class="p">:</span>&nbsp;</div>
     <div class="line">&#xA0;&#xA0;&#xA0;&#xA0;<span class="p">[</span><span class="n">record</span>&#xA0;<span class="n">success</span><span class="p">]</span>&nbsp;</div>
@@ -1557,16 +1557,16 @@ OK
     <!--
     $ py.test –q test_port2_pytest_broken.py
     .F.
-    =================================== FAILURES ===================================
-    ______________________________ test_buy_one_stock ______________________________
+    ============================== FAILURES ==============================
+    _________________________ test_buy_one_stock _________________________
 
         def test_buy_one_stock():
             p = Portfolio()
             p.buy("IBM", 100, 176)      # this is wrong, to make the test fail!
     >       assert p.cost() == 17648.0
     E       assert 17600.0 == 17648.0
-    E        +  where 17600.0 = <bound method Portfolio.cost of <portfolio1.Portfolio object at 0x10b594a50>>()
-    E        +    where <bound method Portfolio.cost of <portfolio1.Portfolio object at 0x10b594a50>> = <portfolio1.Portfolio object at 0x10b594a50>.cost
+    E        +  where 17600.0 = <bound method Portfolio.cost of <portfolio1.Portfolio object at 0x10a5396d0>>()
+    E        +    where <bound method Portfolio.cost of <portfolio1.Portfolio object at 0x10a5396d0>> = <portfolio1.Portfolio object at 0x10a5396d0>.cost
 
     test_port2_pytest_broken.py:12: AssertionError
     1 failed, 2 passed in 0.01 seconds
@@ -1575,8 +1575,8 @@ OK
     <div class="line"><span class="lineno"> 1</span> $&#xA0;py.test&#xA0;-q&#xA0;test_port2_pytest_broken.py&nbsp;</div>
     <div class="line"><span class="lineno"> 2</span> <span class="hll">.F.
     </span>&nbsp;</div>
-    <div class="line"><span class="lineno"> 3</span> ===================================&#xA0;FAILURES&#xA0;===================================&nbsp;</div>
-    <div class="line"><span class="lineno"> 4</span> ______________________________&#xA0;test_buy_one_stock&#xA0;______________________________&nbsp;</div>
+    <div class="line"><span class="lineno"> 3</span> ==============================&#xA0;FAILURES&#xA0;==============================&nbsp;</div>
+    <div class="line"><span class="lineno"> 4</span> _________________________&#xA0;test_buy_one_stock&#xA0;_________________________&nbsp;</div>
     <div class="line"><span class="lineno"> 5</span>&nbsp;</div>
     <div class="line"><span class="lineno"> 6</span> &#xA0;&#xA0;&#xA0;&#xA0;def&#xA0;test_buy_one_stock():&nbsp;</div>
     <div class="line"><span class="lineno"> 7</span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;p&#xA0;=&#xA0;Portfolio()&nbsp;</div>
@@ -1585,8 +1585,8 @@ OK
     </span>&nbsp;</div>
     <div class="line"><span class="lineno">10</span> <span class="hll">E&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;assert&#xA0;17600.0&#xA0;==&#xA0;17648.0
     </span>&nbsp;</div>
-    <div class="line"><span class="lineno">11</span> E&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;+&#xA0;&#xA0;where&#xA0;17600.0&#xA0;=&#xA0;&lt;bound&#xA0;method&#xA0;Portfolio.cost&#xA0;of&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10b594a50&gt;&gt;()&nbsp;</div>
-    <div class="line"><span class="lineno">12</span> E&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;+&#xA0;&#xA0;&#xA0;&#xA0;where&#xA0;&lt;bound&#xA0;method&#xA0;Portfolio.cost&#xA0;of&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10b594a50&gt;&gt;&#xA0;=&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10b594a50&gt;.cost&nbsp;</div>
+    <div class="line"><span class="lineno">11</span> E&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;+&#xA0;&#xA0;where&#xA0;17600.0&#xA0;=&#xA0;&lt;bound&#xA0;method&#xA0;Portfolio.cost&#xA0;of&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10a5396d0&gt;&gt;()&nbsp;</div>
+    <div class="line"><span class="lineno">12</span> E&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;+&#xA0;&#xA0;&#xA0;&#xA0;where&#xA0;&lt;bound&#xA0;method&#xA0;Portfolio.cost&#xA0;of&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10a5396d0&gt;&gt;&#xA0;=&#xA0;&lt;portfolio1.Portfolio&#xA0;object&#xA0;at&#xA0;0x10a5396d0&gt;.cost&nbsp;</div>
     <div class="line"><span class="lineno">13</span>&nbsp;</div>
     <div class="line"><span class="lineno">14</span> test_port2_pytest_broken.py:12:&#xA0;AssertionError&nbsp;</div>
     <div class="line"><span class="lineno">15</span> 1&#xA0;failed,&#xA0;2&#xA0;passed&#xA0;in&#xA0;0.01&#xA0;seconds&nbsp;</div>
@@ -1660,8 +1660,8 @@ FAILED (failures=1)
     <!--
     $ py.test –q test_port4_pytest_broken.py
     ...F
-    =================================== FAILURES ===================================
-    ________________________________ test_bad_input ________________________________
+    ============================== FAILURES ==============================
+    ___________________________ test_bad_input ___________________________
 
         def test_bad_input():
             p = Portfolio()
@@ -1674,8 +1674,8 @@ FAILED (failures=1)
     <div class="code text"> <!-- {{{ -->
     <div class="line"><span class="lineno"> 1</span> $&#xA0;py.test&#xA0;-q&#xA0;test_port4_pytest_broken.py&nbsp;</div>
     <div class="line"><span class="lineno"> 2</span> ...F&nbsp;</div>
-    <div class="line"><span class="lineno"> 3</span> ===================================&#xA0;FAILURES&#xA0;===================================&nbsp;</div>
-    <div class="line"><span class="lineno"> 4</span> ________________________________&#xA0;test_bad_input&#xA0;________________________________&nbsp;</div>
+    <div class="line"><span class="lineno"> 3</span> ==============================&#xA0;FAILURES&#xA0;==============================&nbsp;</div>
+    <div class="line"><span class="lineno"> 4</span> ___________________________&#xA0;test_bad_input&#xA0;___________________________&nbsp;</div>
     <div class="line"><span class="lineno"> 5</span>&nbsp;</div>
     <div class="line"><span class="lineno"> 6</span> &#xA0;&#xA0;&#xA0;&#xA0;def&#xA0;test_bad_input():&nbsp;</div>
     <div class="line"><span class="lineno"> 7</span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;p&#xA0;=&#xA0;Portfolio()&nbsp;</div>
@@ -1731,7 +1731,7 @@ FAILED (errors=1)
 
 <div class="slide">
     <h1>pytest.raises</h1>
-    <!--[[[cog include_file("test_port4_pytest.py", start=22, end=26, highlight=[24,25])   ]]] {{{ -->
+    <!--[[[cog include_file("test_port4_pytest.py", start=22, end=26)   ]]] {{{ -->
     <!--
     def test_bad_input():
         p = Portfolio()
@@ -1741,10 +1741,8 @@ FAILED (errors=1)
     <div class="code python"> <!-- {{{ -->
     <div class="line"><span class="lineno">22</span> <span class="k">def</span>&#xA0;<span class="nf">test_bad_input</span><span class="p">():</span>&nbsp;</div>
     <div class="line"><span class="lineno">23</span> &#xA0;&#xA0;&#xA0;&#xA0;<span class="n">p</span>&#xA0;<span class="o">=</span>&#xA0;<span class="n">Portfolio</span><span class="p">()</span>&nbsp;</div>
-    <div class="line"><span class="lineno">24</span> <span class="hll">&#xA0;&#xA0;&#xA0;&#xA0;<span class="k">with</span>&#xA0;<span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
-    </span>&nbsp;</div>
-    <div class="line"><span class="lineno">25</span> <span class="hll">&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">p</span><span class="o">.</span><span class="n">buy</span><span class="p">(</span><span class="s">&quot;IBM&quot;</span><span class="p">)</span>
-    </span>&nbsp;</div>
+    <div class="line"><span class="lineno">24</span> &#xA0;&#xA0;&#xA0;&#xA0;<span class="k">with</span>&#xA0;<span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>&nbsp;</div>
+    <div class="line"><span class="lineno">25</span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="n">p</span><span class="o">.</span><span class="n">buy</span><span class="p">(</span><span class="s">&quot;IBM&quot;</span><span class="p">)</span>&nbsp;</div>
     </div><!-- }}} -->
     <!--[[[end]]] }}}-->
     <!--[[[cog include_file("test_port4_pytest.out")   ]]] {{{ -->
@@ -2102,7 +2100,7 @@ class PortfolioSellTest(PortfolioTestCase):
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Fixtures: isolation!</h1>
+    <h1>Fixtures</h1>
     <ul>
         <li>Establish context</li>
         <li>Common pre- or post- work</li>
@@ -2746,10 +2744,10 @@ class PortfolioSellTest(PortfolioTestCase):
     >>> p.buy("HPQ", 100, 30.0)
 
     >>> p.current_prices()
-    {'HPQ': 10.11, 'IBM': 130.03}
+    {'HPQ': 9.76, 'IBM': 128.11}
 
     >>> p.value()
-    14014.0
+    13787.000000000002
 
 
     -->
@@ -2759,10 +2757,10 @@ class PortfolioSellTest(PortfolioTestCase):
     <div class="line"><span class="gp">&gt;&gt;&gt;&#xA0;</span><span class="n">p</span><span class="o">.</span><span class="n">buy</span><span class="p">(</span><span class="s">&quot;HPQ&quot;</span><span class="p">,</span>&#xA0;<span class="mi">100</span><span class="p">,</span>&#xA0;<span class="mf">30.0</span><span class="p">)</span>&nbsp;</div>
     <div class="line">&nbsp;</div>
     <div class="line"><span class="gp">&gt;&gt;&gt;&#xA0;</span><span class="n">p</span><span class="o">.</span><span class="n">current_prices</span><span class="p">()</span>&nbsp;</div>
-    <div class="line"><span class="go">{&#39;HPQ&#39;:&#xA0;10.11,&#xA0;&#39;IBM&#39;:&#xA0;130.03}</span>&nbsp;</div>
+    <div class="line"><span class="go">{&#39;HPQ&#39;:&#xA0;9.76,&#xA0;&#39;IBM&#39;:&#xA0;128.11}</span>&nbsp;</div>
     <div class="line">&nbsp;</div>
     <div class="line"><span class="gp">&gt;&gt;&gt;&#xA0;</span><span class="n">p</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>&nbsp;</div>
-    <div class="line"><span class="go">14014.0</span>&nbsp;</div>
+    <div class="line"><span class="go">13787.000000000002</span>&nbsp;</div>
     </div><!-- }}} -->
     <!--[[[end]]] }}}-->
 </div>
