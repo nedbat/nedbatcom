@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160122T094329'>
+<title>Collecting pings from software?</title>
+<category>help</category>
+<body>
+
+<p>Let's say I have a piece of software.  In this case, it's some automation
+    for installing and upgrading <a href="http://open.edx.org">Open edX</a>.  I
+    want to know how it is being used, for example, how many people in the last
+    month used certain versions or switches.</p>
+
+<p>To collect information like that, I can put together a URL in the program,
+    and ping that URL.  What's a good simple way to collect that information?
+    What server or service is easy to use and can help me look at the data? Is
+    this something I should use classic marketing web analytics for? Is there a
+    more developer-centric service out there?</p>
+
+<p>This is one of those things that seems easy enough to just do with bit.ly,
+    or a dead-stupid web server with access logs, but I'm guessing there are
+    better ways I don't yet know about.</p>
+
+</body>
+</entry>
+</blog>
