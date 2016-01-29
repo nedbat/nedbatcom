@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160124T213830'>
+<title>Python testing, book and podcast</title>
+<category>python</category>
+<category>testing</category>
+<body>
+
+<p>Two good things in the Python testing world intersected this week.</p>
+
+<p>Harry Percival wrote a great book called <a href='http://obeythetestinggoat.com/'>Test-Driven Development with Python</a>.
+    I should have written about it long ago.  It's a step-by-step example of
+    building real software (Django web applications) using Test-Driven Development.</p>
+
+<figurep href='http://obeythetestinggoat.com/'>
+    <img src='pix/obeythetestinggoat.gif' alt='Test-Driven Development with Python' />
+</figurep>
+
+<p>Harry describes the philosophy, the methods, and the steps, of doing real
+    TDD with Django. Even if you aren't using Django, this book shows the way
+    to use TDD for serious projects.  I'm not yet a TDD convert, but it was
+    very helpful to see it in action and understand more about it.</p>
+
+<p>The entire book is available to read online if you like. Taking the meta to
+    a whole new level, Harry also has
+    <a href='https://github.com/hjwp/Book-TDD-Web-Dev-Python'>the source for
+    the book, including tests</a> on GitHub.</p>
+
+<p>Brian Okken has been running a podcast devoted to Python testing, called 
+    <a href='http://pythontesting.net/test-podcast/'>Python Test Podcast</a>.</p>
+
+<figurep href='http://pythontesting.net/test-podcast/'>
+    <img src='pix/python-test-podcast.png' alt='Python Test Podcast' />
+</figurep>
+
+<p>His latest episode is 
+    <a href='http://pythontesting.net/podcast/harry-percival-pt009/'>an interview with Harry</a>.
+    People must have thought I was nuts driving to work the other day, I was
+    nodding so much.  It was a good conversation.  Highly recommended.</p>
+
+</body>
+</entry>
+</blog>
