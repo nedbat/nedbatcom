@@ -5,6 +5,11 @@
 <category>python</category>
 <category>windows</category>
 <body>
+
+<p><em>Note (Feb 3, 2016):</em> the latest and best version of this is Alex Waters'
+    <a href="https://github.com/tritium21/onetruepython">onetruepython</a>. 
+    Use that.</p>
+
 <p>I'm a recent convert to <a href='http://pypi.python.org/pypi/virtualenv'>virtualenv</a>,
 it's a great way to maintain a number of different Python installations so that
 you can install packages for one project without it polluting the environment
@@ -132,6 +137,9 @@ put things back the way they were.</p>
 <p>Updated Nov 12, 2013: Alex Waters ([Tritium] on #python) revised the program
     to detect the need for elevated privileges and automatically re-run itself
     with privileges.  This makes it much more convenient.  Thanks, Alex!</p>
+
+<p>Updated Feb 3, 2016: Alex Waters continues dominance in this area: his latest
+    version is at <a href="https://github.com/tritium21/onetruepython">onetruepython</a>.</p>
 
 </body>
 </entry>
