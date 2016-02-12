@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160211T193155'>
+<title>The value of unit tests</title>
+<category>python</category>
+<category>testing</category>
+<category>audio</category>
+<body>
+
+<p>Seems like testing and podcasts are in the air... First, 
+    <a href='http://pythontesting.net/podcast/coverage-ned-batchelder/'>I was interviewed</a>
+    on Brian Okken's Python Test podcast. I wasn't sure what to expect.  The
+    conversation went in a few different directions, and it was really nice to
+    just chat with Brian for 45 minutes. We talked about coverage.py, testing,
+    doing presentations, edX, and a few other things.</p>
+
+<p>Then I see that Brian was himself a guest on <a href='https://talkpython.fm/episodes/show/45/the-python-testing-column-now-a-thing'>Talk Python to Me</a>,
+    Michael Kennedy's podcast about all things Python.</p>
+
+<p>On that episode, Brian does a good job arguing against some of the
+    prevailing beliefs about testing.  For example, he explains why unit tests
+    are bad, and integration tests are good.  His argument boils down to, you
+    should test the promises you've made. Unit tests mostly deal with internal
+    details that are not promises you've made to the outside world, so why
+    focus on testing them? The important thing is whether your product behaves
+    right from the outside.</p>
+
+<p>I liked this argument, it made sense.  But I don't think I agree with it.
+    Or, I completely agree with it, and come to a different conclusion.</p>
+
+<p>When I build a complex system, I can't deal with the whole thing at once. I
+    need to think of it as a collection of smaller pieces.  And the boundaries
+    between those pieces need to remain somewhat stable.  So they are promises,
+    not to the outside world, but to myself.  And since I have made those
+    promises to myself, I want unit tests to be sure I'm keeping those
+    promises.</p>
+
+<p>Another value of unit tests is that they are a way to chop up combinatorial
+    explosions.  If my system has three main components, and each of them can
+    be in ten different states, I'll need 1000 integration tests to cover all
+    the possibilities.  If I can test each component in isolation, then I only
+    need 30 unit tests to cover the possibilities, plus a small number of
+    integration tests to consider everything mashed together.  Not to mention,
+    the unit tests will be faster than the integration tests. Which would you
+    rather have? 1000 slow tests, or 30 fast tests plus 20 slow tests?</p>
+
+<p>Sure, it's possible to overdo unit testing. And it's really easy to have all
+    your unit tests pass and still have a broken system.  You need integration
+    tests to be sure everything fits together properly.  Finding the right
+    balance is an art.  I really like hearing Brian's take on it.  Give it a
+    listen.</p>
+
+
+</body>
+</entry>
+</blog>
