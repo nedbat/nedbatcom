@@ -1,8 +1,8 @@
 """ Hyphenation, using Frank Liang's algorithm.
 
-    This module provides a single function to hyphenate words.  hyphenate_word takes 
+    This module provides a single function to hyphenate words.  hyphenate_word takes
     a string (the word), and returns a list of parts that can be separated by hyphens.
-    
+
     >>> hyphenate_word("hyphenation")
     ['hy', 'phen', 'ation']
     >>> hyphenate_word("supercalifragilisticexpialidocious")
@@ -23,15 +23,15 @@ class Hyphenator:
         self.tree = {}
         for pattern in patterns.split():
             self._insert_pattern(pattern)
-    
+
         self.exceptions = {}
         for ex in exceptions.split():
             # Convert the hyphenated pattern into a point array for use later.
             self.exceptions[ex.replace('-', '')] = [0] + [ int(h == '-') for h in re.split(r"[a-z]", ex) ]
-                
+
     def _insert_pattern(self, pattern):
         # Convert the a pattern like 'a1bc3d4' into a string of chars 'abcd'
-        # and a list of points [ 1, 0, 3, 4 ].
+        # and a list of points [ 0, 1, 0, 3, 4 ].
         chars = re.sub('[0-9]', '', pattern)
         points = [ int(d or 0) for d in re.split("[.a-z]", pattern) ]
 
@@ -44,7 +44,7 @@ class Hyphenator:
                 t[c] = {}
             t = t[c]
         t[None] = points
-        
+
     def hyphenate_word(self, word):
         """ Given a word, returns a list of pieces, broken at the possible
             hyphenation points.
