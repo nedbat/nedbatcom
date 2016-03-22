@@ -77,8 +77,9 @@ eval(s, {'__builtins__':{}})
 
 <p>which is a fancy way of saying "object".  The first base class of a tuple is "object".
     Remember, we can't simply say "object", since we have no builtins.  But we can create
-    objects with literal syntax, and then use attributes from there. This is the list
-    of all the subclasses of object:</p>
+    objects with literal syntax, and then use attributes from there.</p>
+
+<p>Once we have object, we can get the list of all the subclasses of object:</p>
 
 <code lang="py"><![CDATA[
 ().__class__.__bases__[0].__subclasses__()
@@ -140,12 +141,13 @@ fc("function")(CODE_OBJECT, {})
 
 <p>And of course, once you have a function, you can call it, which will run the code
     in its code object.  In this case, that will execute our bogus bytecodes, which
-    will segfault the CPython interpreter. Here's the dangerous string again:</p>
+    will segfault the CPython interpreter. Here's the dangerous string again,
+    in more compact form:</p>
 
 <code lang="py"><![CDATA[
-(lambda fc=(lambda n: [c for c in ().__class__.__bases__[0].__subclasses__() if c.__name__ == n][0]):
-    fc("function")(fc("code")(0,0,0,0,"KABOOM",(),(),(),"","",0,""),{})()
-)()
+(lambda fc=(lambda n: [c for c in ().__class__.__bases__[0].__subclasses__()
+    if c.__name__ == n][0]): fc("function")(fc("code")(0,0,0,0,"KABOOM",(),
+    (),(),"","",0,""),{})())()
 ]]></code>
 
 <p>So eval is not safe, even if you remove all the globals and the builtins!</p>
