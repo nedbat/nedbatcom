@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160402T081958'>
+<title>Lato's unfortunate ligatures</title>
+<category>type</category>
+<body>
+
+<p>If you use Slack, or read docs on Read The Docs, you've seen Lato.
+    It's a free high-quality font.  I like it a lot, but it has a feature that
+    bugs me a lot: the f-i ligature:
+</p>
+
+<figurep>
+    <img src="pix/finickyfiddling.png" alt="A sample of Lato" width="460" height="65" />
+</figurep>
+
+<p>If you've never looked into this before, a ligature is a combination of
+    letters that are designed as a new distinct glyph.  In this case, there's
+    an "fi" shape that is used when you have an "f" and an "i" next to each
+    other.</p>
+
+<p>Ligatures have a long tradition in Latin fonts, for a reason: some pairings
+    of letters can have a jarring look.  The bulb of the f and the dot of the i
+    can clash, and it looks better to design a combined shape that shares the
+    space better.</p>
+
+<p>But Lato doesn't suffer from this problem.  Ligatures are a solution to a
+    problem, and here they are being used when there is no problem to solve.
+    The Lato fi ligature is more jarring than the f and the i, because it looks
+    like there's no dot for the i.</p>
+
+<p>Here's a comparison of the fi ligature in some fonts.  The first column is a
+    plain f and i presented naturally, but forced to be individual, naively.
+    Then the fi combination as the browser text renderer draws them, and then
+    the Unicode fi ligature, U+FB01 (LATIN SMALL LIGATURE FI):</p>
+
+<figurep>
+    <img src="pix/ligatures.png" alt="Ligatures in various fonts" width="450" height="350" />
+</figurep>
+
+<p>The naive Lato f and i look fine together without any intervention.  The
+    ligature looks silly without the dot.  The f is trying to reach over to join
+    the dot, but it's too far to reach, so it doesn't get there, and the f has
+    no bulb in the first place.  It doesn't make any sense.</p>
+
+<p>Constantia and Georgia demonstrate a good use of ligatures: the naive
+    pairing shows how the bulb and the dot crowd into each other, and the
+    ligatures shift things a little to resolve the clash.</p>
+
+<p>(Somehow, Lato doesn't map its fi ligature to the U+FB01 code point, so we
+    get the default font there instead.) If you want to experiment, here's
+    <a href='files/ligatures.html'>the HTML file I used to make the image</a>.</p>
+
+<p>By the way, it was an interesting challenge to get the browsers to display
+    the unligatured f-i pairs.  In Firefox, I used a zero-width space (U+200B)
+    between the characters.  But Chrome substituted the ligature anyway, so I
+    tried putting the f and the i in adjacent spans.  This worked in Chrome,
+    but Firefox used the ligature.  So I combined both methods:</p>
+
+<code lang="html"><![CDATA[
+<span>f&#x200b;</span><span>i</span>
+]]></code>
+
+</body>
+</entry>
+</blog>

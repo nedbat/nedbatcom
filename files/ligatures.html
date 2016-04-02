@@ -1,0 +1,38 @@
+<!doctype html>
+<!--
+
+    Demonstrate fi ligatures in a few different fonts, but especially to show
+    that Lato's is bad! :)
+
+    http://nedbatchelder.com/blog/201604/latos_unfortunate_ligatures.html
+
+-->
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <style>
+        p {
+            font-size: 72pt;
+            margin: 0 0 0 1em;
+        }
+        .demo {
+            display: inline-block;
+            width: 4em;
+        }
+        .face {
+            font-size: 36pt;
+            color: #888;
+            margin-left: 1em;
+        }
+        </style>
+    </head>
+    <body>
+        <p style="font-family: Times Roman;"><span class='demo'><span>f&#x200b;</span><span>i</span> &rarr; fi &#xfb01;</span><span class='face'>Times Roman</span></p>
+        <p style="font-family: Helvetica;"><span class='demo'><span>f&#x200b;</span><span>i</span> &rarr; fi &#xfb01;</span><span class='face'>Helvetica</span></p>
+        <p style="font-family: Lato;"><span class='demo'><span>f&#x200b;</span><span>i</span> &rarr; fi &#xfb01;</span><span class='face'>Lato</span></p>
+        <p style="font-family: Constantia;"><span class='demo'><span>f&#x200b;</span><span>i</span> &rarr; fi &#xfb01;</span><span class='face'>Constantia</span></p>
+        <p style="font-family: Georgia;"><span class='demo'><span>f&#x200b;</span><span>i</span> &rarr; fi &#xfb01;</span><span class='face'>Georgia</span></p>
+        <p style="font-family: Lato;">I&rsquo;m diffing my finicky files.</p>
+        <p style="font-family: Lato;">I&rsquo;m di<span>f&#x200b;</span><span>f&#x200b;</span><span>i&#x200b;</span>ng my <span>f&#x200b;</span><span>i&#x200b;</span>nicky <span>f&#x200b;</span><span>i&#x200b;</span>les.</p>
+    </body>
+</html>
