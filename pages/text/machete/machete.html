@@ -1,0 +1,1217 @@
+<!DOCTYPE html> <!-- vim: set foldmethod=marker :-->
+<html>
+<!-- *** Head stuff {{{ -->
+<title>Machete-mode Debugging</title>
+<meta charset="utf-8" />
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+
+    <!-- http://html.adobe.com/edge/webfonts/ -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- }}} -->
+
+    <!-- *** Init code {{{ -->
+    <script type="text/javascript">
+        $(function() {
+            if ($("body.slides").length) {
+                $(".slide").slippy({
+                    // settings go here
+                    // possible values are:
+                    //  - animLen, duration for default animations (0 = disabled)
+                    //  - animInForward, receives a slide and animates it
+                    //  - animInRewind, receives a slide and animates it
+                    //  - animOutForward, receives a slide and animates it
+                    //  - animOutRewind, receives a slide and animates it
+                    //  - baseWidth, defines the base for img resizing, if you don't want only
+                    //    full-width images, specify this as the pixel width of a slide so that
+                    //    images are scaled properly (default is 620px wide)
+                    //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
+                    //  - margin, the fraction of screen to use as slide margin, defaults to 0.15
+                    margin: 0.04,
+                    incrementalBefore: function (el) {
+                        $(el).css({ opacity: 0.01 });
+                    },
+                    animInForward: function (slide) {
+                        var slide = $(slide);
+                        if (slide.hasClass("fadein")) {
+                            slide.css('opacity', '0').css('left', '50%').animate({opacity: '1'}, 350);
+                        }
+                        else {
+                            slide.css('left', '150%').animate({left: '50%'}, 350);
+                        }
+                        slide.find(".incremental").css({opacity:0});    // IDK why this hides them, but 0.01 does not.
+                    },
+                    animOutForward: function(slide) {
+                        var slide = $(slide);
+                        if (slide.hasClass("fadeout")) {
+                            slide.animate({opacity: '1'}, 350).animate({left: '-50%'}, 0);
+                        }
+                        else {
+                            slide.animate({left: '-50%'}, 350);
+                        }
+                    }
+                });
+            }
+
+            $('pre').each(function (i, block) {
+                hljs.highlightBlock(block, '    ');
+            });
+
+            $('pre').each(function (i, e) {
+                var $e = $(e);
+                var h = $e.html();
+                h = h.replace(/\n\n/g, "\n \n");
+                h = h.replace(/\n/g, "</span>\n<span class='line'>");
+                h = "<span class='line'>" + h + "</span>";
+                $e.html(h);
+            });
+
+            $("div.slide").lineselect({ lines: "pre span.line" });
+
+            // Pre-select lines based on a select= attribute.
+            $('pre').each(function (i, e) {
+                var $e = $(e);
+                var select = $e.attr("select");
+                if (select) {
+                    $e.lineselect(select);
+                }
+            });
+        });
+    </script>
+    <!-- }}} -->
+
+    <!-- *** Custom style for this deck {{{ -->
+    <style type="text/css">
+        body, html {
+            background: #222;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        div.text {
+            display: none;
+        }
+
+        .slide {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 600;
+            margin: 1em;
+            border: 1px solid #ccc;
+            border-radius: 1em;
+            background: #fffaf0;
+            font-size: 150%;
+        }
+        h1, h2, h3, h4 {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            line-height: 1.5;
+            text-align: left;
+            word-spacing: .1em;
+        }
+
+        .slide.title h1 {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 800;
+            padding-top: 2em;
+            font-size: 200%;
+            text-align: center;
+        }
+        .slide.title h2 {
+            text-align: center;
+            font-size: 125%;
+            color: #666;
+            margin-top: 2em;
+        }
+        .slide.section {
+            background-color: #ff8;
+        }
+        .slide.section h1 {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            padding-top: 3em;
+            font-size: 200%;
+            text-align: center;
+        }
+        .slide.section h2 {
+            text-align: center;
+            font-size: 125%;
+            color: #666;
+            padding-top: 2em;
+        }
+        .slide p {
+            text-align: left;
+            margin-top: 1em;
+        }
+        .slide .footer {
+            font-weight: 400;
+            color: #666;
+        }
+        .slide .punct {
+            padding: 0 .2em;
+            color: #aaa;
+        }
+
+        .slide .fist {
+            font-size: 175%;
+            vertical-align: middle;
+            margin: -.5em 0;
+            display: inline-block;
+        }
+
+        .slide p.generic {
+            font-family: serif;
+            margin-top: .5em;
+        }
+
+        .slide pre {
+            font-family: Consolas, monaco, monospace;
+            margin-top: 1em;
+            background: #ccf;
+            padding: .3em .35em;
+            line-height: 1.15;
+        }
+
+        .slide pre.python {
+            background: #cfc;
+        }
+
+        pre .selected {
+            background: #fff;
+            border: .15em solid #f66;
+            padding: .15em .15em .05em .15em;
+            margin: -.30em -.30em -.20em -.30em;
+        }
+
+        html.phantompng pre .selected {
+            border-width: 0;
+            background: inherit;
+        }
+
+        pre.smaller {
+            font-size: 70%;
+        }
+
+        .slide span.code {
+            font-family: Consolas, monaco, monospace;
+            background: #cfc;
+        }
+
+        .slide li {
+            list-style: none;
+            margin-top: .5em;
+            position:relative;
+        }
+        .slide li:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: .3em;
+            height: .3em;
+            border-radius: .3em;
+            left: -1em;
+            top: .4em;
+            background-color: #999;
+        }
+
+        a:visited, a:active, a:link, a {
+            color: #0000CC;
+            cursor: pointer;
+        }
+        body.notes {
+            overflow: auto;
+            background: white;
+        }
+        .notes .slide {
+            position: static;
+            left: auto;
+            top: auto;
+            width: 20em;
+            height: auto;
+            border: 2px solid #888;
+            padding: 1em 2em;
+            margin: 1em 1em;
+            font-size: 100%;
+        }
+        .notes img {
+            display: none;
+        }
+
+        .overlay_container {
+            padding-top: 1em;
+        }
+        .overlay {
+            position: relative;
+            width: 100%;
+            height: 0;
+        }
+        .lefthalf {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .righthalf {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .tophalf {
+            position: relative;
+            width: 100%;
+        }
+        .bottomhalf {
+            position: relative;
+            width: 100%;
+        }
+        .opaque {
+            background: #fffaf0;
+        }
+        .slide pre.tophalf {
+            margin-top: 0;  /* No idea why I need this... :( :( */
+        }
+
+    </style>
+    <!-- }}} -->
+
+</head>
+<!-- }}} -->
+<body class="slides">
+
+<!-- *** Introduction {{{ -->
+
+<!--
+
+TODO:
+    - static analysis (reading code, searching) vs dynamic (running code, trace functions, etc)
+
+-->
+
+<div class="slide title" data-layout="clean">
+    <h1>Machete-Mode Debugging</h1>
+    <h2>Ned Batchelder<br/><span class="punct">@</span>nedbat</h2>
+    <h2><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</h2>
+</div>
+
+
+<div class="slide">
+    <h1>Python can be chaotic</h1>
+    <ul>
+    <li class="incremental">Dynamic typing</li>
+    <li class="incremental">No private, protected, final</li>
+    <li class="incremental">All objects in heap</li>
+    <li class="incremental">Nothing is off-limits</li>
+    <li class="incremental">Problems!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Python is a great language.  We love it for its flexibility and dynamism.
+With discipline, we use Python in ways similar to stricter languages, and build
+large systems successfully.</p>
+
+<p>But at heart, Python is simpler and more malleable than other languages.  We
+can use that to our advantage, but sometimes, things go wrong.  The flexibility
+comes back to bite us, and causes problems that we have to debug.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Use it to your advantage</h1>
+    <ul>
+    <li class="incremental">Chaos got us into this mess</li>
+    <li class="incremental">We can use it to get out</li>
+    <li class="incremental">Real projects, real problems</li>
+    <li class="incremental">Not for production!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>OK, Python's lack of rules got us into a mess.  Let's use that freedom and
+power to figure out what's going on, so we can solve the problem.</p>
+
+<p>We'll look at a few real problems that cropped up in real projects.  We'll
+debug the problem using dirty tricks to get at the information we need.  Along
+the way, we'll examine how some Python mechanisms work.</p>
+
+<p>These techniques are not for use in real programs! They are temporary hacks
+to get you out of a tight place. When you are in a jungle, a machete is a very
+good way to get out, but for real work, you should build real paved roads.</p>
+
+<p>Keep in mind, it's bad that I was in any of these predicaments at all! I'm
+mostly not going to talk about how to avoid the problems: there are lots of
+talks out there that can help you build properly from the start.  This talk is
+about using Python's flexible power to untangle yourself once you've gotten
+into trouble.</p>
+
+<p>All of the code in this talk is meant to be used, and then discarded.  Once
+it has served its purpose of getting you the information you need to understand
+the problem, it should be deleted.  It is all hacky, and all "wrong" on some
+level.</p>
+
+<p>By the way, a few of these cases I've written up in more detail on my blog.
+I'll provide links to those posts as we go.</p>
+
+</div><!-- }}} -->
+
+
+<!-- Introduction }}} -->
+
+<!-- *** Case 1: Double importing of modules {{{ -->
+
+<div class="slide section" data-layout="clean" title="Case 1: Double importing">
+    <h1>Case 1<br/>Double importing</h1>
+</div>
+
+<div class="slide">
+    <h1>The Problem</h1>
+    <ul>
+    <li class="incremental">Modules imported more than once!?</li>
+    <li class="incremental">... classes defined twice</li>
+    <li class="incremental">... Django complains</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>I had a problem where my modules were being imported more than once.  Since
+they contained class definitions, this meant my classes were being defined
+twice.  It's never been a good idea to live with this situation, but Python
+won't complain about it.  Recent versions of Django do complain, though, which
+is how we discovered it was happening.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Modules</h1>
+    <ul>
+    <li>Every .py is a module</li>
+    <li>Executed when imported</li>
+    <li>Only executed once!</li>
+    </ul>
+
+    <pre class="python">
+    # Wildly over-simplified
+    def import_module(mod_name):
+        if mod_name in sys.modules:
+            return sys.modules[mod_name]
+
+        for dir_name in sys.path:
+            file_name = combine(dir_name, mod_name, ".py")
+            if exists(file_name):
+                module = execute_file(file_name)
+                sys.modules[mod_name] = module
+                return module
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>When you import a module, the .py file is found, and executed, and the
+results become the attributes of the module.</p>
+
+<p>Modules are only executed once, because the sys.modules dictionary keeps
+track of all the modules that have been imported.  Another import statement
+simply find the module in sys.modules, and returns it, rather than executing
+the file again.</p>
+
+<p>The first time a module is imported, Python has to find a .py file for the
+module.  sys.path is a list of directories.  Each directory is examined to find
+the .py file.  When the file is found, it is executed, a module is made from
+the result, and the module is stored in sys.modules.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>How to find these?</h1>
+    <pre class="python">
+    # My double-imported module, with beacon
+
+    import inspect
+    with open("/tmp/double.txt", "a") as f:
+        f.write("-- Importing {} ----\n".format(__file__))
+        for frec in inspect.stack()[:0:-1]:
+            line = "{:>30s} : {} @{}\n".format(
+                frec[3], frec[1], frec[2]
+            )
+            f.write(line)
+
+    # ... the actual code ...
+
+    class MyDoubleImportedModel(models.Model):
+        """blah blah blah"""
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>To find the problem, we'll take advantage of the fact that importing a module
+really executes the code in the module.  Classes and functions are defined in a
+module because the class and def statements in the .py file are executed.</p>
+
+<p>Whatever code you put at the top-level of a module, it will execute when the
+module is imported.  There is no special "just define classes and functions" mode
+that imports your module.  The code is really run.</p>
+
+<p>So if we put code into one of our double-imported modules, it will run, twice.
+The code we put in uses inspect.stack to examine the current state of the call
+stack. This will tell us who is importing the module.</p>
+
+<p>If you haven't looked at the inspect module, go take a peek.  It has lots of
+interesting functions for getting information about all kinds of things.
+inspect.stack returns a list of tuples, one for each frame in the call stack.
+The tuples include the name of the function, the filename and line number, and
+a list of source lines around the call site.</p>
+
+<p>Here I'm formatting the function name, file name, and line number, into one
+line for compact output.</p>
+
+<p>I'm also opening a temporary file for output, and writing the results to it.
+I do this so I don't have to worry about whether stdout is being captured, or
+where it is going.  By opening a specific file, for appending, I can be sure
+about where my output is going.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Results</h1>
+
+    <pre class="smaller lang-text">
+    -- Importing project/thing/apps/first/models.py ----
+                &lt;module> : manage.py @112
+                     run : project/thing/startup.py @50
+                   setup : django/__init__.py @18
+                populate : django/apps/registry.py @108
+           import_models : django/apps/config.py @198
+           import_module : /usr/lib/python2.7/importlib/__init__.py @37
+                &lt;module> : project/other/apps/one/compute.py @36
+                &lt;module> : project/thing/apps/second/courses.py @25
+                &lt;module> : project/thing/apps/second/summary.py @18
+
+    -- Importing project/thing/apps/first/models.pyc ----
+                &lt;module> : manage.py @112
+                     run : project/thing/startup.py @50
+                   setup : django/__init__.py @18
+                populate : django/apps/registry.py @115
+                   ready : django/contrib/admin/apps.py @22
+            autodiscover : django/contrib/admin/__init__.py @24
+    autodiscover_modules : django/utils/module_loading.py @74
+           import_module : /usr/lib/python2.7/importlib/__init__.py @37
+                &lt;module> : project/thing/apps/first/admin.py @29
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>The results look like this.  The way I've formatted the stack, the function
+name is to the left of the colon, and the file name and line number are to the
+right.  In this case, the function name isn't that useful, since what we're
+looking for is the file that is importing the doubly-imported module.  The
+import statements won't be inside a function, so it's reported as &lt;module>
+instead.</p>
+
+<p>With these results, we have two files to examine: second/summary.py
+and first/admin.py</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Bad Layout</h1>
+    <pre>
+    project *
+    ├── thing
+    │   └── apps *
+    │       ├── first/    admin.py, models.py
+    │       └── second/   courses.py, summary.py
+    └── other
+        └── apps *
+            ├── one/      compute.py
+            └── another
+    </pre>
+
+    <pre class="python">
+    sys.path.append("thing/apps")
+    sys.path.append("other/apps")
+
+    import thing.apps.first.models
+    import first.models
+    </pre>
+
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Once we looked at those two imports, we could see what was wrong.  This slide
+shows a simplified version of the problem.</p>
+
+<p>In our source tree, we had files that were accessible through two different
+entries in sys.path.  The asterisks show the directories that were in sys.path.
+The file that was being imported twice was project/thing/apps/first/models.py.</p>
+
+<p>In one file, it was imported as "thing.apps.first.models", and was found via
+the "project" sys.path entry.  In the other file, it was imported as "first.models"
+and was found via the "project/thing/apps" sys.path entry.  The first import created
+a "thing.apps.first.models" key in sys.modules.  The second import looked for a 
+key of "first.models", didn't find it, and then imported the same file again.</p>
+
+<p>The fix was to choose one style of import, and stick with it throughout the
+code.</p>
+
+<!-- Where i fixed them: https://github.com/edx/edx-platform/pull/9988/files -->
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
+    <ul>
+    <li class="incremental">Code runs in lots of places</li>
+    <li class="incremental">Hard-code</li>
+    <li class="incremental">Wrong is OK</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Some things we took advantage of here:</p>
+
+<ul>
+    <li>Although executing real code on import can cause problems, and is
+    therefore discouraged, in our case, it was exactly what we needed.</li>
+
+    <li>Hard-coding details simplifies the hack.  We wrote directly to a temp
+    file of our own choosing.</li>
+
+    <li>We can do things as wrong as we like, since the code will be deleted
+    once it's given us the answers we need anyway.</li>
+</ul>
+
+</div><!-- }}} -->
+
+
+<!-- Case 1 }}} -->
+
+<!-- *** Case 2: Finding temp file creators {{{ -->
+
+<!--
+    http://nedbatchelder.com/blog/201503/finding_temp_file_creators.html
+-->
+
+<div class="slide section" data-layout="clean" title="Case 2: Finding temp file creators">
+    <h1>Case 2<br/>Finding temp file creators</h1>
+</div>
+
+<div class="slide">
+    <h1>The Problem</h1>
+    <pre class="python">
+    def test_that_is_good(self):
+         tmp_dir = tempfile.mkdtemp()
+         self.addCleanup(shutil.rmtree, tmp_dir)
+         # .. blah blah use tmp_dir
+
+    def test_that_is_bad(self):
+         tmp_dir = tempfile.mkdtemp()
+         # .. blah blah use tmp_dir
+    </pre>
+    <ul>
+    <li class="incremental">Many tests, creating temp files</li>
+    <li class="incremental">Not all cleaned up</li>
+    <li class="incremental">Too many to eyeball</li>
+    <li class="incremental">Want a flare in the file itself<span class="incremental">: in the file name!</span></li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Many of our tests create temporary files or directories.  The good tests
+properly clean them up at the end of the test run. (By the way: if you are
+using unittest to write your tests, definitely use addCleanup, it's much better
+than tearDown.)</p>
+
+<p>The bad tests weren't cleaning up their temporaries.  Finding those tests
+was difficult, because they weren't written as simply as the example here. The
+temporaries were created in helper functions, making it harder to find the
+places where a temporary was being made but not cleaned up.</p>
+
+<p>We want information about who creates the files. One way would be to note
+the name of each temporary file created, along with the call stack that made
+it.  Then when the test suite finishes, we could look up the names of the
+marooned files to see where they came from.</p>
+
+<p>I decided to try a different approach: since we only care about the files
+that remain when the tests are done, what if we write the information we need
+into the files themselves?  We can't write our own data into the content of the
+files, since the content is being used by the tests.  But the file names are
+essentially arbitrary anyway, so we can write information there.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Monkeypatching</h1>
+    <pre class="incremental python">
+    # first_thing.py
+    import tempfile
+
+    def my_sneaky_function(...):
+        ...
+
+    tempfile.mkdtemp = my_sneaky_function
+    </pre>
+
+    <pre class="incremental python">
+    # Unsuspecting product code
+    import tempfile
+    tempfile.mkdtemp()  # Calls my_sneaky_function! ☺
+    </pre>
+    <ul>
+    <li class="incremental"><b>Any</b> name can be re-assigned</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>To do anything special during the creation of temporary files, we'll
+monkeypatch functions in the tempfile module.  Monkeypatching is the colorful
+name for changing someone else's code at runtime by injecting your own code
+into their namespace.</p>
+
+<p>For example, to change how mkdtemp works, we can define our own function
+with the same calling signature, and then assign it to tempfile.mkdtemp.  Now
+unsuspecting product code that calls tempfile.mkdtemp will actually be running
+our code, rather than the code in the standard library.</p>
+
+<p>This works because no names are special in Python: mkdtemp is an ordinary
+attribute of the tempfile module, and can be reassigned just as any other name
+can be. This may seem odd: the standard library feels like it should be
+unchanging.  But the standard library is made of Python modules like your own
+code is. Any name can be reassigned.</p>
+
+<p>Monkeypatching can be very powerful, since you can hijack any name that
+other parts of your program are using.  It can also be dangerously chaotic.</p>
+
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Read the source!</h1>
+    <ul>
+    <li class="incremental">A handful of different functions</li>
+    <li class="incremental">We only want to tweak the file names</li>
+    <li class="incremental">They all call <span class="code">_get_candidate_names</span></li>
+    </ul>
+    <pre class="python incremental">
+    # Lib/tempfile.py
+    def mkdtemp(suffix="", prefix=template, dir=None):
+        """ The actual stdlib mkdtemp() """
+        # ...
+        names = _get_candidate_names()  # ☜ AHA! ☜
+        for name in names:
+            # ... try making the file ...
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>One of the things that can be tricky to get right when monkeypatching is
+what exactly to patch.  In our case, there are a handful of different tempfile
+functions that could be involved.  And we don't want to take over the entire
+function, we just want to change what names the files get.</p>
+
+<p>Reading the source in tempfile.py, it turns out that all of the functions
+that create temporary files or directories make use of the same helper,
+_get_candidate_names.  This function produces a sequence of possible file
+names. It's responsible for the typical random names you see in temporary
+files.  The functions then try each name in turn, looking for one that isn't
+already being used.</p>
+
+<p>If we monkeypatch _get_candidate_names, we'll have killed two birds with one
+stone: we'll centrally affect all of the functions that can create temporary files,
+and we'll only affect the file names they create.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Running code on startup</h1>
+    <ul>
+    <li class="incremental">Python has no feature</li>
+    </ul>
+    <pre class="incremental python">
+    # site-packages/000_first.pth
+    # You create this file.
+    import first_thing
+    </pre>
+    <pre class="incremental python">
+    # Lib/site.py, in the stdlib
+    ...
+    for line in the_pth_file:
+        if line.startswith("import "):
+            exec line
+        else:
+            sys.path.append(line)
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Another factor that complicates monkeypatching is that you have to patch the
+function before it gets called.  You might also need to patch the function
+before it is imported, depending on how it's imported.  So for the most
+effective monkeypatch, you want to run your patching code before any other code
+in the program.</p>
+
+<p>Python doesn't have a feature for running a preamble before the real
+program.  But it has a feature we can use for this purpose.</p>
+
+<p>One of the ways that installed packages are referenced is by a Python-specific
+form of symbolic link called a .pth file.  These small files usually just
+contain the name of another directory to include when searching for packages.</p>
+
+<p>But if a line in a .pth file begins with "import", then the line is executed!
+We can use this, along with the knowledge that code in imported modules is truly
+executed, to get code to run as early as possible in the program.</p>
+
+<p>We create a file called first_thing.py, and put in it all the code that we
+want to run first thing.  Then we create a file in the site-packages directory
+called 000_first.pth.  It imports first_thing.  We name the file 000_first.pth
+because .pth files are processed alphabetically.  Our name will ensure that our
+code is run even before other .pth files are processed.</p>
+
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>The sneak</h1>
+    <pre class="python">
+    real_get_candidate_names = tempfile._get_candidate_names
+
+    def my_get_candidate_names():
+        stack = "-".join(
+            "{}{}".format(
+                os.path.basename(t[1]).replace(".py", ""),
+                t[2],
+            )
+            for t in inspect.stack()[4:1:-1]
+        )
+        for name in real_get_candidate_names():
+            yield "-" + stack + "-" + name
+
+    tempfile._get_candidate_names = my_get_candidate_names
+    </pre>
+    <pre>
+    tmp-case53-case78-test_import_export289-DVPmzy/
+    tmp-test_video36-test_video143-tempfile455-2upTdS.srt
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Here's the patch: we define my_get_candidate_names to yield possible names
+for the temporary file.  We save the original _get_candidate_names function so
+that we can use it as part of our function.  Our function uses our old friend
+inspect.stack, concatenating the last few source file names and line numbers
+into something compact enough to fit in a file name.</p>
+
+<p>We monkeypatch tempfile._get_candidate_names, and now any tempfile function
+that makes temporary files will have our stack traces in their file names.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
+    <ul>
+    <li class="incremental">Std lib is readable</li>
+    <li class="incremental">Std lib is patchable</li>
+    <li class="incremental">Use whatever you can touch and change</li>
+    </ul>
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+<p>Lessons:</p>
+<ul>
+
+    <li>You can read the standard library.  This simple fact is sometimes
+    overlooked. Even before we get to monkeypatching, just being able to
+    read the standard library code is a powerful way to be able to
+    understand what is happening in your program.</li>
+
+    <li>You can patch the standard library.  It's mostly just Python code like
+    anything else.  You can change how it works to get some leverage over a
+    thorny problem.  Don't do it for real code, but for emergencies, it can be
+    very helpful.</li>
+
+    <li>Here we used a clever trick of writing information into the names of
+    temporary files.  Often when debugging large systems, there are parts
+    that are not as accessible as you'd like.  Think creatively about the
+    information you need, where it is, and where you can put it so that you can
+    see it well.</li>
+
+</ul>
+
+<p>More detail on this case is in my blog post
+<a href="http://nedbatchelder.com/blog/201503/finding_temp_file_creators.html">Finding Temp File Creators</a>.</p>
+
+</div><!-- }}} -->
+
+
+<!-- Case 2 }}} -->
+
+<!-- *** Case 3: Who is changing sys.path? {{{ -->
+
+<!--
+    http://nedbatchelder.com/blog/201311/adhoc_data_breakpoints.html
+-->
+
+<div class="slide section" data-layout="clean" title="Case 3: Who is changing sys.path?">
+    <h1>Case 3<br/>Who is changing sys.path?</h1>
+</div>
+
+<div class="slide">
+    <h1>The Problem</h1>
+    <ul>
+    <li class="incremental">sys.path being modified incorrectly</li>
+    <li class="incremental">grep didn't find it</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>At one point, our test suite was failing because the wrong module was being
+imported.  Examining sys.path where the import was happening, there was a new
+entry that had been added.  What put it there?</p>
+
+<p>A check of our sources didn't find it.  Some third-party code must be doing
+it.  We couldn't grep all of the third-party modules we were using.  How to
+find the culprit?</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Data breakpoints</h1>
+    <ul>
+    <li class="incremental">pdb doesn't have it</li>
+    <li class="incremental">write a trace function</li>
+    <li class="incremental">executed on every line!</li>
+    </ul>
+    <pre class="incremental python">
+    def trace(frame, event, arg):
+        if sys.path[0].endswith("/lib"):
+            pdb.set_trace()
+        return trace
+
+    sys.settrace(trace)
+    </pre>
+    <ul>
+    <li class="incremental">it was nose!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>What would be great is a way to break into the debugger when a certain piece
+of data is changed.  In this case, the incorrect entry in sys.path was being
+added as the first element, and it ended with "/lib".  We want to stop in the
+debugger when a condition is true: sys.path[0].endswith("/lib").</p>
+
+<p>The standard Python debugger, pdb, doesn't have this feature.  You can set a
+breakpoint at a particular line, with a condition.  But we wanted a condition
+untethered from a line of source code.  We wanted to stop in the debugger when
+the condition because true, no matter what line of code was running.</p>
+
+<p>Python debuggers (and other tools, like coverage measurement) are built on a
+feature called the "trace function."  This is a Python function that is called
+for every line of running program.  Every time a new line is executed, the
+trace function is called to track the program's progress.</p>
+
+<p>Since our condition is so simple, it's easy to write a trace function to do
+what we want: check the condition, and if it's true, break into the
+debugger:</p>
+
+<code lang="python">
+def trace(frame, event, arg):
+    if sys.path[0].endswith("/lib"):
+        pdb.set_trace()
+    return trace
+
+sys.settrace(trace)
+</code>
+
+<p>To be honest, I wasn't sure what would happen if I tried to start the
+debugger from inside a trace function.  That seemed particularly twisty, but
+this trace function was simple enough to write and try, I figured I'd give it a
+shot.</p>
+
+<p>It worked great: with this trace function in place, the test suite ran
+(slowly!), and revealed that our test runner, nose, was adding the entry to
+sys.path. A little more investigation revealed that this was configurable, so
+it was easy for us to disable.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
+    <ul>
+    <li class="incremental">It's not just your code</li>
+    <li class="incremental">Dynamic analysis</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Lessons:</p>
+
+<ul>
+
+    <li>Problems might not be in your code.  Everything is running together
+    in one process.  Python doesn't provide access control in classes, so code
+    can be misbehaving from suprising places.</li>
+
+    <li>Dynamic analysis is very powerful.  Rather than use static analysis
+    (like grep, though it feels funny to bestow such a fancy term on good
+    old grep), coming at it from a dynamic point of view found us the
+    answer more quickly.  You want to know who is changing data? Watch the
+    data.</li>
+
+</ul>
+
+<p>More detail on this case is in my blog post
+<a href="http://nedbatchelder.com/blog/201311/adhoc_data_breakpoints.html">Ad-hoc Data Breakpoints</a>.</p>
+
+</div><!-- }}} -->
+
+
+<!-- Case 3 }}} -->
+
+<!-- *** Case 4: Why is random() different? {{{ -->
+
+<!--
+    http://nedbatchelder.com/blog/201302/hunting_a_random_bug.html
+-->
+
+<div class="slide section" data-layout="clean" title="Case 4: Why is random() different?">
+    <h1>Case 4<br/>Why is random() different?</h1>
+</div>
+
+<div class="slide">
+    <h1>The Problem</h1>
+    <pre class="python">
+    # Prepare to run instructor code
+    random.seed(1701)
+
+    # run instructor code
+    import foo, bar, baz
+
+    assert random.randint(1, 1000) == 492
+    </pre>
+    <ul>
+    <li class="incremental">Answer is different first time</li>
+    <li class="incremental">Answer is same second, third, etc.</li>
+    <li class="incremental">Something wrong during import?</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>At edX, we run Python code as part of presenting problems to students.  We
+randomize some components of the question so that different students get
+different problems.  But we seed the random number generator with a
+student-specific seed so that if a student revisits a problem, they will see
+the same problem.</p>
+
+<p>We were seeing that the first time the problem generation ran, it would get
+one set of values, but then subsequent runs would get different, but consistent
+values.</p>
+
+<p>The "first is different than the rest" factor made me think that something
+was happening during import.  Remember that modules are executed when they are
+first imported, but subsequent imports just use the stored module object.</p>
+
+<p>There were two ways the random sequence could be changing: either something
+was re-seeding the random number generator, or something was eating some random
+numbers from the sequence.</p>
+
+<p>A little experimentation in the interactive interpreter showed that one
+value was being consumed from the sequence. But where?</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>1/0</h1>
+    <pre class="incremental python">
+    import random
+    random.random = lambda: 1/0
+    </pre>
+
+    <ul>
+    <li class="incremental">Easy to drop in</li>
+    <li class="incremental">Unlikely exception</li>
+    <li class="incremental">Easy to spot</li>
+    <li class="incremental">My favorite three Python characters!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Again, we'll use monkeypatching to find the problem.  This time though,
+instead of providing a useful new implementation of the function, we're
+planting a booby trap.</p>
+
+<p>We replace random.random with a function that will raise an exception when
+called.  Then we can run the code, and examine the traceback to see what is
+consuming the random number.</p>
+
+<p>One over zero is extremely handy. It's easy to drop into some code when you
+want to see if it executes.  The ZeroDivisionError it raises is an unlikely
+exception, so you can be sure it's yours.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Booby-trapped random</h1>
+    <pre class="incremental smaller lang-text">
+    Traceback (most recent call last):
+      ...
+      File "/venv/lib/python2.7/site-packages/pkg/__init__.py", line 13, in &lt;module>
+        from runtests import test, doctest
+      File "/venv/lib/python2.7/site-packages/pkg/runtests.py", line 472, in &lt;module>
+        class PkgTests(object):
+      File "/venv/lib/python2.7/site-packages/pkg/runtests.py", line 475, in PkgTests
+        seed=random.random()):      # <span class="fist">☜ ☜ ☜</span>
+      File "tryme.py", line 1, in &lt;lambda>
+    ZeroDivisionError: integer division or modulo by zero
+    </pre>
+    <pre class="incremental python">
+    class PkgTests(object):
+        def __init__(self, ..., seed=random.random()):
+    </pre>
+    <ul>
+        <li class="incremental">Default args evaluated once</li>
+        <li class="incremental">When module imported</li>
+        <li class="incremental">Bonus: the value was never used!</li>
+    </ul>
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+<p>Here we run the code again, and our one-over-zero finds the problem quickly.
+One of our third-party libraries was importing its test-case code.  The
+constructor had a default argument with a random value.  Default values are
+evaluated once, when the function is defined.  So this random.random() call
+happened during import.</p>
+
+<p>This library shouldn't be doing this, but as an extra bonus, that default
+value is never used, because the constructor was always called with an explicit
+value for that argument.</p>
+
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
+    <ul>
+    <li class="incremental">Exceptions are a good way to get information</li>
+    <li class="incremental">Don't be afraid to blow things up</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Lessons:</p>
+
+<ul>
+
+    <li>Exceptions can be a good way to get information from deep inside your
+    program.  Another trick: raise an exception with data in its message.</li>
+
+    <li>Don't be timid about blowing things up: in this case, the monkeypatch
+    destroys the program, but it gives us useful information.</li>
+
+</ul>
+
+<p>More detail on this case is in my blog post
+<a href="http://nedbatchelder.com/blog/201302/hunting_a_random_bug.html">Hunting A Random Bug</a>.</p>
+
+</div><!-- }}} -->
+
+
+
+<!-- Case 4 }}} -->
+
+<!-- *** Finale {{{ -->
+
+<div class="slide">
+    <h1><span class="fist">☞☞</span> Big Lessons <span class="fist">☜☜</span></h1>
+    <ul>
+    <li class="incremental">Break conventions to get what you need</li>
+    <li class="incremental">But only for debugging</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>When your program is misbehaving, you need to get information about what is
+happening.  You can do things wrong temporarily to get what you need, and then
+clean it up afterwards.</p>
+
+</div><!-- }}} -->
+
+
+
+<div class="slide title" data-layout="clean">
+    <h1 style="padding-top: 0em">Questions?</h1>
+    <h2 style="margin-top: 5em"><span class="punct">@</span>nedbat</h2>
+    <h2><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</h2>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Thanks for your attention, I hope this has been helpful.</p>
+
+</div><!-- }}} -->
+
+<!-- }}} -->
+
+<!-- *** (Layouts) {{{ -->
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="left">bit.ly<span class='punct'>/</span>madebug</span>
+        <span class="right"><span class='punct'>@</span>nedbat</span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" name="clean" data-name="clean">
+    <content></content>
+</div>
+
+
+</body>
+</html>
