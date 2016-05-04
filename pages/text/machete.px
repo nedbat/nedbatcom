@@ -18,43 +18,54 @@ slides).</p>
 
 <figurep href="text/machete/machete.html#1"><img alt="Machete-Mode Debugging" scale="0.5" src="text/machete_pix/000.png"/></figurep><figurep href="text/machete/machete.html#2"><img alt="Python can be chaotic" scale="0.5" src="text/machete_pix/001.png"/></figurep><!-- {{{ --><p>Python is a great language.  We love it for its flexibility and dynamism.
 With discipline, we use Python in ways similar to stricter languages, and build
-large systems successfully.</p><p>But at heart, Python is simpler and more malleable than other languages.  We
-can use that to our advantage, but sometimes, things go wrong.  The flexibility
-comes back to bite us, and causes problems that we have to debug.</p><figurep href="text/machete/machete.html#3"><img alt="Use it to your advantage" scale="0.5" src="text/machete_pix/002.png"/></figurep><!-- {{{ --><p>OK, Python's lack of rules got us into a mess.  Let's use that freedom and
+large systems successfully.</p><p>But at heart, Python is simpler and more malleable than other languages.
+Dynamic typing means that names may have values you don't expect.  Where other
+languages offer access control over the internals of objects, Python lets you
+examine and change anything.  All of your program's data is on the heap, and
+can be used throughout your program.</p><p>All of this flexibility can be a powerful tool, but sometimes, things go
+wrong.  The flexibility comes back to bite us, and causes problems that we have
+to debug.</p><figurep href="text/machete/machete.html#3"><img alt="Use it to your advantage" scale="0.5" src="text/machete_pix/002.png"/></figurep><!-- {{{ --><p>OK, Python's lack of rules got us into a mess.  Let's use that freedom and
 power to figure out what's going on, so we can solve the problem.</p><p>We'll look at a few real problems that cropped up in real projects.  We'll
 debug the problem using dirty tricks to get at the information we need.  Along
 the way, we'll examine how some Python mechanisms work.</p><p>These techniques are not for use in real programs! They are temporary hacks
 to get you out of a tight place. When you are in a jungle, a machete is a very
-good way to get out, but for real work, you should build real paved roads.</p><p>Keep in mind, it's bad that I was in any of these predicaments at all! I'm
-mostly not going to talk about how to avoid the problems: there are lots of
-talks out there that can help you build properly from the start.  This talk is
-about using Python's flexible power to untangle yourself once you've gotten
-into trouble.</p><p>All of the code in this talk is meant to be used, and then discarded.  Once
+good way to get out, but for real work, you should build real paved roads.</p><p>Ideally, you'd prevent these bad situations from happening in the first
+place.  I'm mostly not going to talk about how to avoid the problems: there are
+lots of talks out there that can help you build properly from the start.  This
+talk is about using Python's flexible power to untangle yourself once you've
+gotten into trouble.</p><p>All of the code in this talk is meant to be used, and then discarded.  Once
 it has served its purpose of getting you the information you need to understand
 the problem, it should be deleted.  It is all hacky, and all "wrong" on some
 level.</p><p>By the way, a few of these cases I've written up in more detail on my blog.
-I'll provide links to those posts as we go.</p><h1>Case 1: Double importing</h1><figurep href="text/machete/machete.html#4"><img alt="Case 1: Double importing" scale="0.5" src="text/machete_pix/003.png"/></figurep><figurep href="text/machete/machete.html#5"><img alt="The Problem" scale="0.5" src="text/machete_pix/004.png"/></figurep><!-- {{{ --><p>I had a problem where my modules were being imported more than once.  Since
-they contained class definitions, this meant my classes were being defined
-twice.  It's never been a good idea to live with this situation, but Python
-won't complain about it.  Recent versions of Django do complain, though, which
-is how we discovered it was happening.</p><figurep href="text/machete/machete.html#6"><img alt="Modules" scale="0.5" src="text/machete_pix/005.png"/></figurep><!-- {{{ --><p>When you import a module, the .py file is found, and executed, and the
+I'll provide links to those posts as we go.</p><h1>Case 1: Double importing</h1><figurep href="text/machete/machete.html#4"><img alt="Case 1: Double importing" scale="0.5" src="text/machete_pix/003.png"/></figurep><figurep href="text/machete/machete.html#5"><img alt="The Problem" scale="0.5" src="text/machete_pix/004.png"/></figurep><!-- {{{ --><p>We had a problem where our modules were being imported more than once.
+Since they contained class definitions, this meant my classes were being
+defined twice.  It's never been a good idea to live with this situation, but
+Python won't complain about it, and often, it doesn't cause any issues.  But
+recent versions of Django complain about it, which is how we discovered it was
+happening.</p><figurep href="text/machete/machete.html#6"><img alt="Modules" scale="0.5" src="text/machete_pix/005.png"/></figurep><!-- {{{ --><p>When you import a module, the .py file is found, and executed, and the
 results become the attributes of the module.</p><p>Modules are only executed once, because the sys.modules dictionary keeps
 track of all the modules that have been imported.  Another import statement
-simply find the module in sys.modules, and returns it, rather than executing
+simply finds the module in sys.modules, and returns it, rather than executing
 the file again.</p><p>The first time a module is imported, Python has to find a .py file for the
 module.  sys.path is a list of directories.  Each directory is examined to find
 the .py file.  When the file is found, it is executed, a module is made from
-the result, and the module is stored in sys.modules.</p><figurep href="text/machete/machete.html#7"><img alt="How to find these?" scale="0.5" src="text/machete_pix/006.png"/></figurep><!-- {{{ --><p>To find the problem, we'll take advantage of the fact that importing a module
-really executes the code in the module.  Classes and functions are defined in a
-module because the class and def statements in the .py file are executed.</p><p>Whatever code you put at the top-level of a module, it will execute when the
-module is imported.  There is no special "just define classes and functions" mode
-that imports your module.  The code is really run.</p><p>So if we put code into one of our double-imported modules, it will run, twice.
-The code we put in uses inspect.stack to examine the current state of the call
-stack. This will tell us who is importing the module.</p><p>If you haven't looked at the inspect module, go take a peek.  It has lots of
+the result, and the module is stored in sys.modules.</p><figurep href="text/machete/machete.html#7"><img alt="How to find these?" scale="0.5" src="text/machete_pix/006.png"/></figurep><!-- {{{ --><p>To find the problem, we'll take advantage of the fact that importing a
+module really executes the code in the module.  Classes and functions are
+defined in a module because the class and def statements in the .py file are
+executed.  Often, it's easy to think of modules as consisting of nothing more
+than class and function declarations, but they are really executable statements
+that define classes and functions.
+
+</p><p>Whatever code you put at the top-level of a module, it will execute when the
+module is imported.  There is no special "just define classes and functions"
+mode that imports your module.  The code is really run.</p><p>So if we put code into one of our double-imported modules, it will run,
+twice.  The code we put in uses inspect.stack to examine the current state of
+the call stack. This will tell us who is importing the module.</p><p>If you haven't looked at the inspect module, go take a peek.  It has lots of
 interesting functions for getting information about all kinds of things.
 inspect.stack returns a list of tuples, one for each frame in the call stack.
 The tuples include the name of the function, the filename and line number, and
-a list of source lines around the call site.</p><p>Here I'm formatting the function name, file name, and line number, into one
+a list of source lines around the call site. It's a great way to pinpoint where
+you are in your program.</p><p>Here I'm formatting the function name, file name, and line number, into one
 line for compact output.</p><p>I'm also opening a temporary file for output, and writing the results to it.
 I do this so I don't have to worry about whether stdout is being captured, or
 where it is going.  By opening a specific file, for appending, I can be sure
@@ -227,7 +238,15 @@ value for that argument.</p><figurep href="text/machete/machete.html#26"><img al
 </ul><p>More detail on this case is in my blog post
 <a href="http://nedbatchelder.com/blog/201302/hunting_a_random_bug.html">Hunting A Random Bug</a>.</p><figurep href="text/machete/machete.html#27"><img alt="&#9758;&#9758; Big Lessons &#9756;&#9756;" scale="0.5" src="text/machete_pix/026.png"/></figurep><!-- {{{ --><p>When your program is misbehaving, you need to get information about what is
 happening.  You can do things wrong temporarily to get what you need, and then
-clean it up afterwards.</p><figurep href="text/machete/machete.html#28"><img alt="Questions?" scale="0.5" src="text/machete_pix/027.png"/></figurep><!-- {{{ --><p>Thanks for your attention, I hope this has been helpful.</p>
+clean it up afterwards.</p><p>All of the techniques here have been dynamic analysis: getting information
+from actually running the code.  This cuts through all of the dynamism that is
+hard to analyze statically.</p><p>Understanding how Python works gives you leverage against problems like
+this, and can help you find techniques to solve them.</p><!-- {{{ --><p>Thanks for your attention, I hope this has been helpful.</p>
+
+
+
+
+
 
 
 

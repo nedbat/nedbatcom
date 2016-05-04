@@ -145,6 +145,9 @@
             font-size: 200%;
             text-align: center;
         }
+        .slide.section h1 .super {
+            color: #666;
+        }
         .slide.section h2 {
             text-align: center;
             font-size: 125%;
@@ -225,10 +228,17 @@
             top: .4em;
             background-color: #999;
         }
+        .slide li.spaced {
+            margin-top: 1.5em;
+        }
 
         a:visited, a:active, a:link, a {
             color: #0000CC;
             cursor: pointer;
+        }
+        a.implicit {
+            text-decoration: none;
+            color: inherit;
         }
         body.notes {
             overflow: auto;
@@ -295,13 +305,17 @@
 
 TODO:
     - static analysis (reading code, searching) vs dynamic (running code, trace functions, etc)
+    - "examine some *internal* Python mechanisms"?
+    - "stop modifying sys.path!"
+    - "Don'ts" on each Lessons slide
+    - Python used with discipline is structured, but underneath, it's a churning caldron of chaos
 
 -->
 
 <div class="slide title" data-layout="clean">
     <h1>Machete-Mode Debugging</h1>
-    <h2>Ned Batchelder<br/><span class="punct">@</span>nedbat</h2>
-    <h2><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</h2>
+    <h2>Ned Batchelder<br/><a class="implicit" href="http://twitter.com/nedbat"><span class="punct">@</span>nedbat</a></h2>
+    <h2><a class="implicit" href="http://bit.ly/madebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</a></h2>
 </div>
 
 
@@ -322,9 +336,15 @@ TODO:
 With discipline, we use Python in ways similar to stricter languages, and build
 large systems successfully.</p>
 
-<p>But at heart, Python is simpler and more malleable than other languages.  We
-can use that to our advantage, but sometimes, things go wrong.  The flexibility
-comes back to bite us, and causes problems that we have to debug.</p>
+<p>But at heart, Python is simpler and more malleable than other languages.
+Dynamic typing means that names may have values you don't expect.  Where other
+languages offer access control over the internals of objects, Python lets you
+examine and change anything.  All of your program's data is on the heap, and
+can be used throughout your program.</p>
+
+<p>All of this flexibility can be a powerful tool, but sometimes, things go
+wrong.  The flexibility comes back to bite us, and causes problems that we have
+to debug.</p>
 
 </div><!-- }}} -->
 
@@ -351,11 +371,11 @@ the way, we'll examine how some Python mechanisms work.</p>
 to get you out of a tight place. When you are in a jungle, a machete is a very
 good way to get out, but for real work, you should build real paved roads.</p>
 
-<p>Keep in mind, it's bad that I was in any of these predicaments at all! I'm
-mostly not going to talk about how to avoid the problems: there are lots of
-talks out there that can help you build properly from the start.  This talk is
-about using Python's flexible power to untangle yourself once you've gotten
-into trouble.</p>
+<p>Ideally, you'd prevent these bad situations from happening in the first
+place.  I'm mostly not going to talk about how to avoid the problems: there are
+lots of talks out there that can help you build properly from the start.  This
+talk is about using Python's flexible power to untangle yourself once you've
+gotten into trouble.</p>
 
 <p>All of the code in this talk is meant to be used, and then discarded.  Once
 it has served its purpose of getting you the information you need to understand
@@ -373,32 +393,32 @@ I'll provide links to those posts as we go.</p>
 <!-- *** Case 1: Double importing of modules {{{ -->
 
 <div class="slide section" data-layout="clean" title="Case 1: Double importing">
-    <h1>Case 1<br/>Double importing</h1>
+    <h1><span class="super">Case 1</span><br/>Double importing</h1>
 </div>
 
 <div class="slide">
     <h1>The Problem</h1>
     <ul>
     <li class="incremental">Modules imported more than once!?</li>
-    <li class="incremental">... classes defined twice</li>
-    <li class="incremental">... Django complains</li>
+    <li class="incremental">Classes defined twice</li>
+    <li class="incremental">Django complains</li>
     </ul>
 </div>
 
 <div class="text"><!-- {{{ -->
 
-<p>I had a problem where my modules were being imported more than once.  Since
-they contained class definitions, this meant my classes were being defined
-twice.  It's never been a good idea to live with this situation, but Python
-won't complain about it.  Recent versions of Django do complain, though, which
-is how we discovered it was happening.</p>
+<p>We had a problem where our modules were being imported more than once.
+Since they contained class definitions, this meant my classes were being
+defined twice.  It's never been a good idea to live with this situation, but
+Python won't complain about it, and often, it doesn't cause any issues.  But
+recent versions of Django complain about it, which is how we discovered it was
+happening.</p>
 
 </div><!-- }}} -->
 
 <div class="slide">
     <h1>Modules</h1>
     <ul>
-    <li>Every .py is a module</li>
     <li>Executed when imported</li>
     <li>Only executed once!</li>
     </ul>
@@ -415,6 +435,8 @@ is how we discovered it was happening.</p>
                 module = execute_file(file_name)
                 sys.modules[mod_name] = module
                 return module
+
+        raise ImportError(...)
     </pre>
 </div>
 
@@ -425,7 +447,7 @@ results become the attributes of the module.</p>
 
 <p>Modules are only executed once, because the sys.modules dictionary keeps
 track of all the modules that have been imported.  Another import statement
-simply find the module in sys.modules, and returns it, rather than executing
+simply finds the module in sys.modules, and returns it, rather than executing
 the file again.</p>
 
 <p>The first time a module is imported, Python has to find a .py file for the
@@ -458,23 +480,27 @@ the result, and the module is stored in sys.modules.</p>
 
 <div class="text"><!-- {{{ -->
 
-<p>To find the problem, we'll take advantage of the fact that importing a module
-really executes the code in the module.  Classes and functions are defined in a
-module because the class and def statements in the .py file are executed.</p>
+<p>To find the problem, we'll take advantage of the fact that importing a
+module really executes the code in the module.  Classes and functions are
+defined in a module because the class and def statements in the .py file are
+executed.  Often, it's easy to think of modules as consisting of nothing more
+than class and function declarations, but they are really executable statements
+that define classes and functions.
 
 <p>Whatever code you put at the top-level of a module, it will execute when the
-module is imported.  There is no special "just define classes and functions" mode
-that imports your module.  The code is really run.</p>
+module is imported.  There is no special "just define classes and functions"
+mode that imports your module.  The code is really run.</p>
 
-<p>So if we put code into one of our double-imported modules, it will run, twice.
-The code we put in uses inspect.stack to examine the current state of the call
-stack. This will tell us who is importing the module.</p>
+<p>So if we put code into one of our double-imported modules, it will run,
+twice.  The code we put in uses inspect.stack to examine the current state of
+the call stack. This will tell us who is importing the module.</p>
 
 <p>If you haven't looked at the inspect module, go take a peek.  It has lots of
 interesting functions for getting information about all kinds of things.
 inspect.stack returns a list of tuples, one for each frame in the call stack.
 The tuples include the name of the function, the filename and line number, and
-a list of source lines around the call site.</p>
+a list of source lines around the call site. It's a great way to pinpoint where
+you are in your program.</p>
 
 <p>Here I'm formatting the function name, file name, and line number, into one
 line for compact output.</p>
@@ -540,15 +566,15 @@ and first/admin.py</p>
     │       └── second/   courses.py, summary.py
     └── other
         └── apps *
-            ├── one/      compute.py
-            └── another
+            └── one/      compute.py
     </pre>
 
     <pre class="python">
     sys.path.append("thing/apps")
     sys.path.append("other/apps")
-
+    ...
     import thing.apps.first.models
+    ...
     import first.models
     </pre>
 
@@ -580,9 +606,10 @@ code.</p>
 <div class="slide">
     <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
     <ul>
-    <li class="incremental">Code runs in lots of places</li>
+    <li class="incremental">Import really runs code</li>
     <li class="incremental">Hard-code</li>
     <li class="incremental">Wrong is OK</li>
+    <li class="incremental spaced"><b>Don't</b> append to sys.path</li>
     </ul>
 </div>
 
@@ -613,7 +640,7 @@ code.</p>
 -->
 
 <div class="slide section" data-layout="clean" title="Case 2: Finding temp file creators">
-    <h1>Case 2<br/>Finding temp file creators</h1>
+    <h1><span class="super">Case 2</span><br/>Finding temp file creators</h1>
 </div>
 
 <div class="slide">
@@ -752,12 +779,8 @@ and we'll only affect the file names they create.</p>
     <h1>Running code on startup</h1>
     <ul>
     <li class="incremental">Python has no feature</li>
+    <li class="incremental">site-packages/*.pth</li>
     </ul>
-    <pre class="incremental python">
-    # site-packages/000_first.pth
-    # You create this file.
-    import first_thing
-    </pre>
     <pre class="incremental python">
     # Lib/site.py, in the stdlib
     ...
@@ -766,6 +789,11 @@ and we'll only affect the file names they create.</p>
             exec line
         else:
             sys.path.append(line)
+    </pre>
+    <pre class="incremental python">
+    # site-packages/000_first.pth
+    # You create this file.
+    import first_thing
     </pre>
 </div>
 
@@ -840,8 +868,9 @@ that makes temporary files will have our stack traces in their file names.</p>
     <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
     <ul>
     <li class="incremental">Std lib is readable</li>
-    <li class="incremental">Std lib is patchable</li>
+    <li class="incremental">Std lib is patchable!</li>
     <li class="incremental">Use whatever you can touch and change</li>
+    <li class="incremental spaced"><b>Do</b> use addCleanup</li>
     </ul>
 </div>
 
@@ -884,7 +913,7 @@ that makes temporary files will have our stack traces in their file names.</p>
 -->
 
 <div class="slide section" data-layout="clean" title="Case 3: Who is changing sys.path?">
-    <h1>Case 3<br/>Who is changing sys.path?</h1>
+    <h1><span class="super">Case 3</span><br/>Who is changing sys.path?</h1>
 </div>
 
 <div class="slide">
@@ -911,9 +940,9 @@ find the culprit?</p>
 <div class="slide">
     <h1>Data breakpoints</h1>
     <ul>
-    <li class="incremental">pdb doesn't have it</li>
-    <li class="incremental">write a trace function</li>
-    <li class="incremental">executed on every line!</li>
+    <li class="incremental">pdb doesn't have them</li>
+    <li class="incremental">Write a trace function</li>
+    <li class="incremental">Executed on every line!</li>
     </ul>
     <pre class="incremental python">
     def trace(frame, event, arg):
@@ -924,7 +953,7 @@ find the culprit?</p>
     sys.settrace(trace)
     </pre>
     <ul>
-    <li class="incremental">it was nose!</li>
+    <li class="incremental">It was nose</li>
     </ul>
 </div>
 
@@ -1012,15 +1041,19 @@ it was easy for us to disable.</p>
 -->
 
 <div class="slide section" data-layout="clean" title="Case 4: Why is random() different?">
-    <h1>Case 4<br/>Why is random() different?</h1>
+    <h1><span class="super">Case 4</span><br/>Why is random() different?</h1>
 </div>
 
 <div class="slide">
     <h1>The Problem</h1>
-    <pre class="python">
+    <ul>
+    <li class="incremental">Randomized, but repeatable problems</li>
+    </ul>
+    <pre class="python incremental">
     # Prepare to run instructor code
-    random.seed(1701)
-
+    random.seed(1701)       # student.seed
+    </pre>
+    <pre class="python incremental">
     # run instructor code
     import foo, bar, baz
 
@@ -1138,6 +1171,8 @@ value for that argument.</p>
     <ul>
     <li class="incremental">Exceptions are a good way to get information</li>
     <li class="incremental">Don't be afraid to blow things up</li>
+    <li class="incremental spaced"><b>Don't</b> use mutable default values</li>
+    <li class="incremental"><b>Do</b> suspect third-party code</li>
     </ul>
 </div>
 
@@ -1166,12 +1201,19 @@ value for that argument.</p>
 
 <!-- *** Finale {{{ -->
 
-<div class="slide">
-    <h1><span class="fist">☞☞</span> Big Lessons <span class="fist">☜☜</span></h1>
+<div class="slide title" data-layout="clean">
+    <h1 style="padding-top: 0em; font-size: 150%; font-weight: 700"><span class="fist">☞☞</span> Big Lessons <span class="fist">☜☜</span></h1>
     <ul>
     <li class="incremental">Break conventions to get what you need</li>
     <li class="incremental">But only for debugging</li>
+    <li class="incremental">Dynamic analysis</li>
+    <li class="incremental">Understand Python!</li>
     </ul>
+    <div class="incremental">
+    <h1 style="padding-top: 0em">Questions?</h1>
+    <h2 style="margin-top: 3em"><span class="punct">@</span>nedbat</h2>
+    <h2 style="margin-top: .5em"><a class="implicit" href="http://bit.ly/madebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</a></h2>
+    </div>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1180,15 +1222,16 @@ value for that argument.</p>
 happening.  You can do things wrong temporarily to get what you need, and then
 clean it up afterwards.</p>
 
+<p>All of the techniques here have been dynamic analysis: getting information
+from actually running the code.  This cuts through all of the dynamism that is
+hard to analyze statically.</p>
+
+<p>Understanding how Python works gives you leverage against problems like
+this, and can help you find techniques to solve them.</p>
+
+
 </div><!-- }}} -->
 
-
-
-<div class="slide title" data-layout="clean">
-    <h1 style="padding-top: 0em">Questions?</h1>
-    <h2 style="margin-top: 5em"><span class="punct">@</span>nedbat</h2>
-    <h2><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</h2>
-</div>
 
 <div class="text"><!-- {{{ -->
 
@@ -1202,8 +1245,8 @@ clean it up afterwards.</p>
 <div class="layout" data-name="default">
     <content></content>
     <div class="footer">
-        <span class="left">bit.ly<span class='punct'>/</span>madebug</span>
-        <span class="right"><span class='punct'>@</span>nedbat</span>
+        <span class="left"><a class="implicit" href="http://bit.ly/madebug">bit.ly<span class='punct'>/</span>madebug</a></span>
+        <span class="right"><a class="implicit" href="http://twitter.com/nedbat"><span class='punct'>@</span>nedbat</a></span>
         <hr class="defloat" />
     </div>
 </div>
