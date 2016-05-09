@@ -307,7 +307,6 @@ TODO:
     - static analysis (reading code, searching) vs dynamic (running code, trace functions, etc)
     - "examine some *internal* Python mechanisms"?
     - "stop modifying sys.path!"
-    - "Don'ts" on each Lessons slide
     - Python used with discipline is structured, but underneath, it's a churning caldron of chaos
 
 -->
@@ -315,7 +314,7 @@ TODO:
 <div class="slide title" data-layout="clean">
     <h1>Machete-Mode Debugging</h1>
     <h2>Ned Batchelder<br/><a class="implicit" href="http://twitter.com/nedbat"><span class="punct">@</span>nedbat</a></h2>
-    <h2><a class="implicit" href="http://bit.ly/madebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</a></h2>
+    <h2><a class="implicit" href="http://bit.ly/mdebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>mdebug</a></h2>
 </div>
 
 
@@ -558,7 +557,13 @@ and first/admin.py</p>
 
 <div class="slide">
     <h1>Bad Layout</h1>
-    <pre>
+    <pre class="python incremental">
+    import thing.apps.first.models
+    ...
+    import first.models
+    </pre>
+
+    <pre class="incremental">
     project *
     ├── thing
     │   └── apps *
@@ -569,13 +574,10 @@ and first/admin.py</p>
             └── one/      compute.py
     </pre>
 
-    <pre class="python">
+    <pre class="python incremental">
     sys.path.append("thing/apps")
     sys.path.append("other/apps")
     ...
-    import thing.apps.first.models
-    ...
-    import first.models
     </pre>
 
 </div>
@@ -1051,17 +1053,17 @@ it was easy for us to disable.</p>
     </ul>
     <pre class="python incremental">
     # Prepare to run instructor code
-    random.seed(1701)       # student.seed
+    random.seed(1702)       # student.seed
     </pre>
     <pre class="python incremental">
-    # run instructor code
+    # Instructor code
     import foo, bar, baz
 
-    assert random.randint(1, 1000) == 492
+    print(random.randint(1, 1000))      # 420?
     </pre>
     <ul>
-    <li class="incremental">Answer is different first time</li>
-    <li class="incremental">Answer is same second, third, etc.</li>
+    <li class="incremental">First time: 284</li>
+    <li class="incremental">Second, third, etc: 420</li>
     <li class="incremental">Something wrong during import?</li>
     </ul>
 </div>
@@ -1171,7 +1173,8 @@ value for that argument.</p>
     <ul>
     <li class="incremental">Exceptions are a good way to get information</li>
     <li class="incremental">Don't be afraid to blow things up</li>
-    <li class="incremental spaced"><b>Don't</b> use mutable default values</li>
+    <li class="incremental spaced"><b>Don't</b> use global state</li>
+    <li class="incremental"><b>Do</b> use your own Random object</li>
     <li class="incremental"><b>Do</b> suspect third-party code</li>
     </ul>
 </div>
@@ -1187,6 +1190,17 @@ value for that argument.</p>
 
     <li>Don't be timid about blowing things up: in this case, the monkeypatch
     destroys the program, but it gives us useful information.</li>
+
+    <li>One of the causes of this problem was that our code, and the
+    third-party code, was using the single global random number sequence.  We
+    were sharing global mutable state.  The best solution to this problem was
+    to create our own private Random instance, and use that.  Then we could be
+    sure that we were getting numbers from the sequence we seeded.</li>
+
+    <li>A common mistake when debugging programs is to assume that something
+    else is at fault: the compiler, the helper libraries, anything.  Usually,
+    this is wrong: it's usually your own code that is to blame.  But sometimes,
+    it really is someone else's fault.</li>
 
 </ul>
 
@@ -1212,7 +1226,7 @@ value for that argument.</p>
     <div class="incremental">
     <h1 style="padding-top: 0em">Questions?</h1>
     <h2 style="margin-top: 3em"><span class="punct">@</span>nedbat</h2>
-    <h2 style="margin-top: .5em"><a class="implicit" href="http://bit.ly/madebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>madebug</a></h2>
+    <h2 style="margin-top: .5em"><a class="implicit" href="http://bit.ly/mdebug"><span class="punct">http://</span>bit.ly<span class="punct">/</span>mdebug</a></h2>
     </div>
 </div>
 
@@ -1245,7 +1259,7 @@ this, and can help you find techniques to solve them.</p>
 <div class="layout" data-name="default">
     <content></content>
     <div class="footer">
-        <span class="left"><a class="implicit" href="http://bit.ly/madebug">bit.ly<span class='punct'>/</span>madebug</a></span>
+        <span class="left"><a class="implicit" href="http://bit.ly/mdebug">bit.ly<span class='punct'>/</span>mdebug</a></span>
         <span class="right"><a class="implicit" href="http://twitter.com/nedbat"><span class='punct'>@</span>nedbat</a></span>
         <hr class="defloat" />
     </div>

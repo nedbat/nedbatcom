@@ -235,6 +235,17 @@ value for that argument.</p><figurep href="text/machete/machete.html#26"><img al
     <li>Don't be timid about blowing things up: in this case, the monkeypatch
     destroys the program, but it gives us useful information.</li>
 
+    <li>One of the causes of this problem was that our code, and the
+    third-party code, was using the single global random number sequence.  We
+    were sharing global mutable state.  The best solution to this problem was
+    to create our own private Random instance, and use that.  Then we could be
+    sure that we were getting numbers from the sequence we seeded.</li>
+
+    <li>A common mistake when debugging programs is to assume that something
+    else is at fault: the compiler, the helper libraries, anything.  Usually,
+    this is wrong: it's usually your own code that is to blame.  But sometimes,
+    it really is someone else's fault.</li>
+
 </ul><p>More detail on this case is in my blog post
 <a href="http://nedbatchelder.com/blog/201302/hunting_a_random_bug.html">Hunting A Random Bug</a>.</p><figurep href="text/machete/machete.html#27"><img alt="&#9758;&#9758; Big Lessons &#9756;&#9756;" scale="0.5" src="text/machete_pix/026.png"/></figurep><!-- {{{ --><p>When your program is misbehaving, you need to get information about what is
 happening.  You can do things wrong temporarily to get what you need, and then
