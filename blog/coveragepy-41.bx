@@ -1,5 +1,43 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
+
+<entry when='20160510T170000'>
+<title>Coverage.py 4.1b3 and the truth about Coverage.py</title>
+<category>coverage</category>
+<body>
+
+<p>Work on Coverage.py 4.1 is continuing:
+    <a href="https://pypi.python.org/pypi/coverage/4.1b3">beta 3 is available</a>.
+    </p>
+
+<p>If you haven't used any of the 4.1 betas, the big change is that branch
+    coverage has been completely rewritten.  The new code produces much more
+    reliable results, and has allowed me to implement things like better
+    support for lambdas. Eleven bugs with branch coverage have been fixed.
+    </p>
+
+<p>The HTML report has a cool new feature, contributed by Dmitry Shishov, a map
+    in the scrollbar of where the highlighted lines are, so you can quickly
+    drag to where you need to look.  (By the way, there are also keyboard
+    shortcuts to do that, have been for a long time!)</p>
+
+<p>One small backward-incompatibility: if you've been using the API, and
+    calling the Coverage.report function, the default for the show_missing
+    parameter has changed.</p>
+
+<p><a href="https://pypi.python.org/pypi/coverage/4.1b3">Try Coverage.py 4.1b3</a>
+    and let me know what you think.</p>
+
+<p>Now, the truth about Coverage.py: I think it could be much better.  There
+    are lots of things about the internals that I don't like.  I think the
+    classes could be refactored better.  Too many of the tests are integration
+    tests rather than unit tests.  Too many real-world scenarios aren't covered
+    by tests.  I'm not good at staying on top of the pull requests and issues.
+    If you think you could help with any of this, get in touch.</p>
+
+</body>
+</entry>
+
 <entry when='20160110T203100'>
 <title>Coverage.py 4.1b1</title>
 <category>coverage</category>
