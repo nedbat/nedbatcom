@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160511T144500'>
+<title>Generator comprehensions</title>
+<category>python</category>
+<category>history</category>
+<body>
+
+<p>Python has a compact syntax for constructing a list with a loop and a condition,
+    called a list comprehension:</p>
+
+<code lang="python"><![CDATA[
+my_list = [ f(x) for x in sequence if cond(x) ]
+]]></code>
+
+<p>You can also build dictionaries with dictionary comprehensions, and sets with
+    set comprehensions:</p>
+
+<code lang="python"><![CDATA[
+my_dict = { k(x): v(x) for x in sequence if cond(x) }
+my_set = { f(x) for x in sequence if cond(x) }
+]]></code>
+
+<p>(The syntax allows more complexity than these examples, let's not get distracted!)</p>
+
+<p>Finally, you can make a generator with similar syntax:</p>
+
+<code lang="python"><![CDATA[
+my_generator = ( f(x) for x in sequence if cond(x) )
+]]></code>
+
+<p>Unfortunately, this is called a generator expression, not a generator
+    comprehension. Why not?  If the first three are all comprehensions, why
+    isn't this a comprehension?</p>
+
+<p><a href="https://www.python.org/dev/peps/pep-0289/">PEP 289, Generator Expressions</a>
+    has detailed notes at the end which point out that Raymond Hettinger
+    originally proposed "generator comprehensions," that they were then
+    resurrected by Peter Norvig as "accumulation displays," and that Tim Peters
+    suggested the name "generator expressions."  It does not explain why the
+    names changed along the way.</p>
+
+<p>I made a <a href="https://twitter.com/nedbat/status/727926142909468672">query on Twitter</a>:</p>
+
+<quote><p>OK, #python question I don’t know the answer to: why are they called
+        “generator expressions” and not “generator comprehensions”?</p></quote>
+
+<p>Guido's reply gets at the heart of the matter:</p>
+
+<quote><p>Originally comprehension was part of the "literal display" notion.
+        GenExprs are not displays.</p></quote>
+
+<p>Matt Boehm found the
+    <a href="https://mail.python.org/pipermail/python-dev/2003-October/039186.html">email
+    where Tim Peters proposed "generator expression"</a> that also has some details.</p>
+
+<p>After reading that, I understand more. First, what's with the word
+    "comprehension"?  As Tim pointed out, the word comes from set theory's
+    <a href="https://en.wikipedia.org/wiki/Axiom_schema_of_specification">Axiom of Comprehension</a>,
+    which talks about sets formed by applying a predicate (condition) to
+    elements of another set.  This is very similar to lists formed by applying
+    a condition to elements of another sequence.</p>
+
+<p>As Guido's tweet points out, and the subject line of the email thread makes
+    clear ("accumulator display syntax"), the designers at the time were
+    thinking much more about displays than they were about conditions.  The
+    word "display" here means that the syntax for the code looks like the data
+    structure it will create.  A list display (list comprehension) looks like a
+    list.  Same for set and dictionary displays.  But there is no generator
+    literal syntax, so there's nothing for a generator display to look like, so
+    there are no generator displays.</p>
+
+<p>In that original email thread designing the feature, the word
+    "comprehension" became synonymous with "display", and since generators
+    couldn't have displays, they also couldn't have comprehensions.</p>
+
+<p>But as Tim points out in his email, the interesting part of a comprehension
+    is the condition.  The heart of the Axiom of Comprehension is the
+    predicate.  Perhaps because the condition is optional in a Python
+    comprehension, the focus shifted to the display aspect.</p>
+
+<p>I think we should call them "generator comprehensions" again.  We don't use
+    the term "display" for these things. There's no reason to link "comprehension"
+    to "display," and literal syntax.</p>
+
+<p>The four different expressions (list comprehension, dict comprehension, set
+    comprehension, and generator expressions) have an awful lot in common with
+    each other.  It would be a great shorthand to be able to discuss their
+    similarities by talking about "comprehensions" and having it cover all
+    four.  Their similarities are more than their differences, so let's use the
+    same word for all four.</p>
+
+<p>Proposal: call them "generator comprehensions."</p>
+
+</body>
+</entry>
+</blog>
