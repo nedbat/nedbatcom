@@ -182,7 +182,7 @@
         .slide pre {
             font-family: Consolas, monaco, monospace;
             margin-top: 1em;
-            background: #ccf;
+            background: #ddf;
             padding: .3em .35em;
             line-height: 1.15;
         }
@@ -205,6 +205,18 @@
 
         pre.smaller {
             font-size: 70%;
+        }
+
+        pre.fade {
+            color: #999;
+        }
+
+        pre .red {
+            color: #f00;
+        }
+
+        pre .dark {
+            color: #000;
         }
 
         .slide span.code {
@@ -307,7 +319,7 @@ TODO:
     - static analysis (reading code, searching) vs dynamic (running code, trace functions, etc)
     - "examine some *internal* Python mechanisms"?
     - "stop modifying sys.path!"
-    - Python used with discipline is structured, but underneath, it's a churning caldron of chaos
+    - Python used with discipline is structured, but underneath, it's a churning cauldron of chaos
 
 -->
 
@@ -325,7 +337,7 @@ TODO:
     <li class="incremental">No private, protected, final</li>
     <li class="incremental">All objects in heap</li>
     <li class="incremental">Nothing is off-limits</li>
-    <li class="incremental">Problems!</li>
+    <li class="incremental">&rArr; Problems!</li>
     </ul>
 </div>
 
@@ -335,11 +347,12 @@ TODO:
 With discipline, we use Python in ways similar to stricter languages, and build
 large systems successfully.</p>
 
-<p>But at heart, Python is simpler and more malleable than other languages.
-Dynamic typing means that names may have values you don't expect.  Where other
-languages offer access control over the internals of objects, Python lets you
-examine and change anything.  All of your program's data is on the heap, and
-can be used throughout your program.</p>
+<p>But at heart, Python is simpler and more fluid than other languages.
+Sometimes you want this fluidity, but usually you don't.  Dynamic typing means
+that names may have values you don't expect.  Where other languages offer
+access control over the internals of objects, Python lets you examine and
+change anything.  All of your program's data is on the heap, and can be used
+throughout your program.</p>
 
 <p>All of this flexibility can be a powerful tool, but sometimes, things go
 wrong.  The flexibility comes back to bite us, and causes problems that we have
@@ -368,7 +381,8 @@ the way, we'll examine how some Python mechanisms work.</p>
 
 <p>These techniques are not for use in real programs! They are temporary hacks
 to get you out of a tight place. When you are in a jungle, a machete is a very
-good way to get out, but for real work, you should build real paved roads.</p>
+good way to get out, but for real work, you should build real paved roads with
+signs and painted lines.</p>
 
 <p>Ideally, you'd prevent these bad situations from happening in the first
 place.  I'm mostly not going to talk about how to avoid the problems: there are
@@ -407,7 +421,7 @@ I'll provide links to those posts as we go.</p>
 <div class="text"><!-- {{{ -->
 
 <p>We had a problem where our modules were being imported more than once.
-Since they contained class definitions, this meant my classes were being
+Since they contained class definitions, this meant our classes were being
 defined twice.  It's never been a good idea to live with this situation, but
 Python won't complain about it, and often, it doesn't cause any issues.  But
 recent versions of Django complain about it, which is how we discovered it was
@@ -445,14 +459,25 @@ happening.</p>
 results become the attributes of the module.</p>
 
 <p>Modules are only executed once, because the sys.modules dictionary keeps
-track of all the modules that have been imported.  Another import statement
-simply finds the module in sys.modules, and returns it, rather than executing
-the file again.</p>
+track of all the modules that have been imported.  Once a module has been
+imported, subsequent import statements simply find the module in sys.modules,
+and return it, rather than executing the file again.</p>
 
 <p>The first time a module is imported, Python has to find a .py file for the
-module.  sys.path is a list of directories.  Each directory is examined to find
-the .py file.  When the file is found, it is executed, a module is made from
-the result, and the module is stored in sys.modules.</p>
+module.  sys.path is a list of directories that Python uses to look for .py
+files.  Each directory is examined for the .py file.  When the file is
+found, it is executed, a module is made from the result, and the module is
+stored in sys.modules.</p>
+
+<p>With all this machinery to ensure files are only executed and imported once,
+how are ours being imported twice?  We could read the code, or use grep to look
+for reasons.  But one of the consequences of Python's dynamic nature is that
+static analysis like that is difficult.</p>
+
+<p>So instead of static analysis, we'll use dynamic tools.  Let's run the code,
+and get it to tell us what's going on.  This theme runs through all of the
+cases we'll look at: rather than try to analyze the code, we'll run code to
+understand it.</p>
 
 </div><!-- }}} -->
 
@@ -482,13 +507,14 @@ the result, and the module is stored in sys.modules.</p>
 <p>To find the problem, we'll take advantage of the fact that importing a
 module really executes the code in the module.  Classes and functions are
 defined in a module because the class and def statements in the .py file are
-executed.  Often, it's easy to think of modules as consisting of nothing more
-than class and function declarations, but they are really executable statements
-that define classes and functions.
+executed.  Often, it's easy to think of modules as just containing classes and
+functions, but they are really executable statements that define classes and
+functions.</p>
 
 <p>Whatever code you put at the top-level of a module, it will execute when the
 module is imported.  There is no special "just define classes and functions"
-mode that imports your module.  The code is really run.</p>
+mode that imports your module.  The code is really run, and any statement can
+be in a module.</p>
 
 <p>So if we put code into one of our double-imported modules, it will run,
 twice.  The code we put in uses inspect.stack to examine the current state of
@@ -509,13 +535,17 @@ I do this so I don't have to worry about whether stdout is being captured, or
 where it is going.  By opening a specific file, for appending, I can be sure
 about where my output is going.</p>
 
+<p>This is the "wrong" way to log, but I don't care. I didn't want to fiddle
+with the right ways, and this code is only temporary.</p>
+
 </div><!-- }}} -->
 
 
 <div class="slide">
     <h1>Results</h1>
 
-    <pre class="smaller lang-text">
+    <div style="position: relative">    <!-- make the containing divs appear in the same place. -->
+    <pre class="smaller lang-text" style="position: absolute">
     -- Importing project/thing/apps/first/models.py ----
                 &lt;module> : manage.py @112
                      run : project/thing/startup.py @50
@@ -538,6 +568,31 @@ about where my output is going.</p>
            import_module : /usr/lib/python2.7/importlib/__init__.py @37
                 &lt;module> : project/thing/apps/first/admin.py @29
     </pre>
+
+    <pre class="smaller fade lang-text incremental" style="position: absolute">
+    <span class="dark">-- Importing project/thing/apps/first/models.py ----</span>
+                &lt;module> : manage.py @112
+                     run : project/thing/startup.py @50
+                   setup : django/__init__.py @18
+                populate : django/apps/registry.py @108
+           import_models : django/apps/config.py @198
+           import_module : /usr/lib/python2.7/importlib/__init__.py @37
+                &lt;module> : project/other/apps/one/compute.py @36
+                &lt;module> : project/thing/apps/second/courses.py @25
+                <span class="dark">&lt;module> : project/thing/apps/second/summary.py @18</span>
+
+    <span class="dark">-- Importing project/thing/apps/first/models.pyc ----</span>
+                &lt;module> : manage.py @112
+                     run : project/thing/startup.py @50
+                   setup : django/__init__.py @18
+                populate : django/apps/registry.py @115
+                   ready : django/contrib/admin/apps.py @22
+            autodiscover : django/contrib/admin/__init__.py @24
+    autodiscover_modules : django/utils/module_loading.py @74
+           import_module : /usr/lib/python2.7/importlib/__init__.py @37
+                <span class="dark">&lt;module> : project/thing/apps/first/admin.py @29</span>
+    </pre>
+    </div>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -549,36 +604,53 @@ looking for is the file that is importing the doubly-imported module.  The
 import statements won't be inside a function, so it's reported as &lt;module>
 instead.</p>
 
-<p>With these results, we have two files to examine: second/summary.py
-and first/admin.py</p>
+<p>With these results, we have two files to examine, the last one in each stack
+trace: second/summary.py and first/admin.py</p>
 
 </div><!-- }}} -->
 
 
 <div class="slide">
-    <h1>Bad Layout</h1>
+    <h1>Tangled imports</h1>
     <pre class="python incremental">
-    import thing.apps.first.models
-    ...
-    import first.models
+    import thing.apps.first.models             
+                                   import first.models
     </pre>
 
-    <pre class="incremental">
-    project *
+    <div style="position: static">
+    <div style="position: relative; height: 12em;">
+    <pre class="incremental" style="position: absolute; width:100%">
+    project **
     ├── thing
-    │   └── apps *
-    │       ├── first/    admin.py, models.py
-    │       └── second/   courses.py, summary.py
+    │   └── apps **
+    │       ├── first/
+    │       │   └── models.py
+    │       └── second/
     └── other
-        └── apps *
-            └── one/      compute.py
+        └── apps **
+            └── one/
     </pre>
+    <!-- ugh, what a pain... -->
+    <pre class="fade incremental" style="position: absolute">
+    <span class="red">project</span> <span class="red">**</span>                     project **
+    ├── <span class="dark">thing</span>                      ├── thing
+    │   └── <span class="dark">apps</span> **                │   └── <span class="red">apps</span> <span class="red">**</span>
+    │       ├── <span class="dark">first</span>/             │       ├── <span class="dark">first</span>/
+    │       │   └── <span class="dark">models.py</span>      │       │   └── <span class="dark">models.py</span>
+    │       └── second/            │       └── second/
+    └── other                      └── other
+        └── apps **                    └── apps **
+            └── one/                       └── one/
+    </pre>
+    </div>
+    </div>
 
-    <pre class="python incremental">
+    <div style="position: static">
+    <pre class="python incremental" >
     sys.path.append("thing/apps")
     sys.path.append("other/apps")
-    ...
     </pre>
+    </div>
 
 </div>
 
@@ -620,15 +692,18 @@ code.</p>
 <p>Some things we took advantage of here:</p>
 
 <ul>
-    <li>Although executing real code on import can cause problems, and is
-    therefore discouraged, in our case, it was exactly what we needed.</li>
+    <li>Importing modules really executes code.  Good practice is to avoid
+    code with side-effects that runs at import time, but in our case, it was
+    exactly what we needed.</li>
 
     <li>Hard-coding details simplifies the hack.  We wrote directly to a temp
-    file of our own choosing.</li>
+    file of our own choosing.  We put the code directly into the module in
+    question.</li>
 
     <li>We can do things as wrong as we like, since the code will be deleted
     once it's given us the answers we need anyway.</li>
 </ul>
+
 
 </div><!-- }}} -->
 
@@ -672,20 +747,21 @@ properly clean them up at the end of the test run. (By the way: if you are
 using unittest to write your tests, definitely use addCleanup, it's much better
 than tearDown.)</p>
 
-<p>The bad tests weren't cleaning up their temporaries.  Finding those tests
-was difficult, because they weren't written as simply as the example here. The
-temporaries were created in helper functions, making it harder to find the
-places where a temporary was being made but not cleaned up.</p>
+<p>The bad tests weren't cleaning up their temporary files and directories.
+Finding those tests was difficult, because they weren't written as simply as
+the example here. The temporaries were created in helper functions, making it
+harder to find the places where a temporary was being made but not cleaned
+up.</p>
 
 <p>We want information about who creates the files. One way would be to note
 the name of each temporary file created, along with the call stack that made
 it.  Then when the test suite finishes, we could look up the names of the
 marooned files to see where they came from.</p>
 
-<p>I decided to try a different approach: since we only care about the files
-that remain when the tests are done, what if we write the information we need
-into the files themselves?  We can't write our own data into the content of the
-files, since the content is being used by the tests.  But the file names are
+<p>I took a different approach: since we only care about the files that remain
+when the tests are done, what if we write the information we need into the
+files themselves?  We can't write our own data into the content of the files,
+since the content is being used by the tests.  But the file names are
 essentially arbitrary anyway, so we can write information there.</p>
 
 </div><!-- }}} -->
@@ -723,13 +799,14 @@ into their namespace.</p>
 <p>For example, to change how mkdtemp works, we can define our own function
 with the same calling signature, and then assign it to tempfile.mkdtemp.  Now
 unsuspecting product code that calls tempfile.mkdtemp will actually be running
-our code, rather than the code in the standard library.</p>
+our function, rather than the code in the standard library.</p>
 
 <p>This works because no names are special in Python: mkdtemp is an ordinary
 attribute of the tempfile module, and can be reassigned just as any other name
 can be. This may seem odd: the standard library feels like it should be
-unchanging.  But the standard library is made of Python modules like your own
-code is. Any name can be reassigned.</p>
+unchanging, the rock on which we build our programs.  But the standard library
+is made of Python modules like your own code is. Any name can be
+reassigned.</p>
 
 <p>Monkeypatching can be very powerful, since you can hijack any name that
 other parts of your program are using.  It can also be dangerously chaotic.</p>
@@ -765,14 +842,15 @@ function, we just want to change what names the files get.</p>
 
 <p>Reading the source in tempfile.py, it turns out that all of the functions
 that create temporary files or directories make use of the same helper,
-_get_candidate_names.  This function produces a sequence of possible file
+_get_candidate_names.  This function generates a sequence of possible file
 names. It's responsible for the typical random names you see in temporary
 files.  The functions then try each name in turn, looking for one that isn't
 already being used.</p>
 
 <p>If we monkeypatch _get_candidate_names, we'll have killed two birds with one
-stone: we'll centrally affect all of the functions that can create temporary files,
-and we'll only affect the file names they create.</p>
+stone: we'll centrally affect all of the functions that can create temporary
+files, and we'll only affect the file names they create, not how they create
+the files, or what details they return.</p>
 
 </div><!-- }}} -->
 
@@ -803,20 +881,24 @@ and we'll only affect the file names they create.</p>
 
 <p>Another factor that complicates monkeypatching is that you have to patch the
 function before it gets called.  You might also need to patch the function
-before it is imported, depending on how it's imported.  So for the most
-effective monkeypatch, you want to run your patching code before any other code
-in the program.</p>
+before it is imported, depending on how it's imported.  For the most effective
+monkeypatch, you want to run your patching code before any other code in the
+program.</p>
 
-<p>Python doesn't have a feature for running a preamble before the real
-program.  But it has a feature we can use for this purpose.</p>
+<p>Ideally, we'd have a way to run the monkeypatch before the main program.
+But Python doesn't have a feature for running a preamble before the real
+program.  Luckily it has a way we can sneak code into the startup of the
+interpreter.</p>
 
-<p>One of the ways that installed packages are referenced is by a Python-specific
-form of symbolic link called a .pth file.  These small files usually just
-contain the name of another directory to include when searching for packages.</p>
+<p>One of the ways that installed packages are referenced is by a
+Python-specific form of symbolic link called a .pth file.  These small files
+usually just contain the name of another directory to include when searching
+for packages.</p>
 
-<p>But if a line in a .pth file begins with "import", then the line is executed!
-We can use this, along with the knowledge that code in imported modules is truly
-executed, to get code to run as early as possible in the program.</p>
+<p>But if a line in a .pth file begins with "import", then the line is
+executed!  We can use this, along with the knowledge that code in imported
+modules is truly executed, to get code to run as early as possible in the
+program.</p>
 
 <p>We create a file called first_thing.py, and put in it all the code that we
 want to run first thing.  Then we create a file in the site-packages directory
@@ -854,11 +936,12 @@ code is run even before other .pth files are processed.</p>
 
 <div class="text"><!-- {{{ -->
 
-<p>Here's the patch: we define my_get_candidate_names to yield possible names
-for the temporary file.  We save the original _get_candidate_names function so
-that we can use it as part of our function.  Our function uses our old friend
-inspect.stack, concatenating the last few source file names and line numbers
-into something compact enough to fit in a file name.</p>
+<p>Now that we have a way to run code on startup, here's the patch itself.  We
+define my_get_candidate_names to yield possible names for the temporary file.
+We save the original _get_candidate_names function so that we can use it as
+part of our function.  Our function uses our old friend inspect.stack,
+concatenating the last few source file names and line numbers into something
+compact enough to fit in a file name.</p>
 
 <p>We monkeypatch tempfile._get_candidate_names, and now any tempfile function
 that makes temporary files will have our stack traces in their file names.</p>
@@ -891,6 +974,9 @@ that makes temporary files will have our stack traces in their file names.</p>
     anything else.  You can change how it works to get some leverage over a
     thorny problem.  Don't do it for real code, but for emergencies, it can be
     very helpful.</li>
+
+    <li>.pth files are normally a small invisible part of your Python
+    installation, but we can use them to inject code at startup time.</p>
 
     <li>Here we used a clever trick of writing information into the names of
     temporary files.  Often when debugging large systems, there are parts
@@ -929,12 +1015,18 @@ that makes temporary files will have our stack traces in their file names.</p>
 <div class="text"><!-- {{{ -->
 
 <p>At one point, our test suite was failing because the wrong module was being
-imported.  Examining sys.path where the import was happening, there was a new
-entry that had been added.  What put it there?</p>
+imported.  We had "import xblock", intending to find "apps/xblock.py", but we
+were importing "lib/xblock.py" instead.  But "lib" wasn't on the path, so how
+was it being imported?</p>
 
-<p>A check of our sources didn't find it.  Some third-party code must be doing
-it.  We couldn't grep all of the third-party modules we were using.  How to
-find the culprit?</p>
+<p>Examining sys.path where the import was happening (by just adding a print
+statement before the import!), there was a new incorrect entry that had been
+added to sys.path.  What put it there?</p>
+
+<p>We already knew we had sys.path manipulation that we were not proud of, so
+maybe there were others to find.  A check of our sources proved that we weren't
+doing it.  Some third-party code must be at fault.  We couldn't grep all of the
+third-party modules we were using.  How to find the culprit?</p>
 
 </div><!-- }}} -->
 
@@ -969,7 +1061,7 @@ debugger when a condition is true: sys.path[0].endswith("/lib").</p>
 <p>The standard Python debugger, pdb, doesn't have this feature.  You can set a
 breakpoint at a particular line, with a condition.  But we wanted a condition
 untethered from a line of source code.  We wanted to stop in the debugger when
-the condition because true, no matter what line of code was running.</p>
+the condition became true, no matter what line of code was running.</p>
 
 <p>Python debuggers (and other tools, like coverage measurement) are built on a
 feature called the "trace function."  This is a Python function that is called
@@ -992,12 +1084,13 @@ sys.settrace(trace)
 <p>To be honest, I wasn't sure what would happen if I tried to start the
 debugger from inside a trace function.  That seemed particularly twisty, but
 this trace function was simple enough to write and try, I figured I'd give it a
-shot.</p>
+shot. This is classic machete-mode style: there was a good chance this wouldn't
+work at all, but it was easy to try.</p>
 
 <p>It worked great: with this trace function in place, the test suite ran
-(slowly!), and revealed that our test runner, nose, was adding the entry to
-sys.path. A little more investigation revealed that this was configurable, so
-it was easy for us to disable.</p>
+(really slowly!), and revealed that our test runner, nose, was adding the entry
+to sys.path. A little more investigation revealed that this was configurable,
+so it was easy for us to disable.</p>
 
 </div><!-- }}} -->
 
@@ -1007,6 +1100,7 @@ it was easy for us to disable.</p>
     <ul>
     <li class="incremental">It's not just your code</li>
     <li class="incremental">Dynamic analysis</li>
+    <li class="incremental">Big hammers</li>
     </ul>
 </div>
 
@@ -1018,13 +1112,18 @@ it was easy for us to disable.</p>
 
     <li>Problems might not be in your code.  Everything is running together
     in one process.  Python doesn't provide access control in classes, so code
-    can be misbehaving from suprising places.</li>
+    can be misbehaving from surprising places.</li>
 
     <li>Dynamic analysis is very powerful.  Rather than use static analysis
     (like grep, though it feels funny to bestow such a fancy term on good
     old grep), coming at it from a dynamic point of view found us the
     answer more quickly.  You want to know who is changing data? Watch the
     data.</li>
+
+    <li>Python has some big hammers: a trace function can not only observe
+    your entire program running line-by-line, it can modify values, and even
+    change what line will run next.  It underpins every debugger, so whatever
+    debuggers can do, it can do.</li>
 
 </ul>
 
@@ -1070,11 +1169,11 @@ it was easy for us to disable.</p>
 
 <div class="text"><!-- {{{ -->
 
-<p>At edX, we run Python code as part of presenting problems to students.  We
+<p>We run Python code as part of presenting problems to students.  We
 randomize some components of the question so that different students get
 different problems.  But we seed the random number generator with a
 student-specific seed so that if a student revisits a problem, they will see
-the same problem.</p>
+the same problem each time.</p>
 
 <p>We were seeing that the first time the problem generation ran, it would get
 one set of values, but then subsequent runs would get different, but consistent
@@ -1119,9 +1218,10 @@ planting a booby trap.</p>
 called.  Then we can run the code, and examine the traceback to see what is
 consuming the random number.</p>
 
-<p>One over zero is extremely handy. It's easy to drop into some code when you
-want to see if it executes.  The ZeroDivisionError it raises is an unlikely
-exception, so you can be sure it's yours.</p>
+<p>The code is very simple: 1/0.  Dividing one by zero will raise a
+ZeroDivisionError.  This is extremely handy. It's easy to drop into some code
+when you want to see if it executes.  The ZeroDivisionError it raises is an
+unlikely exception, so you can be sure it's yours.</p>
 
 </div><!-- }}} -->
 
@@ -1188,14 +1288,15 @@ value for that argument.</p>
     <li>Exceptions can be a good way to get information from deep inside your
     program.  Another trick: raise an exception with data in its message.</li>
 
-    <li>Don't be timid about blowing things up: in this case, the monkeypatch
+    <li>Don't be afraid to blow things up: in this case, the monkeypatch
     destroys the program, but it gives us useful information.</li>
 
-    <li>One of the causes of this problem was that our code, and the
-    third-party code, was using the single global random number sequence.  We
-    were sharing global mutable state.  The best solution to this problem was
-    to create our own private Random instance, and use that.  Then we could be
-    sure that we were getting numbers from the sequence we seeded.</li>
+    <li>Avoid mutating globals.  One of the causes of this problem was that our
+    code, and the third-party code, was using a single global random number
+    sequence.  We were sharing global mutable state.  The best solution to this
+    problem was to create our own private Random instance, and use that.  Then
+    we could be sure that we were getting numbers from the sequence we
+    seeded.</li>
 
     <li>A common mistake when debugging programs is to assume that something
     else is at fault: the compiler, the helper libraries, anything.  Usually,
@@ -1243,6 +1344,9 @@ hard to analyze statically.</p>
 <p>Understanding how Python works gives you leverage against problems like
 this, and can help you find techniques to solve them.</p>
 
+<p>By the way, if you have liked these cases, you might also like my blog post
+about <a href="http://nedbatchelder.com/blog/201108/stack_ninjas.html">Stack Ninjas</a>,
+which uses similarly subversive techniques.</p>
 
 </div><!-- }}} -->
 
