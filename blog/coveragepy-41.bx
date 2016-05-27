@@ -1,6 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
 
+
+<entry when='20160527T075000'>
+<title>Coverage.py 4.1</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://pypi.python.org/pypi/coverage/4.1">Coverage.py 4.1</a> is
+    out!</p>
+
+<p>I'm not sure what else to say about it that I haven't said a few times in
+    the last six months: branch coverage is completely rewritten, so it
+    should be more accurate and more understandable.</p>
+
+<p>The beta wasn't getting much response, so I shielded my eyes and released
+    the final version a few days ago.  No explosions, so it's seems to be OK!</p>
+
+</body>
+</entry>
+
+
 <entry when='20160510T170000'>
 <title>Coverage.py 4.1b3 and the truth about Coverage.py</title>
 <category>coverage</category>
