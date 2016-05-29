@@ -58,7 +58,7 @@ for reasons.  But one of the consequences of Python's dynamic nature is that
 static analysis like that is difficult.</p><p>So instead of static analysis, we'll use dynamic tools.  Let's run the code,
 and get it to tell us what's going on.  This theme runs through all of the
 cases we'll look at: rather than try to analyze the code, we'll run code to
-understand it.</p><figurep href="text/machete/machete.html#7"><img alt="How to find these?" scale="0.5" src="text/machete_pix/006.png"/></figurep><!-- {{{ --><p>To find the problem, we'll take advantage of the fact that importing a
+understand it.</p><figurep href="text/machete/machete.html#7"><img alt="Finding double imports" scale="0.5" src="text/machete_pix/006.png"/></figurep><!-- {{{ --><p>To find the problem, we'll take advantage of the fact that importing a
 module really executes the code in the module.  Classes and functions are
 defined in a module because the class and def statements in the .py file are
 executed.  Often, it's easy to think of modules as just containing classes and
@@ -84,7 +84,7 @@ right.  In this case, the function name isn't that useful, since what we're
 looking for is the file that is importing the doubly-imported module.  The
 import statements won't be inside a function, so it's reported as &lt;module&gt;
 instead.</p><p>With these results, we have two files to examine, the last one in each stack
-trace: second/summary.py and first/admin.py</p><figurep href="text/machete/machete.html#9"><img alt="Tangled imports" scale="0.5" src="text/machete_pix/008.png"/></figurep><!-- {{{ --><p>Once we looked at those two imports, we could see what was wrong.  This slide
+trace: second/summary.py and first/admin.py</p><figurep href="text/machete/machete.html#9"><img alt="Overlapping sys.path" scale="0.5" src="text/machete_pix/008.png"/></figurep><!-- {{{ --><p>Once we looked at those two imports, we could see what was wrong.  This slide
 shows a simplified version of the problem.</p><p>In our source tree, we had files that were accessible through two different
 entries in sys.path.  The asterisks show the directories that were in sys.path.
 The file that was being imported twice was project/thing/apps/first/models.py.</p><p>In one file, it was imported as "thing.apps.first.models", and was found via
@@ -268,8 +268,12 @@ value for that argument.</p><figurep href="text/machete/machete.html#26"><img al
     <li>Don't be afraid to blow things up: in this case, the monkeypatch
     destroys the program, but it gives us useful information.</li>
 
+    <li>Some of these techniques require a bit of luck: if the offending call
+    to random() wasn't the first one, we wouldn't have found it, because our
+    booby trap stops the program on the first call.</li>
+
     <li>Avoid mutating globals.  One of the causes of this problem was that our
-    code, and the third-party code, was using a single global random number
+    code, and the third-party code, were using a single global random number
     sequence.  We were sharing global mutable state.  The best solution to this
     problem was to create our own private Random instance, and use that.  Then
     we could be sure that we were getting numbers from the sequence we

@@ -67,10 +67,12 @@
                 });
             }
 
+            // Syntax-color the preformatted blocks.
             $('pre').each(function (i, block) {
                 hljs.highlightBlock(block, '    ');
             });
 
+            // Convert each preformatted block into a series of span.line's.
             $('pre').each(function (i, e) {
                 var $e = $(e);
                 var h = $e.html();
@@ -80,6 +82,24 @@
                 $e.html(h);
             });
 
+            // Remove the line class in faded code blocks, except for those marked dark.
+            $("pre.fade span.line").each(function (i, e) {
+                var $e = $(e);
+                var dark = $e.find(".dark");
+                if (dark.length == 0) {
+                    $e.removeClass("line");
+                }
+            });
+
+            // Remove the .line class from blank lines, they aren't interesting to highlight.
+            $("pre span.line").each(function (i, e) {
+                var $e = $(e);
+                if ($e.text().trim().length == 0) {
+                    $e.removeClass("line");
+                }
+            });
+
+            // Make all the code block lines be selectable.
             $("div.slide").lineselect({ lines: "pre span.line" });
 
             // Pre-select lines based on a select= attribute.
@@ -211,7 +231,7 @@
             color: #999;
         }
 
-        pre .red {
+        pre .dark.red {
             color: #f00;
         }
 
@@ -482,11 +502,12 @@ understand it.</p>
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>How to find these?</h1>
+    <h1>Finding double imports</h1>
     <pre class="python">
-    # My double-imported module, with beacon
+    # models/something.py
 
     import inspect
+
     with open("/tmp/double.txt", "a") as f:
         f.write("-- Importing {} ----\n".format(__file__))
         for frec in inspect.stack()[:0:-1]:
@@ -544,32 +565,7 @@ with the right ways, and this code is only temporary.</p>
 <div class="slide">
     <h1>Results</h1>
 
-    <div style="position: relative">    <!-- make the containing divs appear in the same place. -->
-    <pre class="smaller lang-text" style="position: absolute">
-    -- Importing project/thing/apps/first/models.py ----
-                &lt;module> : manage.py @112
-                     run : project/thing/startup.py @50
-                   setup : django/__init__.py @18
-                populate : django/apps/registry.py @108
-           import_models : django/apps/config.py @198
-           import_module : /usr/lib/python2.7/importlib/__init__.py @37
-                &lt;module> : project/other/apps/one/compute.py @36
-                &lt;module> : project/thing/apps/second/courses.py @25
-                &lt;module> : project/thing/apps/second/summary.py @18
-
-    -- Importing project/thing/apps/first/models.pyc ----
-                &lt;module> : manage.py @112
-                     run : project/thing/startup.py @50
-                   setup : django/__init__.py @18
-                populate : django/apps/registry.py @115
-                   ready : django/contrib/admin/apps.py @22
-            autodiscover : django/contrib/admin/__init__.py @24
-    autodiscover_modules : django/utils/module_loading.py @74
-           import_module : /usr/lib/python2.7/importlib/__init__.py @37
-                &lt;module> : project/thing/apps/first/admin.py @29
-    </pre>
-
-    <pre class="smaller fade lang-text incremental" style="position: absolute">
+    <pre class="smaller fade lang-text">
     <span class="dark">-- Importing project/thing/apps/first/models.py ----</span>
                 &lt;module> : manage.py @112
                      run : project/thing/startup.py @50
@@ -592,7 +588,6 @@ with the right ways, and this code is only temporary.</p>
            import_module : /usr/lib/python2.7/importlib/__init__.py @37
                 <span class="dark">&lt;module> : project/thing/apps/first/admin.py @29</span>
     </pre>
-    </div>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -611,46 +606,40 @@ trace: second/summary.py and first/admin.py</p>
 
 
 <div class="slide">
-    <h1>Tangled imports</h1>
+    <h1>Overlapping sys.path</h1>
     <pre class="python incremental">
     import thing.apps.first.models             
                                    import first.models
     </pre>
 
-    <div style="position: static">
-    <div style="position: relative; height: 12em;">
-    <pre class="incremental" style="position: absolute; width:100%">
-    project **
-    ├── thing
-    │   └── apps **
-    │       ├── first/
-    │       │   └── models.py
+    <pre style="float:left; margin-right: 2em; width: 45%" class="fade incremental">
+    <span class="dark red">project **</span>
+    ├── <span class="dark">thing</span>
+    │   └── <span class="dark">apps</span> **
+    │       ├── <span class="dark">first</span>/
+    │       │   └── <span class="dark">models.py</span>
     │       └── second/
     └── other
         └── apps **
             └── one/
     </pre>
-    <!-- ugh, what a pain... -->
-    <pre class="fade incremental" style="position: absolute">
-    <span class="red">project</span> <span class="red">**</span>                     project **
-    ├── <span class="dark">thing</span>                      ├── thing
-    │   └── <span class="dark">apps</span> **                │   └── <span class="red">apps</span> <span class="red">**</span>
-    │       ├── <span class="dark">first</span>/             │       ├── <span class="dark">first</span>/
-    │       │   └── <span class="dark">models.py</span>      │       │   └── <span class="dark">models.py</span>
-    │       └── second/            │       └── second/
-    └── other                      └── other
-        └── apps **                    └── apps **
-            └── one/                       └── one/
-    </pre>
-    </div>
-    </div>
 
-    <div style="position: static">
+    <pre class="fade incremental">
+    project **
+    ├── thing
+    │   └── <span class="dark red">apps **</span>
+    │       ├── <span class="dark">first</span>/
+    │       │   └── <span class="dark">models.py</span>
+    │       └── second/
+    └── other
+        └── apps **
+            └── one/
+    </pre>
+
     <pre class="python incremental" >
     sys.path.append("thing/apps")
     sys.path.append("other/apps")
     </pre>
-    </div>
 
 </div>
 
@@ -786,6 +775,7 @@ essentially arbitrary anyway, so we can write information there.</p>
     </pre>
     <ul>
     <li class="incremental"><b>Any</b> name can be re-assigned</li>
+    <li class="incremental"><b>Very</b> chaotic</li>
     </ul>
 </div>
 
@@ -818,9 +808,9 @@ other parts of your program are using.  It can also be dangerously chaotic.</p>
 <div class="slide">
     <h1>Read the source!</h1>
     <ul>
-    <li class="incremental">A handful of different functions</li>
-    <li class="incremental">We only want to tweak the file names</li>
-    <li class="incremental">They all call <span class="code">_get_candidate_names</span></li>
+    <li class="incremental">Handful of different functions</li>
+    <li class="incremental">Only want to tweak the file names</li>
+    <li class="incremental"><span class="code">_get_candidate_names</span></li>
     </ul>
     <pre class="python incremental">
     # Lib/tempfile.py
@@ -830,6 +820,12 @@ other parts of your program are using.  It can also be dangerously chaotic.</p>
         names = _get_candidate_names()  # ☜ AHA! ☜
         for name in names:
             # ... try making the file ...
+    </pre>
+    <pre class="incremental">
+        Mp4lll
+            QJmhMA
+                N9UYmz
+                    qqdTX3 ....
     </pre>
 </div>
 
@@ -858,12 +854,13 @@ the files, or what details they return.</p>
 <div class="slide">
     <h1>Running code on startup</h1>
     <ul>
+    <li class="incremental">Have to monkeypatch early</li>
     <li class="incremental">Python has no feature</li>
     <li class="incremental">site-packages/*.pth</li>
     </ul>
     <pre class="incremental python">
     # Lib/site.py, in the stdlib
-    ...
+
     for line in the_pth_file:
         if line.startswith("import "):
             exec line
@@ -913,14 +910,13 @@ code is run even before other .pth files are processed.</p>
 <div class="slide">
     <h1>The sneak</h1>
     <pre class="python">
+    # first_thing.py
     real_get_candidate_names = tempfile._get_candidate_names
 
     def my_get_candidate_names():
         stack = "-".join(
-            "{}{}".format(
-                os.path.basename(t[1]).replace(".py", ""),
-                t[2],
-            )
+            os.path.basename(t[1]).replace(".py", "") + 
+                str(t[2])
             for t in inspect.stack()[4:1:-1]
         )
         for name in real_get_candidate_names():
@@ -953,7 +949,7 @@ that makes temporary files will have our stack traces in their file names.</p>
     <h1><span class="fist">☞</span> Lessons <span class="fist">☜</span></h1>
     <ul>
     <li class="incremental">Std lib is readable</li>
-    <li class="incremental">Std lib is patchable!</li>
+    <li class="incremental">Std lib is patchable</li>
     <li class="incremental">Use whatever you can touch and change</li>
     <li class="incremental spaced"><b>Do</b> use addCleanup</li>
     </ul>
@@ -1009,6 +1005,7 @@ that makes temporary files will have our stack traces in their file names.</p>
     <ul>
     <li class="incremental">sys.path being modified incorrectly</li>
     <li class="incremental">grep didn't find it</li>
+    <li class="incremental">Must be in third-party?</li>
     </ul>
 </div>
 
@@ -1047,7 +1044,7 @@ third-party modules we were using.  How to find the culprit?</p>
     sys.settrace(trace)
     </pre>
     <ul>
-    <li class="incremental">It was nose</li>
+    <li class="incremental">Found it: nose</li>
     </ul>
 </div>
 
@@ -1151,13 +1148,11 @@ so it was easy for us to disable.</p>
     <li class="incremental">Randomized, but repeatable problems</li>
     </ul>
     <pre class="python incremental">
-    # Prepare to run instructor code
+    # Prepare to run problem code
     random.seed(1702)       # student.seed
     </pre>
     <pre class="python incremental">
-    # Instructor code
-    import foo, bar, baz
-
+    # Problem code
     print(random.randint(1, 1000))      # 420?
     </pre>
     <ul>
@@ -1195,17 +1190,18 @@ value was being consumed from the sequence. But where?</p>
 
 <div class="slide">
     <h1>1/0</h1>
+    <ul>
+    <li class="incremental">Easy to drop in</li>
+    <li class="incremental">Unlikely exception: ZeroDivisionError</li>
+    <li class="incremental">Easy to spot</li>
+    <li class="incremental">Favorite three-character expression</li>
+    </ul>
     <pre class="incremental python">
+    # monkey-patch random with a trap
     import random
     random.random = lambda: 1/0
     </pre>
 
-    <ul>
-    <li class="incremental">Easy to drop in</li>
-    <li class="incremental">Unlikely exception</li>
-    <li class="incremental">Easy to spot</li>
-    <li class="incremental">My favorite three Python characters!</li>
-    </ul>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1273,7 +1269,8 @@ value for that argument.</p>
     <ul>
     <li class="incremental">Exceptions are a good way to get information</li>
     <li class="incremental">Don't be afraid to blow things up</li>
-    <li class="incremental spaced"><b>Don't</b> use global state</li>
+    <li class="incremental">Sometimes you get lucky</li>
+    <li class="incremental spaced"><b>Don't</b> share global state</li>
     <li class="incremental"><b>Do</b> use your own Random object</li>
     <li class="incremental"><b>Do</b> suspect third-party code</li>
     </ul>
@@ -1291,8 +1288,12 @@ value for that argument.</p>
     <li>Don't be afraid to blow things up: in this case, the monkeypatch
     destroys the program, but it gives us useful information.</li>
 
+    <li>Some of these techniques require a bit of luck: if the offending call
+    to random() wasn't the first one, we wouldn't have found it, because our
+    booby trap stops the program on the first call.</li>
+
     <li>Avoid mutating globals.  One of the causes of this problem was that our
-    code, and the third-party code, was using a single global random number
+    code, and the third-party code, were using a single global random number
     sequence.  We were sharing global mutable state.  The best solution to this
     problem was to create our own private Random instance, and use that.  Then
     we could be sure that we were getting numbers from the sequence we
@@ -1320,7 +1321,7 @@ value for that argument.</p>
     <h1 style="padding-top: 0em; font-size: 150%; font-weight: 700"><span class="fist">☞☞</span> Big Lessons <span class="fist">☜☜</span></h1>
     <ul>
     <li class="incremental">Break conventions to get what you need</li>
-    <li class="incremental">But only for debugging</li>
+    <li class="incremental">But only for debugging!</li>
     <li class="incremental">Dynamic analysis</li>
     <li class="incremental">Understand Python!</li>
     </ul>
