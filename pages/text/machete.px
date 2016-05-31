@@ -3,18 +3,14 @@
 <what when="20160501T073000">Created</what>
 </history>
 
-<p>This is a presentation for PyCon 2016 in Portland.
-    You can read the slides
-and text on this page, or open the <a href="text/machete/machete.html">actual
-presentation</a> in your browser (use right and left arrows to advance the
-slides).</p>
+<p>This is a presentation I gave at PyCon 2016 in Portland.
+You can read the slides and text on this page, or watch the video, or open the
+<a href="text/machete/machete.html">actual presentation</a> in your browser
+(use right and left arrows to advance the slides).</p>
 
-<p>(Eventually there will be a video here...)</p>
-<!--
 <p align="center">
-<iframe width="500" height="369" src="http://www.youtube.com/embed/_AEJHKGk9ns" frameborder="0" allowfullscreen="allowfullscreen"/>
+<iframe width="500" height="369" src="http://www.youtube.com/embed/5XvAVgcbmdY" frameborder="0" allowfullscreen="allowfullscreen"/>
 </p>
--->
 
 <figurep href="text/machete/machete.html#1"><img alt="Machete-Mode Debugging" scale="0.5" src="text/machete_pix/000.png"/></figurep><figurep href="text/machete/machete.html#2"><img alt="Python can be chaotic" scale="0.5" src="text/machete_pix/001.png"/></figurep><!-- {{{ --><p>Python is a great language.  We love it for its flexibility and dynamism.
 With discipline, we use Python in ways similar to stricter languages, and build
@@ -84,7 +80,7 @@ right.  In this case, the function name isn't that useful, since what we're
 looking for is the file that is importing the doubly-imported module.  The
 import statements won't be inside a function, so it's reported as &lt;module&gt;
 instead.</p><p>With these results, we have two files to examine, the last one in each stack
-trace: second/summary.py and first/admin.py</p><figurep href="text/machete/machete.html#9"><img alt="Overlapping sys.path" scale="0.5" src="text/machete_pix/008.png"/></figurep><!-- {{{ --><p>Once we looked at those two imports, we could see what was wrong.  This slide
+trace: second/summary.py and first/admin.py.</p><figurep href="text/machete/machete.html#9"><img alt="Overlapping sys.path" scale="0.5" src="text/machete_pix/008.png"/></figurep><!-- {{{ --><p>Once we looked at those two imports, we could see what was wrong.  This slide
 shows a simplified version of the problem.</p><p>In our source tree, we had files that were accessible through two different
 entries in sys.path.  The asterisks show the directories that were in sys.path.
 The file that was being imported twice was project/thing/apps/first/models.py.</p><p>In one file, it was imported as "thing.apps.first.models", and was found via
