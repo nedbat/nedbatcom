@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+
+<entry when='20160705T203900'>
+<title>Coverage.py 4.2 beta 1</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://pypi.python.org/pypi/coverage/4.2b1">Coverage.py 4.2 beta 1</a>
+    is available.</p>
+
+<p>This contains a few things we worked on during a day of sprinting at PyCon
+    2016 in Portland.  Thanks to my fellow sprinters: Dan Riti, Dan
+    Wandschneider, Josh Williams, Matthew Boehm, Nathan Land, and Scott Belden.
+    Each time I've sprinted on coverage.py, I've been surprised at the number
+    of people willing to dive into the deep end to make something happen.  It's
+    really encouraging to see people step up like that.</p>
+
+<p>What's changed?  The biggest change is the only incompatible change.  The
+    "coverage combine" command now will ignore an existing .coverage data file,
+    rather than appending to it as it used to do.  This new behavior makes more
+    sense to people, and matches how "coverage run" works.  If you've ever seen
+    (or written!) a tox.ini file with an explicit coverage-clean step, you
+    won't have to any more. There's also a new "--append" option on "coverage
+    combine", so you can get the old behavior if you want it.</p>
+
+<p>A new option lets you control how the text report is sorted.</p>
+
+<p>The concurrency option can now be multi-valued, if you are using
+    multiprocessing and some other concurrency library, like gevent.</p>
+
+<p>The <a href='https://bitbucket.org/ned/coveragepy/src/tip/CHANGES.rst'>complete
+    change history</a> is in the source.</p>
+
+<p>This isn't going to be a long beta, so
+    <a href="https://pypi.python.org/pypi/coverage/4.2b1">try it</a> now!</p>
+
+</body>
+</entry>
+
+</blog>
