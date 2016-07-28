@@ -38,4 +38,52 @@
 </body>
 </entry>
 
+<entry when='20160727T083500'>
+<title>Coverage.py 4.2</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://pypi.python.org/pypi/coverage/4.2">Coverage.py 4.2</a>
+    is done.</p>
+
+<p>As I mentioned in the <a href='/blog/201607/coveragepy_42_beta_1.html'>beta 1 announcement</a>, this contains work from the sprint at PyCon
+    2016 in Portland.</p>
+
+<p>The biggest change since 4.1 is the only incompatible change.  The
+    "coverage combine" command now will ignore an existing .coverage data file,
+    rather than appending to it as it used to do.  This new behavior makes more
+    sense to people, and matches how "coverage run" works.  If you've ever seen
+    (or written!) a tox.ini file with an explicit coverage-clean step, you
+    won't have to any more. There's also a new "--append" option on "coverage
+    combine", so you can get the old behavior if you want it.</p>
+
+<p>The multiprocessing support continues to get the polish it deserves:</p>
+
+<ul>
+
+    <li>Now the concurrency option can be multi-valued, so you can measure
+        programs that use multiprocessing and another library like gevent.</li>
+
+    <li>Options on the command line weren't being passed to multiprocessing
+        subprocesses.  Now they still aren't, but instead of failing silently,
+        you'll get an error explaining the situation.</li>
+
+    <li>If you're using a custom-named configuration file, multiprocessing processes
+        now will use that same file, so that all the processes will be measured the same.</li>
+
+    <li>Enabling multiprocessing support now also enables parallel measurement,
+        since there will be subprocesses.  This reduces the possibility for error
+        when configuring coverage.py.</li>
+
+</ul>
+
+<p>Finally, the text report can be sorted by columns as you wish, making it more
+    convenient.</p>
+
+<p>The <a href='https://bitbucket.org/ned/coveragepy/src/tip/CHANGES.rst'>complete
+    change history</a> is in the source.</p>
+
+</body>
+</entry>
+
 </blog>
