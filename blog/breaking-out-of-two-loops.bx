@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160804T083200'>
+<title>Breaking out of two loops</title>
+<category>python</category>
+<body>
+
+<p>A common question is, how do I break out of two nested loops at once?  For
+    example, how can I examine pairs of characters in a string, stopping when I
+    find an equal pair?  The classic way to do this is to write two nested
+    loops that iterate over the indexes of the string:</p>
+
+<code lang="python"><![CDATA[
+s = "a string to examine"
+for i in range(len(s)):
+    for j in range(i+1, len(s)):
+        if s[i] == s[j]:
+            answer = (i, j)
+            break   # How to break twice???
+]]></code>
+
+<p>Here we are using two loops to generate the two indexes that we want to
+    examine.  When we find the condition we're looking for, we want to end both
+    loops.</p>
+
+<p>There are a few common answers to this. But I don't like them much:</p>
+
+<ul>
+    <li>Put the loops into a function, and return from the function to break the loops.
+    This is unsatisfying because the loops might not be a natural place to refactor
+    into a new function, and maybe you need access to other locals during the loops.</li>
+
+    <li>Raise an exception and catch it outside the double loop.  This is using
+    exceptions as a form of goto.  There's no exceptional condition here, you're
+    just taking advantage of exceptions' action at a distance.</li>
+
+    <li>Use boolean variables to note that the loop is done, and check the
+    variable in the outer loop to execute a second break.  This is a low-tech
+    solution, and may be right for some cases, but is mostly just extra noise
+    and bookkeeping.</li>
+
+</ul>
+
+<p>My preferred answer, and one that I covered in my PyCon 2013 talk,
+    <a href='text/iter.html'>Loop Like A Native</a>, is to make the double loop
+    into a single loop, and then just use a simple break.</p>
+
+<p>This requires putting a little more work into the loops, but is a good exercise
+    in abstracting your iteration.  This is something Python is very good at,
+    but it is easy to use Python as if it were a less capable language, and not
+    take advantage of the loop abstractions available.</p>
+
+<p>Let's consider the problem again.  Is this really two loops? Before you
+    write any code, listen to the English description again:</p>
+
+<quote><p>How can I examine pairs of characters in a string, stopping when I
+        find an equal pair?</p></quote>
+
+<p>I don't hear two loops in that description.  There's a single loop, over
+    pairs.  So let's write it that way:</p>
+
+<code lang="python"><![CDATA[
+def unique_pairs(n):
+    """Produce pairs of indexes in range(n)"""
+    for i in range(n):
+        for j in range(i+1, n):
+            yield i, j
+
+s = "a string to examine"
+for i, j in unique_pairs(len(s)):
+    if s[i] == s[j]:
+        answer = (i, j)
+        break
+]]></code>
+
+<p>Here we've written a generator to produce the pairs of indexes we need.  Now
+    our loop is a single loop over pairs, rather than a double loop over
+    indexes.  The double loop is still there, but abstraced away inside the
+    unique_pairs generator.</p>
+
+<p>This makes our code nicely match our English. And notice we no longer have
+    to write len(s) twice, another sign that the original code wanted
+    refactoring.  The unique_pairs generator can be reused if we find other
+    places we want to iterate like this, though remember that multiple uses is
+    not a requirement for writing a function.</p>
+
+<p>I know this technique seems exotic.  But it really is the best solution. If
+    you still feel tied to the double loops, think more about how you imagine
+    the structure of your program.  The very fact that you are trying to break
+    out of both loops at once means that in some sense they are one thing, not
+    two.  Hide the two-ness inside one generator, and you can structure your
+    code the way you really think about it.</p>
+
+<p>Python has powerful tools for abstraction, including generators and other
+    techniques for abstracting iteration.  My <a href='text/iter.html'>Loop Like A Native</a> talk
+    has more detail (and one egregious joke) if you want to hear more about it.</p>
+
+
+
+</body>
+</entry>
+</blog>
