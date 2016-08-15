@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160814T081333'>
+<title>Lists vs. Tuples</title>
+<category>python</category>
+<body>
+
+<p>A common beginner Python question: what's the difference between a list and
+    a tuple?</p>
+
+<p>The answer is that there are two different differences, with complex
+    interplay between the two.  There is the Technical Difference, and the
+    Cultural Difference.</p>
+
+<p>First, the things that are the same: both lists and tuples are containers
+    for a sequence of objects:</p>
+
+<code lang="python"><![CDATA[
+>>> my_list = [1, 2, 3]
+>>> type(my_list)
+<class 'list'>
+>>> my_tuple = (1, 2, 3)
+>>> type(my_tuple)
+<class 'tuple'>
+]]></code>
+
+<p>Either can have elements of any type, even within a single container, and
+    the order of the elements is maintained.</p>
+
+<p>The Technical Difference between lists and tuples is that lists are mutable
+    (they can be changed) and tuples are immutable. This is the only
+    distinction that the Python language makes between them:</p>
+
+<code lang="python"><![CDATA[
+>>> my_list[1] = "two"
+>>> my_list
+[1, "two", 3]
+>>> my_tuple[1] = "two"
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+]]></code>
+
+<p>That's the only technical difference between lists and tuples, though it
+    manifests in a few ways.  For example, lists have a .append() method to add
+    more elements to the list, while tuples do not:</p>
+
+<code lang="python"><![CDATA[
+>>> my_list.append("four")
+>>> my_list
+[1, 'two', 3, 'four']
+>>> my_tuple.append("four")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'tuple' object has no attribute 'append'
+]]></code>
+
+<p>Tuples have no need for an .append() method, because you can't modify
+    tuples.</p>
+
+<p>Now for the Cultural Difference, about how lists and tuples are actually
+    used: lists are used where you have a homogenous sequence of unknown
+    length; tuples are used where you know the number of elements in advance
+    because the position of the element is semantically significant.</p>
+
+<p>For example, suppose you have a function that looks in a directory for files
+    ending with *.py.  It should return a list, because you don't know how many
+    you will find, and all of them are the same semantically: just another file
+    that you found.</p>
+
+<code lang="python"><![CDATA[
+>>> find_files("*.py")
+["control.py", "config.py", "cmdline.py", "backward.py"]
+]]></code>
+
+<p>On the other hand, if you need to store the name and location of weather
+    observation stations, you might need five values: id, city, state, latitude,
+    and longitude.  A tuple is right for this, rather than a list:</p>
+
+<code lang="python"><![CDATA[
+>>> denver = (44, "Denver", "CO", 40, 105)
+>>> denver[1]
+'Denver'
+]]></code>
+
+<p>(For the moment, let's not talk about using a class for this.) Here the
+    first element is the id, the second element is the city, and so on.  The
+    position determines the meaning.</p>
+
+<p>To put the Cultural Difference in terms of the C language, lists are like
+    arrays, tuples are like structs.</p>
+
+<p>Python has a namedtuple facility that can make the meaning more explicit:</p>
+
+<code lang="python"><![CDATA[
+>>> from collections import namedtuple
+>>> Station = namedtuple("Station", "id, city, state, lat, long")
+>>> denver = Station(44, "Denver", "CO", 40, 105)
+>>> denver
+Station(id=44, city='Denver', state='CO', lat=40, long=105)
+>>> denver.city
+'Denver'
+>>> denver[1]
+'Denver'
+]]></code>
+
+<p>One clever summary of the Cultural Difference between tuples and lists is:
+    tuples are namedtuples without the names.</p>
+
+<p>The Technical Difference and the Cultural Difference are an uneasy alliance,
+    because they are sometimes at odds.  Why should homogenous sequences be
+    mutable, but hetergenous sequences not be? For example, I can't modify my
+    weather station because a namedtuple is a tuple, which is immutable:</p>
+
+<code lang="python"><![CDATA[
+>>> denver.lat = 39.7392
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+]]></code>
+
+<p>And sometimes the Technical considerations override the Cultural
+    considerations.  You cannot use a list as a dictionary key, because only
+    immutable values can be hashed, so only immutable values can be keys.  To
+    use a list as a key, you can turn it into a tuple:</p>
+
+<code lang="python"><![CDATA[
+>>> d = {}
+>>> nums = [1, 2, 3]
+>>> d[nums] = "hello"
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+>>> d[tuple(nums)] = "hello"
+>>> d
+{(1, 2, 3): 'hello'}
+]]></code>
+
+<p>Another conflict between the Technical and the Cultural: there are places in
+    Python itself where a tuple is used when a list makes more sense. When you
+    define a function with *args, the args variable is a tuple, even though the
+    position of the values isn't significant, at least as far as Python knows.
+    You might say it's a tuple because you cannot change what you were passed,
+    but that's just valuing the Technical Difference over the Cultural.</p>
+
+<p>Python might use tuples here because they are a little more space-efficient
+    than lists. Lists are over-allocated to make appending faster.</p>
+
+
+
+ 
+
+</body>
+</entry>
+</blog>
