@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20160814T081333'>
+<entry when='20160818T061433'>
 <title>Lists vs. Tuples</title>
 <category>python</category>
 <body>
@@ -12,8 +12,8 @@
     interplay between the two.  There is the Technical Difference, and the
     Cultural Difference.</p>
 
-<p>First, the things that are the same: both lists and tuples are containers
-    for a sequence of objects:</p>
+<p>First, the things that are the same: both lists and tuples are containers,
+    a sequence of objects:</p>
 
 <code lang="python"><![CDATA[
 >>> my_list = [1, 2, 3]
@@ -24,17 +24,18 @@
 <class 'tuple'>
 ]]></code>
 
-<p>Either can have elements of any type, even within a single container, and
-    the order of the elements is maintained.</p>
+<p>Either can have elements of any type, even within a single sequence.
+    Both maintain the order of the elements (unlike sets and dicts).</p>
 
-<p>The Technical Difference between lists and tuples is that lists are mutable
-    (they can be changed) and tuples are immutable. This is the only
-    distinction that the Python language makes between them:</p>
+<p>Now for the differences.  The Technical Difference between lists and tuples
+    is that lists are mutable (can be changed) and tuples are immutable (cannot
+    be changed).  This is the only distinction that the Python language makes
+    between them:</p>
 
 <code lang="python"><![CDATA[
 >>> my_list[1] = "two"
 >>> my_list
-[1, "two", 3]
+[1, 'two', 3]
 >>> my_tuple[1] = "two"
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
@@ -58,7 +59,7 @@ AttributeError: 'tuple' object has no attribute 'append'
 <p>Tuples have no need for an .append() method, because you can't modify
     tuples.</p>
 
-<p>Now for the Cultural Difference, about how lists and tuples are actually
+<p>The Cultural Difference is about how lists and tuples are actually
     used: lists are used where you have a homogenous sequence of unknown
     length; tuples are used where you know the number of elements in advance
     because the position of the element is semantically significant.</p>
@@ -73,9 +74,9 @@ AttributeError: 'tuple' object has no attribute 'append'
 ["control.py", "config.py", "cmdline.py", "backward.py"]
 ]]></code>
 
-<p>On the other hand, if you need to store the name and location of weather
-    observation stations, you might need five values: id, city, state, latitude,
-    and longitude.  A tuple is right for this, rather than a list:</p>
+<p>On the other hand, let's say you need to store five values to represent the
+    location of weather observation stations: id, city, state, latitude, and
+    longitude.  A tuple is right for this, rather than a list:</p>
 
 <code lang="python"><![CDATA[
 >>> denver = (44, "Denver", "CO", 40, 105)
@@ -138,17 +139,36 @@ TypeError: unhashable type: 'list'
 
 <p>Another conflict between the Technical and the Cultural: there are places in
     Python itself where a tuple is used when a list makes more sense. When you
-    define a function with *args, the args variable is a tuple, even though the
-    position of the values isn't significant, at least as far as Python knows.
-    You might say it's a tuple because you cannot change what you were passed,
-    but that's just valuing the Technical Difference over the Cultural.</p>
+    define a function with *args, args is passed to you as a tuple, even though
+    the position of the values isn't significant, at least as far as Python
+    knows.  You might say it's a tuple because you cannot change what you were
+    passed, but that's just valuing the Technical Difference over the
+    Cultural.</p>
 
-<p>Python might use tuples here because they are a little more space-efficient
-    than lists. Lists are over-allocated to make appending faster.</p>
+<p>I know, I know: in *args, the position could be significant because they are
+    positional parameters.  But in a function that's accepting *args and
+    passing it along to another function, it's just a sequence of arguments,
+    none different from another, and the number of them can vary between
+    invocations.</p>
 
+<p>Python uses tuples here because they are a little more space-efficient
+    than lists. Lists are over-allocated to make appending faster.  This shows
+    Python's pragmatic side: rather than quibble over the list/tuple semantics
+    of *args, just use the data structure that works best in this case.</p>
 
+<p>For the most part, you should choose whether to use a list or a tuple based
+    on the Cultural Difference.  Think about what your data means. If it can
+    have different lengths based on what your program encounters in the real
+    world, then it is probably a list.  If you know when you write the code
+    what the third element means, then it is probably a tuple.</p>
 
- 
+<p>On the other hand, functional programming emphasizes immutable data
+    structures as a way to avoid side-effects that can make it difficult to
+    reason about code.  If you are a functional programming fan, you will
+    probably prefer tuples for their immutability.</p>
+
+<p>So: should you use a tuple or a list? The answer is: it's not always a 
+    simple answer.</p>
 
 </body>
 </entry>
