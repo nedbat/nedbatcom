@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block body %}
-	<?php
-		require_once('inc/reactor_class.php');
-		$ror = new Reactor();
-		$ror->PrepareManyComments();
-	?>
+    <?php
+        require_once('inc/reactor_class.php');
+        $ror = new Reactor();
+        $ror->PrepareManyComments();
+    ?>
 
     {# Top nav #}
     {% if prev_ent or next_ent %}

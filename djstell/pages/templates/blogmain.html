@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block body %}
-	<?php
-		require_once('inc/reactor_class.php');
-		$ror = new Reactor();
-		$ror->PrepareManyComments();
-	?>
+    <?php
+        require_once('inc/reactor_class.php');
+        $ror = new Reactor();
+        $ror->PrepareManyComments();
+    ?>
 
     {# Real entries #}
     {% for entry in entries|slice:":12" %}
@@ -35,7 +35,7 @@
 
     {# Link to month page for the next oldest. #}
     {% for entry in entries|slice:"20:21" %}
-    	<p><i><a href='{{entry.monthurl}}#{{entry.entryid}}'>Even older...</a></i></p>
+        <p><i><a href='{{entry.monthurl}}#{{entry.entryid}}'>Even older...</a></i></p>
     {% endfor %}
 
 {% endblock %}
