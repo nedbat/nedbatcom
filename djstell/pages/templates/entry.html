@@ -1,10 +1,10 @@
 {% load tags %}
 {% spaceless %}
 {# A single blog entry, used by the blog_entry tag. #}
-<div class='blog-entry' id='{{entry.entryid}}'>
+<article class='blog-entry' id='{{entry.entryid}}'>
 
 {# Start Head #}
-<div class='head'>
+<header class='head'>
     {# Title #}
     {% if entry.title %}
         <h3 class='title'>
@@ -14,7 +14,7 @@
 
     {# Date #}
     <p class='date'>{{entry.when|date:"l j"}} <a class='s' href='{{entry.monthurl}}'>{{entry.when|date:"F Y"}}</a></p>
-</div>
+</header>
 {# End Head #}
 
 {# Body #}
@@ -29,7 +29,7 @@
 {# End Body #}
 
 {# Start Footer #}
-<div class='foot'>
+<footer class='foot'>
     <span class='via'>
 
     {# Categories #}
@@ -68,8 +68,8 @@
         <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
     {% endifequal %}
     {% endreallyspaceless %}
-</div>
+</footer>
 {# End Footer #}
 
-</div>
+</article>
 {% endspaceless %}
