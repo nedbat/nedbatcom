@@ -31,6 +31,7 @@ class CmdLine(object):
         self.ROOT = r'html'
         self.HTACCESS = None
         self.PHPINI = None
+        self.PHP_INCLUDE = True
         self.all_words = "clean load make upload"
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
@@ -46,13 +47,14 @@ class CmdLine(object):
 
     def do_local(self):
         self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
-        self.ROOT = 'html_local'
-        self.HTACCESS = 'geometer.htaccess'
+        self.ROOT = '../www'
+        self.HTACCESS = 'local.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
     def do_file(self):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
         self.ROOT = 'html_local'
+        self.PHP_INCLUDE = False
 
     def do_tch(self):
         self.BASE = 'http://nedbatchelder.com'
@@ -96,7 +98,7 @@ class CmdLine(object):
         settings.WEB_ROOT = dst
         settings.BASE = baseurl
         settings.PHP = False
-        settings.PHP_INCLUDE = True
+        settings.PHP_INCLUDE = self.PHP_INCLUDE
 
         resources = [
             Entry.objects,
@@ -167,7 +169,7 @@ class CmdLine(object):
     def do_narrow(self):
         """Total hack expedient to only process some blog posts."""
         # Change this pattern if you want to fiddle with another one.
-        loadpages.blog_pattern = "names*.bx"
+        loadpages.blog_pattern = "*thing*.bx"
 
     def do_slow(self):
         self.use_processes = False

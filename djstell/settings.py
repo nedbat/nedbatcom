@@ -1,9 +1,9 @@
 # Django settings for djstell project.
 
-PHP = 1             # Should we execute PHP tags in the output?
-PHP_INCLUDE = 0     # Should we use PHP includes, or pull the content in?
+PHP = True              # Should we execute PHP tags in the output?
+PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
 BASE = 'http://localhost/'
-LOG_SQL = 0
+LOG_SQL = False
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

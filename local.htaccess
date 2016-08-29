@@ -19,7 +19,7 @@ ErrorDocument 404 /err404.html
 DirectoryIndex home.php index.php index.html index.htm
 
 # Change the include path to get Reactor to work.
-php_value include_path ".;c:\ned\web\reactor\src;c:\www\reactor;c:\www;C:\app\Pear\pear"
+php_value include_path ".:/Users/ned/web/reactor/src:/Users/ned/web/www/reactor:/Users/ned/web/www:/Users/ned/web/php-composer"
 
 php_value register_globals 0
 
