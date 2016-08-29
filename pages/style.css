@@ -834,28 +834,6 @@ em.property {
 .code .ss { color: #a31515 } /* Literal.String.Symbol */
 
 
-#SOPA {
-    width: 100%;
-    height: 75%;
-    background: black;
-    color: #aaa;
-    position: absolute;
-    top: 0; left: 0;
-    z-index: 99999;
-    font-size: 150%;
-    opacity: .9;
-}
-#SOPA .content {
-    padding: 3em 6em;
-    font-weight: normal;
-}
-#SOPA a {
-    color: inherit;
-    text-decoration: underline;
-}
-
-
-
 svg {
     stroke: black;
     fill: white;
