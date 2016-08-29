@@ -306,12 +306,12 @@ a.s:hover
 .path a:hover
 { text-decoration: underline; color: red }
 
-.blog-entry .head {
+.blog-entry header {
     font-family: verdana, sans-serif;
     padding-bottom: .2em; margin-bottom: 0;
 }
 
-.blog-entry .foot {
+.blog-entry footer {
     font-family: verdana, sans-serif;
     font-size: 85%; color: gray;
     font-style: italic;
@@ -319,10 +319,10 @@ a.s:hover
     padding-bottom: 12pt; margin-bottom: 6pt;
 }
 
-.blog-entry .foot a
+.blog-entry footer a
 { text-decoration: none; color: gray }
 
-.blog-entry .foot a:hover
+.blog-entry footer a:hover
 { text-decoration: underline; color: red }
 
 .blog-entry .title {
