@@ -54,17 +54,14 @@ def sidebar(which, force=False):
             pass
 
     if which == 'blog':
-        c['tpt'] = False    # Not interested in showing this any more.
         c['archive_years'] = [ d.year for d in Entry.objects.dates('when', 'year', order='DESC') ]
         c['tags'] = Tag.objects.filter(sidebar=True).order_by('tag')
         c['moreblog'] = list(combined_more_blog())
         c['more_tag_count'] = Tag.objects.filter(sidebar=False).count()
         c['blogroll'] = Link.objects.filter(sidebar=True).order_by('text')
-        #c['tabblos'] = 'favs'
         c['rss'] = True
         c['commerce'] = True
     elif which == 'page':
-        #c['tabblos'] = 'recent'
         c['youmightlike'] = True
     return c
 

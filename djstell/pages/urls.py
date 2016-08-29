@@ -33,7 +33,3 @@ urlpatterns = patterns('djstell.pages.views',
 
     url(r'^sidebar_(?P<which>\w+).inc$', 'sidebar'),
     )
-
-urlpatterns += patterns('',
-    url(r'^tabblo_badge_(?P<tabblos>\w+).html$', TemplateView.as_view(template_name='tabblo_badge.html')),
-    )

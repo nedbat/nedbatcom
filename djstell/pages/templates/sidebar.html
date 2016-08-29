@@ -51,10 +51,6 @@
         </li>
         {% endcomment %}
 
-        {% if tpt %}
-        <li><a href="javascript:TptIt()">Print this with TPT</a> (<a href='http://developer.tabblo.com/index.php/tabblo-print-toolkit'>huh?</a>)</li>
-        {% endif %}
-
         {% if commerce %}
         <li>Commerce:
             <ul class='compact'>
@@ -100,12 +96,6 @@
                     </a>
                 </li>
             </ul>
-        </li>
-        {% endif %}
-
-        {% if tabblos %}
-        <li>
-            <iframe src='tabblo_badge_{{tabblos}}.html' width='175' height='211' frameborder='0' scrolling='no'></iframe>
         </li>
         {% endif %}
 

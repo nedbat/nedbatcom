@@ -113,8 +113,6 @@ class CmdLine(object):
             '/blog/moved.php',
             '/sidebar_blog.inc',
             '/sidebar_page.inc',
-            '/tabblo_badge_favs.html',
-            '/tabblo_badge_recent.html',
             '/index.html',
             ]
 
