@@ -10,13 +10,30 @@ body {
   background: url(pix/hilbert.gif);
 }
 
-table#logo_banner {
-  width: 840px;
-  border: 5px solid #999;
-  margin: 0 auto;
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+
+  &#logo_banner {
+    width: 840px;
+    border: 5px solid #999;
+    margin: 0 auto;
+  }
+  &#content_menu {
+    width: 840px;
+    border: 5px solid #999;
+    border-top-width: 0;
+    margin: 0 auto;
+  }
 }
 
 td {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+
   &#logo {
     width: 120px;
     border-right: 5px solid #999;
@@ -31,16 +48,6 @@ td {
     font-size: 85%;
     vertical-align: middle;
   }
-}
-
-table#content_menu {
-  width: 840px;
-  border: 5px solid #999;
-  border-top-width: 0;
-  margin: 0 auto;
-}
-
-td {
   &#menu {
     width: 175px;
     border-left: 5px solid #999;
@@ -75,19 +82,6 @@ p, h1, h2, h3, h4, h5, h6 {
   margin: 1em 0;
 }
 
-table {
-  display: table;
-  border-collapse: separate;
-  border-spacing: 0;
-  border: 0;
-}
-
-td {
-  padding: 0;
-  margin: 0;
-  vertical-align: top;
-}
-
 .vmid {
   vertical-align: middle;
 }
@@ -104,17 +98,12 @@ p {
   }
 }
 
-/* Not sure why I made listed blockquotes smaller text... */
-/* Changed my mind: they aren't smaller. */
-
 li blockquote {
   font-size: 100%;
   &.code {
     font-size: 100%;
   }
 }
-
-/* ..but we don't want to do it for listed code. */
 
 h1, h2, h3, h4, h5, h6 {
   font-family: verdana, sans-serif;
@@ -134,10 +123,6 @@ a.headerlink {
   margin-top: 0;
 }
 
-.body {
-  line-height: 1.5em;
-}
-
 .thinspace {
   font-size: 66%;
 }
@@ -145,6 +130,8 @@ a.headerlink {
 /* H1's have a line underneath them. */
 
 .body {
+  line-height: 1.5em;
+
   h1 {
     font-size: 100%;
     border-bottom: 1px solid silver;
@@ -163,6 +150,12 @@ a.headerlink {
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
+    &.noborder {
+      border-width: 0;
+      th, td {
+        border-width: 0;
+      }
+    }
   }
   td {
     border: 1px solid #ccc;
@@ -173,14 +166,20 @@ a.headerlink {
     border-bottom: 1px solid #999;
     padding: .25em .5em;
   }
-  table.noborder {
-    border-width: 0;
-    th, td {
-      border-width: 0;
-    }
-  }
   #comments td {
     border-width: 0;
+  }
+  img {
+    margin: 0 .5em;
+    /* So that side-by-side images will have some space between them */
+    &.floatimg {
+      float: left;
+      margin: 0 1.5em .8em 0;
+      &.right {
+        float: right;
+        margin: 0 0 .8em 1.5em;
+      }
+    }
   }
 }
 
@@ -565,18 +564,87 @@ dd {
     padding: 0;
     margin: 0;
   }
+
+  /* Code styling.  There are a lot of different styles! */
+  .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
+    color: #080;
+  }
+  .c_word, .c_preprocessor, .p_word, .h_tag, .h_tagunknown, .css_identifier, .css_unknown_identifier, .hphp_word, .ps_keyword {
+    font-weight: bold;
+    color: #008;
+  }
+  .h_attribute, .h_attributeunknown {
+    color: #008;
+  }
+  .c_string, .c_character, .p_string, .p_character, .p_triple, .p_tripledouble, .h_doublestring, .h_singlestring, .css_doublestring, .css_singlestring, .hphp_hstring, .hphp_simplestring, .ps_text {
+    color: #808;
+  }
+  .p_classname, .p_defname, .css_class, .css_pseudoclass, .css_unknown_pseudoclass, .css_tag, .ps_literal {
+    font-weight: bold;
+    color: #088;
+  }
+  .hll {
+    background-color: #ffffcc;
+  }
+  .c {
+    color: #008000;
+  }
+  .err {
+    border: 1px solid #FF0000;
+  }
+  .k {
+    color: #000080;
+    font-weight: bold;
+  }
+  .cm {
+    color: #008000;
+  }
+  .cp {
+    color: #0000ff;
+  }
+  .c1, .cs {
+    color: #008000;
+  }
+  .ge {
+    font-style: italic;
+  }
+  .gh, .gp, .gs, .gu {
+    font-weight: bold;
+  }
+  .kc, .kd, .kn, .kp, .kr {
+    color: #0000ff;
+  }
+  .kt {
+    color: #2b91af;
+  }
+  .s {
+    color: #a31515;
+  }
+  .nc {
+    color: #2b91af;
+  }
+  .ow {
+    color: #0000ff;
+  }
+  .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
+    color: #a31515;
+  }
 }
 
 table.sourcetable {
   /* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
    * need to cancel out the padding. */
   margin: -0.3em;
-}
 
-.sourcetable td {
-  border: none;
-  &.linenos {
-    width: 3em;
+  td {
+    border: none;
+    &.linenos {
+      width: 3em;
+    }
+    &.code {
+      width: 100%;
+      padding: 0 0.5em;
+    }
   }
 }
 
@@ -587,10 +655,6 @@ div.linenodiv {
   }
 }
 
-.sourcetable td.code {
-  width: 100%;
-  padding: 0 0.5em;
-}
 
 .codeword {
   font-size: 100%;
@@ -607,19 +671,6 @@ div.linenodiv {
 
 img {
   border: none;
-}
-
-.body img {
-  margin: 0 .5em;
-  /* So that side-by-side images will have some space between them */
-  &.floatimg {
-    float: left;
-    margin: 0 1.5em .8em 0;
-    &.right {
-      float: right;
-      margin: 0 0 .8em 1.5em;
-    }
-  }
 }
 
 .tweet a {
@@ -786,108 +837,6 @@ em.property, .internal.reference em, .external.reference em {
   font-style: normal;
 }
 
-/* Code styling.  There are a lot of different styles! */
-
-.code {
-  .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
-    color: #080;
-  }
-  .c_word, .c_preprocessor, .p_word, .h_tag, .h_tagunknown, .css_identifier, .css_unknown_identifier, .hphp_word, .ps_keyword {
-    font-weight: bold;
-    color: #008;
-  }
-  .h_attribute, .h_attributeunknown {
-    color: #008;
-  }
-  .c_string, .c_character, .p_string, .p_character, .p_triple, .p_tripledouble, .h_doublestring, .h_singlestring, .css_doublestring, .css_singlestring, .hphp_hstring, .hphp_simplestring, .ps_text {
-    color: #808;
-  }
-  .p_classname, .p_defname, .css_class, .css_pseudoclass, .css_unknown_pseudoclass, .css_tag, .ps_literal {
-    font-weight: bold;
-    color: #088;
-  }
-  .hll {
-    background-color: #ffffcc;
-  }
-  .c {
-    color: #008000;
-  }
-  .err {
-    border: 1px solid #FF0000;
-  }
-  .k {
-    color: #000080;
-    font-weight: bold;
-  }
-  .cm {
-    color: #008000;
-  }
-  .cp {
-    color: #0000ff;
-  }
-  .c1, .cs {
-    color: #008000;
-  }
-  .ge {
-    font-style: italic;
-  }
-  .gh, .gp, .gs, .gu {
-    font-weight: bold;
-  }
-  .kc, .kd, .kn, .kp, .kr {
-    color: #0000ff;
-  }
-  .kt {
-    color: #2b91af;
-  }
-  .s {
-    color: #a31515;
-  }
-  .nc {
-    color: #2b91af;
-  }
-  .ow {
-    color: #0000ff;
-  }
-  .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
-    color: #a31515;
-  }
-}
-
-/* Adapted from https://github.com/richleland/pygments-css/blob/master/vs.css */
-
-/* Comment */
-/* Error */
-/* Keyword */
-/* Comment.Multiline */
-/* Comment.Preproc */
-/* Comment.Single */
-/* Comment.Special */
-/* Generic.Emph */
-/* Generic.Heading */
-/* Generic.Prompt */
-/* Generic.Strong */
-/* Generic.Subheading */
-/* Keyword.Constant */
-/* Keyword.Declaration */
-/* Keyword.Namespace */
-/* Keyword.Pseudo */
-/* Keyword.Reserved */
-/* Keyword.Type */
-/* Literal.String */
-/* Name.Class */
-/* Operator.Word */
-/* Literal.String.Backtick */
-/* Literal.String.Char */
-/* Literal.String.Doc */
-/* Literal.String.Double */
-/* Literal.String.Escape */
-/* Literal.String.Heredoc */
-/* Literal.String.Interpol */
-/* Literal.String.Other */
-/* Literal.String.Regex */
-/* Literal.String.Single */
-/* Literal.String.Symbol */
 
 svg {
   stroke: black;
