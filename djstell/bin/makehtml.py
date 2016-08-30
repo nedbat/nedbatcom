@@ -149,6 +149,11 @@ class CmdLine(object):
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
+    def run_sass(self, dst):
+        import subprocess
+        cmd = ['sass', '--sourcemap=none', 'style.scss', os.path.join(dst, 'style.css')]
+        status = subprocess.call(cmd)
+
     @timed
     def do_clean(self):
         if os.path.exists(settings.DATABASES['default']['NAME']):
@@ -176,6 +181,7 @@ class CmdLine(object):
     def do_make(self):
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
+        self.run_sass(self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         if self.PHPINI:
