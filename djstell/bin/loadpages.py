@@ -10,6 +10,7 @@ root = path.path(".")
 page_sources = 'pages'.split()
 blog_sources = 'blog 0blog 1blog'.split()
 blog_pattern = '*.bx'
+page_pattern = '*.px'
 
 @transaction.commit_on_success
 def clean_data():
@@ -37,7 +38,7 @@ def load_entries():
 @transaction.commit_on_success
 def load_articles():
     for subdir in page_sources:
-        files = list((root/subdir).walk(pattern='*.px'))
+        files = list((root/subdir).walk(pattern=page_pattern))
         print "Loading %d pages from %s" % (len(files), subdir)
         for f in files:
             Article.create_from_px(str(f), str(root/subdir))
