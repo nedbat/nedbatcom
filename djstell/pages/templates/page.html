@@ -33,9 +33,7 @@
                 </span><br>
 
                 {# The title #}
-                {#<!-- google_ad_section_start -->#}
                 <span class='headslug'>{{title}}</span><br>
-                {#<!-- google_ad_section_end -->#}
 
                 {# Below the title: the page path. #}
                 <span class='path'>
@@ -66,14 +64,11 @@
                         ?>
                     {% endif %}
 
-                    {#<!-- google_ad_section_start -->#}
                     {% block body %}
                     {{body|safe}}
                     {% endblock body %}
-                    {#<!-- google_ad_section_end -->#}
 
                     {% if comments %}
-                        {#<!-- google_ad_section_start(weight=ignore) -->#}
                         <?php
                             $entryinfo = array();
                             $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
@@ -83,19 +78,16 @@
                             {% endif %}
                             echo $ror->RenderComments('{{comments.entryid|safe|addphpslashes}}', 'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html', $entryinfo);
                         ?>
-                        {#<!-- google_ad_section_end -->#}
                     {% endif %}
 
                 </div>
             </td>
 
             <td id='menu'>
-                {#<!-- google_ad_section_start(weight=ignore) -->#}
                 <aside class='sidebar'>
                     {# Find a left-side sidebar menu for this page. #}
                     {% block sidebar %}{% sidebar 'page' %}{% endblock %}
                 </aside>
-                {#<!-- google_ad_section_end -->#}
             </td>
         </tr>
         <tr>

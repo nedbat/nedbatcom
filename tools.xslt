@@ -249,54 +249,8 @@
     -->
 </xsl:template>
 
-<!-- Google ads, disabled for now. -->
-<xsl:template match='googleads'>
-    <xsl:variable name='channelname'>
-        <xsl:choose>
-            <xsl:when test='@channel'><xsl:value-of select='@channel' /></xsl:when>
-            <xsl:otherwise>other</xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
-    <xsl:variable name='channelcode'>
-        <xsl:value-of select='document("googlechannels.xml")//channel[@name=$channelname]/@code' />
-    </xsl:variable>
-
-    <xsl:if test='$channelcode=""'>
-        <xsl:message>
-            <xsl:text>Unknown google channel: </xsl:text>
-            <xsl:value-of select='$channelname' />
-            <xsl:text> at </xsl:text>
-            <xsl:call-template name='pinpoint'/>
-        </xsl:message>
-    </xsl:if>
-
-    <div class='googleads'>
-        <!--
-        <xsl:choose>
-            <xsl:when test='$nophp'>
-                (channel <xsl:value-of select='$channelname' />, <xsl:value-of select='$channelcode'/>)<br/>
-                <img src='file:///c:/ned/web/stellated/googlead-placeholder.png' />
-            </xsl:when>
-            <xsl:otherwise>
-                <script type="text/javascript">
-                    google_ad_client = "pub-0161795002156348";
-                    google_ad_width = 468;
-                    google_ad_height = 60;
-                    google_ad_format = "468x60_as";
-                    google_ad_channel ="<xsl:value-of select='$channelcode'/>";
-                    google_color_border = "2D5893";
-                    google_color_bg = "99AACC";
-                    google_color_link = "000000";
-                    google_color_url = "000099";
-                    google_color_text = "003366";
-                </script>
-                <script type='text/javascript' src='http://pagead2.googlesyndication.com/pagead/show_ads.js'/>
-            </xsl:otherwise>
-        </xsl:choose>
-        -->
-    </div>
-</xsl:template>
+<!-- Google ads, gone for good, but easier to not have to edit .px files to remove them. -->
+<xsl:template match='googleads' />
 
 <!-- Default: print a message. -->
 <xsl:template match='*'>
