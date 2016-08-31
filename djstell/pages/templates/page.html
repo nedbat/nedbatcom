@@ -21,30 +21,24 @@
 </head>
 
 <body>
-    <table id='logo_banner'>
-        <tr>
-            <td id='logo'>
+            <header id='logo'>
                 <a href='/'><img src='/dodeca3_100.gif' width='100' height='120' alt='[*]'></a>
-            </td>
-            <td id='banner'>
+            </header>
+            <header id='banner'>
                 {# Above the title: a horizontal version of the root pagemenu. #}
-                <span class='path'>
+                <nav class='path'>
                     <a href='/'>Ned Batchelder</a> : {% top_areas %}
-                </span><br>
+                </nav><br>
 
                 {# The title #}
                 <span class='headslug'>{{title}}</span><br>
 
                 {# Below the title: the page path. #}
-                <span class='path'>
+                <nav class='path'>
                     {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
-                </span>
-            </td>
-        </tr>
-    </table>
-    <table id='content_menu'>
-        <tr>
-            <td id='content'>
+                </nav>
+            </header>
+            <section id='content'>
                 <div class='body'>
                     {# An empty div for main.js to write a search intro into. #}
                     <div id='searchwelcome'></div>
@@ -81,17 +75,13 @@
                     {% endif %}
 
                 </div>
-            </td>
+            </section>
 
-            <td id='menu'>
                 <aside class='sidebar'>
                     {# Find a left-side sidebar menu for this page. #}
                     {% block sidebar %}{% sidebar 'page' %}{% endblock %}
                 </aside>
-            </td>
-        </tr>
-        <tr>
-            <td id='copyright' colspan='2'>
+            <footer id='copyright'>
                 <p class='copyright'>
                     {% if copyright %}
                         {{copyright}}
@@ -107,10 +97,7 @@
                         </a>
                     {% endif %}
                 </p>
-            </td>
-        </tr>
-
-    </table>
+            </footer>
 
 </body>
 
