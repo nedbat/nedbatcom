@@ -11,6 +11,51 @@ body {
   background: url(pix/hilbert.gif);
   */
   max-width: 40em;
+  display: flex;
+  xxflex-direction: column;
+}
+
+#content {
+  width: 620px;
+  padding: 10px;
+  background: #fff;
+  font-family: verdana, sans-serif;
+  font-size: 80%;
+  text-align: left;
+  display: flex;
+  flex-grow: 1;
+}
+
+#sidebar {
+  line-height: 1.1em;
+  margin-top: 0;
+  font-weight: bold;
+  flex-shrink: 0;
+  width: 15em;
+
+    padding: 10px;
+    background: #eee;
+    text-align: left;
+    font-size: 70%;
+
+  border: 1px solid #888;
+
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      text-decoration: underline;
+      color: red;
+    }
+  }
+}
+
+body>header {
+  flex: none;
+}
+
+body>footer {
+  flex: none;
 }
 
 table {
@@ -50,22 +95,6 @@ td {
     text-align: left;
     font-size: 85%;
     vertical-align: middle;
-  }
-  &#menu {
-    width: 175px;
-    border-left: 5px solid #999;
-    padding: 10px;
-    background: #eee;
-    text-align: left;
-    font-size: 70%;
-  }
-  &#content {
-    width: 620px;
-    padding: 10px;
-    background: #fff;
-    font-family: verdana, sans-serif;
-    font-size: 80%;
-    text-align: left;
   }
   &#copyright {
     padding: 0 10px;
@@ -254,20 +283,6 @@ input {
     padding: 2px;
     width: 144px;
     height: 16px;
-  }
-}
-
-.sidebar {
-  line-height: 1.1em;
-  margin-top: 0;
-  font-weight: bold;
-  a {
-    text-decoration: none;
-    color: black;
-    &:hover {
-      text-decoration: underline;
-      color: red;
-    }
   }
 }
 
