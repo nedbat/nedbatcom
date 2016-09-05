@@ -10,35 +10,41 @@ body {
   background-color: #999;
   background: url(pix/hilbert.gif);
   */
-  max-width: 40em;
+  max-width: 60rem;
   display: flex;
-  xxflex-direction: column;
+  flex-flow: row wrap;
+}
+
+body > * {
+  padding: 10px;
+  flex: 1 100%;
+  box-sizing: border-box;
 }
 
 #content {
   width: 620px;
   padding: 10px;
   background: #fff;
+  background: #09ca16;
   font-family: verdana, sans-serif;
   font-size: 80%;
   text-align: left;
-  display: flex;
-  flex-grow: 1;
 }
 
 #sidebar {
   line-height: 1.1em;
   margin-top: 0;
   font-weight: bold;
-  flex-shrink: 0;
   width: 15em;
 
-    padding: 10px;
-    background: #eee;
-    text-align: left;
-    font-size: 70%;
+  padding: 10px;
+  background: #eee;
+  text-align: left;
+  font-size: 70%;
 
   border: 1px solid #888;
+
+  background: #86dbf3;
 
   a {
     text-decoration: none;
@@ -50,12 +56,80 @@ body {
   }
 }
 
-body>header {
-  flex: none;
+$logo-size-small: 4rem;
+$logo-size-large: 12rem;
+$banner-height-small: $logo-size-small;
+$banner-height-large: 6rem;
+
+#logo {
+  position: absolute;
+  width: $logo-size-small;
+  height: $logo-size-small;
+  xxxborder-right: 5px solid #999;
+  background: #fff;
+  background: red;
+  text-align: center;
+  border: 1px solid #ccc;
+
+  background-image: url(/dodeca3_100.gif);
+  background-size: $logo-size-small $logo-size-small;
+
+  img {
+    display: none;  /* TODO: only until we get rid of the img */
+  }
 }
 
-body>footer {
-  flex: none;
+#banner {
+  width: 695px;
+  height: $banner-height-small;
+  padding: 10px;
+  margin-left: $logo-size-small;
+  background: #fff;
+  background: yellow;
+  text-align: left;
+  font-size: 85%;
+  vertical-align: middle;
+}
+
+#copyright {
+  padding: 0 10px;
+  border-top: 5px solid #999;
+  text-align: left;
+  background: #eee;
+  color: black;
+  background: #be5fc6;
+}
+
+@media (min-width: 600px) {
+  #logo {
+    width: $logo-size-large;
+    height: $logo-size-large;
+    background-size: $logo-size-large $logo-size-large;
+  }
+
+  #banner {
+    order: 2;
+    margin-left: $logo-size-large;
+    height: $banner-height-large;
+  }
+
+  #sidebar {
+    order: 3;
+    width: $logo-size-large;
+    margin-top: $logo-size-large - $banner-height-large;
+    xxxmargin-bottom: computed;
+    flex: 0 $logo-size-large;
+  }
+
+  #content {
+    order: 4;
+    flex: 1 0px;
+  }
+
+  #copyright {
+    order: 5;
+    margin-left: $logo-size-large;
+  }
 }
 
 table {
@@ -82,27 +156,6 @@ td {
   margin: 0;
   vertical-align: top;
 
-  &#logo {
-    width: 120px;
-    border-right: 5px solid #999;
-    background: #fff;
-    text-align: center;
-  }
-  &#banner {
-    width: 695px;
-    padding: 10px;
-    background: #fff;
-    text-align: left;
-    font-size: 85%;
-    vertical-align: middle;
-  }
-  &#copyright {
-    padding: 0 10px;
-    border-top: 5px solid #999;
-    text-align: left;
-    background: #eee;
-    color: black;
-  }
 }
 
 .dn {
