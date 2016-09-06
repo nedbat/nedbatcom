@@ -10,7 +10,7 @@ body {
   background-color: #999;
   background: url(pix/hilbert.gif);
   */
-  max-width: 60rem;
+  max-width: 55rem;
   display: flex;
   flex-flow: row wrap;
 }
@@ -22,10 +22,9 @@ body > * {
 }
 
 #content {
-  width: 620px;
   padding: 10px;
   background: #fff;
-  background: #09ca16;
+  background: lighten(#09ca16, 30%);
   font-family: verdana, sans-serif;
   font-size: 80%;
   text-align: left;
@@ -44,7 +43,7 @@ body > * {
 
   border: 1px solid #888;
 
-  background: #86dbf3;
+  background: lighten(#86dbf3, 10%);
 
   a {
     text-decoration: none;
@@ -60,19 +59,18 @@ $logo-size-small: 4rem;
 $logo-size-large: 12rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 6rem;
+$copyright-height: 2rem;
 
 #logo {
   position: absolute;
   width: $logo-size-small;
   height: $logo-size-small;
-  xxxborder-right: 5px solid #999;
   background: #fff;
-  background: red;
   text-align: center;
   border: 1px solid #ccc;
 
   background-image: url(/dodeca3_100.gif);
-  background-size: $logo-size-small $logo-size-small;
+  background-size: contain;
 
   img {
     display: none;  /* TODO: only until we get rid of the img */
@@ -80,12 +78,11 @@ $banner-height-large: 6rem;
 }
 
 #banner {
-  width: 695px;
   height: $banner-height-small;
   padding: 10px;
   margin-left: $logo-size-small;
   background: #fff;
-  background: yellow;
+  background: lighten(yellow, 30%);
   text-align: left;
   font-size: 85%;
   vertical-align: middle;
@@ -94,17 +91,17 @@ $banner-height-large: 6rem;
 #copyright {
   padding: 0 10px;
   border-top: 5px solid #999;
+  height: $copyright-height;
   text-align: left;
   background: #eee;
   color: black;
-  background: #be5fc6;
+  background: lighten(#be5fc6, 30%);
 }
 
 @media (min-width: 600px) {
   #logo {
     width: $logo-size-large;
     height: $logo-size-large;
-    background-size: $logo-size-large $logo-size-large;
   }
 
   #banner {
@@ -117,7 +114,7 @@ $banner-height-large: 6rem;
     order: 3;
     width: $logo-size-large;
     margin-top: $logo-size-large - $banner-height-large;
-    xxxmargin-bottom: computed;
+    margin-bottom: -$copyright-height;
     flex: 0 $logo-size-large;
   }
 
@@ -137,25 +134,12 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   border: 0;
-
-  &#logo_banner {
-    width: 840px;
-    border: 5px solid #999;
-    margin: 0 auto;
-  }
-  &#content_menu {
-    width: 840px;
-    border: 5px solid #999;
-    border-top-width: 0;
-    margin: 0 auto;
-  }
 }
 
 td {
   padding: 0;
   margin: 0;
   vertical-align: top;
-
 }
 
 .dn {
@@ -595,23 +579,23 @@ blockquote.code {
   padding: .3em;
   border: none;
   white-space: nowrap;
-  overflow: auto;
-  width: 540px;
+  overflow-x: scroll;
+  width: percentage(540/620);
   line-height: 1;
 }
 
 /* Code samples can't be as wide in a list element.. */
 
 ul .code, ol .code, li .code {
-  width: 510px;
+  width: percentage(510/620);
 }
 
 dd {
   .code {
-    width: 500px;
+    width: percentage(500/620);
   }
   li .code {
-    width: 470px;
+    width: percentage(470/620);
     /* even narrower doubly-nested. */
   }
 }
@@ -742,6 +726,8 @@ div.linenodiv {
 
 img {
   border: none;
+  max-width: 100%;
+  height: auto;
 }
 
 .tweet a {
@@ -804,7 +790,7 @@ img {
   padding: .5em 10pt 0 50px;
   margin-top: 6pt;
   overflow: auto;
-  width: 540px;
+  width: percentage(540/620);
   &.preview {
     background-color: #ffff80;
     border: 1px solid #cccccc;
