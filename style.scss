@@ -1,5 +1,12 @@
 /* Style sheet for nedbatchelder.com */
 
+$color-scheme: white;
+$logo-size-small: 4rem;
+$logo-size-large: 12rem;
+$banner-height-small: $logo-size-small;
+$banner-height-large: 6rem;
+$copyright-height: 2rem;
+
 body {
   font-size: 101%;
   /* Trick to shut off divergent font rounding algorithms. */
@@ -23,8 +30,12 @@ body > * {
 
 #content {
   padding: 10px;
-  background: #fff;
-  background: lighten(#09ca16, 30%);
+  @if $color-scheme == gaudy {
+    background: lighten(#09ca16, 30%);
+  }
+  @else {
+    background: #fff;
+  }
   font-family: verdana, sans-serif;
   font-size: 80%;
   text-align: left;
@@ -37,13 +48,17 @@ body > * {
   width: 15em;
 
   padding: 10px;
-  background: #eee;
+  @if $color-scheme == gaudy {
+    background: lighten(#86dbf3, 10%);
+  }
+  @else {
+    background: #eee;
+  }
   text-align: left;
   font-size: 70%;
 
   border: 1px solid #888;
 
-  background: lighten(#86dbf3, 10%);
 
   a {
     text-decoration: none;
@@ -55,21 +70,20 @@ body > * {
   }
 }
 
-$logo-size-small: 4rem;
-$logo-size-large: 12rem;
-$banner-height-small: $logo-size-small;
-$banner-height-large: 6rem;
-$copyright-height: 2rem;
-
 #logo {
   position: absolute;
   width: $logo-size-small;
   height: $logo-size-small;
-  background: #fff;
+  @if $color-scheme == gaudy {
+    background: red;
+  }
+  @else {
+    background: #fff;
+  }
   text-align: center;
   border: 1px solid #ccc;
 
-  background-image: url(/dodeca3_100.gif);
+  background-image: url(/pix/dodeca3_640.jpg);  /* TODO: different-sized images */
   background-size: contain;
 
   img {
@@ -81,8 +95,12 @@ $copyright-height: 2rem;
   height: $banner-height-small;
   padding: 10px;
   margin-left: $logo-size-small;
-  background: #fff;
-  background: lighten(yellow, 30%);
+  @if $color-scheme == gaudy {
+    background: lighten(yellow, 30%);
+  }
+  @else {
+    background: #fff;
+  }
   text-align: left;
   font-size: 85%;
   vertical-align: middle;
@@ -90,12 +108,16 @@ $copyright-height: 2rem;
 
 #copyright {
   padding: 0 10px;
-  border-top: 5px solid #999;
+  border-top: 1px solid #ccc;
   height: $copyright-height;
   text-align: left;
-  background: #eee;
+  @if $color-scheme == gaudy {
+    background: lighten(#be5fc6, 30%);
+  }
+  @else {
+    background: #eee;
+  }
   color: black;
-  background: lighten(#be5fc6, 30%);
 }
 
 @media (min-width: 600px) {
