@@ -7,9 +7,28 @@ $banner-height-small: $logo-size-small;
 $banner-height-large: 6rem;
 $copyright-height: 2rem;
 
+/*
+http://fvsch.com/code/em-alternatives/
+
+  font-size: calc(1rem + .25vw + .25vh);
+
+Bottom line: don’t mix and match layout dimensions. Either go full pixels (for
+the main layout and media queries, not for text and not necessarily for padding
+etc.) or full text-relative (em in media queries, rem or em for block widths).
+
+also: http://fvsch.com/code/css-locks/ "CSS Locks"
+http://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
+
+<main> element
+role= attributes
+
+aria-describedby for form fields?
+
+*/
+
 body {
-  font-size: 101%;
   /* Trick to shut off divergent font rounding algorithms. */
+  font-size: 101%;
   font-family: verdana, sans-serif;
   margin: 0 auto;
   padding: 0;
