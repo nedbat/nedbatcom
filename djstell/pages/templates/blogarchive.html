@@ -29,11 +29,7 @@
         {% for entry in entries %}
 
             {% ifchanged %}
-            <h1>
-                <a class='s' href='{{entry.monthurl}}'>
-                    {{ entry.when|date:"F Y" }}
-                </a>
-            </h1>
+            <h1 id='month{{ entry.when|date:"m" }}'>{{ entry.when|date:"F Y" }}</h1>
             {% endifchanged %}
 
             {% ifchanged %}

@@ -14,7 +14,6 @@ PLANET_PYTHON_TAGS = [
 urlpatterns = patterns('djstell.pages.views',
     url(r'^index.html$', 'index'),
     url(r'^blog/index.html$', 'blogmain'),
-    url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d).html$', 'month'),
     url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', 'entry'),
 
     url(r'^blog/tags.html$', 'tags'),

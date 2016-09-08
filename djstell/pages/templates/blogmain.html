@@ -33,9 +33,4 @@
         </div>
     {% endfor %}
 
-    {# Link to month page for the next oldest. #}
-    {% for entry in entries|slice:"20:21" %}
-        <p><i><a href='{{entry.monthurl}}#{{entry.entryid}}'>Even older...</a></i></p>
-    {% endfor %}
-
 {% endblock %}

@@ -53,28 +53,6 @@ def blogmain(request):
     c['crumbs'] = c['crumbs'][:1]
     return render_to_response('blogmain.html', c)
 
-def month(request, year, month):
-    """ A monthly blog page.
-    """
-    ents = list(Entry.objects.filter(when__year=int(year), when__month=int(month)).order_by('-when'))
-    if not ents:
-        raise Http404
-
-    c = RequestContext(request)
-    add_entries(c, ents)
-    c['title'] = ents[0].when.strftime("%B %Y")     # October 2007
-
-    # next and prev
-    c['prev_ent'] = c['next_ent'] = None
-    prev = Entry.objects.filter(when__lt=ents[-1].when).order_by('-when')[:1]
-    if prev:
-        c['prev_ent'] = prev[0]
-    next = Entry.objects.filter(when__gt=ents[0].when).order_by('when')[:1]
-    if next:
-        c['next_ent'] = next[0]
-
-    return render_to_response('blogmonth.html', c)
-
 def archiveyear(request, year):
     ents = list(Entry.objects.filter(when__year=int(year)).order_by('-when'))
     c = RequestContext(request)

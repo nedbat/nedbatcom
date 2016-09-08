@@ -13,10 +13,6 @@ register = Library()
 def blog_entry(entry, mode):
     return {'entry':entry, 'mode':mode}
 
-@register.inclusion_tag('pmn.html')
-def prev_main_next(prev, next):
-    return {'prev':prev, 'next':next}
-
 @register.inclusion_tag('sidebar.html')
 def sidebar(which, force=False):
     """ Make the blogroll.
