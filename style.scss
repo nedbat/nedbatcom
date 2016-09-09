@@ -2,7 +2,7 @@
 
 $color-scheme: white;
 $logo-size-small: 4rem;
-$logo-size-large: 12rem;
+$logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 6rem;
 $copyright-height: 2rem;
@@ -39,12 +39,12 @@ body {
   max-width: 55rem;
   display: flex;
   flex-flow: row wrap;
-}
 
-body > * {
-  padding: 10px;
-  flex: 1 100%;
-  box-sizing: border-box;
+  > * {
+    padding: 10px;
+    flex: 1 100%;
+    box-sizing: border-box;
+  }
 }
 
 #content {
@@ -64,7 +64,6 @@ body > * {
   line-height: 1.1em;
   margin-top: 0;
   font-weight: bold;
-  width: 15em;
 
   padding: 10px;
   @if $color-scheme == gaudy {
@@ -77,7 +76,6 @@ body > * {
   font-size: 70%;
 
   border: 1px solid #888;
-
 
   a {
     text-decoration: none;
@@ -352,6 +350,20 @@ dt, dd {
   margin-bottom: .4em;
 }
 
+.searchform {
+  display: flex;
+  flex-flow: row;
+  max-width: 10rem;
+
+  > * {
+    flex: 0 auto;
+  }
+
+  > .searchbox {
+    flex: 1 0px;
+  }
+}
+
 input {
   &[type="search"] {
     -webkit-appearance: textfield;
@@ -359,8 +371,8 @@ input {
   &.searchbox {
     border: 1px solid #7e9db9;
     padding: 2px;
-    width: 144px;
-    height: 16px;
+    height: 1.5em;
+    width: 100%;
   }
 }
 

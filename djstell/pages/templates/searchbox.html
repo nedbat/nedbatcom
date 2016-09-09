@@ -1,14 +1,11 @@
 {# Self-made janky Google search box, since Google custom site search is busted. #}
-<form action="http://www.google.com/search" style="margin-top:6px;">
+<form class="searchform" action="http://www.google.com/search" style="margin-top:6px;">
     <input type="hidden" name="q" value="site:nedbatchelder.com">
-    {# OK, look: this table is Bad, but it works, and nothing else does! #}
-    <table>
-        <tr>
-            {% if label %}
-                <td class="vmid">{{label|safe}}</td>
-            {% endif %}
-            <td class="vmid"><input type="search" name="q" class="searchbox"></td>
-            <td class="vmid"><input id="submit" class="vmid" type="image" title="Search" alt="Search" src="/pix/search.png"></td>
-        </tr>
-    </table>
+    {% if label %}
+        <span class="vmid">{{label|safe}}</span>
+    {% endif %}
+    <span class="searchbox vmid">
+        <input type="search" name="q" class="searchbox vmid">
+    </span>
+    <input id="submit" class="vmid" type="image" title="Search" alt="Search" src="/pix/search.png">
 </form>
