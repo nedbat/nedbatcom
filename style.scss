@@ -10,7 +10,7 @@ $copyright-height: 2rem;
 /*
 http://fvsch.com/code/em-alternatives/
 
-  font-size: calc(1rem + .25vw + .25vh);
+font-size: calc(1rem + .25vw + .25vh);
 
 Bottom line: don’t mix and match layout dimensions. Either go full pixels (for
 the main layout and media queries, not for text and not necessarily for padding
@@ -27,985 +27,985 @@ aria-describedby for form fields?
 */
 
 body {
-  /* Trick to shut off divergent font rounding algorithms. */
-  font-size: 101%;
-  font-family: verdana, sans-serif;
-  margin: 0 auto;
-  padding: 0;
-  /*
-  background-color: #999;
-  background: url(pix/hilbert.gif);
-  */
-  max-width: 55rem;
-  display: flex;
-  flex-flow: row wrap;
+    /* Trick to shut off divergent font rounding algorithms. */
+    font-size: 101%;
+    font-family: verdana, sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    /*
+    background-color: #999;
+    background: url(pix/hilbert.gif);
+     */
+    max-width: 55rem;
+    display: flex;
+    flex-flow: row wrap;
 
-  > * {
-    padding: 10px;
-    flex: 1 100%;
-    box-sizing: border-box;
-  }
+    > * {
+        padding: 10px;
+        flex: 1 100%;
+        box-sizing: border-box;
+    }
 }
 
 #content {
-  padding: 10px;
-  @if $color-scheme == gaudy {
-    background: lighten(#09ca16, 30%);
-  }
-  @else {
-    background: #fff;
-  }
-  font-family: verdana, sans-serif;
-  font-size: 80%;
-  text-align: left;
+    padding: 10px;
+    @if $color-scheme == gaudy {
+        background: lighten(#09ca16, 30%);
+    }
+    @else {
+        background: #fff;
+    }
+    font-family: verdana, sans-serif;
+    font-size: 80%;
+    text-align: left;
 }
 
 #sidebar {
-  line-height: 1.1em;
-  margin-top: 0;
-  font-weight: bold;
+    line-height: 1.1em;
+    margin-top: 0;
+    font-weight: bold;
 
-  padding: 10px;
-  @if $color-scheme == gaudy {
-    background: lighten(#86dbf3, 10%);
-  }
-  @else {
-    background: #eee;
-  }
-  text-align: left;
-  font-size: 70%;
-
-  border: 1px solid #888;
-
-  a {
-    text-decoration: none;
-    color: black;
-    &:hover {
-      text-decoration: underline;
-      color: red;
+    padding: 10px;
+    @if $color-scheme == gaudy {
+        background: lighten(#86dbf3, 10%);
     }
-  }
+    @else {
+        background: #eee;
+    }
+    text-align: left;
+    font-size: 70%;
+
+    border: 1px solid #888;
+
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            text-decoration: underline;
+            color: red;
+        }
+    }
 }
 
 #logo {
-  position: absolute;
-  width: $logo-size-small;
-  height: $logo-size-small;
-  @if $color-scheme == gaudy {
-    background: red;
-  }
-  @else {
-    background: #fff;
-  }
-  text-align: center;
-  border: 1px solid #ccc;
+    position: absolute;
+    width: $logo-size-small;
+    height: $logo-size-small;
+    @if $color-scheme == gaudy {
+        background: red;
+    }
+    @else {
+        background: #fff;
+    }
+    text-align: center;
+    border: 1px solid #ccc;
 
-  background-image: url(/pix/dodeca3_640.jpg);  /* TODO: different-sized images */
-  background-size: contain;
+    background-image: url(/pix/dodeca3_640.jpg);  /* TODO: different-sized images */
+    background-size: contain;
 
-  img {
-    display: none;  /* TODO: only until we get rid of the img */
-  }
+    img {
+        display: none;  /* TODO: only until we get rid of the img */
+    }
 }
 
 #banner {
-  height: $banner-height-small;
-  padding: 10px;
-  margin-left: $logo-size-small;
-  @if $color-scheme == gaudy {
-    background: lighten(yellow, 30%);
-  }
-  @else {
-    background: #fff;
-  }
-  text-align: left;
-  font-size: 85%;
-  vertical-align: middle;
+    height: $banner-height-small;
+    padding: 10px;
+    margin-left: $logo-size-small;
+    @if $color-scheme == gaudy {
+        background: lighten(yellow, 30%);
+    }
+    @else {
+        background: #fff;
+    }
+    text-align: left;
+    font-size: 85%;
+    vertical-align: middle;
 }
 
 #copyright {
-  padding: 0 10px;
-  border-top: 1px solid #ccc;
-  height: $copyright-height;
-  text-align: left;
-  @if $color-scheme == gaudy {
-    background: lighten(#be5fc6, 30%);
-  }
-  @else {
-    background: #eee;
-  }
-  color: black;
+    padding: 0 10px;
+    border-top: 1px solid #ccc;
+    height: $copyright-height;
+    text-align: left;
+    @if $color-scheme == gaudy {
+        background: lighten(#be5fc6, 30%);
+    }
+    @else {
+        background: #eee;
+    }
+    color: black;
 }
 
 @media (min-width: 600px) {
-  #logo {
-    width: $logo-size-large;
-    height: $logo-size-large;
-  }
+    #logo {
+        width: $logo-size-large;
+        height: $logo-size-large;
+    }
 
-  #banner {
-    order: 2;
-    margin-left: $logo-size-large;
-    height: $banner-height-large;
-  }
+    #banner {
+        order: 2;
+        margin-left: $logo-size-large;
+        height: $banner-height-large;
+    }
 
-  #sidebar {
-    order: 3;
-    width: $logo-size-large;
-    margin-top: $logo-size-large - $banner-height-large;
-    margin-bottom: -$copyright-height;
-    flex: 0 $logo-size-large;
-  }
+    #sidebar {
+        order: 3;
+        width: $logo-size-large;
+        margin-top: $logo-size-large - $banner-height-large;
+        margin-bottom: -$copyright-height;
+        flex: 0 $logo-size-large;
+    }
 
-  #content {
-    order: 4;
-    flex: 1 0px;
-  }
+    #content {
+        order: 4;
+        flex: 1 0px;
+    }
 
-  #copyright {
-    order: 5;
-    margin-left: $logo-size-large;
-  }
+    #copyright {
+        order: 5;
+        margin-left: $logo-size-large;
+    }
 }
 
 table {
-  display: table;
-  border-collapse: separate;
-  border-spacing: 0;
-  border: 0;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 0;
 }
 
 td {
-  padding: 0;
-  margin: 0;
-  vertical-align: top;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
 }
 
 .dn {
-  display: none !important;
+    display: none !important;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 1em 0;
+    padding: 0;
+    margin: 1em 0;
 }
 
 .vmid {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 p {
-  &.figure, &.bulletsep {
-    text-align: center;
-  }
+    &.figure, &.bulletsep {
+        text-align: center;
+    }
 }
 
 #menu {
-  p, li, blockquote {
-    line-height: 1.1em;
-  }
+    p, li, blockquote {
+        line-height: 1.1em;
+    }
 }
 
 li blockquote {
-  font-size: 100%;
-  &.code {
     font-size: 100%;
-  }
+    &.code {
+        font-size: 100%;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: verdana, sans-serif;
+    font-family: verdana, sans-serif;
 }
 
 h1[id]:hover a.headerlink:after, h2[id]:hover a.headerlink:after, h3[id]:hover a.headerlink:after {
-  content: "\00A0\00B6";
-  /* space-pilcrow */
+    content: "\00A0\00B6";
+    /* space-pilcrow */
 }
 
 a.headerlink {
-  color: #888;
-  text-decoration: none;
+    color: #888;
+    text-decoration: none;
 }
 
 .first {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .thinspace {
-  font-size: 66%;
+    font-size: 66%;
 }
 
 /* H1's have a line underneath them. */
 
 .body {
-  line-height: 1.5em;
+    line-height: 1.5em;
 
-  h1 {
-    font-size: 100%;
-    border-bottom: 1px solid silver;
-  }
-  h2 {
-    font-size: 100%;
-  }
-  h3 {
-    font-size: 100%;
-    display: inline;
-    line-height: 1.35em;
-    float: left;
-    margin: 0 1.5em 0 0;
-  }
-  table {
-    border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
-    &.noborder {
-      border-width: 0;
-      th, td {
+    h1 {
+        font-size: 100%;
+        border-bottom: 1px solid silver;
+    }
+    h2 {
+        font-size: 100%;
+    }
+    h3 {
+        font-size: 100%;
+        display: inline;
+        line-height: 1.35em;
+        float: left;
+        margin: 0 1.5em 0 0;
+    }
+    table {
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        &.noborder {
+            border-width: 0;
+            th, td {
+                border-width: 0;
+            }
+        }
+    }
+    td {
+        border: 1px solid #ccc;
+        padding: .25em .5em;
+    }
+    th {
+        border: 1px solid #ccc;
+        border-bottom: 1px solid #999;
+        padding: .25em .5em;
+    }
+    #comments td {
         border-width: 0;
-      }
     }
-  }
-  td {
-    border: 1px solid #ccc;
-    padding: .25em .5em;
-  }
-  th {
-    border: 1px solid #ccc;
-    border-bottom: 1px solid #999;
-    padding: .25em .5em;
-  }
-  #comments td {
-    border-width: 0;
-  }
-  img {
-    margin: 0 .5em;
-    /* So that side-by-side images will have some space between them */
-    &.floatimg {
-      float: left;
-      margin: 0 1.5em .8em 0;
-      &.right {
-        float: right;
-        margin: 0 0 .8em 1.5em;
-      }
+    img {
+        margin: 0 .5em;
+        /* So that side-by-side images will have some space between them */
+        &.floatimg {
+            float: left;
+            margin: 0 1.5em .8em 0;
+            &.right {
+                float: right;
+                margin: 0 0 .8em 1.5em;
+            }
+        }
     }
-  }
 }
 
 /* H3's are run-in with the text. */
 
 .copyright {
-  font-size: 70%;
-  font-style: italic;
-  color: #333;
-  a {
-    text-decoration: none;
+    font-size: 70%;
+    font-style: italic;
     color: #333;
-    &:hover {
-      text-decoration: underline;
-      color: red;
+    a {
+        text-decoration: none;
+        color: #333;
+        &:hover {
+            text-decoration: underline;
+            color: red;
+        }
     }
-  }
 }
 
 .dateline {
-  font-family: verdana, sans-serif;
-  margin-top: 0;
-  text-align: right;
-  font-size: 85%;
-  font-style: italic;
-  color: gray;
+    font-family: verdana, sans-serif;
+    margin-top: 0;
+    text-align: right;
+    font-size: 85%;
+    font-style: italic;
+    color: gray;
 }
 
 .docinfo {
-  font-family: verdana, sans-serif;
-  margin-top: 0;
-  margin-left: 35%;
-  width: 65%;
-  text-align: right;
-  font-size: 85%;
-  font-style: italic;
-  color: gray;
+    font-family: verdana, sans-serif;
+    margin-top: 0;
+    margin-left: 35%;
+    width: 65%;
+    text-align: right;
+    font-size: 85%;
+    font-style: italic;
+    color: gray;
 }
 
 ul {
-  margin-top: .5em;
-  margin-bottom: .5em;
-  list-style-type: square;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    list-style-type: square;
 }
 
 li {
-  margin-bottom: .4em;
+    margin-bottom: .4em;
 }
 
 ul li ul {
-  margin-top: .5em;
+    margin-top: .5em;
 }
 
 dl {
-  margin-top: .5em;
-  margin-bottom: .5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
 }
 
 dt, dd {
-  margin-bottom: .4em;
+    margin-bottom: .4em;
 }
 
 .searchform {
-  display: flex;
-  flex-flow: row;
-  max-width: 10rem;
+    display: flex;
+    flex-flow: row;
+    max-width: 10rem;
 
-  > * {
-    flex: 0 auto;
-  }
+    > * {
+        flex: 0 auto;
+    }
 
-  > .searchbox {
-    flex: 1 0px;
-  }
+    > .searchbox {
+        flex: 1 0px;
+    }
 }
 
 input {
-  &[type="search"] {
-    -webkit-appearance: textfield;
-  }
-  &.searchbox {
-    border: 1px solid #7e9db9;
-    padding: 2px;
-    height: 1.5em;
-    width: 100%;
-  }
+    &[type="search"] {
+        -webkit-appearance: textfield;
+    }
+    &.searchbox {
+        border: 1px solid #7e9db9;
+        padding: 2px;
+        height: 1.5em;
+        width: 100%;
+    }
 }
 
 .blogroll {
-  font-weight: normal;
-  line-height: 1.1em;
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin-left: 0;
-    li {
-      font-size: 100%;
-      font-weight: bold;
-      margin-top: 1.5em;
-      margin-bottom: 0;
-      &.first {
-        margin-top: 0;
-      }
-      ul {
+    font-weight: normal;
+    line-height: 1.1em;
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-left: 0;
         li {
-          font-weight: normal;
-          margin-top: .8em;
+            font-size: 100%;
+            font-weight: bold;
+            margin-top: 1.5em;
+            margin-bottom: 0;
+            &.first {
+                margin-top: 0;
+            }
+            ul {
+                li {
+                    font-weight: normal;
+                    margin-top: .8em;
+                }
+                &.compact {
+                    font-weight: normal;
+                    margin-top: .4em;
+                    li {
+                        font-weight: normal;
+                        margin-top: .4em;
+                    }
+                }
+            }
+            &.inline {
+                display: inline-block;
+                margin-top: .4em;
+                ul {
+                    display: inline;
+                    font-weight: normal;
+                    line-height: 1.3em;
+                    padding-left: .25em;
+                    li {
+                        display: inline;
+                    }
+                }
+            }
         }
-        &.compact {
-          font-weight: normal;
-          margin-top: .4em;
-          li {
-            font-weight: normal;
-            margin-top: .4em;
-          }
-        }
-      }
-      &.inline {
-        display: inline-block;
-        margin-top: .4em;
-        ul {
-          display: inline;
-          font-weight: normal;
-          line-height: 1.3em;
-          padding-left: .25em;
-          li {
-            display: inline;
-          }
-        }
-      }
     }
-  }
 }
 
 a.s {
-  text-decoration: none;
-  color: black;
-  &:hover {
-    text-decoration: underline;
-    color: red;
-  }
-}
-
-.headslug {
-  font-size: 170%;
-  font-weight: bold;
-  line-height: 150%;
-}
-
-.mainslug {
-  font-size: 200%;
-  font-weight: bold;
-}
-
-.path {
-  line-height: 150%;
-  a {
     text-decoration: none;
     color: black;
     &:hover {
-      text-decoration: underline;
-      color: red;
+        text-decoration: underline;
+        color: red;
     }
-  }
+}
+
+.headslug {
+    font-size: 170%;
+    font-weight: bold;
+    line-height: 150%;
+}
+
+.mainslug {
+    font-size: 200%;
+    font-weight: bold;
+}
+
+.path {
+    line-height: 150%;
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            text-decoration: underline;
+            color: red;
+        }
+    }
 }
 
 .blog-entry {
-  header {
-    font-family: verdana, sans-serif;
-    padding-bottom: .2em;
-    margin-bottom: 0;
-  }
-  footer {
-    font-family: verdana, sans-serif;
-    font-size: 85%;
-    color: gray;
-    font-style: italic;
-    border-bottom: solid 1px silver;
-    padding-bottom: 12pt;
-    margin-bottom: 6pt;
-    a {
-      text-decoration: none;
-      color: gray;
-      &:hover {
-        text-decoration: underline;
-        color: red;
-      }
+    header {
+        font-family: verdana, sans-serif;
+        padding-bottom: .2em;
+        margin-bottom: 0;
     }
-  }
-  .title {
-    margin: 0;
-    font-size: 115%;
-    font-weight: bold;
-    display: block;
-    float: none;
-  }
-  .date {
-    font-size: 85%;
-    color: gray;
-    margin: 0;
-    padding: 0;
-    a.s {
-      color: gray;
+    footer {
+        font-family: verdana, sans-serif;
+        font-size: 85%;
+        color: gray;
+        font-style: italic;
+        border-bottom: solid 1px silver;
+        padding-bottom: 12pt;
+        margin-bottom: 6pt;
+        a {
+            text-decoration: none;
+            color: gray;
+            &:hover {
+                text-decoration: underline;
+                color: red;
+            }
+        }
     }
-  }
-  p {
-    margin: 0 0 1em 0;
-    clear: both;
-  }
-  .via {
-    float: right;
-  }
+    .title {
+        margin: 0;
+        font-size: 115%;
+        font-weight: bold;
+        display: block;
+        float: none;
+    }
+    .date {
+        font-size: 85%;
+        color: gray;
+        margin: 0;
+        padding: 0;
+        a.s {
+            color: gray;
+        }
+    }
+    p {
+        margin: 0 0 1em 0;
+        clear: both;
+    }
+    .via {
+        float: right;
+    }
 }
 
 /* The style for blog entries highlighted by being a fragment target. */
 
 .hilitefragment {
-  background: #ffa;
-  padding: 1em 1em 0 1em;
-  border: 1px solid #880;
+    background: #ffa;
+    padding: 1em 1em 0 1em;
+    border: 1px solid #880;
 }
 
 /* Archive page: make the dates hang left to align all the titles. */
 
 .archive p {
-  font-size: 100%;
-  font-family: verdana, sans-serif;
-  margin: 0 0 0 5.5em;
-  line-height: 1.45em;
-  &.date {
-    width: 5em;
-    text-align: right;
-    padding: 0 0 0 0;
-    margin: 0 0 -1.45em 0;
-    color: gray;
-  }
+    font-size: 100%;
+    font-family: verdana, sans-serif;
+    margin: 0 0 0 5.5em;
+    line-height: 1.45em;
+    &.date {
+        width: 5em;
+        text-align: right;
+        padding: 0 0 0 0;
+        margin: 0 0 -1.45em 0;
+        color: gray;
+    }
 }
 
 /* Category page: Like archive, but the dates are wider. */
 
 .category p {
-  font-size: 100%;
-  font-family: verdana, sans-serif;
-  margin: 0 0 0 8.5em;
-  line-height: 1.45em;
-  &.date {
-    width: 8em;
-    text-align: right;
-    padding: 0 0 0 0;
-    margin: 0 0 -1.45em 0;
-    color: gray;
-  }
+    font-size: 100%;
+    font-family: verdana, sans-serif;
+    margin: 0 0 0 8.5em;
+    line-height: 1.45em;
+    &.date {
+        width: 8em;
+        text-align: right;
+        padding: 0 0 0 0;
+        margin: 0 0 -1.45em 0;
+        color: gray;
+    }
 }
 
 .catlist p {
-  margin: 0 0 0 10.5em;
-  line-height: 1.45em;
-  &.catname {
-    padding: 0 0 0 0;
-    margin: 0 0 -1.45em 0;
-    width: 10em;
-    text-align: right;
-    font-weight: bold;
-  }
+    margin: 0 0 0 10.5em;
+    line-height: 1.45em;
+    &.catname {
+        padding: 0 0 0 0;
+        margin: 0 0 -1.45em 0;
+        width: 10em;
+        text-align: right;
+        font-weight: bold;
+    }
 }
 
 .also {
-  font-size: 85%;
-  color: gray;
-  font-style: italic;
-  text-decoration: none;
-  a {
-    text-decoration: none;
+    font-size: 85%;
     color: gray;
-    &:hover {
-      text-decoration: underline;
-      color: red;
+    font-style: italic;
+    text-decoration: none;
+    a {
+        text-decoration: none;
+        color: gray;
+        &:hover {
+            text-decoration: underline;
+            color: red;
+        }
     }
-  }
 }
 
 /* Monthly pages: prev/main/next links at the top and bottom. */
 
 .pmntop {
-  border-bottom: solid 1px silver;
-  padding: 0 0 2em 0;
-  margin: 0 0 .5em 0;
+    border-bottom: solid 1px silver;
+    padding: 0 0 2em 0;
+    margin: 0 0 .5em 0;
 }
 
 .pmnbot {
-  padding: 0;
-  margin: 3em 0 1.5em 0;
+    padding: 0;
+    margin: 3em 0 1.5em 0;
 }
 
 .pmn {
-  font-family: verdana, sans-serif;
-  span {
-    font-size: 80%;
-    display: block;
-    line-height: 1em;
-    margin: 0 0 -1em 0;
-  }
-  .p {
-    text-align: left;
-  }
-  .m {
-    text-align: center;
-  }
-  .n {
-    text-align: right;
-  }
+    font-family: verdana, sans-serif;
+    span {
+        font-size: 80%;
+        display: block;
+        line-height: 1em;
+        margin: 0 0 -1em 0;
+    }
+    .p {
+        text-align: left;
+    }
+    .m {
+        text-align: center;
+    }
+    .n {
+        text-align: right;
+    }
 }
 
 /* Block quotes */
 
 blockquote {
-  font-size: 100%;
-  margin: 1em 2em;
-  border-left: 1px solid #c0c0c0;
-  padding: 0;
-  background-color: #f0f0f0;
-  div {
-    margin: 0;
-    padding: .6em 1em .1em 1em;
-    p {
-      margin: .4em 0;
+    font-size: 100%;
+    margin: 1em 2em;
+    border-left: 1px solid #c0c0c0;
+    padding: 0;
+    background-color: #f0f0f0;
+    div {
+        margin: 0;
+        padding: .6em 1em .1em 1em;
+        p {
+            margin: .4em 0;
+        }
+        ol, ul {
+            margin: .4em 0;
+            padding-left: 1.5em;
+        }
     }
-    ol, ul {
-      margin: .4em 0;
-      padding-left: 1.5em;
-    }
-  }
 }
 
 code {
-  font-size: 90%;
-  line-height: 130%;
-  font-family: Menlo, "courier new", monospace;
+    font-size: 90%;
+    line-height: 130%;
+    font-family: Menlo, "courier new", monospace;
 }
 
 blockquote.code {
-  padding: .3em;
-  border: none;
-  white-space: nowrap;
-  overflow-x: scroll;
-  width: percentage(540/620);
-  line-height: 1;
+    padding: .3em;
+    border: none;
+    white-space: nowrap;
+    overflow-x: scroll;
+    width: percentage(540/620);
+    line-height: 1;
 }
 
 /* Code samples can't be as wide in a list element.. */
 
 ul .code, ol .code, li .code {
-  width: percentage(510/620);
+    width: percentage(510/620);
 }
 
 dd {
-  .code {
-    width: percentage(500/620);
-  }
-  li .code {
-    width: percentage(470/620);
-    /* even narrower doubly-nested. */
-  }
+    .code {
+        width: percentage(500/620);
+    }
+    li .code {
+        width: percentage(470/620);
+        /* even narrower doubly-nested. */
+    }
 }
 
 .code {
-  a {
-    text-decoration: none;
-  }
-  p.name {
-    text-align: right;
-    font-style: italic;
-    margin: 0 0 -1em 0;
-    padding: 0;
-  }
-  .linenos {
-    background: #f8f8f8;
-    color: #aaa;
-    font-size: 80%;
-    text-align: right;
-    border-right: 1px solid #bbb;
-    padding: 0;
-    margin: 0;
-  }
+    a {
+        text-decoration: none;
+    }
+    p.name {
+        text-align: right;
+        font-style: italic;
+        margin: 0 0 -1em 0;
+        padding: 0;
+    }
+    .linenos {
+        background: #f8f8f8;
+        color: #aaa;
+        font-size: 80%;
+        text-align: right;
+        border-right: 1px solid #bbb;
+        padding: 0;
+        margin: 0;
+    }
 
-  /* Code styling.  There are a lot of different styles! */
-  .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
-    color: #080;
-  }
-  .c_word, .c_preprocessor, .p_word, .h_tag, .h_tagunknown, .css_identifier, .css_unknown_identifier, .hphp_word, .ps_keyword {
-    font-weight: bold;
-    color: #008;
-  }
-  .h_attribute, .h_attributeunknown {
-    color: #008;
-  }
-  .c_string, .c_character, .p_string, .p_character, .p_triple, .p_tripledouble, .h_doublestring, .h_singlestring, .css_doublestring, .css_singlestring, .hphp_hstring, .hphp_simplestring, .ps_text {
-    color: #808;
-  }
-  .p_classname, .p_defname, .css_class, .css_pseudoclass, .css_unknown_pseudoclass, .css_tag, .ps_literal {
-    font-weight: bold;
-    color: #088;
-  }
-  .hll {
-    background-color: #ffffcc;
-  }
-  .c {
-    color: #008000;
-  }
-  .err {
-    border: 1px solid #FF0000;
-  }
-  .k {
-    color: #000080;
-    font-weight: bold;
-  }
-  .cm {
-    color: #008000;
-  }
-  .cp {
-    color: #0000ff;
-  }
-  .c1, .cs {
-    color: #008000;
-  }
-  .ge {
-    font-style: italic;
-  }
-  .gh, .gp, .gs, .gu {
-    font-weight: bold;
-  }
-  .kc, .kd, .kn, .kp, .kr {
-    color: #0000ff;
-  }
-  .kt {
-    color: #2b91af;
-  }
-  .s {
-    color: #a31515;
-  }
-  .nc {
-    color: #2b91af;
-  }
-  .ow {
-    color: #0000ff;
-  }
-  .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
-    color: #a31515;
-  }
+    /* Code styling.  There are a lot of different styles! */
+    .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
+        color: #080;
+    }
+    .c_word, .c_preprocessor, .p_word, .h_tag, .h_tagunknown, .css_identifier, .css_unknown_identifier, .hphp_word, .ps_keyword {
+        font-weight: bold;
+        color: #008;
+    }
+    .h_attribute, .h_attributeunknown {
+        color: #008;
+    }
+    .c_string, .c_character, .p_string, .p_character, .p_triple, .p_tripledouble, .h_doublestring, .h_singlestring, .css_doublestring, .css_singlestring, .hphp_hstring, .hphp_simplestring, .ps_text {
+        color: #808;
+    }
+    .p_classname, .p_defname, .css_class, .css_pseudoclass, .css_unknown_pseudoclass, .css_tag, .ps_literal {
+        font-weight: bold;
+        color: #088;
+    }
+    .hll {
+        background-color: #ffffcc;
+    }
+    .c {
+        color: #008000;
+    }
+    .err {
+        border: 1px solid #FF0000;
+    }
+    .k {
+        color: #000080;
+        font-weight: bold;
+    }
+    .cm {
+        color: #008000;
+    }
+    .cp {
+        color: #0000ff;
+    }
+    .c1, .cs {
+        color: #008000;
+    }
+    .ge {
+        font-style: italic;
+    }
+    .gh, .gp, .gs, .gu {
+        font-weight: bold;
+    }
+    .kc, .kd, .kn, .kp, .kr {
+        color: #0000ff;
+    }
+    .kt {
+        color: #2b91af;
+    }
+    .s {
+        color: #a31515;
+    }
+    .nc {
+        color: #2b91af;
+    }
+    .ow {
+        color: #0000ff;
+    }
+    .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
+        color: #a31515;
+    }
 }
 
 table.sourcetable {
-  /* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
-   * need to cancel out the padding. */
-  margin: -0.3em;
+    /* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
+     * need to cancel out the padding. */
+    margin: -0.3em;
 
-  td {
-    border: none;
-    &.linenos {
-      width: 3em;
+    td {
+        border: none;
+        &.linenos {
+            width: 3em;
+        }
+        &.code {
+            width: 100%;
+            padding: 0 0.5em;
+        }
     }
-    &.code {
-      width: 100%;
-      padding: 0 0.5em;
-    }
-  }
 }
 
 div.linenodiv {
-  padding: 0 1em 0 0;
-  pre {
-    margin: .3em 0 0 0;
-  }
+    padding: 0 1em 0 0;
+    pre {
+        margin: .3em 0 0 0;
+    }
 }
 
 
 .codeword {
-  font-size: 100%;
-  font-family: "lucida console", monospace;
-  background-color: #e8e8e8;
+    font-size: 100%;
+    font-family: "lucida console", monospace;
+    background-color: #e8e8e8;
 }
 
 .box {
-  border: 1px solid;
-  border-color: #ccc #999 #999 #ccc;
-  padding: .3em .6em;
-  background-color: #ffc;
+    border: 1px solid;
+    border-color: #ccc #999 #999 #ccc;
+    padding: .3em .6em;
+    background-color: #ffc;
 }
 
 img {
-  border: none;
-  max-width: 100%;
-  height: auto;
+    border: none;
+    max-width: 100%;
+    height: auto;
 }
 
 .tweet a {
-  &.user, &.date {
-    text-decoration: none;
-    color: inherit;
-  }
-  &.user:hover, &.date:hover {
-    text-decoration: underline;
-    color: inherit;
-  }
+    &.user, &.date {
+        text-decoration: none;
+        color: inherit;
+    }
+    &.user:hover, &.date:hover {
+        text-decoration: underline;
+        color: inherit;
+    }
 }
 
 .comments {
-  font-family: verdana, sans-serif;
-  h1 {
-    border: none;
-    margin: 0;
-    padding: 1em;
-    background: #eee;
-  }
-  h2 {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 0 0 1em 0;
-    padding: 1em 0 .5em 0;
-    font-style: italic;
-    font-weight: normal;
-  }
+    font-family: verdana, sans-serif;
+    h1 {
+        border: none;
+        margin: 0;
+        padding: 1em;
+        background: #eee;
+    }
+    h2 {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 0 0 1em 0;
+        padding: 1em 0 .5em 0;
+        font-style: italic;
+        font-weight: normal;
+    }
 }
 
 .comment {
-  .who {
-    font-family: verdana, sans-serif;
-    float: left;
-    a {
-      color: black;
+    .who {
+        font-family: verdana, sans-serif;
+        float: left;
+        a {
+            color: black;
+        }
     }
-  }
-  .when {
-    font-family: verdana, sans-serif;
-    float: right;
-    font-size: 85%;
-    color: gray;
-    margin-top: 0;
-  }
-  .head {
-    margin-bottom: 20pt;
-  }
-  img.gravatar {
-    float: left;
-    margin: 3px 0 0 -50px;
-    border: 1px solid #eee;
-  }
+    .when {
+        font-family: verdana, sans-serif;
+        float: right;
+        font-size: 85%;
+        color: gray;
+        margin-top: 0;
+    }
+    .head {
+        margin-bottom: 20pt;
+    }
+    img.gravatar {
+        float: left;
+        margin: 3px 0 0 -50px;
+        border: 1px solid #eee;
+    }
 }
 
 .comments .comment {
-  font-family: georgia, serif;
-  border-top: solid 1px #eee;
-  padding: .5em 10pt 0 50px;
-  margin-top: 6pt;
-  overflow: auto;
-  width: percentage(540/620);
-  &.preview {
-    background-color: #ffff80;
-    border: 1px solid #cccccc;
-    padding: .5em 10pt 0 54px;
-  }
+    font-family: georgia, serif;
+    border-top: solid 1px #eee;
+    padding: .5em 10pt 0 50px;
+    margin-top: 6pt;
+    overflow: auto;
+    width: percentage(540/620);
+    &.preview {
+        background-color: #ffff80;
+        border: 1px solid #cccccc;
+        padding: .5em 10pt 0 54px;
+    }
 }
 
 #commentform {
-  margin-top: 6pt;
-  border-top: solid 1px #eee;
-  padding-top: 0;
-  table {
-    width: 100%;
-  }
-  td {
-    padding: 2px;
-    &.labels {
-      width: 0%;
+    margin-top: 6pt;
+    border-top: solid 1px #eee;
+    padding-top: 0;
+    table {
+        width: 100%;
     }
-    &.inputs {
-      width: 100%;
+    td {
+        padding: 2px;
+        &.labels {
+            width: 0%;
+        }
+        &.inputs {
+            width: 100%;
+        }
     }
-  }
 }
 
 .comments {
-  .notice {
-    font-size: 90%;
-    color: gray;
-    font-style: italic;
-    &.right {
-      text-align: right;
+    .notice {
+        font-size: 90%;
+        color: gray;
+        font-style: italic;
+        &.right {
+            text-align: right;
+        }
     }
-  }
-  .label {
-    font-size: 90%;
-    text-align: right;
-    color: #666666;
-    margin-right: 6px;
-    width: 42px;
-  }
+    .label {
+        font-size: 90%;
+        text-align: right;
+        color: #666666;
+        margin-right: 6px;
+        width: 42px;
+    }
 }
 
 .comment .commenttext {
-  clear: right;
+    clear: right;
 }
 
 .comments .errormsg {
-  color: #800;
-  font-weight: bold;
-  background: #faa;
-  padding: 2pt 4pt;
-  border: 1px solid red;
-  margin: 0;
+    color: #800;
+    font-weight: bold;
+    background: #faa;
+    padding: 2pt 4pt;
+    border: 1px solid red;
+    margin: 0;
 }
 
 /* Search word highlighting */
 
 .searchword0 {
-  background-color: #CFFFB9;
-  /* green */
-  text-decoration: inherit;
+    background-color: #CFFFB9;
+    /* green */
+    text-decoration: inherit;
 }
 
 .searchword1 {
-  background-color: #FFCFCF;
-  /* pink */
-  text-decoration: inherit;
+    background-color: #FFCFCF;
+    /* pink */
+    text-decoration: inherit;
 }
 
 .searchword2 {
-  background-color: #DCDAFF;
-  /* blue */
-  text-decoration: inherit;
+    background-color: #DCDAFF;
+    /* blue */
+    text-decoration: inherit;
 }
 
 .searchwelcome {
-  border: solid 1px silver;
-  background: #ffc;
-  margin-bottom: 2em;
-  padding: 0 1em;
+    border: solid 1px silver;
+    background: #ffc;
+    margin-bottom: 2em;
+    padding: 0 1em;
 }
 
 /* Sphinx-generated module documentation.  Easier to change the CSS than the .py... */
 
 tt {
-  &.descname, &.descclassname {
-    font-weight: bold;
-    font-family: verdana, sans-serif;
-  }
+    &.descname, &.descclassname {
+        font-weight: bold;
+        font-family: verdana, sans-serif;
+    }
 }
 
 em.property, .internal.reference em, .external.reference em {
-  font-style: normal;
+    font-style: normal;
 }
 
 
 svg {
-  stroke: black;
-  fill: white;
-  font-size: 125%;
-  text {
-    stroke: none;
-    fill: black;
-    &.top_code {
-      font-family: monospace;
-    }
-  }
-  .arrow {
-    fill: none;
     stroke: black;
-    stroke-width: 1;
-  }
-  .highlight {
-    stroke-width: 5;
-    stroke: #f00;
-    fill: none;
-    opacity: 0.5;
-  }
-  .grid {
-    stroke: #8ff;
-    stroke-width: 1;
-    fill: none;
-    .half {
-      stroke-dasharray: 12.5 12.5;
-      stroke-dashoffset: 6.25;
-      stroke-dasharray: 2 2;
-      stroke-dashoffset: 1;
-    }
-    .tiny {
-      stroke-dasharray: 1 2;
-      stroke: #cff;
-    }
-    .number {
-      font-size: .5em;
-      stroke: none;
-      fill: #0cc;
-    }
-  }
-  .framenum {
-    font-size: .75em;
-    stroke: none;
-    fill: #f00;
-  }
-  .name {
-    stroke: black;
-    stroke-width: 1.66;
-    fill: #ddd;
-  }
-  .value, .list {
-    stroke: black;
-    stroke-width: 1;
     fill: white;
-  }
-  .frame {
-    stroke-width: 3;
-    stroke: #666;
-    stroke-dasharray: 10 10;
-    fill: none;
-  }
-  text.framelabel {
-    font-size: 90%;
-    font-family: monospace;
-  }
+    font-size: 125%;
+    text {
+        stroke: none;
+        fill: black;
+        &.top_code {
+            font-family: monospace;
+        }
+    }
+    .arrow {
+        fill: none;
+        stroke: black;
+        stroke-width: 1;
+    }
+    .highlight {
+        stroke-width: 5;
+        stroke: #f00;
+        fill: none;
+        opacity: 0.5;
+    }
+    .grid {
+        stroke: #8ff;
+        stroke-width: 1;
+        fill: none;
+        .half {
+            stroke-dasharray: 12.5 12.5;
+            stroke-dashoffset: 6.25;
+            stroke-dasharray: 2 2;
+            stroke-dashoffset: 1;
+        }
+        .tiny {
+            stroke-dasharray: 1 2;
+            stroke: #cff;
+        }
+        .number {
+            font-size: .5em;
+            stroke: none;
+            fill: #0cc;
+        }
+    }
+    .framenum {
+        font-size: .75em;
+        stroke: none;
+        fill: #f00;
+    }
+    .name {
+        stroke: black;
+        stroke-width: 1.66;
+        fill: #ddd;
+    }
+    .value, .list {
+        stroke: black;
+        stroke-width: 1;
+        fill: white;
+    }
+    .frame {
+        stroke-width: 3;
+        stroke: #666;
+        stroke-dasharray: 10 10;
+        fill: none;
+    }
+    text.framelabel {
+        font-size: 90%;
+        font-family: monospace;
+    }
 }
