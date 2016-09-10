@@ -1,4 +1,4 @@
-/* Style sheet for nedbatchelder.com */
+/*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // or gaudy for debugging.
 $logo-size-small: 4rem;
@@ -31,7 +31,7 @@ aria-describedby for form fields?
 }
 
 body {
-    /* Trick to shut off divergent font rounding algorithms. */
+    // Trick to shut off divergent font rounding algorithms.
     font-size: 101%;
     font-family: verdana, sans-serif;
     margin: 0 auto;
@@ -99,7 +99,7 @@ body {
     text-align: center;
     border: 1px solid #ccc;
 
-    background-image: url(/pix/dodeca3_640.jpg);  /* TODO: different-sized images */
+    background-image: url(/pix/dodeca3_640.jpg);  // TODO: different-sized images
     background-size: contain;
 
     a {
@@ -224,8 +224,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1[id]:hover a.headerlink:after, h2[id]:hover a.headerlink:after, h3[id]:hover a.headerlink:after {
-    content: "\00A0\00B6";
-    /* space-pilcrow */
+    content: "\00A0\00B6";      // space-pilcrow
 }
 
 a.headerlink {
@@ -241,18 +240,21 @@ a.headerlink {
     font-size: 66%;
 }
 
-/* H1's have a line underneath them. */
 
 .body {
     line-height: 1.5em;
 
+    // H1's have a line underneath them.
     h1 {
         font-size: 100%;
         border-bottom: 1px solid silver;
     }
+
     h2 {
         font-size: 100%;
     }
+
+    // H3's are run-in with the text.
     h3 {
         font-size: 100%;
         display: inline;
@@ -260,6 +262,7 @@ a.headerlink {
         float: left;
         margin: 0 1.5em 0 0;
     }
+
     table {
         border-collapse: collapse;
         margin-left: auto;
@@ -285,7 +288,7 @@ a.headerlink {
     }
     img {
         margin: 0 .5em;
-        /* So that side-by-side images will have some space between them */
+        // So that side-by-side images will have some space between them.
         &.floatimg {
             float: left;
             margin: 0 1.5em .8em 0;
@@ -296,8 +299,6 @@ a.headerlink {
         }
     }
 }
-
-/* H3's are run-in with the text. */
 
 .copyright {
     font-size: 70%;
@@ -643,8 +644,7 @@ blockquote.code {
     line-height: 1;
 }
 
-/* Code samples can't be as wide in a list element.. */
-
+// Code samples can't be as wide in a list element..
 ul .code, ol .code, li .code {
     width: percentage(510/620);
 }
@@ -654,8 +654,8 @@ dd {
         width: percentage(500/620);
     }
     li .code {
+        // even narrower doubly-nested.
         width: percentage(470/620);
-        /* even narrower doubly-nested. */
     }
 }
 
@@ -909,20 +909,17 @@ img {
 /* Search word highlighting */
 
 .searchword0 {
-    background-color: #CFFFB9;
-    /* green */
+    background-color: #CFFFB9;      // green
     text-decoration: inherit;
 }
 
 .searchword1 {
-    background-color: #FFCFCF;
-    /* pink */
+    background-color: #FFCFCF;      // pink
     text-decoration: inherit;
 }
 
 .searchword2 {
-    background-color: #DCDAFF;
-    /* blue */
+    background-color: #DCDAFF;      // blue
     text-decoration: inherit;
 }
 

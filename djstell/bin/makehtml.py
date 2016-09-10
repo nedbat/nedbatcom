@@ -148,7 +148,7 @@ class CmdLine(object):
 
     def run_sass(self, dst):
         import subprocess
-        cmd = ['sass', '--sourcemap=none', 'style.scss', os.path.join(dst, 'style.css')]
+        cmd = ['sass', '--sourcemap=none', '--style=compressed', 'style.scss', os.path.join(dst, 'style.css')]
         status = subprocess.call(cmd)
 
     @timed
