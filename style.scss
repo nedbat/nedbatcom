@@ -38,7 +38,7 @@ body {
     padding: 0;
     background-color: #999;
     background: url(pix/hilbert.gif);
-    max-width: 55rem;
+    max-width: 50rem;
     display: flex;
     flex-flow: row wrap;
 
@@ -49,7 +49,6 @@ body {
 }
 
 #content {
-    padding: 10px;
     @if $color-scheme == gaudy {
         background: lighten(#09ca16, 30%);
     }
@@ -66,7 +65,6 @@ body {
     margin-top: 0;
     font-weight: bold;
 
-    padding: 10px;
     @if $color-scheme == gaudy {
         background: lighten(#86dbf3, 10%);
     }
@@ -90,6 +88,7 @@ body {
 
 #logo {
     position: absolute;
+    padding: 0px;
     width: $logo-size-small;
     height: $logo-size-small;
     @if $color-scheme == gaudy {
@@ -114,7 +113,6 @@ body {
 
 #banner {
     height: $banner-height-small;
-    padding: 10px;
     margin-left: $logo-size-small;
     @if $color-scheme == gaudy {
         background: lighten(yellow, 30%);
