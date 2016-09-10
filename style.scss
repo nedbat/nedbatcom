@@ -44,7 +44,7 @@ body {
     > * {
         padding: 10px;
         flex: 1 100%;
-        border-color: #999;
+        border: 0px solid #999;
     }
 }
 
@@ -74,7 +74,7 @@ body {
     text-align: left;
     font-size: 70%;
 
-    border-width: 8px 0 0 0;
+    border-width: 5px 0 0 0;
 
     a {
         text-decoration: none;
@@ -168,7 +168,7 @@ body {
         margin-top: $logo-size-large - $banner-height-large;
         margin-bottom: -$copyright-height;
         flex: 0 $logo-size-large;
-        border-width: 0 7px 0 0;
+        border-width: 0 5px 0 0;
     }
 
     #content {
