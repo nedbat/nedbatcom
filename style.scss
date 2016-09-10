@@ -44,6 +44,7 @@ body {
     > * {
         padding: 10px;
         flex: 1 100%;
+        border-color: #999;
     }
 }
 
@@ -73,7 +74,7 @@ body {
     text-align: left;
     font-size: 70%;
 
-    border: 1px solid #888;
+    border-width: 8px 0 0 0;
 
     a {
         text-decoration: none;
@@ -97,7 +98,7 @@ body {
         background: #fff;
     }
     text-align: center;
-    border: 1px solid #ccc;
+    border-width: 0 1px 1px 0;
 
     background-image: url(/pix/dodeca3_640.jpg);  // TODO: different-sized images
     background-size: contain;
@@ -126,7 +127,7 @@ body {
 
 #copyright {
     padding: 0 10px;
-    border-top: 1px solid #ccc;
+    border-top-width: 1px;
     height: $copyright-height;
     text-align: left;
     @if $color-scheme == gaudy {
@@ -142,11 +143,17 @@ body {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.gif);
+        border: 5px solid #999;
+
+        > * {
+            border: 0px solid #999;
+        }
     }
 
     #logo {
         width: $logo-size-large;
         height: $logo-size-large;
+        border-width: 0 5px 5px 0;
     }
 
     #banner {
@@ -161,16 +168,19 @@ body {
         margin-top: $logo-size-large - $banner-height-large;
         margin-bottom: -$copyright-height;
         flex: 0 $logo-size-large;
+        border-width: 0 7px 0 0;
     }
 
     #content {
         order: 4;
         flex: 1 0px;
+        border-width: 0;
     }
 
     #copyright {
         order: 5;
         margin-left: $logo-size-large;
+        border-top-width: 5px;
     }
 }
 
