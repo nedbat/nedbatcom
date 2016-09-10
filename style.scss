@@ -1,6 +1,6 @@
 /* Style sheet for nedbatchelder.com */
 
-$color-scheme: white;
+$color-scheme: white;   // or gaudy for debugging.
 $logo-size-small: 4rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
@@ -37,7 +37,6 @@ body {
     margin: 0 auto;
     padding: 0;
     background-color: #999;
-    background: url(pix/hilbert.gif);
     max-width: 50rem;
     display: flex;
     flex-flow: row wrap;
@@ -140,6 +139,11 @@ body {
 }
 
 @media (min-width: 600px) {
+    body {
+        // larger sizes can have a fancy background.
+        background: url(pix/hilbert.gif);
+    }
+
     #logo {
         width: $logo-size-large;
         height: $logo-size-large;
