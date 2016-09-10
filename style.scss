@@ -104,8 +104,11 @@ body {
     background-image: url(/pix/dodeca3_640.jpg);  /* TODO: different-sized images */
     background-size: contain;
 
-    img {
-        display: none;  /* TODO: only until we get rid of the img */
+    a {
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 }
 
