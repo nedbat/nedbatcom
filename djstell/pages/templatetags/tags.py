@@ -55,7 +55,7 @@ def sidebar(which, force=False):
         c['moreblog'] = list(combined_more_blog())
         c['more_tag_count'] = Tag.objects.filter(sidebar=False).count()
         c['blogroll'] = Link.objects.filter(sidebar=True).order_by('text')
-        c['rss'] = True
+        #c['rss'] = True
         c['commerce'] = True
     elif which == 'page':
         c['youmightlike'] = True
