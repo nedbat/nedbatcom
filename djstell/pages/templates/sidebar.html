@@ -33,17 +33,17 @@
         {% endcomment %}
 
         <li class='inline'>Also:
-            <ul>
-                <li><a href='/site/aboutned.html' rel='author'>about</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='http://twitter.com/nedbat'>twitter</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='mailto:ned@nedbatchelder.com'>email</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='irc://irc.freenode.net/#python'>irc</a></li><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='https://coinbase.com/nedbat'>bitcoin</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='https://paypal.me/nedbat'>paypal</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='http://edx.org'>work</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='http://github.com/nedbat'>github</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='http://bitbucket.com/ned'>bitbucket</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
-                <li><a href='http://lnkd.in/Z43kH3'>linkedin</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
+            <ul class='tight'>
+                <li><a href='/site/aboutned.html' rel='author'>about</a>{% ch " ." %} </li>
+                <li><a href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %} </li>
+                <li><a href='mailto:ned@nedbatchelder.com'>email</a>{% ch " ." %} </li>
+                <li><a href='irc://irc.freenode.net/#python'>irc</a></li>{% ch " ." %} </li>
+                <li><a href='https://coinbase.com/nedbat'>bitcoin</a>{% ch " ." %} </li>
+                <li><a href='https://paypal.me/nedbat'>paypal</a>{% ch " ." %} </li>
+                <li><a href='http://edx.org'>work</a>{% ch " ." %} </li>
+                <li><a href='http://github.com/nedbat'>github</a>{% ch " ." %} </li>
+                <li><a href='http://bitbucket.com/ned'>bitbucket</a>{% ch " ." %} </li>
+                <li><a href='http://lnkd.in/Z43kH3'>linkedin</a>{% ch " ." %} </li>
                 <li><a href='/NedBatchelder.pdf'>resume</a></li>
             </ul>
         </li>
@@ -137,13 +137,13 @@
 
         {% if moreblog %}
         <li class='inline'>More blog:
-            <ul>
+            <ul class='tight'>
                 {% for link in moreblog %}
                 <li>
-                    <a href='{{link.link}}'>{{link.text|lower|safe}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span>
+                    <a href='{{link.link}}'>{{link.text|lower|safe}}</a>{% ch " ." %}
                 </li>
                 {% endfor %}
-                <li><a href='/blog/tags.html'><i>all tags</i></a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span></li>
+                <li><a href='/blog/tags.html'><i>all tags</i></a>{% ch " ." %} </li>
                 <li><a href='/blog/archiveall.html'><b><i>everything!</i></b></a></li>
             </ul>
         </li>
