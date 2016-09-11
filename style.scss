@@ -541,7 +541,7 @@ a.s {
     &.date {
         width: 5em;
         text-align: right;
-        padding: 0 0 0 0;
+        padding: 0;
         margin: 0 0 -1.45em 0;
         color: gray;
     }
@@ -557,7 +557,7 @@ a.s {
     &.date {
         width: 8em;
         text-align: right;
-        padding: 0 0 0 0;
+        padding: 0;
         margin: 0 0 -1.45em 0;
         color: gray;
     }
@@ -567,7 +567,7 @@ a.s {
     margin: 0 0 0 10.5em;
     line-height: 1.45em;
     &.catname {
-        padding: 0 0 0 0;
+        padding: 0;
         margin: 0 0 -1.45em 0;
         width: 10em;
         text-align: right;
