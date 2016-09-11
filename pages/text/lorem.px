@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<page title='Sample page stress test'>
+<history>
+<what when='20160911T125000'>Created.</what>
+</history>
+
+<p>This page has examples of lots of kinds of content, to see that they all
+    work properly.</p>
+
+<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
+    numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam
+    quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+    ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+    consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate
+    velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum
+    fugiat, quo voluptas nulla pariatur.</p>
+
+
+<h1>Lists</h1>
+
+<p>These are lists</p>
+
+<ul>
+<li><a href="https://github.com/karan/Projects">Mega Project List</a>: Karan Goel
+    has a list of project ideas, with solutions in separate repo.  These range
+    from very simple (FizzBuzz) to very difficult (SQL Query Analyzer).</li>
+
+<li><a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>: A collection
+    of <a href="http://rosettacode.org/wiki/Category:Programming_Tasks">programming tasks</a>,
+    with solutions in many languages.  These tend to be smaller exercises.</li>
+
+<li><a href="http://puzzles.bostonpython.com/">Boston Python Puzzles</a>: puzzles
+    written to be solved by writing Python programs.</li>
+
+<li>This is a sublist:
+
+    <ul>
+    <li><a href="http://programminghistorian.org/">The Programming Historian</a>:
+        tutorials that help humanists, especially historians, learn digital
+        techniques, including programming.</li>
+
+    <li><a href="http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans">Programming Koans</a>:
+        "Clone a GitHub repository that has 200 or so failing test cases. Then, you
+        work your way through the test cases, writing functions and filling in the
+        blanks, getting the tests to pass one by one. The first few tests are very
+        basic and assume no prior knowledge of the language, and then they build on
+        each other, moving to more advanced topics."</li>
+
+    <li>And another sublist:
+
+        <ul>
+        <li><a href="http://programmingpraxis.com/">Programming Praxis</a>: "This blog
+            publishes new programming exercises weekly, at least, so that savvy
+            programmers can maintain their skills by working the exercises and thinking
+            outside their normal skill set, whatever that is."</li>
+
+        <li><a href="http://codekata.com/">CodeKata</a>: "A kata is an exercise in
+            karate where you repeat a form many, many times, making little improvements
+            in each. The intent behind code kata is similar. Each is a short exercise
+            (perhaps 30 minutes to an hour long). Some involve programming, and can be
+            coded in many different ways. Some are open ended, and involve thinking
+            about the issues behind programming. These are unlikely to have a single
+            correct answer."</li>
+        </ul>
+    </li>
+    
+    </ul>
+</li>
+
+<li><a href="https://projecteuler.net/">Project Euler</a>: A collection of
+    math/programming problems.  Many require math expertise to solve.</li>
+
+<!-- Suggested by Vaibhav Sagar, vaibhavsagar@gmail.com -->
+<li><a href="http://pythonpracticeprojects.com/">Python Practice Projects</a>:
+    a short list of detailed project descriptions, if you want specific
+    instructions.</li>
+
+</ul>
+
+
+<h1>Headings</h1>
+
+<p>This is an h1 section. Lorem ipsum quia dolor sit amet consectetur adipisci
+    velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore
+    magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+    exercitationem ullam corporis suscipit laboriosam. </p>
+
+<h2>A subheading</h2>
+
+<p>An h2 section. Lorem ipsum quia dolor sit amet consectetur adipisci velit,
+    sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam
+    aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+    exercitationem ullam corporis suscipit laboriosam.</p>
+
+<h3>A subsubheading</h3>
+
+<p>An h3 section.  Lorem ipsum quia dolor sit amet consectetur adipisci velit,
+    sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam
+    aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+    exercitationem ullam corporis suscipit laboriosam.</p>
+
+<h3>Subsub 2</h3>
+
+<p>An h3 section.  Lorem ipsum quia dolor sit amet consectetur adipisci velit,
+    sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam
+    aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+    exercitationem ullam corporis suscipit laboriosam.</p>
+
+<h2>Sub Two</h2>
+
+<p>An h2 section. Lorem ipsum quia dolor sit amet consectetur adipisci velit,
+    sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam
+    aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+    exercitationem ullam corporis suscipit laboriosam.</p>
+
+
+<h1>Code samples</h1>
+
+<p>Some narrow code:</p>
+
+<code lang="python"><![CDATA[
+print("Hello, world!")
+print("Goodbye")
+]]></code>
+
+<p>Some wide code:</p>
+
+<code lang="python"><![CDATA[
+if input() == "yes":
+    # Wrapped at 80 chars:
+    # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia none
+    # numquam eius modi tempora incidunt. 
+]]></code>
+
+
+<h1>Blockquotes</h1>
+
+<p>Some quotes:</p>
+
+<quote>
+<p>Twas brillig and the slithy toves did gyre and gimbel in the wabe.
+All mimsy were the borogroves, and the mome wrath outgrabe.
+</p></quote>
+
+<p>A multi-paragraph quote:</p>
+
+<quote>
+<p>Twas brillig and the slithy toves did gyre and gimbel in the wabe.
+All mimsy were the borogroves, and the mome wrath outgrabe.</p>
+<p>Lewis Carroll wrote that.
+</p></quote>
+
+<p>Here's a quoted list:</p>
+
+<quote>
+<ol><li>One</li>
+<li>Two</li>
+<li>Three</li>
+</ol></quote>
+
+
+<pagecomments/>
+
+</page>
