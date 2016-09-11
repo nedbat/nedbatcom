@@ -21,83 +21,86 @@
 </head>
 
 <body>
-            <header id='logo'>
-                <a href='/'>&nbsp;</a>
-            </header>
-            <header id='banner'>
-                {# Above the title: a horizontal version of the root pagemenu. #}
-                <nav class='path'>
-                    <a href='/'>Ned Batchelder</a> : {% top_areas %}
-                </nav>
+    <header id='logo'>
+        <a href='/'>&nbsp;</a>
+    </header>
 
-                {# The title #}
-                <div class='headslug'>{{title}}</div>
+    <header id='banner'>
+        {# Above the title: a horizontal version of the root pagemenu. #}
+        <nav class='path'>
+            <a href='/'>Ned Batchelder</a> : {% top_areas %}
+        </nav>
 
-                {# Below the title: the page path. #}
-                <nav class='path'>
-                    {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
-                </nav>
-            </header>
-            <section id='content'>
-                <div class='body'>
-                    {# An empty div for main.js to write a search intro into. #}
-                    <div id='searchwelcome'></div>
+        {# The title #}
+        <div class='headslug'>{{title}}</div>
 
-                    {% block dateline %}
-                    {% if min_date %}
-                        <p class='dateline'>
-                            Created {{min_date|date:"j F Y"}}{% ifnotequal min_date max_date %}, last updated {{max_date|date:"j F Y"}}{% endifnotequal %}
-                        </p>
-                    {% endif %}
-                    {% endblock %}
+        {# Below the title: the page path. #}
+        <nav class='path'>
+            {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
+        </nav>
+    </header>
 
-                    {% if comments %}
-                        <?php
-                            require_once('inc/reactor_class.php');
-                            $ror = new Reactor();
-                        ?>
-                    {% endif %}
+    <section id='content'>
+        <div class='body'>
+            {# An empty div for main.js to write a search intro into. #}
+            <div id='searchwelcome'></div>
 
-                    {% block body %}
-                    {{body|safe}}
-                    {% endblock body %}
-
-                    {% if comments %}
-                        <?php
-                            $entryinfo = array();
-                            $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
-                            $entryinfo["url"] = '{{comments.url|safe|addphpslashes}}';
-                            {% if not comments.closed %}
-                                $ror->HandlePostedComment($entryinfo);
-                            {% endif %}
-                            echo $ror->RenderComments('{{comments.entryid|safe|addphpslashes}}', 'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html', $entryinfo);
-                        ?>
-                    {% endif %}
-
-                </div>
-            </section>
-
-                <aside id='sidebar'>
-                    {# Find a left-side sidebar menu for this page. #}
-                    {% block sidebar %}{% sidebar 'page' %}{% endblock %}
-                </aside>
-            <footer id='copyright'>
-                <p class='copyright'>
-                    {% if copyright %}
-                        {{copyright}}
-                    {% else %}
-                        <a rel='copyright license' href='/site/legal.html'>
-                            {% ch '(c)' %} Copyright
-                            {% if min_date %}
-                                {% year_range min_date max_date %},
-                            {% else %}
-                                {% year_range 2002 2016 %},
-                            {% endif %}
-                            Ned Batchelder
-                        </a>
-                    {% endif %}
+            {% block dateline %}
+            {% if min_date %}
+                <p class='dateline'>
+                    Created {{min_date|date:"j F Y"}}{% ifnotequal min_date max_date %}, last updated {{max_date|date:"j F Y"}}{% endifnotequal %}
                 </p>
-            </footer>
+            {% endif %}
+            {% endblock %}
+
+            {% if comments %}
+                <?php
+                    require_once('inc/reactor_class.php');
+                    $ror = new Reactor();
+                ?>
+            {% endif %}
+
+            {% block body %}
+            {{body|safe}}
+            {% endblock body %}
+
+            {% if comments %}
+                <?php
+                    $entryinfo = array();
+                    $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
+                    $entryinfo["url"] = '{{comments.url|safe|addphpslashes}}';
+                    {% if not comments.closed %}
+                        $ror->HandlePostedComment($entryinfo);
+                    {% endif %}
+                    echo $ror->RenderComments('{{comments.entryid|safe|addphpslashes}}', 'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html', $entryinfo);
+                ?>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <aside id='sidebar'>
+        {# Find a left-side sidebar menu for this page. #}
+        {% block sidebar %}{% sidebar 'page' %}{% endblock %}
+    </aside>
+
+    <footer id='copyright'>
+        <p class='copyright'>
+            {% if copyright %}
+                {{copyright}}
+            {% else %}
+                <a rel='copyright license' href='/site/legal.html'>
+                    {% ch '(c)' %} Copyright
+                    {% if min_date %}
+                        {% year_range min_date max_date %},
+                    {% else %}
+                        {% year_range 2002 2016 %},
+                    {% endif %}
+                    Ned Batchelder
+                </a>
+            {% endif %}
+        </p>
+    </footer>
 
 </body>
 
