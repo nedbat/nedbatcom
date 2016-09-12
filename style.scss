@@ -672,13 +672,14 @@ blockquote.code {
         margin: 0 0 -1em 0;
         padding: 0;
     }
-    .linenos {
-        background: #f8f8f8;
-        color: #aaa;
+    span.lineno {
+        display: inline-block;
+        width: 2.5em;
+        color: #888;
         font-size: 80%;
         text-align: right;
         border-right: 1px solid #bbb;
-        padding: 0;
+        padding: 0 .5em 0 0;
         margin: 0;
     }
 
