@@ -178,17 +178,88 @@ All mimsy were the borogroves, and the mome wrath outgrabe.
 <quote>
 <p>Twas brillig and the slithy toves did gyre and gimbel in the wabe.
 All mimsy were the borogroves, and the mome wrath outgrabe.</p>
-<p>Lewis Carroll wrote that.
-</p></quote>
+
+<p>Lewis Carroll wrote that.</p>
+
+<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
+    numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam
+    quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+    ullam corporis suscipit laboriosam.</p>
+</quote>
 
 <p>Here's a quoted list:</p>
 
 <quote>
-<ol><li>One</li>
+<ol>
+<li>One</li>
 <li>Two</li>
 <li>Three</li>
-</ol></quote>
+</ol>
+</quote>
 
+
+<h1>Images</h1>
+
+<p>Aptus is a Mandelbrot set viewer and renderer.  It is written in Python
+with a computation engine in C for speed.</p>
+
+<figurep href='code/aptus/JamesGiantPeach.png'>
+    <img src='code/aptus/JamesGiantPeach_med.png' alt='A portion of the Mandelbrot set'/>
+</figurep>
+
+<p>More samples:</p>
+
+<figurep>
+    <thumbnail href='code/aptus/DragonTails.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <thumbnail href='code/aptus/FringedBabies.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <br/>
+    <thumbnail href='code/aptus/GreenSeahorses.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+    <thumbnail href='code/aptus/PaisleySpiral.png' alt='A portion of the Mandelbrot set' style='margin:1em'/>
+</figurep>
+
+
+<h1>Tables</h1>
+
+<p>A table of stupid video resolutions:</p>
+
+<table align='center' cellpadding='5'>
+<tr><td>VGA</td>	<td>640<times/>480</td></tr>
+<tr><td>SVGA</td>	<td>800<times/>600</td></tr>
+<tr><td>XGA</td>	<td>1024<times/>768</td></tr>
+<tr><td>SXGA</td>	<td>1280<times/>1024</td></tr>
+<tr><td>SXGA+</td>	<td>1400<times/>1050</td></tr>
+<tr><td>U[X]GA</td>	<td>1600<times/>1200</td></tr>
+<tr><td>QXGA</td>	<td>2048<times/>1536</td></tr>
+</table>
+
+<p>While we're on the topic of Internet assistance for nerdy word games,
+try the <a href='http://www.wordsmith.org/anagram/advanced.html'>Internet Anagram Server</a>.
+It helpfully told me that "Ned Batchelder" could be anagrammed to:</p>
+
+<table align='center' width='90%' cellpadding='5'>
+<tr>
+<td>Bleached Trend</td>
+<td>Branch Deleted</td>
+<td>Bartended Lech</td>
+</tr>
+<tr>
+<td>Belated Drench</td>
+<td>Table Drenched</td>
+<td>Blah Decentred</td>
+</tr>
+<tr>
+<td>Encradled Beth</td>
+<td>Chandler Beted</td>
+<td>Detach Blender</td>
+</tr>
+<tr>
+<td>Candle Berthed</td>
+<td>Chat Reblended</td>
+<td>Treadled Bench</td>
+</tr>
+</table>
+
+<p>(and thousands of others...)</p>
 
 <pagecomments/>
 
