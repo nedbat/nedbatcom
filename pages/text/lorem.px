@@ -130,7 +130,38 @@ if input() == "yes":
     # Wrapped at 80 chars:
     # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia none
     # numquam eius modi tempora incidunt. 
+    # Much longer (261 chars):
+    # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 ]]></code>
+
+<p>Code with line numbers:</p>
+
+<code lang="python" number="1"><![CDATA[
+This is line 1
+and this is line 2
+line 3
+line 4
+line 5
+]]></code>
+
+<p>Code in a list:</p>
+
+<ul>
+    <li>The Python 2 way:
+<code lang="python"><![CDATA[
+msg = "Hello, world"
+print msg
+]]></code>
+    </li>
+
+    <li>The Python 3 way:
+<code lang="python"><![CDATA[
+msg = "Hello, world"
+print msg
+]]></code>
+    </li>
+
+</ul>
 
 
 <h1>Blockquotes</h1>

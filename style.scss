@@ -626,7 +626,8 @@ a.s {
 
 blockquote {
     font-size: 100%;
-    margin: 1em 2em;
+    margin: 1em auto;
+    max-width: 95%;
     border-left: 1px solid #c0c0c0;
     padding: 0;
     background-color: #f0f0f0;
@@ -647,30 +648,18 @@ code {
     font-size: 90%;
     line-height: 130%;
     font-family: Menlo, "courier new", monospace;
+    display: block;
+    // The code blocks weren't respecting widths, and making scroll bars.
+    // Matt Rothenberg suggested width:1px, which fixed it.
+    width: 1px;
 }
 
 blockquote.code {
     padding: .3em;
     border: none;
     white-space: nowrap;
-    overflow-x: scroll;
-    width: percentage(540/620);
+    overflow-x: auto;
     line-height: 1;
-}
-
-// Code samples can't be as wide in a list element..
-ul .code, ol .code, li .code {
-    width: percentage(510/620);
-}
-
-dd {
-    .code {
-        width: percentage(500/620);
-    }
-    li .code {
-        // even narrower doubly-nested.
-        width: percentage(470/620);
-    }
 }
 
 .code {
