@@ -84,6 +84,7 @@ class CmdLine(object):
     def do_nednet(self):
         self.BASE = 'http://nedbatchelder.net'
         self.HTACCESS = 'nednet.htaccess'
+        self.PHP_INCLUDE = False
         self.FTP = dict(
             host='nedbatchelder.net', hostdir='nedbatchelder.net',
             user='nedbat', password=password.NEDNET,
