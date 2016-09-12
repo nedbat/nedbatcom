@@ -2,6 +2,7 @@
 ignore = 
     .treerc
     html html? html_*
+    sample_coverage_html* htmlcov
     *.md5
     *.pack.js *.min.js
     *.db
