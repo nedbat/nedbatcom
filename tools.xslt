@@ -223,31 +223,8 @@
     </a>
 </xsl:template>
 
-<!-- Placeholders for later. -->
-<xsl:template match='pagecomments'>
-    <!--
-    <xsl:choose>
-        <xsl:when test='$nophp'>
-            <div class='comments'>
-                <h1>Comments (placeholder)</h1>
-            </div>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:call-template name='php'>
-                <xsl:with-param name='code'>
-                    require_once('inc/reactor_class.php');
-                    $ror = new Reactor();
-                    $entryinfo = array();
-                    $entryinfo["title"] = "<xsl:value-of select='xuff:phpquote(string(parent::page/@title))'/>";
-                    $entryinfo["url"] = "<xsl:value-of select='xuff:phpquote(concat($base,$dpath))'/>";
-                    $ror->HandlePostedComment($entryinfo);
-                    echo $ror->RenderComments("<xsl:value-of select='$dpath'/>", 'inc/inlinecomment.html', $entryinfo);
-                </xsl:with-param>
-            </xsl:call-template>
-        </xsl:otherwise>
-    </xsl:choose>
-    -->
-</xsl:template>
+<!-- This is handled in the Django model now. -->
+<xsl:template match='pagecomments' />
 
 <!-- Google ads, gone for good, but easier to not have to edit .px files to remove them. -->
 <xsl:template match='googleads' />

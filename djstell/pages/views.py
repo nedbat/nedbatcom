@@ -144,7 +144,12 @@ def article(request, path):
     c['body'] = a.to_html()
     c['crumbs'] = a.breadcrumbs()
     if a.comments:
-        c['comments'] = {'entryid':path, 'url':abs_url(path), 'title':a.title}
+        c['comments'] = {
+            'entryid': path,
+            'url': abs_url(path),
+            'title': a.title,
+            'lorem': path == "text/lorem.html",
+        }
     return render_to_response('page.html', c)
 
 def sidebar(request, which):

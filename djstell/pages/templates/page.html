@@ -65,6 +65,9 @@
             {% endblock body %}
 
             {% if comments %}
+                {% if comments.lorem %}
+                    <p>THIS IS LOREM!</p>
+                {% endif %}
                 <?php
                     $entryinfo = array();
                     $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
@@ -72,7 +75,11 @@
                     {% if not comments.closed %}
                         $ror->HandlePostedComment($entryinfo);
                     {% endif %}
-                    echo $ror->RenderComments('{{comments.entryid|safe|addphpslashes}}', 'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html', $entryinfo);
+                    echo $ror->RenderComments(
+                        '{{comments.entryid|safe|addphpslashes}}',
+                        'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html',
+                        $entryinfo
+                    );
                 ?>
             {% endif %}
 
