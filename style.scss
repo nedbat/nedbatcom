@@ -55,7 +55,6 @@ body {
     @else {
         background: #fff;
     }
-    font-family: verdana, sans-serif;
     font-size: 80%;
     text-align: left;
 }
@@ -229,10 +228,6 @@ li blockquote {
     }
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: verdana, sans-serif;
-}
-
 h1[id]:hover a.headerlink:after, h2[id]:hover a.headerlink:after, h3[id]:hover a.headerlink:after {
     content: "\00A0\00B6";      // space-pilcrow
 }
@@ -329,7 +324,6 @@ a.headerlink {
 }
 
 .dateline {
-    font-family: verdana, sans-serif;
     margin-top: 0;
     text-align: right;
     font-size: 85%;
@@ -338,7 +332,6 @@ a.headerlink {
 }
 
 .docinfo {
-    font-family: verdana, sans-serif;
     margin-top: 0;
     margin-left: 35%;
     width: 65%;
@@ -477,12 +470,10 @@ a.s {
 
 .blog-entry {
     header {
-        font-family: verdana, sans-serif;
         padding-bottom: .2em;
         margin-bottom: 0;
     }
     footer {
-        font-family: verdana, sans-serif;
         font-size: 85%;
         color: gray;
         font-style: italic;
@@ -535,7 +526,6 @@ a.s {
 
 .archive p {
     font-size: 100%;
-    font-family: verdana, sans-serif;
     margin: 0 0 0 5.5em;
     line-height: 1.45em;
     &.date {
@@ -551,7 +541,6 @@ a.s {
 
 .category p {
     font-size: 100%;
-    font-family: verdana, sans-serif;
     margin: 0 0 0 8.5em;
     line-height: 1.45em;
     &.date {
@@ -604,7 +593,6 @@ a.s {
 }
 
 .pmn {
-    font-family: verdana, sans-serif;
     span {
         font-size: 80%;
         display: block;
