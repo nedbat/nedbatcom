@@ -792,10 +792,17 @@ img {
     }
 }
 
+#commentform {
+    margin-top: 6pt;
+    border-top: solid 1px #eee;
+    padding-top: 0;
+}
+
 .comments {
     font-family: verdana, sans-serif;
     h1 {
         border: none;
+        border-radius: 3px;
         margin: 0;
         padding: 1em;
         background: #eee;
@@ -808,66 +815,7 @@ img {
         font-style: italic;
         font-weight: normal;
     }
-}
 
-.comment {
-    .who {
-        font-family: verdana, sans-serif;
-        float: left;
-        a {
-            color: black;
-        }
-    }
-    .when {
-        font-family: verdana, sans-serif;
-        float: right;
-        font-size: 85%;
-        color: gray;
-        margin-top: 0;
-    }
-    .head {
-        margin-bottom: 20pt;
-    }
-    img.gravatar {
-        float: left;
-        margin: 3px 0 0 -50px;
-        border: 1px solid #eee;
-    }
-}
-
-.comments .comment {
-    font-family: georgia, serif;
-    border-top: solid 1px #eee;
-    padding: .5em 10pt 0 50px;
-    margin-top: 6pt;
-    overflow: auto;
-    width: percentage(540/620);
-    &.preview {
-        background-color: #ffff80;
-        border: 1px solid #cccccc;
-        padding: .5em 10pt 0 54px;
-    }
-}
-
-#commentform {
-    margin-top: 6pt;
-    border-top: solid 1px #eee;
-    padding-top: 0;
-    table {
-        width: 100%;
-    }
-    td {
-        padding: 2px;
-        &.labels {
-            width: 0%;
-        }
-        &.inputs {
-            width: 100%;
-        }
-    }
-}
-
-.comments {
     .notice {
         font-size: 90%;
         color: gray;
@@ -876,26 +824,63 @@ img {
             text-align: right;
         }
     }
-    .label {
+    label {
         font-size: 90%;
         text-align: right;
         color: #666666;
         margin-right: 6px;
         width: 42px;
     }
-}
 
-.comment .commenttext {
-    clear: right;
-}
+    .comment {
+        font-family: georgia, serif;
+        border-top: solid 1px #eee;
+        padding: .5em 10pt 0 50px;
+        margin-top: .5em;
+        overflow: auto;
+        &.preview {
+            background-color: #ffff80;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+            padding: .5em 10pt 0 54px;
+        }
+        .who {
+            font-family: verdana, sans-serif;
+            float: left;
+            a {
+                color: black;
+            }
+        }
+        .when {
+            font-family: verdana, sans-serif;
+            float: right;
+            font-size: 85%;
+            color: gray;
+            margin-top: 0;
+        }
+        .head {
+            margin-bottom: 20pt;
+        }
+        img.gravatar {
+            float: left;
+            margin: 3px 0 0 -50px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+        }
+        .commenttext {
+            clear: right;
+        }
+    }
 
-.comments .errormsg {
-    color: #800;
-    font-weight: bold;
-    background: #faa;
-    padding: 2pt 4pt;
-    border: 1px solid red;
-    margin: 0;
+    .errormsg {
+        color: #800;
+        font-weight: bold;
+        background: #fcc;
+        padding: 2pt 4pt;
+        border: 1px solid red;
+        border-radius: 3px;
+        margin: .5em 0;
+    }
 }
 
 /* Search word highlighting */
