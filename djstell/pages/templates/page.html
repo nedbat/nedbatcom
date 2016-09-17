@@ -65,13 +65,13 @@
             {% endblock body %}
 
             {% if comments %}
-                {% if comments.lorem %}
-                    <p>THIS IS LOREM!</p>
-                {% endif %}
                 <?php
                     $entryinfo = array();
                     $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
                     $entryinfo["url"] = '{{comments.url|safe|addphpslashes}}';
+                    {% if comments.lorem %}
+                        $ror->lorem = 1;
+                    {% endif %}
                     {% if not comments.closed %}
                         $ror->HandlePostedComment($entryinfo);
                     {% endif %}
