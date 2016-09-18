@@ -809,15 +809,13 @@ img {
     }
     h2 {
         border: none;
-        border-top: 1px solid #eee;
-        margin: 0 0 1em 0;
+        margin: 0;
         padding: 1em 0 .5em 0;
         font-style: italic;
         font-weight: normal;
     }
 
     .notice {
-        font-size: 90%;
         color: gray;
         font-style: italic;
         &.right {
@@ -825,11 +823,19 @@ img {
         }
     }
     label {
-        font-size: 90%;
-        text-align: right;
+        display: block;
         color: #666666;
-        margin-right: 6px;
-        width: 42px;
+        margin-top: .5em;
+    }
+
+    input {
+        font-size: 100%;
+        width: 100%;
+        max-width: 30em;
+
+        &[type="submit"], &[type="checkbox"] {
+            width: auto;
+        }
     }
 
     .comment {
