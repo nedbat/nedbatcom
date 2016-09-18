@@ -205,10 +205,6 @@ p, h1, h2, h3, h4, h5, h6 {
     margin: 1em 0;
 }
 
-.vmid {
-    vertical-align: middle;
-}
-
 p {
     &.figure, &.bulletsep {
         text-align: center;
@@ -365,9 +361,17 @@ dt, dd {
 }
 
 .searchform {
-    display: flex;
+    label {
+        display: inline-block;
+        margin: 0 .5em .25em 0;
+    }
+}
+
+.searchflex {
+    display: inline-flex;
     flex-flow: row;
     max-width: 10rem;
+    width: 100%;
 
     > * {
         flex: 0 auto;
@@ -375,6 +379,10 @@ dt, dd {
 
     > .searchbox {
         flex: 1 0px;
+    }
+
+    #submit {
+        margin-left: .25em;
     }
 }
 
@@ -384,8 +392,8 @@ input {
     }
     &.searchbox {
         border: 1px solid #7e9db9;
+        border-radius: 2px;
         padding: 2px;
-        height: 1.5em;
         width: 100%;
     }
 }

@@ -2,10 +2,10 @@
 <form class="searchform" action="http://www.google.com/search" style="margin-top:6px;">
     <input type="hidden" name="q" value="site:nedbatchelder.com">
     {% if label %}
-        <span class="vmid">{{label|safe}}</span>
+        <label for="searchterm">{{label|safe}}</label>
     {% endif %}
-    <span class="searchbox vmid">
-        <input type="search" name="q" class="searchbox vmid">
-    </span>
-    <input id="submit" class="vmid" type="image" title="Search" alt="Search" src="/pix/search.png">
+    <div class="searchflex">
+        <input id="searchterm" type="search" name="q" class="searchbox" size="15">
+        <input id="submit" type="image" title="Search" alt="Search" src="/pix/search.png">
+    </div>
 </form>

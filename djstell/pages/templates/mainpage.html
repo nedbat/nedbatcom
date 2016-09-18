@@ -44,8 +44,24 @@ table.tight td {
    margin: 0;
    padding: 0;
 }
-.vmid {
-   vertical-align: middle;
+.searchflex {
+    display: inline-flex;
+    flex-flow: row;
+    max-width: 15rem;
+    height: 1.5em;
+}
+.searchflex * {
+    flex: 0 auto;
+}
+.searchflex .searchbox {
+    flex: 1 0px;
+    border: 1px solid #7e9db9;
+    border-radius: 2px;
+    width: 100%;
+    padding: 2px;
+}
+.searchflex #submit {
+    margin-left: .25em;
 }
 .first {
     margin-top: 0;
