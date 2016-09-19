@@ -1,5 +1,6 @@
 # Generate HTML pages for nedbatchelder.com
 
+import glob
 import logging
 import os
 import shutil
@@ -154,10 +155,11 @@ class CmdLine(object):
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
     def run_sass(self, sassname, dst):
-        """Compile a Sass file named `sassname`.scss into the `dst` directory"""
+        """Compile a Sass file named `sassname` into the `dst` directory"""
+        basename = os.path.splitext(os.path.basename(sassname))[0]
         cmd = ['sass', '--sourcemap=none', '--style=compressed']
-        cmd += [sassname + '.scss']
-        cmd += [os.path.join(dst, sassname + '.css')]
+        cmd += [sassname]
+        cmd += [os.path.join(dst, basename + '.css')]
         status = subprocess.call(cmd)
         if status != 0:
             sys.exit("Sass returned {}!".format(status))
@@ -190,8 +192,8 @@ class CmdLine(object):
     def do_make(self):
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
-        self.run_sass("style", self.ROOT)
-        self.run_sass("mainstyle", self.ROOT)
+        for sassfile in glob.glob("style/[a-z]*.scss"):
+            self.run_sass(sassfile, self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         if self.PHPINI:
