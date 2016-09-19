@@ -191,6 +191,7 @@ class CmdLine(object):
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
         self.run_sass("style", self.ROOT)
+        self.run_sass("mainstyle", self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         if self.PHPINI:
