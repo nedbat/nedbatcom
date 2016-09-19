@@ -1,5 +1,7 @@
 # Create your views here.
 
+import datetime
+
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
@@ -164,6 +166,9 @@ def index(request):
     c['title'] = a.title
     c['body'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
+    now = datetime.datetime.now()
+    for recent in c['recent_entries']:
+        recent.show_year = recent.when.year != now.year
 
     # Tags to display: the most populated ones, but not "me", "site", etc.
     bad_tags = ('me', 'site', 'mycode')

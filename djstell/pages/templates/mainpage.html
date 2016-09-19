@@ -214,7 +214,7 @@ li p {
     {% for entry in recent_entries|slice:":4" %}
         <div class='blog-entry'>
             <h3><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h3>
-            <p class='date'> {% ch " " %}{{entry.when|date:"j"}}{% ch " " %}{{entry.when|date:"F"}}</p>
+            <p class='date'> {% ch " " %}{{entry.when|date:"j"}}{% ch " " %}{{entry.when|date:"F"}}{% if entry.show_year %}{% ch " " %}{{entry.when|date:"Y"}}{% endif %}</p>
             <p class='first'>{{entry.to_html|just_text|first_sentence:"2"|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
         </div>
     {% endfor %}
