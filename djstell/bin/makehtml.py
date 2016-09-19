@@ -1,6 +1,12 @@
 # Generate HTML pages for nedbatchelder.com
 
-import logging, os, shutil, socket, sys, time
+import logging
+import os
+import shutil
+import socket
+import subprocess
+import sys
+import time
 
 from django.conf import settings
 from django.core.management import call_command
@@ -147,10 +153,14 @@ class CmdLine(object):
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
-    def run_sass(self, dst):
-        import subprocess
-        cmd = ['sass', '--sourcemap=none', '--style=compressed', 'style.scss', os.path.join(dst, 'style.css')]
+    def run_sass(self, sassname, dst):
+        """Compile a Sass file named `sassname`.scss into the `dst` directory"""
+        cmd = ['sass', '--sourcemap=none', '--style=compressed']
+        cmd += [sassname + '.scss']
+        cmd += [os.path.join(dst, sassname + '.css')]
         status = subprocess.call(cmd)
+        if status != 0:
+            sys.exit("Sass returned {}!".format(status))
 
     @timed
     def do_clean(self):
@@ -180,7 +190,7 @@ class CmdLine(object):
     def do_make(self):
         self.generate(self.BASE, self.ROOT)
         self.copy_verbatim(self.ROOT)
-        self.run_sass(self.ROOT)
+        self.run_sass("style", self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         if self.PHPINI:
