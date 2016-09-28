@@ -35,9 +35,11 @@
         <div class='headslug'>{{title}}</div>
 
         {# Below the title: the page path. #}
+        {% comment %}
         <nav class='path'>
             {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
         </nav>
+        {% endcomment %}
     </header>
 
     <section id='content'>

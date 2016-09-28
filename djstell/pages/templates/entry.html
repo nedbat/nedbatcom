@@ -6,11 +6,13 @@
 {# Start Head #}
 <header>
     {# Title #}
-    {% if entry.title %}
-        <h3 class='title'>
-            <a class='s' href='{{entry.permaurl}}' rel='bookmark' title='Link to this post'>{{entry.title}}</a>
-        </h3>
-    {% endif %}
+    {% ifequal mode 'brief' %}
+        {% if entry.title %}
+            <h3 class='title'>
+                <a class='s' href='{{entry.permaurl}}' rel='bookmark' title='Link to this post'>{{entry.title}}</a>
+            </h3>
+        {% endif %}
+    {% endifequal %}
 
     {# Date #}
     <p class='date'>{{entry.when|date:"l j"}} <a class='s' href='{{entry.monthurl}}'>{{entry.when|date:"F Y"}}</a></p>
