@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20160929T195400'>
+<title>Computing primes with CSS</title>
+<category></category>
+<body>
+
+<p>I've been working on a redesign of this site, so doing more CSS, finally
+    internalizing Sass, etc.  During my reading, the <a href='https://www.w3.org/TR/selectors/#nth-child-pseudo'>nth-child pseudo-class</a>
+    caught my eye. It's oddly specific, providing syntax like "p:nth-child(4n+3)"
+    to select every fourth paragraph, starting with the third.  It isn't an
+    arbitrary expression, it has to be of the form An+B, where A and B are
+    integers, possibly negative.  An element is selected if it is the An+B'th
+    child of its parent, for some value of n&#160;≥&#160;0.</p>
+
+<p>It struck me that this is just enough computational power to compute primes
+    with a Sieve of Eratosthenes, so I whipped up an demonstration
+    (see it <a href="https://jsfiddle.net/wzL9r4re/">live here</a>):
+    </p>
+
+<code lang="html"><![CDATA[
+<html>
+<head>
+<style>
+/* A stupid pet trick by Ned Batchelder @nedbat */
+html { max-width: 40rem; }
+span { display: inline-block; width: 2em; text-align: right; }
+span:nth-child(2n+4),
+span:nth-child(3n+6),
+span:nth-child(4n+8),
+span:nth-child(5n+10),
+span:nth-child(6n+12),
+span:nth-child(7n+14),
+...
+span:nth-child(30n+60),
+span:nth-child(31n+62),
+span:nth-child(32n+64),
+span:first-child { display: none; }
+</style>
+</head>
+<body>
+<p>Primes:</p>
+<div>
+<span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+...
+<span>996</span>
+<span>997</span>
+<span>998</span>
+<span>999</span>
+</div>
+</body>
+</html>
+]]></code>
+
+<p>The code has only linear sequences of numbers. There are spans for 1 through
+    999, the candidate numbers. These are arranged so that the number N is the
+    Nth child of their containing div.  The CSS has nth-child styles for 2
+    through 32, the possible factors.</p>
+
+<p>The Sieve will hide numbers that are determined not to be primes with a
+    "display: none" rule.  A first-child selector hides 1, which is typical,
+    seems like you always have to treat 1 specially when looking for primes.
+    The other selectors for the display:none rule select the multiples of each
+    number in turn.  "nth-child(2n+4)" will hide elements 4, 6, 8, and so on.
+    "nth-child(3n+6)" will hide 6, 9, 12, and so on.</p>
+
+<p>So CSS has two features that together are just enough to implement the
+    Sieve.  The nth-child selector accomplishes the marking of factors.  The
+    overlapped application of separate rules implements the multiple passes,
+    one for each factor.</p>
+
+<p>Of course, I didn't write this file by hand, I wrote a Python program to do
+    it. It's pretty simple, I won't clog up this post with the whole thing.
+    But, it was my first use of a new feature in Python 3.6: f-strings. The
+    loop that writes the nth-child selectors looks like this:</p>
+
+<code lang="python"><![CDATA[
+for i in range(2, 33):
+    print(f"span:nth-child({i}n+{2*i}),")
+]]></code>
+
+<p>The f"" string has curly-bracketed expressions in it which are evaluated in
+    the current scope.  This string in Python 3.6:</p>
+
+<code lang="python"><![CDATA[
+f"span:nth-child({i}n+{2*i})"
+]]></code>
+
+<p>is equivalent to this in previous Pythons:</p>
+
+<code lang="python"><![CDATA[
+"span:nth-child({i}n+{i2})".format(i=i, i2=2*i)
+]]></code>
+
+<p>It felt really natural to use this new feature, and really convenient.</p>
+
+</body>
+</entry>
+</blog>
