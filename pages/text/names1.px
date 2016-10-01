@@ -130,7 +130,7 @@ x = x + y
 two lines are actually the same:</p><code lang="py">
 x += y
 x = x.__iadd__(y)
-</code><p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(y)",
+</code><p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(x, y)",
 because the method will not be found on the object itself, only on the class.)
 The meaning of += depends on the type of x, because that value provides the
 implementation of __iadd__ that will be used.</p><p>For numbers, += works just as you'd expect.  But lists give us another
