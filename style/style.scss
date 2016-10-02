@@ -1,11 +1,13 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // or gaudy for debugging.
-$logo-size-small: 4rem;
+$logo-size-small: 3rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
-$banner-height-large: 4rem;
+$banner-height-large: 3rem;
 $copyright-height: 2.5rem;
+$thick-border-small: 3px;
+$thick-border-large: 5px;
 
 /*
 http://fvsch.com/code/em-alternatives/
@@ -35,7 +37,12 @@ body {
     font-family: verdana, sans-serif;
     margin: 0 auto;
     padding: 0;
-    background-color: #999;
+    @if $color-scheme == gaudy {
+        background-color: red;
+    }
+    @else {
+        background-color: #999;
+    }
     max-width: 50rem;
     display: flex;
     flex-flow: row wrap;
@@ -72,7 +79,7 @@ body {
     text-align: left;
     font-size: 70%;
 
-    border-width: 5px 0 0 0;
+    border-width: $thick-border-small 0 0 0;
 
     a {
         text-decoration: none;
@@ -96,7 +103,7 @@ body {
         background: #fff;
     }
     text-align: center;
-    border-width: 0 1px 1px 0;
+    border-width: 0 $thick-border-small $thick-border-small 0;
 
     background-image: url(/pix/dodeca3_640.jpg);  // TODO: different-sized images
     background-size: contain;
@@ -118,6 +125,7 @@ body {
     @else {
         background: #fff;
     }
+    border-bottom-width: $thick-border-small;
     text-align: left;
     font-size: 85%;
     vertical-align: middle;
@@ -125,7 +133,7 @@ body {
 
 #copyright {
     padding: 0 10px;
-    border-top-width: 1px;
+    border-top-width: $thick-border-small;
     height: $copyright-height;
     text-align: left;
     @if $color-scheme == gaudy {
@@ -151,13 +159,14 @@ body {
     #logo {
         width: $logo-size-large;
         height: $logo-size-large;
-        border-width: 0 5px 5px 0;
+        border-width: 0 $thick-border-large $thick-border-large 0;
     }
 
     #banner {
         order: 2;
         margin-left: $logo-size-large;
-        height: $banner-height-large;
+        min-height: $banner-height-large;
+        border-bottom-width: $thick-border-large;
     }
 
     #sidebar {
@@ -166,7 +175,7 @@ body {
         margin-top: $logo-size-large - $banner-height-large;
         margin-bottom: -$copyright-height;
         flex: 0 $logo-size-large;
-        border-width: 0 5px 0 0;
+        border-width: 0 $thick-border-large 0 0;
     }
 
     #content {
@@ -178,7 +187,7 @@ body {
     #copyright {
         order: 5;
         margin-left: $logo-size-large;
-        border-top-width: 5px;
+        border-top-width: $thick-border-large;
     }
 }
 

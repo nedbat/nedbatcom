@@ -30,7 +30,9 @@
         <nav class='path'>
             <a href='/'>Ned Batchelder</a> : {% top_areas %}
         </nav>
+    </header>
 
+    <section id='content'>
         {# The title #}
         <div class='headslug'>{{title}}</div>
 
@@ -40,9 +42,7 @@
             {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
         </nav>
         {% endcomment %}
-    </header>
 
-    <section id='content'>
         <div class='body'>  <!-- TODO: combine #content and div.body, only need one. -->
             {# An empty div for main.js to write a search intro into. #}
             <div id='searchwelcome'></div>
