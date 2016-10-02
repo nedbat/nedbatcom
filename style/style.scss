@@ -7,7 +7,7 @@ $banner-height-small: $logo-size-small;
 $banner-height-large: 3rem;
 $copyright-height: 2.5rem;
 $thick-border-small: 3px;
-$thick-border-large: 5px;
+$thick-border-large: 3px;
 
 /*
 http://fvsch.com/code/em-alternatives/
@@ -149,7 +149,7 @@ body {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.gif);
-        border: 5px solid #999;
+        border: $thick-border-large solid #999;
 
         > * {
             border: 0px solid #999;
