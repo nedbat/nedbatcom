@@ -118,6 +118,12 @@ class Section(models.Model):
     sitemap = models.BooleanField(default=True)
     article = models.ForeignKey(Article)
 
+    def __repr__(self):
+        return "<Section %r sort=%r sitemap=%r article=%r>" % (
+            self.title, self.sort, self.sitemap, self.article
+        )
+
+
 class WhatWhen(models.Model):
     """ An edit indicator, many to one with pages.
     """

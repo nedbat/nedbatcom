@@ -23,7 +23,7 @@ class SiteMap:
             self.map[article.path] = article
 
         self.top = []
-        for section in Section.objects.all().order_by('sort','title'):
+        for section in Section.objects.all().order_by('sort', 'title'):
             p, f = os.path.split(section.article.path)
             if f == 'index.px' and p and '/' not in p:
                 self.top.append((section.title, section.article.permaurl(short=True)))
