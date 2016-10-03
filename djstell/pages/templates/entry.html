@@ -36,8 +36,7 @@
 
     {# Categories #}
     {% for tag in entry.tags.all %}
-        {% if forloop.first %}tagged: {% endif %}
-        <a href='{{tag.permaurl}}' rel='tag'>{{tag.name|lower}}</a>{% if not forloop.last %},{% endif %}
+        <a href='{{tag.permaurl}}' rel='tag'>#{{tag.name|lower}}</a>
     {% endfor %}
 
     {# Separator for category and via. #}

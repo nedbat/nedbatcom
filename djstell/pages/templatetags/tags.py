@@ -80,6 +80,7 @@ def year_range(year1, year2):
 
 special_ch = {
     '':     '',
+    '_':    '&#x20',        #    plain-old space, to protect from spaceless
     '>>':   '&#xbb;',       # »  RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
     '<<':   '&#xab;',       # «  LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
     '(c)':  '&#xa9;',       # ©  COPYRIGHT SIGN

@@ -89,7 +89,7 @@ def tag(request, slug):
     c = RequestContext(request)
     add_entries(c, ents)
     c['tag'] = tag
-    c['title'] = 'Tag: %s' % tag.name
+    c['title'] = '#%s posts' % tag.name
     c['crumbs'] = blog_crumbs + [('Tags', '/blog/tags.html')]
     return render_to_response('tags.html', c)
 
