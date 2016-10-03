@@ -1,13 +1,14 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // or gaudy for debugging.
-$logo-size-small: 3rem;
+$logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
-$banner-height-large: 3rem;
+$banner-height-large: 2.75rem;
 $copyright-height: 2.5rem;
-$thick-border-small: 3px;
-$thick-border-large: 3px;
+$thick-border-small: 2px;
+$thick-border-large: 2px;
+$outer-border-large: 5px;
 
 /*
 http://fvsch.com/code/em-alternatives/
@@ -149,7 +150,7 @@ body {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.png);
-        border: $thick-border-large solid #999;
+        border: $outer-border-large solid #999;
 
         > * {
             border: 0px solid #999;
