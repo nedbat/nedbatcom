@@ -7,7 +7,8 @@ $banner-height-small: $logo-size-small;
 $banner-height-large: 2.75rem;
 $copyright-height: 2.5rem;
 $thick-border-small: 2px;
-$thick-border-large: 2px;
+$thick-border-large-horz: 2px;
+$thick-border-large-vert: 5px;
 $outer-border-large: 5px;
 
 /*
@@ -160,14 +161,14 @@ body {
     #logo {
         width: $logo-size-large;
         height: $logo-size-large;
-        border-width: 0 $thick-border-large $thick-border-large 0;
+        border-width: 0 $thick-border-large-vert $thick-border-large-horz 0;
     }
 
     #banner {
         order: 2;
         margin-left: $logo-size-large;
         min-height: $banner-height-large;
-        border-bottom-width: $thick-border-large;
+        border-bottom-width: $thick-border-large-horz;
     }
 
     #sidebar {
@@ -176,7 +177,7 @@ body {
         margin-top: $logo-size-large - $banner-height-large;
         margin-bottom: -$copyright-height;
         flex: 0 $logo-size-large;
-        border-width: 0 $thick-border-large 0 0;
+        border-width: 0 $thick-border-large-vert 0 0;
     }
 
     #content {
@@ -188,7 +189,7 @@ body {
     #copyright {
         order: 5;
         margin-left: $logo-size-large;
-        border-top-width: $thick-border-large;
+        border-top-width: $thick-border-large-horz;
     }
 }
 
