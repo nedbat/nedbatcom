@@ -272,7 +272,7 @@ class Entry(models.Model, ModelMixin):
         return "/blog/%04d%02d/%s.html" % (self.when.year, self.when.month, self.slug)
 
     def monthurl(self):
-        return "/blog/archive%04d.html#month%02d" % (self.when.year, self.when.month)
+        return "/blog/archive%04d.html#month%04d%02d" % (self.when.year, self.when.year, self.when.month)
 
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")

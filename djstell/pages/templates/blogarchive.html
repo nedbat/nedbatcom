@@ -29,7 +29,7 @@
         {% for entry in entries %}
 
             {% ifchanged %}
-            <h1 id='month{{ entry.when|date:"m" }}'>{{ entry.when|date:"F Y" }}</h1>
+            <h1 id='month{{ entry.when|date:"Y" }}{{ entry.when|date:"m" }}'>{{ entry.when|date:"F Y" }}</h1>
             {% endifchanged %}
 
             {% ifchanged %}
