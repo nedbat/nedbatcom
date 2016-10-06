@@ -16,7 +16,9 @@
 
     {# Real entries #}
     {% for entry in entries|slice:":12" %}
-        {% blog_entry entry 'brief' %}
+        <article>
+            {% blog_entry entry 'brief' %}
+        </article>
     {% endfor %}
 
     {# Summary of older entries #}

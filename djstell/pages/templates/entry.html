@@ -1,7 +1,7 @@
 {% load tags %}
 {% spaceless %}
 {# A single blog entry, used by the blog_entry tag. #}
-<article class='blog-entry' id='{{entry.entryid}}'>
+<div class='blog-entry' id='{{entry.entryid}}'>
 
 {# Start Head #}
 <header>
@@ -72,5 +72,5 @@
 </footer>
 {# End Footer #}
 
-</article>
+</div>
 {% endspaceless %}
