@@ -40,14 +40,20 @@ def sidebar(which, force=False):
         years = ({'link': '/blog/archive{0}.html'.format(y), 'text': "{0:02d}".format(y % 100)} for y in years)
         years = iter(years)
 
-        # Interleave them: two tags, a year, two tags, a year, etc.
+        # Interleave tags and years.
         try:
             while True:
                 yield next(tags)
                 yield next(tags)
                 yield next(years)
-        except StopIteration:
+                yield next(tags)
+                yield next(years)
+        except StopIteration:   # ran out of years..
             pass
+
+        # Then some more tags
+        for _ in range(8):
+            yield next(tags)
 
     if which == 'blog':
         c['archive_years'] = [ d.year for d in Entry.objects.dates('when', 'year', order='DESC') ]
