@@ -35,6 +35,7 @@ def entry(request, year, month, slug):
     c = RequestContext(request)
     c['entry'] = ent
     c['title'] = ent.title
+    c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
     c['crumbs'] = blog_crumbs + [(ent.when.strftime("%B %Y"), ent.monthurl())]
     c['comments'] = {
@@ -52,6 +53,7 @@ def blogmain(request):
     c = RequestContext(request)
     add_entries(c, ents)
     c['title'] = 'Blog'
+    c['bodyclass'] = 'blog main'
     c['crumbs'] = c['crumbs'][:1]
     return render_to_response('blogmain.html', c)
 
@@ -62,6 +64,7 @@ def archiveyear(request, year):
     c['type'] = 'year'
     c['year'] = year
     c['title'] = "Blog Archive: %s" % year
+    c['bodyclass'] = 'blog archive year'
     return render_to_response('blogarchive.html', c)
 
 def archiveall(request):
@@ -70,6 +73,7 @@ def archiveall(request):
     add_entries(c, ents)
     c['type'] = 'complete'
     c['title'] = "Blog Archive: Complete"
+    c['bodyclass'] = 'blog archive all'
     return render_to_response('blogarchive.html', c)
 
 def tags(request):
@@ -80,6 +84,7 @@ def tags(request):
     c['max_date'] = Entry.objects.all().order_by('-when')[0].when
     c['untagged'] = untagged_entries()
     c['title'] = 'Blog post tags'
+    c['bodyclass'] = 'blog tags'
     c['crumbs'] = blog_crumbs
     return render_to_response('alltags.html', c)
 
@@ -90,6 +95,7 @@ def tag(request, slug):
     add_entries(c, ents)
     c['tag'] = tag
     c['title'] = '#%s posts' % tag.name
+    c['bodyclass'] = 'blog tag'
     c['crumbs'] = blog_crumbs + [('Tags', '/blog/tags.html')]
     return render_to_response('tags.html', c)
 
@@ -99,6 +105,7 @@ def untagged(request):
     add_entries(c, ents)
     c['title'] = 'Untagged posts'
     c['crumbs'] = blog_crumbs + [('Tags', 'blog/tags.html')]
+    c['bodyclass'] = 'blog tag'
     return render_to_response('tags.html', c)
 
 def untagged_entries():

@@ -20,7 +20,7 @@
     {% include "analytics.html" %}
 </head>
 
-<body>
+<body{% if bodyclass %} class="{{ bodyclass }}"{% endif %}>
     <header id='logo'>
         <a href='/'>&nbsp;</a>
     </header>
