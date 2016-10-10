@@ -1,6 +1,8 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // or gaudy for debugging.
+$debug-structure: yes;
+
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
@@ -53,6 +55,29 @@ body {
         padding: 10px;
         flex: 1 100%;
         border: 0px solid #999;
+    }
+}
+
+$debug-structure-color: #F88;
+
+@if $debug-structure == yes {
+    article {
+        border: 1px dotted red;
+    }
+
+    h1:after {
+        content: " <h1>";
+        color: $debug-structure-color;
+    }
+
+    h2:after {
+        content: " <h2>";
+        color: $debug-structure-color;
+    }
+
+    h3:after {
+        content: " <h3>";
+        color: $debug-structure-color;
     }
 }
 
