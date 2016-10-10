@@ -58,6 +58,8 @@ body {
     }
 }
 
+// Set $debug-structure to yes to get annotations of header levels and articles.
+
 $debug-structure-color: #F88;
 
 @if $debug-structure == yes {
@@ -65,21 +67,15 @@ $debug-structure-color: #F88;
         border: 1px dotted red;
     }
 
-    h1:after {
-        content: " <h1>";
-        color: $debug-structure-color;
-    }
-
-    h2:after {
-        content: " <h2>";
-        color: $debug-structure-color;
-    }
-
-    h3:after {
-        content: " <h3>";
-        color: $debug-structure-color;
+    @for $h from 1 through 6 {
+        h#{$h}:after {
+            content: " <h#{$h}>";
+            color: $debug-structure-color;
+        }
     }
 }
+
+// Major page components.
 
 #content {
     @if $color-scheme == gaudy {
