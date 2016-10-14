@@ -55,7 +55,7 @@ body {
     > * {
         padding: 10px;
         flex: 1 100%;
-        border: 0px solid #999;
+        border: 0 solid #999;
     }
 }
 
@@ -117,7 +117,7 @@ $debug-structure-color: #F88;
 
 #logo {
     position: absolute;
-    padding: 0px;
+    padding: 0;
     width: $logo-size-small;
     height: $logo-size-small;
     @if $color-scheme == gaudy {
@@ -176,7 +176,7 @@ $debug-structure-color: #F88;
         border: $outer-border-large solid #999;
 
         > * {
-            border: 0px solid #999;
+            border: 0 solid #999;
         }
     }
 
@@ -204,7 +204,7 @@ $debug-structure-color: #F88;
 
     #content {
         order: 4;
-        flex: 1 0px;
+        flex: 1 0;
         border-width: 0;
         padding: 1.5em;
     }
@@ -413,7 +413,7 @@ dt, dd {
     }
 
     > .searchbox {
-        flex: 1 0px;
+        flex: 1 0;
     }
 
     #submit {
