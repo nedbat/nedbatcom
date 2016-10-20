@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161015T085446' draft='y'>
+<title>A failed plugin</title>
+<category></category>
+<body>
+
+<p>A different kind of story today: a clever test runner plugin that in the
+    end, did not do what I had hoped.</p>
+
+<p>At edX, our test suite is large, and split among a number of CI workers. One
+    of the workers was intermittently running out of memory.  Something (not
+    sure what) lead him to the idea that TestCase objects were holding onto
+    mocks, which themselves held onto their calls' arguments and return values,
+    which could be a considerable amount of memory.</p>
+
+<p>We use nose (but plan to move to pytest Real Soon Now™), and nose holds onto
+    all of the TestCase objects until the very end of the test run.  We
+    thought, there's no reason to keep all that data on all those test case
+    objects.  If we could scrub the data from those objects, then we would free
+    up that memory.</p>
+
+<p>We batted around a few ideas, and then I hit on something that seemed like
+    a great idea: a nose plugin that would remove data from test objects that
+    hadn't been there before the test started.</p>
+
+<p>Before I get into the details, an important point: when I had this idea, it
+    was a very familiar feeling. I have been here many times before.  A problem
+    in some complicated code, and a clever idea of how to attack it.  These
+    ideas often don't work out, because the real situation is complicated in
+    ways I don't understand yet.</p>
+
+<p>When I had the idea, and mentioned it to my co-worker, I said to him, "This
+    idea is too good to be true. I don't know why it won't work yet, but we're
+    going to find out." (foreshadowing!)</p>
+
+<p>I started hacking on the plugin, which I called
+    <a href='https://github.com/nedbat/blowyournose'>blowyournose</a>. (Nose's
+    one last advantage over other test runners is playful plugin names...)</p>
+
+<p>The implementation idea was simple: before a test runs, save the list of the
+    attributes on the test object.  When the test ends, delete any attribute
+    that isn't in that list:</p>
+
+<code lang="python"><![CDATA[
+from nose.plugins import Plugin
+
+class BlowYourNose(Plugin):
+
+    # `test` is a Nose test object. `test.test` is the
+    # actual TestCase object being run.
+
+    def beforeTest(self, test):
+        test.byn_attrs = set(dir(test.test))
+
+    def afterTest(self, test):
+        obj = test.test
+        for attr in dir(obj):
+            if attr not in test.byn_attrs:
+                delattr(obj, attr)
+]]></code>
+
+<p>By the way: a whole separate challenge is how to test something like this. I
+    did it with a class that could report on its continued existence at the end
+    of tests.  Naturally, I named that class Booger! If you are interested, the
+    code is in the repo.</p>
+
+<p>At this point, the plugin solved this problem:</p>
+
+<code lang="python"><![CDATA[
+class MyLeakyTest(unittest.TestCase):
+    def setUp(self):
+        self.big_thing = big_thing()
+
+    def test_big_thing():
+        self.assertEqual(self.big_thing.whatever, 47)
+]]></code>
+
+<p>The big_thing attribute will be deleted from the test object once the test
+    is over, freeing the memory it consumed.</p>
+
+<p>The next challenge was tests like this:</p>
+
+<code lang="python"><![CDATA[
+@mock.patch('os.listdir')
+def test_directory_handling(self, mock_listdir):
+    blah blah ...
+]]></code>
+
+<p>The patch decorator stores the patches on an attribute of the function, so I
+    updated blowyournose to look for that attribute, and set it to None. This
+    nicely reclaimed the space at the end of the test.</p>
+
+
+
+
+
+</body>
+</entry>
+</blog>
