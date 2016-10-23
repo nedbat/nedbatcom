@@ -614,39 +614,4 @@
     </ul>
 </xsl:template>
 
-<!--
-  - Compute the least and greatest string
-  -->
-<xsl:template name='string_min'>
-    <xsl:param name='nodes' select='/..' />
-    <xsl:param name='default' select='"??"' />
-    <xsl:choose>
-            <xsl:when test='not($nodes)'><xsl:value-of select='$default'/></xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select='$nodes'>
-                        <xsl:sort />
-                        <xsl:if test='position() = 1'>
-                            <xsl:value-of select='.' />
-                        </xsl:if>
-                </xsl:for-each>
-            </xsl:otherwise>
-    </xsl:choose>
-</xsl:template>
-
-<xsl:template name='string_max'>
-    <xsl:param name='nodes' select='/..' />
-    <xsl:param name='default' select='"??"' />
-    <xsl:choose>
-            <xsl:when test='not($nodes)'><xsl:value-of select='$default'/></xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select='$nodes'>
-                        <xsl:sort order='descending'/>
-                        <xsl:if test='position() = 1'>
-                            <xsl:value-of select='.' />
-                        </xsl:if>
-                </xsl:for-each>
-            </xsl:otherwise>
-    </xsl:choose>
-</xsl:template>
-
 </xsl:stylesheet>
