@@ -1,7 +1,7 @@
 /*! Style sheet for nedbatchelder.com !*/
 
-$color-scheme: white;   // or gaudy for debugging.
-$debug-structure: yes;
+$color-scheme: white;   // white, or gaudy for debugging.
+$debug-structure: no;   // yes or no
 
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
@@ -39,7 +39,7 @@ TODO: get rid of .first, do it with css
 body {
     // Trick to shut off divergent font rounding algorithms.
     font-size: 101%;
-    font-family: verdana, sans-serif;
+    font-family: "Noto Serif", Merriweather, verdana, sans-serif;
     margin: 0 auto;
     padding: 0;
     @if $color-scheme == gaudy {
@@ -85,7 +85,7 @@ $debug-structure-color: #F88;
     @else {
         background: #fff;
     }
-    font-size: 80%;
+    font-size: 100%;
     text-align: left;
 }
 
@@ -840,6 +840,7 @@ img {
 
 .comments {
     font-family: verdana, sans-serif;
+    font-size: 80%;
     h1 {
         border: none;
         border-radius: 3px;

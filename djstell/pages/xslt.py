@@ -3,9 +3,9 @@ from lxml import etree
 from stellated.XsltExtensions import *
 from cStringIO import StringIO
 from django.conf import settings
-#import re, smartypants
+import re, smartypants
 
-#smartypants.tags_to_skip_regex = re.compile("<(/)?(?:pre|code|kbd|script|math|tt)[^>]*>")
+smartypants.tags_to_skip_regex = re.compile("<(/)?(pre|code|kbd|script|math|tt)[^>]*>")
 
 def wrapit(fn):
     """ lxml extensions have a first dummy arg that Pyana extensions don't.  Adapt.
@@ -30,6 +30,7 @@ ns['slugfromtext'] = wrapit(slugfromtext)
 ns['lexcode'] = wrapit(lexcode)
 ns['imgwidth'] = wrapit(imgwidth)
 ns['imgheight'] = wrapit(imgheight)
+ns['smartypants'] = wrapit(smartypants.smartyPants)
 
 def pathtitle(path):
     """ Return the title of a page at a given path.
@@ -55,7 +56,7 @@ def content_transform(name, xmltext, child=None, params={}):
         'base':     string_param(settings.BASE),
         })
     html = str(xslt_xform(doc, **params))
-    #html = smartypants.smartyPants(html, 'q')
+    html = smartypants.smartyPants(html, 'q')
     for entry in xslt_xform.error_log:
         if entry.filename == '<string>':
             fname = name
