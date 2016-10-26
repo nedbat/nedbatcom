@@ -13,6 +13,10 @@ $thick-border-large-horz: 2px;
 $thick-border-large-vert: 5px;
 $outer-border-large: 5px;
 
+$me-font: Georgia, "Noto Serif", Merriweather, verdana, sans-serif;
+$them-font: verdana, sans-serif;
+$code-font: Menlo, "courier new", monospace;
+
 /*
 http://fvsch.com/code/em-alternatives/
 
@@ -39,7 +43,7 @@ TODO: get rid of .first, do it with css
 body {
     // Trick to shut off divergent font rounding algorithms.
     font-size: 101%;
-    font-family: "Noto Serif", Merriweather, verdana, sans-serif;
+    font-family: $me-font;
     margin: 0 auto;
     padding: 0;
     @if $color-scheme == gaudy {
@@ -673,9 +677,9 @@ blockquote {
 }
 
 code {
-    font-size: 90%;
+    font-size: 70%;
     line-height: 130%;
-    font-family: Menlo, "courier new", monospace;
+    font-family: $code-font;
     display: block;
     // The code blocks weren't respecting widths, and making scroll bars.
     // Matt Rothenberg suggested width:1px, which fixed it.
@@ -803,9 +807,10 @@ div.linenodiv {
 
 
 .codeword {
-    font-size: 100%;
-    font-family: "lucida console", monospace;
+    font-size: 80%;
+    font-family: $code-font;
     background-color: #e8e8e8;
+    padding: 0 .2em;
 }
 
 .box {
@@ -839,8 +844,9 @@ img {
 }
 
 .comments {
-    font-family: verdana, sans-serif;
+    font-family: $them-font;
     font-size: 80%;
+    line-height: 1.5em;
     h1 {
         border: none;
         border-radius: 3px;
@@ -880,7 +886,7 @@ img {
     }
 
     .comment {
-        font-family: georgia, serif;
+        font-family: $them-font;
         border-top: solid 1px #eee;
         padding: .5em 10pt 0 50px;
         margin-top: .5em;
@@ -892,14 +898,14 @@ img {
             padding: .5em 10pt 0 54px;
         }
         .who {
-            font-family: verdana, sans-serif;
+            font-family: $them-font;
             float: left;
             a {
                 color: black;
             }
         }
         .when {
-            font-family: verdana, sans-serif;
+            font-family: $them-font;
             float: right;
             font-size: 85%;
             color: gray;

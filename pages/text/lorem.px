@@ -120,7 +120,8 @@
 
 <h1>Code samples</h1>
 
-<p>Some narrow code:</p>
+<p>Some narrow code using <codeword>print</codeword> and some string literals,
+    but nothing fancy like <codeword>eval</codeword> and <codeword>exec</codeword>:</p>
 
 <code lang="python"><![CDATA[
 print("Hello, world!")
