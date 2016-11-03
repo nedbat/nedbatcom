@@ -36,7 +36,7 @@ class CmdLine(object):
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess *.ini
-            *.svg
+            *.svg *.ipynb
             '''
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
@@ -139,6 +139,7 @@ class CmdLine(object):
                 *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
                 *.txt *.ida *.php *.ico *.htaccess *.xml
                 *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
+                *.ipynb
                 '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
