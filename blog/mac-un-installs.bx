@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161107T114821'>
+<title>Mac un-installs</title>
+<category>mac</category>
+<body>
+
+<p>The Mac is a nice machine and operating system, but there's one part of the
+    experience I don't understand: software installation and uninstallation.
+    I'm sure the App Store is meant to solve some of this, but the current
+    situation is oddly manual.</p>
+
+<p>Usually when I install applications on the Mac, I get a .dmg file, I open
+    it, and there's something to copy to the Applications folder. Often, the
+    .dmg window that opens has a cute graphic as a background, to encourage me
+    to drag the application to the folder.</p>
+
+<p>Proponents of this say, "it's so simple! The whole app is just a folder, so
+    you can just drag it to Applications, and you're done. When you don't want
+    the application any more, you just drag the application to the Trash."</p>
+
+<p>This is not true. Applications may start self-contained in a folder, but
+    they write data to other places on the disk.  Those places are orphaned
+    when you discard the application.  Why is there no uninstaller to clean up
+    those things?</p>
+ 
+<p>As an example, I was cleaning up my disk this morning. <a href='http://grandperspectiv.sourceforge.net/'>Grand Perspective</a>
+    helped me find some big stuff I didn't need. One thing it pointed out to
+    me was in a Caches folder.  I wondered how much stuff was in folders called
+    Caches:</p>
+
+<code lang="sh"><![CDATA[
+$ sudo find / -type d -name '*Cache*' -exec du -sk {} \; -prune 2>&-
+]]></code>
+
+<p>(Find every directory with 'Cache' in its name, show its disk usage in Kb,
+    and don't show any errors along the way.) This found all sorts of
+    interesting things, including folders from applications I had long ago
+    uninstalled.</p>
+
+<p>Now I could search for other directories belonging to these long-gone
+    applications. For example:</p>
+
+
+<code lang="sh"><![CDATA[
+$ sudo find / -type d -name '*TweetDeck*' -exec du -sh {} \; -prune 2>&-
+ 12K   	/Users/ned/Library/Application Support/Fluid/FluidApps/TweetDeck
+ 84K   	/Users/ned/Library/Caches/com.fluidapp.FluidApp.TweetDeck
+ 26M   	/Users/ned/Library/Containers/com.twitter.TweetDeck
+1.7M   	/Users/ned/Library/Saved Application State/com.fluidapp.FluidApp.TweetDeck.savedState
+$ sudo find / -type d -name '*twitter-mac*' -exec du -sh {} \; -prune 2>&-
+288K   	/private/var/folders/j2/gr3cj3jn63s5q8g3bjvw57hm0000gp/C/com.twitter.twitter-mac
+ 99M   	/Users/ned/Library/Containers/com.twitter.twitter-mac
+4.0K   	/Users/ned/Library/Group Containers/N66CZ3Y3BX.com.twitter.twitter-mac.today-group
+]]></code>
+
+<p>That's about 128Mb of junk left behind by two applications I no longer have.
+    In the scheme of things, 128Mb isn't that much, but it's a lot more disk
+    space than I want to devote to applications I've discarded.  And what about
+    other apps I tried and removed? Why leave this? Am I missing something that
+    should have handled this for me?</p>
+
+</body>
+</entry>
+</blog>
