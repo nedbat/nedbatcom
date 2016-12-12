@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161210T192000'>
+<title>Who Tests What</title>
+<category>coverage</category>
+<body>
+
+<p>The next big feature for coverage.py is what I informally call "Who Tests
+    What." People want a way to know more than just what lines were covered by
+    the tests, but also, which tests covered which lines.</p>
+
+<p>This idea/request is not new: it was first suggested over four years ago
+    as <a href='https://bitbucket.org/ned/coveragepy/issues/170/show-who-tests-what'>issue 170</a>,
+    and two other issues (<a href='https://bitbucket.org/ned/coveragepy/issues/185/i-wish-coveragepy-would-tell-me-what-stack'>#185</a>
+    and <a href='https://bitbucket.org/ned/coveragepy/issues/311/remember-which-test-executed-a-line-of'>#311</a>)
+    have been closed as duplicates.  It's a big job, but people keep asking for
+    it, so maybe it's time.</p>
+
+<p>There are a number of challenges.  I'll explain them here, and lay out some
+    options and questions.  If you have opinions, answers, or energy to help,
+    get in touch.</p>
+
+<p>First, it's important to understand that coverage.py works in two main
+    phases, with an optional phase in the middle:</p>
+
+<ul>
+
+<li>The first phase is <strong>measurement</strong>, where your test suite
+    runs.  Coverage.py notes which code was executed, and collects that
+    information in memory.  At the end of the run, that data is written to a
+    file.</li>
+
+<li>If you are combining data from a number of test runs, perhaps for multiple
+    versions of Python, then there's an optional <strong>combination</strong>
+    phase.  Multiple coverage data files are combined into one data file.</li>
+
+<li>The <strong>reporting</strong> phase is where your project is analyzed to
+    understand what code could have run, and the data files are read to
+    understand what code was run.  The difference between the two is the code
+    that did not run.  That information is reported in some useful way: HTML,
+    XML, or textually.</li>
+
+</ul>
+
+<p>OK, let's talk about what has to be done...</p>
+
+
+<h1>Measurement</h1>
+
+<p>The measurement phase has to collect and record the data about what ran.</p>
+
+<h2>What is Who?</h2>
+
+<p>At the heart of "Who Tests What" is the Who.  Usually people want to know
+    what tests run each line of code, so during measurement we need to figure
+    out what test is being run.</p>
+
+<p>I can see two ways to identify the test being run: either coverage.py
+    figures it out by examining function names being run for "test_*" patterns,
+    or the test runner tells coverage.py when each test starts.</p>
+
+<p>But I think the fully general way to approach Who Tests What is to not
+    assume that Who means "which test." There are other uses for this feature,
+    so instead of hard-coding it to "test", I'm thinking in terms of the more
+    general concept of "context."  Often, the context would be "the current
+    test," but maybe you're only interested in "Python version", or
+    "subsystem," or "unit/integration/load."</p>
+
+<p>So the question is, how to know when contexts begin and end?  Clearly with
+    this general an idea, coverage.py can't know.  Coverage.py already has a
+    plugin mechanism, so it seems like we should allow a plugin to determine
+    the boundaries of contexts.  Coverage.py can provide a plugin
+    implementation that suffices for most people.</p>
+
+<p>A context will be a string, and each different context will have its own
+    collected coverage data.  In the discussion on <a href='https://bitbucket.org/ned/coveragepy/issues/170/show-who-tests-what'>issue 170</a>,
+    you can see people suggesting that we collect an entire stack trace for
+    each line executed.  This seems to me to be enormously more bulky to
+    collect, more difficult to make use of, and ultimately not as flexible as
+    simply noting a string context.</p>
+
+<p>There might be interesting things you can glean from that compendium of
+    stack traces.  I'd like to hear from you if you have ideas of things to do
+    with stack traces that you can't do with contexts.</p>
+
+<p>Another minor point: what should be done with code executed before any
+    context is established? I guess an None context would be good enough.</p>
+
+
+<h2>Storing data</h2>
+
+<p>Having multiple contexts will multiply the amount of data to be stored.
+    It's hard to guess how much more, since that will depend on how overlapping
+    your contexts are.  My crude first guess is that large projects would have
+    roughly C/4 times more data, where C is the number of contexts.  If you
+    have 500 tests in your test suite, you might need to manage 100 to 200
+    times more data, which could be a real problem.</p>
+
+<p>Recording the data on disk isn't a show-stopper, but keeping the data in
+    memory might be.  Today coverage.py keeps everything in memory until the
+    end of the process, then writes it all to disk.  <strong>Q:</strong> Will
+    we need something more sophisticated? Can we punt on that problem until
+    later?</p>
+
+<p>The data in memory is something like a dictionary of ints.  There are much
+    more compact ways to record line numbers. Is it worth it? Recording pairs
+    of line numbers (for branch coverage) is more complicated to compact
+    (see <a href="/blog/201401/speeding_up_coverage_data_storage.html">Speeding up coverage data storage</a>
+    for one experiment on this).  Eventually, we might get to counting the
+    number of times a line is executed, rather than just a yes/no, which again
+    would complicate things. <strong>Q:</strong> Is it important to try to
+    conserve memory?</p>
+
+<p>Today, the .coverage data files are basically JSON.  This much data might
+    need a different format.  <strong>Q:</strong> Is it time for a SQLite data
+    file?</p>
+
+
+<h1>Combining</h1>
+
+<p>The combine command won't change much, other than properly dealing with the
+    context information that will now be in the data files.</p>
+
+<p>But thinking about combining adds another need for the measurement phase:
+    when running tests, you should be able to specify a context that applies to
+    the entire run.  For example, you run your test suite twice, once on Python
+    2, and again on Python 3.  The first run should record that it was a
+    "python2" context, and the second, "python3".  Then when the files are
+    combined, they will have the correct context recorded.</p>
+
+<p>This also points up the need for context labels that can indicate nesting,
+    so that we can record that lines were run under Python 2 and also note the
+    test names that ran them.  Contexts might look like
+    "python2.test_function_one", for example.</p>
+
+
+<h1>Reporting</h1>
+
+<p>Reporting is where things get really murky.  If I have a test suite with
+    500 tests, how do I display all the information about those 500 tests?
+    I can't create an HTML report where each line of code is annotated with the
+    names of all the tests that ran it.  It's too bulky to write, and far too
+    cluttered to read.</p>
+
+<p>Partly the problem here is that I don't know how people will want to use
+    the data.  When someone says, "I want to know which tests covered which
+    lines," are they going to start from a line of code, and want to see which
+    tests ran it?  Or will they start from a test, and want to see what lines
+    it ran? <strong>Q:</strong> How would you use the data?</p>
+
+<p>One possibility is a new command, the opposite of "coverage combine": it
+    would take a large data file, and subset it to write a smaller data file.
+    You could specify a pattern of contexts to include in the output. This
+    would let you slice and dice arbitrarily, and then you can report as you
+    want from the resulting segmented data file. <strong>Q:</strong> Would this
+    be too clumsy?</p>
+
+<p>Perhaps the thing to do is to provide a SQLite interface.  A new "report"
+    would produce a SQLite database with a specified schema.  You can then
+    write queries against that database to your heart's content.
+    <strong>Q:</strong> Is that too low-level? Will it be possible to write a
+    useful report from it?</p>
+
+
+<h1>What's already been done</h1>
+
+<p>I started hacking on this context idea a year ago.  Coverage.py currently
+    has some support for it. The measurement support is there, and data is
+    collected in memory.  I did it to test whether the plugin idea would be
+    fast enough, and it seems to be. If you are interested to see it, search
+    for "wtw" in the code.</p>
+
+<p>The data is not written out to a .coverage data file, and there is zero
+    support for combining, segmenting, or reporting on context data.</p>
+
+
+<h1>How you can help</h1>
+
+<p>I'm interested to hear about how you would use this feature. I'm interested
+    to hear ideas for implementation. If you want to help, let me know.</p>
+
+</body>
+</entry>
+</blog>
