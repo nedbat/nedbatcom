@@ -150,7 +150,11 @@ def dragon_finite(seed, length):
     them to create a complete string before computing the checksum.  I could
     have continued down this path and written a checksum function that didn't
     need a complete string, but this is as far as I got.</p>
-    
+
+<p>One other implementation I didn't tackle: a function that could produce the
+    Nth character in the dragon string, given the seed and N, but without
+    generating the entire sequence.</p>
+
 </body>
 </entry>
 </blog>
