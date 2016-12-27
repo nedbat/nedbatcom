@@ -31,7 +31,7 @@ For Python 2.5, it's b3f20d0a. (the gory details are in <a href='http://svn.pyth
 source file that generated the .pyc, so that it can be recompiled if the source
 changes.</p>
 
-<p>The entire rest of the file is just the output of <a href='http://docs.python.org/lib/module-marshal.html'>marshal.dump</a>
+<p>The entire rest of the file is just the output of <a href='https://docs.python.org/3/library/marshal.html#marshal.dump'>marshal.dump</a>
 of the code object that results from compiling the source file.  Marshal is like
 pickle, in that it serializes Python objects.  It has different goals than pickle,
 though.  Where pickle is meant to produce version-independent serialization suitable
