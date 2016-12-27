@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161227T162300'>
+<title>Coverage.py 4.3</title>
+<category>coverage</category>
+<body>
+
+<p>The latest Coverage.py release:
+    <a href="https://pypi.python.org/pypi/coverage/4.3">Coverage.py 4.3</a> is
+    ready.</p>
+
+<p>This version adds --skip-covered support to the HTML report, implements
+    sys.excepthook support, reads configuration from tox.ini, and contains
+    improvements that close 18 issues.  The <a href='https://bitbucket.org/ned/coveragepy/src/tip/CHANGES.rst'>complete
+    change history</a> is in the source.</p>
+
+<p>A special shout-out to <a href="http://dachary.org/">Loïc Dachary</a>: he
+    read my blog post about <a href='/blog/201612/who_tests_what.html'>Who Tests What</a>,
+    and got interested in contributing.  And I mean, really interested.
+    Suddenly he seemed to be everywhere, making pull requests and commenting on
+    issues. In a week, I had 122 emails due to his activity.  That energy
+    really helped push me along, and is a big reason why this release happened,
+    five months after 4.2.</p>
+
+<p>Random trivia: this is the 30th version on PyPI; it's the 57th if you
+    include pre-releases.</p>
+
+</body>
+</entry>
+</blog>
