@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
+
 <entry when='20161227T162300'>
 <title>Coverage.py 4.3</title>
 <category>coverage</category>
@@ -24,6 +25,41 @@
 
 <p>Random trivia: this is the 30th version on PyPI; it's the 57th if you
     include pre-releases.</p>
+
+</body>
+</entry>
+
+<entry when='20161228T103700'>
+<title>D'oh: Coverage.py 4.3.1</title>
+<category>coverage</category>
+<body>
+
+<p>Yesterday I released five months' of fixes as Coverage.py 4.3, and today I
+    am releasing
+    <a href="https://pypi.python.org/pypi/coverage/4.3.1">Coverage.py 4.3.1</a>.
+    This is not because releasing is fun, but because releasing is
+    error-prone.</p>
+
+<p>Two bad problems were very quickly reported by my legions of adoring fans,
+    and they are now fixed.  I'll sheepishly tell you that one of them was a
+    UnicodeError in a bit of too-cute code in setup.py.</p>
+
+<p>Perhaps I should have released a 4.3 beta.  But my experience in the past is
+    that betas do not get the kind of attention that final releases do.  Partly
+    this is just due to people's attention budget: lots of people won't install
+    a beta.  But it's also due to continuous integration servers.  When a final
+    release is out, hundreds if not thousands of CI servers will install it
+    automatically as part of the next triggered build.  They won't install
+    pre-releases.</p>
+
+<p>So there's a not-great choice to make: should I put out a beta, and hope
+    that people try it and tell me what went wrong? Will enough people in
+    enough disparate environments take that step to truly test the release?</p>
+
+<p>Or should I skip that step, jump straight to a final release, and prepare
+    instead to quickly fix whatever problems occur?  I chose the latter course
+    for 4.3.  I guess I could use meta-feedback about which form of feedback I
+    should pursue in the future...</p>
 
 </body>
 </entry>
