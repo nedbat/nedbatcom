@@ -92,13 +92,15 @@ del ninja
 <p>So we define ninja(), and then execute it immediately.  This defines the
     global "exported", and doesn't define a global "os".  The only problem is
     the name "ninja" has been defined, which we can clean up with a del
-    statement. (Note that we could also solve our original "os" concern with a
-    del statement.)</p>
+    statement.</p>
 
 <p>Please don't ever write code this way. It's a kind of over-defensiveness
     that isn't needed in typical Python code.  But understanding what it does,
     and why it does it, is a good way to flex your understanding of Python
     workings.</p>
+
+<p>For more about how names (and values) work in Python, people seem to like
+    my PyCon talk, <a pref="text/names1.px"/>.</p>
 
 </body>
 </entry>
