@@ -63,4 +63,21 @@
 
 </body>
 </entry>
+
+<entry when='20170116T183700'>
+<title>Coverage.py 4.3.2 and 4.3.3</title>
+<category>coverage</category>
+<body>
+
+<p>A <a href="http://coverage.readthedocs.io/en/coverage-4.3.2/changes.html#version-4-3-2-2017-01-16">handful of fixes</a>
+    for Coverage.py today: <a href="https://pypi.python.org/pypi/coverage/4.3.2">v4.3.2</a>.
+    Having active contributors certainly makes it easier to move code more quickly.</p>
+
+<p>...and then it turns out, 4.3.2 wouldn't run on Python 2.6. So
+    <a href="http://coverage.readthedocs.io/en/coverage-4.3.3/changes.html#version-4-3-3-2017-01-17">quick like a bunny</a>,
+    here comes <a href="https://pypi.python.org/pypi/coverage/4.3.3">Coverage.py version 4.3.3</a>.</p>
+
+</body>
+</entry>
+
 </blog>
