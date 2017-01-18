@@ -64,8 +64,8 @@
 </body>
 </entry>
 
-<entry when='20170116T183700'>
-<title>Coverage.py 4.3.2 and 4.3.3</title>
+<entry when='20170116T183700' slug='coveragepy_432_and_433'>
+<title>Coverage.py 4.3.2 and 4.3.3, and 4.3.4</title>
 <category>coverage</category>
 <body>
 
@@ -76,6 +76,10 @@
 <p>...and then it turns out, 4.3.2 wouldn't run on Python 2.6. So
     <a href="http://coverage.readthedocs.io/en/coverage-4.3.3/changes.html#version-4-3-3-2017-01-17">quick like a bunny</a>,
     here comes <a href="https://pypi.python.org/pypi/coverage/4.3.3">Coverage.py version 4.3.3</a>.</p>
+
+<p>...and then that fix broke other situations on all sorts of Python versions, so
+    <a href="https://pypi.python.org/pypi/coverage/4.3.4">Coverage.py version 4.3.4</a>.</p>
+
 
 </body>
 </entry>
