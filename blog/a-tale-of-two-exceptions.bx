@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170122T171900'>
+<title>A tale of two exceptions</title>
+<category>python</category>
+<body>
+
+<p>It was the best of times, it was the worst of times...</p>
+
+<p>This week saw the release of <a href="blog/201701/coveragepy_432_and_433.html">three different versions</a>
+    of Coverage.py.  This is not what I intended.  Clearly something was
+    getting tangled up.  It had to do with some tricky exception
+    handling.  The story is kind of long and intricate, but has a number of
+    chewy nuggets that fascinate me. Your mileage may vary.</p>
+
+<p>Writing it all out, many of these missteps seem obvious and stupid. If you
+    take nothing else from this, know that everyone makes mistakes, and we are
+    all still trying to figure out the best way to solve some problems.</p>
+
+<p>It started because I wanted to get the test suite running well on Jython.
+    Jython is hard to support in Coverage.py: it can do "coverage run", but
+    because it doesn't have the same internals as CPython, it can't do
+    "coverage report" or any of the other reporting code.  Internally, there's
+    one place in the common reporting code where we detect this, and raise an
+    exception.  Before all the changes I'm about to describe,
+    <a href="https://bitbucket.org/ned/coveragepy/src/coverage-4.3.1/coverage/parser.py?#parser.py-372">that code</a>
+    looked like this:</p>
+
+<code lang="python"><![CDATA[
+for attr in ['co_lnotab', 'co_firstlineno']:
+    if not hasattr(self.code, attr):
+        raise CoverageException(
+            "This implementation of Python doesn't support code analysis.\n"
+            "Run coverage.py under CPython for this command."
+        )
+]]></code>
+
+<p>The CoverageException class is derived from Exception.  Inside of
+    Coverage.py, all exceptions raised are derived from CoverageException.
+    This is a good practice for any library. For the coverage command-line
+    tool, it means we can catch CoverageException at the top of main() so that
+    we can print the message without an ugly traceback from the internals of
+    Coverage.py.</p>
+
+<p>The problem with running the test suite under Jython is that this "can't
+    support code analysis" exception was being raised from hundreds of tests.
+    I wanted to get to zero failures or errors, either by making the tests pass
+    (where the operations were supported on Jython) or skipping the tests
+    (where the operations were unsupported).</p>
+
+<p>There are lots of tests in the Coverage.py test suite that are skipped for
+    all sorts of reasons.  But I didn't want to add decorators or conditionals
+    to hundreds of tests for the Jython case.  First, it would be a lot of
+    noise in the tests. Second, it's not always immediately clear from a test
+    that it is going to touch the analysis code.  Lastly and most importantly,
+    if someday in the future I figured out how to do analysis on Jython, or if
+    it grew the features to make the current code work, I didn't want to have
+    to then remove all that test-skipping noise.</p>
+
+<p>So I wanted to somehow automatically skip tests when this particular
+    exception was raised.  The unittest module already has a way to do this:
+    tests are skipped by raising a unittest.SkipTest exception. If the
+    exception raised for "can't support code analysis" derived from SkipTest,
+    then the tests would be skipped automatically. Genius idea!</p>
+
+<p>So in 4.3.2, the code changed to this (spread across a few files):</p>
+
+<code lang="python"><![CDATA[
+from coverage.backunittest import unittest
+
+class StopEverything(unittest.SkipTest):
+    """An exception that means everything should stop.
+
+    This derives from SkipTest so that tests that spring this trap will be
+    skipped automatically, without a lot of boilerplate all over the place.
+
+    """
+    pass
+
+class IncapablePython(CoverageException, StopEverything):
+    """An operation is attempted that this version of Python cannot do."""
+    pass
+
+...
+
+# Alternative Python implementations don't always provide all the
+# attributes on code objects that we need to do the analysis.
+for attr in ['co_lnotab', 'co_firstlineno']:
+    if not hasattr(self.code, attr):
+        raise IncapablePython(
+            "This implementation of Python doesn't support code analysis.\n"
+            "Run coverage.py under another Python for this command."
+        )
+]]></code>
+
+<p>It felt a little off to derive a product exception (StopEverything) from a
+    testing exception (SkipTest), but that seemed acceptable.  One place in the
+    code, I had to deal specifically with StopEverything. In an inner loop of
+    reporting, we catch exceptions that might happen on individual files being
+    reported.  But if this exception happens once, it will happen for all the
+    files, so we wanted to end the report, not show this failure for every
+    file.  In pseudo-code, the loop looked like this:</p>
+
+<code lang="python"><![CDATA[
+for f in files_to_report:
+    try:
+        generate_report_for_file(f)
+    except StopEverything:
+        # Don't report this on single files, it's a systemic problem.
+        raise
+    except Exception as ex:
+        record_exception_for_file(f, ex)
+]]></code>
+
+<p>This all seemed to work well: the tests skipped properly, without a ton of
+    noise all over the place.  There were no test failures in any supported
+    environment. Ship it!</p>
+
+<p>Uh-oh: very quickly, reports came in that coverage didn't work on Python 2.6
+    any more.  In retrospect, it was obvious: the whole point of the "from
+    coverage.backunittest" line in the code above was because Python 2.6
+    doesn't have unittest.SkipTest.  For the Coverage.py tests on 2.6, I
+    install unittest2 to get a backport of things 2.6 is missing, and that gave
+    me SkipTest, but without my test requiements, it doesn't exist.</p>
+
+<p>So my tests passed on 2.6 because I installed a package that provided what
+    was missing, but in the real world, unittest.SkipTest is truly missing.</p>
+
+<p>This is a conundrum that I don't have a good answer to:</p>
+
+<box>How can you test your code to be sure it works properly when the testing
+    requirements aren't installed?</box>
+
+<p>To fix the problem, I changed the definition of StopEverything.  Coverage.py
+    4.3.3 went out the door with this:</p>
+
+<code lang="python"><![CDATA[
+class StopEverything(unittest.SkipTest if env.TESTING else object):
+    """An exception that means everything should stop."""
+    pass
+]]></code>
+
+<p>The env.TESTING setting was a pre-existing variable: it's true if we are
+    running the coverage.py test suite.  This also made me uncomfortable: as
+    soon as you start conditionalizing on whether you are running tests or not,
+    you have a very slippery slope.  In this case it seemed OK, but it wasn't:
+    it hid the fact that deriving an exception from object is a dumb thing to
+    do.</p>
+
+<p>So 4.3.3 failed also, and not just on Python 2.6.  As soon as an exception
+    was raised inside that reporting loop that I showed above, Python noticed
+    that I was trying to catch a class that doesn't derive from Exception.  Of
+    course, my test suite didn't catch this, because when I was running my
+    tests, my exception derived from SkipTest.</p>
+
+<p>Changing "object" to "Exception" would fix the problem, but I didn't like
+    the test of env.TESTING anyway.  So for 4.3.4, the code is:</p>
+
+<code lang="python"><![CDATA[
+class StopEverything(getattr(unittest, 'SkipTest', Exception)):
+    """An exception that means everything should stop."""
+    pass
+]]></code>
+
+<p>This is better, first because it uses Exception rather than object.  But
+    also, it's duck-typing the base class rather than depending on
+    env.TESTING.</p>
+
+<p>But as I kept working on getting rid of test failures on Jython, I got to
+    this test failure (pseudo-code):</p>
+
+<code lang="python"><![CDATA[
+def test_sort_report_by_invalid_option(self):
+    msg = "Invalid sorting option: 'Xyzzy'"
+    with self.assertRaisesRegex(CoverageException, msg):
+        coverage.report(sort='Xyzzy')
+]]></code>
+
+<p>This is a reporting operation, so Jython will fail with a StopEverything
+    exception saying, "This implementation of Python doesn't support code
+    analysis."  StopEverything is a CoverageException, so the assertRaisesRegex
+    will catch it, but it will fail because the messages don't match.</p>
+
+<p>StopEverything is both a CoverageException and a SkipTest, but the SkipTest
+    is the more important aspect.  To fix the problem, I did this,
+    <a href="https://twitter.com/nedbat/status/821882092405530624">but felt silly</a>:</p>
+
+<code lang="python"><![CDATA[
+def test_sort_report_by_invalid_option(self):
+    msg = "Invalid sorting option: 'Xyzzy'"
+    with self.assertRaisesRegex(CoverageException, msg):
+        try:
+            coverage.report(sort='Xyzzy')
+        except SkipTest:
+            raise SkipTest()
+]]></code>
+
+<p>I knew this couldn't be the right solution.  Talking it over with some
+    co-workers (OK, I was griping and whining), we came up with the better
+    solution. I realized that CoverageException is used in the code base to
+    mean, "an ordinary problem from inside Coverage.py."  StopEverything is not
+    an ordinary problem.  It reminded me of typical mature exception
+    hierarchies, where the main base class, like Exception, isn't actually the
+    root of the hierarchy.  There are always a few special-case classes that
+    derive from a real root higher up.</p>
+
+<p>For example, in Python, the classes Exception, SystemExit, and
+    KeyboardInterrupt all derive from BaseException. This is so "except
+    Exception" won't interfere with SystemExit and KeyboardInterrupt, two
+    exceptions meant to forcefully end the program.</p>
+
+<p>I needed the same thing here, for the same reason.  I want to have a way to
+    catch "all" exceptions without interfering with the exceptions that mean
+    "end now!"  I adjusted my exception hierarchy, and now the code looks like
+    this:</p>
+
+<code lang="python"><![CDATA[
+class BaseCoverageException(Exception):
+    """The base of all Coverage exceptions."""
+    pass
+
+class CoverageException(BaseCoverageException):
+    """A run-of-the-mill exception specific to coverage.py."""
+    pass
+
+class StopEverything(
+        BaseCoverageException,
+        getattr(unittest, 'SkipTest', Exception)
+    ):
+    """An exception that means everything should stop."""
+    pass
+]]></code>
+
+<p>Now I could remove the weird SkipTest dance in that test.  The catch clause
+    in my main() function changes from CoverageException to
+    BaseCoverageException, and things work great.  The end...?</p>
+
+<p>One of the reasons I write this stuff down is because I'm hoping to get
+    feedback that will improve my solution, or advance my understanding.  As I
+    lay out this story, I can imagine points of divergence: places in this
+    narrative where a reader might object and say, "you should blah blah blah."
+    For example:</p>
+
+<ul>
+
+    <li>"You shouldn't bother supporting 2.6."  Perhaps not, but that doesn't
+        change the issues explored here, just makes them less likely.</li>
+
+    <li>"You shouldn't bother supporting Jython."  Ditto.</li>
+
+    <li>"You should just have dependencies for the things you need, like
+        unittest2." Coverage.py has a long-standing tradition of having no
+        dependencies.  This is driven by a desire to be available to people
+        porting to new platforms, without having to wait for the dependencies
+        to be ported.</li>
+
+    <li>"You should have more realistic integration testing."  I agree. I'm
+        looking for ideas about how to test the scenario of having no test
+        dependencies installed.</li>
+
+</ul>
+
+<p>That's my whole tale.  Ideas are welcome.</p>
+    
+</body>
+</entry>
+</blog>
