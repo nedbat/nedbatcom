@@ -261,7 +261,142 @@ class StopEverything(
 </ul>
 
 <p>That's my whole tale.  Ideas are welcome.</p>
-    
+
+<p>Update: the <a href='blog/201702/a_tale_of_two_exceptions_continued.html'>story continues</a>,
+    but fair warning: metaclasses ahead!</p>
+
 </body>
 </entry>
+
+
+
+
+<entry when='20170223T063600'>
+<title>A tale of two exceptions, continued</title>
+<category>python</category>
+<body>
+
+<p>In my last blog post, <a href='blog/201701/a_tale_of_two_exceptions.html'>A tale of two exceptions</a>,
+    I laid out the long drawn-out process of trying to get a certain exception
+    to make tests skip in my test runner.  I ended on a solution I liked at the
+    time.</p>
+
+<p>But it still meant having test-specific code in the product code, even if it
+    was only a single line to set a base class for an exception. It didn't feel
+    right to say "SkipTest" in the product code, even once.</p>
+    
+<p>In that blog post, I said,</p>
+
+<quote><p>One of the reasons I write this stuff down is because I'm hoping to get
+    feedback that will improve my solution, or advance my understanding.
+    ... a reader might object and say, "you should blah blah blah."</p></quote>
+
+<p>Sure enough, Ionel said,</p>
+
+<quote><p>A better way is to handle this in coverage's test suite. Possible
+    solution: wrap all your tests in a decorator that reraises with a
+    SkipException.</p></quote>
+
+<p>I liked this idea.  The need was definitely a testing need, so it should be
+    handled in the tests.  First I tried doing something with pytest to get it
+    to do the conversion of exceptions for me.  But I couldn't find a way to
+    make it work.</p>
+
+<p>So: how to decorate all my tests?  The decorator itself is fairly simple.
+    Just call the method with all the arguments, and return its value, but if
+    it raises StopEverything, then raise SkipTest instead:</p>
+
+<code lang="python"><![CDATA[
+def convert_skip_exceptions(method):
+    """A decorator for test methods to convert StopEverything to SkipTest."""
+    def wrapper(*args, **kwargs):
+        """Run the test method, and convert exceptions."""
+        try:
+            result = method(*args, **kwargs)
+        except StopEverything:
+            raise unittest.SkipTest("StopEverything!")
+        return result
+    return wrapper
+]]></code>
+
+<p>But decorating all the test methods would mean adding a
+    @convert_skip_exceptions line to hundreds of test methods, which I clearly
+    was not going to do.  I could use a class decorator, which meant I would
+    only have to add a decorator line to dozens of classes.  That also felt
+    like too much to do and remember to do in the future when I write new test
+    classes.</p>
+
+<p>It's not often I say this, but: it was time for a metaclass.  Metaclasses
+    are one of the darkest magics Python has, and they can be mysterious. At
+    heart, they are simple, but in a place you don't normally think to look.
+    Just as a class is used to make objects, a metaclass is used to make
+    classes. Since there's something I want to do everytime I make a new class
+    (decorate its methods), a metaclass gives me the tools to do it.</p>
+
+<code lang="python"><![CDATA[
+class SkipConvertingMetaclass(type):
+    """Decorate all test methods to convert StopEverything to SkipTest."""
+    def __new__(mcs, name, bases, attrs):
+        for attr_name, attr_value in attrs.items():
+            right_name = attr_name.startswith('test_')
+            right_type = isinstance(attr_value, types.FunctionType)
+            if right_name and right_type:
+                attrs[attr_name] = convert_skip_exceptions(attr_value)
+
+        return super(SkipConvertingMetaclass, mcs).__new__(mcs, name, bases, attrs)
+]]></code>
+
+<p>There are details here that you can skip as incantations if you like.
+    Classes are all instances of "type", so if we want to make a new thing that
+    makes classes, it derives from type to get those same behaviors.  The
+    method that gets called when a new class is made is __new__.  It gets
+    passed the metaclass itself (just as classmethods get cls and instance
+    methods get self), the name of the class, the tuple of base classes, and a
+    dict of all the names and values defining the class (the methods,
+    attributes, and so on).</p>
+
+<p>The important part of this metaclass is what happens in the __new__ method.
+    We look at all the attributes being defined on the class.  If the name
+    starts with "test_", and it's a function, then it's a test method, and we
+    decorate the value with our decorator.  Remember that @-syntax is just a
+    shorthand for passing the function through the decorator, which we do here
+    the old-fashioned way.</p>
+
+<p>Then we use super to let the usual class-defining mechanisms in "type" do
+    their thing.  Now all of our test methods are decorated, with no explicit
+    @-lines in the code. There's only one thing left to do: make sure all of
+    our test classes use the metaclass:</p>
+
+<code lang="python"><![CDATA[
+CoverageTestMethodsMixin = SkipConvertingMetaclass('CoverageTestMethodsMixin', (), {})
+
+class CoverageTest(
+    ... some other mixins ...
+    CoverageTestMethodsMixin,
+    unittest.TestCase,
+):
+    """The base class for all coverage.py test classes."""
+]]></code>
+
+<p>Metaclasses make classes, just the way classes make instances: you call
+    them.  Here we call our with the arguments it needs (class name, base
+    classes, and attributes) to make a class called
+    CoverageTestMethodsMixin.</p>
+
+<p>Then we use CoverageTestMethodsMixin as one of the base classes of
+    CoverageTest, which is the class used to derive all of the actual test
+    classes.</p>
+
+<p>Pro tip: if you are using unittest-style test classes, make a single class to
+    be the base of all of your test classes, you will be glad.</p>
+
+<p>After all of this class machinations, what have we got? Our test classes all
+    derive from a base class which uses a metaclass to decorate all the test
+    methods.  As a result, any test which raises StopEverything will instead
+    raise SkipTest to the test runner, and the test will be skipped.  There's
+    now no mention of SkipTest in the product code at all.  Better.</p>
+
+</body>
+</entry>
+
 </blog>
