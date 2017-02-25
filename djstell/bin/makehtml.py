@@ -69,7 +69,7 @@ class CmdLine(object):
             )
 
     def do_wf(self):
-        self.BASE = 'http://nedbatchelder.com'
+        self.BASE = '//nedbatchelder.com'
         self.HTACCESS = 'webfaction.htaccess'
         self.PHPINI = 'webfaction.php.ini'
         self.FTP = dict(
