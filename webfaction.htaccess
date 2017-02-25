@@ -27,9 +27,9 @@ RewriteEngine on
 
 # canonicalize the host name (no prefix)
 RewriteCond %{HTTP_HOST} \.nedbatchelder\.com$ [NC]
-RewriteRule .? http://nedbatchelder.com%{REQUEST_URI} [R=301,L]
+RewriteRule .? https://nedbatchelder.com%{REQUEST_URI} [R=301,L]
 RewriteCond %{HTTP_HOST} \.stellated\.com$ [NC]
-RewriteRule .? http://stellated.com%{REQUEST_URI} [R=301,L]
+RewriteRule .? https://stellated.com%{REQUEST_URI} [R=301,L]
 
 # Tags moved.
 RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]

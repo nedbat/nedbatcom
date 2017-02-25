@@ -185,7 +185,7 @@ class CmdLine(object):
             method='ping',
             args=[
                 'Ned Batchelder',
-                'http://nedbatchelder.com/blog'
+                'https://nedbatchelder.com/blog'
                 ]
             )
 

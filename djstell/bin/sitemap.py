@@ -1,7 +1,7 @@
 import cPickle as pickle
 import re
 
-host = 'http://nedbatchelder.com/'
+host = 'https://nedbatchelder.com/'
 
 re_ext = re.compile("|".join([ '\\.'+e+'$' for e in 'html jpg png gif xml py'.split()]))
 
