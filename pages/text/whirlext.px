@@ -836,7 +836,7 @@ just like a Python type.</p>
 [build]
 compiler = mingw32
 
-- Making python libs:
+- Making Python libs:
 \app\pexports-0.42h\bin\pexports.exe \windows\system32\python24.dll > python24.def
 dlltool - -dllname python24.dll - -def python24.def - -output-lib \python24\libs\libpython24.a
 

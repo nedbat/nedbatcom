@@ -85,7 +85,7 @@ Parser algorithm: LALR, LL, recursive descent, etc.
 Parser is expressed as: separate file (.y eg), Python code, docstrings.
 When is parser generated: runtime, build time.
 Result of parser: token list, AST, actions executed.
-Pure python: yes, no at build, no at run.
+Pure Python: yes, no at build, no at run.
 Other tools needed: bison, etc.
 Activity: how recently has it been updated?
 License: what are the terms of using the code?
@@ -106,7 +106,7 @@ The lexer uses Python regular expressions.
 <p>
 <a href='http://pyparsing.wikispaces.com/'>pyparsing</a>
 <!-- ptmcg@users.sourceforge.net -->
-<br/>Direct parser objects in python, built to parallel the grammar.
+<br/>Direct parser objects in Python, built to parallel the grammar.
 <br/>Updated: June 2011, version 1.5.6.
 <br/>License: MIT license.
 </p>
@@ -269,7 +269,7 @@ despite the name.
 <p>
 <a href='http://staff.washington.edu/sabbey/py_dparser/'>DParser for Python</a>
 <!-- sabbey@u.washington.edu -->
-<br/>Uses python docstrings as input to
+<br/>Uses Python docstrings as input to
 <a href='http://dparser.sourceforge.net/'>DParser</a>, which is implemented in C.
 DParser is a scannerless GLR parser.
 <br/>Updated: September 2004, version 1.13.
@@ -308,7 +308,7 @@ with semantic rules implemented as Python methods.
 <br/>Parses: SLR, LR(1) and LALR(1)
 <br/>License: GPL
 <br/>Updated: June 2004.
-<br/>Quirks: Uses python strings to declare the grammar.
+<br/>Quirks: Uses Python strings to declare the grammar.
 </p>
 
 <p>

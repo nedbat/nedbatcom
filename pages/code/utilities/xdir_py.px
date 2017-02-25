@@ -105,7 +105,7 @@ the list of possible destinations are printed and the directory is not changed.
 You can add a last argument of .3 (for example) to choose the third choice in the list,
 or .-1 (for example) to choose the last choice in the list.</p>
 
-<p>Unfortunately, a python script (or any executed program) cannot change the directory in
+<p>Unfortunately, a Python script (or any executed program) cannot change the directory in
 the command window.  So xdir.py actually writes DOS commands to stdout, and a separate helper,
 xdir.cmd, collects those commands and executes them as a shell script.</p>
 

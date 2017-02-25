@@ -117,11 +117,11 @@ Or, people skip tests, and code breaks.
 Monitor all the time, get a baseline for your machine. istatmenus, menu meters.  Have a
 constant window into your machine, so you can notice when things change.
 
-But first: profile. Guessing isn't actionable.  Problem: python profiler doesn't show
+But first: profile. Guessing isn't actionable.  Problem: Python profiler doesn't show
 anything about i/o, only cpu time.
 
 Unix time command measures cpu and clock, a good first whack at profiling.  If cpu,
-use python profiling, if I/O, you look somewhere else.
+use Python profiling, if I/O, you look somewhere else.
 -->
 
 <p>If you have a db, that's the first place to look.  "top" can find the processes with
