@@ -46,7 +46,7 @@ class CmdLine(object):
         self.use_processes = True
 
     def do_local(self):
-        self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
+        self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = '../www'
         self.HTACCESS = 'local.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
@@ -55,18 +55,6 @@ class CmdLine(object):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
         self.ROOT = 'html_local'
         self.PHP_INCLUDE = False
-
-    def do_tch(self):
-        self.BASE = 'http://nedbatchelder.com'
-        self.HTACCESS = 'totalchoice.htaccess'
-        self.FTP = dict(
-            host='72.9.232.138', hostdir='www',
-            user='nedbatc', password=password.TCH,
-            src='html',
-            text=self.text_ext,
-            binary=self.binary_ext,
-            md5file='totalchoice.md5',
-            )
 
     def do_wf(self):
         self.BASE = '//nedbatchelder.com'
@@ -82,7 +70,7 @@ class CmdLine(object):
             )
 
     def do_nednet(self):
-        self.BASE = 'http://nedbatchelder.net'
+        self.BASE = '//nedbatchelder.net'
         self.HTACCESS = 'nednet.htaccess'
         self.FTP = dict(
             host='nedbatchelder.net', hostdir='nedbatchelder.net',
