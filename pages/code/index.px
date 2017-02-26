@@ -13,6 +13,7 @@
 <what when='20071012T111400'>Added Aptus.</what>
 <what when='20090613T215000'>Move coverage.</what>
 <what when='20120105T232200'>Belatedly added Caveman.</what>
+<what when='20170226T072700'>Change where coverage is.</what>
 </history>
 
 
@@ -28,10 +29,12 @@ Don't make me regret having done this.
 Thanks.
 </p>
 
+<p>My main side project is <a href='https://pypi.python.org/pypi/coverage'>coverage.py</a>,
+    with <a href='https://coverage.readthedocs.io'>documentation here</a>.</p>
+
 <p>Here you will find:</p>
 
 <ul>
-<li><a href='code/coverage'>Coverage.py</a>, for measuring Python code coverage.</li>
 <li><a href='code/aptus'>Aptus</a>, a Mandelbrot set explorer.</li>
 <li><a href='code/cog/index.html'>Cog</a>, a code generation tool.</li>
 <li><a href='code/caveman/index.html'>Caveman</a>, a utility for testing HTML5 cache manifests.</li>
@@ -45,5 +48,3 @@ Thanks.
 </ul>
 
 </page>
-
-
