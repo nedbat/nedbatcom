@@ -12,6 +12,10 @@
         <script src="{{s}}"></script>
     {% endfor %}
 
+    {% if style %}
+        <style>{{style}}</style>
+    {% endif %}
+
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}

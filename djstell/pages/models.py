@@ -48,7 +48,8 @@ class Article(models.Model, ModelMixin):
     lang = models.CharField(max_length=5)
     copyright = models.TextField()
     meta = models.TextField()
-    scripts = models.TextField()    # space-separated script urls
+    scripts = models.TextField()    # Space-separated script URLs.
+    style = models.TextField()      # Extra css for the page.
 
     def __repr__(self):
         return "<Article %r>" % self.title
@@ -93,7 +94,10 @@ class Article(models.Model, ModelMixin):
         if p.get('index', 'yes') == "no":
             art.meta += "<meta name='ROBOTS' content='NOINDEX'>"
 
+        # These should really be sub-elements, because how come blog entries
+        # have <title> and <body>, but page doesn't? 
         art.scripts = p.get('scripts', '')
+        art.style = p.get('style', '')
         art.save()
 
         # Save the history.

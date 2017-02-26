@@ -160,6 +160,7 @@ def article(request, path):
     c['copyright'] = a.copyright
     c['meta'] = a.meta
     c['scripts'] = a.scripts.split()
+    c['style'] = a.style
     edits = list(a.whatwhen_set.all().order_by('when'))
     if edits:
         c['min_date'] = edits[0].when
