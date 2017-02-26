@@ -22,6 +22,10 @@ DirectoryIndex home.php index.php index.html index.htm
    SetHandler default-handler
 </FilesMatch>
 
+## Add headers
+# hmm, doesn't work: https://community.webfaction.com/questions/20710/custom-header-but-not-sure-if-apache-or-nginx
+#Header add Content-Security-Policy-Report-Only "default-src https: 'unsafe-inline' 'unsafe-eval'; report-uri https://nedbat.report-uri.io/r/default/csp/reportOnly"
+
 ## Rewrite rules
 RewriteEngine on 
 
