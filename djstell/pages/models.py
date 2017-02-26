@@ -20,6 +20,7 @@ else:
     def save_plain_text(elt):
         return
 
+
 class ModelMixin:
     def get_absolute_url(self):
         purl = self.permaurl()
@@ -34,6 +35,7 @@ class ModelMixin:
         except Exception, e:
             raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
 
+
 class Article(models.Model, ModelMixin):
     """ An article represented by a .px file.
     """
@@ -46,6 +48,7 @@ class Article(models.Model, ModelMixin):
     lang = models.CharField(max_length=5)
     copyright = models.TextField()
     meta = models.TextField()
+    scripts = models.TextField()    # space-separated script urls
 
     def __repr__(self):
         return "<Article %r>" % self.title
@@ -90,6 +93,7 @@ class Article(models.Model, ModelMixin):
         if p.get('index', 'yes') == "no":
             art.meta += "<meta name='ROBOTS' content='NOINDEX'>"
 
+        art.scripts = p.get('scripts', '')
         art.save()
 
         # Save the history.
@@ -118,6 +122,7 @@ class Section(models.Model):
     sitemap = models.BooleanField(default=True)
     article = models.ForeignKey(Article)
 
+
 class WhatWhen(models.Model):
     """ An edit indicator, many to one with pages.
     """
@@ -127,6 +132,7 @@ class WhatWhen(models.Model):
 
     def __repr__(self):
         return "<WhatWhen %s: %r>" % (self.when, self.what)
+
 
 class Tag(models.Model, ModelMixin):
     """ A tag for blog entries.
@@ -187,6 +193,7 @@ class Link(models.Model, ModelMixin):
                     link.sidebar = True
                     link.save()
 
+
 # Entries have drafts, and it's almost always right to exclude them, so we
 # have custom managers.
 class DraftsManager(models.Manager):
@@ -196,6 +203,7 @@ class DraftsManager(models.Manager):
 class NoDraftsManager(models.Manager):
     def get_query_set(self):
         return super(NoDraftsManager, self).get_query_set().filter(draft=False)
+
 
 class Entry(models.Model, ModelMixin):
     """ A blog entry, slurped from a .bx file.
@@ -271,6 +279,7 @@ class Entry(models.Model, ModelMixin):
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")
 
+
 class Via(models.Model):
     """ A source for a blog entry, either a link_id or an href and text.
     """
@@ -278,6 +287,7 @@ class Via(models.Model):
     href = models.CharField(max_length=1000, null=True)
     text = models.CharField(max_length=200, null=True)
     entry = models.ForeignKey(Entry)
+
 
 # Forms to deal with properly:
 #   <a href='blog/200409.html#e20040928T070525'>

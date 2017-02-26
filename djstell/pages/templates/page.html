@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width">
     {% block meta %}{{meta|safe}}{% endblock %}
 
+    {% for s in scripts %}
+        <script src="{{s}}"></script>
+    {% endfor %}
+
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}
