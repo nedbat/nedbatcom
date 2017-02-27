@@ -28,6 +28,7 @@ class CmdLine(object):
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
         self.BASE = None
+        self.EXT_BASE = None
         self.ROOT = r'html'
         self.HTACCESS = None
         self.PHPINI = None
@@ -58,6 +59,7 @@ class CmdLine(object):
 
     def do_wf(self):
         self.BASE = '//nedbatchelder.com'
+        self.EXT_BASE = 'https://nedbatchelder.com'
         self.HTACCESS = 'webfaction.htaccess'
         self.PHPINI = 'webfaction.php.ini'
         self.FTP = dict(
@@ -81,10 +83,16 @@ class CmdLine(object):
             md5file='nedbat.md5',
             )
 
-    def generate(self, baseurl, dst):
+    def generate(self, dst):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
         settings.WEB_ROOT = dst
-        settings.BASE = baseurl
+        settings.BASE = self.BASE
+        if self.EXT_BASE:
+            settings.EXT_BASE = self.EXT_BASE
+        elif ':' in self.BASE:
+            settings.EXT_BASE = self.BASE
+        else:
+            settings.EXT_BASE = 'http:' + self.BASE
         settings.PHP = False
         settings.PHP_INCLUDE = self.PHP_INCLUDE
 
@@ -163,7 +171,7 @@ class CmdLine(object):
 
     @timed
     def do_make(self):
-        self.generate(self.BASE, self.ROOT)
+        self.generate(self.ROOT)
         self.copy_verbatim(self.ROOT)
         if self.HTACCESS:
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
