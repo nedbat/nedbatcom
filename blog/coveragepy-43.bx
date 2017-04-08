@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+
+<entry when='20161227T162300'>
+<title>Coverage.py 4.3</title>
+<category>coverage</category>
+<body>
+
+<p>The latest Coverage.py release:
+    <a href="https://pypi.python.org/pypi/coverage/4.3">Coverage.py 4.3</a> is
+    ready.</p>
+
+<p>This version adds --skip-covered support to the HTML report, implements
+    sys.excepthook support, reads configuration from tox.ini, and contains
+    improvements that close 18 issues.  The <a href='https://bitbucket.org/ned/coveragepy/src/tip/CHANGES.rst'>complete
+    change history</a> is in the source.</p>
+
+<p>A special shout-out to <a href="http://dachary.org/">Loïc Dachary</a>: he
+    read my blog post about <a href='/blog/201612/who_tests_what.html'>Who Tests What</a>,
+    and got interested in contributing.  And I mean, really interested.
+    Suddenly he seemed to be everywhere, making pull requests and commenting on
+    issues. In a week, I had 122 emails due to his activity.  That energy
+    really helped push me along, and is a big reason why this release happened,
+    five months after 4.2.</p>
+
+<p>Random trivia: this is the 30th version on PyPI; it's the 57th if you
+    include pre-releases.</p>
+
+</body>
+</entry>
+
+<entry when='20161228T103700'>
+<title>D'oh: Coverage.py 4.3.1</title>
+<category>coverage</category>
+<body>
+
+<p>Yesterday I released five months' of fixes as Coverage.py 4.3, and today I
+    am releasing
+    <a href="https://pypi.python.org/pypi/coverage/4.3.1">Coverage.py 4.3.1</a>.
+    This is not because releasing is fun, but because releasing is
+    error-prone.</p>
+
+<p>Two bad problems were very quickly reported by my legions of adoring fans,
+    and they are now fixed.  I'll sheepishly tell you that one of them was a
+    UnicodeError in a bit of too-cute code in setup.py.</p>
+
+<p>Perhaps I should have released a 4.3 beta.  But my experience in the past is
+    that betas do not get the kind of attention that final releases do.  Partly
+    this is just due to people's attention budget: lots of people won't install
+    a beta.  But it's also due to continuous integration servers.  When a final
+    release is out, hundreds if not thousands of CI servers will install it
+    automatically as part of the next triggered build.  They won't install
+    pre-releases.</p>
+
+<p>So there's a not-great choice to make: should I put out a beta, and hope
+    that people try it and tell me what went wrong? Will enough people in
+    enough disparate environments take that step to truly test the release?</p>
+
+<p>Or should I skip that step, jump straight to a final release, and prepare
+    instead to quickly fix whatever problems occur?  I chose the latter course
+    for 4.3.  I guess I could use meta-feedback about which form of feedback I
+    should pursue in the future...</p>
+
+</body>
+</entry>
+
+<entry when='20170116T183700' slug='coveragepy_432_and_433'>
+<title>Coverage.py 4.3.2 and 4.3.3, and 4.3.4</title>
+<category>coverage</category>
+<body>
+
+<p>A <a href="http://coverage.readthedocs.io/en/coverage-4.3.2/changes.html#version-4-3-2-2017-01-16">handful of fixes</a>
+    for Coverage.py today: <a href="https://pypi.python.org/pypi/coverage/4.3.2">v4.3.2</a>.
+    Having active contributors certainly makes it easier to move code more quickly.</p>
+
+<p>...and then it turns out, 4.3.2 wouldn't run on Python 2.6. So
+    <a href="http://coverage.readthedocs.io/en/coverage-4.3.3/changes.html#version-4-3-3-2017-01-17">quick like a bunny</a>,
+    here comes <a href="https://pypi.python.org/pypi/coverage/4.3.3">Coverage.py version 4.3.3</a>.</p>
+
+<p>...and then that fix broke other situations on all sorts of Python versions, so
+    <a href="https://pypi.python.org/pypi/coverage/4.3.4">Coverage.py version 4.3.4</a>.</p>
+
+
+</body>
+</entry>
+
+</blog>

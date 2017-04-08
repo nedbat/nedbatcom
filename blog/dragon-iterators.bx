@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161217T100813'>
+<title>Dragon iterators</title>
+<category></category>
+<body>
+
+<p><a href="http://adventofcode.com">Advent of Code</a> is running again this
+    year, and I love it. It reveals a new two-part Santa-themed puzzle each day
+    for the first 25 days in December.  The puzzles are algorithmically
+    slanted, and the second part is only revealed after you've solved the first
+    part. The second part often requires you to refactor your code, or deal
+    with growing computational costs.  </p>
+
+<p>I've long been fascinated with
+    <a href="/text/iter.html">Python's iteration tools</a>, so 
+    <a href="http://adventofcode.com/2016/day/16">Day 16: Dragon Checksum</a>
+    was especially fun.</p>
+
+<p>Here's an adapted version of the first part of the directions:</p>
+
+<quote>
+
+    <p>You'll need to use a modified
+        <a href="https://en.wikipedia.org/wiki/Dragon_curve">dragon curve</a>.
+        Start with an appropriate initial string of 0's and 1's. Then,
+        for as long as you need, repeat the following steps:</p>
+
+    <ul>
+        <li>Call the data you have at this point, A.</li>
+        <li>Make a copy of A; call this copy B.</li>
+        <li>Reverse the order of the characters in B.</li>
+        <li>In B, replace all instances of 0 with 1 and all 1's with 0.</li>
+        <li>The resulting data is A, then a single 0, then B.</li>
+    </ul>
+
+    <p>For example, after a single step of this process,</p>
+
+    <ul>
+        <li>1 becomes 100.</li>
+        <li>0 becomes 001.</li>
+        <li>11111 becomes 11111000000.</li>
+        <li>111100001010 becomes 1111000010100101011110000.</li>
+    </ul>
+
+</quote>
+
+<p>We have a few options for how to produce these strings.  My first version
+    took an initial seed, and a number of steps to iterate:</p>
+
+<code lang='py'><![CDATA[
+ZERO_ONE = str.maketrans("01", "10")
+
+def reverse01(s):
+    """Reverse a string, and swap 0 and 1."""
+    return s.translate(ZERO_ONE)[::-1]
+
+def dragon_iterative(seed, steps):
+    d = seed
+    for _ in range(steps):
+        d = d + "0" + reverse01(d)
+    return d
+]]></code>
+
+<p>(BTW, I also wrote tests as I went, but I'll omit those for brevity.  The
+    truly curious I'm sure can find the full code on GitHub.) This is a simple
+    iterative function.</p>
+
+<p>The problem statement sounds like it would lend itself well to recursion, so
+    let's try that too:</p>
+
+<code lang='py'><![CDATA[
+def dragon_recursive(seed, steps):
+    if steps == 0:
+        return seed
+    else:
+        d = dragon_recursive(seed, steps-1)
+        return d + "0" + reverse01(d)
+]]></code>
+
+<p>Both of these functions have the same downside: they produce complete
+    strings.  One thing I know about Advent of Code is that they love to give
+    you problems that can be brute-forced, but then turn up the dials high
+    enough that you need a cleverer algorithm.</p>
+
+<p>I don't know if this will be needed, but let's try writing a recursive
+    generator that doesn't create the entire string before returning.  This was
+    tricky to write. In addition to the seed and the steps, we'll track whether
+    we are going forward (for the first half of a step), or backward for the
+    second half:</p>
+
+<code lang='py'><![CDATA[
+def dragon_gen(seed, steps, reverse=False):
+    if reverse:
+        if steps == 0:
+            yield from reverse01(seed)
+        else:
+            yield from dragon_gen(seed, steps-1, reverse=not reverse)
+            yield "1"
+            yield from dragon_gen(seed, steps-1, reverse=reverse)
+    else:
+        if steps == 0:
+            yield from seed
+        else:
+            yield from dragon_gen(seed, steps-1, reverse=reverse)
+            yield "0"
+            yield from dragon_gen(seed, steps-1, reverse=not reverse)
+]]></code>
+
+<p>If you are still using Python 2, the "yield from" may be new to you: it
+    yields all the values from an iterable.  This function works, but feels
+    unwieldy.  There may be a way to fold the similar lines together more
+    nicely, but maybe not.</p>
+
+<p>In any case, all of these function still have a common problem: they require
+    the caller to specify the number of steps to execute.  The actual Advent of
+    Code problem instead tells us how many characters of result we need.
+    There's a simple way to calculate how many steps to run based on the length
+    of the seed and the desired length of the result.  But more interesting is
+    an infinite dragon generator:</p>
+
+<code lang='py'><![CDATA[
+def dragon_infinite(seed):
+    """Generate characters of dragon forever."""
+    yield from seed
+    for steps in itertools.count():
+        yield "0"
+        yield from dragon_gen(seed, steps, reverse=True)
+]]></code>
+
+<p>This relies on the fact that the first part of an N-step dragon string is
+    the N-1-step dragon string.  Each time around the for-loop, we've produced
+    a dragon string for a particular number of steps.  To extend it, we just
+    have to output the "0", and then a reverse version of the string we've
+    already produced.  It's a little surprising that this only calls dragon_gen
+    with reverse=True, but discovering that is part of the fun of these sorts
+    of exercises.</p>
+    
+<p>Now we can write dragon_finite, to give us a result string of a desired
+    length:</p>
+
+<code lang='py'><![CDATA[
+def dragon_finite(seed, length):
+    return "".join(itertools.islice(dragon_infinite(seed), length))
+]]></code>
+
+<p>The second part of the puzzle involved a checksum over the result, which I
+    wrote in a simple way.  It meant that although I had written generators
+    which could produce the dragon string a character at a time, I was using
+    them to create a complete string before computing the checksum.  I could
+    have continued down this path and written a checksum function that didn't
+    need a complete string, but this is as far as I got.</p>
+
+<p>One other implementation I didn't tackle: a function that could produce the
+    Nth character in the dragon string, given the seed and N, but without
+    generating the entire sequence.</p>
+
+</body>
+</entry>
+</blog>

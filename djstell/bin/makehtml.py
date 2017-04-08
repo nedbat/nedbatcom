@@ -35,6 +35,7 @@ class CmdLine(object):
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
         self.BASE = None
+        self.EXT_BASE = None
         self.ROOT = r'html'
         self.HTACCESS = None
         self.PHPINI = None
@@ -43,7 +44,7 @@ class CmdLine(object):
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess *.ini
-            *.svg
+            *.svg *.ipynb
             '''
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
@@ -53,7 +54,7 @@ class CmdLine(object):
         self.use_processes = True
 
     def do_local(self):
-        self.BASE = 'http://%s' % (socket.gethostbyname(socket.gethostname()))
+        self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = '../www'
         self.HTACCESS = 'local.htaccess'
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
@@ -63,20 +64,9 @@ class CmdLine(object):
         self.ROOT = 'html_local'
         self.PHP_INCLUDE = False
 
-    def do_tch(self):
-        self.BASE = 'http://nedbatchelder.com'
-        self.HTACCESS = 'totalchoice.htaccess'
-        self.FTP = dict(
-            host='72.9.232.138', hostdir='www',
-            user='nedbatc', password=password.TCH,
-            src='html',
-            text=self.text_ext,
-            binary=self.binary_ext,
-            md5file='totalchoice.md5',
-            )
-
     def do_wf(self):
-        self.BASE = 'http://nedbatchelder.com'
+        self.BASE = '//nedbatchelder.com'
+        self.EXT_BASE = 'https://nedbatchelder.com'
         self.HTACCESS = 'webfaction.htaccess'
         self.PHPINI = 'webfaction.php.ini'
         self.FTP = dict(
@@ -89,7 +79,7 @@ class CmdLine(object):
             )
 
     def do_nednet(self):
-        self.BASE = 'http://nedbatchelder.net'
+        self.BASE = '//nedbatchelder.net'
         self.HTACCESS = 'nednet.htaccess'
         self.PHP_INCLUDE = False
         self.FTP = dict(
@@ -101,10 +91,16 @@ class CmdLine(object):
             md5file='nedbat.md5',
             )
 
-    def generate(self, baseurl, dst):
+    def generate(self, dst):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
         settings.WEB_ROOT = dst
-        settings.BASE = baseurl
+        settings.BASE = self.BASE
+        if self.EXT_BASE:
+            settings.EXT_BASE = self.EXT_BASE
+        elif ':' in self.BASE:
+            settings.EXT_BASE = self.BASE
+        else:
+            settings.EXT_BASE = 'http:' + self.BASE
         settings.PHP = False
         settings.PHP_INCLUDE = self.PHP_INCLUDE
 
@@ -144,6 +140,7 @@ class CmdLine(object):
                 *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
                 *.txt *.ida *.php *.ico *.htaccess *.xml
                 *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
+                *.ipynb
                 '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
@@ -190,7 +187,7 @@ class CmdLine(object):
 
     @timed
     def do_make(self):
-        self.generate(self.BASE, self.ROOT)
+        self.generate(self.ROOT)
         self.copy_verbatim(self.ROOT)
         for sassfile in glob.glob("style/[a-z]*.scss"):
             self.run_sass(sassfile, self.ROOT)
@@ -214,7 +211,7 @@ class CmdLine(object):
             method='ping',
             args=[
                 'Ned Batchelder',
-                'http://nedbatchelder.com/blog'
+                'https://nedbatchelder.com/blog'
                 ]
             )
 

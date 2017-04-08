@@ -22,14 +22,18 @@ DirectoryIndex home.php index.php index.html index.htm
    SetHandler default-handler
 </FilesMatch>
 
+## Add headers
+# hmm, doesn't work: https://community.webfaction.com/questions/20710/custom-header-but-not-sure-if-apache-or-nginx
+#Header add Content-Security-Policy-Report-Only "default-src https: 'unsafe-inline' 'unsafe-eval'; report-uri https://nedbat.report-uri.io/r/default/csp/reportOnly"
+
 ## Rewrite rules
 RewriteEngine on 
 
 # canonicalize the host name (no prefix)
 RewriteCond %{HTTP_HOST} \.nedbatchelder\.com$ [NC]
-RewriteRule .? http://nedbatchelder.com%{REQUEST_URI} [R=301,L]
+RewriteRule .? https://nedbatchelder.com%{REQUEST_URI} [R=301,L]
 RewriteCond %{HTTP_HOST} \.stellated\.com$ [NC]
-RewriteRule .? http://stellated.com%{REQUEST_URI} [R=301,L]
+RewriteRule .? https://stellated.com%{REQUEST_URI} [R=301,L]
 
 # Tags moved.
 RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]

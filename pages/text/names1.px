@@ -12,7 +12,7 @@ to see them in their full glory.
 You can also watch the video of me presenting it:</p>
 
 <p align="center">
-<iframe width="500" height="369" src="http://www.youtube.com/embed/_AEJHKGk9ns" frameborder="0" allowfullscreen="allowfullscreen"/>
+<iframe width="500" height="369" src="https://www.youtube.com/embed/_AEJHKGk9ns" frameborder="0" allowfullscreen="allowfullscreen"/>
 </p>
 
 <p>Also, this is a re-working of an earlier piece with the same name:
@@ -130,7 +130,7 @@ x = x + y
 two lines are actually the same:</p><code lang="py">
 x += y
 x = x.__iadd__(y)
-</code><p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(y)",
+</code><p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(x, y)",
 because the method will not be found on the object itself, only on the class.)
 The meaning of += depends on the type of x, because that value provides the
 implementation of __iadd__ that will be used.</p><p>For numbers, += works just as you'd expect.  But lists give us another

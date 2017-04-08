@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170110T063454'>
+<title>Evil ninja module initialization</title>
+<category>python</category>
+<body>
+
+<p>A <a href="https://mail.python.org/pipermail/python-dev/2017-January/147129.html">question
+    about import styles</a> on the Python-Dev mailing list asked about imports
+    like this:</p>
+
+<code lang="python"><![CDATA[
+import os as _os
+]]></code>
+
+<p>Understanding why people do this is an interesting lesson in how modules
+    work.  A module is nothing more than a collection of names.  When you
+    define a name in a .py file, it becomes an attribute of the module, and is
+    then importable from the module.</p>
+
+<p>An underlying simplicity in Python is that many statements are really just
+    assignment statements in disguise.  All of these define the name X:</p>
+
+<code lang="python"><![CDATA[
+X = 17
+def X(): print("look!")
+import X
+]]></code>
+
+<p>When you create a module, you can make the name "X" importable from that
+    module by assigning to it, or defining it as a function.  You can also make
+    it importable by importing it yourself.</p>
+
+<p>Suppose your module looks like this:</p>
+
+<code lang="python"><![CDATA[
+# yourmodule.py
+import os
+
+def doit():
+    os.something_or_other()
+]]></code>
+
+<p>This module has two names defined in it: "doit", and "os".  Someone else can
+    now do this:</p>
+
+<code lang="python"><![CDATA[
+# someone.py
+from yourmodule import os
+
+# or worse, this imports os and doit:
+from yourmodule import *
+]]></code>
+
+<p>This bothers some people.  "os" is not part of the actual interface of
+    yourmodule.  That first import I showed prevents this leaking of your
+    imports into your interface.  Importing star doesn't pull in names starting
+    with underscores.  (Another solution is to
+    <a href="https://docs.python.org/3/tutorial/modules.html#importing-from-a-package">define __all__</a> in your module.)</p>
+
+<p>Most people though, don't worry about this kind of name leaking. Import-star
+    is discouraged anyway, and people know not to import os from other modules.
+    The solution of renaming os to _os just makes your code ugly for little
+    benefit.</p>
+
+<p>The part of the discussion thread that really caught my eye was Daniel
+    Holth's winking suggestion of the
+    <a href="https://mail.python.org/pipermail/python-dev/2017-January/147138.html">"evil ninja mode pattern"</a>
+    of module initialization:</p>
+
+<code lang="python"><![CDATA[
+def ninja():
+    global exported
+    import os
+    def exported():
+        os.do_something()
+
+ninja()
+del ninja
+]]></code>
+
+<p>What's going on here!?  Remember that def is an assignment statement like
+    any other.  When used inside a function, it defines a local name, as
+    assignment always does.  But an assignment in a function can define a
+    global name if the name is declared as global.  It's a little unusual to
+    see a global statement without an explicit assignment at the top-level, but
+    it works just fine.  The def statement defines a global "exported"
+    function, because the global statement told it to.  "os" is now a local in
+    our function, because again, the import statement is just another form of
+    assignment.</p>
+
+<p>So we define ninja(), and then execute it immediately.  This defines the
+    global "exported", and doesn't define a global "os".  The only problem is
+    the name "ninja" has been defined, which we can clean up with a del
+    statement.</p>
+
+<p>Please don't ever write code this way. It's a kind of over-defensiveness
+    that isn't needed in typical Python code.  But understanding what it does,
+    and why it does it, is a good way to flex your understanding of Python
+    workings.</p>
+
+<p>For more about how names (and values) work in Python, people seem to like
+    my PyCon talk, <a pref="text/names1.px"/>.</p>
+
+</body>
+</entry>
+</blog>

@@ -8,7 +8,7 @@ You can read the slides and text on this page, or open the <a href="text/unipain
 or watch the video:</p>
 
 <p align="center">
-<iframe width="500" height="369" src="http://www.youtube.com/embed/sgHbC6udIqc" frameborder="0" allowfullscreen="allowfullscreen"/>
+<iframe width="500" height="369" src="https://www.youtube.com/embed/sgHbC6udIqc" frameborder="0" allowfullscreen="allowfullscreen"/>
 </p>
 
 <p>Also, clicking the slide images will jump into the full presentation at that point.
@@ -204,7 +204,7 @@ special symbols will appear.</p>
     code that will accept any byte value, so it will never raise a
     UnicodeDecodeError.  That also means that it will happily decode data that
     isn't actually CP-1252, and produce garbage.</p><p>To get the file read properly, you should specify an encoding to use.
-    The open() function now has an optional encoding parameter.</p><h1>Pain relief</h1><figurep href="text/unipain/unipain.html#34"><img alt="Pain relief" scale="0.5" src="text/unipain_pix/033.png"/></figurep><p>OK, so how do we deal with all this pain? The good news it that the rules
+    The open() function now has an optional encoding parameter.</p><h1>Pain relief</h1><figurep href="text/unipain/unipain.html#34"><img alt="Pain relief" scale="0.5" src="text/unipain_pix/033.png"/></figurep><p>OK, so how do we deal with all this pain? The good news is that the rules
     to remember are simple, and they're the same for Python 2 and Python 3.</p><figurep href="text/unipain/unipain.html#35"><img alt="Pro tip #1: Unicode sandwich" scale="0.5" src="text/unipain_pix/034.png"/></figurep><p>As we saw with Fact of Life #1, the data coming into and going out of
     your program must be bytes.  But you don't need to deal with bytes on the
     inside of your program.  The best strategy is to decode incoming bytes as

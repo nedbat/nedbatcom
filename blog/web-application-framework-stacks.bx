@@ -24,10 +24,10 @@ in a blog), but here's the breakdown by layer:</p>
 <li>Our business logic: 3 stack frames</li>
 <li>Django's ORM: 4 stack frames</li>
 <li>Django's MySQL support: 2 stack frames</li>
-<li>MySQL's python layer: 3 stack frames</li>
+<li>MySQL's Python layer: 3 stack frames</li>
 </ul>
 
-<p>for a grand total of 19 python stack frames between Apache and MySQL,
+<p>for a grand total of 19 Python stack frames between Apache and MySQL,
 six of which are our code.
 I won't claim to know whether this is better or worse, just comparing.
 </p>

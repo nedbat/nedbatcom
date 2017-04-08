@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<page title="Two-part Rubik's algorithms"
+    scripts="/text/twistysim.js"
+    style="
+        .cubetoy {
+            width: 550px;
+            height: 350px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+        }
+    "
+    >
+<history>
+<what when='20170226T081300'>Created.</what>
+</history>
+
+<p>When Rubik's Cube first appeared decades ago, I jumped on it.  I bought one,
+    and spent an entire summer fiddling with it.  Over that summer, I developed
+    a solving technique that has stuck with me.  My technique is not the
+    fastest; that was never the goal.  My algorithms make sense to me because
+    they are constructed, and can be understood by that construction.</p>
+
+<p>I'm not going to explain an entire solution technique here.  I want to
+    explain how some algorithms are constructed.  I'm not claiming this
+    construction technique is unique to me, though I did develop it for myself
+    that summer long ago.</p>
+
+
+<h1>Algorithms</h1>
+
+<p>An algorithm is a sequence of turns that accomplishes a useful change to the
+    cube, usually a small change.  For example, the algorithm I'll explain in
+    detail here twists two edge pieces, and leaves the rest of the cube
+    unchanged.</p>
+
+<p>Because of the way the cube moves, there are limits to what kinds of
+    algorithms are possible.  For example, you cannot twist just one edge
+    piece, or swap just two corners.  You must twist two edge pieces, or swap
+    two pairs of corners.  These constraints work well with my algorithm
+    construction technique, because it is based on doing "the same thing"
+    twice, but in slightly different places.  Twisting two edge pieces is
+    twisting an edge piece, twice, on two different edge pieces.</p>
+
+<p>I'll demonstrate moves here using Conrad Rider's impressive
+    <a href='http://cube.crider.co.uk/twistysim.html'>TwistySim</a> library. You
+    can play, rewind, and single-step through the animations.  The notation at
+    the top of each animation is <a href='https://solvethecube.com/notation'>Cube notation</a>
+    but you can ignore that and just watch the animations if you like.</p>
+
+
+<h1>Two-part algorithms</h1>
+
+<p>Here's how a two-part algorithm works: mentally divide the cube into two
+    zones. The top zone is the top layer, and the bottom zone is the bottom two
+    layers.  Here I've made a cube with red for the top zone and blue for the
+    bottom zone:</p>
+
+<div id="c_two_zones" class="cubetoy" style="height:350px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:350})
+        //   dddddddddrrrrrrrrrfffffffffuuuuuuuuulllllllllbbbbbbbbb
+        .fc('bbbbbbbbbbbbbbbrrrbbbbbbrrrrrrrrrrrrbbbbbbrrrbbbbbbrrr')
+        ('#c_two_zones');
+</script>
+
+<p>To create a two-part algorithm, you need to come up with a sequence of turns
+    that will accomplish half your goal. So if you are trying to flip two
+    edges, you need a sequence that will flip one edge.  Here's where the zones
+    come into it: your sequence needs to do its job on a top-zone piece, and
+    leave the rest of the top zone alone.  It can scramble the bottom zone
+    as much as it needs to, it doesn't matter at all what happens to the bottom
+    zone.</p>
+
+<p>Usually when trying to design algorithms, the hard part is not scrambling
+    the rest of the cube.  That's the beauty of this technique: it's not that
+    hard to come up with a series of moves if you don't care at all what
+    happens in the bottom two layers of the cube.</p>
+
+<p>For example, here's a flipping sequence that will flip one edge in the top
+    zone.  Watch the green-yellow edge:</p>
+
+<div id="c_one_edge" class="cubetoy" style="height:400px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:400})
+        .alg("R' E' R2 E2 R'")
+        //   dddddddddrrrrrrrrrfffffffffuuuuuuuuulllllllllbbbbbbbbb
+        .fc('bbbbbbbbbbbbbbbrgrbbbbbbrrrrrrrryrrrbbbbbbrrrbbbbbbrrr')
+        ('#c_one_edge');
+</script>
+
+<p>If you track any red piece, you can see that it is unaffected by this
+    flipping sequence.  The blue pieces are scrambled all over the place, but
+    that is fine, don't worry.</p>
+
+
+<h1>The second part</h1>
+
+<p>OK, so we've gotten half-way there, but the bottom of the cube is a total
+    mess.  How do we fix it?  This is where the key idea of a two-part
+    algorithm comes into it.  Turn the top layer a quarter turn, and then: do
+    that same flipping sequence, but backwards!</p>
+
+<p>Doing the flipping sequence backwards will still flip an edge piece in the
+    top zone.  But the bottom zone will go through the reverse of the sequence
+    that messed it up, so it will go exactly back to where it started!</p>
+
+<p>When the backward flipping sequence is done, turn the top layer back a
+    quarter turn, and you've completed the mission: two edge pieces in the top
+    layer are flipped, and nothing else on the cube has been changed:</p>
+
+<div id="c_two_edges" class="cubetoy" style="height:450px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:450})
+        .alg("R' E' R2 E2 R'  U'   R E2' R2' E R  U")
+        //   dddddddddrrrrrrrrrfffffffffuuuuuuuuulllllllllbbbbbbbbb
+        .fc('bbbbbbbbbbbbbbbrgrbbbbbbrorrwrrryrrrbbbbbbrrrbbbbbbrrr')
+        ('#c_two_edges');
+</script>
+
+<p>Here's the same algorithm on a realistically colored cube, so you can see
+    what it does:</p>
+
+<div id="c_two_edges_real" class="cubetoy" style="height:450px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:450})
+        .alg("R' E' R2 E2 R'  U'   R E2' R2' E R  U")
+        ('#c_two_edges_real');
+</script>
+
+
+<h1>Adapting</h1>
+
+<p>One of the great things about this style of algorithm is that you can adapt
+    it for more uses.  The algorithm I just showed was for flipping two adjacent
+    edge pieces (on two edges that share a corner).  But we can easily make a
+    small change to flip two edges across a face from each other.</p>
+
+<p>The basic flipping sequence is the same. But instead of using a quarter turn
+    between the two halves, we use a half turn:</p>
+
+<div id="c_two_edges_across" class="cubetoy" style="height:450px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:450})
+        .alg("R' E' R2 E2 R'  U2   R E2' R2' E R  U2")
+        ('#c_two_edges_across');
+</script>
+
+<p>Instead of having dozens of obscure algorithms to memorize, we can use a
+    single idea of an algorithm for any two-edge flipping situation, and adapt
+    it to where the edges are.</p>
+
+
+<h1>Other algorithms</h1>
+
+<p>Another basic algorithm is to twist two corners.  You might be able to
+    design your own two-part algorithm to do it.  Here's mine:</p>
+
+<div id="c_two_corners" class="cubetoy" style="height:450px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:450})
+        .alg("F D2' F' R' D2 R  U  R' D2 R F D2' F'  U'")
+        ('#c_two_corners');
+</script>
+
+<p>Rotating three corners means picking three corners, and moving corner 1 to
+    where corner 2 was, moving corner 2 to where corner 3 was, and moving
+    corner 3 to where corner 1 was.  For a two part algorithm, think of this
+    as swapping corners 1 and 2, and then swapping corners 2 and 3:</p>
+
+<div id="c_three_corners" class="cubetoy" style="height:450px"></div>
+<script type="text/javascript">
+    TTk.AlgorithmPuzzle(3).size({width:550, height:450})
+        .alg("F D' F' B' D B F D' F'  U'  F D F' B' D' B F D F'  U")
+        ('#c_three_corners');
+</script>
+
+<p>Notice for both of these that if you change the top-layer quarter-turn into a
+    half turn, you get another useful algorithm.</p>
+
+<p>As I said, these algorithms aren't the fastest, but I was never a speed
+    cuber.  I'd rather have moves that I can understand.</p>
+
+<pagecomments/>
+
+</page>

@@ -26,7 +26,7 @@ Tools:
 - Can't put accented chars into blog entries!
 + Sablotron can't do document('') in sub-stylesheets (day-of-week, eg)? Pyana can.
 + Use Pyana.compileStylesheet to speed up XslTreeWalker.
-+ Syntax-color python from xuff? http://silvercity.sourceforge.net/
++ Syntax-color Python from xuff? http://silvercity.sourceforge.net/
 - New way to find stylesheets: associate root elements with transforms.
 + <img> tags auto-calculate height and width.
 + Make the ftp uploader remove files that are gone.

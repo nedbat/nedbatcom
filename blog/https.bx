@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170225T173711'>
+<title>Https</title>
+<category>site</category>
+<body>
+
+<p>Someone posted a link to my latest blog post on <a href="https://reddit.com/r/Python">/r/Python</a>,
+    but somehow got an https link for it.  That's odd: my site doesn't even
+    properly serve content over https.  People were confused by the broken link.</p>
+
+<p>I should say, my site didn't even serve content over https, because now it
+    does.  I'd been meaning to enable https, and force its use, for a long
+    time. This broken link pushed it to the top of the list.</p>
+
+<p><a href="https://letsencrypt.org/">Let's Encrypt</a> is the certificate
+    authority of choice these days, because they are free and automatable. And
+    people say they make it easy, but I have to say, I would not have
+    classified this as easy.  I'm sure it's easier than it used to be, but it's
+    still a confusing maze of choices, with decision points you are expected to
+    navigate.</p>
+
+<p>Actually getting everything installed requires sudo, or without sudo, using
+    third-party tools, with instructions from obscure blog posts.  There's
+    clearly still room for improvement.</p>
+
+<p>Once you have the certificate in place, you need to redirect your http site
+    to https.  Then you have to fix the http references in your site.
+    <a href='https://nedbatchelder.com/blog/200710/httphttps_transitions_and_relative_urls.html'>Protocol-relative</a>
+    (or schema-less) URLs are handy here.</p>
+
+<p>It's all done now, the entire site should always be https. I'm glad I
+    finally got the kick in the pants to do it.  If you find something wrong,
+    let me know.</p>
+
+</body>
+</entry>
+</blog>

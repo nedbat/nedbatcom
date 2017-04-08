@@ -17,7 +17,7 @@
         be done.  Here's what I ended up with:</p>
 
 <code lang='py'><![CDATA[
-"""A python prompt in a cage, for producing prompt sessions."""
+"""A Python prompt in a cage, for producing prompt sessions."""
 
 import code
 import cStringIO as StringIO

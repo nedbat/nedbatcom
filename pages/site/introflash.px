@@ -12,16 +12,16 @@ It explains the heroic origins of this site.</p>
 <p align='center'>
 <object
     classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-    codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"
+    codebase="//download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"
     width='550' height='400'
     >
 
 
-    <param name='movie' value="http://nedbatchelder.com/files/stellatedintro.swf"/>
+    <param name='movie' value="//nedbatchelder.com/files/stellatedintro.swf"/>
     <param name='quality' value='high'/>
     <param name='bgcolor' value='#ffffff'/>
     <embed
-        src="http://nedbatchelder.com/files/stellatedintro.swf"
+        src="//nedbatchelder.com/files/stellatedintro.swf"
         quality='high'
         bgcolor='#ffffff'
         width='550'

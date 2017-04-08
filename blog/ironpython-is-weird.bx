@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170315T074506'>
+<title>IronPython is weird</title>
+<category>python</category>
+<body>
+
+<p>Have you fully understood how Python 2 and Python 3 deal with bytes and
+    Unicode? Have you watched <a href="https://nedbatchelder.com/text/unipain.html">Pragmatic Unicode</a>
+    (also known as the Unicode Sandwich, or unipain) forwards and backwards?
+    You're a Unicode expert! Nothing surprises you any more.</p>
+
+<p>Until you try IronPython...</p>
+
+<p>Turns out IronPython 2.7.7 has str as unicode!</p>
+
+<code lang="python"><![CDATA[
+C:\Users\Ned>"\Program Files\IronPython 2.7\ipy.exe"
+IronPython 2.7.7 (2.7.7.0) on .NET 4.0.30319.42000 (32-bit)
+Type "help", "copyright", "credits" or "license" for more information.
+>>> "abc"
+'abc'
+>>> type("abc")
+<type 'str'>
+>>> u"abc"
+'abc'
+>>> type(u"abc")
+<type 'str'>
+>>> str is unicode
+True
+>>> str is bytes
+False
+]]></code>
+
+<p>String literals work kind of like they do in Python 2: \u escapes are
+    recognized in u"" strings, but not "" strings, but they both produce the
+    same type:</p>
+
+<code lang="python"><![CDATA[
+>>> "abc\u1234"
+'abc\\u1234'
+>>> u"abc\u1234"
+u'abc\u1234'
+]]></code>
+
+<p>Notice that the repr of this str/unicode type will use a u-prefix if any
+    character is non-ASCII, but it the string is all ASCII, then the prefix is
+    omitted.</p>
+
+<p>OK, so how do we get a true byte string? I guess we could encode a unicode
+    string? WRONG. Encoding a unicode string produces another unicode string
+    with the encoded byte values as code points!:</p>
+
+<code lang="python"><![CDATA[
+>>> u"abc\u1234".encode("utf8")
+u'abc\xe1\x88\xb4'
+>>> type(_)
+<type 'str'>
+]]></code>
+
+<p>Surely we could at least read the bytes from a file with mode "rb"? WRONG.</p>
+
+<code lang="python"><![CDATA[
+>>> type(open("foo.py", "rb").read())
+<type 'str'>
+>>> type(open("foo.py", "rb").read()) is unicode
+True
+]]></code>
+
+<p>On top of all this, I couldn't find docs that explain that this happens.
+    The <a href="http://ironpython.net/documentation/">IronPython docs</a> just
+    say, "Since IronPython is a implementation of Python 2.7, any Python
+    documentation is useful when using IronPython," and then links to the
+    python.org documentation.</p>
+
+<p>A decade-old article on InfoQ, <a href="https://www.infoq.com/news/2007/06/IronPython-STR">The IronPython, Unicode, and Fragmentation Debate</a>,
+    discusses this decision, and points out correctly that it's due to needing
+    to mesh well with the underlying .NET semantics.  It seems very odd not to
+    have documented it some place.  Getting coverage.py working even minimally
+    on IronPython was an afternoon's work of discovering each of these oddnesses
+    empirically.</p>
+
+<p>Also, that article quotes Guido van Rossum (from a comment on <a href='http://techblog.ironfroggy.com/2007/06/python-ironpython-apples-and-oranges.html'>Calvin Spealman's blog</a>):</p>
+
+<quote><p>You realize that Jython has exactly the same str==unicode issue,
+    right? I've endorsed this approach for both versions from the start. So
+    I don't know what you are so bent out of shape about.</p></quote>
+
+<p>I guess things have changed with Jython in the intervening ten years,
+    because it doesn't behave that way now:</p>
+
+<code lang="python"><![CDATA[
+$ jython
+Jython 2.7.1b3 (default:df42d5d6be04, Feb 3 2016, 03:22:46)
+[Java HotSpot(TM) 64-Bit Server VM (Oracle Corporation)] on java1.8.0_31
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 'abc'
+'abc'
+>>> type(_)
+<type 'str'>
+>>> str is unicode
+False
+>>> type("abc")
+<type 'str'>
+>>> type(u"abc")
+<type 'unicode'>
+>>> u"abc".encode("ascii")
+'abc'
+>>> u"abc"
+u'abc'
+]]></code>
+
+<p>If you want to support IronPython, be prepared to rethink how you deal with
+    bytes and Unicode.  I haven't run the whole coverage.py test suite on
+    IronPython, so I don't know if other oddities are lurking there.</p>
+
+</body>
+</entry>
+</blog>

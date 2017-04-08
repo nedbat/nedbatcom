@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170226T194354'>
+<title>Rubik's algorithms</title>
+<category>games</category>
+<body>
+
+<p>Recently, a nephew asked about how to solve a Rubik's Cube.  I couldn't sit
+    down with him to show him what I knew, so I looked around the web for
+    explanations. I was surprised by two things: first, that all the pages
+    offering solutions seemed to offer the same one, even down to the colors
+    discussed: "Start by making a white cross, ..., finally, finish the yellow
+    side."</p>
+
+<p>Second, that the techniques (or "algorithms") were often given without
+    explanation. They're presented as something to memorize.</p>
+
+<p>My own solving technique uses a few algorithms constructed in a certain way
+    that I describe in <a href="text/rubiks_algorithms.html">Two-Part Rubik's
+    Algorithms</a>.  I wrote them up as a resource I hope my nephew will be
+    able to use.</p>
+
+<figurep href='text/rubiks_algorithms.html'>
+    <img src='pix/rubik-two-edge-flip.png' alt='A Rubik&#39;s Cube with two edges flipped' scale='0.5' />
+</figurep>
+
+<p>BTW, that page makes use of Conrad Rider's impressive
+    <a href='http://cube.crider.co.uk/twistysim.html'>TwistySim</a> library.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161022T111400'>
+<title>A failed plugin</title>
+<category>development</category>
+<body>
+
+<p>A different kind of story today: a clever test runner plugin that in the
+    end, did not do what I had hoped.</p>
+
+<p>At edX, our test suite is large, and split among a number of CI workers. One
+    of the workers was intermittently running out of memory.  Something (not
+    sure what) lead us to the idea that TestCase objects were holding onto
+    mocks, which themselves held onto their calls' arguments and return values,
+    which could be a considerable amount of memory.</p>
+
+<p>We use nose (but plan to move to pytest Real Soon Now™), and nose holds onto
+    all of the TestCase objects until the very end of the test run.  We
+    thought, there's no reason to keep all that data on all those test case
+    objects.  If we could scrub the data from those objects, then we would free
+    up that memory.</p>
+
+<p>We batted around a few possibilities, and then I hit on something that
+    seemed like a great idea: a nose plugin that at the end of a test, would
+    remove data from the test object that hadn't been there before the test
+    started.</p>
+
+<p>Before I get into the details, the key point: when I had this idea, it was a
+    very familiar feeling. I have been here many times before.  A problem in
+    some complicated code, and a clever idea of how to attack it.  These ideas
+    often don't work out, because the real situation is complicated in ways I
+    don't understand yet.</p>
+
+<p>When I had the idea, and mentioned it to my co-worker, I said to him, "This
+    idea is too good to be true. I don't know why it won't work yet, but we're
+    going to find out." (foreshadowing!)</p>
+
+<p>I started hacking on the plugin, which I called
+    <a href='https://github.com/nedbat/blowyournose'>blowyournose</a>. (Nose's
+    one last advantage over other test runners is playful plugin names...)</p>
+
+<p>The implementation idea was simple: before a test runs, save the list of the
+    attributes on the test object.  When the test ends, delete any attribute
+    that isn't in that list:</p>
+
+<code lang="python"><![CDATA[
+from nose.plugins import Plugin
+
+class BlowYourNose(Plugin):
+
+    # `test` is a Nose test object. `test.test` is the
+    # actual TestCase object being run.
+
+    def beforeTest(self, test):
+        test.byn_attrs = set(dir(test.test))
+
+    def afterTest(self, test):
+        obj = test.test
+        for attr in dir(obj):
+            if attr not in test.byn_attrs:
+                delattr(obj, attr)
+]]></code>
+
+<p>By the way: a whole separate challenge is how to test something like this. I
+    did it with a class that could report on its continued existence at the end
+    of tests.  Naturally, I named that class Booger! If you are interested, the
+    code is in the repo.</p>
+
+<p>At this point, the plugin solved this problem:</p>
+
+<code lang="python"><![CDATA[
+class MyLeakyTest(unittest.TestCase):
+    def setUp(self):
+        self.big_thing = big_thing()
+
+    def test_big_thing():
+        self.assertEqual(self.big_thing.whatever, 47)
+]]></code>
+
+<p>The big_thing attribute will be deleted from the test object once the test
+    is over, freeing the memory it consumed.</p>
+
+<p>The next challenge was tests like this:</p>
+
+<code lang="python"><![CDATA[
+@mock.patch('os.listdir')
+def test_directory_handling(self, mock_listdir):
+    blah blah ...
+]]></code>
+
+<p>The patch decorator stores the patches on an attribute of the function, so I
+    updated blowyournose to look for that attribute, and set it to None. This
+    nicely reclaimed the space at the end of the test.</p>
+
+<p>But you can see where this is going: as I experiment with using the plugin
+    on more and more of our test suite, I encounter yet-more-exotic ways to
+    write tests that exceed the capabilities of the plugin.  Each time, I add
+    more logic to the plugin to deal with the new quirk, hoping that I can
+    finally deal with "everything."</p>
+
+<p>We use <a href='http://ddt.readthedocs.io/'>ddt</a> for data-driven tests
+    like this:</p>
+
+<code lang="python"><![CDATA[
+@ddt
+class FooTestCase(unittest.TestCase):
+
+    @data(3, 4, 12, 23)
+    def test_larger_than_two(self, value):
+        self.assertTrue(larger_than_two(value))
+]]></code>
+
+<p>This turns one test method into four test methods, one for each data value.
+    When combined with @patch, it means that we can't clean up the patch when
+    one method is done, we need to wait until all the methods are done.  But we
+    don't know which is the last. To deal with this, the plugin sniffs around
+    for indications that ddt is being used, and defers the cleanup until the
+    entire class is done.</p>
+
+<p>But then comes test case inheritance:</p>
+
+<code lang="python"><![CDATA[
+@ddt
+class BaseTest(unittest.TestCase):
+    __test__ = False
+
+    @data(*some_values)
+    @mock.patch('something')
+    def test_something(self, something):
+        product_code(self.setting).etc()
+
+class Setting1Test(BaseTest):
+    __test__ = True
+
+    def setUp(self):
+        self.setting = 1
+
+class Setting2Test(BaseTest):
+    __test__ = True
+
+    def setUp(self):
+        self.setting = 2
+]]></code>
+
+<p>Now we have patches on generated methods, and even the end of the class is
+    too early to clean up, because there are other classes using them later.
+    We have no way to know when it is safe to clean up, except at the very end
+    of all the tests. But the whole point was to reclaim memory sooner than
+    that.</p>
+
+<p>So the good news is, I was right: there were reasons my simple brilliant
+    idea wasn't going to work.  The bad new is, I was right. This is so typical
+    of this kind of work: it's a simple idea, that seems so clearly right when
+    you are in the shower, or on your bike, or swimming laps.  Then you get
+    into the actual implementation and all the real-world complexity and
+    twistiness reveals itself.  You end up in a fun-house of special cases. You
+    chase them down, thinking, "no problem, I can account for that," and maybe
+    you can, but there are more creepy clowns around the next corner, and
+    chances are really good that eventually one will be too much for your
+    genius idea.</p>
+
+<p>In this case, just to top it off, it turns out the memory problem in our
+    test suite wasn't about long-lived mocks at all.  It was due to Django 1.8
+    migrations consuming tons of memory, and the solution is to upgrade to 1.9
+    (someday...).  Sigh.</p>
+
+<p>One of the challenges of software engineering is remaining optimistic in the
+    face of boss battles like this.  Occasionally a simple genius idea will
+    work out.  Sometimes, solving 90% of the problem is a good thing, and the
+    other 10% can remain unsolved.  Even total losses like blowyournose are
+    good experience, good learning exercises.</p>
+
+<p>And the next idea will be better!</p>
+
+</body>
+</entry>
+</blog>

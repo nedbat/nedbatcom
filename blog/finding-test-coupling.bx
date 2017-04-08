@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20161222T062239'>
+<title>Finding test coupling</title>
+<category>testing</category>
+<category>debugging</category>
+<category>development</category>
+<body>
+
+<p>Before we get started: this is a story about a problem I had and how I
+    solved it.  This retelling is leaving out lots of small false trails and
+    hard learnings, which I will summarize at the end.  I report these stories
+    not to lecture from on high, but to share with peers, help people learn,
+    and ideally, elicit teachings from others so that I can do it better next
+    time.  The main qualities I am demonstrating here are not intelligence and
+    experience, but perseverance, patience, and optimism.</p>
+
+<p>OK, on with the story:</p>
+
+<p>Running our large test suite the other day, we got a test failure.  It
+    seemed unrelated to the changes we were making, but you can never be sure,
+    so we investigated.  Along the way I used a few techniques to narrow down,
+    widen, and identify suspects.</p>
+
+<p>Running just that one test passed, but running the whole test suite, it
+    failed, and this behavior was repeatable. So we had some kind of coupling
+    between tests.  Ideally, all tests would be isolated from each other.
+    Perfect test isolation would mean that no matter what order you ran tests,
+    and no matter what subset of tests you ran, the results would be the same.
+    Clearly we did not have perfect test isolation.</p>
+
+<p>The job now was to find the test we were coupled with, or perhaps one of the
+    many possible tests that we were coupled with.</p>
+
+<p>The test failure itself was a UnicodeError while trying to log a warning
+    message involving a username with a non-ASCII character in it.  Apparently
+    this is something that doesn't work well: when warnings are routed through
+    the logging system, if the message is actually logged, and the message has
+    a non-ASCII Unicode string, an exception will happen.  That's unfortunate,
+    but we'll have to live with that for the moment.</p>
+
+<p>Our best guess at the moment is that when the test passes, it's because
+    either the warnings settings, or the logging settings, are deciding not to
+    log the warning.  When the test fails, it's because some previous test has
+    changed one (or both!) of those settings, causing the message to proceed
+    all the way through the warnings/logging pipeline, to the point of
+    producing the UnicodeError.  This is a plausible theory because those
+    settings are global to the process, and would be easy to change without
+    realizing the consequences for test suites.</p>
+
+<p>But we still have to find that test.  Here's the command that runs just the
+    one test, that failed:</p>
+
+<code lang="bash"><![CDATA[
+python ./manage.py lms test --verbosity=2 --with-id --settings=test \
+    --xunitmp-file=/edx/app/edxapp/edx-platform/reports/lms/nosetests.xml \
+    --with-database-isolation \
+    openedx/core/djangoapps/external_auth/tests/test_openid_provider.py:OpenIdProviderTest.test_provider_login_can_handle_unicode_email_inactive_account
+]]></code>
+
+<p>This is the Django test runner, using nose.  That last line selects one
+    particular test method in one particular class in one specific test file.
+    To try to find a failing combination, we'll widen the scope of our test run
+    by peeling off trailing components.  This will give us progressively more
+    tests in the run, and eventually (we hope), the test will fail:</p>
+
+<code lang="bash"><![CDATA[
+openedx/core/djangoapps/external_auth/tests/test_openid_provider.py:OpenIdProviderTest
+openedx/core/djangoapps/external_auth/tests/test_openid_provider.py
+openedx/core/djangoapps/external_auth
+openedx/core/djangoapps
+]]></code>
+
+<p>This last one finally failed, with 1810 tests.  That's still too many to
+    examine manually.  We can run those tests again, with <a href='https://github.com/adamchainz/nose-randomly'>nose-randomly</a>
+    to randomize the order of the tests. This gives us an opportunity to run
+    experiments where the randomization can tell us something about coupling.
+    If we run the 1810 tests, and our failing test doesn't fail, then none of
+    the tests that ran before it were the one that cause the problem.  If the
+    test does fail, then the tests that ran before it might be bad.</p>
+
+<p>I used a bash loop to run those 1810 test over and over, capturing the
+    output in separate result files:</p>
+
+<code lang="bash"><![CDATA[
+export FLAGS=blah blah omitted for brevity
+for i in $(seq 9999); do
+    echo --- $i
+    python ./manage.py lms test -v $FLAGS openedx/core/djangoapps -v > test$i.txt 2>&1
+done
+]]></code>
+
+<p>Overnight, this gave me 72 test result files to look at. The -v and
+    --with-id flags gave us output that looked like this:</p>
+
+<code><![CDATA[
+... lots of throat-clearing here ...
+Synchronizing apps without migrations:
+  Creating tables...
+    Creating table coursewarehistoryextended_studentmodulehistoryextended
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+Using --randomly-seed=1482407901
+#19 test_platform_name (openedx.core.djangoapps.site_configuration.tests.test_context_processors.ContextProcessorTests) ... ok
+#20 test_configuration_platform_name (openedx.core.djangoapps.site_configuration.tests.test_context_processors.ContextProcessorTests) ... ok
+#21 test_get_value (openedx.core.djangoapps.site_configuration.tests.test_helpers.TestHelpers) ... ok
+#22 test_get_value_for_org (openedx.core.djangoapps.site_configuration.tests.test_helpers.TestHelpers) ... ok
+#23 test_get_dict (openedx.core.djangoapps.site_configuration.tests.test_helpers.TestHelpers) ... ok
+#24 test_get_value_for_org_2 (openedx.core.djangoapps.site_configuration.tests.test_helpers.TestHelpers) ... ok
+... much more ...
+]]></code>
+
+<p>A small Python program provided the analysis:
+    <a href='https://gist.github.com/nedbat/0524897e24cc199e3fac2167f4179967'>test_analysis.py</a>.
+    (Warning: this is for Python 3.6, so f-strings ahead!)</p>
+
+<p>Although I had 72 runs, the results converged after 11 runs: 179 tests were
+    in the maybe-bad set, and more runs didn't reduce the set.  That's because
+    of nose-randomly's behavior, which I didn't fully understand: it doesn't
+    completely shuffle the tests.  Because of the possibility of module-level
+    and class-level setup code, it randomizes within those scopes, but will not
+    intermix between scopes.  The test modules are run in a random order, but
+    everything in one module will always run contiguously.  The classes within
+    a module will run in a random order, but all of the methods within a class
+    will run contiguously.</p>
+
+<p>The list of classes that test_analysis.py provided made clear what was going
+    on: all of the maybe-bad tests were in credit/tests/test_views.py.  There
+    are 179 tests in that file, and something in there is causing our test
+    failure.  Because they always run contiguously, there's no way
+    nose-randomly could give us more information about the true culprit.</p>
+
+<p>Time for some low-tech divide and conquer: we'll run one class from
+    test_views.py, and then our failing test.  If we do that once for each
+    class in test_views.py, we should get information about which class to
+    examine. I'd love to tell you I had some clever way to get the list of
+    test classes, but I just manually picked them out of the file and wrote 
+    this loop:</p>
+
+<code lang="bash"><![CDATA[
+export FAILING_TEST=openedx/core/djangoapps/external_auth/tests/test_openid_provider.py:OpenIdProviderTest.test_provider_login_can_handle_unicode_email_inactive_account 
+for c in CreditCourseViewSetTests CreditEligibilityViewTests CreditProviderCallbackViewTests CreditProviderRequestCreateViewTests CreditProviderViewSetTests; do
+    echo ------------- $c
+    python ./manage.py lms test -v $FLAGS \
+        openedx/core/djangoapps/credit/tests/test_views.py:$c \
+        $FAILING_TEST 2>&1 | tee ${c}_out | grep unicode_email
+done
+]]></code>
+
+<p>(My bash-looping skillz were improving each time!)  This showed me that
+    three of the five classes were failing.  These classes use mixins, and the
+    thing the three class had in common was the AuthMixin, which provides four
+    test methods.  So it's probably one of those methods. I picked the first of
+    the test classes, and ran a new experiment four times, once for each of the
+    four test methods:</p>
+
+<code lang="bash"><![CDATA[
+for t in test_authentication_required test_oauth test_session_auth test_jwt_auth; do
+    echo ---------- $t
+    python ./manage.py lms test -v $FLAGS \
+        openedx/core/djangoapps/credit/tests/test_views.py:CreditCourseViewSetTests.$t \
+        $FAILING_TEST 2>&1 | tee ${t}_out | grep unicode_email
+done
+]]></code>
+
+<p>And this showed that test_jwt_auth was the problem!  Now I had a two-test
+    scenario that would produce the failure.</p>
+
+<p>To find the line in the test, I could comment-out or otherwise neuter parts
+    of the test method and run my fast two-test scenario.  The cause was a JWT
+    authorization header in a test client get() function call.  JWT-related
+    code is scarce enough in our huge code base, that I could identify a likely
+    related function, place a <a href='https://pypi.python.org/pypi/pudb'>pudb</a>
+    breakpoint, and start walking through code until I found the problem:
+    <a href='https://github.com/edx/edx-drf-extensions/blob/43b8ffadc3f30d401e6c451ffdde7bc9aea8ad1b/edx_rest_framework_extensions/settings.py#L59'>a line deep in a library that changed the warnings settings</a>!
+    (cue the <a href='https://www.youtube.com/watch?v=rfh4Mhp-a6U'>dramatic music</a>)
+</p>
+
+<p>Commenting out that line, and running my reproducer confirmed that it was
+    the root cause.  A simple
+    <a href='https://github.com/edx/edx-drf-extensions/pull/18'>pull request</a>
+    fixes the problem.  Note in the pull request that the library's test case
+    had a simple mistake that might have been the reason for the bad line to
+    begin with.</p>
+
+<p>It felt really good to find and fix the problem, perhaps because it took so
+    long to find.</p>
+
+<p>As promised: things I didn't know or did wrong:</p>
+
+<ul>
+
+    <li>Our test names have random data in them. I didn't realize this until my
+        results started showing the sum of known-good and maybe-bad as greater
+        than the total number of tests. Until then, the numbers were skittering
+        all over the place. Once I canonicalized the file names, the numbers
+        converged quickly.</li>
+
+    <li>I should have understood how nose-randomly worked earlier.</li>
+
+    <li>I had to (once again) Google the bash loop syntax.</li>
+
+    <li>I fat-fingered a few bash loops which gave me mysterious and sometimes
+        discouraging false results.</li>
+
+    <li>A few times, I spent a while just reading through possible culprit
+        tests looking for clues, which was fruitless, since the actual problem
+        line was in a library in a different repo.</li>
+
+</ul>
+
+<p>We're all learning. Be careful out there.</p>
+
+</body>
+</entry>
+</blog>

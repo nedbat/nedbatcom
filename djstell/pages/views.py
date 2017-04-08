@@ -22,7 +22,7 @@ def add_entries(c, ents):
     c['crumbs'] = blog_crumbs
 
 def abs_url(url):
-    absurl = settings.BASE
+    absurl = settings.EXT_BASE
     if not absurl.endswith('/') and not url.startswith('/'):
         absurl += '/'
     absurl += url
@@ -146,6 +146,8 @@ def article(request, path):
     c['lang'] = a.lang
     c['copyright'] = a.copyright
     c['meta'] = a.meta
+    c['scripts'] = a.scripts.split()
+    c['style'] = a.style
     edits = list(a.whatwhen_set.all().order_by('when'))
     if edits:
         c['min_date'] = edits[0].when
