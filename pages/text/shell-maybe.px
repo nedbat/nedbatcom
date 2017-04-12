@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<page title='Shell = Maybe'>
+<history>
+<what when='20170411T200500'>Created.</what>
+</history>
+
+<!--
+
+- intro
+    - people often want to spawn subprocesses in python
+        - first see if you can do it without. python isn't bash.
+
+- how running programs works
+    - you type a command
+    - your program gets a list of strings
+        Python: sys.argv
+        C: int main(int argc, const char* argv[])
+        Java: public static void main(String args[])
+
+- when you type a command, you are actually typing to a shell
+    - shell's jobs: (among others)
+        - turn a line of text into a list of strings
+        - use the first word to find the program
+    - first guess: split on spaces
+
+- quoting
+    - what if you want a space in an argument?
+
+- other things the shell does
+    - wildcards
+    - tildes
+    - redirection
+    - subcommands
+    - pipes
+
+- ok, so shell=maybe
+    - shell=true
+        - more expensive
+        - more powerful
+        - more dangerous
+    - shell=false
+        - safer
+        - easier to reason about
+
+- tricky cases...
+- definitely don't use os.system
+
+-->
+
+<p>Lots of people want to use Python to run other programs. Sometimes this is
+because they need to, they are using Python to coordinate other processes.
+Sometimes, it's because they are coming from a shell scripting world, and
+running other programs to get work done feels most natural.</p>
+
+<p>If you are trying to run other programs (spawn subprocesses) in Python, the
+first thing to do is make sure you need to.  Lots of things that are done with
+programs in a shell script are done more naturally with Python libraries.
+There's no need to use "ls" to list the files in a directory when you have
+os.listdir().</p>
+
+<p>Once you decide you are going to create subprocesses, there's a common
+pitfall to work through: whether to use a shell or not.</p>
+
+
+<h1>What is a shell, and what does it do?</h1>
+
+<p>When you type a command in your terminal, you are not typing to "the
+computer." You are typing to a program, called a shell.  The shell's job is to
+interpret the command line you type, and actually do what it says.  A shell is
+a program that is very good at running other programs.</p>
+
+<p>Programs don't get the command line you type.  Programs get a list of
+strings.  This isn't a Python thing, this is the way Unix works, and the way
+Windows generally mimics Unix.  It's the shell's job to turn the line of text
+you type into a list of strings.</p>
+
+<p>At a very very crude level, the shell takes the line you type, and turns it
+into a list of strings. It uses the first string to find the program to run.
+Then it runs the program, giving it the list of strings as arguments.</p>
+
+<p>Note about Windows: at its deepest native level, Windows is different than
+this. Programs get a single string, the original command line.  But because of
+the C language's close cultural ties to Unix, C programs on Windows get a list
+of strings, and other languages do the same.  There are some differences
+between Windows and Unix still, but the big picture is the same.</p>
+
+<p>How does the shell turn a command line into a list of strings? For the
+simplest cases, it just splits the line on spaces.  So this command:</p>
+
+<code lang="sh"><![CDATA[
+grep apple foo.txt
+]]></code>
+
+<p>is turned into:</p>
+
+<code lang="python"><![CDATA[
+['grep', 'apple', 'foo.txt']
+]]></code>
+
+<p>If you want to experiment with this conversion of command lines into lists
+of strings, put this short Python program into echo.py:</p>
+
+<code lang="python"><![CDATA[
+#!/usr/bin/env python
+import sys
+print(sys.argv)
+]]></code>
+
+<p>Now you can try it yourself:</p>
+
+<code lang="sh"><![CDATA[
+$ chmod +x echo.py
+$ ./echo.py grep apple foo.txt
+['./echo.py', 'grep', 'apple', 'foo.txt']
+]]></code>
+
+<p>But what if you need an argument to have a space? If you want to search a
+file for "red apple", you need a command like:</p>
+
+<code lang="sh"><![CDATA[
+grep 'red apple' foo.txt
+]]></code>
+
+<p>Just splitting this on spaces would give four strings, which isn't right.
+The shell sees the quotes and understands that the quoted string should be kept
+together as a single argument.  The resulting list is:</p>
+
+<code lang="sh"><![CDATA[
+['grep', 'red apple', 'foo.txt']
+]]></code>
+    
+<p>Notice that the single-quotes themselves are not in the string. </p>
+
+<p>There are other ways to protect spaces.  This command could have been typed
+any of these ways:</p>
+
+<code lang="sh"><![CDATA[
+grep 'red apple' foo.txt
+grep "red apple" foo.txt
+grep red\ apple foo.txt
+]]></code>
+
+<p>The grep program literally can't tell the difference between these three
+lines, because the shell produces the same argument list for all of them.</p>
+
+<p>Shells do much more than just split the line into an argument list. As we've
+just seen, they also deal with quoting and escaping special characters. But
+there's much more. When you use a wildcard pattern to do something with many
+files, it's the shell that expands that pattern into a list of actual files.
+This command:</p>
+
+<code lang="sh"><![CDATA[
+grep apple *.txt
+]]></code>
+
+<p>could be turned into this argument list:</p>
+
+<code lang="sh"><![CDATA[
+['grep', 'apple', 'bar.txt', 'baz.txt', 'foo.txt']
+]]></code>
+
+<p>There are other more advanced features of command line programs that really
+are features of the shell:</p>
+
+<ul>
+
+<li>Variable expansion:</li>
+
+<code lang="sh"><![CDATA[
+grep $WORD *.txt
+]]></code>
+
+<li>Tilde expansion:</li>
+
+<code lang="sh"><![CDATA[
+cp foo.txt ~
+]]></code>
+
+<li>Redirection:</li>
+
+<code lang="sh"><![CDATA[
+grep apple *.txt > apple_lines.txt
+]]></code>
+
+<li>Piping:</li>
+
+<code lang="sh"><![CDATA[
+grep apple *.txt | wc -l
+]]></code>
+
+<li>Sequencing:</li>
+
+<code lang="sh"><![CDATA[
+cp old.txt new.txt && rm old.txt
+]]></code>
+
+<li>Sub-commands:</li>
+
+<code lang="sh"><![CDATA[
+mv now.txt $(date +%Y%m%d).txt
+]]></code>
+
+</ul>
+
+
+<h1>Using subprocess</h1>
+
+<p>The Python subprocess module has a few different functions and classes you
+can use to run a subprocess.  One thing they all have in common: you have to
+tell it what program to run and what arguments to give the program.  There are
+two ways to do this, and it all comes down to shells.</p>
+
+<p>The more familiar way to run a program is with a shell:</p>
+
+<code lang="python"><![CDATA[
+output = subprocess.check_output("ls -al", shell=True)
+]]></code>
+
+<p>(Note: subprocess has a number of functions. I'll use check_output because
+it is conceptually simple, but the shell considerations I'm discussing apply
+equally well to run, call, check_call, Popen, and so on.)</p>
+
+<p>(Also note: this is one of those commands you shouldn't use a sub-process
+for.  Listing files is easy to do in other ways.  But it's nice and short for
+examples. We'll get to more realistic examples in a bit.)</p>
+
+<p>When you specify shell=True, the program and arguments are specified in a
+single string.  The shell is started, and given that string as the command line
+to execute.  This gives a very familiar interface to running programs: it's
+exactly what we are used to from the command line.</p>
+
+<p>The other way to run the program is with no shell, which is the default:</p>
+
+<code lang="python"><![CDATA[
+output = subprocess.check_output(["ls", "-al"])
+]]></code>
+
+<p>Here we're running the program without the help of a shell, so we provide
+the program arguments as an explicit list of strings.</p>
+
+
+        ffmpeg -f image2 -pattern_type glob -i '/Volumes/GOMICRO/DCIM/*/*.JPG' -s 656x492 movie5.mp4
+
+
+<pagecomments/>
+
+</page>
