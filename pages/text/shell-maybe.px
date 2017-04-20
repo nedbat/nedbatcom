@@ -47,19 +47,20 @@
 
 -->
 
-<p>Lots of people want to use Python to run other programs. Sometimes this is
-because they need to, they are using Python to coordinate other processes.
-Sometimes, it's because they are coming from a shell scripting world, and
-running other programs to get work done feels most natural.</p>
+<p>Lots of people use Python to run other programs. Sometimes this is
+because they are using Python to coordinate other processes.  Sometimes, it's
+because they are coming from a shell scripting world, and running other
+programs to get work done feels most natural.</p>
 
 <p>If you are trying to run other programs (spawn subprocesses) in Python, the
 first thing to do is make sure you need to.  Lots of things that are done with
-programs in a shell script are done more naturally with Python libraries.
-There's no need to use "ls" to list the files in a directory when you have
-os.listdir().</p>
+programs in a shell script are done more naturally with Python libraries.  As
+an example, there's no need to use "ls" to list the files in a directory when
+you have os.listdir().</p>
 
 <p>Once you decide you are going to create subprocesses, there's a common
-pitfall to work through: whether to use a shell or not.</p>
+question to work through: whether to use a shell or not. To answer that,
+let's talk about shells.</p>
 
 
 <h1>What is a shell, and what does it do?</h1>
@@ -118,7 +119,7 @@ $ ./echo.py grep apple foo.txt
 file for "red apple", you need a command like:</p>
 
 <code lang="sh"><![CDATA[
-grep 'red apple' foo.txt
+grep "red apple" foo.txt
 ]]></code>
 
 <p>Just splitting this on spaces would give four strings, which isn't right.
@@ -129,14 +130,14 @@ together as a single argument.  The resulting list is:</p>
 ['grep', 'red apple', 'foo.txt']
 ]]></code>
     
-<p>Notice that the single-quotes themselves are not in the string. </p>
+<p>Notice that the double-quotes themselves are not in the argument.</p>
 
 <p>There are other ways to protect spaces.  This command could have been typed
 any of these ways:</p>
 
 <code lang="sh"><![CDATA[
-grep 'red apple' foo.txt
 grep "red apple" foo.txt
+grep 'red apple' foo.txt
 grep red\ apple foo.txt
 ]]></code>
 
@@ -159,8 +160,8 @@ grep apple *.txt
 ['grep', 'apple', 'bar.txt', 'baz.txt', 'foo.txt']
 ]]></code>
 
-<p>There are other more advanced features of command line programs that really
-are features of the shell:</p>
+<p>There are other more-advanced features of command line programs that are
+actually features of the shell:</p>
 
 <ul>
 
@@ -224,10 +225,11 @@ equally well to run, call, check_call, Popen, and so on.)</p>
 for.  Listing files is easy to do in other ways.  But it's nice and short for
 examples. We'll get to more realistic examples in a bit.)</p>
 
-<p>When you specify shell=True, the program and arguments are specified in a
+<p>When you specify shell=True, the program and arguments are provided in a
 single string.  The shell is started, and given that string as the command line
 to execute.  This gives a very familiar interface to running programs: it's
-exactly what we are used to from the command line.</p>
+exactly what we are used to from the command line. The shell parses the command
+line it's given, and invokes the program.</p>
 
 <p>The other way to run the program is with no shell, which is the default:</p>
 
@@ -239,8 +241,115 @@ output = subprocess.check_output(["ls", "-al"])
 the program arguments as an explicit list of strings.</p>
 
 
-        ffmpeg -f image2 -pattern_type glob -i '/Volumes/GOMICRO/DCIM/*/*.JPG' -s 656x492 movie5.mp4
+<h1>To shell, or not to shell?</h1>
 
+<p>If you're wondering whether to use a shell with subprocess, the answer is
+simple: only use one if you have to.  You should use a shell if you need some
+of its behavior, and otherwise avoid using a shell.  Most of the time, you
+don't need a shell.</p>
+
+<p>There are good reasons to avoid using a shell:</p>
+
+<ul>
+
+<li>Using a shell takes more resources and time, since you are starting a
+program (the shell), which will then run the program you really want.  There's
+less to do if you run the program directly yourself.</li>
+
+<li>Using a shell introduces a layer of interpretation that can be hard to
+reason about. You have Python strings, with their escaping, producing shell
+command lines, with their escaping, to finally produce the arguments for your
+program.  It's simpler to just make your own list of arguments.</li>
+
+<li>Using a shell can be dangerous. Shells do a lot of things, maybe some
+things you didn't anticipate. This is especially true if you are including
+untrusted input as part of the subprocess command line.</li>
+
+</ul>
+
+<h1>Shell injection</h1>
+
+<p>Here's an example of that last point.  Suppose you want to split a video
+into a series of images.  Ffmpeg is a powerful video tool that can do that,
+with a command like this:</p>
+
+<code lang="sh"><![CDATA[
+ffmpeg -i video.flv image%d.jpg
+]]></code>
+
+<p>But you want to get the video file name from the user. You might do this to
+insert the user's filename into the command, and then run it:</p>
+
+<code lang="python"><![CDATA[
+cmd = "ffmpeg -i {} image%d.jpg".format(user_filename)
+subprocess.run(cmd, shell=True)
+]]></code>
+
+<p>This works fine, but suppose the user gave you this file name: "; rm -rf * ; "
+Now the constructed command line would be:</p>
+
+<code lang="sh"><![CDATA[
+ffmpeg -i ; rm -rf * ; image%d.jpg
+]]></code>
+
+<p>Running this would delete a lot of files, which is definitely not what you
+wanted.  The user has maliciously injected shell content where you didn't want
+it.</p>
+
+<p>This is the risk of using the shell: it can do much much more than you
+intended it to.</p>
+
+
+<h1>How to properly avoid the shell</h1>
+
+<p>If you have a command line in mind, and you want to turn it into some Python
+code that runs the program the same way, you have to think like the shell.
+When the shell runs your command line, what list of string arguments does it
+produce?  If you have a tricky case, it can help to use the echo.py program
+above to experiment with your command line.</p>
+
+<p>Once you understand how the shell works, and what it is doing for you, you
+can decide whether you want to keep the shell in the mix (carefully), or skip
+the shell, and do that work yourself.  Often, all the shell does is split your
+command into words, something you can do easily yourself.</p>
+
+<p>If you are using shell features like wildcards or pipes, it becomes trickier
+to replace the shell with your own code. But Python provides all the tools you
+need:</p>
+
+<ul>
+
+<li>Wildcards are expanded into lists of files with glob.glob</li>
+
+<li>Expansion of environment variables is done with os.environ or
+os.path.expandvars</li>
+
+<li>Tilde expansion is done with os.expanduser.</li>
+
+<li>Redirection is done by setting the stdout and stderr arguments of your
+subprocess function.</li>
+
+<li>Piping is done by running a few subprocess functions and linking their
+stdout and stdin arguments together.</li>
+
+<li>Subcommands are emulated by collecting the output of one command and using
+it to build the arguments of the next command.</li>
+
+</ul>
+
+<p>Also keep in mind that many simple commands can be avoided altogether in
+favor of Python libraries.  For example, there's no reason to run "date
++%Y%m%d" to get the current date. You can get it from datetime.now().</p>
+
+<p>If you are running complex pipelines of commands, it will be easier to use
+a shell to do it.  Just be very very careful.</p>
+
+<!--
+<p>Other tools include:
+<a href='https://pypi.python.org/pypi/envoy'>envoy</a>.
+
+<a href='https://docs.python.org/3/library/pipes.html'>pipes</a>
+-->
 
 <pagecomments/>
 
