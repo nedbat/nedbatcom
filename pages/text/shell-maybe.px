@@ -319,12 +319,12 @@ need:</p>
 
 <ul>
 
-<li>Wildcards are expanded into lists of files with glob.glob</li>
+<li>Wildcards are expanded into lists of files with <a href="https://docs.python.org/3/library/glob.html">glob.glob</a>.</li>
 
-<li>Expansion of environment variables is done with os.environ or
-os.path.expandvars</li>
+<li>Expansion of environment variables is done with <a href="https://docs.python.org/3/library/os.html#os.environ">os.environ</a> or
+<a href="https://docs.python.org/3/library/os.path.html#os.path.expandvars">os.path.expandvars</a>.</li>
 
-<li>Tilde expansion is done with os.expanduser.</li>
+<li>Tilde expansion is done with <a href="https://docs.python.org/3/library/os.path.html#os.path.expanduser">os.expanduser</a>.</li>
 
 <li>Redirection is done by setting the stdout and stderr arguments of your
 subprocess function.</li>
@@ -339,7 +339,8 @@ it to build the arguments of the next command.</li>
 
 <p>Also keep in mind that many simple commands can be avoided altogether in
 favor of Python libraries.  For example, there's no reason to run "date
-+%Y%m%d" to get the current date. You can get it from datetime.now().</p>
++%Y%m%d" to get the current date. You can get it from
+<a href="https://docs.python.org/3/library/datetime.html#datetime.datetime.now">datetime.now</a>.</p>
 
 <p>If you are running complex pipelines of commands, it will be easier to use
 a shell to do it.  Just be very very careful.</p>
