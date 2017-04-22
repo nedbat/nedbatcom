@@ -300,7 +300,7 @@ it.</p>
 intended it to.</p>
 
 
-<h1>How to properly avoid the shell</h1>
+<h1>How to avoid the shell</h1>
 
 <p>If you have a command line in mind, and you want to turn it into some Python
 code that runs the program the same way, you have to think like the shell.
@@ -329,20 +329,23 @@ need:</p>
 <li>Redirection is done by setting the stdout and stderr arguments of your
 subprocess function.</li>
 
-<li>Piping is done by running a few subprocess functions and linking their
-stdout and stdin arguments together.</li>
-
 <li>Subcommands are emulated by collecting the output of one command and using
 it to build the arguments of the next command.</li>
 
+<li>Piping is done by running a few subprocess functions and linking their
+stdout and stdin arguments together.  The subprocess docs have 
+<a href="https://docs.python.org/3/library/subprocess.html#replacing-shell-pipeline">an example</a>.</li>
+
 </ul>
 
-<p>Also keep in mind that many simple commands can be avoided altogether in
+<p>Keep in mind that many simple commands can be avoided altogether in
 favor of Python libraries.  For example, there's no reason to run "date
 +%Y%m%d" to get the current date. You can get it from
 <a href="https://docs.python.org/3/library/datetime.html#datetime.datetime.now">datetime.now</a>.</p>
 
-<p>If you are running complex pipelines of commands, it will be easier to use
+<p>There are a number of libraries to help with complex scenarios, though I 
+have no experience with any of them, so I don't know which to recommend!
+If you are running complex pipelines of commands, it will be easier to use
 a shell to do it.  Just be very very careful.</p>
 
 <!--
