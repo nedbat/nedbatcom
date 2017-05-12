@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170512T072634'>
+<title>Re-ruling .rst</title>
+<category>python</category>
+<body>
+
+<p>Sometimes, you need a small job done, and you can write a small Python
+    program, and it does just what you need, and it pleases you.
+</p>
+
+<p>I have some Markdown files to convert to ReStructured Text.
+    <a href='https://pandoc.org/'>Pandoc</a> does a really good job. But it
+    chooses a different order for heading punctuation than our house style,
+    and I didn't see a way to control it.</p>
+
+<p>But it was easy to write a small thing to do the small thing:</p>
+
+<code lang="python"><![CDATA[
+import re
+import sys
+
+# The order we want our heading rules.
+GOOD_RULES = '#*=-.~'
+
+# A rule is any line of all the same non-word character, 3 or more.
+RULE_RX = r"^([^\w\d])\1\1+$"
+
+def rerule_file(f):
+    rules = {}
+    for line in f:
+        line = line.rstrip()
+        rule_m = re.search(RULE_RX, line)
+        if rule_m:
+            if line[0] not in rules:
+                rules[line[0]] = GOOD_RULES[len(rules)]
+            line = rules[line[0]] * len(line)
+        print(line)
+
+rerule_file(sys.stdin)
+]]></code>
+
+<p>If you aren't conversant in .rst: there's no fixed order to which punctuation
+    means which level heading.  The first rule encountered is heading 1, the
+    next style found is heading 2, and so on.</p>
+
+<p>There might be other ways to do this, but this makes me happy.</p>
+
+</body>
+</entry>
+</blog>
