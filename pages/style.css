@@ -201,7 +201,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: gray;
+    color: #595959;
 }
 
 .docinfo {
@@ -212,7 +212,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: gray;
+    color: #595959;
 }
 
 ul {
@@ -313,14 +313,14 @@ a.s:hover
 
 .blog-entry .foot {
     font-family: verdana, sans-serif;
-    font-size: 85%; color: gray;
+    font-size: 85%; color: #595959;
     font-style: italic;
     border-bottom: solid 1px silver;
     padding-bottom: 12pt; margin-bottom: 6pt;
 }
 
 .blog-entry .foot a
-{ text-decoration: none; color: gray }
+{ text-decoration: none; color: #595959 }
 
 .blog-entry .foot a:hover
 { text-decoration: underline; color: red }
@@ -334,11 +334,11 @@ a.s:hover
 
 .blog-entry .date {
     font-size: 85%;
-    color: gray; margin: 0; padding: 0;
+    color: #595959; margin: 0; padding: 0;
 }
 
 .blog-entry .date a.s {
-    color: gray;
+    color: #595959;
 }
 
 .blog-entry p {
@@ -371,7 +371,7 @@ a.s:hover
     text-align: right;
     padding: 0 0 0 0;
     margin: 0 0 -1.45em 0;
-    color: gray;
+    color: #595959;
 }
 
 /* Category page: Like archive, but the dates are wider. */
@@ -388,7 +388,7 @@ a.s:hover
     text-align: right;
     padding: 0 0 0 0;
     margin: 0 0 -1.45em 0;
-    color: gray;
+    color: #595959;
 }
 
 .catlist p {
@@ -405,12 +405,12 @@ a.s:hover
 }
 
 .also {
-    font-size: 85%; color: gray;
+    font-size: 85%; color: #595959;
     font-style: italic; text-decoration: none;
 }
 
 .also a {
-    text-decoration: none; color: gray
+    text-decoration: none; color: #595959;
 }
 
 .also a:hover {
@@ -622,7 +622,7 @@ img {
 .comment .when {
     font-family: verdana, sans-serif;
     float: right;
-    font-size: 85%; color: gray; margin-top: 0;
+    font-size: 85%; color: #595959; margin-top: 0;
 }
 
 .comment .head {
@@ -674,7 +674,7 @@ img {
 
 .comments .notice {
     font-size: 90%;
-    color: gray;
+    color: #595959;
     font-style: italic;
 }
 
