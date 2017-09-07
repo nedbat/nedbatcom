@@ -5,9 +5,9 @@
     <table>
         <tr>
             {% if label %}
-                <td class="vmid">{{label|safe}}</td>
+                <td class="vmid"><label id="search_label">{{label|safe}}</label></td>
             {% endif %}
-            <td class="vmid"><input type="search" name="q" class="searchbox"></td>
+            <td class="vmid"><input type="search" name="q" class="searchbox" aria-labelledby="search_label"></td>
             <td class="vmid"><input id="submit" class="vmid" type="image" title="Search" alt="Search" src="/pix/search.png"></td>
         </tr>
     </table>
