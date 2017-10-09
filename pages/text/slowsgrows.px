@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<page title='Big-O notation'>
+<history>
+<what when='20171008T141800'>Created.</what>
+</history>
+
+<p>There's this thing in computer science that working programmers talk about,
+called Big-O notation.  When a software developer feels bad because they don't
+have a Computer Science degree, and they feel a bit inferior because of it, it
+seems like Big-O notation gets mentioned as the indicator of the grown-ups
+table.</p>
+
+<p>Big-O isn't as mystical as it appears.  It's wrapped in mathematical
+trappings, but doesn't have to be more than a common-sense assessment of how
+your code will behave.</p>
+
+<p>I'm using Python examples in this write-up, but the concepts apply to all
+programming languages.</p>
+
+
+<h1>The basic idea</h1>
+
+<p>Big-O notation is a semi-mathematical approach to understanding how code
+behaves as its data gets larger.  To put it in rhyme form:</p>
+
+<quote><p>Big-O: how code slows as data grows.</p></quote>
+
+<p>Imagine you have a chunk of code that does something to a bunch of data.
+You'd like to know how much slower the code will go if you give it ten times
+more data.  That's what Big-O describes.  You might imagine that the answer is
+of course, ten times slower.  But that's not the way real code works.  Some
+might go a hundred times slower.  Some might not go any slower at all.  Big-O
+is a way to analyze the code and determine the slow-down factor.</p>
+
+<p>The rhyme is cute, but it captures the essence of Big-O.  It isn't about
+actually how fast a particular piece of code will run with a particular data
+set.  Big-O is about the relationship between the size of the data, and the
+time the code will take.  As your data changes size, how will your run time
+change?  How code slows as data grows.</p>
+
+
+<h1>What the notation means</h1>
+
+<p>Let's start by understanding what the notation means, and then we'll get into
+how to determine it.  When talking about the big-O run time of a piece of code,
+the size of the input data is given a letter name, usually N.  Then the big-O
+is an expression in N that says roughly how many steps the code will take to
+execute.</p>
+
+<p>If someone says an algorithm is O(N), that means that the number of steps is
+proportional to N.  If you give it ten times more data, it will take ten times
+as long to run.</p>
+
+<p>O(N<sup>2</sup>) means that the number of steps is proportional to N squared.
+When operating on ten times as much data, it will take hundred times as long.
+O(1) looks funny, but is a way of saying that the running time doesn't depend on 
+N at all: no matter how much data, the run time is the same, a constant.</p>
+
+<p>Some other common expressions are O(log N) and O(N log N).</p>
+
+
+<h1>Analyzing code</h1>
+
+<p>To determine the big-O run time of your code, first decide what aspect of
+your data is the one that grows.  What is the interesting size in your input
+data?  Usually this is pretty obvious, but it's good to be explicit about
+it.</p>
+
+<p>As an example, let's say I have a list of key/value pairs, and I want to
+find the value for a particular key:</p>
+
+<code lang="python"><![CDATA[
+def find_it(haystack, needle):
+    """Find a needle in a haystack list."""
+    for key, val in haystack:
+        if key == needle:
+            return val
+
+    return None
+]]></code>
+
+<p>In this case, N will be the number of pairs, the length of the list.</p>
+
+<p>Using your understanding of the code, look at each part of it, and total up
+how many steps will be executed if the input is size N.</p>
+
+<p>At this point, you might be asking, "what counts as a step?"  That's a great
+question. This may seem suprising, but in lots of ways, it doesn't matter.  The
+important thing it to understand where your code will do more work when N is
+larger. And as we'll see, there's a lot about the number of steps that we are
+going to ignore anyway.</p>
+
+<p>For our function above, it's going to look through the key/value pairs until
+it finds a match. The match could be anywhere in the list, sometimes near the
+front, sometimes way in the back.  On average, we'll find it halfway through
+the list.  This is one of the ways big-O is not precise: it's a characterizaion
+of the average run time of a piece of code.  Sometimes we'll run this function,
+and it will find the value in the very first element.  But on average, we'll
+have to look through half the elements to find it.</p>
+
+<p>Let's look at the code line by line:</p>
+
+<code lang="python"><![CDATA[
+    for key, val in haystack:
+]]></code>
+
+<p>We've already decided this loop is going to execute N/2 times, so we have
+N/2 steps to get the elements out of haystack.  We have N/2 steps to assign
+each of the keys to key, and N/2 steps to assign the values to val.  So far we
+have a total of 3N/2 steps.</p>
+
+<code lang="python"><![CDATA[
+        if key == needle:
+]]></code>
+
+<p>We'll do this comparison N/2 times, so we have a total of 3N/2+N/2 = 4N/2 =
+2N steps.</p>
+
+<code lang="python"><![CDATA[
+            return val
+]]></code>
+
+<p>This line will only be executed once, so our total is 2N+1.  Notice we
+counted the assignments as 1, and the return as 1.  What if returns take longer
+than assignments?  It doesn't matter.  The key thing is that the run time for
+assigning one name is independent of the length of our input list, and the
+run time for returning the found value is also independent of the length of our
+input list.  They are each constant as far as N is concerned, so we count them
+each as 1.</p>
+
+<p>Finally, the last line (returning None if we didn't find the value) is also
+a constant 1, so our grand total is 2N+2 steps.</p>
+
+<p>When describing the big-O run time, we only care about the most significant
+component. So we drop everything but the biggest-exponent piece. 2N+2 becomes
+just 2N.  And the constant multiplier is irrelevant because O(2N) will double
+if N doubles, just like O(N) will.  So we drop the coefficients also.</p>
+
+<p>After dropping the irrelevant stuff, 2N+2 becomes N, so our find_it function
+has a run time of O(N).</p>
+
+<h1>Building up</h1>
+
+<p>Now suppose we need to look through all the values, and if they are also
+keys, then sum all of those keys' values? (A little confusing, and contrived, I
+know.) This code will do it for us:</p>
+
+<code lang="python"><![CDATA[
+def sum_of_values_of_keys_that_are_values(haystack):
+    total = 0
+    for key, value in haystack:
+        vvalue = find_it(haystack, value)
+        if vvalue is not None:
+            total += vvalue
+    return total
+]]></code>
+
+<p>Let's analyze this code for its big-O run time.  Again, N will be the length
+of haystack, the number of key/value pairs in the list.  This time, our loop
+will always be over the entire list, so this line will run N times:</p>
+
+<code lang="python"><![CDATA[
+    for key, value in haystack:
+]]></code>
+
+<p>That will give us 3N steps. But the big problem is the next line:</p>
+
+<code lang="python"><![CDATA[
+    vvalue = find_it(haystack, value)
+]]></code>
+
+<p>As we analyzed earlier, find_it is O(N), and this loop will execute it N
+times, so this line requires N<sup>2</sup> steps.  We can forget about the 3N
+at this point, since we know we will discard it later.  This code is
+O(N<sup>2</sup>).</p>
+
+<p>O(N<sup>2</sup>) is also known as quadratic-time. If you have ten times the
+data, it take a hundred times longer.  With a thousand times as much data, it
+takes a million times longer.  Be careful of quadratic algorithms. If you get
+any interestingly sized data, your program can become slow.</p>
+
+
+<h1>The ideal: O(1)</h1>
+
+<p>It seems magical somehow, but there are algorithms that are O(1): they deal
+with varying amounts of data in a constant time.  Give them a thousand times as
+much data, the run time doesn't change.</p>
+
+<p>Hash tables are the common example.  Looking up a value in a hash table is a
+constant-time operation.  Python's dict, Ruby's maps, Perl's hashmaps, etc, are
+all hash tables.  Looking up keys in them is very fast.  Finding a key in a
+million-element dict is no slower than finding one in ten-element dict.</p>
+
+- figure
+- python primitives
+
+
+<pagecomments/>
+
+</page>
