@@ -5,9 +5,9 @@
 </history>
 
 <p>There's this thing in computer science that working programmers talk about,
-called Big-O notation.  When a software developer feels bad because they don't
+called big-O notation.  When a software developer feels bad because they don't
 have a Computer Science degree, and they feel a bit inferior because of it, it
-seems like Big-O notation gets mentioned as the indicator of the grown-ups
+seems like big-O notation gets mentioned as the indicator of the grown-ups
 table.</p>
 
 <p>Big-O isn't as mystical as it appears.  It's wrapped in mathematical
@@ -27,34 +27,40 @@ behaves as its data gets larger.  To put it in rhyme form:</p>
 
 <p>Imagine you have a chunk of code that does something to a bunch of data.
 You'd like to know how much slower the code will go if you give it ten times
-more data.  That's what Big-O describes.  You might imagine that the answer is
+more data.  That's what big-O describes.  You might imagine that the answer is
 of course, ten times slower.  But that's not the way real code works.  Some
 might go a hundred times slower.  Some might not go any slower at all.  Big-O
 is a way to analyze the code and determine the slow-down factor.</p>
 
-<p>The rhyme is cute, but it captures the essence of Big-O.  It isn't about
+<p>The rhyme is cute, but it captures the essence of big-O.  It isn't about
 actually how fast a particular piece of code will run with a particular data
 set.  Big-O is about the relationship between the size of the data, and the
 time the code will take.  As your data changes size, how will your run time
 change?  How code slows as data grows.</p>
 
+<p>Terminology sidebar: it's called big-O because it describes the run time as
+being "on the Order of" something.  Another term people use for this is
+"algorithmic complexity," which sounds super-advanced, so feel free to throw
+that around and impress your friends.</p>
+
 
 <h1>What the notation means</h1>
 
-<p>Let's start by understanding what the notation means, and then we'll get into
-how to determine it.  When talking about the big-O run time of a piece of code,
-the size of the input data is given a letter name, usually N.  Then the big-O
-is an expression in N that says roughly how many steps the code will take to
-execute.</p>
+<p>Let's start by understanding what the notation means, and then we'll get
+into how to determine it.  When talking about the big-O run time of a piece of
+code, the size of the input data is given a letter name, usually N or n.  Then
+the big-O is an expression in N that says roughly how many steps the code will
+take to execute.</p>
 
 <p>If someone says an algorithm is O(N), that means that the number of steps is
 proportional to N.  If you give it ten times more data, it will take ten times
 as long to run.</p>
 
-<p>O(N<sup>2</sup>) means that the number of steps is proportional to N squared.
-When operating on ten times as much data, it will take hundred times as long.
-O(1) looks funny, but is a way of saying that the running time doesn't depend on 
-N at all: no matter how much data, the run time is the same, a constant.</p>
+<p>O(N<sup>2</sup>) means that the number of steps is proportional to N
+squared.  When operating on ten times as much data, it will take hundred times
+as long.  O(1) looks funny, but is a way of saying that the running time
+doesn't depend on N at all: no matter how much data, the run time is the same,
+a constant.</p>
 
 <p>Some other common expressions are O(log N) and O(N log N).</p>
 
@@ -137,7 +143,8 @@ just 2N.  And the constant multiplier is irrelevant because O(2N) will double
 if N doubles, just like O(N) will.  So we drop the coefficients also.</p>
 
 <p>After dropping the irrelevant stuff, 2N+2 becomes N, so our find_it function
-has a run time of O(N).</p>
+has a run time, or algorithmic complexity, of O(N).</p>
+
 
 <h1>Building up</h1>
 
@@ -163,21 +170,27 @@ will always be over the entire list, so this line will run N times:</p>
     for key, value in haystack:
 ]]></code>
 
-<p>That will give us 3N steps. But the big problem is the next line:</p>
+<p>There are three steps each time we run this line, so that gives us 3N steps.
+The next line is where it gets interesting:</p>
 
 <code lang="python"><![CDATA[
-    vvalue = find_it(haystack, value)
+        vvalue = find_it(haystack, value)
 ]]></code>
 
-<p>As we analyzed earlier, find_it is O(N), and this loop will execute it N
-times, so this line requires N<sup>2</sup> steps.  We can forget about the 3N
-at this point, since we know we will discard it later.  This code is
-O(N<sup>2</sup>).</p>
+<p>As we analyzed earlier, the find_it function is O(N). This loop will
+execute it N times, so this line requires N<sup>2</sup> steps.  We can forget
+about the 3N at this point, since we know we will discard it later.  This code
+is O(N<sup>2</sup>).</p>
 
 <p>O(N<sup>2</sup>) is also known as quadratic-time. If you have ten times the
-data, it take a hundred times longer.  With a thousand times as much data, it
-takes a million times longer.  Be careful of quadratic algorithms. If you get
-any interestingly sized data, your program can become slow.</p>
+data, it will take a hundred times longer.  With a thousand times as much data,
+it takes a million times longer.  Be careful of quadratic algorithms. If you
+get any interestingly sized data, your program can become very slow.</p>
+
+<p>This is the point of analyzing the algorithmic complexity of your code.
+Often, programs start with small data sets, and then grow as they are used
+more.  That data growth implies some run time growth.  Thinking about that as
+you write the code can help you avoid problems further down the road.</p>
 
 
 <h1>The ideal: O(1)</h1>
@@ -191,8 +204,26 @@ constant-time operation.  Python's dict, Ruby's maps, Perl's hashmaps, etc, are
 all hash tables.  Looking up keys in them is very fast.  Finding a key in a
 million-element dict is no slower than finding one in ten-element dict.</p>
 
-- figure
+<h1>The graph</h1>
+
+<p>No discussion of big-O would be complete without an illustration of how
+different run times grow with the size of the data:</p>
+
+<figurep>
+<img src='pix/graph_complexity.png' alt='Five different complexities and how they grow' width='525' height='401' />
+</figurep>
+
+<p>The horizontal axis here is the size of the data, and the vertical axis is
+the run time of the code.  Neither has any units, because this is still just a
+crude characterization with lots of details omitted, as big-O always is.</p>
+
+<p>Notice how quickly the red O(n<sup>2</sup>) line zooms off the top of the
+chart (remember: n and N are the same.)</p>
+
 - python primitives
+- small data
+- amortized
+- terminology: algorithmic complexity, quadratic, linear
 
 
 <pagecomments/>
