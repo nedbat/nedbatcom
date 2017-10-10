@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<page title='Big-O notation'>
+<page title='Big-O: how code slows as data grows'>
 <history>
 <what when='20171008T141800'>Created.</what>
 </history>
@@ -39,9 +39,16 @@ time the code will take.  As your data changes size, how will your run time
 change?  How code slows as data grows.</p>
 
 <p>Terminology sidebar: it's called big-O because it describes the run time as
-being "on the Order of" something.  Another term people use for this is
-"algorithmic complexity," which sounds super-advanced, so feel free to throw
-that around and impress your friends.</p>
+being "on the Order of" something, which is a mathematician's way of saying
+that two things grow similarly.  O(N) means that the run time is on the order
+of N, or that it grows in the same way that N grows.  Another term people use
+for this is "algorithmic complexity," which sounds super-advanced, so feel free
+to throw that around and impress your friends.</p>
+
+<p>The notation looks like a function: O(N) has similar syntax to sin(x). But
+it isn't a function, it's just a shorthand.  "O(N)" is "order of N", and
+"sin(x)" is "sine of x", so those too-clever mathematicians used the same
+syntax.  Don't let it throw you.</p>
 
 
 <h1>What the notation means</h1>
@@ -91,18 +98,18 @@ def find_it(haystack, needle):
 how many steps will be executed if the input is size N.</p>
 
 <p>At this point, you might be asking, "what counts as a step?"  That's a great
-question. This may seem suprising, but in lots of ways, it doesn't matter.  The
-important thing it to understand where your code will do more work when N is
-larger. And as we'll see, there's a lot about the number of steps that we are
-going to ignore anyway.</p>
+question. This may seem surprising, but in lots of ways, it doesn't matter.
+The important thing it to understand where your code will do more work when N
+is larger. And as we'll see, there's a lot about the number of steps that we
+are going to ignore anyway.</p>
 
 <p>For our function above, it's going to look through the key/value pairs until
 it finds a match. The match could be anywhere in the list, sometimes near the
 front, sometimes way in the back.  On average, we'll find it halfway through
-the list.  This is one of the ways big-O is not precise: it's a characterizaion
-of the average run time of a piece of code.  Sometimes we'll run this function,
-and it will find the value in the very first element.  But on average, we'll
-have to look through half the elements to find it.</p>
+the list.  This is one of the ways big-O is not precise: it's a
+characterization of the average run time of a piece of code.  Sometimes we'll
+run this function, and it will find the value in the very first element.  But
+on average, we'll have to look through half the elements to find it.</p>
 
 <p>Let's look at the code line by line:</p>
 
@@ -138,9 +145,12 @@ each as 1.</p>
 a constant 1, so our grand total is 2N+2 steps.</p>
 
 <p>When describing the big-O run time, we only care about the most significant
-component. So we drop everything but the biggest-exponent piece. 2N+2 becomes
-just 2N.  And the constant multiplier is irrelevant because O(2N) will double
-if N doubles, just like O(N) will.  So we drop the coefficients also.</p>
+component. This is because we are looking at how the run time changes as the
+data gets bigger and bigger.  As N gets larger, the +2 part becomes less and
+less significant, to the point that it is irrelevant.  So we drop everything
+but the biggest-exponent piece. 2N+2 becomes just 2N.  And the constant
+multiplier is irrelevant because O(2N) will double if N doubles, just like O(N)
+will.  So we drop the coefficients also.</p>
 
 <p>After dropping the irrelevant stuff, 2N+2 becomes N, so our find_it function
 has a run time, or algorithmic complexity, of O(N).</p>
@@ -162,9 +172,10 @@ def sum_of_values_of_keys_that_are_values(haystack):
     return total
 ]]></code>
 
-<p>Let's analyze this code for its big-O run time.  Again, N will be the length
-of haystack, the number of key/value pairs in the list.  This time, our loop
-will always be over the entire list, so this line will run N times:</p>
+<p>Let's figure out the algorithmic complexity of this code.  Again, N will be
+the length of haystack, the number of key/value pairs in the list.  This time,
+our loop will always be over the entire list, so this line will run N
+times:</p>
 
 <code lang="python"><![CDATA[
     for key, value in haystack:
@@ -180,12 +191,12 @@ The next line is where it gets interesting:</p>
 <p>As we analyzed earlier, the find_it function is O(N). This loop will
 execute it N times, so this line requires N<sup>2</sup> steps.  We can forget
 about the 3N at this point, since we know we will discard it later.  This code
-is O(N<sup>2</sup>).</p>
+is O(N<sup>2</sup>), sometimes referred to as "quadratic."</p>
 
-<p>O(N<sup>2</sup>) is also known as quadratic-time. If you have ten times the
-data, it will take a hundred times longer.  With a thousand times as much data,
-it takes a million times longer.  Be careful of quadratic algorithms. If you
-get any interestingly sized data, your program can become very slow.</p>
+<p>With code like this, If you have ten times the data, it will take a hundred
+times longer.  With a thousand times as much data, it takes a million times
+longer.  Be careful of quadratic algorithms. If you get any interestingly sized
+data, your program can become very slow.</p>
 
 <p>This is the point of analyzing the algorithmic complexity of your code.
 Often, programs start with small data sets, and then grow as they are used
@@ -200,9 +211,10 @@ with varying amounts of data in a constant time.  Give them a thousand times as
 much data, the run time doesn't change.</p>
 
 <p>Hash tables are the common example.  Looking up a value in a hash table is a
-constant-time operation.  Python's dict, Ruby's maps, Perl's hashmaps, etc, are
-all hash tables.  Looking up keys in them is very fast.  Finding a key in a
-million-element dict is no slower than finding one in ten-element dict.</p>
+constant-time operation.  Python's dict, Ruby's hashes, Perl's hash, Java's
+HashMaps, etc, are all hash tables.  Looking up keys in them is very fast.
+Finding a key in a million-element dict is no slower than finding one in
+ten-element dict.</p>
 
 <h1>The graph</h1>
 
@@ -220,10 +232,99 @@ crude characterization with lots of details omitted, as big-O always is.</p>
 <p>Notice how quickly the red O(n<sup>2</sup>) line zooms off the top of the
 chart (remember: n and N are the same.)</p>
 
-- python primitives
-- small data
-- amortized
-- terminology: algorithmic complexity, quadratic, linear
+<p>Another note about terminology: sometimes complexity is referred to with
+short-hands based on the exponent of the speed.  O(N) is called "linear", O(1)
+is called "constant", and O(N<sup>2</sup>) is called "quadratic."  There's even
+the monster O(2<sup>N</sup>), known as "exponential."</p>
+
+
+<h1>Primitives</h1>
+
+<p>When analyzing code, we need to know how many steps to count for each of the
+individual operations.  Every programming language provides data structures and
+libraries. Each operation on those structures will have its own complexity that
+contributes steps to your overall program.  You'll need to know what those are
+in order to accurately understand your own code.</p>
+
+<p>Here are some for Python data structures:</p>
+
+    <table>
+        <tr><th colspan='2'>Lists</th></tr>
+        <tr><td><codeword>mylist.append(val)  </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>mylist[i]           </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>val in mylist       </codeword></td><td>O(N)</td></tr>
+        <tr><td><codeword>for val in mylist:  </codeword></td><td>O(N)</td></tr>
+
+        <tr><th colspan='2'>Dicts</th></tr>
+        <tr><td><codeword>mydict[key] = val   </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>mydict[key]         </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>key in mydict       </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>for key in mydict:  </codeword></td><td>O(N)</td></tr>
+
+        <tr><th colspan='2'>Sets</th></tr>
+        <tr><td><codeword>myset.add(val)      </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>val in myset        </codeword></td><td>O(1)</td></tr>
+        <tr><td><codeword>for val in myset:   </codeword></td><td>O(N)</td></tr>
+    </table>
+
+<p>In all of these, N is the size of the list, dict, or set.</p>
+
+<p>Looking up values in a dict or set is O(1). This is why people love them so
+much.  Often a good first guess about how to make a Python program faster is:
+find the place where you are searching a list for a value. Make that list a set
+instead.</p>
+
+<p>More details about Python behavior is at the
+<a href='https://wiki.python.org/moin/TimeComplexity'>Time Complexity</a>
+Python wiki page.</p>
+
+
+<h1>Be reasonable</h1>
+
+<p>Understanding the algorithmic complexity of your code is a powerful tool.
+Choosing the right algorithm is the best way to make code go faster.  But like
+any tool, big-O can be over-applied. It's important, but it isn't the only
+consideration.</p>
+
+<p>For example, searching a list is O(N), but if the list is small, or if you
+only need to do it once, then who cares?  Just write the simple code, and move
+on.</p>
+
+<p>Another factor to consider is that big-O discards the coefficients.  You
+might have two algorithms to choose between.  One is O(N) and another is
+O(N<sup>2</sup>). Which is better?  Well, if O(N) is N<times/>1sec, and the
+O(N<sup>2</sup>) is N<sup>2</sup><times/>1msec, then the quadratic algorithm
+will be faster if N is less than 1000.  You need to understand the complexity
+of the algorithm, but you also need to understand the actual range of your
+data, and then choose wisely.</p>
+
+
+<h1>Some final details</h1>
+
+<p>An important thing to remember about algorithmic complexity: it's a rough
+characterization of the average behavior of a chunk of code over typical
+data.</p>
+
+<p>As an example, above I said that appending to a Python list is O(1).  In
+truth, when you append to a list, it's either very fast, or it's slow.  How
+slow it is depends on how long the list is.  That sounds like O(N), but
+appending is clever: the slow option gets slower as the list grows, but it also
+gets less and less frequent.  This net result is that on average, the operation
+is O(1).</p>
+
+<p>If you read more about big-O, you may see the word "amortized" thrown
+around.  That's a fancy word for "average," meaning that individual occurrences
+don't all behave exactly the same, but over the long run, averaging over many
+operations, the behavior has a certain characteristic.</p>
+
+<p>Another example: adding a key in a dict and looking up a key are O(1), which
+is true for typical data.  But if you understand the internals of dicts, you
+can carefully craft a set of keys that will perform terribly, with O(N)
+behavior.  Filling that dict would take O(N<sup>2</sup>) time.  This was the
+basis for a denial of service attack against web servers, and for the key
+randomization feature in Python used to defend against the attack.</p>
+
+
 
 
 <pagecomments/>
