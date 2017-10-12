@@ -20,8 +20,8 @@ programming languages.</p>
 
 <h1>The basic idea</h1>
 
-<p>Big-O notation is a semi-mathematical approach to understanding how code
-behaves as its data gets larger.  To put it in rhyme form:</p>
+<p>Big-O notation is a way to understand how code behaves as its data gets
+larger.  To put it in rhyme form:</p>
 
 <quote><p>Big-O: how code slows as data grows.</p></quote>
 
@@ -212,9 +212,8 @@ much data, the run time doesn't change.</p>
 
 <p>Hash tables are the common example.  Looking up a value in a hash table is a
 constant-time operation.  Python's dict, Ruby's hashes, Perl's hash, Java's
-HashMaps, etc, are all hash tables.  Looking up keys in them is very fast.
-Finding a key in a million-element dict is no slower than finding one in
-ten-element dict.</p>
+HashMaps, etc, are all hash tables.  Finding a key in a million-element dict is
+just as fast as finding one in ten-element dict.</p>
 
 <h1>The graph</h1>
 
@@ -321,7 +320,7 @@ operations, the behavior has a certain characteristic.</p>
 is true for typical data.  But if you understand the internals of dicts, you
 can carefully craft a set of keys that will perform terribly, with O(N)
 behavior.  Filling that dict would take O(N<sup>2</sup>) time.  This was the
-basis for a denial of service attack against web servers, and for the key
+basis for a denial of service attack against web servers, and for the hash
 randomization feature in Python used to defend against the attack.</p>
 
 
