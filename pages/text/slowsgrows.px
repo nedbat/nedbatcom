@@ -5,7 +5,7 @@
 </history>
 
 <p>There's this thing in computer science that working programmers talk about,
-called big-O notation.  When a software developer feels bad because they don't
+called "big-O".  When a software developer feels bad because they don't
 have a Computer Science degree, and they feel a bit inferior because of it, it
 seems like big-O notation gets mentioned as the indicator of the grown-ups
 table.</p>
@@ -14,8 +14,10 @@ table.</p>
 trappings, but doesn't have to be more than a common-sense assessment of how
 your code will behave.</p>
 
-<p>I'm using Python examples in this write-up, but the concepts apply to all
-programming languages.</p>
+<p>My goal here is to explain big-O in ten minutes so that you can reason about
+your code, without getting into esoteric concerns.  BTW, I'm using Python
+examples in this write-up, but the concepts apply to all programming
+languages.</p>
 
 
 <h1>The basic idea</h1>
@@ -28,22 +30,46 @@ larger.  To put it in rhyme form:</p>
 <p>Imagine you have a chunk of code that does something to a bunch of data.
 You'd like to know how much slower the code will go if you give it ten times
 more data.  That's what big-O describes.  You might imagine that the answer is
-of course, ten times slower.  But that's not the way real code works.  Some
-might go a hundred times slower.  Some might not go any slower at all.  Big-O
-is a way to analyze the code and determine the slow-down factor.</p>
+of course, ten times slower.  But that's not the way real code works.  One
+algorithm might go a hundred times slower.  Another might not go any slower at
+all.  Big-O is a way to analyze the code and determine the slow-down
+factor.</p>
 
-<p>The rhyme is cute, but it captures the essence of big-O.  It isn't about
-actually how fast a particular piece of code will run with a particular data
-set.  Big-O is about the relationship between the size of the data, and the
-time the code will take.  As your data changes size, how will your run time
-change?  How code slows as data grows.</p>
+<p>The rhyme is cute, but it captures the essence.  Big-O isn't about how fast
+a particular piece of code will actually run with a particular data set.  Big-O
+is about the relationship between the size of the data, and the time the code
+will take.  As your data changes size, how will your run time change?  How code
+slows as data grows.</p>
 
-<p>Terminology sidebar: it's called big-O because it describes the run time as
-being "on the Order of" something, which is a mathematician's way of saying
-that two things grow similarly.  O(N) means that the run time is on the order
-of N, or that it grows in the same way that N grows.  Another term people use
-for this is "algorithmic complexity," which sounds super-advanced, so feel free
-to throw that around and impress your friends.</p>
+<p>Before jumping into the nitty-gritty, let's look at a real-world example.
+Suppose I give you two jars of jellybeans, a small one with 100 beans in it,
+and a large one with 500 beans in it.  Each has a label saying how many
+jellybeans are in the jar.  I ask you to tell me how many jellybeans are in
+each jar.  The time it takes you to determine the count is the same for both
+jars: you just read the number off the label.  The time didn't depend on how
+many jellybeans there were (assuming we can trust the label!)</p>
+
+<p>Now I give you the same two jars, but without the labels.  To determine how
+many jellybeans there are, it will take 5 times longer for the large jar,
+because now you have to count each jellybean.  With labelled jars, determining
+the count was a constant-time operation: it took the same amount of time no
+matter how many jellybeans there were.  In the unlabelled scenario, we have
+what's called a linear-time operation: determining the count takes more
+time if there are more jellybeans.  The time is proportional to the number of
+jellybeans.</p>
+
+<p>Big-O is about doing the same kind of reasoning, but for data structures and
+code instead of jars of jellybeans.</p>
+
+
+<h1>Terminology</h1>
+
+<p>It's called big-O because it describes the run time as being "on the Order
+of" something, which is a mathematician's way of saying that two things grow
+similarly.  O(N) means that the run time is on the order of N, or that it grows
+in the same way that N grows.  Another term people use for this is "algorithmic
+complexity," which sounds super-advanced, so feel free to throw that around and
+impress your friends.</p>
 
 <p>The notation looks like a function: O(N) has similar syntax to sin(x). But
 it isn't a function, it's just a shorthand.  "O(N)" is "order of N", and
@@ -61,15 +87,15 @@ take to execute.</p>
 
 <p>If someone says an algorithm is O(N), that means that the number of steps is
 proportional to N.  If you give it ten times more data, it will take ten times
-as long to run.</p>
+as long to run. Counting unlabelled jellybean jars is O(N).</p>
 
 <p>O(N<sup>2</sup>) means that the number of steps is proportional to N
-squared.  When operating on ten times as much data, it will take hundred times
-as long.  O(1) looks funny, but is a way of saying that the running time
+squared.  When operating on ten times as much data, it will take a hundred
+times as long.  O(1) looks funny, but is a way of saying that the running time
 doesn't depend on N at all: no matter how much data, the run time is the same,
-a constant.</p>
+a constant.  Counting labelled jellybean jars is O(1).</p>
 
-<p>Some other common expressions are O(log N) and O(N log N).</p>
+<p>Some other common expressions you might see are O(log N) and O(N log N).</p>
 
 
 <h1>Analyzing code</h1>
@@ -210,10 +236,18 @@ you write the code can help you avoid problems further down the road.</p>
 with varying amounts of data in a constant time.  Give them a thousand times as
 much data, the run time doesn't change.</p>
 
-<p>Hash tables are the common example.  Looking up a value in a hash table is a
-constant-time operation.  Python's dict, Ruby's hashes, Perl's hash, Java's
-HashMaps, etc, are all hash tables.  Finding a key in a million-element dict is
-just as fast as finding one in ten-element dict.</p>
+<p>Getting the length of a Python list is O(1), because like our labelled
+jellybean jars, they record the count in an easy-to-read way.</p>
+
+<p>Hash tables are the classic example of a great O(1) algorithm.  Looking up a
+value in a hash table is a constant-time operation.  Python's dict, Ruby's
+hashes, Perl's hash, Java's HashMaps, etc, are all hash tables.  Finding a key
+in a million-element dict is just as fast as finding one in ten-element
+dict.  That seems magical, but it's true.  If you're curious about how it works,
+Stack Overflow has some good answers to
+<a href='https://stackoverflow.com/q/730620/14343'>How does a hash table work?</a>
+</p>
+
 
 <h1>The graph</h1>
 
@@ -240,28 +274,29 @@ the monster O(2<sup>N</sup>), known as "exponential."</p>
 <h1>Primitives</h1>
 
 <p>When analyzing code, we need to know how many steps to count for each of the
-individual operations.  Every programming language provides data structures and
-libraries. Each operation on those structures will have its own complexity that
-contributes steps to your overall program.  You'll need to know what those are
-in order to accurately understand your own code.</p>
+individual operations.  Every programming language provides types, data
+structures and libraries. Each operation on those structures will have its own
+complexity that contributes steps to your overall program.  You'll need to know
+what those are in order to accurately understand your own code.</p>
 
 <p>Here are some for Python data structures:</p>
 
     <table>
-        <tr><th colspan='2'>Lists</th></tr>
-        <tr><td><codeword>mylist.append(val)  </codeword></td><td>O(1)</td></tr>
+        <tr><td rowspan='5'><b>Lists</b><br/><codeword>[1, 2, 3, 4]</codeword></td>
+            <td><codeword>mylist.append(val)  </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>mylist[i]           </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>val in mylist       </codeword></td><td>O(N)</td></tr>
         <tr><td><codeword>for val in mylist:  </codeword></td><td>O(N)</td></tr>
+        <tr><td><codeword>mylist.sort()       </codeword></td><td>O(N log N)</td></tr>
 
-        <tr><th colspan='2'>Dicts</th></tr>
-        <tr><td><codeword>mydict[key] = val   </codeword></td><td>O(1)</td></tr>
+        <tr><td rowspan='4'><b>Dicts</b><br/><codeword>{'a': 1, 'b': 2}</codeword></td>
+            <td><codeword>mydict[key] = val   </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>mydict[key]         </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>key in mydict       </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>for key in mydict:  </codeword></td><td>O(N)</td></tr>
 
-        <tr><th colspan='2'>Sets</th></tr>
-        <tr><td><codeword>myset.add(val)      </codeword></td><td>O(1)</td></tr>
+        <tr><td rowspan='3'><b>Sets</b><br/><codeword>{1, 2, 3, 4}</codeword></td>
+            <td><codeword>myset.add(val)      </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>val in myset        </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>for val in myset:   </codeword></td><td>O(N)</td></tr>
     </table>
@@ -316,14 +351,40 @@ around.  That's a fancy word for "average," meaning that individual occurrences
 don't all behave exactly the same, but over the long run, averaging over many
 operations, the behavior has a certain characteristic.</p>
 
-<p>Another example: adding a key in a dict and looking up a key are O(1), which
-is true for typical data.  But if you understand the internals of dicts, you
-can carefully craft a set of keys that will perform terribly, with O(N)
-behavior.  Filling that dict would take O(N<sup>2</sup>) time.  This was the
-basis for a denial of service attack against web servers, and for the hash
-randomization feature in Python used to defend against the attack.</p>
+<p>The analysis we've been doing is for the average behavior.  Lots of
+operations can behave much worse in unusual circumstances. Adding a key in a
+dict and looking up a key are O(1), which is true for typical data.  But if you
+understand the internals of dicts, you can carefully craft a set of keys that
+will perform terribly, with O(N) behavior.  Filling that dict would take
+O(N<sup>2</sup>) time.  This was the basis for a denial of service attack
+against web servers, and for the hash randomization feature in Python used to
+defend against the attack.</p>
+
+<p>The simple analyses we've done here have only considered a single variable,
+the "size of the data."  But real-world data may grow in a few dimensions at
+once.  If our find_it function from above is comparing strings, then we have to
+consider that the time to check if two strings are equal is linear with the
+length of the strings.  The real run time might be O(N*k), where N is the
+number of strings, and k is the length of the strings.  In real use, the length
+of the strings might stay small and bounded, so we can ignore that factor and
+just call it O(N), but you might have a case (bioinformatics?) where the
+strings grow very large, and you have to take it into account.</p>
 
 
+<h1>Run with it</h1>
+
+<p>I hope this has given you the tools to analyze code and make good algorithm
+choices.  There's much more to algorithm analysis if you want to get into the
+true computer science aspects of it, but this is enough for working developers.
+With practice, it will become second nature to think about the algorithmic
+complexity of the code you write, and you will recognize the dreaded
+N<sup>2</sup> before it becomes a problem.</p>
+
+<p>Full disclosure: There are a bunch of simplifications in this piece that are
+common among working programmers, but computer scientists might be unhappy with
+them.  If you are interested in a deeper study of these topics,
+<a href='https://discrete.gr/complexity/'>A Gentle Introduction to Algorithm Complexity Analysis</a>
+goes into lots more details.</p>
 
 
 <pagecomments/>
