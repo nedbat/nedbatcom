@@ -42,24 +42,23 @@ will take.  As your data changes size, how will your run time change?  How code
 slows as data grows.</p>
 
 <p>Before jumping into the nitty-gritty, let's look at a real-world example.
-Suppose I give you two jars of jellybeans, a small one with 100 beans in it,
-and a large one with 500 beans in it.  Each has a label saying how many
-jellybeans are in the jar.  I ask you to tell me how many jellybeans are in
-each jar.  The time it takes you to determine the count is the same for both
-jars: you just read the number off the label.  The time didn't depend on how
-many jellybeans there were (assuming we can trust the label!)</p>
+Suppose I give you two jars of beans, a small one with 100 beans in it, and a
+large one with 500 beans in it.  Each has a label saying how many beans are in
+the jar.  I ask you to tell me how many are in each jar.  The time it takes you
+to determine the count is the same for both jars: you just read the number off
+the label.  The time didn't depend on how many beans there were, assuming we
+can trust the label.</p>
 
-<p>Now I give you the same two jars, but without the labels.  To determine how
-many jellybeans there are, it will take 5 times longer for the large jar,
-because now you have to count each jellybean.  With labelled jars, determining
+<p>Now suppose I give you the same two jars, but without the labels.  To
+determine how many beans there are, it will take 5 times longer for the large
+jar, because now you have to count each bean.  With labelled jars, determining
 the count was a constant-time operation: it took the same amount of time no
-matter how many jellybeans there were.  In the unlabelled scenario, we have
-what's called a linear-time operation: determining the count takes more
-time if there are more jellybeans.  The time is proportional to the number of
-jellybeans.</p>
+matter how many beans there were.  In the unlabelled scenario, we have what's
+called a linear-time operation: determining the count takes more time if there
+are more beans.  The time is proportional to the number of beans.</p>
 
 <p>Big-O is about doing the same kind of reasoning, but for data structures and
-code instead of jars of jellybeans.</p>
+code instead of jars of beans.</p>
 
 
 <h1>Terminology</h1>
@@ -87,13 +86,13 @@ take to execute.</p>
 
 <p>If someone says an algorithm is O(N), that means that the number of steps is
 proportional to N.  If you give it ten times more data, it will take ten times
-as long to run. Counting unlabelled jellybean jars is O(N).</p>
+as long to run. Counting unlabelled bean jars is O(N).</p>
 
 <p>O(N<sup>2</sup>) means that the number of steps is proportional to N
 squared.  When operating on ten times as much data, it will take a hundred
 times as long.  O(1) looks funny, but is a way of saying that the running time
 doesn't depend on N at all: no matter how much data, the run time is the same,
-a constant.  Counting labelled jellybean jars is O(1).</p>
+a constant.  Counting labelled bean jars is O(1).</p>
 
 <p>Some other common expressions you might see are O(log N) and O(N log N).</p>
 
@@ -237,7 +236,7 @@ with varying amounts of data in a constant time.  Give them a thousand times as
 much data, the run time doesn't change.</p>
 
 <p>Getting the length of a Python list is O(1), because like our labelled
-jellybean jars, they record the count in an easy-to-read way.</p>
+bean jars, they record the count in an easy-to-read way.</p>
 
 <p>Hash tables are the classic example of a great O(1) algorithm.  Looking up a
 value in a hash table is a constant-time operation.  Python's dict, Ruby's
