@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20171018T054320'>
+<title>How code slows as data grows</title>
+<category>development</category>
+<body>
+
+<p>One of the parts of the <a href="http://bit.ly/bospyvaca">vacation talk I
+did in September at Boston Python</a> was about big-O notation.  I've noticed
+that topic seems to be some kind of dividing line for people who feel insecure
+about not having a computer science degree.  I wanted to explain it in simple
+practical terms so that people could understand it well enough to inform their
+choices during everyday coding.</p>
+
+<p>I liked how it came out, so I wrote it up as a standalone piece:
+<apage pref='text/slowsgrows.px'/>.</p>
+
+</body>
+</entry>
+</blog>

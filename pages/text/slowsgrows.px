@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <page title='Big-O: how code slows as data grows'>
 <history>
-<what when='20171008T141800'>Created.</what>
+<what when='20171018T054300'>Created.</what>
 </history>
 
 <p>There's this thing in computer science that working programmers talk about,
@@ -15,7 +15,7 @@ trappings, but doesn't have to be more than a common-sense assessment of how
 your code will behave.</p>
 
 <p>My goal here is to explain big-O in ten minutes so that you can reason about
-your code, without getting into esoteric concerns.  BTW, I'm using Python
+your code, without getting into esoteric concerns.  I'm using Python
 examples in this write-up, but the concepts apply to all programming
 languages.</p>
 
