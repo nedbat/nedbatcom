@@ -63,12 +63,12 @@ code instead of jars of beans.</p>
 
 <h1>Terminology</h1>
 
-<p>It's called big-O because it describes the run time as being "on the Order
-of" something, which is a mathematician's way of saying that two things grow
-similarly.  O(N) means that the run time is on the order of N, or that it grows
-in the same way that N grows.  Another term people use for this is "algorithmic
-complexity," which sounds super-advanced, so feel free to throw that around and
-impress your friends.</p>
+<p>The letter O is used because it describes the run time as being "on the
+Order of" something, which is a mathematician's way of saying that two things
+grow similarly.  O(N) means that the run time is on the order of N, or that it
+grows in the same way that N grows.  Another term people use for this is
+"algorithmic complexity," which sounds super-advanced, so feel free to throw
+that around and impress your friends.</p>
 
 <p>The notation looks like a function: O(N) has similar syntax to sin(x). But
 it isn't a function, it's just a shorthand.  "O(N)" is "order of N", and
@@ -117,24 +117,26 @@ def find_it(haystack, needle):
     return None
 ]]></code>
 
-<p>In this case, N will be the number of pairs, the length of the list.</p>
+<p>In this case, the variable size of the data is the length of the list of
+pairs.  We'll call the length of the list N.</p>
 
 <p>Using your understanding of the code, look at each part of it, and total up
 how many steps will be executed if the input is size N.</p>
 
 <p>At this point, you might be asking, "what counts as a step?"  That's a great
 question. This may seem surprising, but in lots of ways, it doesn't matter.
-The important thing it to understand where your code will do more work when N
+The important thing is to understand where your code will do more work when N
 is larger. And as we'll see, there's a lot about the number of steps that we
 are going to ignore anyway.</p>
 
-<p>For our function above, it's going to look through the key/value pairs until
+<p>When our function runs, it's going to look through the key/value pairs until
 it finds a match. The match could be anywhere in the list, sometimes near the
 front, sometimes way in the back.  On average, we'll find it halfway through
 the list.  This is one of the ways big-O is not precise: it's a
 characterization of the average run time of a piece of code.  Sometimes we'll
-run this function, and it will find the value in the very first element.  But
-on average, we'll have to look through half the elements to find it.</p>
+run this function, and we'll get lucky and it will find the value in the very
+first element.  But on average, we'll have to look through half the elements to
+find it.</p>
 
 <p>Let's look at the code line by line:</p>
 
@@ -142,23 +144,24 @@ on average, we'll have to look through half the elements to find it.</p>
     for key, val in haystack:
 ]]></code>
 
-<p>We've already decided this loop is going to execute N/2 times, so we have
-N/2 steps to get the elements out of haystack.  We have N/2 steps to assign
-each of the keys to key, and N/2 steps to assign the values to val.  So far we
-have a total of 3N/2 steps.</p>
+<p>Since on average we'll find the value after examining half the elements,
+we'll execute this loop N/2 times.  In this statement, we have N/2 steps to get
+the elements out of haystack.  We have N/2 steps to assign each of the keys to
+key, and N/2 steps to assign the values to val.  This statement contributes a
+total of 3N/2 steps.</p>
 
 <code lang="python"><![CDATA[
         if key == needle:
 ]]></code>
 
-<p>We'll do this comparison N/2 times, so we have a total of 3N/2+N/2 = 4N/2 =
-2N steps.</p>
+<p>We'll do this comparison N/2 times, so now we have a total of 3N/2+N/2 =
+4N/2 = 2N steps.</p>
 
 <code lang="python"><![CDATA[
             return val
 ]]></code>
 
-<p>This line will only be executed once, so our total is 2N+1.  Notice we
+<p>This line will only be executed once, so now our total is 2N+1.  Notice we
 counted the assignments as 1, and the return as 1.  What if returns take longer
 than assignments?  It doesn't matter.  The key thing is that the run time for
 assigning one name is independent of the length of our input list, and the
@@ -239,13 +242,12 @@ much data, the run time doesn't change.</p>
 bean jars, they record the count in an easy-to-read way.</p>
 
 <p>Hash tables are the classic example of a great O(1) algorithm.  Looking up a
-value in a hash table is a constant-time operation.  Python's dict, Ruby's
-hashes, Perl's hash, Java's HashMaps, etc, are all hash tables.  Finding a key
-in a million-element dict is just as fast as finding one in ten-element
-dict.  That seems magical, but it's true.  If you're curious about how it works,
-Stack Overflow has some good answers to
-<a href='https://stackoverflow.com/q/730620/14343'>How does a hash table work?</a>
-</p>
+value in a hash table is a constant-time operation.  Python's dicts, Ruby's
+hashes, Perl's hashes, Java's HashMaps, etc, are all hash tables.  Finding a
+key in a million-element dict is just as fast as finding one in ten-element
+dict.  That seems magical, but it's true.  If you're curious about how it
+works, Stack Overflow has some good answers to
+<a href='https://stackoverflow.com/q/730620/14343'>How does a hash table work?</a></p>
 
 
 <h1>The graph</h1>
