@@ -47,10 +47,10 @@ presenting it in Chicago:</p>
 this will be a quick 45 minute introduction.
 </p>
 
-        <figurep><img src="text/whirlext_000.png" alt="Slide 0"/></figurep><h1links/>
+        <figurep><img src="text/whirlext/whirlext_000.png" alt="Slide 0"/></figurep><h1links/>
 
 
-        <figurep><img src="text/whirlext_001.png" alt="Slide 1"/></figurep><p>The examples here are toys, meant to demonstrate the structure of an
+        <figurep><img src="text/whirlext/whirlext_001.png" alt="Slide 1"/></figurep><p>The examples here are toys, meant to demonstrate the structure of an
 extension. They are real running code, but they don't do anything useful.
 They'll demonstrate the workings of the C API and modules written with it. I'm
 assuming you'll be able to provide your own domain-specific inner workings.
@@ -62,7 +62,7 @@ follow along.</p>
 <p>The code samples are available in
 <a href="text/whirlext.zip">whirlext.zip</a>.</p>
 
-        <figurep><img src="text/whirlext_002.png" alt="Slide 2"/></figurep><figurep><img src="text/whirlext_003.png" alt="Slide 3"/></figurep><p>Why write in C when we have lovely Python?</p>
+        <figurep><img src="text/whirlext/whirlext_002.png" alt="Slide 2"/></figurep><figurep><img src="text/whirlext/whirlext_003.png" alt="Slide 3"/></figurep><p>Why write in C when we have lovely Python?</p>
 
 <ul>
 <li>To speed up parts of your Python app</li>
@@ -71,7 +71,7 @@ follow along.</p>
 <li>To contribute to Python</li>
 </ul>
 
-        <figurep><img src="text/whirlext_004.png" alt="Slide 4"/></figurep><p>There are other tools that solve similar problems:</p>
+        <figurep><img src="text/whirlext/whirlext_004.png" alt="Slide 4"/></figurep><p>There are other tools that solve similar problems:</p>
 
 <ul>
 <li><a href="http://www.boost.org/doc/libs/1_36_0/libs/python/doc/tutorial/doc/html/index.html">Boost</a></li>
@@ -85,7 +85,7 @@ follow along.</p>
 
 <h1>The C API</h1>
 
-        <figurep><img src="text/whirlext_006.png" alt="Slide 6"/></figurep><p>The C API is actually the public interface to the implementation of CPython.
+        <figurep><img src="text/whirlext/whirlext_006.png" alt="Slide 6"/></figurep><p>The C API is actually the public interface to the implementation of CPython.
 It's the same API used internally to build Python itself.  It's large, with over
 600 entry points covering all sorts of functionality.
 </p>
@@ -95,12 +95,12 @@ of Python: Jython, IronPython, PyPy, etc.
 <a href="http://code.google.com/p/ironclad/">Ironclad</a> is a project to provide
 for C extensions in IronPython, but I have no experience with it.</p>
 
-        <figurep><img src="text/whirlext_007.png" alt="Slide 7"/></figurep><p>One amazing advantage to writing against the same C API as the core Python
+        <figurep><img src="text/whirlext/whirlext_007.png" alt="Slide 7"/></figurep><p>One amazing advantage to writing against the same C API as the core Python
 developers is that their code can be your learning sample.  Want to do something
 similar to a built-in function? Go find its source and learn how it was done.
 </p>
 
-        <figurep><img src="text/whirlext_008.png" alt="Slide 8"/></figurep><p>Writing a C API extension means working in two worlds at once. The C
+        <figurep><img src="text/whirlext/whirlext_008.png" alt="Slide 8"/></figurep><p>Writing a C API extension means working in two worlds at once. The C
 environment you're coding in is missing many of the niceties you're used to in
 Python, and at the same time, you're writing code that provides those niceties
 to your callers.</p>
@@ -117,12 +117,12 @@ counts so the Python environment doesn't leak memory.</li>
 
 <h1>The Hello World extension</h1>
 
-        <figurep><img src="text/whirlext_010.png" alt="Slide 10"/></figurep><p>This is the Python code for the module we'll implement in C.  It contains a
+        <figurep><img src="text/whirlext/whirlext_010.png" alt="Slide 10"/></figurep><p>This is the Python code for the module we'll implement in C.  It contains a
 single function which simply returns the string "hello world!".  Both the module
 and the function have doc strings.</p>
 
 
-        <figurep><img src="text/whirlext_011.png" alt="Slide 11"/></figurep><p>This is the complete C code for the Hello World extension:</p>
+        <figurep><img src="text/whirlext/whirlext_011.png" alt="Slide 11"/></figurep><p>This is the complete C code for the Hello World extension:</p>
 
 <code lang="c">
 // ext1.c: A sample C extension: one simple function
@@ -203,7 +203,7 @@ executable library.</p>
 Py_InitModule3 with three arguments: the name of the module, the table of function
 definitions for the module's contents, and a doc string for the module.</p>
 
-        <figurep><img src="text/whirlext_012.png" alt="Slide 12"/></figurep><p>This simple extension shows the typical structure of a C API extension:</p>
+        <figurep><img src="text/whirlext/whirlext_012.png" alt="Slide 12"/></figurep><p>This simple extension shows the typical structure of a C API extension:</p>
 
 <ul>
 <li>Create the meat of your extension as C constructs: functions, structures, etc.</li>
@@ -212,7 +212,7 @@ definitions for the module's contents, and a doc string for the module.</p>
 </ul>
 
 
-        <figurep><img src="text/whirlext_013.png" alt="Slide 13"/></figurep><p>Building the extension is easy: setup.py knows how to do it with a simple
+        <figurep><img src="text/whirlext/whirlext_013.png" alt="Slide 13"/></figurep><p>Building the extension is easy: setup.py knows how to do it with a simple
 declarative statement.  All we have to do is tell distutils about our extension:
 what it is called and what source files comprise it.  Distutils knows how to do
 the rest, producing a .pyd file on Windows, or a .so on Linux.
@@ -221,7 +221,7 @@ the rest, producing a .pyd file on Windows, or a .so on Linux.
 <p>On Windows, it may take some work to get a compiler installed properly.
 </p>
 
-        <figurep><img src="text/whirlext_014.png" alt="Slide 14"/></figurep><p>Once built and installed, the module works like any other Python module. The
+        <figurep><img src="text/whirlext/whirlext_014.png" alt="Slide 14"/></figurep><p>Once built and installed, the module works like any other Python module. The
 function can really be called, and so on. Notice that hello_world's type is
 "built-in function". Your code really is no different than a truly built-in
 function, they are both written with the same C API, and called in the same way.
@@ -232,11 +232,11 @@ To the Python interpreter, your hello_world is the same as, say, len.</p>
 
 <h1>API details</h1>
 
-        <figurep><img src="text/whirlext_016.png" alt="Slide 16"/></figurep><p>The C API is fairly consistent in its conventions, but there are a few of
+        <figurep><img src="text/whirlext/whirlext_016.png" alt="Slide 16"/></figurep><p>The C API is fairly consistent in its conventions, but there are a few of
 them, so read the docs to be sure you know how each function works.  The docs
 are good, and say what will happen.</p>
 
-        <figurep><img src="text/whirlext_017.png" alt="Slide 17"/></figurep><p>The C API provides hundreds of entry points.</p>
+        <figurep><img src="text/whirlext/whirlext_017.png" alt="Slide 17"/></figurep><p>The C API provides hundreds of entry points.</p>
 
 <p>Each built-in type has a set of C calls that implement the operations particular
 to the type.  They'll look familiar to you from working with the types in Python.
@@ -246,13 +246,13 @@ which uses a C string as a key.  The latter is provided because using strings as
 keys is so common, it is special-cased for the caller and in the dictionary
 implementation.</p>
 
-        <figurep><img src="text/whirlext_018.png" alt="Slide 18"/></figurep><p>The C API also provides polymorphic functions that access objects based on
+        <figurep><img src="text/whirlext/whirlext_018.png" alt="Slide 18"/></figurep><p>The C API also provides polymorphic functions that access objects based on
 what they do rather than what they are.</p>
 
-        <figurep><img src="text/whirlext_019.png" alt="Slide 19"/></figurep><p>And on and on, covering all of the built-in functionality of the Python
+        <figurep><img src="text/whirlext/whirlext_019.png" alt="Slide 19"/></figurep><p>And on and on, covering all of the built-in functionality of the Python
 environment.</p>
 
-        <figurep><img src="text/whirlext_020.png" alt="Slide 20"/></figurep><p>We used Py_BuildValue to create the Python "hello world" string. It can make
+        <figurep><img src="text/whirlext/whirlext_020.png" alt="Slide 20"/></figurep><p>We used Py_BuildValue to create the Python "hello world" string. It can make
 many other Python data structures. The format string can include punctuation that
 creates tuples, lists, and dictionaries, including nesting:</p>
 
@@ -275,7 +275,7 @@ Py_BuildValue("") --&gt; None
 extension.</p>
 
 
-        <figurep><img src="text/whirlext_021.png" alt="Slide 21"/></figurep><p>Just as Py_BuildValue makes it easy to combine C values into a Python structure,
+        <figurep><img src="text/whirlext/whirlext_021.png" alt="Slide 21"/></figurep><p>Just as Py_BuildValue makes it easy to combine C values into a Python structure,
 PyArg_ParseTuple makes it simple to parse apart a tuple into a number of C
 variables.  The args argument to our C functions contains a tuple of the arguments
 to the function call.  We pass it to PyArg_ParseTuple along with a format string
@@ -319,7 +319,7 @@ integer.</p>
 <h1>Error handling</h1>
 
 
-        <figurep><img src="text/whirlext_023.png" alt="Slide 23"/></figurep><p>If you try passing incorrect arguments to our string_peek function, you'll
+        <figurep><img src="text/whirlext/whirlext_023.png" alt="Slide 23"/></figurep><p>If you try passing incorrect arguments to our string_peek function, you'll
 see it behaves as you would expect a Python function to, raising exceptions
 about incorrect types and number of arguments:</p>
 
@@ -341,7 +341,7 @@ TypeError: an integer is required
 <p>We get all this free from PyArg_ParseTuple, all we have to do is pass along
 errors it detects.</p>
 
-        <figurep><img src="text/whirlext_024.png" alt="Slide 24"/></figurep><p>If the args tuple doesn't consist of a string and an integer, PyArg_ParseTuple
+        <figurep><img src="text/whirlext/whirlext_024.png" alt="Slide 24"/></figurep><p>If the args tuple doesn't consist of a string and an integer, PyArg_ParseTuple
 will set an error state, and return false. The ":string_peek" portion
 of the format string tells PyArg_ParseTuple what function name to use in its
 error messages.</p>
@@ -359,7 +359,7 @@ exception pass through your code. In C API code, the same rule is true, but is
 implemented by always checking return codes, and if a called function returns
 false or NULL, then you should return NULL to pass the error up the stack.</p>
 
-        <figurep><img src="text/whirlext_025.png" alt="Slide 25"/></figurep><p>There's still a problem with our string_peek function: we can ask for the
+        <figurep><img src="text/whirlext/whirlext_025.png" alt="Slide 25"/></figurep><p>There's still a problem with our string_peek function: we can ask for the
 2000'th character of a nine-character string. Our C code happily reads the
 contents of memory far outside the actual string it's supposed to be working
 with.</p>
@@ -386,7 +386,7 @@ IndexError: peek index out of range
 <h1>Memory management</h1>
 
 
-        <figurep><img src="text/whirlext_027.png" alt="Slide 27"/></figurep><p>Python's memory management is based on reference counting.  Every Python object
+        <figurep><img src="text/whirlext/whirlext_027.png" alt="Slide 27"/></figurep><p>Python's memory management is based on reference counting.  Every Python object
 has a count of the number of references to the object.  When the count becomes
 zero, the object can be destroyed and its memory reclaimed.</p>
 
@@ -394,7 +394,7 @@ zero, the object can be destroyed and its memory reclaimed.</p>
 are PyObject pointers.  When using PyObject pointers, you have to manipulate
 reference counts properly, or your extension will leak memory or crash.</p>
 
-        <figurep><img src="text/whirlext_028.png" alt="Slide 28"/></figurep><p>Every PyObject pointer is either owned or borrowed.  They are both pointers,
+        <figurep><img src="text/whirlext/whirlext_028.png" alt="Slide 28"/></figurep><p>Every PyObject pointer is either owned or borrowed.  They are both pointers,
 used like any other C pointer.  But an owned reference means you are responsible
 for correctly disposing of the reference. Remember, objects are not owned, they
 are all shared, it's references to objects that are owned or borrowed.</p>
@@ -406,7 +406,7 @@ the args it passes into a called function, so arguments are almost always borrow
 
 <p>If you get it wrong, the object will be freed out from under you: crash!</p>
 
-        <figurep><img src="text/whirlext_029.png" alt="Slide 29"/></figurep><p>There are two ways to get an owned reference:</p>
+        <figurep><img src="text/whirlext/whirlext_029.png" alt="Slide 29"/></figurep><p>There are two ways to get an owned reference:</p>
 
 <ul>
     <li>Accept a return value from a C function that returns a PyObject pointer.
@@ -418,7 +418,7 @@ the args it passes into a called function, so arguments are almost always borrow
     the reference count on the object, and obligates you to dispose of it properly.</li>
 </ul>
 
-        <figurep><img src="text/whirlext_030.png" alt="Slide 30"/></figurep><p>Once you have an owned reference, you have to get rid of it properly.  The
+        <figurep><img src="text/whirlext/whirlext_030.png" alt="Slide 30"/></figurep><p>Once you have an owned reference, you have to get rid of it properly.  The
 three ways are:</p>
 
 <ul>
@@ -432,7 +432,7 @@ three ways are:</p>
 </ul>
 
 
-        <figurep><img src="text/whirlext_031.png" alt="Slide 31"/></figurep><p>Let look at a real code example:</p>
+        <figurep><img src="text/whirlext/whirlext_031.png" alt="Slide 31"/></figurep><p>Let look at a real code example:</p>
 
 <code>
 // def insert_powers(numbers, n):
@@ -488,7 +488,7 @@ path, we haven't disposed of our owned reference, <codeword>numbers</codeword>.
 </p>
 
 
-        <figurep><img src="text/whirlext_032.png" alt="Slide 32"/></figurep><p>Fixing the memory leak is simple: before returning NULL from the function,
+        <figurep><img src="text/whirlext/whirlext_032.png" alt="Slide 32"/></figurep><p>Fixing the memory leak is simple: before returning NULL from the function,
 dispose of the owned reference explicitly with Py_DECREF.  Now every path
 through the function properly handles the owned references, and our function
 is complete:</p>
@@ -568,11 +568,11 @@ to get it right.</p>
 
 <h1>Making a type</h1>
 
-        <figurep><img src="text/whirlext_034.png" alt="Slide 34"/></figurep><p>Making a type is more involved than simply making functions, but it has a
+        <figurep><img src="text/whirlext/whirlext_034.png" alt="Slide 34"/></figurep><p>Making a type is more involved than simply making functions, but it has a
 similar flavor: write C components, describe them in arrays, and use the arrays
 to create Python components.</p>
 
-        <figurep><img src="text/whirlext_035.png" alt="Slide 35"/></figurep><p>The storage for your type is a C struct.  Its fields will be your type's
+        <figurep><img src="text/whirlext/whirlext_035.png" alt="Slide 35"/></figurep><p>The storage for your type is a C struct.  Its fields will be your type's
 data:</p>
 
 <code lang="c">
@@ -596,7 +596,7 @@ values across function calls.  As with all owned references, you have to be
 careful to acquire and release them properly.
 </p>
 
-        <figurep><img src="text/whirlext_036.png" alt="Slide 36"/></figurep><p>When writing a class in Python, special methods have special names, like
+        <figurep><img src="text/whirlext/whirlext_036.png" alt="Slide 36"/></figurep><p>When writing a class in Python, special methods have special names, like
 <codeword>__init__</codeword>.  When creating a type in C, those special methods
 are ordinary C function with particular signatures that will be specified as
 part of the type definition.  Often, these functions are named systematically
@@ -631,7 +631,7 @@ CountDict_dealloc(CountDict *self)
 }
 </code>
 
-        <figurep><img src="text/whirlext_037.png" alt="Slide 37"/></figurep><p>You can decide which of your struct's fields to make available as Python data
+        <figurep><img src="text/whirlext/whirlext_037.png" alt="Slide 37"/></figurep><p>You can decide which of your struct's fields to make available as Python data
 attributes, if any.  An array of structures defines the attributes:
 </p>
 
@@ -654,7 +654,7 @@ some flags, and a docstring for the attribute.  The array will be used later
 in the type definition.
 </p>
 
-        <figurep><img src="text/whirlext_038.png" alt="Slide 38"/></figurep><p>Class methods are defined just like functions.  That strange <codeword>self</codeword>
+        <figurep><img src="text/whirlext/whirlext_038.png" alt="Slide 38"/></figurep><p>Class methods are defined just like functions.  That strange <codeword>self</codeword>
 argument we had on our functions earlier now makes sense: we can declare it to be
 our struct type, and use it to access our data fields:
 </p>
@@ -680,7 +680,7 @@ CountDict_set(CountDict *self, PyObject *args)
 }
 </code>
 
-        <figurep><img src="text/whirlext_039.png" alt="Slide 39"/></figurep><p>Methods are declared just like functions, in an array of structs providing the
+        <figurep><img src="text/whirlext/whirlext_039.png" alt="Slide 39"/></figurep><p>Methods are declared just like functions, in an array of structs providing the
 name, C function pointer, flags, and docstring for the method:
 </p>
 
@@ -695,7 +695,7 @@ CountDict_methods[] = {
 };
 </code>
 
-        <figurep><img src="text/whirlext_040.png" alt="Slide 40"/></figurep><p>Now we are ready to pull all our pieces together.  Types are defined
+        <figurep><img src="text/whirlext/whirlext_040.png" alt="Slide 40"/></figurep><p>Now we are ready to pull all our pieces together.  Types are defined
 by initializing a PyTypeObject struct.  This struct has fields for each of
 the special functions needed to provide the behavior of a type.  Where in
 Python we'd have specially named functions like __init__ and __hash__, in C
@@ -753,7 +753,7 @@ CountDictType = {
 you only have to implement the special functions you need to override.
 </p>
 
-        <figurep><img src="text/whirlext_041.png" alt="Slide 41"/></figurep><p>Finally we are ready to actually create the type. Once the module is initialized,
+        <figurep><img src="text/whirlext/whirlext_041.png" alt="Slide 41"/></figurep><p>Finally we are ready to actually create the type. Once the module is initialized,
 we can init some slots in the type that can't be done with the struct initializer,
 then call PyType_Ready to finish up the creation of the type:
 </p>
@@ -788,7 +788,7 @@ PyModule_AddObject is used to assign the type to its name in the module, and we
 are done.
 </p>
 
-        <figurep><img src="text/whirlext_042.png" alt="Slide 42"/></figurep><p>As you'd expect, our CountDict type works like other built-in types:</p>
+        <figurep><img src="text/whirlext/whirlext_042.png" alt="Slide 42"/></figurep><p>As you'd expect, our CountDict type works like other built-in types:</p>
 
 <code>
 &gt;&gt;&gt; import ext3
@@ -817,10 +817,10 @@ just like a Python type.</p>
 
 <h1>In closing</h1>
 
-        <figurep><img src="text/whirlext_044.png" alt="Slide 44"/></figurep><p>These are other topics that we can't cover here...</p>
+        <figurep><img src="text/whirlext/whirlext_044.png" alt="Slide 44"/></figurep><p>These are other topics that we can't cover here...</p>
 
 
-        <figurep><img src="text/whirlext_045.png" alt="Slide 45"/></figurep><!--
+        <figurep><img src="text/whirlext/whirlext_045.png" alt="Slide 45"/></figurep><!--
     
 - Python C API: C code that thinks like Python
 - ctypes: Python code that thinks like C
