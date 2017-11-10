@@ -5,15 +5,15 @@
 
 <p>This was a presentation I gave at the DevDays Boston conference in
 2009.  I don't have much text to go with it, but these are the slides.
-If you need them larger, there is a <a href="text/devdays_png.zip">zip file of .pngs</a>.
+If you need them larger, there is a <a href="text/devdays/devdays_png.zip">zip file of .pngs</a>.
 </p>
 
-        <figurep><img src="text/devdays_000.png" alt="Slide 0"/></figurep><figurep><img src="text/devdays_001.png" alt="Slide 1"/></figurep><figurep><img src="text/devdays_002.png" alt="Slide 2"/></figurep><figurep><img src="text/devdays_003.png" alt="Slide 3"/></figurep><figurep><img src="text/devdays_004.png" alt="Slide 4"/></figurep><h1>~ Spell corrector ~</h1>
+        <figurep><img src="text/devdays/devdays_000.png" alt="Slide 0"/></figurep><figurep><img src="text/devdays/devdays_001.png" alt="Slide 1"/></figurep><figurep><img src="text/devdays/devdays_002.png" alt="Slide 2"/></figurep><figurep><img src="text/devdays/devdays_003.png" alt="Slide 3"/></figurep><figurep><img src="text/devdays/devdays_004.png" alt="Slide 4"/></figurep><h1>~ Spell corrector ~</h1>
 
 <p>Joel's suggestion was to explain Peter Norvig's <a href="http://norvig.com/spell-correct.html">Spell Corrector</a>
 line-by-line.  I've made a few small edits for expository purposes.</p>
 
-        <figurep><img src="text/devdays_006.png" alt="Slide 6"/></figurep><figurep><img src="text/devdays_007.png" alt="Slide 7"/></figurep><p>Here's the code:</p>
+        <figurep><img src="text/devdays/devdays_006.png" alt="Slide 6"/></figurep><figurep><img src="text/devdays/devdays_007.png" alt="Slide 7"/></figurep><p>Here's the code:</p>
 
 <code lang="py">
 import re, collections
@@ -56,9 +56,9 @@ if __name__ == '__main__':
 </code>
 
 
-        <figurep><img src="text/devdays_008.png" alt="Slide 8"/></figurep><figurep><img src="text/devdays_009.png" alt="Slide 9"/></figurep><figurep><img src="text/devdays_010.png" alt="Slide 10"/></figurep><figurep><img src="text/devdays_011.png" alt="Slide 11"/></figurep><figurep><img src="text/devdays_012.png" alt="Slide 12"/></figurep><figurep><img src="text/devdays_013.png" alt="Slide 13"/></figurep><figurep><img src="text/devdays_014.png" alt="Slide 14"/></figurep><figurep><img src="text/devdays_015.png" alt="Slide 15"/></figurep><figurep><img src="text/devdays_016.png" alt="Slide 16"/></figurep><figurep><img src="text/devdays_017.png" alt="Slide 17"/></figurep><figurep><img src="text/devdays_018.png" alt="Slide 18"/></figurep><figurep><img src="text/devdays_019.png" alt="Slide 19"/></figurep><figurep><img src="text/devdays_020.png" alt="Slide 20"/></figurep><h1>~ Templating ~</h1>
+        <figurep><img src="text/devdays/devdays_008.png" alt="Slide 8"/></figurep><figurep><img src="text/devdays/devdays_009.png" alt="Slide 9"/></figurep><figurep><img src="text/devdays/devdays_010.png" alt="Slide 10"/></figurep><figurep><img src="text/devdays/devdays_011.png" alt="Slide 11"/></figurep><figurep><img src="text/devdays/devdays_012.png" alt="Slide 12"/></figurep><figurep><img src="text/devdays/devdays_013.png" alt="Slide 13"/></figurep><figurep><img src="text/devdays/devdays_014.png" alt="Slide 14"/></figurep><figurep><img src="text/devdays/devdays_015.png" alt="Slide 15"/></figurep><figurep><img src="text/devdays/devdays_016.png" alt="Slide 16"/></figurep><figurep><img src="text/devdays/devdays_017.png" alt="Slide 17"/></figurep><figurep><img src="text/devdays/devdays_018.png" alt="Slide 18"/></figurep><figurep><img src="text/devdays/devdays_019.png" alt="Slide 19"/></figurep><figurep><img src="text/devdays/devdays_020.png" alt="Slide 20"/></figurep><h1>~ Templating ~</h1>
 
-        <figurep><img src="text/devdays_022.png" alt="Slide 22"/></figurep><figurep><img src="text/devdays_023.png" alt="Slide 23"/></figurep><figurep><img src="text/devdays_024.png" alt="Slide 24"/></figurep><figurep><img src="text/devdays_025.png" alt="Slide 25"/></figurep><figurep><img src="text/devdays_026.png" alt="Slide 26"/></figurep><figurep><img src="text/devdays_027.png" alt="Slide 27"/></figurep><figurep><img src="text/devdays_028.png" alt="Slide 28"/></figurep><figurep><img src="text/devdays_029.png" alt="Slide 29"/></figurep><figurep><img src="text/devdays_030.png" alt="Slide 30"/></figurep><figurep><img src="text/devdays_031.png" alt="Slide 31"/></figurep><figurep><img src="text/devdays_032.png" alt="Slide 32"/></figurep><figurep><img src="text/devdays_033.png" alt="Slide 33"/></figurep><p>Here's the completed Nango code:</p>
+        <figurep><img src="text/devdays/devdays_022.png" alt="Slide 22"/></figurep><figurep><img src="text/devdays/devdays_023.png" alt="Slide 23"/></figurep><figurep><img src="text/devdays/devdays_024.png" alt="Slide 24"/></figurep><figurep><img src="text/devdays/devdays_025.png" alt="Slide 25"/></figurep><figurep><img src="text/devdays/devdays_026.png" alt="Slide 26"/></figurep><figurep><img src="text/devdays/devdays_027.png" alt="Slide 27"/></figurep><figurep><img src="text/devdays/devdays_028.png" alt="Slide 28"/></figurep><figurep><img src="text/devdays/devdays_029.png" alt="Slide 29"/></figurep><figurep><img src="text/devdays/devdays_030.png" alt="Slide 30"/></figurep><figurep><img src="text/devdays/devdays_031.png" alt="Slide 31"/></figurep><figurep><img src="text/devdays/devdays_032.png" alt="Slide 32"/></figurep><figurep><img src="text/devdays/devdays_033.png" alt="Slide 33"/></figurep><p>Here's the completed Nango code:</p>
 
 <code lang="python">
 import re
@@ -95,4 +95,4 @@ class NangoContext(object):
         return value
 </code>
 
-        <figurep><img src="text/devdays_034.png" alt="Slide 34"/></figurep><figurep><img src="text/devdays_035.png" alt="Slide 35"/></figurep><figurep><img src="text/devdays_036.png" alt="Slide 36"/></figurep><figurep><img src="text/devdays_037.png" alt="Slide 37"/></figurep></page>
+        <figurep><img src="text/devdays/devdays_034.png" alt="Slide 34"/></figurep><figurep><img src="text/devdays/devdays_035.png" alt="Slide 35"/></figurep><figurep><img src="text/devdays/devdays_036.png" alt="Slide 36"/></figurep><figurep><img src="text/devdays/devdays_037.png" alt="Slide 37"/></figurep></page>
