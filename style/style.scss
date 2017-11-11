@@ -361,7 +361,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: gray;
+    color: #595959;
 }
 
 .docinfo {
@@ -371,7 +371,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: gray;
+    color: #595959;
 }
 
 ul {
@@ -519,14 +519,14 @@ a.s {
     }
     footer {
         font-size: 85%;
-        color: gray;
+        color: #595959;
         font-style: italic;
         border-bottom: solid 1px silver;
         padding-bottom: 12pt;
         margin-bottom: 6pt;
         a {
             text-decoration: none;
-            color: gray;
+            color: #595959;
             &:hover {
                 text-decoration: underline;
                 color: red;
@@ -542,11 +542,11 @@ a.s {
     }
     .date {
         font-size: 85%;
-        color: gray;
+        color: #595959;
         margin: 0;
         padding: 0;
         a.s {
-            color: gray;
+            color: #595959;
         }
     }
     p {
@@ -577,7 +577,7 @@ div.archive p {
         text-align: right;
         padding: 0;
         margin: 0 0 -1.4em 0;
-        color: gray;
+        color: #595959;
     }
 }
 
@@ -592,7 +592,7 @@ div.archive p {
         text-align: right;
         padding: 0;
         margin: 0 0 -1.4em 0;
-        color: gray;
+        color: #595959;
     }
 }
 
@@ -610,12 +610,12 @@ div.archive p {
 
 .also {
     font-size: 85%;
-    color: gray;
+    color: #595959;
     font-style: italic;
     text-decoration: none;
     a {
         text-decoration: none;
-        color: gray;
+        color: #595959;
         &:hover {
             text-decoration: underline;
             color: red;
@@ -863,7 +863,7 @@ img {
     }
 
     .notice {
-        color: gray;
+        color: #595959;
         font-style: italic;
         &.right {
             text-align: right;
@@ -908,7 +908,7 @@ img {
             font-family: $them-font;
             float: right;
             font-size: 85%;
-            color: gray;
+            color: #595959;
             margin-top: 0;
         }
         .head {

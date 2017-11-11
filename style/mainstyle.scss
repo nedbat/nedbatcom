@@ -92,7 +92,7 @@ img {
 }
 
 .pilcrow {
-    color: #666;
+    color: #595959;
 }
 
 .thinspace {
@@ -106,7 +106,7 @@ img {
 .blog-entry p.date, .huh {
     display: inline;
     margin: 0 0 0 1em;
-    color: #666;
+    color: #595959;
 }
 
 .oneline {
@@ -127,12 +127,12 @@ img {
 }
 
 .readmore {
-    color: #666;
+    color: #595959;
     margin: 0 0 0 .5em;
     font-style: italic;
     a {
         text-decoration: none;
-        color: #666;
+        color: #595959;
         &:hover {
             text-decoration: underline;
             color: #f00;
@@ -181,15 +181,15 @@ li {
 }
 
 .copyright {
-    color: #999;
+    color: #595959;
     font-style: italic;
     font-size: 85%;
     a {
         text-decoration: none;
-        color: #999;
+        color: #595959;
         &:hover {
             text-decoration: underline;
-            color: #666;
+            color: #595959;
         }
     }
 }
