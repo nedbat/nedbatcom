@@ -8,12 +8,12 @@ $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 2.75rem;
 $copyright-height: 2.5rem;
-$thick-border-small: 2px;
-$thick-border-large-horz: 2px;
-$thick-border-large-vert: 5px;
+$thick-border-small: 3px;
+$thick-border-large-horz: 3px;
+$thick-border-large-vert: 3px;
 $outer-border-large: 5px;
 
-$me-font: "Source Serif Pro", Georgia, serif;
+$me-font: "PT Serif", Georgia, serif;
 $them-font: verdana, sans-serif;
 $code-font: Menlo, "courier new", monospace;
 
@@ -41,8 +41,6 @@ TODO: get rid of .first, do it with css
 }
 
 body {
-    // Trick to shut off divergent font rounding algorithms.
-    font-size: 101%;
     font-family: $me-font;
     margin: 0 auto;
     padding: 0;
@@ -151,7 +149,7 @@ $debug-structure-color: #F88;
         background: lighten(yellow, 30%);
     }
     @else {
-        background: #fff;
+        background: #eee;
     }
     border-bottom-width: $thick-border-small;
     text-align: left;
@@ -500,7 +498,7 @@ a.s {
 }
 
 .path {
-    padding: .3em 0 0 0;
+    margin: .25em 0 -1em 0;
     white-space: nowrap;
     a {
         text-decoration: none;
