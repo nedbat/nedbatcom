@@ -30,7 +30,7 @@ ns['slugfromtext'] = wrapit(slugfromtext)
 ns['lexcode'] = wrapit(lexcode)
 ns['imgwidth'] = wrapit(imgwidth)
 ns['imgheight'] = wrapit(imgheight)
-ns['smartypants'] = wrapit(smartypants.smartyPants)
+ns['smartypants'] = wrapit(smartypants.smartypants)
 
 def pathtitle(path):
     """ Return the title of a page at a given path.
@@ -56,7 +56,7 @@ def content_transform(name, xmltext, child=None, params={}):
         'base':     string_param(settings.BASE),
         })
     html = str(xslt_xform(doc, **params))
-    html = smartypants.smartyPants(html, 'q')
+    html = smartypants.smartypants(html, smartypants.Attr.q)
     for entry in xslt_xform.error_log:
         if entry.filename == '<string>':
             fname = name

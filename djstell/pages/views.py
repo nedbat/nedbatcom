@@ -63,7 +63,7 @@ def archiveyear(request, year):
     add_entries(c, ents)
     c['type'] = 'year'
     c['year'] = year
-    c['title'] = "Blog Archive: %s" % year
+    c['title'] = 'Blog Archive: %s' % year
     c['bodyclass'] = 'blog archive year'
     return render_to_response('blogarchive.html', c)
 
@@ -72,7 +72,7 @@ def archiveall(request):
     c = RequestContext(request)
     add_entries(c, ents)
     c['type'] = 'complete'
-    c['title'] = "Blog Archive: Complete"
+    c['title'] = 'Blog Archive: Complete'
     c['bodyclass'] = 'blog archive all'
     return render_to_response('blogarchive.html', c)
 

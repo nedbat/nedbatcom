@@ -9,6 +9,7 @@ from xslt import content_transform, string_param
 
 from django.db import models
 from lxml import etree
+import smartypants
 
 if 0:
     f_plain_text = open("all-site.txt", "w")
@@ -23,6 +24,14 @@ if 0:
 else:
     def save_plain_text(elt):
         return
+
+
+def nice_text(s):
+    """Make the text nice, with curly quotes and whatnot.
+
+    Takes unicode, returns unicode.
+    """
+    return smartypants.smartypants(s.encode('utf8'), smartypants.Attr.q | smartypants.Attr.u).decode('utf8')
 
 
 class ModelMixin:
@@ -83,7 +92,7 @@ class Article(models.Model, ModelMixin):
     def create_from_px(pxfile, root):
         p = ModelMixin.parse_xml(pxfile)
         art = Article()
-        art.title = p.get('title')
+        art.title = nice_text(p.get('title'))
         art.path = pxfile[len(root)+1:].replace('\\', '/')
         art.text = etree.tostring(p)
         art.sitemap = (p.get('sitemap', 'yes') != 'no')
@@ -242,7 +251,7 @@ class Entry(models.Model, ModelMixin):
         root = ModelMixin.parse_xml(bxfile)
         for e in root.findall('entry'):
             ent = Entry()
-            ent.title = e.find('title').text
+            ent.title = nice_text(e.find('title').text)
             ent.text = etree.tostring(e)
             ent.draft = (e.get('draft', 'n') == 'y')
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
