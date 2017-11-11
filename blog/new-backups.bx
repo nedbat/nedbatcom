@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170827T092546'>
+<title>New backups: Arq to Wasabi</title>
+<category></category>
+<body>
+
+<p>This week CrashPlan announced they were ending consumer services, so I had
+    to replace it with something else.  Backups are one of those things at the
+    unpleasant intersection of tedious, difficult, and important.
+</p>
+
+<p>A quick spin around the latest alternatives showed the usual spectrum of
+    possibilities, ranging from perl hackers implementing rsync themselves, to
+    slick consumer tools.  I need to have something working well not just on my
+    computer, but others in my family, so I went the consumerish route.</p>
+
+<p><a href='https://arqbackup.com/'>Arq</a> backing up to <a href='https://wasabi.com/'>Wasabi</a>
+    seems like a good choice for polish and price.</p>
+
+<p>One thing I always struggle with: how to ensure my stuff is backed up,
+    without needlessly copying around all the crap that ends up in my home
+    directory that I don't need backed up.  On a Mac, the ~/Library directory
+    has all sorts of stuff that I think I don't need to copy around.  Do I need
+    these?:</p>
+
+<ul>
+    <li>Library/Application Support</li>
+    <li>Library/Caches</li>
+    <li>Library/Containers</li>
+</ul>
+
+<p>I add these directories to the exclusions.  Should my Dropbox folder get
+    backed up?  Isn't that what Dropbox is already doing?</p>
+    
+<p>Then as a developer, there's tons more to exclude.  Running VirtualBox? You
+    have have a 10Gb disk image somewhere under your home.  I have something
+    like 20,000 .pyc files. The .tox directory for coverage.py is 350Mb.</p>
+
+<p>So I also exclude these:</p>
+
+<ul>
+    <li>.git</li>
+    <li>.hg</li>
+    <li>.svn</li>
+    <li>.tox</li>
+    <li>node_modules</li>
+    <li>.local</li>
+    <li>.npm</li>
+    <li>.vagrant.d</li>
+    <li>.vmdk</li>
+    <li>.bundle</li>
+    <li>.cache</li>
+    <li>.heroku</li>
+    <li>.rbenv</li>
+    <li>.gem</li>
+    <li>*.pyc</li>
+    <li>*.pyo</li>
+    <li>*$py.class</li>
+</ul>
+
+<p>Of course, as a native Mac app for consumers, Arq doesn't provide a way that I can supply all these once, I have to
+    fiddle with GUI + and - buttons, and enter them one at a time...</p>
+
+<p>Lastly, some files don't seem comfortable with backups. Thunderbird's
+    storage files are large, and while Arq copies only certain byte ranges,
+    they still amount to about 300Mb each time.  Should I even back up my
+    email?  Should I still be using Thunderbird? Too many uncertainties....</p>
+
+</body>
+</entry>
+</blog>

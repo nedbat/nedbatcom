@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170408T223431'>
+<title>Clean-text bookmarklet</title>
+<category>type</category>
+<category>webpage</category>
+<category>js</category>
+<body>
+
+<p>I love the text-based web. I love that people can speak their minds, express
+    opinions, encourage each other, and create a lively world of words. This
+    also means they are free to design their text in, shall we say, expressive
+    ways. Those ways are not always ideal for actually reading the words.</p>
+
+<p>Today I really liked Tiberius Hefflin's 
+    <a href='https://www.unroutable.me/blog/2017/4/8/part-of-that-world'>Part of That World</a>,
+    about the need to recognize non-code contributions in open source projects.
+    You should read it, it is good and true.</p>
+
+<p>But when I first got to the page, I saw this:</p>
+
+<figurep>
+    <img src="pix/that_world_1.png" alt="Screenshot of gray text on black background, slightly letterspaced" scale="0.5" />
+</figurep>
+
+<p>To start with the positive, this text has an elegance to it.  It gives a
+    peaceful quiet impression.  It pairs perfectly with the mermaid
+    illustration on the page.  But I find it hard to read. This typeface is too
+    weak to be light-on-dark, and letterspacing is almost always a bad idea for
+    body text. It isn't even white-on-black, it's 70% white on black, so the
+    letters seem to be hiding in the dark.</p>
+
+<p>I don't mean to pick on this page. It's a well-designed page.  There's
+    clearly a mood being created here, and it's been established well. There
+    are many pages online that veer much farther from the usual than this.</p>
+
+<p>My solution for pages like this is a bookmarklet to strip away
+    idiosyncracies in text layout.  It changes text to almost-black on white,
+    it removes letterspacing and shadows, and changes full-justified text to
+    left-justified. When I use the bookmarklet on Part of That World, it looks
+    like this:</p>
+
+<figurep>
+    <img src="pix/that_world_2.png" alt="Screenshot of cleaned-up text" scale="0.5" />
+</figurep>
+
+<p>You might prefer the original. That's fine, to each their own.  You might
+    feel like the personality has been bleached from this text. To some extent,
+    that's true. But I saw the original, and can choose between them. This helped
+    me to read the words, and not get snagged on the design of the page.</p>
+
+<p>This is the bookmarklet: <a href="javascript:(function(){var%20newSS=document.createElement('link'),styles=('*%20{%20background:%20#fff;%20color:%20#111;%20letter-spacing:%200;%20text-shadow:%20none;%20hyphens:%20none;}'+':link,%20:link%20*%20{%20color:%20#0000EE;%20}%20'+':visited,%20:visited%20*%20{%20color:%20#551A8B;%20}').replace(/;/g,'%20!important;');newSS.rel='stylesheet';newSS.href='data:text/css,'+escape(styles);document.getElementsByTagName('head')[0].appendChild(newSS);var%20els=document.getElementsByTagName('*');for(var%20i=0,el;el=els[i];i++){if(getComputedStyle(el).textAlign==='justify'){el.style.textAlign='left';}}})();">Clean text</a>.</p>
+
+<p>This is the JavaScript code in the bookmarklet, formatted and tweaked so you
+    can read it:</p>
+
+<code lang="javascript"><![CDATA[
+javascript:(function () {
+    var newSS = document.createElement('link'),
+        styles = (
+            '* { ' +
+                'background: #fff; color: #111; ' +
+                'letter-spacing: 0; text-shadow: none; hyphens: none; ' +
+            '}' +
+            ':link, :link * { color: #0000EE; } ' +
+            ':visited, :visited * { color: #551A8B; }'
+        ).replace(/;/g,' !important;');
+    newSS.rel = 'stylesheet';
+    newSS.href = 'data:text/css,' + escape(styles);
+    document.getElementsByTagName('head')[0].appendChild(newSS);
+    var els = document.getElementsByTagName('*');
+    for (var i = 0, el; el = els[i]; i++) {
+        if (getComputedStyle(el).textAlign === 'justify') {
+            el.style.textAlign = 'left';
+        }
+    }
+})();
+]]></code>
+
+<p>There are other solutions to eccentrically designed pages.  You could read
+    blogs in a single aggregating RSS reader.  But then everything is
+    completely homogenized, and you don't even get a chance to experience the
+    design as the author intended.  Writers could (and are) flocking to sites
+    like Medium that again homogenize the design.</p>
+
+<p>By the way, full disclosure: I don't like the design of my own site, the
+    page you are (probably) currently reading.  I have been working on a
+    re-design on and off for months.  Maybe eventually it will be finished. The
+    text will be serif, and larger, with a responsive layout and fewer
+    distractions. Some day.</p>
+
+</body>
+</entry>
+</blog>

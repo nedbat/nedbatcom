@@ -7,8 +7,8 @@
 <div class='blogroll'>
 
     <ul class='first'>
-        <li class='first'>
-            {% search_box "Search this site:" %}
+        <li class='first'><label id="search_label">Search this site:</label>
+            {% search_box %}
         </li>
 
         {% comment %}
@@ -26,7 +26,7 @@
 
         <li class='inline'>Tip me:
             <ul>
-                <li><a href='https://coinbase.com/nedbat'>bitcoin</a>{% ch ' .' %} </li>
+                <li><a href='#' onclick='window.prompt("My bitcoin address. Copy it! Thanks :)", "1NZt31quJzL8ZPKcxwFv7GZu2YU12DyMdU")'>bitcoin</a>{% ch ' .' %} </li>
                 <li><a href='https://paypal.me/nedbat'>paypal</a></li>
             </ul>
         </li>

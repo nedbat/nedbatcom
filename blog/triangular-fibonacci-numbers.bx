@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170617T115640'>
+<title>Triangular Fibonacci numbers</title>
+<category>math</category>
+<body>
+
+<p><a href='/blog/201706/math_factoid_of_the_day_55.html'>Yesterday in my post about 55</a>,
+    I repeated Wikipedia's claim that 55 is the largest number that is both
+    triangular and in the Fibonacci sequence.  Chris Emerson commented to ask
+    for a proof. After a moment's thought, I realized I had no idea how to prove it.</p>
+
+<p>The proof is in <a href='http://www.fq.math.ca/Scanned/27-2/ming.pdf'>On Triangular Fibonacci Numbers</a>,
+    a dense 10-page excursion into number theory I don't understand.</p>
+
+<p>While I couldn't follow the proof, I can partially test the claim
+    empirically, which leads to fun with Python and itertools, something which
+    is much more in my wheelhouse.</p>
+
+<p>I started by defining generators for triangular numbers and Fibonacci numbers:</p>
+
+<code lang="python"><![CDATA[
+def tri():
+    """Generate an infinite sequence of triangular numbers."""
+    n = 0
+    for i in itertools.count(start=1):
+        n += i
+        yield n
+        
+print(list(itertools.islice(tri(), 50)))
+]]></code>
+
+<code><![CDATA[
+[1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171,
+ 190, 210, 231, 253, 276, 300, 325, 351, 378, 406, 435, 465, 496, 528, 561,
+ 595, 630, 666, 703, 741, 780, 820, 861, 903, 946, 990, 1035, 1081, 1128,
+ 1176, 1225, 1275]
+]]></code>
+
+<code lang="python"><![CDATA[
+def fib():
+    """Generate an infinite sequence of Fibonacci numbers."""
+    a, b = 1, 1
+    while True:
+        yield a
+        b, a = a, a+b
+        
+print(list(itertools.islice(fib(), 50)))
+]]></code>
+
+<code lang="python"><![CDATA[
+[1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584,
+ 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811,
+ 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352,
+ 24157817, 39088169, 63245986, 102334155, 165580141, 267914296, 433494437,
+ 701408733, 1134903170, 1836311903, 2971215073, 4807526976, 7778742049,
+ 12586269025, 20365011074]
+]]></code>
+
+<p>The Fibonacci sequence grows much faster!</p>
+
+<p>My first impulse was to make two sets of the numbers in the sequences, and
+    intersect them, but building a very large set took too long.  So instead
+    I wrote a function that took advantage of the ever-increasing nature of
+    the sequences to look for equal elements in two monotonic sequences:</p>
+
+<code lang="python"><![CDATA[
+def find_same(s1, s2):
+    """Find equal elements in two monotonic sequences."""
+    try:
+        i1, i2 = iter(s1), iter(s2)
+        n1, n2 = next(i1), next(i2)
+        while True:
+            while n1 < n2:
+                n1 = next(i1)
+            if n1 == n2:
+                yield n1
+                n1 = next(i1)
+            while n2 < n1:
+                n2 = next(i2)
+            if n1 == n2:
+                yield n1
+                n1 = next(i1)
+    except StopIteration:
+        return
+]]></code>
+
+<p>And a function to cut off an infinite sequence once a certain ceiling had
+    been reached:</p>
+
+<code lang="python"><![CDATA[
+def upto(s, n):
+    """Stop a monotonic sequence once it gets to n."""
+    for i in s:
+        if i > n:
+            return
+        yield i
+]]></code>
+
+<p>Now I could ask, what values less than quadrillion are in both the
+    triangular numbers and the Fibonacci sequence?:</p>
+
+<code lang="python"><![CDATA[
+>>> list(find_same(upto(fib(), 1e15), upto(tri(), 1e15)))
+[1, 3, 21, 55]
+]]></code>
+
+<p>This doesn't prove the claim for all numbers, but it shows that 55 is the
+    largest number under a quadrillion that is in both sequences.</p>
+
+<p>Another way to do this is to take advantage of the asymmetry in growth rate.
+    The Fibonacci sequence up a quadrillion is only 72 elements.  Make that a
+    set, then examine the triangular numbers up to quadrillion and keep the
+    ones that are in the Fibonacci set. And I'm certain there are other
+    techniques too.</p>
+
+<p>I can't explain why, but composable generators please me. This was fun. :)</p>
+
+</body>
+</entry>
+</blog>

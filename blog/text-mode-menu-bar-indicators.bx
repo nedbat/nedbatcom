@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170417T094424'>
+<title>Text-mode menu bar indicators</title>
+<category>mac</category>
+<body>
+
+<p>I recently upgraded my Mac operating system, and decided to try out a new
+    feature: automatically hiding the menu bar.  This gives me back another
+    sliver of vertical space.  But it has a drawback: I no longer have the
+    time, battery life, and speaker volume indicators available at a glance.</p>
+
+<p>I went looking for a thing that I figured must exist: a Mac app that would
+    display that information in a dock icon.  I already have a dock clock.  I
+    found a dock battery indicator, though it tried so hard to be cute and
+    pictorial, I couldn't tell what it was telling me.</p>
+
+<p>Asking around, I got a recommendation for <a href="https://www.tynsoe.org/v2/geektool/">GeekTool</a>.
+    It lets you draw a panel on your desktop, and then draw in the panel with
+    the output of a script.  Now the ball was back in my court: I could build
+    my own thing.</p>
+
+<p>I'd long ago moved the dock to the left side of the screen (again, to use
+    all the vertical space for my own stuff.)  This left a small rectangle of
+    desktop visible at the upper left and lower left, even with maximized
+    windows.  I drew a panel in the upper left of the desktop, and set it to
+    run this script every five seconds:</p>
+
+<code lang="python"><![CDATA[
+#!/usr/bin/env python3.6
+
+import datetime
+import re
+import subprocess
+
+def block_eighths(eighths):
+    """Return the Unicode string for a block of so many eighths."""
+    assert 0 <= eighths <= 8
+    if eighths == 0:
+        return "\u2003"
+    else:
+        return chr(0x2590 - eighths)
+
+def gauge(percent):
+    """Return a two-char string drawing a 16-part gauge."""
+    slices = round(percent / (100 / 16))
+    b1 = block_eighths(min(slices, 8))
+    b2 = block_eighths(max(slices - 8, 0))
+    return b1 + b2
+
+now = datetime.datetime.now()
+print(f"{now:%-I:%M\n%-m/%-d}")
+
+batt = subprocess.check_output(["pmset", "-g", "batt"]).decode('utf8').splitlines()
+m = re.search(r"\d+%", batt[1])
+if m:
+    level = m.group(0)
+    batt_percent = int(level[:-1])
+else:
+    level = "??%"
+if "discharging" in batt[1]:
+    arrow = "\u25bc"        # BLACK DOWN-POINTING TRIANGLE
+elif "charging" in batt[1]:
+    arrow = "\u25b3"        # WHITE UP-POINTING TRIANGLE
+else:
+    arrow = ""
+
+print(level + arrow)
+print(gauge(batt_percent) + "\u2578")   # BOX DRAWINGS HEAVY LEFT
+
+vol = subprocess.check_output(["osascript", "-e", "get volume settings"]).decode('utf8')
+m = re.search(r"^output volume:(\d+), .* muted:(\w+)", vol)
+if m:
+    level, muted = m.groups()
+    if muted == 'true':
+        level = "\u20e5"        # COMBINING REVERSE SOLIDUS OVERLAY
+    print(f"\u24cb{level}")     # CIRCLED LATIN CAPITAL LETTER V
+
+# For debugging: output the raw data, but pushed out of view.
+print(f"{'':30}{batt}")
+print(f"{'':30}{vol}")
+]]></code>
+
+<p>This displays the time, date, battery level (both numerically and as a
+    crudely drawn battery gauge), whether the battery is charging or
+    discharging, and the volume level:</p>
+
+<figurep>
+    <img src='pix/my_geektool.png' alt='All that information, crammed into a tiny corner'/>
+</figurep>
+
+<p>BTW, if you are looking for Python esoterica, there are a few little-known
+    things going on in this line:</p>
+
+<code lang="python"><![CDATA[
+print(f"{now:%-I:%M\n%-m/%-d}")
+]]></code>
+
+<p>Finding Unicode characters to represent things was a bit of a challenge. I
+    couldn't find exactly what I need for the right tip of the battery gauge,
+    but it works well enough.</p>
+
+<p>Geektool also does web pages, though in a quick experiment I couldn't make
+    it do something useful, so I stuck with text mode.  There also seem to be
+    old forks of Geektool that offer text colors, which could be cool, but it
+    started to feel a bit off-the-path.</p>
+
+<p>This works great for what it does.</p>
+
+</body>
+</entry>
+</blog>

@@ -1,0 +1,82 @@
+Running everything locally
+
+- See where apache's config is:
+
+    $ sudo apachectl -V
+    Server version: Apache/2.4.27 (Unix)
+    Server built:   Aug  8 2017 11:40:15
+    Server's Module Magic Number: 20120211:68
+    Server loaded:  APR 1.5.2, APR-UTIL 1.5.4
+    Compiled using: APR 1.5.2, APR-UTIL 1.5.4
+    Architecture:   64-bit
+    Server MPM:     prefork
+      threaded:     no
+        forked:     yes (variable process count)
+    Server compiled with....
+     -D APR_HAS_SENDFILE
+     -D APR_HAS_MMAP
+     -D APR_HAVE_IPV6 (IPv4-mapped addresses enabled)
+     -D APR_USE_FLOCK_SERIALIZE
+     -D APR_USE_PTHREAD_SERIALIZE
+     -D SINGLE_LISTEN_UNSERIALIZED_ACCEPT
+     -D APR_HAS_OTHER_CHILD
+     -D AP_HAVE_RELIABLE_PIPED_LOGS
+     -D DYNAMIC_MODULE_LIMIT=256
+     -D HTTPD_ROOT="/usr"
+     -D SUEXEC_BIN="/usr/bin/suexec"
+     -D DEFAULT_PIDLOG="/private/var/run/httpd.pid"
+     -D DEFAULT_SCOREBOARD="logs/apache_runtime_status"
+     -D DEFAULT_ERRORLOG="logs/error_log"
+     -D AP_TYPES_CONFIG_FILE="/private/etc/apache2/mime.types"
+     -D SERVER_CONFIG_FILE="/private/etc/apache2/httpd.conf"
+
+
+- Edit the config file /private/etc/apache2/httpd.conf:
+
+    diff --git a/httpd.conf.pre-update b/httpd.conf~previous
+    index ccc9c74..06a3731 100644
+    --- a/httpd.conf.pre-update
+    +++ b/httpd.conf~previous
+    @@ -165,8 +165,8 @@ LoadModule dir_module libexec/apache2/mod_dir.so
+     #LoadModule speling_module libexec/apache2/mod_speling.so
+     #LoadModule userdir_module libexec/apache2/mod_userdir.so
+     LoadModule alias_module libexec/apache2/mod_alias.so
+    -#LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+    -#LoadModule php5_module libexec/apache2/libphp5.so
+    +LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+    +LoadModule php5_module libexec/apache2/libphp5.so
+     LoadModule hfs_apple_module libexec/apache2/mod_hfs_apple.so
+     
+     <IfModule unixd_module>
+    @@ -233,8 +233,10 @@ ServerAdmin you@example.com
+     # documents. By default, all requests are taken from this directory, but
+     # symbolic links and aliases may be used to point to other locations.
+     #
+    -DocumentRoot "/Library/WebServer/Documents"
+    -<Directory "/Library/WebServer/Documents">
+    +DocumentRoot "/Users/ned/web/www"
+    +<Directory "/Users/ned/web/www">
+         #
+         # Possible values for the Options directive are "None", "All",
+         # or any combination of:
+    @@ -255,7 +257,8 @@ DocumentRoot "/Library/WebServer/Documents"
+         # It can be "All", "None", or any combination of the keywords:
+         #   AllowOverride FileInfo AuthConfig Limit
+         #
+    -    AllowOverride None
+    +    AllowOverride All
+     
+         #
+         # Controls who can get stuff from this server.
+
+- Start apache:
+
+    $ sudo apachectl restart
+
+- Start MySQL:
+
+    $ mysql.server start
+    Starting MySQL
+    SUCCESS!
+
+- visit http://localhost/

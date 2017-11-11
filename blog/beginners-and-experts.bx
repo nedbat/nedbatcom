@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20170923T101300'>
+<title>Beginners and experts</title>
+<category>devmindset</category>
+<body>
+
+<p>I gave <a href='http://bit.ly/bospyvaca'>a talk</a> at Boston Python the
+other night.  It started as an exposition of the
+<a href='blog/201707/finding_fuzzy_floats.html'>point matching algorithm</a>
+I've previously written about on this blog.  But as I thought about my side
+project more, I was interested to talk about the challenges I faced while
+building it.  Not because the specifics were so interesting, but because they
+were typical problems that all software projects face.</p>
+
+<p>And in particular, I wanted to underscore this point: software is hard, even
+for experts.  Experts have the same struggles that beginners do.</p>
+
+<p>I used this tweet as an illustration:</p>
+
+<figurep href='https://twitter.com/phabricator/status/896767113746042880'>
+    <img src='pix/twostates.jpg' alt='The two states of being a developer' width='550' height='587'/>
+</figurep>
+
+<p>I love the raw emotion on the two boys' faces.  They perfectly illustrate
+both the frustration and exhilaration of writing software.</p>
+
+<p>But here's what beginners might not understand:  beginners think beginners
+feel the frustration, and experts feel the exhilaration.  As any expert will
+tell you, experts feel plenty of frustration.  They feel like that left-hand
+kid a lot.</p>
+
+<p>The difference between beginners and experts is that experts are familiar
+with that frustration.  They encounter it all the time, as they deal with new
+unfamiliar technologies, or a thorny bug, or just when they are too tired to
+tackle the problem before them.  They know the frustration is because they are
+facing a challenging problem.  They know it isn't a reflection of their
+self-worth or abilities. Experts know the feeling will pass, and they have
+techniques for dealing with the frustration.</p>
+
+<p>When beginners get frustrated, they can start to worry that they are not cut
+out for software, or they are dumb, or that everyone else gets it and they
+don't.</p>
+
+<p>The good news for beginners is: this isn't about you. Software is difficult.
+We build layer upon layer of leaky abstractions, of higher and higher realms of
+virtualization and complexity.  There's no natural limit to how high our towers
+of complexity can go, so we are forced to try to understand them, or tame them,
+and it's very hard.  Our languages and tools are obscure and different and new
+ones are invented all the time.  Frustration is inevitable.</p>
+
+<p>The bad news for beginners is: this feeling won't stop.  If you do your
+software career right, then you will always be a newb at something.  Sure, you
+can master a specialty, and stick with it, but that can get boring.  And that
+specialty might dwindle away leaving you stranded.</p>
+
+<p>You will be learning new things forever.  That feeling of frustration is you
+learning a new thing.  Get used to it.</p>
+
+</body>
+</entry>
+</blog>
