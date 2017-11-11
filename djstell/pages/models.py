@@ -1,10 +1,14 @@
 # nedbatchelder.com models
 
-from django.db import models
+import datetime
+import re
+import time
+
 from util import *
 from xslt import content_transform, string_param
+
+from django.db import models
 from lxml import etree
-import datetime, time, re
 
 if 0:
     f_plain_text = open("all-site.txt", "w")
