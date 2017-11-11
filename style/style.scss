@@ -89,7 +89,7 @@ $debug-structure-color: #F88;
     @else {
         background: #fff;
     }
-    font-size: 100%;
+    font-size: 110%;
     text-align: left;
 }
 
@@ -105,7 +105,7 @@ $debug-structure-color: #F88;
         background: #eee;
     }
     text-align: left;
-    font-size: 70%;
+    font-size: 85%;
 
     border-width: $thick-border-small 0 0 0;
 
@@ -239,7 +239,7 @@ td {
 
 p, h1, h2, h3, h4, h5, h6 {
     padding: 0;
-    margin: 1.4em 0;
+    margin: 1em 0;
 }
 
 p {
@@ -496,7 +496,7 @@ a.s {
     font-size: 170%;
     font-weight: bold;
     line-height: 150%;
-    margin: 0 0 1em 0;
+    margin: 0 0 0 0;
 }
 
 .path {
@@ -550,7 +550,6 @@ a.s {
         }
     }
     p {
-        margin: 0 0 1.4em 0;
         clear: both;
     }
     .via {
