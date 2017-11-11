@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 """Create a new blog entry."""
 
 import os, re, string, sys, time
