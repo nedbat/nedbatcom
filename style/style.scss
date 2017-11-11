@@ -239,7 +239,7 @@ td {
 
 p, h1, h2, h3, h4, h5, h6 {
     padding: 0;
-    margin: 1em 0;
+    margin: 1.4em 0;
 }
 
 p {
@@ -283,7 +283,7 @@ a.headerlink {
 }
 
 .body {
-    line-height: 1.5em;
+    line-height: 1.4em;
 
     // H1's have a line underneath them.
     h1 {
@@ -299,9 +299,9 @@ a.headerlink {
     h3 {
         font-size: 100%;
         display: inline;
-        line-height: 1.35em;
+        line-height: 1.4em;
         float: left;
-        margin: 0 1.5em 0 0;
+        margin: 0 1.4em 0 0;
     }
 
     table {
@@ -550,7 +550,7 @@ a.s {
         }
     }
     p {
-        margin: 0 0 1em 0;
+        margin: 0 0 1.4em 0;
         clear: both;
     }
     .via {
@@ -571,12 +571,12 @@ a.s {
 div.archive p {
     font-size: 100%;
     margin: 0 0 0 5.5em;
-    line-height: 1.45em;
+    line-height: 1.4em;
     &.date {
         width: 5em;
         text-align: right;
         padding: 0;
-        margin: 0 0 -1.45em 0;
+        margin: 0 0 -1.4em 0;
         color: gray;
     }
 }
@@ -586,22 +586,22 @@ div.archive p {
 .category p {
     font-size: 100%;
     margin: 0 0 0 8.5em;
-    line-height: 1.45em;
+    line-height: 1.4em;
     &.date {
         width: 8em;
         text-align: right;
         padding: 0;
-        margin: 0 0 -1.45em 0;
+        margin: 0 0 -1.4em 0;
         color: gray;
     }
 }
 
 .catlist p {
     margin: 0 0 0 10.5em;
-    line-height: 1.45em;
+    line-height: 1.4em;
     &.catname {
         padding: 0;
-        margin: 0 0 -1.45em 0;
+        margin: 0 0 -1.4em 0;
         width: 10em;
         text-align: right;
         font-weight: bold;
