@@ -5,7 +5,6 @@ from cStringIO import StringIO
 from django.conf import settings
 import re, smartypants
 
-smartypants.tags_to_skip_regex = re.compile("<(/)?(pre|code|kbd|script|math|tt)[^>]*>")
 
 def wrapit(fn):
     """ lxml extensions have a first dummy arg that Pyana extensions don't.  Adapt.
