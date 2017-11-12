@@ -62,9 +62,9 @@ def sidebar(which, force=False):
         c['more_tag_count'] = Tag.objects.filter(sidebar=False).count()
         c['blogroll'] = Link.objects.filter(sidebar=True).order_by('text')
         #c['rss'] = True
-        c['commerce'] = True
+        c['commerce'] = False
     elif which == 'page':
-        c['youmightlike'] = True
+        c['youmightlike'] = False
     return c
 
 @register.inclusion_tag('searchbox.html')
