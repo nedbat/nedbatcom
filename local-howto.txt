@@ -80,3 +80,9 @@ Running everything locally
     SUCCESS!
 
 - visit http://localhost/
+
+
+- to shut it down:
+
+    $ sudo apachectl stop
+    $ mysql.server stop
