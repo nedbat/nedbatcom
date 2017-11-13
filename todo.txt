@@ -3,6 +3,12 @@ New design:
 - images (like in vax9000) have right-margin that adds extra width to <html> when the screen is narrow enough
 - videos (like in machete.html) don't shrink right, because they are iframes?
 - mainpage
+- role= attributes
+- aria-describedby for form fields
+- fix printstyle.css
+- different logo images, so small screens get a smaller image
+- get rid of .first, do it with css
+- move svg style into its own css file, since so few pages need it
 - do the header levels have to make more sense?
 - widont?
 - sentence double-spacer?

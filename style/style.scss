@@ -6,7 +6,7 @@ $debug-structure: no;   // yes or no
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
-$banner-height-large: 2.75rem;
+$banner-height-large: 4rem;
 $copyright-height: 2.5rem;
 $thick-border-small: 3px;
 $thick-border-large-horz: 3px;
@@ -28,11 +28,6 @@ etc.) or full text-relative (em in media queries, rem or em for block widths).
 
 also: http://fvsch.com/code/css-locks/ "CSS Locks"
 http://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
-
-TODO: role= attributes
-TODO: aria-describedby for form fields
-TODO: fix printstyle.css
-TODO: get rid of .first, do it with css
 
 */
 
@@ -131,7 +126,7 @@ $debug-structure-color: #F88;
     text-align: center;
     border-width: 0 $thick-border-small $thick-border-small 0;
 
-    background-image: url(/pix/dodeca3_640.jpg);  // TODO: different-sized images
+    background-image: url(/pix/dodeca3_640.jpg);
     background-size: contain;
 
     a {
@@ -171,7 +166,7 @@ $debug-structure-color: #F88;
     color: black;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 768px) {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.png);
@@ -190,7 +185,9 @@ $debug-structure-color: #F88;
 
     #banner {
         order: 2;
+        font-size: 120%;
         margin-left: $logo-size-large;
+        padding: .75em 1.5em;
         min-height: $banner-height-large;
         border-bottom-width: $thick-border-large-horz;
     }
@@ -506,6 +503,9 @@ a.s {
         &:hover {
             text-decoration: underline;
             color: red;
+        }
+        &.home {
+            font-weight: bold;
         }
     }
 }
@@ -957,7 +957,6 @@ img {
     padding: 0 1em;
 }
 
-// TODO: separate this into its own css file.
 svg {
     stroke: black;
     fill: white;
