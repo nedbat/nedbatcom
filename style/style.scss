@@ -323,8 +323,6 @@ a.headerlink {
         border-width: 0;
     }
     img {
-        margin: 0 .5em;
-        // So that side-by-side images will have some space between them.
         &.floatimg {
             float: left;
             margin: 0 1.5em .8em 0;
