@@ -504,8 +504,20 @@ a.s {
             text-decoration: underline;
             color: red;
         }
-        &.home {
-            font-weight: bold;
+    }
+    .home {
+        font-weight: bold;
+    }
+    .long {
+        display: none;
+        @media (min-width: 320px) {
+            display: inline;
+        }
+    }
+    .short {
+        display: inline;
+        @media (min-width: 320px) {
+            display: none;
         }
     }
 }
