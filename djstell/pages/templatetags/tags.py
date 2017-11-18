@@ -140,7 +140,7 @@ def link_list(links, sep):
 def top_areas():
     crumbs = sitemap.top_areas()
     links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in crumbs ]
-    return " | ".join(links)
+    return u" \N{MIDDLE DOT} ".join(links)
 
 @register.filter()
 @stringfilter

@@ -495,6 +495,7 @@ a.s {
 .path {
     margin: .25em 0 -1em 0;
     white-space: nowrap;
+    text-transform: lowercase;
     a {
         text-decoration: none;
         color: black;
@@ -507,14 +508,19 @@ a.s {
         font-weight: bold;
     }
     .long {
+        word-spacing: 0%;
         display: none;
-        @media (min-width: 320px) {
-            display: inline;
-        }
     }
     .short {
         display: inline;
-        @media (min-width: 320px) {
+    }
+    @media (min-width: 350px) {
+        word-spacing: 60%;
+        text-transform: none;
+        .long {
+            display: inline;
+        }
+        .short {
             display: none;
         }
     }
