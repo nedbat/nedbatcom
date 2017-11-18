@@ -189,6 +189,9 @@ def first_sentence(value, number=1):
         if sentence.count('"') % 2:
             # A sentence has to have an even number of quotes.
             continue
+        if sentence.count("&#8220;") != sentence.count("&#8221;"):
+            # A sentence has to have as many open-double quotes as close.
+            continue
 
         # We have a complete sentence.
         number -= 1
