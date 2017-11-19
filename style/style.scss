@@ -494,6 +494,7 @@ a.s {
 
 .path {
     margin: .25em 0 -1em 0;
+    display: flex;
     white-space: nowrap;
     text-transform: lowercase;
     a {
@@ -504,24 +505,27 @@ a.s {
             color: red;
         }
     }
+    .top_areas {
+        text-align: right;
+        width: 100%;
+    }
+
+    // A too-cute way to have the header work at ultra-narrow sizes.
     .home {
         font-weight: bold;
+        word-spacing: -100%;
     }
-    .long {
-        word-spacing: 0%;
+    .chelder {
         display: none;
-    }
-    .short {
-        display: inline;
     }
     @media (min-width: 350px) {
         word-spacing: 60%;
         text-transform: none;
-        .long {
-            display: inline;
+        .home {
+            word-spacing: 0%;
         }
-        .short {
-            display: none;
+        .chelder {
+            display: inline;
         }
     }
 }
