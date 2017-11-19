@@ -106,6 +106,11 @@ special_ch = {
 def ch(value):
     return '&#xa0;'.join([special_ch[s] for s in value.split(' ')])
 
+@register.simple_tag
+def twodigit(value):
+    """Show just the last two digits of a number (ex: a year)"""
+    return str(value)[-2:]
+
 @register.tag
 def ifnotfirst(parser, token):
     bits = token.contents.split()
