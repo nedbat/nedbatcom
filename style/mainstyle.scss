@@ -50,6 +50,8 @@ body {
     #other {
         width: $left-width;
         padding: 0 1em;
+        font-size: 85%;
+        line-height: 1.5em;
     }
 }
 
@@ -173,8 +175,9 @@ ul {
 }
 
 li {
-    margin: 0;
+    margin: 0 0 0 .6em;
     padding: 0;
+    text-indent: -.6em;
     .readmore {
         margin: 0;
     }
