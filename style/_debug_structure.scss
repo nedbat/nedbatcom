@@ -1,0 +1,35 @@
+// Set $debug-structure to yes to get annotations of header levels and articles.
+
+$debug-structure: no;   // yes or no
+
+$debug-structure-color: #F88;
+
+$structure-tags: header nav main aside footer section article;
+
+
+@if $debug-structure == yes {
+    @each $tag in $structure-tags {
+        #{$tag} {
+            border: 1px dotted red;
+            
+            &:before {
+                content: " <#{$tag}>";
+                color: $debug-structure-color;
+                display: block;
+                width: 0;
+                height: 1em;
+                font-size: 10px;
+                margin: -1em 0 0 -1em;
+            }
+        }
+    }
+
+    @for $h from 1 through 6 {
+        h#{$h}:after {
+            content: " <h#{$h}>";
+            color: $debug-structure-color;
+            display: inline-block;
+            width: 0;
+        }
+    }
+}

@@ -3,6 +3,8 @@
 $left-width: 25%;
 $main-break: 760px;
 
+@import 'debug_structure';
+
 * {
     box-sizing: border-box;
 }

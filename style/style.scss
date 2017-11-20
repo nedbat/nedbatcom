@@ -1,7 +1,6 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // white, or gaudy for debugging.
-$debug-structure: no;   // yes or no
 
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
@@ -19,6 +18,8 @@ $tiny-break: 350px;
 $me-font: "PT Serif", Georgia, serif;
 $them-font: verdana, sans-serif;
 $code-font: Menlo, "courier new", monospace;
+
+@import 'debug_structure';
 
 /*
 http://fvsch.com/code/em-alternatives/
@@ -56,23 +57,6 @@ body {
         padding: 10px;
         flex: 1 100%;
         border: 0 solid #999;
-    }
-}
-
-// Set $debug-structure to yes to get annotations of header levels and articles.
-
-$debug-structure-color: #F88;
-
-@if $debug-structure == yes {
-    article {
-        border: 1px dotted red;
-    }
-
-    @for $h from 1 through 6 {
-        h#{$h}:after {
-            content: " <h#{$h}>";
-            color: $debug-structure-color;
-        }
     }
 }
 
