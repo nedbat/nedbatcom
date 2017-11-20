@@ -1,7 +1,7 @@
 /*! Style for nedbatchelder.com main page. !*/
 
 $left-width: 25%;
-$main-break: 768px;
+$main-break: 760px;
 
 * {
     box-sizing: border-box;
@@ -22,6 +22,20 @@ body {
 #pagetitle {
     padding: 0.5em 0;
     border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    white-space: nowrap;
+
+    h1 {
+        padding-right: 1em;
+    }
+
+    .top_areas {
+        text-align: right;
+        margin: .5em 0 0 0;
+    }
 }
 
 @media (min-width: $main-break) {
@@ -63,6 +77,7 @@ p, h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 180%;
     border: none;
+    margin: 0;
 }
 
 h2 {

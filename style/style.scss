@@ -13,6 +13,9 @@ $thick-border-large-horz: 3px;
 $thick-border-large-vert: 3px;
 $outer-border-large: 5px;
 
+$narrow-break: 760px;
+$tiny-break: 350px;
+
 $me-font: "PT Serif", Georgia, serif;
 $them-font: verdana, sans-serif;
 $code-font: Menlo, "courier new", monospace;
@@ -166,7 +169,7 @@ $debug-structure-color: #F88;
     color: black;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $narrow-break) {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.png);
@@ -495,6 +498,7 @@ a.s {
 .path {
     margin: .25em 0 -1em 0;
     display: flex;
+    align-items: baseline;
     white-space: nowrap;
     text-transform: lowercase;
     a {
@@ -518,7 +522,12 @@ a.s {
     .chelder {
         display: none;
     }
-    @media (min-width: 350px) {
+    @media (min-width: $narrow-break) {
+        .top_areas {
+            font-size: 85%;
+        }
+    }
+    @media (min-width: $tiny-break) {
         word-spacing: 60%;
         text-transform: none;
         .home {
