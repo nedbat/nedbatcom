@@ -39,6 +39,7 @@
 </nav>
 </header>
 
+<main>
 <div class='section'>
     {# -- Latest four entries: first two sentences. -- #}
     {% for entry in recent_entries|slice:":4" %}
@@ -89,8 +90,9 @@
 </div>
 </div>
 </div>
+</main>
 
-<div id='other'>
+<aside class='sidebar'>
 <div id='star'></div>
 {% comment %}
 <h3><a class='s' href='/site/hirened.html'>Hire me</a></h3>
@@ -127,9 +129,11 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 <a class='s' href='mailto:ned@nedbatchelder.com'>email</a>
 </p>
 </div>
+</aside>
 
+<footer class='sidebar'>
 <p class='copyright'><a class='s' href='/site/legal.html' rel='copyright license'>{% ch "(c) " %}{% year_range archive_years|last archive_years|first %}</a></p>
-</div>
+</footer>
 
 </body>
 </html>
