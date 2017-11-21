@@ -146,12 +146,7 @@ h3 {
     color: $gray;
     font-style: italic;
     a {
-        text-decoration: none;
-        color: $gray;
-        &:hover {
-            text-decoration: underline;
-            color: #f00;
-        }
+        @include inside-link;
     }
 }
 
@@ -165,12 +160,7 @@ p.readmore {
 
 a {
     &.s {
-        text-decoration: none;
-        color: #000;
-        &:hover {
-            text-decoration: underline;
-            color: #f00;
-        }
+        @include inside-link;
     }
     text-decoration: none;
     color: #008;
@@ -219,11 +209,6 @@ li {
     font-style: italic;
     font-size: 85%;
     a {
-        text-decoration: none;
-        color: $gray;
-        &:hover {
-            text-decoration: underline;
-            color: $gray;
-        }
+        @include inside-link;
     }
 }

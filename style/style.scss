@@ -82,12 +82,7 @@ body {
     border-width: $thick-border-small 0 0 0;
 
     a {
-        text-decoration: none;
-        color: black;
-        &:hover {
-            text-decoration: underline;
-            color: red;
-        }
+        @include inside-link;
     }
 }
 
@@ -314,12 +309,7 @@ a.headerlink {
     color: #333;
     margin-bottom: 0;
     a {
-        text-decoration: none;
-        color: #333;
-        &:hover {
-            text-decoration: underline;
-            color: red;
-        }
+        @include inside-link;
     }
 }
 
@@ -451,12 +441,7 @@ input {
 }
 
 a.s {
-    text-decoration: none;
-    color: black;
-    &:hover {
-        text-decoration: underline;
-        color: red;
-    }
+    @include inside-link;
 }
 
 .headslug {
@@ -473,12 +458,7 @@ a.s {
     white-space: nowrap;
     text-transform: lowercase;
     a {
-        text-decoration: none;
-        color: black;
-        &:hover {
-            text-decoration: underline;
-            color: red;
-        }
+        @include inside-link;
     }
     .top_areas {
         text-align: right;
@@ -523,12 +503,7 @@ a.s {
         padding-bottom: 12pt;
         margin-bottom: 6pt;
         a {
-            text-decoration: none;
-            color: $gray;
-            &:hover {
-                text-decoration: underline;
-                color: red;
-            }
+            @include inside-link;
         }
     }
     .title {
@@ -611,12 +586,7 @@ div.archive p {
     font-style: italic;
     text-decoration: none;
     a {
-        text-decoration: none;
-        color: $gray;
-        &:hover {
-            text-decoration: underline;
-            color: red;
-        }
+        @include inside-link;
     }
 }
 
