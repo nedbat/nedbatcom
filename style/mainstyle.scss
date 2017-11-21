@@ -146,6 +146,9 @@ img {
     margin: 1em 0;
     p {
         display: inline;
+        &:before {
+            content: " ·· ";
+        }
     }
 }
 
