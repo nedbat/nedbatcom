@@ -72,10 +72,10 @@
 <p class='huh'>software I made</p>
 <ul>
     {% for x in code %}
-    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
-<li><span class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></span></li>
 </ul>
+<p class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></p>
 </div>
 
 <div class='subsection'>
@@ -83,10 +83,10 @@
 <p class='huh'>words I wrote</p>
 <ul>
     {% for x in text %}
-    <li><span class='pilcrow'>{% ch "[] " %}</span><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
-<li><span class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></span></li>
 </ul>
+<p class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></p>
 </div>
 </div>
 </div>

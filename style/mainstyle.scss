@@ -127,10 +127,6 @@ img {
     margin-top: 0;
 }
 
-.pilcrow {
-    color: #595959;
-}
-
 .thinspace {
     font-size: 66%;
 }
@@ -162,7 +158,6 @@ img {
 
 .readmore {
     color: #595959;
-    margin: 0 0 0 .5em;
     font-style: italic;
     a {
         text-decoration: none;
@@ -172,6 +167,14 @@ img {
             color: #f00;
         }
     }
+}
+
+span.readmore {
+    margin: 0 0 0 .5em;
+}
+
+p.readmore {
+    margin: 0;
 }
 
 a {
@@ -197,10 +200,20 @@ ul {
     list-style: none;
 }
 
+$list-indent: 1em;
+
 li {
-    margin: 0 0 0 .6em;
+    &:before {
+        content: "▫";
+        display: inline-block;
+        width: $list-indent;
+        color: #595959;
+        text-indent: 0;
+    }
+
+    margin: 0 0 0 $list-indent;
     padding: 0;
-    text-indent: -.6em;
+    text-indent: -$list-indent;
     .readmore {
         margin: 0;
     }
