@@ -3,8 +3,7 @@
 $left-width: 25%;
 $main-break: 760px;
 
-@import 'globals';
-@import 'debug_structure';
+@import 'common';
 
 * {
     box-sizing: border-box;

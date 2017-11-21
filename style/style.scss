@@ -15,8 +15,7 @@ $outer-border-large: 5px;
 $narrow-break: 760px;
 $tiny-break: 350px;
 
-@import 'globals';
-@import 'debug_structure';
+@import 'common';
 
 /*
 http://fvsch.com/code/em-alternatives/
