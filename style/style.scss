@@ -15,10 +15,7 @@ $outer-border-large: 5px;
 $narrow-break: 760px;
 $tiny-break: 350px;
 
-$me-font: "PT Serif", Georgia, serif;
-$them-font: verdana, sans-serif;
-$code-font: Menlo, "courier new", monospace;
-
+@import 'globals';
 @import 'debug_structure';
 
 /*
@@ -341,7 +338,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: #595959;
+    color: $gray;
 }
 
 .docinfo {
@@ -351,7 +348,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: #595959;
+    color: $gray;
 }
 
 ul {
@@ -530,14 +527,14 @@ a.s {
     }
     footer {
         font-size: 85%;
-        color: #595959;
+        color: $gray;
         font-style: italic;
         border-bottom: solid 1px silver;
         padding-bottom: 12pt;
         margin-bottom: 6pt;
         a {
             text-decoration: none;
-            color: #595959;
+            color: $gray;
             &:hover {
                 text-decoration: underline;
                 color: red;
@@ -553,11 +550,11 @@ a.s {
     }
     .date {
         font-size: 85%;
-        color: #595959;
+        color: $gray;
         margin: 0;
         padding: 0;
         a.s {
-            color: #595959;
+            color: $gray;
         }
     }
     p {
@@ -587,7 +584,7 @@ div.archive p {
         text-align: right;
         padding: 0;
         margin: 0 0 -1.4em 0;
-        color: #595959;
+        color: $gray;
     }
 }
 
@@ -602,7 +599,7 @@ div.archive p {
         text-align: right;
         padding: 0;
         margin: 0 0 -1.4em 0;
-        color: #595959;
+        color: $gray;
     }
 }
 
@@ -620,12 +617,12 @@ div.archive p {
 
 .also {
     font-size: 85%;
-    color: #595959;
+    color: $gray;
     font-style: italic;
     text-decoration: none;
     a {
         text-decoration: none;
-        color: #595959;
+        color: $gray;
         &:hover {
             text-decoration: underline;
             color: red;
@@ -873,7 +870,7 @@ img {
     }
 
     .notice {
-        color: #595959;
+        color: $gray;
         font-style: italic;
         &.right {
             text-align: right;
@@ -918,7 +915,7 @@ img {
             font-family: $them-font;
             float: right;
             font-size: 85%;
-            color: #595959;
+            color: $gray;
             margin-top: 0;
         }
         .head {

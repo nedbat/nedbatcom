@@ -3,6 +3,7 @@
 $left-width: 25%;
 $main-break: 760px;
 
+@import 'globals';
 @import 'debug_structure';
 
 * {
@@ -10,7 +11,7 @@ $main-break: 760px;
 }
 
 body {
-    font-family: "PT Serif", Georgia, serif;
+    font-family: $me-font;
     font-size: 120%;
     background: white;
     padding: 1em;
@@ -138,7 +139,7 @@ img {
 .blog-entry p.date, .huh {
     display: inline;
     margin: 0 0 0 1em;
-    color: #595959;
+    color: $gray;
 }
 
 .oneline {
@@ -157,11 +158,11 @@ img {
 }
 
 .readmore {
-    color: #595959;
+    color: $gray;
     font-style: italic;
     a {
         text-decoration: none;
-        color: #595959;
+        color: $gray;
         &:hover {
             text-decoration: underline;
             color: #f00;
@@ -207,7 +208,7 @@ li {
         content: "▫";
         display: inline-block;
         width: $list-indent;
-        color: #595959;
+        color: $gray;
         text-indent: 0;
     }
 
@@ -229,15 +230,15 @@ li {
 }
 
 .copyright {
-    color: #595959;
+    color: $gray;
     font-style: italic;
     font-size: 85%;
     a {
         text-decoration: none;
-        color: #595959;
+        color: $gray;
         &:hover {
             text-decoration: underline;
-            color: #595959;
+            color: $gray;
         }
     }
 }
