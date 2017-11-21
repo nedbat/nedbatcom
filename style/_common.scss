@@ -1,5 +1,11 @@
 /*! Definitions for use everywhere. !*/
 
+// Debugging options: yes or no
+$debug-structure: no;
+$debug-links: no;
+
+// Global constants
+
 $gray: #595959;
 
 $me-font: "PT Serif", Georgia, serif;
@@ -26,7 +32,16 @@ img {
 
 //
 
+@if $debug-links == yes {
+    a {
+        background: lime;
+    }
+}
+
 @mixin inside-link {
+    @if $debug-links == yes {
+        background: pink;
+    }
     text-decoration: none;
     color: inherit;
     &:hover {
