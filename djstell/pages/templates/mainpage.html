@@ -53,13 +53,13 @@
 
 <div class='section'>
 {% reallyspaceless %}
-<p><b><a class='s' href='/blog'>More blog</a></b><span class='thinspace'>{% ch " " %}</span>{% ch ":" %}<span class='thinspace'>&#32;</span>
+<p><b><a class='s' href='/blog'>More blog</a></b>{% ch " :" %}&#32;
 {% for tag in tags %}
-<a class='s' href='{{tag.permaurl}}'>{{tag.name|lower}}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'>&#32;</span>
+<a class='s' href='{{tag.permaurl}}'>{{tag.name|lower}}</a>{% ch " ." %}&#32;
 {% endfor %}
 {% endreallyspaceless %}
 {% for y in archive_years %}
-<a class='s' href='/blog/archive{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a><span class='thinspace'>{% ch " " %}</span>{% ch "." %}<span class='thinspace'> </span>
+<a class='s' href='/blog/archive{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
 {% endfor %}
 <a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss28.png' width='14' height='14' title='RSS feed of posts' alt='RSS feed'></a>
 <span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>
