@@ -40,7 +40,7 @@
 </header>
 
 <main>
-<div class='section'>
+<section>
     {# -- Latest four entries: first two sentences. -- #}
     {% for entry in recent_entries|slice:":4" %}
         <div class='blog-entry'>
@@ -49,9 +49,9 @@
             <p class='first'>{{entry.to_html|just_text|first_sentence:"2"|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
         </div>
     {% endfor %}
-</div>
+</section>
 
-<div class='section'>
+<section>
 {% reallyspaceless %}
 <p><b><a class='s' href='/blog'>More blog</a></b>{% ch " :" %}&#32;
 {% for tag in tags %}
@@ -64,10 +64,10 @@
 <a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss28.png' width='14' height='14' title='RSS feed of posts' alt='RSS feed'></a>
 <span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>
 </p>
-</div>
+</section>
 
-<div class='section'>
-<div class='subsection'>
+<section>
+<section>
 <h2><a class='s' href='/code'>Code</a></h2>
 <p class='huh'>software I made</p>
 <ul>
@@ -76,9 +76,9 @@
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></p>
-</div>
+</section>
 
-<div class='subsection'>
+<section>
 <h2><a class='s' href='/text'>Text</a></h2>
 <p class='huh'>words I wrote</p>
 <ul>
@@ -87,8 +87,8 @@
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></p>
-</div>
-</div>
+</section>
+</section>
 </div>
 </main>
 
@@ -100,7 +100,7 @@
 </p>
 {% endcomment %}
 
-<div class='oneline'>
+<section class='oneline'>
 <h2><a class='s' href='/site/aboutned.html' rel='author'>About me</a></h2>
 <p>
 I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>,
@@ -108,13 +108,13 @@ I'm a software developer with a <a href='/NedBatchelder.pdf'>long career</a>,
 I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 <span class='readmore'> {% ch ">> " %}<a href='/site/aboutned.html'>more..</a></span>
 </p>
-</div>
+</section>
 
-<div id='search'>
+<section id='search'>
 {% search_box "<h2>Search me</h2>" %}
-</div>
+</section>
 
-<div class='oneline'>
+<section class='oneline'>
 <h2>Also me</h2>
 <p>
 <a class='s' href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %}
@@ -128,7 +128,7 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 <a class='s' href='irc://irc.freenode.net/#python'>irc</a>{% ch " ." %}
 <a class='s' href='mailto:ned@nedbatchelder.com'>email</a>
 </p>
-</div>
+</section>
 </aside>
 
 <footer class='sidebar'>

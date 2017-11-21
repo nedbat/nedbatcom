@@ -117,7 +117,6 @@ h2 {
 }
 
 .oneline {
-    margin: 1em 0;
     p {
         display: inline;
         &:before {
@@ -126,11 +125,15 @@ h2 {
     }
 }
 
-.section {
+section {
     margin-top: 2em;
+
+    section {
+        margin-top: 1em;
+    }
 }
 
-.subsection {
+aside section {
     margin-top: 1em;
 }
 
