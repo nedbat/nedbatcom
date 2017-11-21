@@ -31,10 +31,6 @@ http://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
 
 */
 
-* {
-    box-sizing: border-box;
-}
-
 body {
     font-family: $me-font;
     margin: 0 auto;
@@ -213,11 +209,6 @@ td {
 
 .dn {
     display: none !important;
-}
-
-p, h1, h2, h3, h4, h5, h6 {
-    padding: 0;
-    margin: 1em 0;
 }
 
 p {
@@ -827,7 +818,6 @@ div.linenodiv {
 }
 
 img {
-    border: none;
     max-width: 100%;
     height: auto;
 }

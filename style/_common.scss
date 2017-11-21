@@ -7,3 +7,18 @@ $them-font: verdana, sans-serif;
 $code-font: Menlo, "courier new", monospace;
 
 @import 'debug_structure';
+
+// Common simplifying rules
+
+* {
+    box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 1em 0;
+}
+
+img {
+    border: none;
+}
