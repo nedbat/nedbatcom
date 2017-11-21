@@ -81,12 +81,8 @@ h1 {
 
 h2 {
     font-size: 100%;
-}
-
-h3 {
-    font-size: 100%;
+    display: inline;
     margin: 1em 0 0 0;
-    color: #000;
 }
 
 .searchflex {
@@ -112,10 +108,6 @@ h3 {
 
 .first {
     margin-top: 0;
-}
-
-.blog-entry h3, .section h3, .oneline h3 {
-    display: inline;
 }
 
 .blog-entry p.date, .huh {
@@ -199,8 +191,7 @@ li {
     }
 }
 
-#search h3 {
-    display: inline;
+#search h2 {
     margin: 0 1em 0 0;
 }
 
