@@ -165,6 +165,10 @@ a {
     }
 }
 
+.a-s a {
+    @include inside-link;
+}
+
 ul {
     margin: 0;
     padding: 0;

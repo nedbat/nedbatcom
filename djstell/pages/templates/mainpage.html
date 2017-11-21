@@ -31,11 +31,11 @@
 <div id='content'>
 <header id='pagetitle'>
 <h1>Ned Batchelder</h1>
-<nav class='top_areas'>
-<a class='s' href='/blog'>Blog</a> {% ch "." %}
-<a class='s' href='/code'>Code</a> {% ch "." %}
-<a class='s' href='/text'>Text</a> {% ch "." %}
-<a class='s' href='/site'>Site</a>
+<nav class='top_areas a-s'>
+<a href='/blog'>Blog</a> {% ch "." %}
+<a href='/code'>Code</a> {% ch "." %}
+<a href='/text'>Text</a> {% ch "." %}
+<a href='/site'>Site</a>
 </nav>
 </header>
 
@@ -51,39 +51,39 @@
     {% endfor %}
 </section>
 
-<section>
+<section class='a-s'>
 {% reallyspaceless %}
-<p><b><a class='s' href='/blog'>More blog</a></b>{% ch " :" %}&#32;
+<p><b><a href='/blog'>More blog</a></b>{% ch " :" %}&#32;
 {% for tag in tags %}
-<a class='s' href='{{tag.permaurl}}'>{{tag.name|lower}}</a>{% ch " ." %}&#32;
+<a href='{{tag.permaurl}}'>{{tag.name|lower}}</a>{% ch " ." %}&#32;
 {% endfor %}
 {% endreallyspaceless %}
 {% for y in archive_years %}
-<a class='s' href='/blog/archive{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
+<a href='/blog/archive{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
 {% endfor %}
 <a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss28.png' width='14' height='14' title='RSS feed of posts' alt='RSS feed'></a>
 <span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>
 </p>
 </section>
 
+<section class='a-s'>
 <section>
-<section>
-<h2><a class='s' href='/code'>Code</a></h2>
+<h2><a href='/code'>Code</a></h2>
 <p class='huh'>software I made</p>
 <ul>
     {% for x in code %}
-    <li><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></p>
 </section>
 
 <section>
-<h2><a class='s' href='/text'>Text</a></h2>
+<h2><a href='/text'>Text</a></h2>
 <p class='huh'>words I wrote</p>
 <ul>
     {% for x in text %}
-    <li><b><a class='s' href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></p>
@@ -114,19 +114,19 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 {% search_box "<h2>Search me</h2>" %}
 </section>
 
-<section class='oneline'>
+<section class='oneline a-s'>
 <h2>Also me</h2>
 <p>
-<a class='s' href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %}
-<a class='s' href='http://github.com/nedbat'>github</a>{% ch " ." %}
-<a class='s' href='http://bitbucket.com/ned'>bitbucket</a>{% ch " ." %}
-<a class='s' href='http://linkedin.com/in/nedbat'>linkedin</a>{% ch " ." %}
-<a class='s' href='#' onclick='window.prompt("My bitcoin address. Copy it! Thanks :)", "1NZt31quJzL8ZPKcxwFv7GZu2YU12DyMdU")'>bitcoin</a>{% ch " ." %}
-<a class='s' href='https://paypal.me/nedbat'>paypal</a>{% ch " ." %}
-<a class='s' href='http://edx.org'>work</a>{% ch " ." %}
-<a class='s' href='/NedBatchelder.pdf'>resume</a>{% ch " ." %}
-<a class='s' href='irc://irc.freenode.net/#python'>irc</a>{% ch " ." %}
-<a class='s' href='mailto:ned@nedbatchelder.com'>email</a>
+<a href='http://twitter.com/nedbat'>twitter</a>{% ch " ." %}
+<a href='http://github.com/nedbat'>github</a>{% ch " ." %}
+<a href='http://bitbucket.com/ned'>bitbucket</a>{% ch " ." %}
+<a href='http://linkedin.com/in/nedbat'>linkedin</a>{% ch " ." %}
+<a href='#' onclick='window.prompt("My bitcoin address. Copy it! Thanks :)", "1NZt31quJzL8ZPKcxwFv7GZu2YU12DyMdU")'>bitcoin</a>{% ch " ." %}
+<a href='https://paypal.me/nedbat'>paypal</a>{% ch " ." %}
+<a href='http://edx.org'>work</a>{% ch " ." %}
+<a href='/NedBatchelder.pdf'>resume</a>{% ch " ." %}
+<a href='irc://irc.freenode.net/#python'>irc</a>{% ch " ." %}
+<a href='mailto:ned@nedbatchelder.com'>email</a>
 </p>
 </section>
 </aside>
