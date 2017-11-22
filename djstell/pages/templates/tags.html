@@ -23,7 +23,7 @@
                             {% for tag_other in entry.tags.all %}
                                 {% ifnotequal tag.tag tag_other.tag %}
                                     {% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
-                                    <a href='{{tag_other.permaurl}}'>#{{tag_other.name|lower}}</a>
+                                    <a href='{{tag_other.permaurl}}'>#{{tag_other.hashtag}}</a>
                                 {% endifnotequal %}
                             {% endfor %}
                         </span>
@@ -33,7 +33,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p class='first'>That's funny, I could've sworn I had some entries tagged #{{tag.name}}...</p>
+        <p class='first'>That's funny, I could've sworn I had some entries tagged #{{tag.hashtag}}...</p>
     {% endif %}
 
     <p>

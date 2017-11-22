@@ -184,7 +184,12 @@ class Tag(models.Model, ModelMixin):
         return "/blog/tag/%s.html" % self.tag
 
     def entry_set_no_drafts(self):
-     return self.entry_set.filter(draft=False)
+        return self.entry_set.filter(draft=False)
+
+    @property
+    def hashtag(self):
+        """The name, but for a hashtag."""
+        return self.name.replace(' ', '-').lower()
 
 
 class Link(models.Model, ModelMixin):

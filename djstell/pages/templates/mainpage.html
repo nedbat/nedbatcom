@@ -55,7 +55,7 @@
 {% reallyspaceless %}
 <p><b><a href='/blog'>More blog</a></b>{% ch " :" %}&#32;
 {% for tag in tags %}
-<a href='{{tag.permaurl}}'>{{tag.name|lower}}</a>{% ch " ." %}&#32;
+<a href='{{tag.permaurl}}'>{{tag.hashtag}}</a>{% ch " ." %}&#32;
 {% endfor %}
 {% endreallyspaceless %}
 {% for y in archive_years %}
