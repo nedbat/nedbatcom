@@ -47,7 +47,7 @@ body {
         background: url(/pix/dodeca3_640.jpg) no-repeat bottom right;
         height: 40vw;
         background-size: 50vw;
-        margin: 0 -4em 0 -1em;
+        margin: 0 -4em 0 -2em;
     }
 
     #content {
@@ -61,7 +61,7 @@ body {
 
     .sidebar {
         width: $left-width;
-        padding: 0 1em;
+        padding: 0 1em 0 2em;
         font-size: 85%;
         line-height: 1.5em;
     }
