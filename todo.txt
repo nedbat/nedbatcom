@@ -46,7 +46,7 @@ Content:
 Tools:
 + A way to link to other pages so the title is pulled into the link automatically.
 + PyExpat is slow on splitfile: use Sax instead.
-- Can't put accented chars into blog entries!
++ Can't put accented chars into blog entries!
 + Sablotron can't do document('') in sub-stylesheets (day-of-week, eg)? Pyana can.
 + Use Pyana.compileStylesheet to speed up XslTreeWalker.
 + Syntax-color Python from xuff? http://silvercity.sourceforge.net/
@@ -81,7 +81,7 @@ Transformations:
 + Javascript (or php!) protection for mailto:
 + A way to have links to .px paths, and be transformed to the .html href.
 - A way to have links to .bx paths, and be transformed to the .html href.
-- Curly-quotes and apostrophes somehow.
++ Curly-quotes and apostrophes somehow.
 + Make the archive listing page line up nicer (dates right-flush, entries left-flush?).
 + For some reason, newlines are being inserted between tags (only on try.xuff: indentation ctrl).
 
@@ -89,7 +89,7 @@ Design:
 + More navigation among archive blog pages (next, prev, etc).
 + Permalinks on the whole date? (or whole title!)
 - More of Mark Pilgrim's accessibility suggestions.
-- Get rid of the table-based layout.
++ Get rid of the table-based layout.
 + Make sure Phoenix displays properly (paragraph spacing seems wrong).
 - <link rel='prev'>, etc.
 - Pref to open links in new window.
