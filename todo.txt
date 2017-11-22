@@ -1,23 +1,29 @@
 New design:
-+ search button isn't square?
-+ choose sans-serif
-- images (like in vax9000) have right-margin that adds extra width to <html> when the screen is narrow enough
-    - remove fixed margin
-    - create a flex place for multiple images?
-+ videos (like in machete.html) don't shrink right, because they are iframes?
-    + made the first break wide enough that it doesn't matter
-+ "nedbat" in ultranarrow appears in the plain-text.
-+ how to make top_areas baseline-align with font-size:85% ?
-+ mainpage
-- role= attributes
-- aria-describedby for form fields
-- fix printstyle.css
-- different logo images, so small screens get a smaller image
-- get rid of .first, do it with css
-- move svg style into its own css file, since so few pages need it
-- do the header levels have to make more sense?
-- widont?
-- sentence double-spacer?
+- must
+    + search button isn't square?
+    + choose sans-serif
+    - images (like in vax9000) have right-margin that adds extra width to <html> when the screen is narrow enough
+        - remove fixed margin
+        - create a flex place for multiple images?
+    + videos (like in machete.html) don't shrink right, because they are iframes?
+        + made the first break wide enough that it doesn't matter
+    + how to make top_areas baseline-align with font-size:85% ?
+    + mainpage
+    - fix printstyle.css
+    - grab the old design
+    - write a blog post about it
+
+- nice
+    - different logo images, so small screens get a smaller image
+    - role= attributes
+    - aria-describedby for form fields
+    + "nedbat" in ultranarrow appears in the plain-text.
+    - get rid of .first, do it with css
+    - move svg style into its own css file, since so few pages need it
+    - do the header levels have to make more sense?
+    - widont?
+    - sentence double-spacer?
+    - only one sentence on mainpage when small?
 
 
 
