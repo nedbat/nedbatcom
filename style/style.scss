@@ -7,7 +7,8 @@ $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
 $copyright-height: 2.5rem;
-$thick-border-small: 3px;
+$thick-border-small-horz: 3px;
+$thick-border-small-vert: 1px;
 $thick-border-large-horz: 3px;
 $thick-border-large-vert: 3px;
 $outer-border-large: 5px;
@@ -79,7 +80,7 @@ body {
     text-align: left;
     font-size: 85%;
 
-    border-width: $thick-border-small 0 0 0;
+    border-width: $thick-border-small-horz 0 0 0;
 
     a {
         @include inside-link;
@@ -98,7 +99,7 @@ body {
         background: #fff;
     }
     text-align: center;
-    border-width: 0 $thick-border-small $thick-border-small 0;
+    border-width: 0 $thick-border-small-vert $thick-border-small-horz 0;
 
     background-image: url(/pix/dodeca3_640.jpg);
     background-size: contain;
@@ -120,7 +121,7 @@ body {
     @else {
         background: #eee;
     }
-    border-bottom-width: $thick-border-small;
+    border-bottom-width: $thick-border-small-horz;
     text-align: left;
     font-size: 85%;
     vertical-align: middle;
@@ -128,7 +129,7 @@ body {
 
 #copyright {
     padding: 0 10px;
-    border-top-width: $thick-border-small;
+    border-top-width: $thick-border-small-horz;
     height: $copyright-height;
     text-align: left;
     @if $color-scheme == gaudy {
