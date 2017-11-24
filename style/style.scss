@@ -217,7 +217,7 @@ p {
     &.figure img {
         margin: 0;
         @media (min-width: $tiny-break) {
-            margin: .25em;
+            margin: .1em .25em;
         }
     }
 }

@@ -2,9 +2,9 @@ New design:
 - must
     + search button isn't square?
     + choose sans-serif
-    - images (like in vax9000) have right-margin that adds extra width to <html> when the screen is narrow enough
-        - remove fixed margin
-        - create a flex place for multiple images?
+    + images (like in vax9000) have right-margin that adds extra width to <html> when the screen is narrow enough
+        + remove fixed margin
+        x create a flex place for multiple images?
     + videos (like in machete.html) don't shrink right, because they are iframes?
         + made the first break wide enough that it doesn't matter
     + how to make top_areas baseline-align with font-size:85% ?
