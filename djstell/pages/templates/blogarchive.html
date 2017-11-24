@@ -12,14 +12,13 @@
 {% block body %}
     <p class='first'>
         {% ifequal type 'complete' %}
-            These are all {{entries|length}} blog entries, organized by date, newest first, and separated into months.
+            These are all {{entries|length}} blog entries.
         {% endifequal %}
         {% ifequal type 'year' %}
             {% if entries|length_is:"1" %}
                 This is the single blog entry for {{year}}.
             {% else %}
-                These are the {{entries|length}} blog entries for {{year}},
-                organized by date, newest first, and separated into months.
+                These are the {{entries|length}} blog entries for {{year}}.
             {% endif %}
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
