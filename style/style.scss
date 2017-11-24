@@ -355,6 +355,31 @@ dt, dd {
     margin-bottom: .4em;
 }
 
+.aspectratio {
+    // https://benmarshall.me/responsive-iframes/
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    max-width: 32em;    // about 560px
+    margin: auto;
+
+    &.aspect-16x9 {
+        padding-bottom: percentage(9/16);
+    }
+
+    &.aspect-4x3 {
+        padding-bottom: percentage(3/4);
+    }
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .searchform {
     margin-top: 0;
 

@@ -340,7 +340,14 @@
 
 <xsl:template match='figurep'>
     <xsl:call-template name='checkblock'/>
-    <p class='figure'>
+    <p>
+        <xsl:attribute name='class'>
+            <xsl:text>figure</xsl:text>
+            <xsl:if test='@aspect'>
+                <xsl:text> aspectratio</xsl:text>
+                <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
+            </xsl:if>
+        </xsl:attribute>
         <xsl:choose>
             <xsl:when test='thumbnail|object|iframe|video'>
                 <xsl:apply-templates select='*' />
