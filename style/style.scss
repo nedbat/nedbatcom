@@ -391,10 +391,17 @@ dt, dd {
 
 .searchform {
     margin-top: 0;
+    display: inline;
+    margin-left: .5em;
 
     label {
         display: inline-block;
         margin: 0 .5em .25em 0;
+    }
+
+    @media (min-width: $narrow-break) {
+        display: block;
+        margin-left: 0;
     }
 }
 
