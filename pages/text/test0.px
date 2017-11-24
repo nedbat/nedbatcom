@@ -7,9 +7,10 @@
 <!-- {{{ --><p>This is a presentation I gave at PyCon 2014.  You can read the
     slides and text on this page, open the <a href="text/test0/test0.html" target="_blank">actual presentation</a>
     in your browser (use right and left arrows to advance the slides),
-    or watch the video:</p><p align="center">
+    or watch the video:</p>
+    <figurep aspect='4x3'>
     <iframe width="500" height="369" src="https://www.youtube.com/embed/FxSsnHeWQBY" frameborder="0" allowfullscreen="allowfullscreen"/>
-    </p><p>There is also a zipfile of <a href="text/test0/test0.zip">all the code examples</a>.</p><figurep href="text/test0/test0.html#1"><img alt="Getting Started Testing" scale="0.5" src="text/test0/test0_000.png"/></figurep><figurep href="text/test0/test0.html#2"><img alt="Goals" scale="0.5" src="text/test0/test0_001.png"/></figurep><!-- {{{ --><p>Writing correct code is complicated, it's hard.  How do you know when
+    </figurep><p>There is also a zipfile of <a href="text/test0/test0.zip">all the code examples</a>.</p><figurep href="text/test0/test0.html#1"><img alt="Getting Started Testing" scale="0.5" src="text/test0/test0_000.png"/></figurep><figurep href="text/test0/test0.html#2"><img alt="Goals" scale="0.5" src="text/test0/test0_001.png"/></figurep><!-- {{{ --><p>Writing correct code is complicated, it's hard.  How do you know when
     you've gotten it right, and how do you know your code has stayed right
     even after you've changed it?</p><p>The best we know to do this is with automated testing.  Testing is a
     large topic, with its own tools and techniques.  It can be

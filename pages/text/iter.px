@@ -17,9 +17,9 @@ Also, clicking the slide images on this page will jump into the full presentatio
 this page, or open the <a href="text/iter/iter.html">actual presentation</a> in
 your browser (use right and left arrows to advance the slides), or watch the video:</p>
 
-<p align="center">
-<iframe width="500" height="369" src="https://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
-</p>
+<figurep aspect='4x3'>
+    <iframe src="https://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
+</figurep>
 
 <figurep href="text/iter/iter.html#1"><img alt="Loop like a native" scale="0.5" src="text/iter_pix/000.png"/></figurep><!-- {{{ --><p>A talk for PyCon 2013.</p><figurep href="text/iter/iter.html#2"><img alt="tl;dl" scale="0.5" src="text/iter_pix/001.png"/></figurep><!-- {{{ --><p>This talk is billed as Beginner, and sounds like a beginner topic, but I
     prefer to think of it as Fundamental.  Plenty of expert Python programmers
