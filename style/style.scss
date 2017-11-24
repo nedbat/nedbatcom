@@ -213,6 +213,13 @@ p {
         max-width: 32em;    // about 560px
         margin: auto;
     }
+
+    &.figure img {
+        margin: 0;
+        @media (min-width: $tiny-break) {
+            margin: .25em;
+        }
+    }
 }
 
 #menu {

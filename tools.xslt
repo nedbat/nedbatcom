@@ -374,6 +374,14 @@
                 <xsl:call-template name='figurep_img'/>
             </a>
         </xsl:when>
+        <xsl:when test='a'>
+            <xsl:for-each select='a'>
+                <a>
+                    <xsl:copy-of select='@*'/>
+                    <xsl:call-template name='figurep_img'/>
+                </a>
+            </xsl:for-each>
+        </xsl:when>
         <xsl:when test='@isbn'>
             <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
                 <xsl:call-template name='figurep_img'/>
