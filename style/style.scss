@@ -210,6 +210,8 @@ td {
 p {
     &.figure, &.bulletsep {
         text-align: center;
+        max-width: 32em;    // about 560px
+        margin: auto;
     }
 }
 
@@ -355,12 +357,12 @@ dt, dd {
     margin-bottom: .4em;
 }
 
-.aspectratio {
+.aspect {
     // https://benmarshall.me/responsive-iframes/
+    display: block;
     position: relative;
     height: 0;
     overflow: hidden;
-    max-width: 32em;    // about 560px
     margin: auto;
 
     &.aspect-16x9 {

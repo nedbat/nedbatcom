@@ -340,42 +340,52 @@
 
 <xsl:template match='figurep'>
     <xsl:call-template name='checkblock'/>
-    <p>
-        <xsl:attribute name='class'>
-            <xsl:text>figure</xsl:text>
-            <xsl:if test='@aspect'>
-                <xsl:text> aspectratio</xsl:text>
-                <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
-            </xsl:if>
-        </xsl:attribute>
+    <p class='figure'>
         <xsl:choose>
-            <xsl:when test='thumbnail|object|iframe|video'>
-                <xsl:apply-templates select='*' />
-            </xsl:when>
-            <xsl:when test='@href'>
-                <a>
-                    <xsl:attribute name='href'>
-                        <xsl:call-template name='makeuri'>
-                            <xsl:with-param name='uri' select='@href' />
-                        </xsl:call-template>
+            <xsl:when test='@aspect'>
+                <span>
+                    <xsl:attribute name='class'>
+                        <xsl:text>aspect</xsl:text>
+                        <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
                     </xsl:attribute>
-                    <xsl:copy-of select="@target" />
-                    <xsl:call-template name='figurep_img'/>
-                </a>
-            </xsl:when>
-            <xsl:when test='@isbn'>
-                <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
-                    <xsl:call-template name='figurep_img'/>
-                </a>
-            </xsl:when>
-            <xsl:when test='svg:*'>
-                <xsl:copy-of select="svg:*|@*" />
+                    <xsl:call-template name='figurep_content'/>
+                </span>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:call-template name='figurep_img'/>
+                <xsl:call-template name='figurep_content'/>
             </xsl:otherwise>
         </xsl:choose>
     </p>
+</xsl:template>
+
+<xsl:template name='figurep_content'>
+    <xsl:choose>
+        <xsl:when test='thumbnail|object|iframe|video'>
+            <xsl:apply-templates select='*' />
+        </xsl:when>
+        <xsl:when test='@href'>
+            <a>
+                <xsl:attribute name='href'>
+                    <xsl:call-template name='makeuri'>
+                        <xsl:with-param name='uri' select='@href' />
+                    </xsl:call-template>
+                </xsl:attribute>
+                <xsl:copy-of select="@target" />
+                <xsl:call-template name='figurep_img'/>
+            </a>
+        </xsl:when>
+        <xsl:when test='@isbn'>
+            <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
+                <xsl:call-template name='figurep_img'/>
+            </a>
+        </xsl:when>
+        <xsl:when test='svg:*'>
+            <xsl:copy-of select="svg:*|@*" />
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:call-template name='figurep_img'/>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 <xsl:template name='figurep_img'>
