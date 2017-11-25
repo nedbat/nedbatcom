@@ -141,7 +141,7 @@ body {
     color: black;
 }
 
-@media (min-width: $narrow-break) {
+@media screen and (min-width: $narrow-break) {
     body {
         // larger sizes can have a fancy background.
         background: url(pix/hilbert.png);
@@ -1030,5 +1030,25 @@ svg {
     text.framelabel {
         font-size: 90%;
         font-family: monospace;
+    }
+}
+
+@media print {
+    body, #banner, #copyright {
+        background: white;
+        margin: 0;
+    }
+    #banner {
+        border-bottom-width: 1px;
+    }
+    #copyright {
+        border-top-width: 1px;
+    }
+    #logo, #sidebar, #comments {
+        display: none;
+    }
+    body.oneentry .blog-entry footer {
+        border-bottom: 0;
+        margin-bottom: 0;
     }
 }

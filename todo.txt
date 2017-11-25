@@ -9,14 +9,17 @@ New design:
         + made the first break wide enough that it doesn't matter
     + how to make top_areas baseline-align with font-size:85% ?
     + mainpage
-    - fix printstyle.css
+    + fix printstyle.css
     - grab the old design
     - write a blog post about it
+    - tag page left hang too wide
+    + text home nests too deep. Use H2
 
 - nice
     - https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fnedbatchelder.net%2Fblog
     - different logo images, so small screens get a smaller image
     - role= attributes
+    - get rid of the month highlight when clicking a month.
     - aria-describedby for form fields
     + "nedbat" in ultranarrow appears in the plain-text.
     - get rid of .first, do it with css
@@ -25,6 +28,7 @@ New design:
     - widont?
     - sentence double-spacer?
     - only one sentence on mainpage when small?
+    - Long words get &shy?
 
 
 
