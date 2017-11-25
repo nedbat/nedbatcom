@@ -23,7 +23,7 @@
     <p><i>Older:</i></p>
     {% for entry in entries|slice:"12:20" %}
         <div class='archive'>
-            <p class='date'>{{entry.when|date:"D j"}}: </p>
+            <p class='date'>{{entry.when|date:"M j"}}: </p>
 
             <p>
                 <a href='{{entry.permaurl}}' class='s'>
