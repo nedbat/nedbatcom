@@ -845,6 +845,11 @@ img {
     margin-top: 6pt;
     border-top: solid 1px #eee;
     padding-top: 0;
+
+    textarea {
+        font-family: $them-font;
+        font-size: 120%;
+    }
 }
 
 .comments {
