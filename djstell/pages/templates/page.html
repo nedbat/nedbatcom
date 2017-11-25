@@ -33,7 +33,7 @@
     <header id='banner'>
         {# Above the title: a horizontal version of the root pagemenu. #}
         <nav class='path'>
-            <a class='home' href='/'>Ned Bat<span class='chelder'>chelder</a>
+            <a class='home' href='/'>Ned Bat<span class='chelder'>chelder</span></a>
             <span class='top_areas'>
                 {% top_areas %}
             </span>
@@ -108,7 +108,7 @@
             {% if copyright %}
                 {{copyright}}
             {% else %}
-                <a rel='copyright license' href='/site/legal.html'>
+                <a rel='license' href='/site/legal.html'>
                     {% ch '(c)' %} Copyright
                     {% if min_date %}
                         {% year_range min_date max_date %},
