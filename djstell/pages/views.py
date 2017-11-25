@@ -53,6 +53,7 @@ def blogmain(request):
     c = RequestContext(request)
     add_entries(c, ents)
     c['title'] = 'Blog'
+    c['hide_h1'] = True
     c['bodyclass'] = 'blog main'
     c['crumbs'] = c['crumbs'][:1]
     return render_to_response('blogmain.html', c)

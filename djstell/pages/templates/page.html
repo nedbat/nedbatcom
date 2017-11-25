@@ -42,7 +42,9 @@
 
     <main id='content'>
         {# The title #}
+        {% if not hide_h1 %}
         <h1 class='headslug'>{{title}}</h1>
+        {% endif %}
 
         {# Below the title: the page path. TODO: get rid of this for real. #}
         {% comment %}
