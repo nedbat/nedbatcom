@@ -194,6 +194,10 @@ class CmdLine(object):
     def do_make(self):
         self.generate(self.ROOT)
         self.copy_verbatim(self.ROOT)
+        self.do_support()
+
+    @timed
+    def do_support(self):
         for sassfile in glob.glob("style/[a-z]*.scss"):
             self.run_sass(sassfile, self.ROOT)
         if self.HTACCESS:
