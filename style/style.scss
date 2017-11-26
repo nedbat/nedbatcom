@@ -15,6 +15,7 @@ $outer-border-large: 5px;
 
 $narrow-break: 760px;
 $tiny-break: 350px;
+$comment-break: 500px;
 
 @import 'common';
 
@@ -845,14 +846,12 @@ img {
     margin-top: 6pt;
     border-top: solid 1px #eee;
     padding-top: 0;
-
-    textarea {
-        font-family: $them-font;
-        font-size: 120%;
-    }
 }
 
 .comments {
+    $label-width: 7em;
+    $label-gutter: .5em;
+
     font-family: $them-font;
     font-size: 80%;
     line-height: 1.5em;
@@ -871,37 +870,80 @@ img {
         font-weight: normal;
     }
 
+    form div {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+
+        &.finish {
+            justify-content: flex-end;
+        }
+
+        &.preview {
+            display: block;
+            div {
+                display: block;
+            }
+        }
+    }
+
     .notice {
         color: $gray;
         font-style: italic;
-        margin-left: 5.5em;
+        margin: .5em 0;
+
         &.right {
             text-align: right;
         }
+        @media (min-width: $comment-break) {
+            margin-left: $label-width;
+            padding-left: $label-gutter;
+        }
     }
     label {
-        display: inline-block;
-        width: 5em;
-        text-align: right;
+        flex: 0 0 $label-width;
         color: #666666;
         margin-top: .5em;
 
-        &.wide {
-            width: 20em;
-        }
-        &.left {
+        &.check {
+            flex: 1 0 auto;
             text-align: left;
+            @media (min-width: $comment-break) {
+                margin-left: $label-width;
+                padding-left: $label-gutter;
+            }
+        }
+        @media (min-width: $comment-break) {
+            text-align: right;
+            margin-right: $label-gutter;
         }
     }
 
     input {
-        font-size: 100%;
-        width: 100%;
-        max-width: 30em;
+        &.edit {
+            font-size: 100%;
+            flex: 1 0 0;
+            max-width: 30em;
+        }
 
-        &[type="submit"], &[type="checkbox"] {
+        &[type="submit"] {
+            padding: .5em 1em;
+            border: 1px solid #888;
+            border-radius: 4px;
+            background: #eee;
+        }
+
+        &[type="checkbox"] {
             width: auto;
         }
+    }
+
+    textarea {
+        font-family: $them-font;
+        font-size: 120%;
+        flex: 1 0 0;
+        max-width: 30em;
+        padding: .25em .3em;
     }
 
     .comment {
