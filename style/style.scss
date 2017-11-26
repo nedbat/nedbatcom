@@ -874,14 +874,24 @@ img {
     .notice {
         color: $gray;
         font-style: italic;
+        margin-left: 5.5em;
         &.right {
             text-align: right;
         }
     }
     label {
-        display: block;
+        display: inline-block;
+        width: 5em;
+        text-align: right;
         color: #666666;
         margin-top: .5em;
+
+        &.wide {
+            width: 20em;
+        }
+        &.left {
+            text-align: left;
+        }
     }
 
     input {
