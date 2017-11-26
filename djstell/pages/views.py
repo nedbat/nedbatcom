@@ -202,9 +202,8 @@ def index(request):
     # Text
     c['text'] = [
         { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
-        { title: 'Stopping spambots with hashes and honeypots', url: 'text/stopbots.html', description: 'no more CAPTCHAs' },
-        #{ title: 'Exceptions in the rainforest', url: 'text/exceptions-in-the-rainforest.html', description: 'where throw and catch fit it' },
-        { title: 'A good thing about autism', url: 'text/autism-examined.html', description: 'a view from the trenches' },
+        { title: 'Python Names and Values', url: 'text/names1.html', description: 'how assignment works' },
+        { title: 'Kindling projects', url: 'text/kindling.html', description: 'small projects for new programmers' },
     ]
 
     return render_to_response('mainpage.html', c)
