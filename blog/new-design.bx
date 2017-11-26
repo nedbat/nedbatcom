@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20171125T224135'>
+<title>New design</title>
+<category>site</category>
+<body>
+
+<p>I've just updated the design of this site.  The goal was to make it
+responsive, so that it would work well on small screens, but I made other
+changes along the way.  The body type is now serif rather than sans, and much
+larger.  I made lots of other tweaks as I worked on pages.</p>
+
+<p>Making a responsive design was fun: it meant working out mechanisms for the
+layout rather than just a static design.</p>
+
+<p>Of course, it's easy to get carried away.  Take a look at what happens to
+my name in the header when the screen gets below 300 pixels: Ned Batchelder
+becomes nedbat to save space.  This was accomplished with the help of a span
+with class "chelder"...</p>
+
+<p>It took me a long time to make this design. I started it 15 months ago, but
+stopped work on it for more than a year.  I picked it up again two weeks ago,
+and powered through the remaining work.</p>
+
+<p>For comparison (and posterity), here is the
+<a href='https://web.archive.org/web/20171003175052/https://nedbatchelder.com/'>design I just replaced</a>.
+If anything seems amiss with the new design, just let me know.
+</p>
+
+
+</body>
+</entry>
+</blog>
