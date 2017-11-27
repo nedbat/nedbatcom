@@ -507,7 +507,6 @@ a.s {
     // A too-cute way to have the header work at ultra-narrow sizes.
     .home {
         font-weight: bold;
-        word-spacing: -100%;
     }
     .chelder {
         display: none;
@@ -520,9 +519,6 @@ a.s {
     @media (min-width: $tiny-break) {
         word-spacing: 60%;
         text-transform: none;
-        .home {
-            word-spacing: 0%;
-        }
         .chelder {
             display: inline;
         }
