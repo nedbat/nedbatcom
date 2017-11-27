@@ -91,7 +91,7 @@ body {
 #logo {
     position: absolute;
     padding: 0;
-    width: $logo-size-small;
+    width: calc(#{$logo-size-small} - #{$thick-border-small-horz} + #{$thick-border-small-vert});
     height: $logo-size-small;
     @if $color-scheme == gaudy {
         background: red;
@@ -115,7 +115,7 @@ body {
 
 #banner {
     min-height: $banner-height-small;
-    margin-left: $logo-size-small;
+    margin-left: calc(#{$logo-size-small} - #{$thick-border-small-horz} + #{$thick-border-small-vert});
     @if $color-scheme == gaudy {
         background: lighten(yellow, 30%);
     }
