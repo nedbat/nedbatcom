@@ -869,7 +869,8 @@ img {
     form div {
         display: flex;
         flex-wrap: wrap;
-        align-items: baseline;
+        align-items: flex-start;
+        margin-top: .5em;
 
         &.finish {
             justify-content: flex-end;
@@ -899,7 +900,6 @@ img {
     label {
         flex: 0 0 $label-width;
         color: #666666;
-        margin-top: .5em;
 
         &.check {
             flex: 1 0 auto;
@@ -912,6 +912,7 @@ img {
         @media (min-width: $comment-break) {
             text-align: right;
             margin-right: $label-gutter;
+            margin-top: .2em;
         }
     }
 
