@@ -67,10 +67,6 @@ def sidebar(which, force=False):
         c['youmightlike'] = False
     return c
 
-@register.inclusion_tag('searchbox.html')
-def search_box(label=''):
-    return {'label': label}
-
 @register.simple_tag
 def year_range(year1, year2):
     """ Return a range of years, if the two years are different.

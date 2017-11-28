@@ -111,7 +111,14 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 </section>
 
 <section id='search'>
-{% search_box "<h2>Search me</h2>" %}
+<h2><label for="searchterm">Search me</label></h2>
+<form class="searchform" action="https://www.google.com/search">
+    <input type="hidden" name="q" value="site:nedbatchelder.com">
+    <div class="searchflex">
+        <input id="searchterm" type="search" name="q" class="searchbox" size="15">
+        <input id="submit" type="image" title="Search" alt="Search" src="/pix/search.png">
+    </div>
+</form>
 </section>
 
 <section class='oneline a-s'>

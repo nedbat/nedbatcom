@@ -8,7 +8,13 @@
 
     <ul class='first'>
         <li class='first'><label for="searchterm">Search this site:</label>
-            {% search_box %}
+            <form class="searchform" action="https://www.google.com/search">
+                <input type="hidden" name="q" value="site:nedbatchelder.com">
+                <div class="searchflex">
+                    <input id="searchterm" type="search" name="q" class="searchbox" size="15">
+                    <input id="submit" type="image" title="Search" alt="Search" src="/pix/search.png">
+                </div>
+            </form>
         </li>
 
         {% comment %}
