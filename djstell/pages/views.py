@@ -45,9 +45,11 @@ def entry(request, year, month, slug):
 def blogmain(request):
     """ The main blog page. A dozen recent entries.
     """
-    ents = list(Entry.objects.all().order_by('-when')[:25])
+    ents = list(Entry.objects.all().order_by('-when')[:20])
     c = RequestContext(request)
     add_entries(c, ents)
+    c['entries_shown'] = ents[:12]
+    c['entries_listed'] = ents[12:20]
     c['title'] = 'Blog'
     c['hide_h1'] = True
     c['bodyclass'] = 'blog main'

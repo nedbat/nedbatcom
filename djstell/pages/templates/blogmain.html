@@ -15,13 +15,13 @@
     ?>
 
     {# Real entries #}
-    {% for entry in entries|slice:":12" %}
+    {% for entry in entries_shown %}
         {% blog_entry entry 'brief' %}
     {% endfor %}
 
     {# Summary of older entries #}
     <p><i>Older:</i></p>
-    {% for entry in entries|slice:"12:20" %}
+    {% for entry in entries_listed %}
         <div class='archive'>
             <p class='date'>{{entry.when|date:"M j"}}: </p>
 
