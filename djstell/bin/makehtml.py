@@ -180,7 +180,6 @@ class CmdLine(object):
         """Total hack expedient to only process some blog posts."""
         # Change this pattern if you want to fiddle with another one.
         loadpages.blog_pattern = "*thing*.bx"
-        loadpages.page_pattern = "*x*.px"
 
     def do_pnarrow(self):
         """Total hack expedient to only process some pages."""
