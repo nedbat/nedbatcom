@@ -625,37 +625,6 @@ div.archive p {
     }
 }
 
-/* Monthly pages: prev/main/next links at the top and bottom. */
-
-.pmntop {
-    border-bottom: solid 1px silver;
-    padding: 0 0 2em 0;
-    margin: 0 0 .5em 0;
-}
-
-.pmnbot {
-    padding: 0;
-    margin: 3em 0 1.5em 0;
-}
-
-.pmn {
-    span {
-        font-size: 80%;
-        display: block;
-        line-height: 1em;
-        margin: 0 0 -1em 0;
-    }
-    .p {
-        text-align: left;
-    }
-    .m {
-        text-align: center;
-    }
-    .n {
-        text-align: right;
-    }
-}
-
 /* Block quotes */
 
 blockquote {
