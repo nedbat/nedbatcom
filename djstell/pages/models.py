@@ -82,12 +82,6 @@ class Article(models.Model, ModelMixin):
                 purl = ''
         return '/' + purl
 
-    def breadcrumbs(self):
-        """ Returns a list of (title, url) pairs.
-        """
-        from djstell.pages.sitemap import sitemap
-        return sitemap.breadcrumbs(self)
-
     @staticmethod
     def create_from_px(pxfile, root):
         p = ModelMixin.parse_xml(pxfile)

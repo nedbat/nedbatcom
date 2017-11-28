@@ -11,15 +11,12 @@ from djstell.pages.models import Entry, Article, Tag
 
 ## Blog stuff
 
-blog_crumbs = [('Home', '/'), ('Blog', '/blog')]
-
 def add_entries(c, ents):
     ents = list(ents)
     c['entries'] = ents
     if ents:
         c['min_date'] = ents[-1].when
         c['max_date'] = ents[0].when
-    c['crumbs'] = blog_crumbs
 
 def abs_url(url):
     absurl = settings.EXT_BASE
@@ -37,7 +34,6 @@ def entry(request, year, month, slug):
     c['title'] = ent.title
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
-    c['crumbs'] = blog_crumbs + [(ent.when.strftime("%B %Y"), ent.monthurl())]
     c['comments'] = {
         'entryid': ent.entryid(),
         'url': abs_url(ent.permaurl()),
@@ -55,7 +51,6 @@ def blogmain(request):
     c['title'] = 'Blog'
     c['hide_h1'] = True
     c['bodyclass'] = 'blog main'
-    c['crumbs'] = c['crumbs'][:1]
     return render_to_response('blogmain.html', c)
 
 def archiveyear(request, year):
@@ -86,7 +81,6 @@ def tags(request):
     c['untagged'] = untagged_entries()
     c['title'] = 'Blog: tags'
     c['bodyclass'] = 'blog tags'
-    c['crumbs'] = blog_crumbs
     return render_to_response('alltags.html', c)
 
 def tag(request, slug):
@@ -97,7 +91,6 @@ def tag(request, slug):
     c['tag'] = tag
     c['title'] = 'Blog: #%s' % tag.hashtag
     c['bodyclass'] = 'blog tag'
-    c['crumbs'] = blog_crumbs + [('Tags', '/blog/tags.html')]
     return render_to_response('tags.html', c)
 
 def untagged(request):
@@ -105,7 +98,6 @@ def untagged(request):
     c = RequestContext(request)
     add_entries(c, ents)
     c['title'] = 'Blog: untagged'
-    c['crumbs'] = blog_crumbs + [('Tags', 'blog/tags.html')]
     c['bodyclass'] = 'blog tag'
     return render_to_response('tags.html', c)
 
@@ -154,7 +146,6 @@ def article(request, path):
         c['min_date'] = edits[0].when
         c['max_date'] = edits[-1].when
     c['body'] = a.to_html()
-    c['crumbs'] = a.breadcrumbs()
     if a.comments:
         c['comments'] = {
             'entryid': path,

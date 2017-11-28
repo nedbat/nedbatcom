@@ -46,13 +46,6 @@
         <h1 class='headslug'>{{title}}</h1>
         {% endif %}
 
-        {# Below the title: the page path. TODO: get rid of this for real. #}
-        {% comment %}
-        <nav class='path'>
-            {% ch '>>' %} {% if crumbs %}{% link_list crumbs " : " %}{% else %}WTF??{% endif %}
-        </nav>
-        {% endcomment %}
-
         <div class='body'>  <!-- TODO: combine #content and div.body? only need one? -->
             {% block dateline %}
             {% if min_date %}

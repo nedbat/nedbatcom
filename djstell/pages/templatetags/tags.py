@@ -133,11 +133,6 @@ class IfNotFirstNode(Node):
         return content
 
 @register.simple_tag
-def link_list(links, sep):
-    links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in links ]
-    return sep.join(links)
-
-@register.simple_tag
 def top_areas():
     crumbs = sitemap.top_areas()
     links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in crumbs ]

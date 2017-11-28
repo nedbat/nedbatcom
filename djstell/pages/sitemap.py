@@ -31,24 +31,6 @@ class SiteMap:
     def top_levels(self):
         pass
 
-    def breadcrumbs(self, article):
-        """ Return a list of pairs:
-                [('title', 'url'), ...]
-            for the sections up to the root from this article.
-        """
-        path = article.path
-        if path.endswith('/index.px'):
-            path = os.path.split(path)[0]
-        crumbs = []
-        while path:
-            apath = path = os.path.split(path)[0]
-            if apath:
-                apath += '/'
-            apath += 'index.px'
-            art = self.map[apath]
-            crumbs = [(art.title, art.permaurl(short=True))] + crumbs
-        return crumbs #[('home', '/'), ('somewhere', '/there.html')]
-
     def top_areas(self):
         return self.top
 
