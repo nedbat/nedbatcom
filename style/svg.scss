@@ -1,0 +1,70 @@
+/*! Styles for svg figures on nedbatchelder.com !*/
+
+svg {
+    stroke: black;
+    fill: white;
+    font-size: 125%;
+    text {
+        stroke: none;
+        fill: black;
+        &.top_code {
+            font-family: monospace;
+        }
+    }
+    .arrow {
+        fill: none;
+        stroke: black;
+        stroke-width: 1;
+    }
+    .highlight {
+        stroke-width: 5;
+        stroke: #f00;
+        fill: none;
+        opacity: 0.5;
+    }
+    .grid {
+        stroke: #8ff;
+        stroke-width: 1;
+        fill: none;
+        .half {
+            stroke-dasharray: 12.5 12.5;
+            stroke-dashoffset: 6.25;
+            stroke-dasharray: 2 2;
+            stroke-dashoffset: 1;
+        }
+        .tiny {
+            stroke-dasharray: 1 2;
+            stroke: #cff;
+        }
+        .number {
+            font-size: .5em;
+            stroke: none;
+            fill: #0cc;
+        }
+    }
+    .framenum {
+        font-size: .75em;
+        stroke: none;
+        fill: #f00;
+    }
+    .name {
+        stroke: black;
+        stroke-width: 1.66;
+        fill: #ddd;
+    }
+    .value, .list {
+        stroke: black;
+        stroke-width: 1;
+        fill: white;
+    }
+    .frame {
+        stroke-width: 3;
+        stroke: #666;
+        stroke-dasharray: 10 10;
+        fill: none;
+    }
+    text.framelabel {
+        font-size: 90%;
+        font-family: monospace;
+    }
+}

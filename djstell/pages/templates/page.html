@@ -22,6 +22,9 @@
     <link rel='stylesheet' href='{{settings.BASE}}/style.css' type='text/css'>
     {# PT Serif for body text. Source Serif has no italic, Merriweather is wider and has old-style numerals. #}
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i" rel="stylesheet">
+    {% if 'svg' in features %}
+    <link rel='stylesheet' href='{{settings.BASE}}/svg.css' type='text/css'>
+    {% endif %}
     {% endblock %}
 
     <script type='text/javascript' src='{{settings.BASE}}/nedbatchelder.js' async></script>
