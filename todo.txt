@@ -15,24 +15,30 @@ New design:
     - tag page left hang too wide
     + text home nests too deep. Use H2
 
-- nice
+- next
     - change <p align='center'> to figurep
         - first have to fix the handling of <figurep><a> in tools.xslt
         - rel=external should be for more than just http: and ftp:
         - fix explicit nedbatchelder.com links in .bx and .px
         - fix links to now-gone blog month pages: <a href='blog/200209.html#20020902T110606'>polyglot programs</a>
-    - auto-widen code samples on hover, like https://gohugo.io/getting-started/quick-start/
     + https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fnedbatchelder.com%2Fblog
     - search button image is different in different browsers
     - different logo images, so small screens get a smaller image
     - at some widths, " >> " leaves a leading blank
-    - role= attributes
     - get rid of the month highlight when clicking a month.
-    - aria-describedby for form fields
     + "nedbat" in ultranarrow appears in the plain-text.
     - get rid of .first, do it with css
     + move svg style into its own css file, since so few pages need it
+
+- nice
+    - auto-widen code samples on hover, like https://gohugo.io/getting-started/quick-start/
+
+- a11y
+    - role= attributes
+    - aria-describedby for form fields
     - do the header levels have to make more sense?
+
+- typography
     - widont?
     - sentence double-spacer?
     - only one sentence on mainpage when small?
