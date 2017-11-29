@@ -112,10 +112,10 @@ I help organize <a href='http://bostonpython.com'>Boston Python</a>.
 
 <section id='search'>
 <h2><label for="searchterm">Search me</label></h2>
-<form class="searchform" action="https://www.google.com/search">
+<form class="searchform" action="https://www.google.com/search" role="search">
     <input type="hidden" name="q" value="site:nedbatchelder.com">
     <div class="searchflex">
-        <input id="searchterm" type="search" name="q" class="searchbox" size="15">
+        <input id="searchterm" name="q" class="searchbox" size="15" aria-label="search this site">
         <input id="submit" type="image" title="Search" alt="Search" src="/pix/search.png">
     </div>
 </form>
