@@ -32,6 +32,7 @@ def entry(request, year, month, slug):
     c = RequestContext(request)
     c['entry'] = ent
     c['title'] = ent.title
+    c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
     c['comments'] = {
@@ -48,7 +49,11 @@ def blogmain(request):
     ents = list(Entry.objects.all().order_by('-when')[:20])
     c = RequestContext(request)
     add_entries(c, ents)
-    c['entries_shown'] = ents[:12]
+    c['entries_shown'] = shown = ents[:12]
+    features = set()
+    for ent in shown:
+        features.update(ent.features.split(';'))
+    c['features'] = features
     c['entries_listed'] = ents[12:20]
     c['title'] = 'Blog'
     c['hide_h1'] = True
@@ -143,6 +148,7 @@ def article(request, path):
     c['meta'] = a.meta
     c['scripts'] = a.scripts.split()
     c['style'] = a.style
+    c['features'] = a.features
     edits = list(a.whatwhen_set.all().order_by('when'))
     if edits:
         c['min_date'] = edits[0].when

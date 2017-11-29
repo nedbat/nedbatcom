@@ -48,6 +48,16 @@ class ModelMixin:
         except Exception, e:
             raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
 
+    def add_feature(self, feature):
+        if feature not in self.features:
+            if self.features:
+                self.features += ";"
+            self.features += feature
+
+    def add_features_from_text(self, dom):
+        if bool(dom.findall('.//svg:svg', namespaces={'svg': 'http://www.w3.org/2000/svg'})):
+            self.add_feature("svg")
+
 
 class Article(models.Model, ModelMixin):
     """ An article represented by a .px file.
@@ -63,6 +73,7 @@ class Article(models.Model, ModelMixin):
     meta = models.TextField()
     scripts = models.TextField()    # Space-separated script URLs.
     style = models.TextField()      # Extra css for the page.
+    features = models.TextField()   # A set of slugs of features in use on the page.
 
     def __repr__(self):
         return "<Article %r>" % self.title
@@ -105,6 +116,9 @@ class Article(models.Model, ModelMixin):
         # have <title> and <body>, but page doesn't? 
         art.scripts = p.get('scripts', '')
         art.style = p.get('style', '')
+
+        art.add_features_from_text(p)
+
         art.save()
 
         # Save the history.
@@ -236,6 +250,7 @@ class Entry(models.Model, ModelMixin):
     tags = models.ManyToManyField(Tag)
     slug = models.CharField(max_length=200, db_index=True)
     comments_closed = models.BooleanField()
+    features = models.TextField()   # A set of slugs of features in use on the page.
 
     # Use all_entries to get absolutely everything.
     all_entries = models.Manager()
@@ -256,6 +271,7 @@ class Entry(models.Model, ModelMixin):
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
             ent.when = datetime_from_8601(e.get('when'))
             ent.slug = e.get('slug', slug_from_text(ent.title))
+            ent.add_features_from_text(e)
             ent.save()
 
             for cat in e.findall('category'):
