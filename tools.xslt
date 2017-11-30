@@ -119,6 +119,10 @@
     <xsl:call-template name='do_img' />
 </xsl:template>
 
+<xsl:template match='svg:*'>
+    <xsl:copy-of select='.' />
+</xsl:template>
+
 <!-- <a> tags: Various link munging. -->
 <xsl:template match='a'>
     <a>
@@ -377,41 +381,13 @@
                     <xsl:text>aspect</xsl:text>
                     <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
                 </xsl:attribute>
-                <xsl:call-template name='figurep_content'/>
+                <xsl:apply-templates select='*'/>
             </span>
         </xsl:when>
         <xsl:otherwise>
-            <xsl:call-template name='figurep_content'/>
+            <xsl:apply-templates select='*'/>
         </xsl:otherwise>
     </xsl:choose>
-</xsl:template>
-
-<xsl:template name='figurep_content'>
-    <xsl:choose>
-        <xsl:when test='thumbnail|object|iframe|video'>
-            <xsl:apply-templates select='*' />
-        </xsl:when>
-        <xsl:when test='a'>
-            <xsl:for-each select='a'>
-                <a>
-                    <xsl:call-template name='a_attributes' />
-                    <xsl:call-template name='figurep_img'/>
-                </a>
-            </xsl:for-each>
-        </xsl:when>
-        <xsl:when test='svg:*'>
-            <xsl:copy-of select="svg:*|@*" />
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:call-template name='figurep_img'/>
-        </xsl:otherwise>
-    </xsl:choose>
-</xsl:template>
-
-<xsl:template name='figurep_img'>
-    <xsl:for-each select='img'>
-        <xsl:call-template name='do_img' />
-    </xsl:for-each>
 </xsl:template>
 
 <xsl:template name='do_img'>
