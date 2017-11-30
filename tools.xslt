@@ -121,55 +121,14 @@
 
 <!-- <a> tags: Various link munging. -->
 <xsl:template match='a'>
-    <xsl:choose>
-        <xsl:when test='@href'>
-            <xsl:if test='string(@href)=""'>
-                <xsl:message>
-                    <xsl:text>Empty href on &lt;a&gt; tag at </xsl:text>
-                    <xsl:call-template name='pinpoint'/>
-                </xsl:message>
-            </xsl:if>
-            <xsl:if test='not(text()|*)'>
-                <xsl:message>
-                    <xsl:text>&lt;a&gt; tag with no content at </xsl:text>
-                    <xsl:call-template name='pinpoint'/>
-                </xsl:message>
-            </xsl:if>
+    <a>
+        <xsl:choose>
+            <xsl:when test='@href'>
+                <xsl:call-template name='a-href' />
+                <xsl:apply-templates select='*|text()'/>
+            </xsl:when>
 
-            <a>
-                <xsl:choose>
-                    <xsl:when test='starts-with(@href,"mailto:")'>
-                        <xsl:attribute name='href'>
-                            <xsl:text>javascript:nospam("</xsl:text>
-                            <xsl:value-of select='substring-before(substring-after(@href, ":"), "@")' />
-                            <xsl:text>","</xsl:text>
-                            <xsl:value-of select='substring-after(@href, "@")' />
-                            <xsl:text>");</xsl:text>
-                        </xsl:attribute>
-                    </xsl:when>
-        
-                    <xsl:when test='starts-with(@href,"http://") or starts-with(@href,"ftp://")'>
-                        <xsl:attribute name='class'>offsite</xsl:attribute>
-                        <xsl:attribute name='rel'>external</xsl:attribute>
-                        <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
-                    </xsl:when>
-        
-                    <xsl:otherwise>
-                        <xsl:attribute name='href'>
-                            <xsl:call-template name='makeuri'>
-                                <xsl:with-param name='uri' select='@href' />
-                            </xsl:call-template>
-                        </xsl:attribute>
-                    </xsl:otherwise>
-        
-                </xsl:choose>
-        
-                <xsl:apply-templates select='*|@*[name()!="href"]|text()'/>
-            </a>
-        </xsl:when>
-
-        <xsl:when test='@pref'>
-            <a>
+            <xsl:when test='@pref'>
                 <xsl:attribute name='href'>
                     <xsl:call-template name='makeuri'>
                         <xsl:with-param name='uri' select='concat(substring-before(@pref, ".px"), ".html")' />
@@ -183,16 +142,60 @@
                         <xsl:value-of select='xuff:pathtitle(current()/@pref)' />
                     </xsl:otherwise>
                 </xsl:choose>
-            </a>
+            </xsl:when>
+
+            <xsl:otherwise>
+                <xsl:message>
+                    <xsl:text>&lt;a&gt; tag with no known link at </xsl:text>
+                    <xsl:call-template name='pinpoint'/>
+                </xsl:message>
+            </xsl:otherwise>
+        </xsl:choose>
+    </a>
+</xsl:template>
+
+<xsl:template name='a-href'>
+    <xsl:if test='string(@href)=""'>
+        <xsl:message>
+            <xsl:text>Empty href on &lt;a&gt; tag at </xsl:text>
+            <xsl:call-template name='pinpoint'/>
+        </xsl:message>
+    </xsl:if>
+    <xsl:if test='not(text()|*)'>
+        <xsl:message>
+            <xsl:text>&lt;a&gt; tag with no content at </xsl:text>
+            <xsl:call-template name='pinpoint'/>
+        </xsl:message>
+    </xsl:if>
+
+    <xsl:choose>
+        <xsl:when test='starts-with(@href,"mailto:")'>
+            <xsl:attribute name='href'>
+                <xsl:text>javascript:nospam("</xsl:text>
+                <xsl:value-of select='substring-before(substring-after(@href, ":"), "@")' />
+                <xsl:text>","</xsl:text>
+                <xsl:value-of select='substring-after(@href, "@")' />
+                <xsl:text>");</xsl:text>
+            </xsl:attribute>
+        </xsl:when>
+
+        <xsl:when test='starts-with(@href,"http://") or starts-with(@href,"ftp://")'>
+            <xsl:attribute name='class'>offsite</xsl:attribute>
+            <xsl:attribute name='rel'>external</xsl:attribute>
+            <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
         </xsl:when>
 
         <xsl:otherwise>
-            <xsl:message>
-                <xsl:text>&lt;a&gt; tag with no known link at </xsl:text>
-                <xsl:call-template name='pinpoint'/>
-            </xsl:message>
+            <xsl:attribute name='href'>
+                <xsl:call-template name='makeuri'>
+                    <xsl:with-param name='uri' select='@href' />
+                </xsl:call-template>
+            </xsl:attribute>
         </xsl:otherwise>
+
     </xsl:choose>
+
+    <xsl:apply-templates select='@*[name()!="href"]'/>
 </xsl:template>
 
 <!-- Structural stuff: no-ops at this stage. -->
@@ -365,19 +368,14 @@
         </xsl:when>
         <xsl:when test='@href'>
             <a>
-                <xsl:attribute name='href'>
-                    <xsl:call-template name='makeuri'>
-                        <xsl:with-param name='uri' select='@href' />
-                    </xsl:call-template>
-                </xsl:attribute>
-                <xsl:copy-of select="@target" />
+                <xsl:call-template name='a-href' />
                 <xsl:call-template name='figurep_img'/>
             </a>
         </xsl:when>
         <xsl:when test='a'>
             <xsl:for-each select='a'>
                 <a>
-                    <xsl:copy-of select='@*'/>
+                    <xsl:call-template name='a-href' />
                     <xsl:call-template name='figurep_img'/>
                 </a>
             </xsl:for-each>
