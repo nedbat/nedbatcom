@@ -179,7 +179,7 @@
             </xsl:attribute>
         </xsl:when>
 
-        <xsl:when test='starts-with(@href,"http://") or starts-with(@href,"ftp://")'>
+        <xsl:when test='contains(@href, "://")'>
             <xsl:attribute name='class'>offsite</xsl:attribute>
             <xsl:attribute name='rel'>external</xsl:attribute>
             <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
