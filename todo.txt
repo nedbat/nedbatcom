@@ -16,6 +16,10 @@ New design:
     + text home nests too deep. Use H2
 
 - next
+    - a11y
+        - don't use aside, use nav
+        - make a skip-to-main link?
+        - check tab order
     - change <p align='center'> to figurep
         + first have to fix the handling of <figurep><a> in tools.xslt
         + rel=external should be for more than just http: and ftp:
@@ -24,6 +28,7 @@ New design:
         - fix links to now-gone blog month pages: <a href='blog/200209.html#20020902T110606'>polyglot programs</a>
         - get rid of <abook> and <apage>
         - links in comments need http: added if missing.
+    + make sidebar bullets be :content instead of content.
     + https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fnedbatchelder.com%2Fblog
     - search button image is different in different browsers
     - different logo images, so small screens get a smaller image
