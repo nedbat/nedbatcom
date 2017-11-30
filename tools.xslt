@@ -5,8 +5,8 @@
     version="1.0"
 
     xmlns:xuff='http://www.stellated.com/xuff'
-    exclude-result-prefixes='xuff svg'
     xmlns:svg="http://www.w3.org/2000/svg"
+    exclude-result-prefixes='xuff svg'
     >
 
 <!-- Pinpoint an element. -->
@@ -123,8 +123,8 @@
 <xsl:template match='a'>
     <a>
         <xsl:choose>
-            <xsl:when test='@href'>
-                <xsl:call-template name='a-href' />
+            <xsl:when test='@href|@isbn'>
+                <xsl:call-template name='a_attributes' />
                 <xsl:apply-templates select='*|text()'/>
             </xsl:when>
 
@@ -154,8 +154,8 @@
     </a>
 </xsl:template>
 
-<xsl:template name='a-href'>
-    <xsl:if test='string(@href)=""'>
+<xsl:template name='a_attributes'>
+    <xsl:if test='string(@href|@isbn)=""'>
         <xsl:message>
             <xsl:text>Empty href on &lt;a&gt; tag at </xsl:text>
             <xsl:call-template name='pinpoint'/>
@@ -185,6 +185,13 @@
             <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
         </xsl:when>
 
+        <xsl:when test='@isbn'>
+            <xsl:attribute name='href'>
+                <xsl:text>http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/</xsl:text>
+                <xsl:value-of select='@isbn'/>
+            </xsl:attribute>
+        </xsl:when>
+
         <xsl:otherwise>
             <xsl:attribute name='href'>
                 <xsl:call-template name='makeuri'>
@@ -195,7 +202,7 @@
 
     </xsl:choose>
 
-    <xsl:apply-templates select='@*[name()!="href"]'/>
+    <xsl:apply-templates select='@*[name()!="href" and name()!="isbn"]'/>
 </xsl:template>
 
 <!-- Structural stuff: no-ops at this stage. -->
@@ -344,21 +351,39 @@
 <xsl:template match='figurep'>
     <xsl:call-template name='checkblock'/>
     <p class='figure'>
-        <xsl:choose>
-            <xsl:when test='@aspect'>
-                <span>
-                    <xsl:attribute name='class'>
-                        <xsl:text>aspect</xsl:text>
-                        <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
-                    </xsl:attribute>
-                    <xsl:call-template name='figurep_content'/>
-                </span>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name='figurep_content'/>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:call-template name='figurep_maybe_a'/>
     </p>
+</xsl:template>
+
+<xsl:template name='figurep_maybe_a'>
+    <xsl:choose>
+        <xsl:when test='@href|@pref|@isbn'>
+            <a>
+                <xsl:call-template name='a_attributes' />
+                <xsl:call-template name='figurep_maybe_aspect'/>
+            </a>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:call-template name='figurep_maybe_aspect'/>
+        </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+
+<xsl:template name='figurep_maybe_aspect'>
+    <xsl:choose>
+        <xsl:when test='@aspect'>
+            <span>
+                <xsl:attribute name='class'>
+                    <xsl:text>aspect</xsl:text>
+                    <xsl:text> aspect-</xsl:text><xsl:value-of select='@aspect'/>
+                </xsl:attribute>
+                <xsl:call-template name='figurep_content'/>
+            </span>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:call-template name='figurep_content'/>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 <xsl:template name='figurep_content'>
@@ -366,24 +391,13 @@
         <xsl:when test='thumbnail|object|iframe|video'>
             <xsl:apply-templates select='*' />
         </xsl:when>
-        <xsl:when test='@href'>
-            <a>
-                <xsl:call-template name='a-href' />
-                <xsl:call-template name='figurep_img'/>
-            </a>
-        </xsl:when>
         <xsl:when test='a'>
             <xsl:for-each select='a'>
                 <a>
-                    <xsl:call-template name='a-href' />
+                    <xsl:call-template name='a_attributes' />
                     <xsl:call-template name='figurep_img'/>
                 </a>
             </xsl:for-each>
-        </xsl:when>
-        <xsl:when test='@isbn'>
-            <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
-                <xsl:call-template name='figurep_img'/>
-            </a>
         </xsl:when>
         <xsl:when test='svg:*'>
             <xsl:copy-of select="svg:*|@*" />

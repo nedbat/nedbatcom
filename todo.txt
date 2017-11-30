@@ -21,6 +21,7 @@ New design:
         + rel=external should be for more than just http: and ftp:
         - fix explicit nedbatchelder.com links in .bx and .px
         - fix links to now-gone blog month pages: <a href='blog/200209.html#20020902T110606'>polyglot programs</a>
+        - get rid of <abook>
     - links in comments need http: added if missing.
     + https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fnedbatchelder.com%2Fblog
     - search button image is different in different browsers
