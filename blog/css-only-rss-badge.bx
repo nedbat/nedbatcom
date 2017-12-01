@@ -11,7 +11,7 @@ But instead of using an image, I did it with CSS.  I'd seen it done before, but 
 I'd seen, so I cobbled it together from some other bits and pieces:
 </p>
 
-<p align='center'>
+<figurep>
 <a
     href='blog/rss.xml'
     type='application/rss+xml'
@@ -25,7 +25,7 @@ I'd seen, so I cobbled it together from some other bits and pieces:
         text-decoration: none;
         '
     >RSS</a>
-</p>
+</figurep>
 
 <p>The final code is:
 </p>
