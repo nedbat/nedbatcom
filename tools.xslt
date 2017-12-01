@@ -566,12 +566,6 @@
 </xsl:template>
 
 
-<xsl:template match='abook'>
-    <a href='http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/{@isbn}'>
-        <xsl:apply-templates />
-    </a>
-</xsl:template>
-
 <!-- Blog tools -->
 
 <xsl:template name='catname'>

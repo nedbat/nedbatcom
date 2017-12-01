@@ -5,7 +5,7 @@
 <category>windows</category>
 <category>help</category>
 <body>
-<p>I have a <abook isbn='B000W1OMQK'>Western Digital 250Gb Passport drive</abook>
+<p>I have a <a isbn='B000W1OMQK'>Western Digital 250Gb Passport drive</a>
 for backing up my Windows laptop.  I figured I would just use cygwin rsync to move data
 between the two drives.  When I mount the Passport as drive Q, I use a command
 like this:
