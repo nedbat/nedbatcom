@@ -4,7 +4,7 @@
 <what when='20041018T131500'>Created.</what>
 </history>
 
-<p>As I said in <apage pref='text/interfaces.px'/>, the most important concept in
+<p>As I said in <a pref='text/interfaces.px'/>, the most important concept in
 designing software systems is the interface.
 Yet Python has no support for them.  Here's a story about my quest for Pythonic interfaces.
 </p>
@@ -61,7 +61,7 @@ the interface's method will be used instead,
 and the interface's method silently does nothing.
 Leaving empty code paths is an invitation to mysterious bugs.
 This is a particular annoyance of mine:
-see <apage pref='text/empty-code-paths.px'/> for more on this.</p>
+see <a pref='text/empty-code-paths.px'/> for more on this.</p>
 
 <p>To close that hole, I created a function to use as the body of interfaces' methods.
 If called, it will raise an exception:</p>
@@ -98,7 +98,7 @@ Exception: Unimplemented abstract method: __main__.Statement.execute
 <h1>Complications</h1>
 
 <p>But all this Python hacking to emulate Java interfaces may be missing the point:
-As I mentioned in <apage pref='text/interfaces.px'/>, Python doesn't have interfaces
+As I mentioned in <a pref='text/interfaces.px'/>, Python doesn't have interfaces
 partly because interfaces are an artifact of staticly typed languages.
 Python's dynamic nature makes interfaces far less important.
 And interfaces don't have as much flexibility as Python offers in the first place.
@@ -236,7 +236,7 @@ as well.</li>
 <h1>See also</h1>
 
 <ul>
-<li><apage pref='text/interfaces.px'/>, about the theory and practice of interfaces.</li>
+<li><a pref='text/interfaces.px'/>, about the theory and practice of interfaces.</li>
 <li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
 </ul>
 

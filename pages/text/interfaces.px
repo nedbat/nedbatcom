@@ -181,7 +181,7 @@ If the object supports all the methods in the interface, then it implements the 
 It's as simple as that.  In some ways, Python has embraced interfaces to the point that they
 are invisible in the language: all that matters about an object is its behavior.
 Despite this, I have tried to use interfaces in Python, with mixed results: see
-<apage pref='text/pythonic-interfaces.px'/> for details.
+<a pref='text/pythonic-interfaces.px'/> for details.
 </p>
 
 
@@ -189,7 +189,7 @@ Despite this, I have tried to use interfaces in Python, with mixed results: see
 <h1>See also</h1>
 
 <ul>
-<li><apage pref='text/assert.px'/>, about the theory and practice of assertions,
+<li><a pref='text/assert.px'/>, about the theory and practice of assertions,
 including their definition as an interface.</li>
 <li><a href='blog/index.html'>My blog</a>, where other similar topics are discussed.</li>
 </ul>
