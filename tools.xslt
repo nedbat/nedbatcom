@@ -184,9 +184,8 @@
         </xsl:when>
 
         <xsl:when test='contains(@href, "://")'>
-            <xsl:attribute name='class'>offsite</xsl:attribute>
-            <xsl:attribute name='rel'>external</xsl:attribute>
             <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
+            <xsl:attribute name='rel'>external</xsl:attribute>
         </xsl:when>
 
         <xsl:when test='@isbn'>
@@ -194,6 +193,7 @@
                 <xsl:text>http://www.amazon.com/exec/obidos/redirect?tag=nedbatchelder-20&amp;path=tg/detail/-/</xsl:text>
                 <xsl:value-of select='@isbn'/>
             </xsl:attribute>
+            <xsl:attribute name='rel'>external</xsl:attribute>
         </xsl:when>
 
         <xsl:otherwise>
