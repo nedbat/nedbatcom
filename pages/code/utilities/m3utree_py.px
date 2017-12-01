@@ -26,7 +26,7 @@ in each album directory that includes all the tracks on the album.</p>
 which is standard with Python 2.3.</li>
 <li>Sune Kirkeby's <a href='http://ibofobi.dk/svn/Jukebox/jukebox/mp3.py'>mp3.py</a>,
 which determines the length of the MP3 file.</li>
-<li>My <apage pref='code/modules/id3reader.px'/>, which reads ID3 tags from MP3 files.</li>
+<li>My <a pref='code/modules/id3reader.px'/>, which reads ID3 tags from MP3 files.</li>
 </ul>
 
 <p>Run m3utree.py in the root of your mp3 tree.  It will create m3u files at each

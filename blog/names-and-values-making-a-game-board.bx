@@ -18,7 +18,7 @@
 ]]]-->
 <!--[[[end]]]-->
 
-<p>In <apage pref='text/names.px'/>, I described how Python's names and values
+<p>In <a pref='text/names.px'/>, I described how Python's names and values
     work.  There I posed some other questions, one of which was:</p>
 
 <box>Why do beginners find it hard to make a tic-tac-toe board in Python?</box>
@@ -227,7 +227,7 @@ board2 = [ [0] * 8 for i in range(8) ]
     evaluated anew eight times, producing eight distinct lists to serve as our
     rows.</p>
 
-<p>If this is still confusing, <apage pref='text/names.px'/> has more details, or 
+<p>If this is still confusing, <a pref='text/names.px'/> has more details, or 
 <!--[[[cog
 tutor_a_tag("""\
 # List multiplication, doesn't work right:

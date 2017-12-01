@@ -218,25 +218,6 @@
 <!-- Not doing anything with these yet. -->
 <xsl:template match='history|copyright'/>
 
-<!-- A link to another of our own pages. -->
-<xsl:template match='apage'>
-    <a>
-        <xsl:attribute name='href'>
-            <xsl:call-template name='makeuri'>
-                <xsl:with-param name='uri' select='concat(substring-before(@pref, ".px"), ".html")' />
-            </xsl:call-template>
-        </xsl:attribute>
-        <xsl:choose>
-            <xsl:when test='text()'>
-                <xsl:value-of select='text()'/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select='xuff:pathtitle(current()/@pref)' />
-            </xsl:otherwise>
-        </xsl:choose>
-    </a>
-</xsl:template>
-
 <!-- This is handled in the Django model now. -->
 <xsl:template match='pagecomments' />
 
