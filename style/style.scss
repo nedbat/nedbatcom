@@ -463,6 +463,9 @@ input {
             &.inline {
                 display: inline-block;
                 margin-top: 1em;
+                nav {
+                    display: inline;
+                }
                 ul {
                     display: inline;
                     font-weight: normal;
@@ -472,9 +475,9 @@ input {
                         display: inline;
                         &:after {
                             content: "\00A0\00B7\0020";  // nbsp mid-dot space
-                            &:last-child {
-                                content: "";
-                            }
+                        }
+                        &:last-child:after {
+                            content: "";
                         }
                     }
                 }
