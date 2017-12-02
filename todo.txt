@@ -17,7 +17,8 @@ New design:
 
 - next
     - a11y
-        - don't use aside, use nav
+        + don't use aside, use nav
+            + html5 says aside for a sidebar is fine. I added nav inside it.
         - make a skip-to-main link?
         - check tab order
     + change <p align='center'> to figurep

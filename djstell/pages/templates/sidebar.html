@@ -143,15 +143,17 @@
 
         {% if moreblog %}
         <li class='inline'>More blog:
-            <ul class='tight'>
-                {% for link in moreblog %}
-                <li>
-                    <a href='{{link.link}}'>{{link.text|lower|safe}}</a>
-                </li>
-                {% endfor %}
-                <li><a href='/blog/tags.html'><i>all tags</i></a></li>
-                <li><a href='/blog/archiveall.html'><b><i>everything!</i></b></a></li>
-            </ul>
+            <nav>
+                <ul class='tight'>
+                    {% for link in moreblog %}
+                    <li>
+                        <a href='{{link.link}}'>{{link.text|lower|safe}}</a>
+                    </li>
+                    {% endfor %}
+                    <li><a href='/blog/tags.html'><i>all tags</i></a></li>
+                    <li><a href='/blog/archiveall.html'><b><i>everything!</i></b></a></li>
+                </ul>
+            </nav>
         </li>
         {% endif %}
 
