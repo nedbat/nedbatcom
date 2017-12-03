@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20171203T085502'>
+<title>Bite-sized command line tools: pylintdb</title>
+<category>python</category>
+<body>
+
+<p>One of the things I love about Python is the abundance of handy libraries to
+cobble together small but useful tools.  At work we had a large pylint report,
+and I wanted to understand it better. In particular, I wanted to trace back to
+which commit had introduced the violations. I wrote 
+<a href='https://github.com/nedbat/pylintdb/blob/master/pylintdb.py'>pylintdb.py</a>
+to do the work.</p>
+
+<p>Since we had a lot of violations (>5000!) I figured it would take some time
+to use git blame to find the commit for each line.  I wanted a way to persist
+the progress through the lines.  SQLite seemed like a good choice.  It also
+would give me ad-hoc queryability, though to be honest, I didn't even consider
+that at the time.</p>
+
+<p>SQLite is part of the Python standard library, but there's a third-party
+library that makes it super-convenient to use.
+<a href='https://dataset.readthedocs.io'>Dataset</a> lets you use a database
+without creating a schema or even model first. You just open a database, choose
+a table name, and then start writing dictionaries to it.  It handles all the
+schema creation (or modification!) behind the scenes. Awesome.</p>
+
+<p>These days, <a href='http://click.pocoo.org'>click</a> is the tool of choice
+for command-line parsing, and other chores needed in the terminal.  I used the
+progress bar functions.  They aren't perfect, but in only a few lines I had a
+workable indicator.</p>
+
+<p>Other useful things from the Python standard library:</p>
+
+<ul>
+<li><a href='https://docs.python.org/3/library/concurrent.futures.html'>concurrent.futures</a>
+for parallelizing the git blame work.  It's got a high-level "map" interface
+that did exactly what I needed without having to think about queues, threads, and so on.</li>
+
+<li><a href='https://docs.python.org/3/library/subprocess.html#subprocess.check_output'>subprocess.check_output</a>
+does the subprocess thing people usually want: just run the command and give me
+the output.</li>
+
+</ul>
+
+<p>pylintdb isn't earth-shattering, it just does exactly what I needed in 120
+lines with a minimum of fuss, thanks to dataset, click, and Python.</p>
+
+</body>
+</entry>
+</blog>
