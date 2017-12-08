@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20171208T075201'>
+<title>Iter-tools for puzzles: oddity</title>
+<category>coding</category>
+<category>python</category>
+<body>
+
+<p>It's December, which means <a href='http://adventofcode.com/'>Advent of Code</a>
+is running again.  It provides a new two-part puzzle every day until Christmas.
+They are a lot of fun, and usually are algorithmic in nature.</p>
+
+<p>One of the things I like about the puzzles is they often lend themselves to
+writing unusual but general-purpose helpers.  As <a href='text/iter.html'>I have said before</a>,
+abstraction of iteration is a powerful and under-used feature of Python, so I
+enjoy exploring it when the opportunity arises.</p>
+
+<p>For <a href='http://adventofcode.com/2017/day/7'>yesterday's puzzle</a> I
+needed to find the one unusual value in an otherwise uniform list.  This is the
+kind of thing that might be in <a href='https://docs.python.org/3/library/itertools.html'>itertools</a>
+if itertools had about ten times more functions than it does now.  Here was my
+definition of the needed function:</p>
+
+<code lang="python"><![CDATA[
+def oddity(iterable, key=None):
+    """
+    Find the element that is different.
+
+    The iterable has at most one element different than the others. If a
+    `key` function is provided, it is a function used to extract a comparison
+    key from each element, otherwise the elements themselves are compared.
+
+    Two values are returned: the common comparison key, and the different
+    element.
+
+    If all of the elements are equal, then the returned different element is
+    None.  If there is more than one different element, an error is raised.
+
+    """
+]]></code>
+
+<p>The challenge I set for myself was to implement this function in as general
+and useful a way as possible.  The iterable might not be a list, it could be a
+generator, or some other iterable.  There are edge cases to consider, like if
+there are more than two different values.</p>
+
+<p>If you want to take a look,
+<a href='https://github.com/nedbat/adventofcode2017/blob/master/day07.py#L28-L74'>My code is on GitHub</a>
+(with tests, natch.)  Fair warning: that repo has
+my solutions to all of the Advent of Code problems so far this year.</p>
+
+<p>One problem with my implementation: it stores all the values from the
+iterable.  For the actual Advent of Code puzzle, that was fine, it only had to
+deal with less than 10 values.  But how would you change the code so that it
+didn't store them all?</p>
+
+<p>My code also assumes that the comparison values are hashable.  What if you
+didn't want to require that?</p>
+
+<p>Suppose the iterable could be infinite?  This changes the definition
+somewhat.  You can't detect the case of all the values being the same, since
+there's no such thing as "all" the values.  And you can't detect having more
+than two distinct values, since you'd have to read values forever on the
+possibility that it might happen.  How would you change the code to handle
+infinite iterables?</p>
+
+<p>These are the kind of considerations you have to take into account to write
+truly general-purpose itertools functions.  It's an interesting programming
+exercise to work through each version would differ.</p>
+
+<p>BTW: it might be that there is a way to implement my oddity function with
+a clever combination of things already in itertools.  If so, let me know!</p>
+
+</body>
+</entry>
+</blog>
