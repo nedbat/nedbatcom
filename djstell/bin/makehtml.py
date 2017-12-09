@@ -57,6 +57,7 @@ class CmdLine(object):
         self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = '../www'
         self.HTACCESS = 'local.htaccess'
+        self.WWWROOT = os.path.abspath(self.ROOT)
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
     def do_file(self):
@@ -69,6 +70,7 @@ class CmdLine(object):
         self.EXT_BASE = 'https://nedbatchelder.com'
         self.HTACCESS = 'webfaction.htaccess'
         self.PHPINI = 'webfaction.php.ini'
+        self.WWWROOT = '/home/nedbat/webapps/main'
         self.FTP = dict(
             host='nedbat.webfactional.com', hostdir='webapps/main',
             user='nedbat', password=password.WEBFACTION,
@@ -81,6 +83,7 @@ class CmdLine(object):
     def do_nednet(self):
         self.BASE = '//nedbatchelder.net'
         self.HTACCESS = 'nednet.htaccess'
+        self.WWWROOT = '/home/nedbat/nedbatchelder.net'
         self.PHP_INCLUDE = False
         self.FTP = dict(
             host='nedbatchelder.net', hostdir='nedbatchelder.net',
@@ -95,6 +98,7 @@ class CmdLine(object):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
         settings.WEB_ROOT = dst
         settings.BASE = self.BASE
+        settings.WWWROOT = self.WWWROOT
         if self.EXT_BASE:
             settings.EXT_BASE = self.EXT_BASE
         elif ':' in self.BASE:

@@ -5,6 +5,7 @@ from djstell.pages.sitemap import sitemap
 from djstell.pages.models import Entry, Tag, Link
 from django.conf import settings
 
+import os.path
 import re
 
 register = Library()
@@ -106,6 +107,21 @@ def ch(value):
 def twodigit(value):
     """Show just the last two digits of a number (ex: a year)"""
     return str(value)[-2:]
+
+@register.simple_tag
+def static_link(filename):
+    """Insert our best cache-busting static link."""
+    main, ext = os.path.splitext(filename)
+    if settings.PHP_INCLUDE:
+        time = "<?php echo filemtime('{wwwroot}/{filename}') ?>".format(wwwroot=settings.WWWROOT, filename=filename)
+        url = "{base}/{main}__{time}{ext}".format(base=settings.BASE, main=main, time=time, ext=ext)
+    else:
+        url = "{base}/{filename}".format(base=settings.BASE, filename=filename)
+    if ext == ".css":
+        tag = "<link rel='stylesheet' href='{url}' type='text/css'>"
+    elif ext == ".js":
+        tag = "<script type='text/javascript' src='{url}' async></script>"
+    return tag.format(url=url)
 
 @register.tag
 def ifnotfirst(parser, token):

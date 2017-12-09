@@ -20,7 +20,7 @@
 <link rel="openid2.provider" href="http://nedbat.wordpress.com/?openidserver=1">
 
 {# Styling #}
-<link rel='stylesheet' href='{{settings.BASE}}/mainstyle.css' type='text/css'>
+{% static_link "mainstyle.css" %}
 <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i" rel="stylesheet">
 
 {% include "analytics.html" %}

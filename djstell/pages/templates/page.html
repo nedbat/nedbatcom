@@ -19,15 +19,15 @@
     <title>Ned Batchelder: {{title}}</title>
 
     {% block pagelinks %}
-    <link rel='stylesheet' href='{{settings.BASE}}/style.css' type='text/css'>
+    {% static_link "style.css" %}
     {# PT Serif for body text. Source Serif has no italic, Merriweather is wider and has old-style numerals. #}
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i" rel="stylesheet">
     {% if 'svg' in features %}
-    <link rel='stylesheet' href='{{settings.BASE}}/svg.css' type='text/css'>
+    {% static_link "svg.css" %}
     {% endif %}
     {% endblock %}
 
-    <script type='text/javascript' src='{{settings.BASE}}/nedbatchelder.js' async></script>
+    {% static_link "nedbatchelder.js" %}
 
     {% include "analytics.html" %}
 </head>
@@ -49,7 +49,8 @@
         <h1 class='headslug'>{{title}}</h1>
         {% endif %}
 
-        <div class='body'>  <!-- TODO: combine #content and div.body? only need one? -->
+        <div class='body'>
+            {# TODO: combine #content and div.body? only need one? #}
             {% block dateline %}
             {% if min_date %}
                 <p class='dateline'>

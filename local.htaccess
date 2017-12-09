@@ -34,6 +34,10 @@ php_flag zlib.output_compression on
 ## Rewrite rules
 RewriteEngine on 
 
+# CSS and JS cache busting.
+RewriteRule ^(.*)__[0-9]+\.css$ /$1.css [L]
+RewriteRule ^(.*)__[0-9]+\.js$ /$1.js [L]
+
 # Tags moved.
 RewriteRule ^blog/tag_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
 RewriteRule ^blog/cat_([-a-z0-9]+)\.html$ /blog/tag/$1.html [R=301,L]
