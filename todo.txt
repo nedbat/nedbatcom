@@ -33,6 +33,7 @@ New design:
         + links in comments need http: added if missing.
     + make sidebar bullets be :content instead of content.
     + https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fnedbatchelder.com%2Fblog
+    - comments are bad html:  p1<br><br>p2<pre>code</pre>p3
     - search button image is different in different browsers
     - different logo images, so small screens get a smaller image
     - at some widths, " >> " leaves a leading blank
