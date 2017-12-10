@@ -6,7 +6,7 @@ $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
-$copyright-height: 2.5rem;
+$copyright-height: 3rem;
 $thick-border-small-horz: 3px;
 $thick-border-small-vert: 1px;
 $thick-border-large-horz: 3px;
@@ -129,7 +129,7 @@ body {
 }
 
 #copyright {
-    padding: 0 10px;
+    padding: 0 1em;
     border-top-width: $thick-border-small-horz;
     height: $copyright-height;
     text-align: left;
@@ -315,7 +315,7 @@ a.headerlink {
 }
 
 .copyright {
-    font-size: 70%;
+    font-size: 85%;
     font-style: italic;
     color: #333;
     margin-bottom: 0;
@@ -913,7 +913,7 @@ img {
 
     textarea {
         font-family: $them-font;
-        font-size: 120%;
+        font-size: 100%;
         flex: 1 0 0;
         max-width: 30em;
         padding: .25em .3em;
