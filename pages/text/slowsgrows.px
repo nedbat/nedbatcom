@@ -94,7 +94,7 @@ times as long.  O(1) looks funny, but is a way of saying that the running time
 doesn't depend on N at all: no matter how much data, the run time is the same,
 a constant.  Counting labelled bean jars is O(1).</p>
 
-<p>Some other common expressions you might see are O(log N) and O(N log N).</p>
+<p>Some other common expressions you might see are O(log&#160;N) and O(N&#160;log&#160;N).</p>
 
 
 <h1>Analyzing code</h1>
@@ -288,7 +288,7 @@ what those are in order to accurately understand your own code.</p>
         <tr><td><codeword>mylist[i]           </codeword></td><td>O(1)</td></tr>
         <tr><td><codeword>val in mylist       </codeword></td><td>O(N)</td></tr>
         <tr><td><codeword>for val in mylist:  </codeword></td><td>O(N)</td></tr>
-        <tr><td><codeword>mylist.sort()       </codeword></td><td>O(N log N)</td></tr>
+        <tr><td><codeword>mylist.sort()       </codeword></td><td>O(N&#160;log&#160;N)</td></tr>
 
         <tr><td rowspan='4'><b>Dicts</b><br/><codeword>{'a': 1, 'b': 2}</codeword></td>
             <td><codeword>mydict[key] = val   </codeword></td><td>O(1)</td></tr>
