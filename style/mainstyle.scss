@@ -89,6 +89,9 @@ h2 {
     font-size: 100%;
     display: inline;
     margin: 1em 0 0 0;
+    .blog-entry & {
+        margin-right: 1em;
+    }
 }
 
 .searchflex {
@@ -118,7 +121,12 @@ h2 {
     margin-top: 0;
 }
 
-.blog-entry p.date, .huh {
+.blog-entry p.date {
+    display: inline;
+    color: $gray;
+}
+
+.huh {
     display: inline;
     margin: 0 0 0 1em;
     color: $gray;
@@ -154,7 +162,9 @@ aside section {
 }
 
 span.readmore {
-    margin: 0 0 0 .5em;
+    &:before {
+        content: "\2002";   // EN SPACE
+    }
 }
 
 p.readmore {
