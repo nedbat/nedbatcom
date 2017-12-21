@@ -224,6 +224,7 @@ li {
     color: $gray;
     font-style: italic;
     font-size: 85%;
+    margin-bottom: 0;
     a {
         @include inside-link;
     }
