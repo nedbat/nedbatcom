@@ -26,7 +26,7 @@
         Django app and modify settings.py, so I adapted the patch from the closed Django bug ticket
         to create threadedmanage.py:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 #!/usr/bin/env python
 # 
 # A clone of manage.py, with multi-threadedness monkeypatched in.

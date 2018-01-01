@@ -15,7 +15,7 @@
     have a BaseTestCase of my own that inherits from unittest.TestCase, so my
     mixin looked like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
         super(BaseTestCase, self).setUp()
@@ -49,7 +49,7 @@ class RealTestCase(BaseTestCase, MyMixin):
 <p>But this code doesn't work, MyMixin.setUp is never invoked.  Why? It's 
     because TestCase in unittest doesn't invoke super():</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # unittest.py (some details omitted :)
 class TestCase(object):
     def setUp(self):
@@ -73,7 +73,7 @@ class TestCase(object):
 
 <p>I suppose TestCase could be re-written like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # unittest.py (hypothetical)
 class TestCase(object):
     def setUp(self):
@@ -88,7 +88,7 @@ class TestCase(object):
 
 <p>The simple solution is to swap the order of the mixin and the base class:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 class RealTestCase(MyMixin, BaseTestCase):
     #...
 ]]></code>

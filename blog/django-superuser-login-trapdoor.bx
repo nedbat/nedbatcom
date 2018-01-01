@@ -16,7 +16,7 @@ into the password field.
 <a href='http://docs.djangoproject.com/en/1.2/topics/auth/#authentication-backends'>Django authentication backend</a>
 to get the job done:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 

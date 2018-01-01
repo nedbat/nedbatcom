@@ -33,7 +33,7 @@
 
     <p>On Ubuntu, not so much:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 >>> open(fname)
 Traceback (most recent call last):
     File "<stdin>", line 1, in <module>

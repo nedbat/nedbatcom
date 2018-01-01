@@ -20,7 +20,7 @@ it's easier in a pattern language like Perl, but the Perl is still 20 iterative 
 
 <p>In Python:</p>
 
-<code lang='py'>
+<code lang='python'>
 import re
 
 def tryint(s):

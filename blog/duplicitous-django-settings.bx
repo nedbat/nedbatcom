@@ -16,7 +16,7 @@
         the settings file imports from product_settings.py, then from a host-specific settings file, then
         from a local_settings.py which isn't committed to source control:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # Settings.py
     
 #.. lots of settings ..

@@ -8,7 +8,7 @@
 <p>It all started innocently enough, as it always does.  A <a href='https://bitbucket.org/ned/coveragepy/issue/123/pyeval_settrace-used-in-way-that-breaks'>coverage.py bug</a>
     said that the coverage trace function wasn't properly re-installed if this apparently innocuous line was executed:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 sys.settrace(sys.gettrace())
 ]]></code>
 

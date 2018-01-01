@@ -20,7 +20,7 @@ I saw the recursive light, and came up with this to generate
 all possible postfix expressions:
 </p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # Enumerate postfix expressions
 
 def _exprs(expr, stack_depth, vals, ops):
@@ -75,7 +75,7 @@ enumeration technique: as you are building an expression:</p>
 
 <p>The nature of recursive generators requires the for/yield structure:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # When recurring in generators, you have to loop to pull the values,
 # and yield each one:
 for v in _recursive_generator(blah):
@@ -162,7 +162,7 @@ understand.</p>
 execute the expressions to construct trees, but that seemed unnecessary, so I adapted
 the expression code to create trees directly:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # Enumerate binary trees
 
 class Leaf:

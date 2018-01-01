@@ -16,7 +16,7 @@
         lifting, but there's a little input and output grabbing and tweaking to
         be done.  Here's what I ended up with:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 """A Python prompt in a cage, for producing prompt sessions."""
 
 import code

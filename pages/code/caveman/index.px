@@ -34,7 +34,7 @@ application.</p>
 with two helpers: a get_url function that fetches data from URLs, and a
 logger object that gets logged messages:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 from caveman import ManifestChecker
 
 def get_url(url): ...
@@ -46,7 +46,7 @@ man_checker = ManifestChecker(get_url=get_url, logger=logger)
 
 <p>Then call its check_manifest method with the URL of the HTML page:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 man_checker.check_manifest(url)
 ]]></code>
 
@@ -59,7 +59,7 @@ See the docstrings in the source code for details.</p>
 <p>As an example of programmatic use, here's one way to use Caveman in a Django
 test suite:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 from caveman import ManifestChecker
 
 class TestManifest(django.test.TestCase):

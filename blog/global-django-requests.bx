@@ -25,7 +25,7 @@ can be many threads, each of which is handling a separate request.  We need
 a way to associate the request with a thread, and then to get the request
 for our thread.  This middleware does the job nicely:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 from django.utils.thread_support import currentThread
 _requests = {}
 
@@ -47,7 +47,7 @@ thread locals to acheive the same effect.</p>
 <p>There's another way to get a global request object, but you probably won't
 like it:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def get_request():
     """Walk up the stack, return the nearest first argument named "request"."""
     frame = None

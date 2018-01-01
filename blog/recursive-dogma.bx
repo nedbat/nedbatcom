@@ -36,7 +36,7 @@
     we're off on the usual rant against recursion in Python, and debates about tail-call elimination.
     As it happens, and as Questioner rightly understood, the problem is not about deep recursion:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def computeHW(N):
     if N == 1:
         return [1]
@@ -55,7 +55,7 @@ def computeHW(N):
     We can change the function into a generator that still works recursively, but won't allocate
     any memory:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def computeHW2(N):
     if N == 1:
         yield 1
@@ -71,7 +71,7 @@ def computeHW2(N):
     We can turn this function into a closed-form solution that computes the n'th element of this
     list:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def closedHW(N):
     if N == 0:
         return 1
@@ -84,7 +84,7 @@ def closedHW(N):
     but doesn't allocate any lists at all.  This function is also in a simple tail-call form,
     so we can easily make it iterative:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def closedHW_iterative(N):
     hw = 1
     while N:

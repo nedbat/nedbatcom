@@ -34,7 +34,7 @@ drwx------ batcheln/100      0 2010-08-21 14:13 coverage-3.4b1/
     class from distutils.core.Command, name it fixtar, and put it in a file
     called fixtar.py.  You have to provide three methods:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 from distutils.core import Command
 import shutil, tarfile
 
@@ -65,7 +65,7 @@ class fixtar(Command):
     distutils made, and I create a new tar file just like it, but with the
     permissions and owner info that I want:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
     def run(self):
         """The body of the command."""
         for _, _, filename in self.distribution.dist_files:

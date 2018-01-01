@@ -15,7 +15,7 @@
         This can be useful for performing initial work, such as preparing a tarball to be copied
         to many hosts. So for example, I can write something like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 @task
 def deploy():
     make_tarball()
@@ -38,7 +38,7 @@ def copy_tarball()
         app server vs. static content server, for example.  Fabric provides a role system, and
         includes a @roles decorator to control what gets run where:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 env.roledefs.update({
     'app': ['www1', 'www2'],
     'static': ['stat1']
@@ -57,7 +57,7 @@ def my_func():
 
     <p>I wanted a deploy script that looked something like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 @task
 def deploy():
     copy_to_apps()
@@ -74,7 +74,7 @@ def copy_to_static():
 
     <p>So I wrote my own decorator to do roles the way I wanted:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def only_roles(*roles):
     """Make a function run only on hosts that have certain roles."""
     def _dec(fn):
@@ -100,7 +100,7 @@ def only_roles(*roles):
 
     <p>So I wrote another decorator, this one more devious and risky:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def runs_last(func):
     """A decorator to run the function only on the *last* host.
 
@@ -127,7 +127,7 @@ def runs_last(func):
     <p>Since I'm sharing useful Fabric decorators, here's one that prevents repetitive
         work being done that won't have any extra effect:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def idempotent(func):
     """Don't invoke `func` more than once for host and arguments."""
     func.past_results = {}

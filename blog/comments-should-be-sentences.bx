@@ -18,7 +18,7 @@
         people can read them.  Capitals are a clear indication of the start of
         a sentence, and a period is a clear indication of the end:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # BAD:
 # try to read the thing
 
@@ -41,7 +41,7 @@
         punctuate your text, you'll realize that a few grunted words aren't
         really what you want to put there:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # EVEN BETTER:
 # Try to read the configuration file, but it's OK if
 # it's missing because we don't require a config file.
@@ -65,7 +65,7 @@
     <p>Another reason to make your comments complete sentences: it makes it
         easier to extend them later:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # ORIGINALLY:
 # try to read the thing
 

@@ -22,7 +22,7 @@
         But you've tried hard to make sure that never happens in your code.  Here's a view that will
         do it for you:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 @staff_member_required
 def raise_error(request):
     """Raise an exception.  How else will we know our stack traces work?"""
@@ -40,7 +40,7 @@ def raise_error(request):
         at a small part of your complex machinery. There are lots of other diagnostic tools 
         that are possible:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 @staff_member_required
 def send_email(request):
     """Send an email to test the mail-sending infrastructure."""
@@ -76,7 +76,7 @@ def dump_settings(request):
     <p>One more I've found very useful: spawn a Celery task, to figure out if that
         machinery is properly configured:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 @staff_member_required
 def task_ping(request):
     """Send a simple task to a worker queue."""

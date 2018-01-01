@@ -48,7 +48,7 @@
     <p>It works great for me, I hope you find it useful too. You'll need <a href='http://bitbucket.org/izi/polib'>polib</a> 
         as a prerequisite.</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 #!/usr/bin/env python
 """Munge a .po file so we English-bound can see what strings aren't marked 
 for translation yet.

@@ -9,7 +9,7 @@
 <quote>
     <p>I'm adding words to lists depending on what character they begin with. This seems a silly way to do it, though it works:</p>
 </quote>
-<code lang='py'>
+<code lang='python'>
 nouns = open('nouns.txt', 'r')
 for word in nouns:
     word = word.rstrip()
@@ -24,7 +24,7 @@ for word in nouns:
 
 <p>Naturally, the answer here is to make a dictionary keyed by first letter:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 words = defaultdict(list)
 for word in nouns:
     words[word[0]].append(word)

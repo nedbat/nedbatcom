@@ -135,7 +135,7 @@ print("Examined {} objects".format(examined))
 
     <p>Here's the updated search code, which also has some nicer uses of generators:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 """Look for builtins..."""
 
 import types

@@ -15,7 +15,7 @@ them.  One of these is to re-throw exceptions.</p>
 catch, but then immediately re-throw.  This can be done with a simple raise
 statement:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 try:
     do_something_dangerous()
 except:
@@ -35,7 +35,7 @@ sees the exception that prevented him from getting the data.
 
 <p>Here's the simple implementation:</p>
 
-<code lang='py' number='1'><![CDATA[
+<code lang='python' number='1'><![CDATA[
 class DelayedResult:
     def __init__(self):
         self.e = None
@@ -82,7 +82,7 @@ the traceback at the time of the original problem, and in get_results, we'll
 use the full three-argument form of the raise statement to use the original
 traceback:</p>
 
-<code lang='py' number='1'><![CDATA[
+<code lang='python' number='1'><![CDATA[
 class DelayedResult:
     def __init__(self):
         self.exc_info = None
@@ -111,7 +111,7 @@ dr.get_result()
 <p>Now when we run it, the traceback points to do_something_dangerous, called
 from do_work, as the real culprit:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 $ python delayed.py
 Traceback (most recent call last):
   File "C:\lab\delayed.py", line 23, in ?

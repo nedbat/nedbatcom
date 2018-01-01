@@ -48,7 +48,7 @@
 <p>We have a few options for how to produce these strings.  My first version
     took an initial seed, and a number of steps to iterate:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 ZERO_ONE = str.maketrans("01", "10")
 
 def reverse01(s):
@@ -69,7 +69,7 @@ def dragon_iterative(seed, steps):
 <p>The problem statement sounds like it would lend itself well to recursion, so
     let's try that too:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def dragon_recursive(seed, steps):
     if steps == 0:
         return seed
@@ -89,7 +89,7 @@ def dragon_recursive(seed, steps):
     we are going forward (for the first half of a step), or backward for the
     second half:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def dragon_gen(seed, steps, reverse=False):
     if reverse:
         if steps == 0:
@@ -119,7 +119,7 @@ def dragon_gen(seed, steps, reverse=False):
     of the seed and the desired length of the result.  But more interesting is
     an infinite dragon generator:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def dragon_infinite(seed):
     """Generate characters of dragon forever."""
     yield from seed
@@ -139,7 +139,7 @@ def dragon_infinite(seed):
 <p>Now we can write dragon_finite, to give us a result string of a desired
     length:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def dragon_finite(seed, length):
     return "".join(itertools.islice(dragon_infinite(seed), length))
 ]]></code>

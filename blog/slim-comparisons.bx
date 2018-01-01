@@ -14,7 +14,7 @@
         instances of your class can be considered equal.  For example, in an object with three
         attributes, the typical way to define __eq__ is like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 class Thing(object):
     def __init__(self, a, b, c):
         self.a = a
@@ -45,7 +45,7 @@ True
 
     <p>But on IRC, a different technique was proposed:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 class Thing(object):
     def __init__(self, a, b, c):
         self.a = a
@@ -83,7 +83,7 @@ True
 
 <p>For another, it make operations work that maybe shouldn't:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 x == (1, 2, 3)
 (1, 2, 3) == x
 ]]></code>

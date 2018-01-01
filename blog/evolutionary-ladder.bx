@@ -27,7 +27,7 @@ def doit(f):
 Here the goal is to build a list of URLs, but the function accepts strings as
 well as a variety of Django ORM objects:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 extracted = []
 for resource in resources:
     # A URL string
@@ -66,7 +66,7 @@ adapt their arguments and call each other.  The dynamic language pattern is
 more flexible in that different kinds of adaptation can be used, not just
 type-based.  Here's a hypothetical example:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def doit_with_html(h):
     if h.startswith('http:'):
         # Turn a URL into its HTML data.

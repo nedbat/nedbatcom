@@ -17,7 +17,7 @@
 
 <p>At its simplest, a trace function is a Python function like this:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 def my_py_trace_fn(frame, event, arg):
     # .. do something useful ..
     return my_py_trace_fn
@@ -134,7 +134,7 @@ trace_trampoline(
 <p>An obvious goal for settrace() and gettrace() is that getting the trace function from gettrace() 
     and then passing it to settrace() should be a no-op:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 # This should be as if nothing happened:
 sys.settrace(sys.gettrace())
 ]]></code>
@@ -255,7 +255,7 @@ done:
 
 <p>OK, now we're all set, right?  Not quite yet.  Here's a simple test of our trace function:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 import sys
 
 def foo():

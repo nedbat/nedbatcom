@@ -13,7 +13,7 @@ After some finagling, I came up with
 
 <p>Here was the first code I used:</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 import Image, ImageFont, ImageDraw
 
 fontfile = r"C:\WINDOWS\Fonts\arialbd.ttf"
@@ -73,7 +73,7 @@ gray text to compute full-color pixels for any pixels with even a slight trace
 of the text on it.  When combined, the alpha channel will dilute down the color
 of the edge pixels down to give the proper appearance.</p>
 
-<code lang='py'><![CDATA[
+<code lang='python'><![CDATA[
 import Image, ImageFont, ImageDraw, ImageChops
 
 fontfile = r"C:\WINDOWS\Fonts\arialbd.ttf"
