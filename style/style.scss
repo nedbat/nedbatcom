@@ -717,9 +717,11 @@ blockquote.code {
     .c {
         color: #008000;
     }
+    /* When the syntax highlighter gets confused, don't show the customers...
     .err {
         border: 1px solid #FF0000;
     }
+    */
     .k {
         color: #000080;
         font-weight: bold;
@@ -738,6 +740,9 @@ blockquote.code {
     }
     .gh, .gp, .gs, .gu {
         font-weight: bold;
+    }
+    .gp {
+        color: #666699;
     }
     .kc, .kd, .kn, .kp, .kr {
         color: #0000ff;
