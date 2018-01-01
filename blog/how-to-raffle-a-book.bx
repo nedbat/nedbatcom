@@ -15,7 +15,7 @@
         make an iterator, then pick names off it.  I do this on the big screen
         in an interactive prompt:</p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> import random
 >>> from attendees import yes
 >>> people = yes(120746442)     # The event number from meetup.com

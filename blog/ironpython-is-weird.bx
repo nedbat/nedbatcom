@@ -36,7 +36,7 @@ False
     recognized in u"" strings, but not "" strings, but they both produce the
     same type:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> "abc\u1234"
 'abc\\u1234'
 >>> u"abc\u1234"
@@ -51,7 +51,7 @@ u'abc\u1234'
     string? WRONG. Encoding a unicode string produces another unicode string
     with the encoded byte values as code points!:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> u"abc\u1234".encode("utf8")
 u'abc\xe1\x88\xb4'
 >>> type(_)
@@ -60,7 +60,7 @@ u'abc\xe1\x88\xb4'
 
 <p>Surely we could at least read the bytes from a file with mode "rb"? WRONG.</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> type(open("foo.py", "rb").read())
 <type 'str'>
 >>> type(open("foo.py", "rb").read()) is unicode
@@ -89,7 +89,7 @@ True
 <p>I guess things have changed with Jython in the intervening ten years,
     because it doesn't behave that way now:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 $ jython
 Jython 2.7.1b3 (default:df42d5d6be04, Feb 3 2016, 03:22:46)
 [Java HotSpot(TM) 64-Bit Server VM (Oracle Corporation)] on java1.8.0_31

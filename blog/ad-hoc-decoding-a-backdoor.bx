@@ -15,7 +15,7 @@
 
 <p>Read the file, and take a quick look to see what structure it has:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> wprss3 = open('wp-rss3.php').read()
 >>> wprss3[:100]
 '<?php $_8b7b="\\x63\\x72\\x65\\x61\\x74\\x65\\x5f\\x66\\x75\\x6e\\x63\\x74\\x69\\x6f\\x6e";$_8b7b1f="\\x62\\x61\\x73\\x'
@@ -23,7 +23,7 @@
 
 <p>The file is one long line, so let's split it into lines:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> wprss3 = wprss3.replace(' ', '\n').replace(';',';\n').splitlines()
 >>> len(wprss3)
 6
@@ -33,7 +33,7 @@
 
 <p>OK, six lines, one of which has the bulk of the data. Let's look at them:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> wprss3[0]
 '<?php'
 >>> wprss3[1]
@@ -47,7 +47,7 @@
     one, we know the one we want will be the longest piece.  So we can use max()
     to find the longest piece:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> d = max(wprss3[1].split('"'), key=len)
 >>> d
 '\\x63\\x72\\x65\\x61\\x74\\x65\\x5f\\x66\\x75\\x6e\\x63\\x74\\x69\\x6f\\x6e'
@@ -56,14 +56,14 @@
 <p>One of Python's handy-dandy decoders is 'string_escape' which can turn a string
     with backslash-x sequences into the correct string:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> d.decode('string_escape')
 'create_function'
 ]]></code>
 
 <p>OK, so $_8b7b is "create_function", a PHP function.  Let's see what line 2 gives us:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> wprss3[2]
 '$_8b7b1f="\\x62\\x61\\x73\\x65\\x36\\x34\\x5f\\x64\\x65\\x63\\x6f\\x64\\x65";'
 >>> max(wprss3[2].split('"'), key=len).decode('string_escape')
@@ -72,7 +72,7 @@
 
 <p>Interesting, now for the bulk of the data, line 3:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> wprss3[3][:100]
 '$_8b7b1f56=$_8b7b("",$_8b7b1f("JGs9MTQzOyRtPWV4cGxvZGUoIjsiLCIyMzQ7MjUzOzI1MzsyMjQ7MjUzOzIwODsyNTM7M'
 >>> wprss3[3][-100:]
@@ -90,7 +90,7 @@ $_8b7b1f56 = create_function("", base64_decode("JGs9MTQ...Hop0w=="));
         
 <p>What's in the base64 data?</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> d = max(wprss3[3].split('"'), key=len).decode('base64')
 >>> len(d)
 21064
@@ -105,7 +105,7 @@ $_8b7b1f56 = create_function("", base64_decode("JGs9MTQ...Hop0w=="));
     them as ASCII codepoints, and evaluating the result.  So we want to perform the same decoding
     to see what source code results:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> nums = max(d.split('"'), key=len).split(';')
 >>> len(nums)
 5246

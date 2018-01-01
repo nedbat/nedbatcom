@@ -52,7 +52,7 @@ random.seed(the_seed)
 
     <p>A little experimenting showed that sympy was at fault here:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 Python 2.7.3 (default, Aug  1 2012, 05:16:07) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -83,7 +83,7 @@ Type "help", "copyright", "credits" or "license" for more information.
     <p>To find out where, we resorted to a monkey-patching trick:  Replace
         random.random with a booby-trap:</p>
 
-<code lang="py"><![CDATA[
+<code lang="pycon"><![CDATA[
 Python 2.7.3 (default, Aug  1 2012, 05:16:07) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.

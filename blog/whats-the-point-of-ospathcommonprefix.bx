@@ -15,7 +15,7 @@ Although it's in the <a href='http://docs.python.org/library/os.path.html'>os.pa
 module, it knows nothing about paths, working instead character-by-character:
 </p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> os.path.commonprefix(['/home/ned/cog', '/home/ned/coverage'])
 '/home/ned/co'      # That's not an actual path!
 ]]></code>

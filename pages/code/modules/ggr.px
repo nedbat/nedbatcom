@@ -15,7 +15,7 @@ The constructor also take an optional file to read as an argument.</li>
 point along the gradient.</li>
 </ul>
 
-<code lang='python'>
+<code lang='pycon'>
 >>> import ggr
 >>> g = ggr.GimpGradient('Sunrise.ggr')
 >>> g.color(.25)

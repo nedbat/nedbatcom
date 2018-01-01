@@ -15,7 +15,7 @@
 <p>First, the things that are the same: both lists and tuples are containers,
     a sequence of objects:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> my_list = [1, 2, 3]
 >>> type(my_list)
 <class 'list'>
@@ -32,7 +32,7 @@
     be changed).  This is the only distinction that the Python language makes
     between them:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> my_list[1] = "two"
 >>> my_list
 [1, 'two', 3]
@@ -46,7 +46,7 @@ TypeError: 'tuple' object does not support item assignment
     manifests in a few ways.  For example, lists have a .append() method to add
     more elements to the list, while tuples do not:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> my_list.append("four")
 >>> my_list
 [1, 'two', 3, 'four']
@@ -69,7 +69,7 @@ AttributeError: 'tuple' object has no attribute 'append'
     you will find, and all of them are the same semantically: just another file
     that you found.</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> find_files("*.py")
 ["control.py", "config.py", "cmdline.py", "backward.py"]
 ]]></code>
@@ -78,7 +78,7 @@ AttributeError: 'tuple' object has no attribute 'append'
     location of weather observation stations: id, city, state, latitude, and
     longitude.  A tuple is right for this, rather than a list:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> denver = (44, "Denver", "CO", 40, 105)
 >>> denver[1]
 'Denver'
@@ -93,7 +93,7 @@ AttributeError: 'tuple' object has no attribute 'append'
 
 <p>Python has a namedtuple facility that can make the meaning more explicit:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> from collections import namedtuple
 >>> Station = namedtuple("Station", "id, city, state, lat, long")
 >>> denver = Station(44, "Denver", "CO", 40, 105)
@@ -113,7 +113,7 @@ Station(id=44, city='Denver', state='CO', lat=40, long=105)
     mutable, but hetergenous sequences not be? For example, I can't modify my
     weather station because a namedtuple is a tuple, which is immutable:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> denver.lat = 39.7392
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
@@ -125,7 +125,7 @@ AttributeError: can't set attribute
     immutable values can be hashed, so only immutable values can be keys.  To
     use a list as a key, you can turn it into a tuple:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> d = {}
 >>> nums = [1, 2, 3]
 >>> d[nums] = "hello"

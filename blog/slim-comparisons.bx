@@ -32,7 +32,7 @@ class Thing(object):
 
 <p>When run, it shows what happens:</p>
 
-<code lang='py'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> x = Thing(1, 2, 3)
 >>> y = Thing(1, 2, 3)
 >>> print x == y
@@ -59,7 +59,7 @@ class Thing(object):
 
 <p>Now when we run it, something unusual happens:</p>
 
-<code lang='py'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> x = Thing(1, 2, 3)
 >>> y = Thing(1, 2, 3)
 >>> print x == y

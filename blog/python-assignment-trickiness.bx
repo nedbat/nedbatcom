@@ -11,7 +11,7 @@ the right-hand side, each element on the left is assigned a value from the right
 just as if it were in its own assignment statement:
 </p>
 
-<code lang='python'>
+<code lang='pycon'>
 >>> a, b, c = 1, 2, 3
 >>> a, b, c
 (1, 2, 3)
@@ -28,7 +28,7 @@ just as if it were in its own assignment statement:
 nature of the definition.  This means that an element on the left can itself
 be a list (or tuple):</p>
 
-<code lang='python'>
+<code lang='pycon'>
 >>> a, (b, c, d), e = 1, (2, 3, 4), 5
 >>> c
 3

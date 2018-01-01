@@ -10,7 +10,7 @@
 
 <p>1. Python has a named character escape in Unicode strings:</p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> u'\N{MIDDLE DOT}'
 u'\xb7'
 ]]></code>

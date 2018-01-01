@@ -24,7 +24,7 @@
 
 <p>First let's look at what happens with a simple dict:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> from collections import namedtuple
 >>> Pt = namedtuple("Pt", "x")
 >>>
@@ -49,7 +49,7 @@ KeyError: Pt(x=1.000000000001)
     unequal:</p>
     
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> class Pt(namedtuple("Pt", "x")):
 ...     def __eq__(self, other):
 ...         return math.isclose(self.x, other.x)
@@ -80,7 +80,7 @@ KeyError: Pt(x=1.000000000001)
     mind.  Maybe that could work?  Let's define __eq__ and __hash__ based on
     rounding the value:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> class Pt(namedtuple("Pt", "x")):
 ...     def __eq__(self, other):
 ...         return round(self.x, 6) == round(other.x, 6)
@@ -98,7 +98,7 @@ KeyError: Pt(x=1.000000000001)
 <p>Nice! We have matches based on values being close enough, and we can use a
     dict to get O(1) behavior.  But:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> d[Pt(1.000000499999)] = "cat"
 >>> d[Pt(1.000000500001)]
 Traceback (most recent call last):

@@ -11,7 +11,7 @@
 <p>This module provides a single function to hyphenate words.  hyphenate_word takes
 a string (the word), and returns a list of parts that can be separated by hyphens:</p>
     
-<code lang='python'>
+<code lang='pycon'>
 >>> hyphenate_word("hyphenation")
 ['hy', 'phen', 'ation']
 >>> hyphenate_word("supercalifragilisticexpialidocious")

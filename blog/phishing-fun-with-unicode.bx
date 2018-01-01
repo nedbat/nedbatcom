@@ -63,7 +63,7 @@ I saw this:</p>
 This smells like UTF-8. An interactive Python prompt and the decode() function
 reveal the Unicode code points:</p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> for c in 'De\xE2\x80\xAEra\xE2\x80\xAC'.decode('utf-8'):
 ...     print hex(ord(c))
 ...

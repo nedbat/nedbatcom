@@ -16,7 +16,7 @@
     <p>On the disk is a file named lé.txt.  On the Mac, this file can be opened by name, on Ubuntu,
         it cannot.  Looking into it, the filename we're using, and the filename it has, are different:</p>
 
-<code lang='py'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> fname = u"l\u00e9.txt".encode('utf8')
 >>> fname
 'l\xc3\xa9.txt'
@@ -26,7 +26,7 @@
 
     <p>On the Mac, that filename will open that file:</p>
 
-<code lang='py'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> open(fname)
 <open file 'lé.txt', mode 'r' at 0x1004250c0>
 ]]></code>
@@ -62,7 +62,7 @@ IOError: [Errno 2] No such file or directory: 'l\xc3\xa9.txt'
     <p>Python provides the <a href='http://docs.python.org/dev/library/unicodedata.html#unicodedata.normalize'>unicodedata.normalize</a>
         function which can perform the normalizations for us:</p>
 
-<code lang='py'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> import unicodedata
 >>> fname = u"l\u00e9.txt"
 >>> unicodedata.normalize("NFD", fname)

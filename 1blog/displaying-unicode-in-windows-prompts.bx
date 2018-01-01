@@ -29,7 +29,7 @@ unusual characters, I often see the line-drawing characters instead.
 Somewhere I read that code page 65001 is UTF-8, and chcp will accept 65001 as a choice,
 but Python behaves oddly when I set it:</p>
 
-<code><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> u = u'\xab\x6b\xfc\xdf\xee\xa7\xf6\x66\x74\xbb'
 >>> print u
 Traceback (most recent call last):

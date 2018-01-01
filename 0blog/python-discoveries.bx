@@ -11,7 +11,7 @@
 <p>1. The encode method on strings.  Want to quickly see how a Unicode
 string comes out in UTF-8?:</p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> u"\u201c".encode('utf-8')
 '\xe2\x80\x9c'
 ]]></code>
@@ -22,7 +22,7 @@ string comes out in UTF-8?:</p>
 discovered it in the
 <a href='http://starship.python.net/crew/da/jak/cookbook.html'>Python/Perl phrasebook</a>):</p>
 
-<code lang='python'><![CDATA[
+<code lang='pycon'><![CDATA[
 >>> d = {'a': 1, 'b': 2}
 >>> "b is %(b)s, a is %(a)s" % d
 'b is 2, a is 1'

@@ -100,7 +100,7 @@ def upto(s, n):
 <p>Now I could ask, what values less than quadrillion are in both the
     triangular numbers and the Fibonacci sequence?:</p>
 
-<code lang="python"><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> list(find_same(upto(fib(), 1e15), upto(tri(), 1e15)))
 [1, 3, 21, 55]
 ]]></code>

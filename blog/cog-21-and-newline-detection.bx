@@ -30,7 +30,7 @@ the input, the lines would be written with \r\n, otherwise, they would get \n.</
 <p>Alas, this didn't quite work out.  Turns out that after reading one line from
 a Windows file, newlines has no information in it:</p>
 
-<code><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> f = open('sample.txt', 'rU')     # open the file...
 >>> f.newlines                       #  ..nothing in newlines yet
 >>> f.readline()                     # read the first line...
