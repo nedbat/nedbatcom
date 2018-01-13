@@ -2,6 +2,7 @@
 <page title='Shell = Maybe'>
 <history>
 <what when='20170411T200500'>Created.</what>
+<what when='20180113T132000'>Edited a bit.</what>
 </history>
 
 <!--
@@ -70,20 +71,22 @@ computer." You are typing to a program, called a shell.  The shell's job is to
 interpret the command line you type, and actually do what it says.  A shell is
 a program that is very good at running other programs.</p>
 
-<p>Programs don't get the command line you type.  Programs get a list of
-strings.  This isn't a Python thing, this is the way Unix works, and the way
-Windows generally mimics Unix.  It's the shell's job to turn the line of text
+<p>When you type a command line to the shell, it splits it into a list of
+words, or arguments.  The first word is the command itself. The shell uses that
+to find the program to run.  The rest of the words are bundled up as a list of
+strings, and given to the program.</p>
+
+<p>This process of splitting the command line into words and passing them as a
+list of strings isn't a Python thing, this is the way Unix works, and the way
+Windows generally mimics Unix.  It's the shell's job to turn the command line
 you type into a list of strings.</p>
 
-<p>At a very very crude level, the shell takes the line you type, and turns it
-into a list of strings. It uses the first string to find the program to run.
-Then it runs the program, giving it the list of strings as arguments.</p>
-
-<p>Note about Windows: at its deepest native level, Windows is different than
+<p>A note about Windows: at its deepest native level, Windows is different than
 this. Programs get a single string, the original command line.  But because of
 the C language's close cultural ties to Unix, C programs on Windows get a list
 of strings, and other languages do the same.  There are some differences
-between Windows and Unix still, but the big picture is the same.</p>
+between Windows and Unix still, but the big picture is the same: command lines
+get turned into a list of strings.</p>
 
 <p>How does the shell turn a command line into a list of strings? For the
 simplest cases, it just splits the line on spaces.  So this command:</p>
@@ -130,7 +133,9 @@ together as a single argument.  The resulting list is:</p>
 ['grep', 'red apple', 'foo.txt']
 ]]></code>
     
-<p>Notice that the double-quotes themselves are not in the argument.</p>
+<p>Notice that the double-quotes themselves are not in the argument. They were
+there so the shell would understand that <b>red apple</b> should be kept
+together as one argument.  But they aren't part of the argument themselves.</p>
 
 <p>There are other ways to protect spaces.  This command could have been typed
 any of these ways:</p>
@@ -142,7 +147,8 @@ grep red\ apple foo.txt
 ]]></code>
 
 <p>The grep program literally can't tell the difference between these three
-lines, because the shell produces the same argument list for all of them.</p>
+lines, because the shell produces the exact same argument list for all of
+them.</p>
 
 <p>Shells do much more than just split the line into an argument list. As we've
 just seen, they also deal with quoting and escaping special characters. But
@@ -203,23 +209,34 @@ mv now.txt $(date +%Y%m%d).txt
 
 </ul>
 
+<p>Understanding the role of the shell is critical to getting your subprocesses
+to run correctly.  Because you will be deciding whether to even use a shell
+or not.</p>
+
 
 <h1>Using subprocess</h1>
 
-<p>The Python subprocess module has a few different functions and classes you
-can use to run a subprocess.  One thing they all have in common: you have to
-tell it what program to run and what arguments to give the program.  There are
-two ways to do this, and it all comes down to shells.</p>
+<p>The Python <a href='https://docs.python.org/3/library/subprocess.html'>subprocess</a>
+module has a few different functions and classes you can use to run a
+subprocess.  One thing they all have in common: you have to tell it what
+program to run and what arguments to give the program.  There are two ways to
+do this, and it all comes down to shells.</p>
 
-<p>The more familiar way to run a program is with a shell:</p>
+<p>The more familiar way is to run the program with a shell:</p>
 
 <code lang="python"><![CDATA[
 output = subprocess.check_output("ls -al", shell=True)
 ]]></code>
 
-<p>(Note: subprocess has a number of functions. I'll use check_output because
-it is conceptually simple, but the shell considerations I'm discussing apply
-equally well to run, call, check_call, Popen, and so on.)</p>
+<p>(Note: subprocess has a number of functions. I'll use
+<a href='https://docs.python.org/3/library/subprocess.html#subprocess.check_output'>check_output</a>
+because it is conceptually simple, but the shell considerations I'm discussing
+apply equally well to
+<a href='https://docs.python.org/3/library/subprocess.html#subprocess.run'>run</a>,
+<a href='https://docs.python.org/3/library/subprocess.html#subprocess.call'>call</a>,
+<a href='https://docs.python.org/3/library/subprocess.html#subprocess.check_call'>check_call</a>,
+<a href='https://docs.python.org/3/library/subprocess.html#popen-constructor'>Popen</a>,
+and so on.)</p>
 
 <p>(Also note: this is one of those commands you shouldn't use a sub-process
 for.  Listing files is easy to do in other ways.  But it's nice and short for
