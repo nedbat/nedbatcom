@@ -64,6 +64,9 @@ AttributeError: 'tuple' object has no attribute 'append'
     length; tuples are used where you know the number of elements in advance
     because the position of the element is semantically significant.</p>
 
+<p>Another way to say it: a list is an arbitrary number of similar things; a
+    tuple is one thing with a known number of (possibly dissimilar) parts.</p>
+
 <p>For example, suppose you have a function that looks in a directory for files
     ending with *.py.  It should return a list, because you don't know how many
     you will find, and all of them are the same semantically: just another file
