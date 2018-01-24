@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180123T211712'>
+<title>Python's misleading readability</title>
+<category>python</category>
+<body>
+
+<p>One of the things that has made Python successful is its readability. Code
+is clear and easy to understand.  One of the reasons is that Python uses words
+for a few things that other languages use symbols for.  But sometimes the
+readability is misleading.  Beginners construct valid Python expressions that
+don't do what they seem like they should do.</p>
+
+<p>Let's say you want to know if your variable x is equal to 17.  You could do:</p>
+
+<code lang="python"><![CDATA[
+if x is 17:
+]]></code>
+
+<p>This might work.  But then if you try:</p>
+
+<code lang="python"><![CDATA[
+if name is "Ned":
+]]></code>
+
+<p>it doesn't work? What!? Why not? It's so clear.</p>
+
+<p>The problem is that "is" doesn't check two values for equality, it checks if
+the left and right side are precisely the same object.  But you can have two
+different string objects, each of which has the value "Ned".  You don't
+use "is" to check equality, you use "==":</p>
+
+<code lang="python"><![CDATA[
+if name == "Ned":
+]]></code>
+
+<p>It's not just strings: numbers can also do surprising things:</p>
+
+<code lang="python"><![CDATA[
+>>> 1000 + 1 is 1001
+False
+]]></code>
+
+<p>"x is 17" is more English-like than "x == 17", but it isn't right. This is
+one time that Python's famed readability leads you to the wrong construct.</p>
+
+<p>Another example: you need to know if the answer was either "y" or "yes", so
+you try this:</p>
+
+<code lang="python"><![CDATA[
+if answer == "y" or "yes":
+    print("Thanks")
+]]></code>
+
+<p>and now your program doesn't work.  No matter what answer is, it prints
+"Thanks." Why?</p>
+
+<p>The "or" operator is for combining boolean (true/false) expressions.  The
+result is true if either of its operands is true.  So your code is equivalent
+to:</p>
+
+<code lang="python"><![CDATA[
+if (answer == "y") or ("yes"):
+    print("Thanks")
+]]></code>
+
+<p>If answer is "y", then the if will be true.  If answer isn't "y", then the
+or will consider the right-hand side, "yes".  Strings are true if they are not
+empty, so "yes" is always true.  So the if condition will always be true, no
+matter what value answer has.</p>
+
+<p>The right ways to do this are:</p>
+
+<code lang="python"><![CDATA[
+if answer == "y" or answer == "yes":
+    print("Thanks")
+]]></code>
+
+<p>or if you want to be fancier,</p>
+
+<code lang="python"><![CDATA[
+if answer in {"y", "yes"}:
+    print("Thanks")
+]]></code>
+
+<p>(a list or a tuple would also work here instead of a set, though then you
+get into philosophical debates about how many data structures fit on the head
+of a pin.)</p>
+
+<p>Don't get me wrong, I agree that Python is very readable, you just have to
+be careful to use it properly.</p>
+
+</body>
+</entry>
+</blog>
