@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180204T092853'>
+<title>Coverage 4.5</title>
+<category>coverage</category>
+<body>
+
+<p>Just out: <a href='https://pypi.python.org/pypi/coverage/4.5'>coverage.py v4.5</a>.</p>
+
+<p>There's one new feature: <a href='http://coverage.readthedocs.io/en/latest/api_plugin.html#configurers'>configurator plug-ins</a>,
+that let you run Python code at startup to set the configuration for coverage.
+This side-steps a requested feature to have different exclusion pragmas for
+different versions of Python.</p>
+
+<p>People wanted to be able to say, this line of code is excluded from coverage
+when run under Python 3, but not under Python 2.  That sounds simple enough,
+but then some wanted to be able to exclude for Python 3.5, but not 3.6.  Or,
+excluded when running under PyPy, but not under CPython.</p>
+
+<p>I could see this turning into a never-ending road of finer and finer
+differentiation.  Next would be operating systems, or versions of Django, or,
+etc, etc, etc.</p>
+
+<p>Rather than me building all that into coverage itself, now you can write
+your own plug-in that makes all those determinations, and sets the exclude
+pragmas as you like.</p>
+
+</body>
+</entry>
+</blog>
