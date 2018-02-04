@@ -102,7 +102,7 @@ body {
     text-align: center;
     border-width: 0 $thick-border-small-vert $thick-border-small-horz 0;
 
-    background-image: url(/pix/dodeca3_640.jpg);
+    background-image: url(/pix/dodeca3_60.jpg);
     background-size: contain;
 
     a {
@@ -154,6 +154,7 @@ body {
     }
 
     #logo {
+        background-image: url(/pix/dodeca3_200.jpg);
         width: $logo-size-large;
         height: $logo-size-large;
         border-width: 0 $thick-border-large-vert $thick-border-large-horz 0;
