@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180226T202403'>
+<title>A Python gargoyle</title>
+<category>python</category>
+<body>
+
+<p>In the <a href='irc://irc.freenode.net/#python'>#python IRC channel</a> today,
+someone asked:</p> 
+
+<quote><p>Does anyone know of any libraries that could convert '1-5,7,9,10-13'
+to [1,2,3,4,5,7,9,10,11,12,13] ?</p></quote>
+
+<p>This seemed like an interesting challenge, and people started offering code.
+This was mine. It's ungainly and surprising, and I wouldn't want to keep it,
+so I call it a gargoyle:</p>
+
+<code lang="python"><![CDATA[
+[
+    i for p in s.split(',')
+    for a, _, b in [p.partition('-')]
+    for i in range(int(a), int(b or a)+1)
+]
+]]></code>
+
+<p>There are a few things going on here.  First, this is a list comprehension,
+but with three nested loops.  A simple list comprehension has this form:</p>
+
+<code lang="python"><![CDATA[
+result = [ EXPR for NAMES in ITERABLE ]
+]]></code>
+
+<p>which is the same as this code:</p>
+
+<code lang="python"><![CDATA[
+result = []
+for NAMES in ITERABLE:
+    result.append(EXPR)
+]]></code>
+
+<p>For many, the list comprehension seems kind of backwards, where the
+expression comes first, before the loop produces it.  Then the multi-loop form
+can seem like another surprise:</p>
+
+<code lang="python"><![CDATA[
+result = [ EXPR for NAMES1 in ITERABLE1 for NAMES2 in ITERABLE2 ]
+]]></code>
+
+<p>which is equivalent to:</p>
+
+<code lang="python"><![CDATA[
+result = []
+for NAMES1 in ITERABLE1:
+    for NAMES2 in ITERABLE2:
+        result.append(EXPR)
+]]></code>
+
+<p>The first time I ever tried to write a double list comprehension, I thought
+the loops should go in the other order, in keeping with the Yoda-style of EXPR
+coming first. They don't.</p>
+
+<p>Back to the gargoyle. It's a triply-nested loop (this time formatted a
+little differently):</p>
+
+<code lang="python"><![CDATA[
+[
+    i 
+    for p in s.split(',')
+        for a, _, b in [p.partition('-')]
+            for i in range(int(a), int(b or a)+1)
+]
+]]></code>
+
+<p>The first loop splits the number ranges on comma, to produce the individual
+chunks: '1-5', '7', '9', '10-13'.  This seems like an obvious first step.</p>
+
+<p>The next loop is the most surprising.  Strings in Python have a .partition
+method, which is super-handy and under-used.   It takes a separator, and
+produces three values: the part of the string before the separator, the
+separator itself, and the part of the string after the separator.  The best
+thing about .partition is that is always produces three values, even if the
+separator doesn't appear in the string. In that case, the first value is the
+whole string, and the other two values are empty strings:</p>
+
+<code lang="pycon"><![CDATA[
+>>> '1-5'.partition('-')
+('1', '-', '5')
+>>> '12'.partition('-')
+('12', '', '')
+>>>
+]]></code>
+
+<p>This means we can always assign the result to three names. Super-handy.</p>
+
+<p>But list comprehensions can't have assignments in them, so what to do?
+Recently, the Python-Ideas mailing list had <a href='https://mail.python.org/pipermail/python-ideas/2018-February/048971.html'>a
+thread about adding assignments to list comprehensions</a>, which can simplify
+complicated comprehensions.  In that thread, Stephan Houben <a href='https://mail.python.org/pipermail/python-ideas/2018-February/048975.html'>pointed out</a>
+that you can already get the same effect with a cute trick:</p>
+
+<code lang="python"><![CDATA[
+for x in [17]:
+    do_something()
+
+# has the same effect as:
+
+x = 17
+do_something()
+]]></code>
+
+<p>We can explicitly make a one-element list, and "iterate" over it to assign
+its value to a name.  In my gargoyle, we get a and b as the two numbers in the
+chunk.</p>
+
+<p>The third loop is where we actually generate numbers.  We'll use range(),
+and we always want to start from the first number in the chunk.  If there was a
+second number in the chunk (b), then we want to iterate up to and including it,
+so we need range(a, b+1).  If there was no second number, then we act just as
+if there were a second number, the same as the first number.  That is, "7"
+should behave just like "7-7".  If there was no second number, then .partition
+will have set b to be the empty string.  So "b or a" will give us the second
+number we need.</p>
+
+<p>To help a little more, here is the gargoyle:</p>
+
+<code lang="python"><![CDATA[
+s = '1-5,7,9,10-13'
+result = [
+    i 
+    for p in s.split(',')
+        for a, _, b in [p.partition('-')]
+            for i in range(int(a), int(b or a)+1)
+]
+]]></code>
+
+<p>and here is the same idea written out as explicit loops:</p>
+
+<code lang="python"><![CDATA[
+s = '1-5,7,9,10-13'
+
+result = []
+for p in s.split(','):
+    a, _, b = p.partition('-')
+    for i in range(int(a), int(b or a)+1):
+        result.append(i)
+]]></code>
+
+<p>I wouldn't recommend the list comprehension approach in real code, but it's
+fun to make gargoyles sometimes.</p>
+
+<p>BTW, one of the reasons the original question caught my eye is because coverage.py has a
+<a href='https://bitbucket.org/ned/coveragepy/src/22dedf9b973b4aae4841defc9c39acf225124d9a/coverage/misc.py#misc.py-103:138'>function
+that does the opposite</a>.</p>
+
+</body>
+</entry>
+</blog>
