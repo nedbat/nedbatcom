@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20110930T204234'>
-<title>What's in which Python?</title>
+<entry when='20110930T204234' slug='whats_in_which_python'>
+<title>What's in which Python 2.x?</title>
 <category>python</category>
 <body>
     <p>I'm teaching a class next week, and in their work environment, the students are limited to using Python 2.4.
@@ -12,7 +12,11 @@
     <p>So I made this list of the high points, what's in each version of Python 2.x.
         Items with a star were introduced with a __future__ import.</p>
 
-    <p>BTW: there's also a list for the 3.x series: <a href="/blog/201310/whats_in_which_python_3.html">What's in which Python 3?</a></p>
+    <p>BTW: there's also
+    <a href="/blog/201310/whats_in_which_python_3.html">What's in which Python 3.0–3.3?</a>
+    and
+    <a href="/blog/201803/whats_in_which_python_3436.html">What's in which Python 3.4–3.6?</a>.
+    </p>
 
     <h1>2.1: April 17th, 2001</h1>
     <ul>
@@ -90,6 +94,7 @@
         <li>Set literals syntax</li>
         <li>Dictionary and set comprehensions</li>
         <li>OrderedDict and Counter classes</li>
+        <li>argparse</li>
     </ul>
 
     <p><a href='http://docs.python.org/whatsnew/2.7.html'>Full list of 2.7 changes</a>.</p>
@@ -98,17 +103,21 @@
 </entry>
 
 
-<entry when='20131008T201600'>
-<title>What's in which Python 3?</title>
+<entry when='20131008T201600' slug='whats_in_which_python_3'>
+<title>What's in which Python 3.0–3.3?</title>
 <category>python</category>
 <body>
 
     <p>Two years ago I wrote a post called
-        <a href="/blog/201109/whats_in_which_python.html">What's in which Python?</a>
+        <a href="/blog/201109/whats_in_which_python.html">What's in which Python 2.x?</a>
         which summarized the changes in the Python 2.x releases.  Today when I
         showed it to someone, they asked, "Do you have one for 3.x?"</p>
 
-    <p>Here it is.  Some things to remember about Python 3:</p>
+    <p>Here it is.  BTW, there is also
+    <a href="/blog/201803/whats_in_which_python_3436.html">What's in which Python 3.4–3.6?</a>.
+    </p>
+    
+    <p>Some things to remember about Python 3:</p>
     
     <ul>
         <li>3.0 came out about the same time as 2.6, so they share a number
@@ -164,4 +173,52 @@
 </body>
 </entry>
 
+<entry when='20180322T052600'>
+<title>What's in which Python 3.4–3.6?</title>
+<category>python</category>
+<body>
+
+    <p>This is the third in a series of summarizations of what's in each
+    release of Python.  The first two were
+        <a href="/blog/201109/whats_in_which_python.html">What's in which Python 2.x?</a>
+        and
+        <a href="/blog/201310/whats_in_which_python_3.html">What's in which Python 3.0–3.3?</a>.
+    </p>
+
+    <h1>3.4: March 16, 2014</h1>
+    <ul>
+        <li>pip is always available, via ensurepip</li>
+        <li>asyncio (provisional API)</li>
+        <li>enum</li>
+        <li>Other stdlib modules: statistics, pathlib, and tracemalloc</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.4.html'>Full list of 3.4 changes</a>.</p>
+
+    <h1>3.5: September 13, 2015</h1>
+    <ul>
+        <li>async and await syntax</li>
+        <li>matrix multiplication operator @</li>
+        <li>more unpacking generalizations</li>
+        <li>The typing module for type hints</li>
+        <li>subprocess.run()</li>
+        <li>os.scandir()</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.5.html'>Full list of 3.5 changes</a>.</p>
+
+    <h1>3.6: December 23, 2016</h1>
+    <ul>
+        <li>f-strings</li>
+        <li>kwargs and class attributes order is preserved</li>
+        <li>dicts happen to be (but are not guaranteed to be) ordered</li>
+        <li>underscores in numeric literals</li>
+        <li>variable annotations</li>
+        <li>secrets module in stdlib</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.6.html'>Full list of 3.6 changes</a>.</p>
+
+</body>
+</entry>
 </blog>
