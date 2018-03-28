@@ -1,30 +1,29 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20180324T143936' draft='y'>
+<entry when='20180328T000000' draft='y'>
 <title>I thought Python was interpreted?</title>
 <category></category>
 <body>
 
-<p>A common question: "Is Python compiled or interpreted?" or perhaps, "Is
-there a way to compile my Python program?"</p>
-
-<p>Usually, the asker has a simple model of the world in mind, and as is
-typical, the world is more complicated.</p>
+<p>A common question: "Is Python compiled or interpreted?" Usually, the asker
+has a simple model of the world in mind, and as is typical, the world is more
+complicated.</p>
 
 <p>In the simple model of the world, "compile" means to convert a program in a
 high-level language into a binary executable full of machine code (CPU
-instructions).  When you compile a C program, this is what happens.</p>
+instructions).  When you compile a C program, this is what happens.  The result
+is a file that your operating system can run for you.</p>
 
 <p>But <a href='https://en.wikipedia.org/wiki/Compiler'>compiling</a> is a more
 general idea: take a program in one language (or form), and convert it into
 another language or form.  Usually the source form is a higher-level language
-than the destination form, such as when converting from C to CPU.  But
+than the destination form, such as when converting from C to machine code.  But
 converting from JavaScript 8 to JavaScript 5 is also a kind of compiling.  When
 the languages are of a similar level, often the word "transpiling" is used.</p>
 
-<p>What about Python? When you run a Python program, the source is compiled into
-a much simpler form called <a href='https://en.wikipedia.org/wiki/Bytecode'>bytecode</a>.
-These are instructions similar to CPU instructions, but instead of being
+<p>In Python, the source is compiled into a much simpler form called
+<a href='https://en.wikipedia.org/wiki/Bytecode'>bytecode</a>.  These are
+instructions similar in spiriti to CPU instructions, but instead of being
 executed by the CPU, they are executed by software called a virtual
 machine.</p>
 
@@ -61,24 +60,44 @@ machine.</p>
 <p>The <a href='https://docs.python.org/3/library/dis.html'>dis</a> module in
 the Python standard library is the disassembler that can show you Python
 bytecode.  It's also the best (but not great) documentation for the bytecode
-itself.</p>
+itself.  If you want to know more about how Python's bytecode works, there are
+<a href='https://www.youtube.com/results?search_query=exploring+cpython+bytecode'>lots of conference talks about bytecode</a>.
+The software that executes bytecode can be written in any language:
+<a href='https://github.com/nedbat/byterun'>byterun</a> is an implementation in
+Python (!), which is useful only as an educational exercise.</p>
 
 <p>An important aspect of Python's compilation to bytecode is that it's
 entirely implicit.  You never invoke a compiler, you simply run a .py file.
 The Python implementation compiles the files as needed.  This is different than
 Java, for example, where you have to run the Java compiler to turn Java source
 into compiled class files.  For this reason, Java is thought of as a compiled
-language, and Python is often called an interpreted language.  But both compile
-to bytecode, and then the bytecode is run by software.</p>
-
-<p>When you import a file in Python, the .py file is compiled into bytecode,
-and the bytecode is saved in a .pyc file.</p>
+language, and Python is called an interpreted language.  But both compile to
+bytecode, and then both execute the bytecode with a software implementation of
+a virtual machine.</p>
 
 <p>Another difference between Java and Python is that Python provides an
 interactive prompt where you can type Python statements and have them
 immediately executed.  This interactivity is missing in "compiled" languages,
 but even at the interactive prompt, your Python is compiled to bytecode, and
 then the bytecode is executed.</p>
+
+<p>This shows just how flimsy the words "interpreted" and "compiled" can be.
+Like most adjectives applied to programming languages, they are thrown around
+as if they are black-and-white distinctions, but the reality is much
+subtler.</p>
+
+<p>Finally, how your program gets executed isn't a characteristic of the
+language at all: it's about the language implementation.  I've been talking
+here about Python, but this has really been a description of CPython, the usual
+implementation of Python, so-named because it is written in C.  PyPy is another
+implementation, utilizing a just-in-time (JIT) compiler to translate
+Python bytecode into machine code at runtime to achieve much greater speed than
+CPython.</p>
+
+<p>So: is Python compiled? Yes.  Is Python interpreted? Yes. Sorry, the world
+is complicated...</p>
+
+<!--
 
 <h1>What if I want to compile my Python?</h1>
 
@@ -105,19 +124,6 @@ more, don't worry about it.</li>
 
 </ul>
 
-<!--
-<p>
-- "scripting" language
-- language vs implementation
-- why people want compilation
-    - faster execution
-    - no need for python on the destination
-    - obfuscation
-    - smaller deliverables
-
-It's also typical that adjectives used
-to describe programming languages are not binary, they are a spectrum, or have
-nuances that need to be considered.</p>
 -->
 
 </body>
