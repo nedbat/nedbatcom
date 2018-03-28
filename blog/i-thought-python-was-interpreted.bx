@@ -67,7 +67,7 @@ itself.  If you want to know more about how Python's bytecode works, there are
 <a href='https://www.youtube.com/results?search_query=exploring+cpython+bytecode'>lots of conference talks about bytecode</a>.
 The software that executes bytecode can be written in any language:
 <a href='https://github.com/nedbat/byterun'>byterun</a> is an implementation in
-Python (!), which is useful only as an educational exercise.</p>
+Python&#160;(!), which is useful only as an educational exercise.</p>
 
 <p>An important aspect of Python's compilation to bytecode is that it's
 entirely implicit.  You never invoke a compiler, you simply run a .py file.
