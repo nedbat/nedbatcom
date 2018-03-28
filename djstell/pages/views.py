@@ -28,7 +28,7 @@ def abs_url(url):
 def entry(request, year, month, slug):
     """ Single entry.
     """
-    ent = get_object_or_404(Entry.objects.select_related(), when__year=int(year), when__month=int(month), slug=slug)
+    ent = get_object_or_404(Entry.all_entries.select_related(), when__year=int(year), when__month=int(month), slug=slug)
     c = RequestContext(request)
     c['entry'] = ent
     c['title'] = ent.title

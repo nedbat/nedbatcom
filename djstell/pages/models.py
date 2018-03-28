@@ -272,6 +272,10 @@ class Entry(models.Model, ModelMixin):
             ent.when = datetime_from_8601(e.get('when'))
             ent.slug = e.get('slug', slug_from_text(ent.title))
             ent.add_features_from_text(e)
+
+            if ent.draft:
+                ent.title += " (draft)"
+
             ent.save()
 
             for cat in e.findall('category'):

@@ -1,6 +1,13 @@
 {% extends "blogbase.html" %}
 {% load tags %}
 
+{% block meta %}
+{{ block.super }}
+{% if entry.draft %}
+    <meta name='ROBOTS' content='NOINDEX'>
+{% endif %}
+{% endblock %}
+
 {% block body %}
     {% blog_entry entry 'full' %}
 {% endblock %}

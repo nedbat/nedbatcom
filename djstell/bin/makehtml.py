@@ -109,7 +109,7 @@ class CmdLine(object):
         settings.PHP_INCLUDE = self.PHP_INCLUDE
 
         resources = [
-            Entry.objects,
+            Entry.all_entries,
             Article,
             Tag,
             '/blog/index.html',
