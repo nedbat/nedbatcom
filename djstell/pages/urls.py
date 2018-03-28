@@ -22,6 +22,7 @@ urlpatterns = patterns('djstell.pages.views',
 
     url(r'^blog/archive(?P<year>\d\d\d\d).html$', 'archiveyear'),
     url(r'^blog/archiveall.html$', 'archiveall'),
+    url(r'^blog/drafts.html$', 'drafts'),
 
     url(r'^blog/rss.xml$', 'blog_rss'),
     url(r'^blog/planetpython.xml$', 'tags_rss', {'tags': PLANET_PYTHON_TAGS}),

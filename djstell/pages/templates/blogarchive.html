@@ -22,6 +22,9 @@
             {% endif %}
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
+        {% ifequal type 'drafts' %}
+            These are the {{entries|length}} unfinished blog entries.
+        {% endifequal %}
     </p>
 
     <div class='archive'>

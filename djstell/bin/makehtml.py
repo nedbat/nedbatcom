@@ -119,6 +119,7 @@ class CmdLine(object):
             '/blog/planetpython.xml',
             '/blog/archiveall.html',
             '/blog/moved.php',
+            '/blog/drafts.html',
             '/sidebar_blog.inc',
             '/sidebar_page.inc',
             '/index.html',

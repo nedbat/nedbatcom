@@ -114,6 +114,15 @@ def untagged_entries():
     ents = [e for e in ents if e.tags.all().count() == 0]
     return ents
 
+def drafts(request):
+    ents = list(Entry.drafts.all().order_by('-when'))
+    c = RequestContext(request)
+    add_entries(c, ents)
+    c['type'] = 'drafts'
+    c['title'] = 'Blog: Drafts'
+    c['bodyclass'] = 'blog archive all'
+    return render_to_response('blogarchive.html', c)
+
 def blog_rss(request):
     """The RSS feed for the whole blog."""
     ents = Entry.objects.all().order_by('-when')[:10]
