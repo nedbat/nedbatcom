@@ -2,7 +2,9 @@
 <blog>
 <entry when='20180328T000000' draft='y'>
 <title>I thought Python was interpreted?</title>
-<category></category>
+<category>python</category>
+<category>java</category>
+<category>proglang</category>
 <body>
 
 <p>A common question: "Is Python compiled or interpreted?" Usually, the asker
@@ -23,9 +25,10 @@ the languages are of a similar level, often the word "transpiling" is used.</p>
 
 <p>In Python, the source is compiled into a much simpler form called
 <a href='https://en.wikipedia.org/wiki/Bytecode'>bytecode</a>.  These are
-instructions similar in spiriti to CPU instructions, but instead of being
-executed by the CPU, they are executed by software called a virtual
-machine.</p>
+instructions similar in spirit to CPU instructions, but instead of being
+executed by the CPU, they are executed by software called a virtual machine.
+(These are not VM's that emulate entire operating systems, just a simplified
+CPU execution environment.)</p>
 
 <p>Here's an example of a short Python function, and its bytecode:</p>
 
@@ -75,24 +78,30 @@ language, and Python is called an interpreted language.  But both compile to
 bytecode, and then both execute the bytecode with a software implementation of
 a virtual machine.</p>
 
-<p>Another difference between Java and Python is that Python provides an
-interactive prompt where you can type Python statements and have them
-immediately executed.  This interactivity is missing in "compiled" languages,
-but even at the interactive prompt, your Python is compiled to bytecode, and
-then the bytecode is executed.</p>
+<p>Another important Python feature is its interactive prompt.  You can type
+Python statements and have them immediately executed.  This interactivity is
+usually missing in "compiled" languages, but even at the Python interactive
+prompt, your Python is compiled to bytecode, and then the bytecode is
+executed.</p>
+
+<p>By the way, this is a simplified description of how these languages can
+work.  "Compiled" languages like Java and C can have interactive prompts, but
+they are not at the center of those worlds in the same way that Python's is.
+Java originally always compiled to bytecode, but then it pioneered just-in-time
+(JIT) techniques for compiling to machine code at runtime, and now Java is
+sometimes compiled entirely to machine code, in the C style.</p>
 
 <p>This shows just how flimsy the words "interpreted" and "compiled" can be.
 Like most adjectives applied to programming languages, they are thrown around
-as if they are black-and-white distinctions, but the reality is much
-subtler.</p>
+as if they were black-and-white distinctions, but the reality is much
+subtler and complex.</p>
 
 <p>Finally, how your program gets executed isn't a characteristic of the
 language at all: it's about the language implementation.  I've been talking
 here about Python, but this has really been a description of CPython, the usual
 implementation of Python, so-named because it is written in C.  PyPy is another
-implementation, utilizing a just-in-time (JIT) compiler to translate
-Python bytecode into machine code at runtime to achieve much greater speed than
-CPython.</p>
+implementation, using a JIT compiler to run code much faster than CPython
+can.</p>
 
 <p>So: is Python compiled? Yes.  Is Python interpreted? Yes. Sorry, the world
 is complicated...</p>
