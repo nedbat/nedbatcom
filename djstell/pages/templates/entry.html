@@ -61,13 +61,17 @@
     </span>
 
     {# Reactions #}
-    {% ifequal mode 'brief' %}
-        <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'><?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></a></span>
-    {% endifequal %}
+    {% if entry.draft %}
+        <span class='react'>{% ch '>> ' %}just a draft, no comments yet.</span>
+    {% else %}
+        {% ifequal mode 'brief' %}
+            <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'><?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></a></span>
+        {% endifequal %}
 
-    {% ifequal mode 'full' %}
-        <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
-    {% endifequal %}
+        {% ifequal mode 'full' %}
+            <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
+        {% endifequal %}
+    {% endif %}
     {% endreallyspaceless %}
 </footer>
 {# End Footer #}

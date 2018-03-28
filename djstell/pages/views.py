@@ -35,12 +35,15 @@ def entry(request, year, month, slug):
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
-    c['comments'] = {
-        'entryid': ent.entryid(),
-        'url': abs_url(ent.permaurl()),
-        'title': ent.title,
-        'closed': ent.comments_closed,
-        }
+    if ent.draft:
+        c['comments'] = None
+    else:
+        c['comments'] = {
+            'entryid': ent.entryid(),
+            'url': abs_url(ent.permaurl()),
+            'title': ent.title,
+            'closed': ent.comments_closed,
+            }
     return render_to_response('oneentry.html', c)
 
 def blogmain(request):
