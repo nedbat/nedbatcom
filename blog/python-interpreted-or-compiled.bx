@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20180328T000000' draft='y'>
-<title>Is Python interpreted or compiled?</title>
+<entry when='20180329T072500'>
+<title>Is Python interpreted or compiled? Yes.</title>
 <category>python</category>
 <category>java</category>
 <category>proglang</category>
@@ -16,12 +16,17 @@ high-level language into a binary executable full of machine code (CPU
 instructions).  When you compile a C program, this is what happens.  The result
 is a file that your operating system can run for you.</p>
 
-<p>But <a href='https://en.wikipedia.org/wiki/Compiler'>compiling</a> is a more
+<p>In the simple definition of "interpreted", executing a program means reading
+the source file a line at a time, and doing what it says.  This is the way some 
+shells operate.</p>
+
+<p>But the real world is not so limited.  Making real programming languages useful
+and powerful involves a wider range of possibilities about how they work.
+<a href='https://en.wikipedia.org/wiki/Compiler'>Compiling</a> is a more
 general idea: take a program in one language (or form), and convert it into
 another language or form.  Usually the source form is a higher-level language
 than the destination form, such as when converting from C to machine code.  But
-converting from JavaScript 8 to JavaScript 5 is also a kind of compiling.  When
-the languages are of a similar level, often the word "transpiling" is used.</p>
+converting from JavaScript 8 to JavaScript 5 is also a kind of compiling.</p>
 
 <p>In Python, the source is compiled into a much simpler form called
 <a href='https://en.wikipedia.org/wiki/Bytecode'>bytecode</a>.  These are
@@ -73,18 +78,19 @@ Python&#160;(!), which is useful only as an educational exercise.</p>
 entirely implicit.  You never invoke a compiler, you simply run a .py file.
 The Python implementation compiles the files as needed.  This is different than
 Java, for example, where you have to run the Java compiler to turn Java source
-into compiled class files.  For this reason, Java is thought of as a compiled
-language, and Python is called an interpreted language.  But both compile to
+into compiled class files.  For this reason, Java is often called a compiled
+language, while Python is called an interpreted language.  But both compile to
 bytecode, and then both execute the bytecode with a software implementation of
 a virtual machine.</p>
 
 <p>Another important Python feature is its interactive prompt.  You can type
 Python statements and have them immediately executed.  This interactivity is
 usually missing in "compiled" languages, but even at the Python interactive
-prompt, your Python is compiled to bytecode, and then the bytecode is
-executed.</p>
+prompt, your Python is compiled to bytecode, and then the bytecode is executed.
+This immediate execution, and Python's lack of an explicit compile step, are
+why people call the Python executable "the Python interpreter."</p>
 
-<p>By the way, this is a simplified description of how these languages can
+<p>By the way, even this is a simplified description of how these languages can
 work.  "Compiled" languages like Java and C can have interactive prompts, but
 they are not at the center of those worlds in the same way that Python's is.
 Java originally always compiled to bytecode, but then it pioneered just-in-time
@@ -99,9 +105,9 @@ subtler and complex.</p>
 <p>Finally, how your program gets executed isn't a characteristic of the
 language at all: it's about the language implementation.  I've been talking
 here about Python, but this has really been a description of CPython, the usual
-implementation of Python, so-named because it is written in C.  PyPy is another
-implementation, using a JIT compiler to run code much faster than CPython
-can.</p>
+implementation of Python, so-named because it is written in C.
+<a href='https://pypy.org'>PyPy</a> is another implementation, using a JIT
+compiler to run code much faster than CPython can.</p>
 
 <p>So: is Python compiled? Yes.  Is Python interpreted? Yes. Sorry, the world
 is complicated...</p>
