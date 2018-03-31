@@ -81,7 +81,7 @@ to fetch HTML to operate on, otherwise we assume the string is HTML to begin wit
 <p>This style of coding is a great way to make functions more flexible and useful
 to callers. It's not only concise, but it gives you a natural way to extend
 the function to operate on more types.  Often a new kind of input can be
-accomodated simply by adding an adaptation clause to the top of the existing
+accommodated simply by adding an adaptation clause to the top of the existing
 function, rather than proliferating similar functions with similar (but different) names.</p>
 
 </body>

@@ -46,7 +46,7 @@ do them.  Feel free to teach me!</p>
 single changelist rather than a number of revisions.  This
 is much easier when propagating changes from branch to branch.</li>
 
-<li>Its architecture is built to accomodate scripting.  You still
+<li>Its architecture is built to accommodate scripting.  You still
 screen scrape a command-line utility, but the utility has been
 designed with that use in mind.</li>
 
@@ -73,7 +73,7 @@ just do it and let me know when conflicts happen?
 Maybe there's a philosophical difference here that I am missing.</li>
 
 <li>CVS was better at off-line work (when you are not connected to
-the server).  Perforce can accomodate it, but it's got more of a
+the server).  Perforce can accommodate it, but it's got more of a
 disconnect-then-work-then-reconnect feel to it.  With CVS, there
 was no need to communicate with the server to get work done, just
 when it was time to check code in, so disconnected work was
