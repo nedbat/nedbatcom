@@ -10,7 +10,7 @@
 distinction between lists and tuples in Python</a>.
 I have to admit: I never made this distinction properly before.  I didn't even think of tuples
 as immutable lists.  They were just the lists with parens, which made them less attractive, because
-it's ugly to make one with a single element (that wierd orphaned comma), and the parens don't stand
+it's ugly to make one with a single element (that weird orphaned comma), and the parens don't stand
 out from the rest of the code as well as square brackets do.</p>
 
 <p>Of course, if you want to modify elements, you have to use a list, and if you want to provide a
