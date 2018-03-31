@@ -32,7 +32,6 @@ def load_entries():
             try:
                 Entry.create_from_bx(str(f))
             except Exception, e:
-                #traceback.print_exc()
                 raise Exception("Couldn't create from bx '%s': %s" % (f, e))
 
 @transaction.commit_on_success

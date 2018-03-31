@@ -132,10 +132,10 @@
                 <xsl:apply-templates select='*|text()'/>
             </xsl:when>
 
-            <xsl:when test='@pref'>
+            <xsl:when test='@pref|@bref'>
                 <xsl:attribute name='href'>
                     <xsl:call-template name='makeuri'>
-                        <xsl:with-param name='uri' select='concat(substring-before(@pref, ".px"), ".html")' />
+                        <xsl:with-param name='uri' select='xuff:permaurl(current()/@pref|current()/@bref)' />
                     </xsl:call-template>
                 </xsl:attribute>
                 <xsl:choose>
@@ -143,7 +143,7 @@
                         <xsl:value-of select='text()'/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select='xuff:pathtitle(current()/@pref)' />
+                        <xsl:value-of select='xuff:pathtitle(current()/@pref|current()/@bref)' />
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
@@ -342,7 +342,7 @@
 
 <xsl:template name='figurep_maybe_a'>
     <xsl:choose>
-        <xsl:when test='@href|@pref|@isbn'>
+        <xsl:when test='@href|@pref|@bref|@isbn'>
             <a>
                 <xsl:call-template name='a_attributes' />
                 <xsl:call-template name='figurep_maybe_aspect'/>

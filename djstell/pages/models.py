@@ -243,6 +243,7 @@ class NoDraftsManager(models.Manager):
 class Entry(models.Model, ModelMixin):
     """ A blog entry, slurped from a .bx file.
     """
+    path = models.CharField(max_length=200, db_index=True)
     title = models.CharField(max_length=200)
     when = models.DateTimeField(db_index=True)
     draft = models.BooleanField()
@@ -265,6 +266,8 @@ class Entry(models.Model, ModelMixin):
         root = ModelMixin.parse_xml(bxfile)
         for e in root.findall('entry'):
             ent = Entry()
+            assert bxfile.startswith("./")
+            ent.path = bxfile[2:].replace('\\', '/')
             ent.title = nice_text(e.find('title').text)
             ent.text = etree.tostring(e)
             ent.draft = (e.get('draft', 'n') == 'y')

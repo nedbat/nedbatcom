@@ -31,14 +31,25 @@ ns['imgwidth'] = wrapit(imgwidth)
 ns['imgheight'] = wrapit(imgheight)
 ns['smartypants'] = wrapit(smartypants.smartypants)
 
+def thing_from_path(path):
+    from djstell.pages.models import Article, Entry
+    try:
+        thing = Article.objects.get(path=path[0])
+    except Article.DoesNotExist:
+        thing = Entry.objects.get(path=path[0])
+    return thing
+
 def pathtitle(path):
     """ Return the title of a page at a given path.
     """
-    from djstell.pages.models import Article
-    art = Article.objects.get(path=path[0])
-    return art.title
+    return thing_from_path(path).title
 
 ns['pathtitle'] = wrapit(pathtitle)
+
+def permaurl(path):
+    return thing_from_path(path).permaurl()
+
+ns['permaurl'] = wrapit(permaurl)
 
 # The transform from xml to html for content.
 xslt = etree.parse(r'content.xslt')
