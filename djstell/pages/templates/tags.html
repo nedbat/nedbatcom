@@ -19,14 +19,17 @@
                 <p>
                     <a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a>
                     {% if entry.tags.all.1 %}
-                        <span class='also'>{% ch ' _' %}also:
+                        {# The anonymous spans here are to force spacelessness so that we can control the nbsp stuff... #}
+                        {# reallyspaceless doesn't mean what I thought, and maybe that should be fixed some day! #}
+                        <span class='also'>{% ch ' _' %}also:{% ch ' ' %}<span>
                             {% for tag_other in entry.tags.all %}
                                 {% ifnotequal tag.tag tag_other.tag %}
-                                    {% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
+                                    <span>{% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
                                     <a href='{{tag_other.permaurl}}'>#{{tag_other.hashtag}}</a>
+                                    </span>
                                 {% endifnotequal %}
                             {% endfor %}
-                        </span>
+                        </span></span>
                     {% endif %}
                 </p>
                 {% endreallyspaceless %}
