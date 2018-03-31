@@ -19,7 +19,7 @@
                 <p>
                     <a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a>
                     {% if entry.tags.all.1 %}
-                        <span class='also'>{% ch '_ ' %}also:
+                        <span class='also'>{% ch ' _' %}also:
                             {% for tag_other in entry.tags.all %}
                                 {% ifnotequal tag.tag tag_other.tag %}
                                     {% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
