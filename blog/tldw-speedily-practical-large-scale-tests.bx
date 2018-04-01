@@ -294,7 +294,7 @@ in the database immediately, so you can create and save the object in one line.<
     <li>freedom to refactor, tests aren't bound to class setup methods.</li>
 </ul>
 
-<p>There are some situations where you don't want model instances at all.  THen you use 
+<p>There are some situations where you don't want model instances at all.  Then you use 
 mocking.  A mock is used when the real implementation is too performance-intensive, 
 or too complicated to understand.  A mock is a self-evidently correct lightweight substitute
 for more complicated things.  We use mocks to test code that operates on those

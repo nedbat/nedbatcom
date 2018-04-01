@@ -121,7 +121,7 @@ for f in files_to_report:
     coverage.backunittest" line in the code above was because Python 2.6
     doesn't have unittest.SkipTest.  For the Coverage.py tests on 2.6, I
     install unittest2 to get a backport of things 2.6 is missing, and that gave
-    me SkipTest, but without my test requiements, it doesn't exist.</p>
+    me SkipTest, but without my test requirements, it doesn't exist.</p>
 
 <p>So my tests passed on 2.6 because I installed a package that provided what
     was missing, but in the real world, unittest.SkipTest is truly missing.</p>
@@ -330,7 +330,7 @@ def convert_skip_exceptions(method):
     are one of the darkest magics Python has, and they can be mysterious. At
     heart, they are simple, but in a place you don't normally think to look.
     Just as a class is used to make objects, a metaclass is used to make
-    classes. Since there's something I want to do everytime I make a new class
+    classes. Since there's something I want to do every time I make a new class
     (decorate its methods), a metaclass gives me the tools to do it.</p>
 
 <code lang="python"><![CDATA[
