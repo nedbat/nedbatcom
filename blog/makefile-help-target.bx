@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180404T074023'>
+<title>Makefile help target</title>
+<category></category>
+<body>
+
+<p>In a <a href='https://github.com/edx/edx-platform/pull/17825#discussion_r178843469'>pull request</a>
+today, I was struck again by the difficulty of providing a "help" target for
+Makefiles.  The make command doesn't natively have a way to see what targets
+are available, because the set is dynamic and large, so we are left to cobble
+things together ourselves.</p>
+
+<p>We'd been <a href='https://en.wikipedia.org/wiki/Cargo_cult'>cargo-culting</a>
+this target across Makefiles for a while:</p>
+
+<code lang="sh"><![CDATA[
+help: ## display this help message
+        @echo "Please use \`make <target>' where <target> is one of"
+        @perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+]]></code>
+
+<p>Here's the meaty line, split across lines for readability, as all the rest
+of the code in this post will be:</p>
+
+<code lang="sh"><![CDATA[
+perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) |\
+    sort |\
+    awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+]]></code>
+
+<p>It finds labelled lines with double-hash comments, and prints them, sorted,
+in a nice two-column layout, with the target names in cyan.</p>
+
+<p>We're a Python shop, so that Perl command really seemed out of place.  What
+would it look like in Python? Longer, that's what:</p>
+
+<code lang="python"><![CDATA[
+python -c 'import fileinput,re; \
+    ms=filter(None, (re.search("([a-zA-Z_-]+):.*?## (.*)$$",l) for l in fileinput.input())); \
+    print("\n".join(sorted("\033[36m  {:25}\033[0m {}".format(*m.groups()) for m in ms)))' $(MAKEFILE_LIST)
+]]></code>
+
+<p>But looking at that original line more, what is the Perl even doing? It's
+just selecting lines.  That's what grep is for:</p>
+
+<code lang="sh"><![CDATA[
+grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
+    sort | \
+    awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+]]></code>
+
+<p>That's shorter than the original, but we can do even better by using awk
+more effectively:</p>
+
+<code lang="sh"><![CDATA[
+grep '^[a-zA-Z]' $(MAKEFILE_LIST) | \
+    sort | \
+    awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+]]></code>
+
+<p>The terminal coloring is cute, but unnecessary and can actually be
+counterproductive depending on your terminal's natural colors, so:</p>
+
+<code lang="sh"><![CDATA[
+grep '^[a-zA-Z]' $(MAKEFILE_LIST) | \
+    sort | \
+    awk -F ':.*?## ' 'NF==2 {printf "  %-26s%s\n", $$1, $$2}'
+]]></code>
+
+<p>Looking around for other people's techniques,
+<a href='https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html'>marmelab had a very similar line</a>,
+while Rodrigo Machado and O. Libre went down the
+<a href='https://gist.github.com/rcmachado/af3db315e31383502660'>all-awk path with fancier behavior</a>.</p>
+
+<p>In many ways, this doesn't matter at all. But it's a fun rabbit-hole...</p>
+
+</body>
+</entry>
+</blog>
