@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180428T082000'>
+<title>Do one thing</title>
+<category>devmindset</category>
+<body>
+
+<p>A famous and popular set of ideas for object-oriented programs are the
+<a href='https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)'>SOLID design principles</a>.
+The name is an acronym of the five principles:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single responsibility principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Open/closed_principle">Open/closed principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov substitution principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Interface_segregation_principle">Interface segregation principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency inversion principle</a></li>
+</ul>
+
+<p>These are all good ideas, but I struggle with the first one.  The Single Responsibility Principle
+says that a class should have only one responsibility.  But that's difficult to
+be precise about.  Doesn't a class that has three methods do three things?
+How do you decide if it's "one responsibility"?</p>
+
+<p>To underscore my uncertainty, it's easy to find seemingly contradictory examples
+written by people trying to explain the principle.  In <a href='https://stackify.com/solid-design-principles/'>SOLID Design Principles Explained – The Single Responsibility Principle</a>,
+Thorben Janssen says,</p>
+
+<quote><p>The [JPA] specification defines lots of different interfaces for
+[JPA], specifies a set of entity lifecycle states and the transitions between
+them, and even provides a query language, called JPQL.</p>
+
+<p>But that is the only responsibility of the JPA specification.</p>
+</quote>
+
+<p>He lists three things, and then says (singular) "that is the only
+responsibility"?  How did we decide that all of that stuff is just one
+responsibility?</p>
+
+<p>Another example: the SOLID principles were first enumerated by Robert C.
+Martin.  In his book <a href='https://www.safaribooksonline.com/library/view/clean-code/9780136083238/'>Clean Code</a>,
+he applies the idea to functions as well as classes.  He shows an example of an
+over-crowded function, and then says,</p>
+
+<!-- From Clean Code by Robert C Martin Ch 17, G30 -->
+
+<quote><p>This bit of code does three things. It loops over all the employees,
+checks to see whether each  employee  ought  to  be  paid,  and  then  pays
+the  employee.  This  code  would  be  better written as:</p>
+
+<code lang='java'>
+public void pay() {
+    for (Employee e : employees)
+        payIfNecessary(e);
+}
+private void payIfNecessary(Employee e) {
+    if (e.isPayday())
+        calculateAndDeliverPay(e);
+}
+private void calculateAndDeliverPay(Employee e) {
+    Money pay = e.calculatePay();
+    e.deliverPay(pay);
+}
+</code>
+<p>Each of these functions does one thing.</p></quote>
+
+<p>That last function does one thing? Then why does it have the word "And"
+right in the name??</p>
+
+<p>Don't get me wrong. I'm not saying the Single Responsibility Principle is a
+bad idea.  It's a great idea. It's just not quantifiable or precise. It's a
+guideline that can be interpreted and applied differently by different people.
+It requires judgment and interpretation, and can even shift over time as your
+understanding of the problem changes.</p>
+
+<p>In my <a href='https://github.com/nedbat/zellij'>Zellij</a> geometric toy I
+needed to store things keyed by two-dimensional points.  But the equality of
+points had to account for slight inaccuracies that could make "the same" point
+be not quite equal.  I wrote the
+<a href='https://github.com/nedbat/zellij/blob/a84b26350dbb1298ee32600778b437ff8bc0a843/pointmap.py'>PointMap class</a>
+to do that one thing. (Details of the algorithm are in my <a pref='blog/finding-fuzzy-floats.bx'/> blog post.)</p>
+
+<p>As I worked more on the project, I found that I wanted the internals of
+PointMap in more places.  Rather than use that "fuzzy equality" only in
+PointMap, I needed to also use it to scooch the nearly equal points together so
+they were exactly equal. I refactored the code to create a
+<a href='https://github.com/nedbat/zellij/commit/05322f07b1c7cbde77ce9d4485562e84c64af048'>Defuzzer</a>
+class, which only handled the question of, "should this point be considered the
+same as some previous point we have seen?"</p>
+
+<p>This new Defuzzer class was more useful to me.  I could replace the old
+PointMap class with a Defuzzer and a standard dict, which was simpler.</p>
+
+<p>So: was I wrong when I thought PointMap adhered to the Single Responsibility
+Principle?  It looked good at the time, it was a nice tight class. But Defuzzer
+is smaller, does less, and is more useful. So it's definitely a better poster
+child for SRP.  Is one right and the other wrong?  I don't think we can make
+black-and-white statements like that.  As I continue to expand the project, I
+might find reason to refactor Defuzzer even further.  Where would that leave my
+stark assessment of its orthodoxy?</p>
+
+<p>I'm all in favor of Single Responsibility.  But I want people teaching it to
+help people more with the squishiness of it.  Stop giving simplistic examples
+that clearly seem to violate the idea.  Acknowledge the difficulty of knowing
+the right path.</p>
+
+<p>Programming is hard.  Principles and guidelines help, but when we present
+subjective judgment as binary choices that can be "violated," we're doing a
+disservice to ourselves and to new learners.</p>
+
+</body>
+</entry>
+</blog>
