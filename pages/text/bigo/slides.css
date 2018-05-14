@@ -1,0 +1,261 @@
+body, html {
+    background: #222;
+    font-family: "Open Sans", sans-serif;
+}
+
+div.text {
+    display: none;
+}
+
+.slide {
+    font-weight: 600;
+    margin: 1em;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background: #fffaf0;
+    font-size: 150%;
+    overflow: hidden;
+}
+h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+    word-spacing: .1em;
+}
+
+.slide.title h1 {
+    font-weight: 800;
+    padding-top: 2em;
+    font-size: 200%;
+    text-align: center;
+}
+.slide.title h2 {
+    text-align: center;
+    font-size: 125%;
+    color: #666;
+    margin-top: 2em;
+}
+.slide.section {
+    background-color: #ffb;
+}
+.slide.section h1 {
+    font-weight: 700;
+    margin-top: 3em;
+    font-size: 200%;
+    text-align: center;
+}
+.slide.section h2 {
+    text-align: center;
+    font-size: 125%;
+    color: #666;
+    margin-top: 2em;
+}
+.slide p {
+    text-align: left;
+    margin-top: 1em;
+}
+.slide .footer {
+    font-weight: 400;
+    color: #666;
+}
+.slide .punct {
+    padding: 0 .2em;
+    color: #aaa;
+}
+.slide .punct:first-child {
+    padding-left: 0;
+}
+
+img.icon {
+    width: 1.2em;
+    vertical-align: bottom;
+}
+
+.slide p.generic {
+    font-family: serif;
+    margin-top: .5em;
+}
+
+.larger {
+    font-size: 200%;
+}
+
+.fullwidth {
+    width: 100%;
+    height: auto;
+}
+
+.fullheight {
+    width: auto;
+    height: calc(100% - 1em);   /* Slides have no bottom margin. */
+}
+
+.center {
+    text-align: center !important;
+}
+
+/* Styled the same as an h1 */
+.big {
+    font-weight: 700;
+    font-size: 150%;
+}
+
+.slide pre {
+    font-family: Consolas, monaco, monospace;
+    margin-top: 1em;
+    background: #ccf;
+    padding: .3em .35em;
+    line-height: 1.15;
+}
+
+.slide tt {
+    font-family: Consolas, monaco, monospace;
+}
+
+.slide pre.medium {
+    font-size: 85%;
+}
+
+.slide pre.small {
+    font-size: 75%;
+}
+
+.slide pre.tiny {
+    font-size: 50%;
+}
+
+.slide pre.micro {
+    font-size: 30%;
+}
+
+.slide pre.nano {
+    font-size: 10%;
+}
+
+.slide pre.python {
+    background: #cfc;
+}
+
+.slide pre .attn {
+    background: #ada;
+    border-radius: .15em;
+}
+
+.slide pre .highlight {
+    background: #fe4;
+}
+
+pre .selected {
+    background: #fff;
+    border: .15em solid #f66;
+    border-radius: 5px;
+    padding: .15em .15em .05em .15em;
+    margin: -.30em -.30em -.20em -.30em;
+}
+
+html.phantompng pre .selected {
+    border-width: 0;
+    background: inherit;
+}
+
+.slide li {
+    margin-top: .5em;
+    position: relative;
+    line-height: 1.2em;
+}
+.slide ul>li {
+    list-style: none;
+}
+.slide ul>li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: .3em;
+    height: .3em;
+    border-radius: .3em;
+    left: -1em;
+    top: .4em;
+    background-color: #999;
+}
+
+a:visited, a:active, a:link, a {
+    color: #0000CC;
+    cursor: pointer;
+}
+a.implicit {
+    text-decoration: none;
+    color: inherit;
+}
+
+body.notes {
+    overflow: auto;
+    background: white;
+}
+.notes .slide {
+    position: static;
+    left: auto;
+    top: auto;
+    width: 20em;
+    height: auto;
+    border: 2px solid #888;
+    padding: 1em 2em;
+    margin: 1em 1em;
+    font-size: 100%;
+}
+.notes img {
+    display: none;
+}
+
+.overlay_container {
+    padding-top: 1em;
+}
+.overlay {
+    position: relative;
+    width: 100%;
+    height: 0;
+}
+.lefthalf {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.righthalf {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.tophalf {
+    position: relative;
+    width: 100%;
+}
+.bottomhalf {
+    position: relative;
+    width: 100%;
+}
+.opaque {
+    background: #fffaf0;
+}
+.slide pre.tophalf {
+    margin-top: 0;  /* No idea why I need this... :( :( */
+}
+
+table, td, th {
+    border: 1px solid #888;
+    font-weight: 600;
+}
+td, th {
+    padding: .35em .5em;
+}
+
+/* Slippy's css reset clobbers the meaning of <sub> and <sup> */
+sub {
+    line-height: 0;
+    font-size: 75%;
+    vertical-align: sub;
+}
+
+sup {
+    line-height: 0;
+    font-size: 75%;
+    vertical-align: super;
+}

@@ -1,0 +1,1212 @@
+<!DOCTYPE html> <!-- vim: set foldmethod=marker cc=60 :-->
+<!--
+Process this file with cog:
+
+    $ pip install -r requirements.txt
+    $ python -m cogapp -r bigo.html
+
+-->
+<html>
+<!-- *** Head stuff {{{ -->
+<head>
+<title>Big-O: How Code Slows as Data Grows</title>
+<meta charset="utf-8" />
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <script src="https://cdn.rawgit.com/ekalinin/typogr.js/0.6.6/typogr.min.js"></script>
+
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+    <!-- Our styles -->
+    <link type="text/css" rel="stylesheet" href="slides.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+
+    <!-- http://html.adobe.com/edge/webfonts/ -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="slides.js"></script>
+    <!-- }}} -->
+
+    <!-- *** Custom style for this deck {{{ -->
+    <style type="text/css">
+    /* Make code not-green, since green means O(1) here. */
+    .slide pre.python {
+        background: #f0f2f0;
+        border: 1px solid #ccc;
+        border-radius: .25em;
+    }
+
+    .absleft {
+        position: absolute;
+        top: 0;
+        left: 5%;
+        width: 45%;
+        padding-right: 5%;
+        box-sizing: border-box;
+    }
+    .absright {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        padding-right: 5%;
+        box-sizing: border-box;
+    }
+    /* for highlighting lines of code */
+    .o_1 {
+        background: #3f3;
+        border-radius: .15em;
+    }
+    .o_n {
+        background: #bbf;
+        border-radius: .15em;
+    }
+    .o_n2 {
+        background: #fbb;
+        border-radius: .15em;
+    }
+    .cell_highlight {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        opacity: .5;
+        padding: .35em .5em;
+        box-sizing: border-box;
+    }
+    svg text {
+        font-size: 20px;
+    }
+    .popup {
+        background: white;
+        position: absolute;
+        border: .3em solid #f66;
+        border-radius: 1em;
+        box-shadow: .35em .35em .2em rgba(0, 0, 0, 0.4);
+    }
+    div.popup {
+        padding: .6em 1em;
+    }
+    .shadow {
+        box-shadow: .35em .35em .2em rgba(0, 0, 0, 0.4);
+    }
+    </style>
+    <!-- }}} -->
+
+</head>
+<!-- }}} -->
+
+<!--[[[cog {{{ Python3.6 version check and def draw_the_graph
+import sys
+assert sys.version_info > (3, 6), "This needs Python 3.6+"
+
+SX, SY = 1000, 650
+LABEL_MARGIN = 10
+
+def draw_the_graph(scale, axis_labels=True, curve_labels=False, stroke_width=1, css_class='', incremental=False):
+    import math
+    from curves import lrange, beziers
+
+    cog.outl(f'''\
+    <div class="{'incremental' if incremental else ''}">
+    <svg class="{css_class}" viewBox="0 0 {SX} {SY}">
+        <g transform="translate(0 {SY}) scale({scale}, {-scale})">
+            <rect fill="white" stroke="#333" stroke-width="{stroke_width/2}" height="100%" width="100%" x="0" y="0"/>
+    '''.rstrip())
+    if axis_labels:
+        cog.outl(f'''\
+            <text transform="scale({1/scale} {1/-scale}) translate({SX - 50} {-LABEL_MARGIN})">data</text>
+            <text transform="rotate(-90) scale({1/scale} {1/-scale}) translate({-SY + LABEL_MARGIN} {-LABEL_MARGIN})">time</text>
+        '''.rstrip())
+
+    fns = [
+        ('#33cc00', (475, 60), '1', lambda n: 10),
+        ('#00aa99', (440, 150), 'log n', lambda n: 6 * math.log(n+1)),
+        ('#0088ff', (400, 300), 'n', lambda n: n * .75 + 6),
+        ('#ff9933', (140, 300), 'n log n', lambda n: n * math.log(n/3.+1) + 3),
+        ('#ff3333', (75, 300), 'n²', lambda n: n * n / 3 + 1),
+    ]
+    for color, exprxy, expr, fn in fns:
+        pts = []
+        for x in lrange(SX, 20):
+            y = fn(x)
+            if y > 2 * SY:
+                break
+            pts.append((x, y))
+
+        # Main curves
+        if 1:
+            cog.out(f"            <path d='M{pts[0][0]:.3f},{pts[0][1]:.3f} ")
+            for p1, p2, p3 in beziers(pts):
+                cog.out(f"C{p1[0]:.3f},{p1[1]:.3f} {p2[0]:.3f},{p2[1]:.3f} {p3[0]:.3f},{p3[1]:.3f} ")
+            cog.outl(f"' stroke='{color}' stroke-width='{stroke_width}' fill='none' />")
+
+        if curve_labels:
+            cog.outl(f'''\
+            <text transform="scale({2/scale} {-2/scale})" width="150" height="50" x="{exprxy[0]}" y="{-exprxy[1]}">{expr}</text>
+            '''.rstrip())
+
+        # Straight lines
+        if 0:
+            cog.out("<path d='M")
+            for pt in pts:
+                cog.out("{:.3f},{:.3f} ".format(*pt))
+            cog.outl("' stroke='black' stroke-width='2' fill='none' vector-effect='non-scaling-stroke' />")
+
+        # Bezier handles
+        if 0:
+            for p1, p2, p3 in beziers(pts):
+                cog.outl("<circle cx='{}' cy='{}' r='.02' stroke-width='.5' fill='none' stroke='black' vector-effect='non-scaling-stroke' />".format(*p1))
+                cog.outl("<circle cx='{}' cy='{}' r='.02' stroke-width='.5' fill='none' stroke='black' vector-effect='non-scaling-stroke' />".format(*p2))
+                cog.outl("<circle cx='{}' cy='{}' r='.02' stroke-width='.5' fill='black' stroke='black' vector-effect='non-scaling-stroke' />".format(*p3))
+
+    cog.out('''\
+        </g>
+    </svg>
+    </div>
+    ''')
+
+]]]-->
+<!--[[[end]]]
+}}}
+-->
+<body class="slides">
+
+<div class="slide title" data-layout="clean" title="Big-O: How Code Slows as Data Grows">
+    <h1 style="padding-top: 1em">Big-O:<br/>How Code Slows<br/>as Data Grows</h1>
+    <h2>
+        Ned Batchelder<br/>
+        <a class="implicit" href="http://twitter.com/nedbat"><span class="punct">@</span>nedbat</a>
+        <br/>
+        <img class='icon' src='twitter.png' />
+        <img class='icon' src='github.png' />
+        <img class='icon' src='instagram.png' />
+        <br/><br/>
+        <a class="implicit" href="http://bit.ly/bigopy"><span class="punct">http://</span>bit.ly<span class="punct">/</span>bigopy</a>
+    </h2>
+</div>
+
+<div class="slide">
+    <h1>Mindsets</h1>
+    <ul>
+    <li class="incremental">Computer Science
+        <ul>
+        <li>Math, theoretical</li>
+        <li>Abstract</li>
+        </ul>
+    </li>
+    <li class="incremental">Software Engineering
+        <ul>
+            <li>Pragmatic</li>
+            <li>Does it work?</li>
+        </ul>
+    </li>
+    <li class="incremental">Some crossover</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>One of the things that interests me about writing software is the two mindsets
+that inform it.  One is computer science, another is software engineering.</p>
+
+<p>Computer science is a branch of mathematics. It's full of complex notation about
+abstract ideas, and proofs of mathematical principles.  Software engineering
+is focused on how to actually write software that works.  The two sides interact,
+but they are very different.</p>
+
+<p>If you are working in software, but don't have a computer science degree, you
+might feel like there are mysteries and incantations you are missing that you need.
+For the most part, computer science is about things you don't encounter in day-to-day
+software development.</p>
+
+<p>But one topic that does cross the boundary is a thing called algorithmic
+analysis, or Big-O notation.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Big-O</h1>
+    <ul>
+    <li class="incremental">How code slows as data grows</li>
+    <li class="incremental">Not the same as running time</li>
+    <li class="incremental">Big trend over time</li>
+    <li class="incremental">10&times; data &rarr; ??&times; time</li>
+    <li class="incremental">Mathy, but doesn't have to be</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Big-O isn't as mystical as it seems at first. Big-O is a way of
+characterizing how your code's speed is affected by the size of the data it's
+working on.  There's a lot of theory behind it, but it doesn't have to be more
+than a common-sense assessment of how your code will behave as it works on more
+data.</p>
+
+<p>In rhyming form, "How code slows as data grows."  Big-O isn't about how fast
+your code goes at any particular time.  It's about how the running time changes
+as the data size changes.</p>
+
+<p>Imagine you have a chunk of code that does something to a bunch of data.
+You’d like to know how much slower the code will go if you give it ten times
+more data. That’s what big-O describes. You might imagine that the answer is of
+course, ten times slower. But that’s not the way real code works. One algorithm
+might go a hundred times slower. Another might not go any slower at all. Big-O
+is a way to analyze the code and determine the slow-down factor.</p>
+
+<p>Big-O notation has a mathematical flavor, but isn't really that complicated
+in day-to-day use.  You can use it without understanding all of the intricacies.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Terminology</h1>
+    <ul>
+    <li class="incremental">O(<i>blah</i> <i>blah</i> N <i>blah</i>)</li>
+    <li class="incremental">N: how much data</li>
+    <li class="incremental">"Order of"</li>
+    <li class="incremental">Not a function!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Let's get some terminology straight at the beginning.  The Big-O characterization
+of some code will look like "O( blah blah N blah )".  The N in there is the size
+of your data.  The O stands for "Order of," as in, "The code's run time grows on the order of blah blah N blah."
+The blah blah is an expression using N, like O(N) or O(N<sup>2</sup>).</p>
+
+<p>Although O(N) looks like calling a function named O, this isn't a function call.
+It's just a notation about N.</p>
+
+</div><!-- }}} -->
+
+
+
+<div class="slide image">
+    <h1>Counting beans</h1>
+    <div class='incremental' style="position:absolute; top:20%; left:5%; width: 48%">
+        <img width='100%' src='bean_counting.png' />
+        <p class="big center incremental" style="position:absolute; top:4.5em; left:9em;">O(N)</p>
+    </div>
+    <div class='incremental' style="position:absolute; top:20%; right:2%; width: 48%">
+        <img width='100%' src='bean_labels.png' />
+        <p class="big center incremental" style="position:absolute; top:4em; right:2em;">O(1)</p>
+    </div>
+    <div class='incremental'>
+        <div class='center' style="float: left; width: 48%; margin-top: .5em">
+            <tt class="big">for x in my_list:</tt>
+        </div>
+        <div class='center' style="float: right; width: 48%; margin-top: .5em">
+            <tt class="big">len(my_list)</tt>
+        </div>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Let's consider a real-world example. Suppose you have jars of jelly beans.
+You want to know how many are in each jar.  The first way to do it is to count
+each bean, as this guy on the left is doing.</p>
+
+<p>It's pretty clear that the time it will take to count the beans is
+proportional to the number of beans. If one jar has five times as many beans as
+another, it will take five times longer to count.</p> 
+
+<p>The time it takes to complete the work is proportional to the number of
+beans (or amount of data), so we say it is O(N).  The time grows in the
+same way that N does. It's on the order of N.</p>
+
+<p>Now suppose we arrange our data (beans) differently.  We put a label on each
+jar, indicating how many beans are in the jar.  Now the time to complete the
+task changes enormously, since our worker just has to read the label!  Now no
+matter how many beans are in the jar, it takes the same amount of time to
+determine how many beans there are (assuming we trust the labels).</p>
+
+<p>This is now a constant-time task: no matter how large the jar, it will take
+the same amount of time to determine the number. We just read it off the label.
+This is known as O(1), which is a funny way to write, "the run time doesn't
+depend on N at all."</p>
+
+<p>You might say labelling the jars is cheating. It's not: big-O is all about
+analyzing algorithms and data structures to understand their behavior.  By
+labelling the jar, we chose a different data structure that let us use a better
+algorithm.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Finding words</h1>
+    <div class='incremental center' style="float: left; width: 48%">
+        <p class="center">Novel</p>
+        <div style='border: 1px solid #888; border-bottom: 1px dashed #ccc; height: 12em; overflow: hidden'>
+            <img width='100%' src='novel.jpg' />
+        </div>
+        <p class="big center">O(N)</p>
+    </div>
+    <div class='incremental center' style="float: right; width: 48%">
+        <p class="center">Encyclopedia</p>
+        <div style='border: 1px solid #888; border-bottom: 1px dashed #ccc; height: 12em; overflow: hidden'>
+            <img width='100%' src='encyclopedia.jpg' />
+        </div>
+        <p class="big center">O(log N)</p>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Let's consider another real-world example: finding words in a book.  If I
+hand you a novel, and ask you to find the word "horse" in it, you would start
+at the beginning and read until you found it.  This is another O(N) task. If
+you double the length of the novel, it could take you twice as long to find
+it.</p>
+
+<p>Now I hand you another book: an encyclopedia.  Finding the word "horse" is
+easier now.  You open to the middle of the book, and see whether the
+desired word is before or after the word on the page.  If it's before, then you
+open to the middle of the left-hand side, and continue your divide-and-conquer
+strategy until you find the word.</p>
+
+<p>In this case, doubling the size of the encyclopedia doesn't double the time it
+takes.  It just adds one more divide-in-half step to the work.  This is known
+as a log-N task: the number of steps grows as the number of digits in N
+grows.</p>
+
+<p>Counting beans and finding words are both examples of real-world tasks that
+have very different growth rates, depending on the details of the job.  Big-O
+notation is a way to understand those growth rates. Understanding the algorithmic
+complexity of your code is important for writing efficient code that performs
+as you want.</p>
+
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Other terms</h1>
+    <ul>
+    <li class="incremental">O(1): constant time</li>
+    <li class="incremental">O(N): linear</li>
+    <li class="incremental">O(N<sup>2</sup>): quadratic</li>
+    <li class="incremental">Big-O:
+        <ul>
+        <li>complexity</li>
+        <li>time complexity</li>
+        <li>algorithmic complexity</li>
+        <li>asymptotic complexity</li>
+        </ul>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>A little more terminology to get out of the way.  Some of the more
+common big-O characterizations have short-hand names.  O(1) is sometimes
+called "constant time" or just "constant" because it doesn't change as
+the data size changes.  O(N) is often called "linear" because the time
+is a linear expression of the data size.  And O(N<sup>2</sup>) is called
+"quadratic" because the time is a quadratic expression of the data size.
+</p>
+
+<p>The whole idea of big-O is also known as "algorithmic complexity" or
+"algorithmic analysis." Those sound complicated and fancy, but it's all the
+same stuff.  Sometimes the big-O characterization is called the "complexity" of
+an algorithm, or the "time complexity."</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Determining Big-O</h1>
+    <ul>
+    <li class="incremental">Identify your code</li>
+    <li class="incremental">Identify N</li>
+    <li class="incremental">Count the steps in a <em><i>typical</i></em> run</li>
+    <li class="incremental">Keep the most significant part</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>OK, so how can you determine the Big-O complexity of a piece of code?</p>
+
+<p>First, figure out what piece of code you are going to consider. This may
+seem obvious, but if you are unclear about the boundaries of the code, you
+may get an answer that is useless to you.  Working in large systems, it's
+easy to focus on too small a part of the code, or to try to think about
+too large a piece of the system.</p>
+
+<p>Second, identify what N means.  This will be the size of the data the
+function is working on.  Usually, it will be fairly obvious.  But sometimes,
+there will be more than one way the data can change size, and you need to
+figure out which one you are concerned with.  N will be the size of that
+data.</p>
+
+<p>Third is the real work: you read your code carefully, considering
+how many steps of work it will do in a typical execution run.  Keep track
+of the number of steps, expressed in terms of N. "Typical" here means
+two things: you can consider typical real-world data, and also you should
+think about the average performance over many runs of the code.</p>
+
+<p>Once you have a complete expression for the number of steps, you simplify
+it by throwing parts of it away.  Big-O is all about how the run time changes
+as data gets larger and larger.  So only the most significant terms need to be
+kept.</p>
+
+<p>For example, if you counted 2N+1 steps, then you have an O(N) algorithm. There's
+no point keeping the +1, because as N grows larger and larger, the +1 becomes
+less and less significant.  Also, the 2 coefficient doesn't matter: 2N grows the
+same as N does: if N doubles, then 2N doubles, and N doubles.  So O(2N+1) is the
+same as O(N), and we keep the simpler form.</p>
+
+<p>Notice there are no units involved here. We aren't trying to calculate the
+actual running time of the code.  We're trying to understand how the running
+time changes as the data size changes.</p>
+
+<p>About "typical": big-O doesn't by itself imply typical runs.  You can also
+talk about the big-O of the worst case, which we'll touch on later. But when
+people casually mention the big-O complexity of code, they usually mean the
+typical, or expected running time. If you are unsure which people mean, ask
+for clarification.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>An Example</h1>
+    <pre class="python">
+    moms = [
+        ("Ned", "Eleanor"),
+        ("Max", "Susan"),
+        ("Susan", "Shelly"), ...
+    ]
+    def find_mom(moms, child):
+        """Find the mom of `child`."""
+        for child_name, mom_name in moms:   <span class='incremental'># 3 * N/2</span>
+            if child == child_name:         <span class='incremental'># 1 * N/2</span>
+                return mom_name             <span class='incremental'># 1</span>
+        return None
+    </pre>
+    <p class='big'>
+    <span class='incremental'>3N/2 + N/2 + 1</span>
+    <span class='incremental' style='margin-left: 2em'>&rarr;&nbsp; 2N + 1</span>
+    <span class='incremental' style='margin-left: 2em'>&rarr;&nbsp; O(N)</span>
+    </p>
+    <p class='big incremental'>find_mom is O(N)</p>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Here's a real example:</p>
+
+<code lang="python">
+moms = [
+    ("Ned", "Eleanor"),
+    ("Max", "Susan"),
+    ("Susan", "Shelly"), ...
+]
+def find_mom(moms, child):
+    """Find the mom of `child`."""
+    for child_name, mom_name in moms:
+        if child == child_name:
+            return mom_name
+    return None
+</code>
+
+<p>The find_mom function searches a list of tuples looking for a
+match on the first element of the tuple. In this case, N is the length of the
+list of tuples.</p>
+
+<p>Since we don't know where any given value is in the list, we don't know
+whether we'll find it at the beginning of the list, or near the end. So we
+guess that over many runs of the function, we'll have to look at (on average)
+half the entries in the list.</p>
+
+<p>In our average run, looping over the moms will happen N/2 times. Each time
+around, there's one step to get the next element, and one step each to assign
+the tuple to child_name and mom_name. So the for-loop line gives us 3*N/2
+steps.</p>
+
+<p>The comparison is just one step, but since we loop N/2 times, it contributes
+another N/2 steps.  The return statement happens only once, for 1 more
+step.</p>
+
+<p>The grand total is 3N/2 + N/2 + 1, or 2N+1. Since we are only interested
+in the large-scale growth trends as N gets very large, we drop the +1, and the
+2 coefficient, to get O(N).</p>
+
+<p>Our analysis has shown us this is a linear algorithm: when the moms list
+doubles in size, we can expect find_mom to take twice as long.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Another example</h1>
+    <pre class="python">
+    def how_many_grandmothers(moms):
+        """How many moms are grand-moms?"""
+        grandmothers = 0
+        for child, mom in moms:             <span class='incremental'># N</span>
+            grandma = find_mom(moms, mom)   <span class='incremental'># N * N</span>
+            if grandma:                     <span class='incremental'># N</span>
+                grandmothers += 1           <span class='incremental'># kN</span>
+        return grandmothers                 <span class='incremental'># 1</span>
+    </pre>
+    <p class='big'>
+    <span class='incremental'>N<sup>2</sup> + kN + 1</span>
+    <span class='incremental' style='margin-left: 2em'>&rarr;&nbsp; O(N<sup>2</sup>)</span>
+    </p>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Let's consider another example.  With our moms data structure, let's
+consider this function to count how many of the entries in our list are
+grandmothers: the mom in the pair also appears as a child in another pair:</p>
+
+<code lang="python">
+def how_many_grandmothers(moms):
+    """How many moms are grand-moms?"""
+    grandmothers = 0
+    for child, mom in moms:
+        grandma = find_mom(moms, mom)
+        if grandma:
+            grandmothers += 1
+    return grandmothers
+</code>
+
+<p>We know that we are only going to keep the most significant component,
+and we don't care about the coefficients, so we won't bother to track them.
+Instead we'll just note the exponent for each part of the code.</p>
+
+<p>Here we're going to loop over the entire moms list so our loop will execute
+N times.  The for statement itself will contribute N steps.</p>
+
+<p>The next line is the interesting one though: we call find_mom.  We just did
+the analysis of find_mom, so we know it's O(N).  This line contributes N steps
+each time it's executed, but it's executed N times, once for each execution of
+the loop.  So this line contributes N<sup>2</sup> steps.</p>
+
+<p>We can continue with the rest of the analysis, but note that we already have
+an N<sup>2</sup> component, so N components or constant components will
+eventually be discarded, so we can skip collecting them.</p>
+
+<p>Because the largest component is N<sup>2</sup>, the result is O(N<sup>2</sup>).</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Ideal: O(1)</h1>
+    <ul>
+    <li class="incremental">Seems impossible!?</li>
+    <li class="incremental"><tt>len(mylist)</tt></li>
+    <li class="incremental"><tt>mydict[some_key]</tt></li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>The best possible complexity is constant-time: no matter how much data, it
+always takes the same amount of time.  This seems kind of impossible. How can
+an algorithm take a fixed amount of time no matter how much data it has to work
+on?</p>
+
+<p>We saw one example with the labelled jars of jelly beans.  Python lists work
+the same way: getting the length of a Python list is an O(1) operation because
+the list stores its length outside of the actual data of the list, just as the
+bean jar has a count on the outside.</p>
+
+<p>A more interesting example is looking up a key in a dict.  In the typical
+case, looking up a key in a dict takes the same amount of time no matter how
+large the dict is.  This is why dictionaries underpin every name lookup in
+Python: they are fast.  I don't have time to go into how this works, but it's
+because dictionaries are a clever data structure called a hash table.  Later
+we'll talk about the worst-case scenarios, but for the typical (that is to say,
+almost every) case, dictionary access is O(1).</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>The Graph</h1>
+    <!--[[[cog
+    draw_the_graph(10, axis_labels=True, curve_labels=True)
+    ]]]-->
+    <div class="">
+    <svg class="" viewBox="0 0 1000 650">
+        <g transform="translate(0 650) scale(10, -10)">
+            <rect fill="white" stroke="#333" stroke-width="0.5" height="100%" width="100%" x="0" y="0"/>
+            <text transform="scale(0.1 -0.1) translate(950 -10)">data</text>
+            <text transform="rotate(-90) scale(0.1 -0.1) translate(-640 -10)">time</text>
+            <path d='M-0.413,10.000 C-0.286,10.000 -0.160,10.000 0.000,10.000 C0.160,10.000 0.352,10.000 0.583,10.000 C0.813,10.000 1.082,10.000 1.406,10.000 C1.730,10.000 2.110,10.000 2.569,10.000 C3.027,10.000 3.564,10.000 4.211,10.000 C4.858,10.000 5.616,10.000 6.531,10.000 C7.445,10.000 8.516,10.000 9.808,10.000 C11.099,10.000 12.612,10.000 14.436,10.000 C16.261,10.000 18.397,10.000 20.975,10.000 C23.552,10.000 26.570,10.000 30.210,10.000 C33.851,10.000 38.114,10.000 43.256,10.000 C48.398,10.000 54.420,10.000 61.683,10.000 C68.946,10.000 77.451,10.000 87.713,10.000 C97.974,10.000 109.991,10.000 124.480,10.000 C138.969,10.000 155.928,10.000 176.415,10.000 C196.903,10.000 220.918,10.000 249.776,10.000 C278.634,10.000 312.336,10.000 353.401,10.000 C394.466,10.000 442.894,10.000 499.775,10.000 C556.656,10.000 621.989,10.000 706.533,10.000 C791.077,10.000 894.832,10.000 998.587,10.000 ' stroke='#33cc00' stroke-width='1' fill='none' />
+            <text transform="scale(0.2 -0.2)" width="150" height="50" x="475" y="-60">1</text>
+            <path d='M-0.413,-3.192 C-0.286,-2.094 -0.160,-0.996 0.000,0.000 C0.160,0.996 0.352,1.890 0.583,2.755 C0.813,3.620 1.082,4.457 1.406,5.267 C1.730,6.078 2.110,6.863 2.569,7.633 C3.027,8.403 3.564,9.159 4.211,9.904 C4.858,10.650 5.616,11.385 6.531,12.114 C7.445,12.843 8.516,13.564 9.808,14.282 C11.099,14.999 12.612,15.711 14.436,16.420 C16.261,17.130 18.397,17.836 20.975,18.539 C23.552,19.243 26.570,19.945 30.210,20.644 C33.851,21.344 38.114,22.043 43.256,22.740 C48.398,23.437 54.420,24.133 61.683,24.829 C68.946,25.524 77.451,26.218 87.713,26.912 C97.974,27.606 109.991,28.300 124.480,28.993 C138.969,29.686 155.928,30.379 176.415,31.071 C196.903,31.763 220.918,32.455 249.776,33.147 C278.634,33.839 312.336,34.531 353.401,35.223 C394.466,35.914 442.894,36.606 499.775,37.297 C556.656,37.988 621.989,38.680 706.533,39.371 C791.077,40.062 894.832,40.753 998.587,41.444 ' stroke='#00aa99' stroke-width='1' fill='none' />
+            <text transform="scale(0.2 -0.2)" width="150" height="50" x="440" y="-150">log n</text>
+            <path d='M-0.413,5.691 C-0.286,5.785 -0.160,5.880 0.000,6.000 C0.160,6.120 0.352,6.264 0.583,6.437 C0.813,6.610 1.082,6.811 1.406,7.054 C1.730,7.298 2.110,7.583 2.569,7.926 C3.027,8.270 3.564,8.673 4.211,9.158 C4.858,9.644 5.616,10.212 6.531,10.898 C7.445,11.584 8.516,12.387 9.808,13.356 C11.099,14.324 12.612,15.459 14.436,16.827 C16.261,18.196 18.397,19.798 20.975,21.731 C23.552,23.664 26.570,25.927 30.210,28.658 C33.851,31.388 38.114,34.585 43.256,38.442 C48.398,42.299 54.420,46.815 61.683,52.262 C68.946,57.710 77.451,64.088 87.713,71.784 C97.974,79.480 109.991,88.494 124.480,99.360 C138.969,110.226 155.928,122.946 176.415,138.312 C196.903,153.677 220.918,171.688 249.776,193.332 C278.634,214.976 312.336,240.252 353.401,271.051 C394.466,301.849 442.894,338.170 499.775,380.831 C556.656,423.492 621.989,472.492 706.533,535.900 C791.077,599.308 894.832,677.124 998.587,754.941 ' stroke='#0088ff' stroke-width='1' fill='none' />
+            <text transform="scale(0.2 -0.2)" width="150" height="50" x="400" y="-300">n</text>
+            <path d='M-0.413,3.061 C-0.286,3.031 -0.160,3.002 0.000,3.000 C0.160,2.998 0.352,3.025 0.583,3.103 C0.813,3.182 1.082,3.312 1.406,3.540 C1.730,3.768 2.110,4.094 2.569,4.589 C3.027,5.083 3.564,5.747 4.211,6.693 C4.858,7.638 5.616,8.866 6.531,10.549 C7.445,12.232 8.516,14.372 9.808,17.235 C11.099,20.099 12.612,23.687 14.436,28.407 C16.261,33.128 18.397,38.981 20.975,46.593 C23.552,54.206 26.571,63.577 30.210,75.633 C33.850,87.689 38.110,102.430 43.256,121.330 C48.402,140.229 54.434,163.286 61.683,192.422 C68.932,221.558 77.398,256.772 87.713,302.019 C98.028,347.266 110.192,402.546 124.480,469.719 C138.768,536.891 155.179,615.956 176.415,724.732 C197.652,833.507 223.714,971.994 249.776,1110.480 ' stroke='#ff9933' stroke-width='1' fill='none' />
+            <text transform="scale(0.2 -0.2)" width="150" height="50" x="140" y="-300">n log n</text>
+            <path d='M-0.413,1.057 C-0.286,1.029 -0.160,1.001 0.000,1.000 C0.160,0.999 0.352,1.024 0.583,1.113 C0.813,1.202 1.082,1.355 1.406,1.659 C1.730,1.963 2.110,2.417 2.569,3.199 C3.027,3.981 3.563,5.090 4.211,6.910 C4.858,8.731 5.617,11.262 6.531,15.217 C7.445,19.171 8.515,24.549 9.808,33.063 C11.100,41.578 12.616,53.230 14.436,70.470 C16.257,87.710 18.384,110.538 20.975,147.646 C23.566,184.754 26.621,236.142 30.210,305.220 C33.799,374.297 37.921,461.065 43.256,624.689 C48.590,788.312 55.137,1028.792 61.683,1269.272 ' stroke='#ff3333' stroke-width='1' fill='none' />
+            <text transform="scale(0.2 -0.2)" width="150" height="50" x="75" y="-300">n²</text>
+        </g>
+    </svg>
+    </div>
+
+    <!--[[[end]]]-->
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>No discussion of big-O notation would be complete without showing a graph of
+how various complexities grow.  Here the x-axis is the growth of data, and the
+y-axis is running time.  There are no units here, because as with all the rest
+of this discussion, we are only looking for a rough characterization of how the
+running time relates to the data size.</p>
+
+<p>You can see here that N<sup>2</sup> can get really bad really fast.  If there's
+one thing to take away from this entire talk, it's "avoid N<sup>2</sup>".</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Python complexities</h1>
+    <div style="position:absolute;top:3em;left:5%">
+    <table>
+        <tr><th colspan='2'><b>Lists</b>  <tt style='margin-left:1em'> [a, b, c, ...]</tt></th></tr>
+        <tr><td><tt>mylist.append(val)  </tt></td><td>O(1)</td></tr>
+        <tr><td><tt>mylist[i]           </tt></td><td>O(1)</td></tr>
+        <tr><td><tt>val in mylist       </tt></td><td style="position:relative">O(N)<span class="incremental cell_highlight o_n">O(N)</span></td></tr>
+        <tr><td><tt>for val in mylist:  </tt></td><td>O(N)</td></tr>
+        <tr><td><tt>mylist.sort()       </tt></td><td>O(N log N)</td></tr>
+    </table>
+    </div>
+    <div style="position:absolute;top:3em;right:5%">
+    <table>
+        <tr><th colspan='2'><b>Dicts</b> <tt style='margin-left:1em'>{k:v, ...}</tt></th></tr>
+        <tr><td><tt>mydict[key] = val   </tt></td><td>O(1)</td></tr>
+        <tr><td><tt>mydict[key]         </tt></td><td>O(1)</td></tr>
+        <tr><td><tt>key in mydict       </tt></td><td style="position:relative">O(1)<span class="incremental cell_highlight o_1">O(1)</span></td></tr>
+        <tr><td><tt>for key in mydict:  </tt></td><td>O(N)</td></tr>
+    </table>
+    <table style='margin-top:1em'>
+        <tr><th colspan='2'><b>Sets</b> <tt style='margin-left:1em'>{a, b, c, ...}</tt></th></tr>
+        <tr><td><tt>myset.add(val)      </tt></td><td>O(1)</td></tr>
+        <tr><td><tt>val in myset        </tt></td><td style="position:relative">O(1)<span class="incremental cell_highlight o_1">O(1)</span></td></tr>
+        <tr><td><tt>for val in myset:   </tt></td><td>O(N)</td></tr>
+    </table>
+    </div>
+    <div style="position:absolute;left:5%;bottom:8em;">
+        <p class="incremental"><span class='big'>☝</span> Pro-tip: replace lists with sets</p>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>To analyze your code, you have to understand the complexities of the Python
+primitives you'll be using.  These tables show the typical time complexity of
+common Python operations.</p>
+
+<p>Many of the similar operations on list, dict, and set have the same
+complexities.  A big difference is finding an element in each.  In particular,
+finding an element in a list is O(N), while finding an element in a dict or set
+is O(1).  This can make a huge difference in your program's speed.  If you can
+replace a list lookup with a set lookup, do it.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Trade-offs</h1>
+    <p class="incremental">"Replace list lookup with set lookup"</p>
+    <pre class="python incremental">
+    #.. make a list ..
+    if thing in my_list:    # O(N)
+    </pre>
+
+    <div class="incremental">
+    <p style="float:right;margin-top:0">Good</p>
+    <pre class="python">
+    #.. make a set ..
+    if thing in my_set:     # O(1)
+    </pre>
+    </div>
+
+    <div class="incremental">
+    <p style="float:right;margin-top:0">Bad</p>
+    <pre class="python">
+    #.. make a list ..
+    my_set = set(my_list)   # O(N)
+    if thing in my_set:     # O(1)
+    </pre>
+    </div>
+
+    <div class="incremental">
+    <p style="float:right;margin-top:0">Good</p>
+    <pre class="python">
+    #.. make a list ..
+    my_set = set(my_list)   # O(N)
+    for many_times:
+        if thing in my_set: # O(1)
+    </pre>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Replacing a list lookup with a set lookup is good, but you have to be careful.
+The best way is to not create a list in the first place. Instead, create a set
+from the start.</p>
+
+<p>The worst way to go is to have a list in hand, and then make a set from it,
+then do the lookup in the set.  The set lookup is a fast constant-time lookup,
+but what did it cost to create the set?  Creating a set from an iterable is
+an O(N) operation because every element of the iterable has to be considered.</p>
+
+<p>Making a set just to perform one lookup is a waste of time.  But it can be
+a good trade-off if you can make the set once and then use it for many lookups.</p>
+
+</div><!-- }}} -->
+
+
+
+<div class="slide">
+    <!-- Slow/Fast 2 {{{ -->
+    <div class="absleft">
+        <h1 style="margin-top: 0">Slow</h1>
+        <pre class="python small" style="margin-top:0">
+            def __init__(self):
+                self.items = []
+
+            def __getitem__(self, pt):
+                for key, value in self.items:
+                    if key == pt:
+                        return value
+
+                value = []
+                self.items.append((pt, value))
+                return value
+        </pre>
+    </div>
+    <div class="absright">
+        <h1 style="margin-top: 0">Fast</h1>
+        <pre class="python small" style="margin-top:0">
+            def __init__(self):
+                self.items = {}     # pt -> value
+                self.rounds = {}    # pt -> pt
+
+            def __getitem__(self, pt):
+                val = self.items.get(pt)
+                if val is not None:
+                    return val
+
+                for jitter in [0, 0.5]:
+                    pt_rnd = rounded(pt, jitter)
+                    pt0 = self.rounds.get(pt_rnd)
+                    if pt0 is not None:
+                        return self.items[pt0]
+
+                self.items[pt] = val = []
+                for jitter in [0, 0.5]:
+                    pt_rnd = rounded(pt, jitter)
+                    self.rounds[pt_rnd] = pt
+
+                return val
+        </pre>
+    </div>
+    <div class="absright incremental">
+        <p style="text-align: right; margin-top: .75em">
+            <span class="o_n">&nbsp; O(N) &nbsp;</span>
+            <span class="o_1">&nbsp; O(1) &nbsp;</span>
+        </p>
+    </div>
+    <div class="absleft incremental">
+        <h1 style="margin-top: 0">&nbsp;</h1>
+        <pre class="python small">
+            def __init__(self):
+                self.items = []
+
+            def __getitem__(self, pt):
+                <span class="o_n">for key, value in self.items:</span>
+                    if key == pt:
+                        return value
+
+                value = []
+                <span class="o_1">self.items.append((pt, value))</span>
+                return value
+        </pre>
+    </div>
+    <div class="absright incremental">
+        <h1 style="margin-top: 0">&nbsp;</h1>
+        <pre class="python small">
+            def __init__(self):
+                self.items = {}     # pt -> value
+                self.rounds = {}    # pt -> pt
+
+            def __getitem__(self, pt):
+                val = <span class="o_1">self.items.get(pt)</span>
+                if val is not None:
+                    return val
+
+                for jitter in [0, 0.5]:
+                    pt_rnd = rounded(pt, jitter)
+                    pt0 = <span class="o_1">self.rounds.get(pt_rnd)</span>
+                    if pt0 is not None:
+                        return <span class="o_1">self.items[pt0]</span>
+
+                <span class="o_1">self.items[pt] = val = []</span>
+                for jitter in [0, 0.5]:
+                    pt_rnd = rounded(pt, jitter)
+                    <span class="o_1">self.rounds[pt_rnd] = pt</span>
+
+                return val
+        </pre>
+    </div>
+    <div class="incremental" style='position:absolute; bottom:2.5em; left:5%; border: 1px solid #888; width: 42%; height: 10em; overflow: hidden'>
+        <img src="straps.png" width="125%"/>
+    </div>
+    <div class="incremental fadein">
+        <div class="popup" style="top:14em;left:11em;">2000 pts</div>
+        <div class="popup" style="top:2.5em;left:11.5em;">20s ☹</div>
+        <div class="popup" style="top:2.5em;right:1.5em;">0.4s! ☺</div>
+    </div>
+    <!-- }}} -->
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Here's an example of two implementations of a function. Don't worry about
+the details of the code.  Although the left one is shorter, and uses fewer data
+structures, it's slower.  If we look at the lines that deal with the data, we
+can see why.  The left code has an O(N) line, while the right code only has
+O(1) lines.</p>
+
+<p>This code operates on a collection of points.  You can't see it here, but in
+the real program this function is called once for each point in the collection,
+so the O(N) line in effect becomes an O(N²) line.  The left code made the whole
+program O(N²), while the right code made it O(N).</p>
+
+<p>Running with 2000 points, the N² code took 20 seconds.  Switching to the
+O(N) code reduced the time to 0.4 seconds.  You might not consider 2000 points
+to be a lot of data.  But for that size data the difference between O(N) and
+O(N²) can be the difference between two thousand and four million. It can make
+a big difference.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>More possibilities</h1>
+    <ul>
+    <li class="incremental">Complexities
+        <ul>
+        <li class="incremental">O(N<sup>3</sup>), O(N<sup>4</sup>), ...</li>
+        <li class="incremental">O(2<sup>N</sup>), O(N<sup>N</sup>)</li>
+        <li class="incremental">O(N!)</li>
+        </ul>
+        </li>
+    <li class="incremental">Dimensions
+        <ul>
+        <li class="incremental">N, M, k, etc</li>
+        <li class="incremental">O((n+k) log n)</li>
+        </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>The possibilities for algorithmic complexities go beyond the 1, N, N² that
+we've seen so far.  There are all sorts of other forms that can occur, usually
+worse than the N² we've been demonizing here so far.  Considering all possible
+combinations of N boolean values will give you O(2<sup>N).  Operating on all
+permutations of N values will be O(N!).</p>
+
+<p>You might also need more than one varying dimension.  Sometimes your code
+will deal with data that can grow in more than one way.  In that case, you use
+another variable, and describe the complexity in terms of both. As an example,
+a line intersection algorithm I used has a complexity of O((n+k) log n), where
+n is the number of lines, and k is the number of intersections.</p>
+
+</div><!-- }}} -->
+
+
+
+<div class="slide">
+    <h1>Small numbers</h1>
+    <div style="position:relative">
+    <!--[[[cog
+    draw_the_graph(10, axis_labels=False, css_class="lefthalf")
+    ]]]-->
+    <div class="">
+    <svg class="lefthalf" viewBox="0 0 1000 650">
+        <g transform="translate(0 650) scale(10, -10)">
+            <rect fill="white" stroke="#333" stroke-width="0.5" height="100%" width="100%" x="0" y="0"/>
+            <path d='M-0.413,10.000 C-0.286,10.000 -0.160,10.000 0.000,10.000 C0.160,10.000 0.352,10.000 0.583,10.000 C0.813,10.000 1.082,10.000 1.406,10.000 C1.730,10.000 2.110,10.000 2.569,10.000 C3.027,10.000 3.564,10.000 4.211,10.000 C4.858,10.000 5.616,10.000 6.531,10.000 C7.445,10.000 8.516,10.000 9.808,10.000 C11.099,10.000 12.612,10.000 14.436,10.000 C16.261,10.000 18.397,10.000 20.975,10.000 C23.552,10.000 26.570,10.000 30.210,10.000 C33.851,10.000 38.114,10.000 43.256,10.000 C48.398,10.000 54.420,10.000 61.683,10.000 C68.946,10.000 77.451,10.000 87.713,10.000 C97.974,10.000 109.991,10.000 124.480,10.000 C138.969,10.000 155.928,10.000 176.415,10.000 C196.903,10.000 220.918,10.000 249.776,10.000 C278.634,10.000 312.336,10.000 353.401,10.000 C394.466,10.000 442.894,10.000 499.775,10.000 C556.656,10.000 621.989,10.000 706.533,10.000 C791.077,10.000 894.832,10.000 998.587,10.000 ' stroke='#33cc00' stroke-width='1' fill='none' />
+            <path d='M-0.413,-3.192 C-0.286,-2.094 -0.160,-0.996 0.000,0.000 C0.160,0.996 0.352,1.890 0.583,2.755 C0.813,3.620 1.082,4.457 1.406,5.267 C1.730,6.078 2.110,6.863 2.569,7.633 C3.027,8.403 3.564,9.159 4.211,9.904 C4.858,10.650 5.616,11.385 6.531,12.114 C7.445,12.843 8.516,13.564 9.808,14.282 C11.099,14.999 12.612,15.711 14.436,16.420 C16.261,17.130 18.397,17.836 20.975,18.539 C23.552,19.243 26.570,19.945 30.210,20.644 C33.851,21.344 38.114,22.043 43.256,22.740 C48.398,23.437 54.420,24.133 61.683,24.829 C68.946,25.524 77.451,26.218 87.713,26.912 C97.974,27.606 109.991,28.300 124.480,28.993 C138.969,29.686 155.928,30.379 176.415,31.071 C196.903,31.763 220.918,32.455 249.776,33.147 C278.634,33.839 312.336,34.531 353.401,35.223 C394.466,35.914 442.894,36.606 499.775,37.297 C556.656,37.988 621.989,38.680 706.533,39.371 C791.077,40.062 894.832,40.753 998.587,41.444 ' stroke='#00aa99' stroke-width='1' fill='none' />
+            <path d='M-0.413,5.691 C-0.286,5.785 -0.160,5.880 0.000,6.000 C0.160,6.120 0.352,6.264 0.583,6.437 C0.813,6.610 1.082,6.811 1.406,7.054 C1.730,7.298 2.110,7.583 2.569,7.926 C3.027,8.270 3.564,8.673 4.211,9.158 C4.858,9.644 5.616,10.212 6.531,10.898 C7.445,11.584 8.516,12.387 9.808,13.356 C11.099,14.324 12.612,15.459 14.436,16.827 C16.261,18.196 18.397,19.798 20.975,21.731 C23.552,23.664 26.570,25.927 30.210,28.658 C33.851,31.388 38.114,34.585 43.256,38.442 C48.398,42.299 54.420,46.815 61.683,52.262 C68.946,57.710 77.451,64.088 87.713,71.784 C97.974,79.480 109.991,88.494 124.480,99.360 C138.969,110.226 155.928,122.946 176.415,138.312 C196.903,153.677 220.918,171.688 249.776,193.332 C278.634,214.976 312.336,240.252 353.401,271.051 C394.466,301.849 442.894,338.170 499.775,380.831 C556.656,423.492 621.989,472.492 706.533,535.900 C791.077,599.308 894.832,677.124 998.587,754.941 ' stroke='#0088ff' stroke-width='1' fill='none' />
+            <path d='M-0.413,3.061 C-0.286,3.031 -0.160,3.002 0.000,3.000 C0.160,2.998 0.352,3.025 0.583,3.103 C0.813,3.182 1.082,3.312 1.406,3.540 C1.730,3.768 2.110,4.094 2.569,4.589 C3.027,5.083 3.564,5.747 4.211,6.693 C4.858,7.638 5.616,8.866 6.531,10.549 C7.445,12.232 8.516,14.372 9.808,17.235 C11.099,20.099 12.612,23.687 14.436,28.407 C16.261,33.128 18.397,38.981 20.975,46.593 C23.552,54.206 26.571,63.577 30.210,75.633 C33.850,87.689 38.110,102.430 43.256,121.330 C48.402,140.229 54.434,163.286 61.683,192.422 C68.932,221.558 77.398,256.772 87.713,302.019 C98.028,347.266 110.192,402.546 124.480,469.719 C138.768,536.891 155.179,615.956 176.415,724.732 C197.652,833.507 223.714,971.994 249.776,1110.480 ' stroke='#ff9933' stroke-width='1' fill='none' />
+            <path d='M-0.413,1.057 C-0.286,1.029 -0.160,1.001 0.000,1.000 C0.160,0.999 0.352,1.024 0.583,1.113 C0.813,1.202 1.082,1.355 1.406,1.659 C1.730,1.963 2.110,2.417 2.569,3.199 C3.027,3.981 3.563,5.090 4.211,6.910 C4.858,8.731 5.617,11.262 6.531,15.217 C7.445,19.171 8.515,24.549 9.808,33.063 C11.100,41.578 12.616,53.230 14.436,70.470 C16.257,87.710 18.384,110.538 20.975,147.646 C23.566,184.754 26.621,236.142 30.210,305.220 C33.799,374.297 37.921,461.065 43.256,624.689 C48.590,788.312 55.137,1028.792 61.683,1269.272 ' stroke='#ff3333' stroke-width='1' fill='none' />
+        </g>
+    </svg>
+    </div>
+
+    <!--[[[end]]]-->
+    <div class="incremental">
+    <svg class="lefthalf" viewBox="0 0 1000 650">
+        <g transform="translate(0 650) scale(10, -10)">
+            <rect fill="none" stroke="#333" stroke-width="0.5" height="13" width="20" x="0" y="0"/>
+        </g>
+    </svg>
+    </div>
+
+    <!--[[[cog
+    draw_the_graph(50, axis_labels=False, stroke_width=.2, css_class="lefthalf", incremental=True)
+    ]]]-->
+    <div class="incremental">
+    <svg class="lefthalf" viewBox="0 0 1000 650">
+        <g transform="translate(0 650) scale(50, -50)">
+            <rect fill="white" stroke="#333" stroke-width="0.1" height="100%" width="100%" x="0" y="0"/>
+            <path d='M-0.413,10.000 C-0.286,10.000 -0.160,10.000 0.000,10.000 C0.160,10.000 0.352,10.000 0.583,10.000 C0.813,10.000 1.082,10.000 1.406,10.000 C1.730,10.000 2.110,10.000 2.569,10.000 C3.027,10.000 3.564,10.000 4.211,10.000 C4.858,10.000 5.616,10.000 6.531,10.000 C7.445,10.000 8.516,10.000 9.808,10.000 C11.099,10.000 12.612,10.000 14.436,10.000 C16.261,10.000 18.397,10.000 20.975,10.000 C23.552,10.000 26.570,10.000 30.210,10.000 C33.851,10.000 38.114,10.000 43.256,10.000 C48.398,10.000 54.420,10.000 61.683,10.000 C68.946,10.000 77.451,10.000 87.713,10.000 C97.974,10.000 109.991,10.000 124.480,10.000 C138.969,10.000 155.928,10.000 176.415,10.000 C196.903,10.000 220.918,10.000 249.776,10.000 C278.634,10.000 312.336,10.000 353.401,10.000 C394.466,10.000 442.894,10.000 499.775,10.000 C556.656,10.000 621.989,10.000 706.533,10.000 C791.077,10.000 894.832,10.000 998.587,10.000 ' stroke='#33cc00' stroke-width='0.2' fill='none' />
+            <path d='M-0.413,-3.192 C-0.286,-2.094 -0.160,-0.996 0.000,0.000 C0.160,0.996 0.352,1.890 0.583,2.755 C0.813,3.620 1.082,4.457 1.406,5.267 C1.730,6.078 2.110,6.863 2.569,7.633 C3.027,8.403 3.564,9.159 4.211,9.904 C4.858,10.650 5.616,11.385 6.531,12.114 C7.445,12.843 8.516,13.564 9.808,14.282 C11.099,14.999 12.612,15.711 14.436,16.420 C16.261,17.130 18.397,17.836 20.975,18.539 C23.552,19.243 26.570,19.945 30.210,20.644 C33.851,21.344 38.114,22.043 43.256,22.740 C48.398,23.437 54.420,24.133 61.683,24.829 C68.946,25.524 77.451,26.218 87.713,26.912 C97.974,27.606 109.991,28.300 124.480,28.993 C138.969,29.686 155.928,30.379 176.415,31.071 C196.903,31.763 220.918,32.455 249.776,33.147 C278.634,33.839 312.336,34.531 353.401,35.223 C394.466,35.914 442.894,36.606 499.775,37.297 C556.656,37.988 621.989,38.680 706.533,39.371 C791.077,40.062 894.832,40.753 998.587,41.444 ' stroke='#00aa99' stroke-width='0.2' fill='none' />
+            <path d='M-0.413,5.691 C-0.286,5.785 -0.160,5.880 0.000,6.000 C0.160,6.120 0.352,6.264 0.583,6.437 C0.813,6.610 1.082,6.811 1.406,7.054 C1.730,7.298 2.110,7.583 2.569,7.926 C3.027,8.270 3.564,8.673 4.211,9.158 C4.858,9.644 5.616,10.212 6.531,10.898 C7.445,11.584 8.516,12.387 9.808,13.356 C11.099,14.324 12.612,15.459 14.436,16.827 C16.261,18.196 18.397,19.798 20.975,21.731 C23.552,23.664 26.570,25.927 30.210,28.658 C33.851,31.388 38.114,34.585 43.256,38.442 C48.398,42.299 54.420,46.815 61.683,52.262 C68.946,57.710 77.451,64.088 87.713,71.784 C97.974,79.480 109.991,88.494 124.480,99.360 C138.969,110.226 155.928,122.946 176.415,138.312 C196.903,153.677 220.918,171.688 249.776,193.332 C278.634,214.976 312.336,240.252 353.401,271.051 C394.466,301.849 442.894,338.170 499.775,380.831 C556.656,423.492 621.989,472.492 706.533,535.900 C791.077,599.308 894.832,677.124 998.587,754.941 ' stroke='#0088ff' stroke-width='0.2' fill='none' />
+            <path d='M-0.413,3.061 C-0.286,3.031 -0.160,3.002 0.000,3.000 C0.160,2.998 0.352,3.025 0.583,3.103 C0.813,3.182 1.082,3.312 1.406,3.540 C1.730,3.768 2.110,4.094 2.569,4.589 C3.027,5.083 3.564,5.747 4.211,6.693 C4.858,7.638 5.616,8.866 6.531,10.549 C7.445,12.232 8.516,14.372 9.808,17.235 C11.099,20.099 12.612,23.687 14.436,28.407 C16.261,33.128 18.397,38.981 20.975,46.593 C23.552,54.206 26.571,63.577 30.210,75.633 C33.850,87.689 38.110,102.430 43.256,121.330 C48.402,140.229 54.434,163.286 61.683,192.422 C68.932,221.558 77.398,256.772 87.713,302.019 C98.028,347.266 110.192,402.546 124.480,469.719 C138.768,536.891 155.179,615.956 176.415,724.732 C197.652,833.507 223.714,971.994 249.776,1110.480 ' stroke='#ff9933' stroke-width='0.2' fill='none' />
+            <path d='M-0.413,1.057 C-0.286,1.029 -0.160,1.001 0.000,1.000 C0.160,0.999 0.352,1.024 0.583,1.113 C0.813,1.202 1.082,1.355 1.406,1.659 C1.730,1.963 2.110,2.417 2.569,3.199 C3.027,3.981 3.563,5.090 4.211,6.910 C4.858,8.731 5.617,11.262 6.531,15.217 C7.445,19.171 8.515,24.549 9.808,33.063 C11.100,41.578 12.616,53.230 14.436,70.470 C16.257,87.710 18.384,110.538 20.975,147.646 C23.566,184.754 26.621,236.142 30.210,305.220 C33.799,374.297 37.921,461.065 43.256,624.689 C48.590,788.312 55.137,1028.792 61.683,1269.272 ' stroke='#ff3333' stroke-width='0.2' fill='none' />
+        </g>
+    </svg>
+    </div>
+
+    <!--[[[end]]]-->
+    </div>
+    <div class="incremental" style="position:absolute;right:3.5em;top:2em;width:40%">
+        <img src="fancy-algorithms.png" style='width:100%'/>
+        <p style='font-size:50%;margin-top:.5em'>http://www.globalnerdy.com/2014/12/02/programming-poster-of-the-day-and-rob-pikes-5-rules-of-programming/</p>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Don't fall into the trap of thinking that Big-O is everything though.  What
+you really care about is the running time of your code on your actual expected
+data.  An O(N²) algorithm might be faster than an O(N) algorithm for the range
+of data you'll be using.</p>
+
+<p>Here I've zoomed into the graph down near the small numbers.  The curves are
+all scrambled up because the actual coefficients I used make the constant-time
+algorithm slower than the others for the very small numbers.</p>
+
+<p>When we discarded the coefficients and smaller exponents, it was because as
+N grows very large, they don't matter.  But in actually running your code, those
+components are still there, and for small data, they may be more important than
+the larger ones we kept.</p>
+
+<p>Don't get fancy unless you have to.  For small data the simplest algorithms,
+even if they have worse complexity, are best.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Advanced: Amortization</h1>
+    <ul>
+    <li class="incremental">Long-term averaging</li>
+    <li class="incremental">Operations can take different times</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Let's touch quickly on some advanced pieces.</p>
+
+<p>Big-O is about the long-term growth of an algorithm.  That can involve
+averaging many operations.  Individual operations may not all take the
+same amount of time.  This is called amortization, which is a fancy
+word that means averaging.</p>
+
+<p>For example, we say that appending to a list is O(1), but that doesn't
+mean that every call to append() takes the same amount of time.  In fact,
+most of the calls take the same short time, but some of the calls take longer,
+and those long calls get longer as the list gets longer.  But they also get
+less frequent, so the average is a constant time.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Advanced: Worst case</h1>
+    <ul>
+    <li class="incremental">Typical case vs worst case
+        <pre class="python small incremental">
+        # Typical
+        s = set()
+        for i in range(50000):
+            s.add(i * 47)                   # O(1)
+        # O(N), wall time: 10.3 ms
+        </pre>
+        <pre class="python small incremental">
+        # Worst
+        s = set()
+        for i in range(50000):
+            s.add(i * (2**61-1))            # O(N)
+        # O(N²), wall time: 34.2 s   (3300x slower!)
+        </pre>
+    </li>
+    <li class="incremental">Dicts also</li>
+    <li class="incremental">Hash randomization prevents DDOS</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>So far all of this discussion has been about the typical, or expected time
+for operations.  That is, the time the algorithm will take for a typical data
+set, averaged over many runs.  Sometimes it's also important to consider the
+worst case.  How will the algorithm perform if given specially crafted data
+that will make it take as long as possible?</p>
+
+<p>As an example, looking up a value in a set is typically O(1), which makes
+building a set an O(N) operation.  But if you know how values are hashed,
+you can use a collection of values that all hash to the same value.  This
+worst-case scenario makes the lookup O(N), which makes building the set O(N²).</p>
+
+<p>Here are a typical case and a worst case:</p>
+
+<code lang="python">
+# Typical
+s = set()
+for i in range(50000):
+    s.add(i * 47)                   # O(1)
+# O(N), wall time: 10.3 ms
+</code>
+
+<code lang="python">
+# Worst
+s = set()
+for i in range(50000):
+    s.add(i * (2**61-1))            # O(N)
+# O(N²), wall time: 34.2 s   (3300x slower!)
+</code>
+
+<p>Dictionaries have the same worst-case behavior.  This was the basis for a
+denial-of-service attack against web servers.  The defense against the attack
+was hash randomization, which prevented the attackers from knowing how strings
+would be hashed.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Advanced: more math</h1>
+    <ul>
+    <li>Lots more: O, o, &Omega;, &omega;, &Theta;</li>
+    <li>You don't need it</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Lastly, if you do more research into this, there is much more math involved,
+with more symbols.  Mathematicians have used every letter that sounds like or
+looks like O to mean something for algorithmic analysis. Know that for
+day-to-day programming, you already have everything you need.  If you enjoy the
+math, go for it, but don't feel like you have to.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide" data-layout="clean">
+    <h1>Experts</h1>
+    <img class='incremental' src='blogpost.png' width='95%'/>
+    <div class='incremental'>
+        <div style='position:absolute;top:3em;left:5%;width:95%;height:100%;background:#fffaf0;opacity:.5'>&nbsp;</div>
+        <img class='shadow' src='shame.png' width='95%' style='position:absolute;top:8em;left:.5em;border: 1px solid #888; border-radius: 10px'/>
+    </div>
+    <div class='incremental'>
+        <div style='position:absolute;top:8em;left:.5em;width:95%;height:100%;background:#fffaf0;opacity:.5'>&nbsp;</div>
+        <img class='shadow' src='toxic_experts.png' height='100%' style='position:absolute;top:16.5em;left:3em;'/>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>If you do discuss this more, a word of warning: experts are not always nice.
+When I began thinking about this topic last fall,
+<a pref='text/slowsgrows.px'>I wrote it up on my blog</a>.
+A lot of people seemed to like it.</p>
+
+<p>But one commenter was less pleased.  While their tone could use some work,
+I appreciated the technical point they tried to make.  I looked into it more
+and decided they were actually wrong about it.  They didn't agree.</p>
+
+<p>But I got <a pref='blog/toxic-experts.bx'>another blog post</a> out of it...</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Summary</h1>
+    <ul>
+    <li class="incremental">Big-O is useful</li>
+    <li class="incremental">Big-O doesn't have to be complicated</li>
+    <li class="incremental">You can do the thing!</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>I hope what you've gotten from this is that Big-O is useful, and doesn't
+have to be complicated.  Thanks.</p>
+
+</div><!-- }}} -->
+
+
+
+<div class="slide title" data-layout="clean">
+    <h1 style="padding-top: 0em">Thanks</h1>
+    <h2 style="margin-top: 5em">
+        <a class="implicit" href="http://twitter.com/nedbat"><span class="punct">@</span>nedbat</a>
+        <br/>
+        <img class='icon' src='twitter.png' />
+        <img class='icon' src='github.png' />
+        <img class='icon' src='instagram.png' />
+    </h2>
+    <h2><a class="implicit" href="http://bit.ly/bigopy"><span class="punct">http://</span>bit.ly<span class="punct">/</span>bigopy</a></h2>
+</div>
+
+
+<!-- ** Layouts {{{ -->
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="left"><a class="implicit" href="http://bit.ly/bigopy">bit.ly<span class='punct'>/</span>bigopy</a></span>
+        <span class="right"><a class="implicit" href="http://twitter.com/nedbat"><span class='punct'>@</span>nedbat</a></span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" data-name="clean">
+    <content></content>
+</div>
+<!-- }}} -->
+
+</body>
+</html>
