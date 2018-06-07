@@ -1,9 +1,11 @@
 # Extensions.
+import re
+
 from lxml import etree
 from stellated.XsltExtensions import *
 from cStringIO import StringIO
 from django.conf import settings
-import re, smartypants
+import smartypants
 
 
 def wrapit(fn):
@@ -47,7 +49,11 @@ def pathtitle(path):
 ns['pathtitle'] = wrapit(pathtitle)
 
 def permaurl(path):
-    return thing_from_path(path).permaurl()
+    try:
+        return thing_from_path(path).permaurl()
+    except Exception as exc:
+        print("Couldn't get permaurl({!r}): {}".format(path, exc))
+        raise
 
 ns['permaurl'] = wrapit(permaurl)
 
