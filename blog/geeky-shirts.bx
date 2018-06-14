@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180614T182154'>
+<title>Geeky shirts</title>
+<category>geeky</category>
+<body>
+
+<p>I wear t-shirts a lot. A lot of them feature geeky topics.  They're are fun
+because they start conversations among the people I hang out with.  The best
+times are when someone can take the geeky idea, and one-up it with yet another
+layer of geekiness.</p>
+
+<p>For example, I have a shirt with this melting Rubik's cube on it:</p>
+
+<figurep>
+<img src='pix/Melting-rubiks-cube.jpg' alt="Melting Rubik's cube" />
+</figurep>
+
+<p>As geeky as this image is, I add to it by pointing out that even before the
+melting began, this isn't a possible configuration of a Rubik's cube.  To avoid
+spoilers, I'll explain why at the end of this post.</p>
+
+<p>Here's another shirt from my closet:</p>
+
+<figurep>
+<img src='pix/last_8_digits.jpg' alt="My password is the last 8 digits of pi" />
+</figurep>
+
+<p>In this case, other people added to the geekiness of this shirt.  One person
+suggested that the shirt is simply missing some punctuation, and it should
+say:</p>
+
+<quote><p>My password is "the last 8 digits of pi"</p></quote>
+
+<p>Of course, there's still the problem of "pi" vs "π"...</p>
+
+<p>Another person suggested that although no one knows the last 8 digits of pi,
+my security has been compromised, because it's really easy to brute-force an
+8-digit password, no matter what the digits are.</p>
+
+<p>OK, back to the Rubik's cube question: why is the melted cube not a real cube?
+Consider a solved Rubik's cube:</p>
+
+<figurep>
+<img src='pix/rubik_solved.jpg' alt="A solved Rubik's cube" />
+</figurep>
+
+<p>Look at the the two faces colored orange and yellow.  They meet at one edge,
+so there are only two corner cubies (the smaller cubes that make up the
+complete cube) that have both an orange and a yellow face.</p>
+
+<p>Now think about the two orange-yellow corner cubies on a real cube.  If you
+look at the corner, and think about the faces in clockwise order, one of the
+cubies must go orange then yellow, and the other must go yellow then orange.
+They have to have opposite handedness, if you will.</p>
+
+<p>If you look at the melted cube, you can see two corner cubies with both
+orange and yellow, they are the two closest to the viewer.  But they have the
+same handedness!  Going around clockwise, they both go orange and then yellow.
+So this can't be a real Rubik's cube, because these two must be the only two
+orange-yellow corner cubies, and these two aren't right.</p>
+
+</body>
+</entry>
+</blog>
