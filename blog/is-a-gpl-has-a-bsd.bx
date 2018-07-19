@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180719T075002'>
+<title>Is-a GPL, has-a BSD</title>
+<category></category>
+<body>
+
+<p>When talking about classes, and how they relate, there are two classic
+relationships.  Class Y can inherit from class X (inheritance), or class Y
+can use class X (composition).  In the first case we say that an X is-a Y,
+in the second that an X has-a Y.</p>
+
+<p>Sometimes it isn't clear which choice is best, and you can imagine using
+either.  One thought that can help decide: is it part of X's essence that
+it is a Y? Is it impossible to think of an X that isn't a Y?  Or is Y just
+a helpful implementation detail of X, and there are other possible ways to
+build X?</p>
+
+<p>I don't want to open a can of worms debating licenses, and probably this is
+an absurd analogy, but it occurred to me that copyleft license (GPL)
+advocates view their license choice as an is-a, and permissive license
+(BSD, MIT, Apache) advocates view theirs as a has-a.</p>
+
+</body>
+</entry>
+</blog>
