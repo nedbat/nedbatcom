@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180805T104324'>
+<title>Fighting spam on freenode</title>
+<category>malware</category>
+<body>
+
+<p>The Freenode IRC network (and I guess others) are under an aggressive spam
+    attack these days.  I've learned a lot more about Freenode modes in order
+    to help defend against the spam.  This is my understanding of the tools
+    and techniques.  Corrections welcomed!</p>
+
+<p>IRC is a great way to connect with other people, but it is arcane and poorly
+    documented.  How IRC networks are configured and maintained is not standardized. 
+    The details here are for Freenode. I have no idea how much of this applies
+    to other networks.</p>
+
+<p>When a user connects to Freenode, they can use a registered nick (nickname),
+    or an unregistered one.  Registering is also called "identifying with
+    services," meaning you have presented your password to the IRC service.
+    Here's how to register your nick if you haven't yet:
+    <a href="https://freenode.net/kb/answer/registration">Nickname Registration</a>.
+    The spam bot constantly changes nicks, but doesn't use registered nicks, so
+    the defense is all based on preventing what unregistered nicks can do.</p>
+
+<p>The main concept for configuring IRC is "modes".  These are single-letter
+    flags that can be applied to users and channels.  The modes are different
+    for each:
+    <a href="https://freenode.net/kb/answer/usermodes">User Modes</a>, and
+    <a href="https://freenode.net/kb/answer/channelmodes">Channel Modes</a>.
+</p>
+
+<p>The modes you can set depend on whether you are a channel operator, or just
+    a regular user.</p>
+
+<p><b>For regular users:</b> the spam bot will send you private messages unless
+    you give yourself the +R mode, which means that only registered nicks can
+    send you private messages.  To apply this to yourself, use this command in
+    your IRC client (replace "your_nick" with your nick):</p>
+
+<code><![CDATA[
+# Stop unregistered nicks from PMing me
+/mode your_nick +R
+# What are my current modes?
+/mode your_nick
+]]></code>
+
+<p><b>For channel operators:</b> you have a few options for how to defend your
+    channel.  I think the first option is the best.</p>
+
+<ul>
+    <li>You can allow unregistered nicks to join, but prevent them from speaking
+    with +q.  This flag takes an argument which is the pattern of user to quiet.
+    "$~a" means anyone who is unregistered:</li>
+<code><![CDATA[
+# Unregistered nicks will be quieted in #your_channel
+/mode #your_channel +q $~a
+# See the list of quieted user patterns
+/mode #your_channel +q
+]]></code>
+    
+    <li>If you use +q, but have unregistered bots that you want to be able to talk in your
+    channel, you can exempt them with +e:</li>
+<code><![CDATA[
+# Your bot will be able to talk
+/mode #your_channel +e $a:your_bot_nick
+# See the list of exempted user patterns
+/mode #your_channel +e
+]]></code>
+
+    <li>You can completely prevent unregistered nicks from joining your channel with +r:</li>
+<code><![CDATA[
+# Only registered nicks can join #your_channel
+/mode #your_channel +r
+# See the list of channel modes
+/mode #your_channel
+]]></code>
+
+    <li>If for whatever reason you cannot stop unregistered nicks from talking
+        in your channel, then you will get spam messages.  You can still help
+        defend by inviting freenode's Sigyn bot into your channel.  The bot
+        kills spammers when they send their first message.  Invite it like this:</li>
+
+<code><![CDATA[
+# Invite the freenode spam fighting bot
+/invite Sigyn #your_channel
+]]></code>
+</ul>
+
+</body>
+</entry>
+</blog>
