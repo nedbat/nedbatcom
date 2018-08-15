@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180814T084126'>
+<title>SQLite data storage for coverage.py</title>
+<category>coverage</category>
+<body>
+
+<p>I'm starting to make some progress on <a href='blog/201612/who_tests_what.html'>Who Tests What</a>.
+    The first task is to change how coverage.py records the data it collects
+    during execution.  Currently, all of the data is held in memory, and then
+    written to a JSON file at the end of the process.</p>
+
+<p>But Who Tests What is going to increase the amount of data.  If your test
+    suite has N tests, you will have roughly N times as much data to store.
+    Keeping it all in memory will become unwieldy.  Also, since the data is
+    more complicated, you'll want a richer way to access the data.</p>
+
+<p>To solve both these problems, I'm switching over to using SQLite to store
+    the data.  This will give us a way to write the data as it is collected,
+    rather than buffering it all to write at the end. BTW, there's a third
+    side-benefit to this: we would be able to measure processes without having
+    to control their ending.</p>
+
+<p>When running with --parallel, coverage adds the process id and a random
+    number to the name of the data file, so that many processes can be measured
+    independently.  With JSON storage, we didn't need to decide on this
+    filename until the end of the process.  With SQLite, we need it at the
+    beginning.  This has required a surprising amount of refactoring. (You can
+    follow the carnage on the <a href='https://github.com/nedbat/coveragepy/tree/nedbat/data-sqlite'>data-sqlite</a>
+    branch.)</p>
+
+<p>There's one problem I don't know how to solve: a process can start coverage
+    measurement, then fork, and continue measurement in both of the child
+    processes, as described in <a href='https://github.com/nedbat/coveragepy/issues/56'>issue 56</a>.
+    With JSON storage, the in-memory data is naturally forked when the
+    processes fork, and then each copy proceeds on its way.  When each process
+    ends, it writes its data to a file that includes the (new) process id, and
+    all the data is recorded.</p>
+
+<p>How can I support that use case with SQLite?  The file name will be chosen
+    before the fork, and data will be dribbled into the file as it happens.
+    After the fork, both child processes will be trying to write to the same
+    database file, which will not work (SQLite is not good at concurrent
+    access).</p>
+
+<p>Possible solutions:</p>
+
+<ol>
+
+<li>Even with SQLite, buffer all the data in memory.  This imposes a memory
+    penalty on everyone just for the rare case of measuring forking processes,
+    and loses the extra benefit of measuring non-ending processes.</li>
+
+<li>Make buffer-it-all be an option.  This adds to the complexity of the code,
+    and will complicate testing.  I don't want to run every test twice, with
+    buffering and not.  Does pytest offer tools for conveniently doing this
+    only for a subset of tests?</li>
+
+<li>Keep JSON storage as an option.  This doesn't have an advantage over #2,
+    and has all the complications.</li>
+
+<li>Somehow detect that two processes are now writing to the same SQLite file,
+    and separate them then?</li>
+
+<li>Use a new process just to own the SQLite database, with coverage talking to
+    it over IPC.  That sounds complicated.</li>
+
+<li>Monkeypatch os.fork so we can deal with the split?  Yuck.</li>
+
+<li>Some other thing I haven't thought of?</li>
+
+</ol>
+
+<p>Expect to see an alpha of coverage.py in the next few weeks with SQLite data
+    storage, and please test it. I'm sure there are other use cases that might
+    experience some turbulence...</p>
+
+</body>
+</entry>
+</blog>
