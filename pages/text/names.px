@@ -362,7 +362,7 @@ nums.append(4)
 <p>Notice that informal English descriptions can be ambigious.  We might say
     that "x = x+1" is changing x, and "nums.append(4)" is changing nums, but
     they are very different kinds of change.  The first makes x refer to a new
-    value (rebinding), the second is modifying the value x refers to
+    value (rebinding), the second is modifying the value nums refers to
     (mutating).</p>
 
 <p>Here's where people get surprised: if two names refer to the same value, and
