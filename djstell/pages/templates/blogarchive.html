@@ -23,8 +23,12 @@
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
         {% ifequal type 'date' %}
-            These are the {{entries|length}} blog posts written on {{date|date:"F j"}} of
-            any year.
+            {% if entries|length_is:"1" %}
+                This is the only blog post
+            {% else %}
+                These are the {{entries|length}} blog posts
+            {% endif %}
+            written on {{date|date:"F j"}} of any year.
         {% endifequal %}
         {% ifequal type 'drafts' %}
             These are the {{entries|length}} unfinished blog entries.
