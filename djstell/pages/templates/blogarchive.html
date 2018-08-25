@@ -22,6 +22,10 @@
             {% endif %}
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
+        {% ifequal type 'date' %}
+            These are the {{entries|length}} blog posts written on {{date|date:"F j"}} of
+            any year.
+        {% endifequal %}
         {% ifequal type 'drafts' %}
             These are the {{entries|length}} unfinished blog entries.
         {% endifequal %}
@@ -30,13 +34,19 @@
     <div class='archive'>
         {% for entry in entries %}
 
-            {% ifchanged %}
-            <h2 id='month{{ entry.when|date:"Y" }}{{ entry.when|date:"m" }}'>{{ entry.when|date:"F Y" }}</h2>
-            {% endifchanged %}
+            {% ifequal type 'date' %}
+                {% ifchanged %}
+                <p class='date'>{{ entry.when|date:"Y" }}: </p>
+                {% endifchanged %}
+            {% else %}
+                {% ifchanged %}
+                <h2 id='month{{ entry.when|date:"Y" }}{{ entry.when|date:"m" }}'>{{ entry.when|date:"F Y" }}</h2>
+                {% endifchanged %}
 
-            {% ifchanged %}
-            <p class='date'>{{ entry.when|date:"D j"}}: </p>
-            {% endifchanged %}
+                {% ifchanged %}
+                <p class='date'>{{ entry.when|date:"D j" }}: </p>
+                {% endifchanged %}
+            {% endifequal %}
 
             <p>
                 <a class='s' href='{{entry.permaurl}}'>

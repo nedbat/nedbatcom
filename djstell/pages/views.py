@@ -73,6 +73,17 @@ def archiveyear(request, year):
     c['bodyclass'] = 'blog archive year'
     return render_to_response('blogarchive.html', c)
 
+def archivedate(request, month, day):
+    date = datetime.datetime(2004, int(month), int(day))
+    ents = list(Entry.objects.filter(when__month=date.month, when__day=date.day).order_by('-when'))
+    c = RequestContext(request)
+    add_entries(c, ents)
+    c['type'] = 'date'
+    c['date'] = date
+    c['title'] = date.strftime('Blog: %B %-d')
+    c['bodyclass'] = 'blog archive date'
+    return render_to_response('blogarchive.html', c)
+
 def archiveall(request):
     ents = list(Entry.objects.all().order_by('-when'))
     c = RequestContext(request)

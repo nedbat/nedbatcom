@@ -1,5 +1,6 @@
 # Generate HTML pages for nedbatchelder.com
 
+import datetime
 import glob
 import logging
 import os
@@ -125,8 +126,15 @@ class CmdLine(object):
             '/index.html',
             ]
 
-        years = [ '/blog/archive%4d.html' % d.year for d in Entry.objects.dates('when', 'year') ]
-        resources += years
+        resources += ['/blog/archive%4d.html' % d.year for d in Entry.objects.dates('when', 'year')]
+
+        dates = []
+        date = datetime.datetime(2004, 1, 1)        # Use a leap year
+        while date.year == 2004:
+            dates.append((date.month, date.day))
+            date += datetime.timedelta(days=1)
+
+        resources += ['/blog/archive/date%02d%02d.html' % date for date in dates]
 
         generator.quick_publish(resources, use_processes=self.use_processes)
 
