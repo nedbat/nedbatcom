@@ -62,7 +62,7 @@ def load_all():
 
     # Stats
     print
-    print "%d total blog entries" % (Entry.objects.all().count())
+    print "%d total blog posts" % (Entry.objects.all().count())
 
     # Show all the slugs
     if 0:

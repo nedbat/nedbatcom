@@ -6,19 +6,19 @@
 <meta name='ROBOTS' content='NOINDEX' />
 {% endblock %}
 
-{# No page dateline for blog entries #}
+{# No page dateline for blog posts #}
 {% block dateline %}{% endblock %}
 
 {% block body %}
     <p class='first'>
         {% ifequal type 'complete' %}
-            These are all {{entries|length}} blog entries.
+            These are all {{entries|length}} blog posts.
         {% endifequal %}
         {% ifequal type 'year' %}
             {% if entries|length_is:"1" %}
-                This is the single blog entry for {{year}}.
+                This is the single blog post for {{year}}.
             {% else %}
-                These are the {{entries|length}} blog entries for {{year}}.
+                These are the {{entries|length}} blog posts for {{year}}.
             {% endif %}
             There is also a <a href='/blog/archiveall.html' rel='up'>complete archive</a>.
         {% endifequal %}
@@ -31,7 +31,7 @@
             written on {{date|date:"F j"}} of any year.
         {% endifequal %}
         {% ifequal type 'drafts' %}
-            These are the {{entries|length}} unfinished blog entries.
+            These are the {{entries|length}} unfinished blog posts.
         {% endifequal %}
     </p>
 

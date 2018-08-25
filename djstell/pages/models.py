@@ -114,7 +114,7 @@ class Article(models.Model, ModelMixin):
         if p.get('index', 'yes') == "no":
             art.meta += "<meta name='ROBOTS' content='NOINDEX'>"
 
-        # These should really be sub-elements, because how come blog entries
+        # These should really be sub-elements, because how come blog posts
         # have <title> and <body>, but page doesn't? 
         art.scripts = p.get('scripts', '')
         art.style = p.get('style', '')
