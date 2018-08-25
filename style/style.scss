@@ -578,8 +578,9 @@ a.s {
 
 .hilitefragment {
     background: #ffa;
-    padding: 1em 1em 0 1em;
-    border: 1px solid #880;
+    padding: 0 1em;
+    margin-left: -1em;
+    border: 1px solid #ccc;
 }
 
 /* Archive page: make the dates hang left to align all the titles. */
