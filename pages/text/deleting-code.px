@@ -57,8 +57,8 @@ But don't leave it where it doesn't belong: in your source code.
 
 <p>If you have a chunk of code you don't need any more, there's one big reason to delete
 it for real rather than leaving it in a disabled state: to reduce noise and uncertainty.
-Some of the worst enemies a developer has are noise or uncertainty in his code,
-because they prevent him from working with it effectively in the future.</p>
+Some of the worst enemies a developer has are noise or uncertainty in their code,
+because they prevent working with it effectively in the future.</p>
 
 <p>A chunk of code in a disabled state just causes uncertainty. It puts questions in other
 developers' minds:</p>
@@ -160,8 +160,8 @@ if 0:
     OldWayStepTwenty(hooey)
 ]]></code>
 
-<p>This is no better than commenting out the code: it's just more convenient for the
-guy doing the removing.  In fact, in some ways it is worse than commenting out the
+<p>This is no better than commenting out the code: it's just more convenient for
+whoever is doing the removing.  In fact, in some ways it is worse than commenting out the
 code.  Some IDEs don't syntax-color this code as a comment, so it's easy for other
 developers to read this code and not realize it has been disabled.</p>
 
