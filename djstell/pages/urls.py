@@ -20,7 +20,7 @@ urlpatterns = patterns('djstell.pages.views',
     url(r'^blog/tag/none.html$', 'untagged'),
     url(r'^blog/tag/(?P<slug>.*).html$', 'tag'),
 
-    url(r'^blog/archive(?P<year>\d\d\d\d).html$', 'archiveyear'),
+    url(r'^blog/archive/year(?P<year>\d\d\d\d).html$', 'archiveyear'),
     url(r'^blog/archive/date(?P<month>\d\d)(?P<day>\d\d).html$', 'archivedate'),
     url(r'^blog/archive/all.html$', 'archiveall'),
     url(r'^blog/drafts.html$', 'drafts'),

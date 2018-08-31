@@ -126,7 +126,7 @@ class CmdLine(object):
             '/index.html',
             ]
 
-        resources += ['/blog/archive%4d.html' % d.year for d in Entry.objects.dates('when', 'year')]
+        resources += ['/blog/archive/year%4d.html' % d.year for d in Entry.objects.dates('when', 'year')]
 
         dates = []
         date = datetime.datetime(2004, 1, 1)        # Use a leap year

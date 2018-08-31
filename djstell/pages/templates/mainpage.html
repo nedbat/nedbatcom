@@ -58,7 +58,7 @@
 {% endfor %}
 {% endreallyspaceless %}
 {% for y in archive_years %}
-<a href='/blog/archive{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
+<a href='/blog/archive/year{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
 {% endfor %}
 <a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss28.png' width='14' height='14' title='RSS feed of posts' alt='RSS feed'></a>
 <span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>

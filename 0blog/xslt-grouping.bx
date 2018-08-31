@@ -15,7 +15,7 @@ and whose simple and obvious looping solution is not available in XSLT.
 <p>Alex's solution is a clever use of tail recursion to loop and
 work around XSLT's lack of mutable variables.
 Luckily, when I was trying to figure out this same problem (for my
-<a href='blog/archive2002.html'>blog archive</a> page),  I found
+<a href='blog/archive/year2002.html'>blog archive</a> page),  I found
 <a href='http://www.jenitennison.com'>Jeni Tennison</a>'s XSLT pages, including
 <a href='http://www.jenitennison.com/xslt/grouping/muenchian.html'>a page about grouping</a>.
 She describes the Muenchian method, which is what I ended up using.
