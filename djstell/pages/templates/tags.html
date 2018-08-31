@@ -4,10 +4,15 @@
 {% block body %}
     {% if entries %}
         <p class='first'>
-            {% if tag %}
-                These are my blog posts about {{tag.about}}:
+            {% if entries|length_is:"1" %}
+                This is the only blog post
             {% else %}
-                These are my blog posts with no tags:
+                These are the {{entries|length}} blog posts
+            {% endif %}
+            {% if tag %}
+                about {{tag.about}}:
+            {% else %}
+                with no tags:
             {% endif %}
         </p>
 
