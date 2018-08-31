@@ -2,10 +2,10 @@
 // Ned Batchelder.
 
 jQuery(function($){
-	var frag = location.hash;
-	if (frag.length > 1 && frag != '#commentform' && frag != '#comments') {
-		$(frag).addClass('hilitefragment');
-	}
+    var frag = location.hash;
+    if (frag.length > 1 && frag != '#commentform' && frag != '#comments') {
+        $(frag).addClass('hilitefragment');
+    }
 });
 
 // Manipulate the submit button on the comment form.
