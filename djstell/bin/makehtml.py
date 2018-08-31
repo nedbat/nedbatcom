@@ -118,7 +118,7 @@ class CmdLine(object):
             '/blog/tag/none.html',
             '/blog/rss.xml',
             '/blog/planetpython.xml',
-            '/blog/archiveall.html',
+            '/blog/archive/all.html',
             '/blog/moved.php',
             '/blog/drafts.html',
             '/sidebar_blog.inc',
