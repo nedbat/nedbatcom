@@ -25,3 +25,8 @@ jQuery(function($){
         timer.stop();
     });
 });
+
+jQuery(function($){
+    var thisdate = new Date().toJSON().slice(5,10).replace('-', '');
+    $(".thisdate").attr("href", "/blog/archive/date" + thisdate + ".html");
+});
