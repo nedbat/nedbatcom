@@ -72,7 +72,7 @@ def content_transform(name, xmltext, child=None, params={}):
         'base':     string_param(settings.BASE),
         })
     html = str(xslt_xform(doc, **params))
-    html = smartypants.smartypants(html, smartypants.Attr.q)
+    html = smartypants.smartypants(html, smartypants.Attr.q | smartypants.Attr.n)
     for entry in xslt_xform.error_log:
         if entry.filename == '<string>':
             fname = name
