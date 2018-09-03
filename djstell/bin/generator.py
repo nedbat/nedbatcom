@@ -41,8 +41,9 @@ class DummyHandler(BaseHandler):
     def __call__(self, request):
         self.load_middleware()
         response = self.get_response(request)
-        for middleware_method in self._response_middleware:
-            response = middleware_method(request, response)
+        # I'm not sure why this was here: get_response calls these middleware.
+        #   for middleware_method in self._response_middleware:
+        #       response = middleware_method(request, response)
 
         return response
 
@@ -166,9 +167,8 @@ class StaticGenerator(object):
                 raise StaticGeneratorException('Could not create the directory: %s' % directory)
 
         try:
-            f = open(fn, 'w')
-            f.write(content)
-            f.close()
+            with open(fn, 'w') as f:
+                f.write(content)
         except:
             raise StaticGeneratorException('Could not create the file: %s' % fn)
 
