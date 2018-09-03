@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180903T083603'>
+<title>Coverage.py 5.0a2: SQLite storage</title>
+<category>coverage</category>
+<body>
+
+<p>The <a href='https://pypi.org/project/coverage/5.0a2/'>next alpha of Coverage.py 5.0</a>
+    is ready: <a href='https://pypi.org/project/coverage/5.0a2/'>5.0a2</a>.
+    The big change is that instead of using a JSON-like file for storing the
+    collected data, we now use a SQLite database.  This is in preparation for
+    <a href='/blog/201612/who_tests_what.html'>new features</a> down the road.</p>
+
+<p>In theory, everything works as it did before.  I need you to tell me whether
+    that's true or not.  Please test this alpha release.  Let me know what you
+    find.</p>
+
+<p>If you try it, and it works, let me know!
+    <a href='mailto:ned@nedbatchelder.com?subject=I tried coverage.py 5.0a2'>Email is good</a>.
+</p>
+
+<p>If you see a problem, do this:</p>
+
+<ul>
+
+    <li>First create a reproducible scenario, something that I can recreate.</li>
+
+    <li>Try running that scenario with the environment variable
+        <tt>COVERAGE_STORAGE=json</tt> defined, which will use the old JSON storage
+        format.  It will be very helpful to know if the results change.</li>
+
+    <li>Write up the issue on <a href='https://github.com/nedbat/coveragepy/issues'>GitHub</a>.
+        Please provide as many details as you can.</li>
+
+</ul>
+
+<p>The biggest change in behavior is that the data file is now created earlier
+    than before.  If you are running tests simultaneously, this might mean that
+    you need parallel=true where you didn't before.  Keep an eye out for that.</p>
+
+<p>Some other notes about these changes:</p>
+
+<ul>
+
+    <li>For now, the old JSON storage code is still in place. It can be enabled
+        with a <tt>COVERAGE_STORAGE=json</tt> environment variable.</li>
+
+    <li>But I would rather not keep that code around forever.  One of the things
+        I'm trying to find out with this alpha is whether there's any reason I
+        will need to keep it around.</li>
+
+    <li>The database schema is still in flux, and will need to change to support
+        future features.  I'm not sure whether to make the schema part of the
+        public interface to coverage.py or not.  I want people to be able to
+        experiment with the collected data, but I also want to be able to change
+        it in the future if I need to.</li>
+
+</ul>
+
+<p>Please test the code, and let me know what you find.</p>
+
+</body>
+</entry>
+</blog>
