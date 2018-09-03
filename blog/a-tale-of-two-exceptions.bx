@@ -368,7 +368,9 @@ class SkipConvertingMetaclass(type):
     our test classes use the metaclass:</p>
 
 <code lang="python"><![CDATA[
-CoverageTestMethodsMixin = SkipConvertingMetaclass('CoverageTestMethodsMixin', (), {})
+CoverageTestMethodsMixin = SkipConvertingMetaclass(
+    'CoverageTestMethodsMixin', (), {}
+)
 
 class CoverageTest(
     ... some other mixins ...
@@ -379,8 +381,8 @@ class CoverageTest(
 ]]></code>
 
 <p>Metaclasses make classes, just the way classes make instances: you call
-    them.  Here we call our with the arguments it needs (class name, base
-    classes, and attributes) to make a class called
+    them.  Here we call our metaclass with the arguments it needs (class name,
+    base classes, and attributes) to make a class called
     CoverageTestMethodsMixin.</p>
 
 <p>Then we use CoverageTestMethodsMixin as one of the base classes of
@@ -390,7 +392,7 @@ class CoverageTest(
 <p>Pro tip: if you are using unittest-style test classes, make a single class to
     be the base of all of your test classes, you will be glad.</p>
 
-<p>After all of this class machinations, what have we got? Our test classes all
+<p>After all of these class machinations, what have we got? Our test classes all
     derive from a base class which uses a metaclass to decorate all the test
     methods.  As a result, any test which raises StopEverything will instead
     raise SkipTest to the test runner, and the test will be skipped.  There's
