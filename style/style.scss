@@ -797,7 +797,7 @@ div.linenodiv {
     margin-right: auto;
 }
 
-.codeword {
+.codeword, tt {
     font-size: 80%;
     font-family: $code-font;
     background-color: #e8e8e8;
