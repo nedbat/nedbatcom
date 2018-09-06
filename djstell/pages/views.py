@@ -82,6 +82,8 @@ def archivedate(request, month, day):
     c['date'] = date
     c['title'] = date.strftime('Blog: %B %-d')
     c['bodyclass'] = 'blog archive date'
+    c['prev_date'] = date - datetime.timedelta(days=1)
+    c['next_date'] = date + datetime.timedelta(days=1)
     return render_to_response('blogarchive.html', c)
 
 def archiveall(request):
