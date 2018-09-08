@@ -571,7 +571,17 @@ a.s {
         clear: both;
     }
     .via {
-        float: right;
+        display: block;
+        @media (min-width: $tiny-break) {
+            display: span;
+            float: right;
+        }
+    }
+    .react {
+        display: block;
+        @media (min-width: $tiny-break) {
+            display: span;
+        }
     }
 }
 
