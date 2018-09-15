@@ -8,11 +8,36 @@ $debug-links: no;
 
 $gray: #595959;
 
-$me-font: "PT Serif", Georgia, serif;
+$me-font: "PT Serif NB", Georgia, serif;
 $them-font: "Source Sans Pro", Verdana, sans-serif;
 $code-font: Menlo, "courier new", monospace;
 
 @import 'debug_structure';
+
+@font-face {
+  font-family: 'PT Serif NB';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PTSerif-Bold'), url(/files/PTSerif-NB-Bold.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif NB';
+  font-style: italic;
+  font-weight: 700;
+  src: local('PTSerif-BoldItalic'), url(/files/PTSerif-NB-BoldItalic.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif NB';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PTSerif-NB-Italic'), url(/files/PTSerif-NB-Italic.woff2) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif NB';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PTSerif-NB-Regular'), url(/files/PTSerif-NB-Regular.woff2) format('truetype');
+}
 
 // Common simplifying rules
 
@@ -27,15 +52,6 @@ p, h1, h2, h3, h4, h5, h6 {
 
 img {
     border: none;
-}
-
-.oq {
-    position: relative;
-    top: .0em;
-}
-.cq {
-    position: relative;
-    top: -.1em;
 }
 
 //

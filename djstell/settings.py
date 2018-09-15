@@ -85,7 +85,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
     'djstell.middleware.standard.LogQueriesMiddleware',
-    'djstell.middleware.tweakoutput.TweakOutputMiddleware',
+    #'djstell.middleware.tweakoutput.TweakOutputMiddleware',
 )
 
 ROOT_URLCONF = 'djstell.urls'
