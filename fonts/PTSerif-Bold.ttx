@@ -24207,9 +24207,9 @@
       <component glyphName="quoteleft" x="0" y="0" flags="0x4"/>
     </TTGlyph>
 
-    <TTGlyph name="quotedblright" xMin="62" yMin="414" xMax="447" yMax="699">
-      <component glyphName="quotesinglbase" x="205" y="563" flags="0x4"/>
-      <component glyphName="quotesinglbase" x="0" y="563" flags="0x4"/>
+    <TTGlyph name="quotedblright" xMin="62" yMin="514" xMax="447" yMax="799">
+      <component glyphName="quotesinglbase" x="205" y="663" flags="0x4"/>
+      <component glyphName="quotesinglbase" x="0" y="663" flags="0x4"/>
       <instructions>
         <assembly>
           PUSHB[ ]	/* 1 value pushed */
@@ -24326,8 +24326,8 @@
       </instructions>
     </TTGlyph>
 
-    <TTGlyph name="quoteright" xMin="62" yMin="414" xMax="242" yMax="699">
-      <component glyphName="quotesinglbase" x="0" y="563" flags="0x204"/>
+    <TTGlyph name="quoteright" xMin="62" yMin="514" xMax="242" yMax="799">
+      <component glyphName="quotesinglbase" x="0" y="663" flags="0x204"/>
       <instructions>
         <assembly>
           PUSHB[ ]	/* 1 value pushed */
