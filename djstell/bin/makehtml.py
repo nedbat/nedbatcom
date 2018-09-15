@@ -50,7 +50,7 @@ class CmdLine(object):
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
             *.zip *.gz *.tgz
-            *.ttf
+            *.ttf *.woff2
             '''
         self.use_processes = True
 
@@ -150,7 +150,7 @@ class CmdLine(object):
     def copy_verbatim(self, dst):
         self.xuff.copytree(src='pages', dst=dst,
             include='''
-                *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf
+                *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf *.woff2
                 *.txt *.ida *.php *.ico *.htaccess *.xml
                 *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
                 *.ipynb

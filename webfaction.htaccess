@@ -10,6 +10,7 @@ AddHandler php52-cgi .php .php3 .phtml .html .htm .php4
 # Get XML files served properly for interpretation and charset issues.
 AddType text/xml .xslt
 AddType application/xml .xml
+AddType font/woff2 .woff2
 
 # Error 404 should be served with /err404.html
 ErrorDocument 404 /err404.html
