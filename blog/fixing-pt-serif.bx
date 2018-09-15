@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20180915T094551'>
+<title>Fixing PT Serif</title>
+<category>site</category>
+<category>type</category>
+<body>
+
+<p>When I <a href='blog/201711/new_design.html'>redesigned this site</a> last
+    year, I chose PT Serif as the body typeface.  It is narrow but readable,
+    has character, but is not quirky.  It wasn't until I had finished the
+    design and gotten it launched that I noticed something that bothered me.
+    The curly quotes are designed so that the bulbs are at the same height, and
+    the tails go up and down from there.  It's not that noticeable on a word,
+    but on single characters they just look cockeyed to me:</p>
+
+<figurep>
+    <img src='pix/pt-serif-quotes.png' alt='Close-up of PT Serif curly quotes on a word and a character' />
+</figurep>
+
+<p>I lived with it for a while, but I couldn't stop seeing it, so I decided to
+    fix it.  All I had to do was to scooch the closing quotes up a little.
+    This site is generated with Django, so I wrote some middleware that would
+    find all of the closing curly quotes in the output, and wrap them with a
+    span:</p>
+
+<code lang="python"><![CDATA[
+REPLACEMENTS = [
+    ('&#8221;', '<span class="cq">&#8221;</span>'),
+    ('&#8217;', '<span class="cq">&#8217;</span>'),
+]
+
+class TweakOutputMiddleware:
+    def process_response(self, request, response):
+        for before, after in REPLACEMENTS:
+            response.content = response.content.replace(before, after)
+        return response
+]]></code>
+
+<p>Then I added a little CSS to move that span, and the quotes were fixed:</p>
+
+<code lang="css"><![CDATA[
+.cq {
+    position: relative;
+    top: -.1em;
+}
+]]></code>
+
+<p>But then I had lunch with <a href='https://djr.com/'>David Jonathan Ross</a>,
+    an accomplished and <a href='https://en.wikipedia.org/wiki/Prix_Charles_Peignot'>acclaimed</a>
+    type designer.  When I mentioned this tweak to him, he said, "Why not just
+    fix the font?"</p>
+
+<p>This was a stark illustration of different experts' tool sets.  I'm
+    comfortable screwing around with Django, HTML, and CSS.  Even though I am a
+    huge fan of fonts and type technology, and know a lot about both, I have
+    never modified a font.  The have always been immutable to me.  But
+    David is a type designer. Typefaces are the clay in his hands, so his first
+    reaction was to just change the font.</p>
+
+<p>I was intrigued.  We discussed how I might go about that.  No shape changes
+    were required. I just had to move some glyphs vertically.</p>
+
+<p>First I retrieved the four TrueType font files for the four versions of PT Serif.
+    My HTML pages had this line to get the fonts from Google:</p>
+
+<code lang="python"><![CDATA[
+https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i|Source+Sans+Pro:400,400i,700,700i
+]]></code>
+
+<p>Retrieving that URL got me a small file of CSS @font declarations, with URLs
+    for the individual font files that I could download.</p>
+
+<p>There were two basic approaches I could try to changing the fonts: GUI font
+    editors, or programmatically.  There are a handful of GUI font editors
+    available, some free, some not.  They are a bit overwhelming, because you
+    are suddenly confronted with a lot of fiddly Bézier curves, and it is very
+    easy to make things look horrible.</p>
+
+<p>Just adjusting the vertical height of a glyph isn't hard.  But the app might
+    have other ideas. For example, I tried the <a href='https://glyphsapp.com/'>Glyphs</a>
+    editor, and when I opened PT Serif, it immediately offered to fix four
+    problems.  I didn't know there were problems! Do I want to change those
+    things?  I just wanted to move some quotes...</p>
+
+<p>The programmatic option was looking more appealing, and I wanted to
+    understand the possibilities there anyway.  David had recommended
+    <a href="https://github.com/fonttools/fonttools">fonttools</a>, a suite of
+    tools written in Python for manipulating fonts.  This sounded like
+    home!</p>
+
+<p>I first tried using fonttools as a Python library that I could write code
+    with to change the font.  But the examples and docs were not immediately
+    helpful in understanding the arcane internal details.</p>
+
+<p>So I tried something that David had suggested to me: fonttools provides a
+    ttx command that converts fonts to and from an XML format.  You can then
+    modify the XML, and convert it back into a font.</p>
+
+<p>I converted PT Serif into a .ttx XML file, and opened it up.  I found the
+    definition of the right curly double-quote glyph:</p>
+
+<code lang="xml"><![CDATA[
+<TTGlyph name="quotedblright" xMin="57" yMin="440" xMax="401" yMax="699">
+  <component glyphName="quotesinglbase" x="182" y="585" flags="0x4"/>
+  <component glyphName="quotesinglbase" x="0" y="585" flags="0x4"/>
+  <instructions>
+    <assembly>
+      PUSHB[ ]	/* 1 value pushed */
+      10
+      CALL[ ]	/* CallFunction */
+      IF[ ]	/* If */
+        PUSHB[ ]	/* 5 values pushed */
+        63 6 79 6 2
+        DELTAP1[ ]	/* DeltaExceptionP1 */
+        PUSHB[ ]	/* 7 values pushed */
+]]></code>
+
+<p>First, notice that there are instructions there that look a lot like a byte
+    code of some kind. I had heard that font files had stuff like this in them,
+    but had never dived into the details.  A quick look at the instructions
+    told me that the things I needed were not there.</p>
+
+<p>The "component" pieces are the useful parts here.  Fonts have repetitive
+    elements.  Rather than repeat those curves over and over, the font file
+    can assemble a glyph from other parts.  Here the quotedblright glyph is
+    made with two copies of the quotesinglbase character, each with an 
+    x and y offset.</p>
+
+<p>Could it be that just changing those offsets, and some other y-referencing
+    values, will be enough?  Based on my CSS tweaks, I knew that I wanted to
+    raise the glyph by .1em.  An "em" is a unit of measurement equal to the font
+    size, so in a 10-point font, an em is 10 points.  I knew that font designs
+    usually are done on a grid with 1000 units to an em, so all I had to do
+    was add 100 to the y values.</p>
+
+<p>I changed those first three lines to:</p>
+
+<code lang="python"><![CDATA[
+<TTGlyph name="quotedblright" xMin="57" yMin="540" xMax="401" yMax="799">
+  <component glyphName="quotesinglbase" x="182" y="685" flags="0x4"/>
+  <component glyphName="quotesinglbase" x="0" y="685" flags="0x4"/>
+]]></code>
+
+<p>After converting the .ttx to a .woff2 file, changing my CSS to refer to the
+    new fonts, and uploading everything, it all works! Now my "quotes" are more
+    balanced: "q".</p>
+
+<p>I've only just barely dipped my toe into these technologies.  I'm afraid it's
+    a Pandora's box of tempting traps.  For example, the upper-case Q in PT Serif
+    has a detached tail that I would rather were attached.  But changing that
+    is a whole other level of effort and skill, so probably best left as-is.</p>
+
+</body>
+</entry>
+</blog>
