@@ -18,13 +18,13 @@ $code-font: Menlo, "courier new", monospace;
   font-family: 'PT Serif NB';
   font-style: normal;
   font-weight: 700;
-  src: local('PTSerif-Bold'), url(/files/PTSerif-NB-Bold.woff2) format('truetype');
+  src: local('PTSerif-NB-Bold'), url(/files/PTSerif-NB-Bold.woff2) format('truetype');
 }
 @font-face {
   font-family: 'PT Serif NB';
   font-style: italic;
   font-weight: 700;
-  src: local('PTSerif-BoldItalic'), url(/files/PTSerif-NB-BoldItalic.woff2) format('truetype');
+  src: local('PTSerif-NB-BoldItalic'), url(/files/PTSerif-NB-BoldItalic.woff2) format('truetype');
 }
 @font-face {
   font-family: 'PT Serif NB';
