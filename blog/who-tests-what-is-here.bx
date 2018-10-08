@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20181007T082146'>
-<title>Who tests what is here</title>
+<entry when='20181007T082146' slug='who_tests_what_is_here'>
+<title>Who tests what is here: Coverage.py 5.0a3</title>
 <category>coverage</category>
 <body>
 
@@ -29,7 +29,10 @@ dynamic_context = test_function
         database schema.</li>
 </ul>
 
-<p>The database has a few tables:</p>
+<p>The database can be accessed in any SQLite-compatible way you like.  Note
+    that the schema is not (yet) part of the public API.  That is, it may not
+    be guaranteed to stay the same. This is one of the things yet to be
+    decided.  For now though, the database has these tables:</p>
 
 <ul>
     <li>file: maps full file paths to file_ids: id, path</li>
