@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181007T082146'>
+<title>Who tests what is here</title>
+<category>coverage</category>
+<body>
+
+<p>A long-awaited feature of coverage.py is now available in a rough form:
+    <a pref='blog/who-tests-what.bx'/> annotates coverage data with the
+    name of the test function that ran the code.</p>
+
+<p>To try it out:</p>
+
+<ul>
+    <li>Install <a href='https://pypi.org/project/coverage/5.0a3/'>coverage.py v5.0a3</a>.</li>
+
+    <li>Add this line literally to the [run] section of your .coveragerc file:</li>
+
+<code><![CDATA[
+[run]
+dynamic_context = test_function
+]]></code>
+
+    <li>Run your tests.</li>
+
+    <li>The .coverage file is now a SQLite database.  There is no change to
+        reporting yet, so you will need to do your own querying of the SQLite
+        database to get information out. See below for a description of the
+        database schema.</li>
+</ul>
+
+<p>The database has a few tables:</p>
+
+<ul>
+    <li>file: maps full file paths to file_ids: id, path</li>
+    <li>context: maps contexts (test function names) to contexts_ids: id, context</li>
+    <li>line: the line execution data: file_id, context_id, lineno</li>
+    <li>arc: similar to line, but for branch coverage: file_id, context_id, fromno, tono</li>
+</ul>
+
+<p>It's not the most convenient, but the information is all there.  If you used
+    branch coverage, then the important data is in the "arc" table, and "line"
+    is empty.  If you didn't use branch coverage, then "line" has data and
+    "arc" is empty. For example, using the sqlite3 command-line tool, here's a
+    query to see which tests ran a particular line:</p>
+
+<code lang="python"><![CDATA[
+sqlite> select
+   ...> distinct context.context from arc, file, context
+   ...> where arc.file_id = file.id
+   ...> and arc.context_id = context.id
+   ...> and file.path like '%/xmlreport.py'
+   ...> and arc.tono = 122;
+context
+------------------------------------------------------------
+XmlPackageStructureTest.test_package_names
+OmitIncludeTestsMixin.test_omit
+OmitIncludeTestsMixin.test_include
+OmitIncludeTestsMixin.test_omit_2
+XmlReportTest.test_filename_format_showing_everything
+XmlReportTest.test_no_source
+OmitIncludeTestsMixin.test_include_as_string
+OmitIncludeTestsMixin.test_omit_and_include
+XmlReportTest.test_empty_file_is_100_not_0
+OmitIncludeTestsMixin.test_omit_as_string
+XmlReportTest.test_nonascii_directory
+OmitIncludeTestsMixin.test_nothing_specified
+XmlReportTest.test_curdir_source
+XmlReportTest.test_deep_source
+XmlPackageStructureTest.test_package_depth
+XmlPackageStructureTest.test_source_prefix
+XmlGoldTest.test_a_xml_2
+XmlGoldTest.test_a_xml_1
+XmlReportTest.test_filename_format_including_module
+XmlReportTest.test_reporting_on_nothing
+XmlReportTest.test_filename_format_including_filename
+ReportingReturnValueTest.test_xml
+OmitIncludeTestsMixin.test_include_2
+]]></code>
+
+<p>BTW, there are also "static contexts" if you are interested in keeping
+    coverage data from different test runs separate: see
+    <a href='https://coverage.readthedocs.io/en/coverage-5.0a3/contexts.html'>Measurement
+    Contexts</a> in the docs for details.</p>
+
+<p>Some things to note and think about:</p>
+
+<ul>
+
+    <li>The test function name recorded includes the test class if we can
+        figure it out. Sometimes this isn't possible.  Would it be better to
+        record the filename and line number?</li>
+
+    <li>Is test_function too fine-grained for some people?  Maybe chunking to
+        the test class or even the test file would be enough?</li>
+
+    <li>Better would be to have test runnner plugins that could tell us the
+        test identifier.  Anyone want to help with that?</li>
+    
+    <li>What other kinds of dynamic contexts might be useful?</li>
+
+    <li>What would be good ways to report on this data? How are you navigating
+        the data to get useful information from it?</li>
+
+    <li>How is the performance?</li>
+
+    <li>We could have a "coverage extract" command that would be like the
+        opposite of "coverage combine": it could pull out a subset of the data
+        so a readable report could be made from it.</li>
+
+</ul>
+
+<p>Please try this out, and let me know how it goes. Thanks.</p>
+
+</body>
+</entry>
+</blog>
