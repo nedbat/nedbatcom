@@ -1245,7 +1245,7 @@ differently for mutable values than for immutable values.  This is not true.
 Assignment is very simple: it makes the name on the left side refer to the
 value on the right side.</p>
 
-<p>When people say that assignment work differently, they are misdiagnosing the
+<p>When people say that assignment works differently, they are misdiagnosing the
 mutable aliasing problem.  They see two different effects in two pieces of
 code, and know that one involves a mutable value, and the other an immutable
 value, and mistakenly believe that it's the assignment step that differs
@@ -1308,7 +1308,7 @@ x += y
 x = x.__iadd__(y)
 </code>
 
-<p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(y)",
+<p>(to be completely pedantic, it's the same as "x = type(x).__iadd__(x, y)",
 because the method will not be found on the object itself, only on the class.)
 The meaning of += depends on the type of x, because that value provides the
 implementation of __iadd__ that will be used.</p>
@@ -1344,7 +1344,7 @@ nums = nums
 <p>So there is a rebinding operation here, but first, there's a mutating
 operation, and the rebinding operation is a no-op.</p>
 
-<p>The moreal of the story here is to understand the behavior of the primitives
+<p>The moral of the story here is to understand the behavior of the primitives
 you are using!</p>
 
 </div><!-- }}} -->

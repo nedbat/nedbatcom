@@ -11,7 +11,7 @@ see on this page, click through the <a href="text/names1/names1.html">actual pre
 to see them in their full glory.
 You can also watch the video of me presenting it:</p>
 
-<figurep aspect='4x3'>
+<figurep aspect="4x3">
     <iframe src="https://www.youtube.com/embed/_AEJHKGk9ns" frameborder="0" allowfullscreen="allowfullscreen"/>
 </figurep>
 
@@ -116,7 +116,7 @@ the name nums is rebound to it.</p><p>On the other hand, there is no way to muta
 literally they cannot be mutated.</p><figurep href="text/names1/names1.html#12"><img alt="Mutable and immutable are assigned the same" scale="0.5" src="text/names1_pix/011.png"/></figurep><!-- {{{ --><p>One of the common misconceptions about Python is that assignment works
 differently for mutable values than for immutable values.  This is not true.
 Assignment is very simple: it makes the name on the left side refer to the
-value on the right side.</p><p>When people say that assignment work differently, they are misdiagnosing the
+value on the right side.</p><p>When people say that assignment works differently, they are misdiagnosing the
 mutable aliasing problem.  They see two different effects in two pieces of
 code, and know that one involves a mutable value, and the other an immutable
 value, and mistakenly believe that it's the assignment step that differs
