@@ -395,8 +395,10 @@ dt, dd {
 
 .searchform {
     margin-top: 6px;
-    display: inline;
+    display: inline-flex;
     margin-left: .5em;
+    width: 100%;
+    max-width: 15em;
 
     label {
         display: inline-block;
@@ -404,23 +406,8 @@ dt, dd {
     }
 
     @media (min-width: $narrow-break) {
-        display: block;
+        display: flex;
         margin-left: 0;
-    }
-}
-
-.searchflex {
-    display: inline-flex;
-    flex-flow: row;
-    max-width: 15em;
-    width: 100%;
-
-    > * {
-        flex: 0 auto;
-    }
-
-    > .searchbox {
-        flex: 1 0;
     }
 }
 
@@ -429,7 +416,13 @@ input {
         border: 1px solid #7e9db9;
         border-radius: 2px;
         padding: 2px;
-        width: 100%;
+        flex: 1;
+        height: $magnifier-size;
+
+        @media (min-width: $narrow-break) {
+            max-width: 7rem;
+            margin-left: 0;
+        }
     }
 }
 
@@ -931,6 +924,11 @@ img {
 
         &[type="checkbox"] {
             width: auto;
+        }
+
+        &#submit {
+            width: $magnifier-size;
+            height: $magnifier-size;
         }
     }
 
