@@ -97,7 +97,7 @@ OmitIncludeTestsMixin.test_include_2
     <li>Is test_function too fine-grained for some people?  Maybe chunking to
         the test class or even the test file would be enough?</li>
 
-    <li>Better would be to have test runnner plugins that could tell us the
+    <li>Better would be to have test runner plugins that could tell us the
         test identifier.  Anyone want to help with that?</li>
     
     <li>What other kinds of dynamic contexts might be useful?</li>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181027T110451'>
+<title>Why warnings is mysterious</title>
+<category>python</category>
+<body>
+
+<p>I recently went through a process I've done many times before: I tried to
+    configure the Python <a href='https://docs.python.org/3/library/warnings.html'>warnings</a>
+    module, and was mystified.   I set the PYTHONWARNINGS environment variable,
+    and it doesn't do what it seems like it should.  I read the docs again, I
+    think I understand what they are telling me, but the code isn't doing what
+    it seems like it should be doing.  Frustrating.</p>
+
+<p>I had some time today to dig into it, and now I understand better.  The docs
+    are misleading and/or incomplete. The module is not designed for
+    maximum utility. Let me explain.</p>
+
+<p>Here's is what the docs tell you:  PYTHONWARNINGS (or the -W command-line option)
+    is a comma-separated list of filters. Each filter is a 5-tuple of fields
+    separated by colons.  The third and fourth fields are of interest here, 
+    they are category and module.</p>
+
+<p>Let's start with module: it's the module that caused the warning. The docs
+    say it is a regular expression. <strong>This is false!</strong> Internally, this string is
+    used as part of a regex match operation, but first it is escaped, so if you
+    include an asterisk in your setting, you will be trying to match module names
+    that have a literal asterisk in them, which is impossible.</p>
+
+<p>OK, so the module string is a literal string, not a regex, but the escaped
+    string is being used as part of re.match, so it should be possible to
+    suppress warning from an entire package (like backports.*) just by
+    specifying "backports", right?  <strong>Nope!</strong> After being escaped,
+    a $ is added to the end, so your literal string must be an exact match on
+    the entire module name.  Sigh.</p>
+
+<p>Just to add to the confusion, the docs have long included this example,
+    which isn't even a sensible regex, never mind that regexes aren't usable
+    here:</p>
+
+<code lang="python"><![CDATA[
+error:::mymodule[.*]    # Convert warnings to errors in "mymodule"
+                        # and any subpackages of "mymodule"
+]]></code>
+
+<p>These concerns about the regex behavior is the topic of
+    <a href='https://bugs.python.org/issue34624'>bpo 34624</a>, BTW.</p>
+
+<p>On to category: this is actually the class of warning exception being used,
+    so you can say (for example) DeprecationWarning here.  In my case, I wanted
+    to suppress the deprecation warnings that pytest raises.  Pytest helpfully
+    uses a base class, pytest.PytestDeprecationWarning, so I used that as the
+    category.  But this causes an error message at startup:</p>
+
+<quote><p>Invalid -W option ignored: invalid module name: 'pytest'</p></quote>
+
+<p>Huh? pytest is an importable module!  <strong>Nope</strong>: these category
+    names are imported early in the startup sequence, before your real sys.path
+    is built, so you cannot name third-party modules here...!</p>
+
+<p>There are probably other things about warnings that confuse people. These
+    are the ones I uncovered today after a long rage-fueled debugging session.
+    An important developer skill is an irrational belief that things can be
+    understood, and be made to make sense.  Another is knowing when to give up
+    and just accept the confusion.  This morning I fully embraced the first.</p>
+
+<p>In my case, I was trying to suppress warnings reported while running tests
+    with pytest.  Pytest has its own setting for warnings filters, and it uses
+    its own copy of the warnings.py code for reading them, so that the regexes
+    are not escaped!  This is very useful, but could also add to the mystery,
+    since the pytest docs don't mention the difference.</p>
+
+<p>And since pytest interprets its settings after sys.path has been configured,
+    I can use third-party warning categories there.  So this works perfectly:</p>
+
+<code lang="ini"><![CDATA[
+[pytest]
+filterwarnings =
+    ignore:::backports
+    ignore::pytest.PytestDeprecationWarning
+]]></code>
+
+<p>It's very satisfying to have some mysteries solved.</p>
+
+</body>
+</entry>
+</blog>
