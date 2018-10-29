@@ -16,7 +16,7 @@
     are misleading and/or incomplete. The module is not designed for
     maximum utility. Let me explain.</p>
 
-<p>Here's is what the docs tell you:  PYTHONWARNINGS (or the -W command-line option)
+<p>Here's what the docs tell you:  PYTHONWARNINGS (or the -W command-line option)
     is a comma-separated list of filters. Each filter is a 5-tuple of fields
     separated by colons.  The third and fourth fields are of interest here, 
     they are category and module.</p>
@@ -29,7 +29,7 @@
 
 <p>OK, so the module string is a literal string, not a regex, but the escaped
     string is being used as part of re.match, so it should be possible to
-    suppress warning from an entire package (like backports.*) just by
+    suppress warnings from an entire package (like backports.*) just by
     specifying "backports", right?  <strong>Nope!</strong> After being escaped,
     a $ is added to the end, so your literal string must be an exact match on
     the entire module name.  Sigh.</p>
@@ -43,7 +43,7 @@ error:::mymodule[.*]    # Convert warnings to errors in "mymodule"
                         # and any subpackages of "mymodule"
 ]]></code>
 
-<p>These concerns about the regex behavior is the topic of
+<p>These concerns about the regex behavior are the topic of
     <a href='https://bugs.python.org/issue34624'>bpo 34624</a>, BTW.</p>
 
 <p>On to category: this is actually the class of warning exception being used,
