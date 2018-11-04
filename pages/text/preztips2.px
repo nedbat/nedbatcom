@@ -19,14 +19,19 @@
 
 <h1>Making slides</h1>
 
-<p>Everything here boils down to: make it easier for people to get your message.</p>
+<p>Everything here boils down to: make it easier for people to get your
+    message.</p>
 
 <p><b>Do not put full sentences on your slides</b>. You never need complete
     sentences.  The slides do not have to stand by themselves, they are meant
     to support you as you are speaking.  Putting full sentences on the slides
-    just means that people will read the slides instead of listening to you.</p>
+    just means that people will read the slides instead of listening to
+    you.</p>
 
-<p><b>Remove distractions</b>. </p>
+<p><b>Remove distractions</b>. Everything on your slide should be there to
+    support your message.  Funnny pictures are fine if you are trying to set
+    the tone, or underscore your message.  Don't add a picture to every slide
+    just to have a picture.</p>
 
 <p><b>Use large text</b>.  People will be reading your slides from far away.
     The projectors will be fuzzier than your laptop screen.  Use large robust
@@ -37,17 +42,10 @@
     text on a dark background, but that works really badly when projected.  Use
     dark text on a light background.</p>
 
-<p><b>Code doesn't have to be runnable</b>.  When you show code, you are showing it to
-    be read, not to be run.  Leave out extraneous details.  No one needs to see
-    "import os" at the top, unless your talk is about importing the os module.</p>
-
-<h1>See also</h1>
-
-<ul>
-<li>As always, <a href='http://en.wikipedia.org/wiki/Usability_testing'>Wikipedia</a> is a good
-starting point for reading more about usability testing.</li>
-<li><a href='blog/index.html'>My blog</a>, where many software engineering topics are discussed.</li>
-</ul>
+<p><b>Code doesn't have to be runnable</b>.  When you show code, you are
+    showing it to be read, not to be run.  Leave out extraneous details.  No
+    one needs to see "import os" at the top, unless your talk is about
+    importing the os module.</p>
 
 <pagecomments/>
 
