@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181104T115653'>
+<title>Careful with negative assertions</title>
+<category>python</category>
+<category>testing</category>
+<body>
+
+<p>A cautionary tale about testing that things are unequal...</p>
+
+<p>We had a test that was kind of like this:</p>
+
+<code lang="python"><![CDATA[
+def test_thing():
+    data = "I am the data"
+    self.assertNotEqual(
+        modify_another_way(change_the_thing(data)),
+        data
+    )
+]]></code>
+
+<p>But someone refactored the test oh-so-slightly, like this:</p>
+
+<code lang="python"><![CDATA[
+def test_thing():
+    data = "I am the data"
+    modified = modify_another_way(change_the_thing(data)),
+    self.assertNotEqual(
+        modified,
+        data
+    )
+]]></code>
+
+<p>Now the test isn't testing what it should be testing, and will pass even if
+    change_the_thing and modify_another_way both return their argument
+    unchanged. (I'll explain why below.)</p>
+
+<p>Negative tests (asserting that two things are unequal) is really tricky,
+    because there are infinite things unequal to your value.  Your assertion
+    could pass because you accidentally have a different one of those unequal
+    values than you thought.</p>
+
+<p>Better would be to know what unequal value you are producing, and test that
+    you have produced that value, with an equality assertion.  Then if
+    something unexpectedly shifts out from under you, you will find out.</p>
+
+<p>Why the test was broken: the refactorer left the trailing comma on the
+    "modified =" line, so "modified" is a 1-element tuple.  The comparison is
+    now between a tuple and a string, which are always unequal, even if the
+    first element of the tuple is the same as the string.</p>
+
+</body>
+</entry>
+</blog>
