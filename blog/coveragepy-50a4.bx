@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181125T173041'>
+<title>Coverage.py 5.0a4: the sys.path to hell</title>
+<category>coverage</category>
+<body>
+
+<p>Another alpha of Coverage.py 5.0 is available: <a href='https://pypi.org/project/coverage/5.0a4/'>5.0a4</a>.
+    This fixes a few problems with the new SQLite-based storage.  Please give
+    it a try, especially to experiment with
+    <a href='https://coverage.readthedocs.io/en/coverage-5.0a4/contexts.html'>dynamic contexts</a>.
+</p>
+
+<p>The challenge with this release was something that started as a seemingly
+    simple fix.  Coverage.py tries to emulate how Python runs programs,
+    including how the first element of sys.path is set.  A few people run
+    coverage with sys.path fully configured, and coverage's setting of
+    sys.path[0] was breaking their stuff.</p>
+
+<p>The proposal was simple: delete the one line of code that set sys.path[0].
+    I tried that, and it seemed to work.  Fixed!</p>
+
+<p>Not so fast: the Windows builds failed.  This started a multi-week adventure
+    of debugging and refactoring.  The Windows builds were failing not because
+    of Windows itself, but because on Windows, I don't use
+    <a href='https://pypi.org/project/pytest-xdist/'>pytest-xdist</a>, which
+    parallelizes tests into worker processes.  With xdist, the tests were all
+    passing.  Without xdist, a few sys.path-related tests were failing.</p>
+
+<p>It turns out that
+    <a href='https://github.com/pytest-dev/pytest-xdist/issues/376'>xdist manipulates sys.path</a>
+    itself, which was masking the fact that I had removed an important step
+    from coverage.py.  First thing to do was to adjust my test code so that
+    even with xdist, my tests didn't get xdist's path changes.</p>
+
+<p>Then I had to re-think how to adjust sys.path.  That required refactoring
+    how I ran the user's Python code, so that I could apply the path changes a
+    little earlier than I used to.  That made me look at how I was testing that
+    layer of code with mocks, and I changed it from explicit dependency
+    injection to implicit mock patching.</p>
+
+<p>A few more little fixes were needed here and there along the way.   All
+    told, the "one line" fix ended up being 
+    <a href='https://github.com/nedbat/coveragepy/compare/e6b88390...20998572'>14
+    files changed, 587 insertions, 427 deletions</a>.</p>
+
+
+</body>
+</entry>
+</blog>
