@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181204T050448'>
+<title>Quick hack CSV review tool</title>
+<category>mycode</category>
+<body>
+
+<p>Let's say you are running a <a href='https://con.openedx.org/'>conference</a>,
+    and let's say your <a href='https://docs.google.com/forms/d/e/1FAIpQLScIu2WzNb_7oClsZx0M9ADwkhCvhiyPI3GW3c9vqmwvO14zEA/viewform'>Call for Proposals</a>
+    is open, and is saving people's talk ideas into a spreadsheet.
+</p>
+
+<p>I am in this situation.  Reviewing those proposals is a pain, because there
+    are large paragraphs of text, and spreadsheets are a terrible way to read
+    them.   I did the typical software engineer thing: I spent an hour writing
+    a tool to make reading them easier.</p>
+
+<p>The result is <a href="https://github.com/nedbat/odds/blob/master/csv_review.py">csv_review.py</a>.
+    It's a terminal program that reads a CSV file (the exported proposals). 
+    It displays a row at a time on the screen, wrapping text as needed. 
+    It has commands for moving around the rows.  It collects comments into a
+    second CSV file.  That's it.</p>
+
+<p>There are probably already better ways to do this.  Everyone knows that to
+    get answers from the internet, you don't ask questions, instead you present
+    wrong answers.  More people will correct you than will help you.  So this
+    tool is my wrong answer to how to review CFP proposals. Correct me!</p>
+
+</body>
+</entry>
+</blog>
