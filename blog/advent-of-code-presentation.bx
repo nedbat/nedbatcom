@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181219T222113'>
+<title>Advent of code presentation</title>
+<category>python</category>
+<category>puzzles</category>
+<body>
+
+<p>At Boston Python last night, I did a presentation about solutions to a particular
+    <a href='https://adventofcode.com'>Advent of Code</a> puzzle.
+</p>
+
+<p>If you haven't seen Advent of Code, give it a look.  A new puzzle each day
+    in December until Christmas.  This is the fourth year running, and you can
+    go back and look at 
+    <a href='https://adventofcode.com/2015'>the</a>
+    <a href='https://adventofcode.com/2016'>past</a>
+    <a href='https://adventofcode.com/2017'>years</a>
+    (and days).</p>
+
+<p>My <a href="text/bpadvent.html">presentation landing page</a> has links to
+    <a href="https://nedbat.github.io/adventures_prz/prz/adventures.html">the slides</a>
+    and <a href="https://github.com/nedbat/adventures_prz">the code</a>.</p>
+
+<p>The presentation took a particular Advent of Code puzzle
+    (<a href="https://adventofcode.com/2016/day/14">December 14, 2016</a>) and
+    explained out a few different solutions, with a small detour into unit testing.</p>
+
+<p>The code shows a few different ways to deal with the problem:</p>
+
+<ul>
+    <li><a href='https://github.com/nedbat/adventures_prz/blob/master/part1.py'>a simple implementation for part 1</a></li>
+    <li><a href='https://github.com/nedbat/adventures_prz/blob/master/gcache.py'>a global cache dictionary</a></li>
+    <li><a href='https://github.com/nedbat/adventures_prz/blob/master/lcache.py'>a local cache dictionary in a closure</a></li>
+    <li><a href='https://github.com/nedbat/adventures_prz/blob/master/cache_decorator.py'>a cache decorator</a>,
+        similar to the @lru_cache decorator in the standard library</li>
+    <li>finally, <a href='https://github.com/nedbat/adventures_prz/blob/master/peekable.py'>a PeekableIterable class</a> to use more pure iteration</li>
+</ul>
+
+<p>During the talk, an audience member suggested that itertools.tee could be
+    useful, which I hadn't considered.  So I <a href='https://github.com/nedbat/adventures_prz/blob/master/withtee.py'>tried that out also</a>,
+    though it wasn't as nice as I had hoped, and maybe is holding on to too much state.</p>
+
+<p>Sorry I didn't write out the text of the talk itself...</p>
+
+</body>
+</entry>
+</blog>
