@@ -74,6 +74,31 @@ class Node:
 
 <p>Oh well.</p>
 
+<p><b>Update</b>: Jonathan Slenders
+    <a href='https://twitter.com/jonathan_s/status/1075996191178088449'>suggested</a>
+    using a recursive generator to flatten the sequence of nodes, then summing
+    the flat sequence:</p>
+
+<code lang="python"><![CDATA[
+class Leaf:
+    ...
+    def values(self):
+        yield self.val
+
+class Node:
+    ...
+    def values(self):
+        for c in self.children:
+            yield from c.values()
+
+    def value(self):
+        return sum(self.values())
+]]></code>
+
+<p>This is clever, and solves the problem.  My real code had a mixture of two
+    different nodes, one using sum() the other using max(), so it wouldn't have
+    worked for me.  But it's nice for when it does.</p>
+
 </body>
 </entry>
 </blog>
