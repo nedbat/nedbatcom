@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20181220T194025'>
+<title>A thing I learned about Python recursion</title>
+<category>python</category>
+<body>
+
+<p>Working on a programming challenge, I was surprised by something.  I built
+    a tree structure with a recursive function.  Then I tried to use a recursive
+    function to sum up some values across the tree, and was met with a 
+    RecursionError.  How could I have enough stack depth to build the tree,
+    but not enough to then sum up its values?</p>
+
+<p>Python has a limit on how large its stack can grow, 1000 frames by default.
+    If you recur more than that, a RecursionError will be raised.  My recursive
+    summing function seemed simple enough. Here are the relevant methods:</p>
+
+<code lang="python"><![CDATA[
+class Leaf:
+    def __init__(self):
+        self.val = 0        # will have a value.
+
+    def value(self):
+        return self.val
+
+class Node:
+    def __init__(self):
+        self.children = []  # will have nodes added to it.
+
+    def value(self):
+        return sum(c.value() for c in self.children)
+]]></code>
+
+<p>My code made a tree about 600 levels deep, meaning the recursive builder
+    function had used 600 stack frames, and Python had no problem with that.
+    Why would value() then overflow the stack?</p>
+
+<p>The answer is that each call to value() uses <i>two</i> stack frames.  The
+    line that calls sum() is using a generator comprehension to iterate over the
+    children.  In Python 3, all comprehensions (and in Python 2 all except list comprehensions)
+    are actually compiled as nested functions.  Executing the generator comprehension
+    calls that hidden nested function, using up an extra stack frame.</p>
+
+<p>It's roughly as if the code was like this:</p>
+
+<code lang="python"><![CDATA[
+def value(self):
+    def _comprehension():
+        for c in self.children:
+            yield c.value()
+    return sum(_comprehension())
+]]></code>
+
+<p>Here we can see the two function calls that use the two frames:
+    _comprehension() and then value().</p>
+
+<p>Comprehensions do this so that the variables set in the comprehension don't
+    leak out into the surrounding code.  It works great, but it costs us a
+    stack frame per invocation.</p>
+
+<p>That explains the difference between the builder and the summer: the summer
+    is using two stack frames for each level of the tree. I'm glad I could fix
+    this, but sad that the code is not as nice as using a comprehension:</p>
+
+<code lang="python"><![CDATA[
+class Node:
+    ...
+    def value(self):
+        total = 0
+        for c in self.children:
+            total += c.value()
+        return total
+]]></code>
+
+<p>Oh well.</p>
+
+</body>
+</entry>
+</blog>
