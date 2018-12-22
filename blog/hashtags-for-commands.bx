@@ -30,6 +30,8 @@ pylint $(git diff --name-only $(git merge-base HEAD origin/master)) #lintdiff
     <p>I'm not sure this is really that useful, since I can make a bash alias
         right off the bat, but this will let me tweak the command until I like it.</p>
 
+    <p><b>Update:</b> Of course, the right name for this idea is "bashtag"!</p>
+
 </body>
 </entry>
 </blog>
