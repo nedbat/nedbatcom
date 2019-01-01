@@ -4,9 +4,10 @@ from __future__ import print_function
 
 import re
 
+from six import StringIO
+
 from lxml import etree
 from stellated.XsltExtensions import *
-from cStringIO import StringIO
 from django.conf import settings
 import smartypants
 
