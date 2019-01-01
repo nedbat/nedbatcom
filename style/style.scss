@@ -458,6 +458,9 @@ input {
             &.inline {
                 display: inline-block;
                 margin-top: 1em;
+                label {
+                    padding-right: .25em;
+                }
                 nav {
                     display: inline;
                 }
@@ -465,7 +468,6 @@ input {
                     display: inline;
                     font-weight: normal;
                     line-height: 1.4em;
-                    padding-left: .25em;
                     li {
                         display: inline;
                         &:after {

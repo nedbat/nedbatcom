@@ -7,7 +7,7 @@
 <div class='blogroll'>
 
     <ul class='first'>
-        <li class='first'><label for="searchterm">Search this site:</label>
+        <li class='first'><label for="searchterm">Search this site: </label>
             <form class="searchform" action="https://www.google.com/search" role="search">
                 <input type="hidden" name="q" value="site:nedbatchelder.com">
                 <input id="searchterm" name="q" class="searchbox" size="15" aria-label="search this site">
@@ -15,7 +15,7 @@
             </form>
         </li>
 
-        <li class='inline'>Me:
+        <li class='inline'><label>Me: </label>
             <ul class='tight'>
                 <li><a href='/site/aboutned.html' rel='author'>about</a></li>
                 <li><a href='http://twitter.com/nedbat'>twitter</a></li>
@@ -31,7 +31,7 @@
         </li>
 
         {% if commerce %}
-        <li>Commerce:
+        <li><label>Commerce: </label>
             <ul class='compact'>
                 <li>{% ch '>> ' %}<a href='http://www.amazon.com/exec/obidos/redirect-home/nedbatchelder-20'>Amazon</a></li>
 
@@ -54,7 +54,7 @@
         {% endif %}
 
         {% if youmightlike %}
-        <li>You might like:
+        <li><label>You might like: </label>
             <ul class='compact'>
                 <li>{% ch '>> ' %}<a href='/blog'>My blog</a></li>
 
@@ -71,7 +71,14 @@
         {% endif %}
 
         {% if moreblog %}
-        <li class='inline'>More blog:
+        <li class='inline'><label>Stay current: </label>
+            <ul class='compact'>
+                <li><a href='/blog/rss.xml' type='application/rss+xml'>RSS&nbsp;feed</a></li>
+                <li><a href='https://blogtrottr.com/?subscribe=https://nedbatchelder.com/blog/rss.xml'>by&nbsp;email</a></li>
+            </ul>
+        </li>
+
+        <li class='inline'><label>More blog: </label>
             <nav>
                 <ul class='tight'>
                     {% for link in moreblog %}
