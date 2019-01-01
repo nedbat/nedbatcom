@@ -23,7 +23,9 @@
             There is also a <a href='/blog/archive/all.html' rel='up'>complete archive</a>.
         {% endifequal %}
         {% ifequal type 'date' %}
-            {% if entries|length_is:"1" %}
+            {% if entries|length_is:"0" %}
+                There has never been a blog post
+            {% elif entries|length_is:"1" %}
                 This is the only blog post
             {% else %}
                 These are the {{entries|length}} blog posts
