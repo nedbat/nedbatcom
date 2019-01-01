@@ -147,7 +147,7 @@ class Section(models.Model):
     title = models.CharField(max_length=200)
     sort = models.IntegerField(default=500)
     sitemap = models.BooleanField(default=True)
-    article = models.ForeignKey(Article)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __repr__(self):
         return "<Section %r sort=%r sitemap=%r article=%r>" % (
@@ -160,7 +160,7 @@ class WhatWhen(models.Model):
     """
     when = models.DateTimeField()
     what = models.CharField(max_length=200)
-    article = models.ForeignKey(Article)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __repr__(self):
         return "<WhatWhen %s: %r>" % (self.when, self.what)
@@ -332,10 +332,10 @@ class Entry(models.Model, ModelMixin):
 class Via(models.Model):
     """ A source for a blog entry, either a link_id or an href and text.
     """
-    link = models.ForeignKey(Link, null=True)
+    link = models.ForeignKey(Link, null=True, on_delete=models.CASCADE)
     href = models.CharField(max_length=1000, null=True)
     text = models.CharField(max_length=200, null=True)
-    entry = models.ForeignKey(Entry)
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
 
 
 # Forms to deal with properly:

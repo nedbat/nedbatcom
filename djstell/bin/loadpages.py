@@ -24,18 +24,18 @@ def walk_pattern(root, glob):
         for f in d.glob(glob):
             yield f
 
-@transaction.commit_on_success
+@transaction.atomic
 def clean_data():
     for klass in [Article, Section, Entry, Tag, Link]:
         klass.objects.all().delete()
     # Entry.objects.all doesn't include drafts, so nuke them specially:
     Entry.drafts.all().delete()
 
-@transaction.commit_on_success
+@transaction.atomic
 def load_categories():
     Tag.create_from_xml(str(root/'categories.xml'))
 
-@transaction.commit_on_success
+@transaction.atomic
 def load_entries():
     for subdir in blog_sources:
         files = list(walk_pattern(root/subdir, blog_pattern))
@@ -46,7 +46,7 @@ def load_entries():
             except Exception as e:
                 raise Exception("Couldn't create from bx '%s': %s" % (f, e))
 
-@transaction.commit_on_success
+@transaction.atomic
 def load_articles():
     for subdir in page_sources:
         files = list(walk_pattern(root/subdir, page_pattern))
@@ -54,13 +54,13 @@ def load_articles():
         for f in files:
             Article.create_from_px(str(f), str(root/subdir))
 
-@transaction.commit_on_success
+@transaction.atomic
 def create_bogus_blog_pages():
     blog = Article(path='blog/index.px', title='Blog', text='')
     blog.save()
     Section(article=blog, title='Blog').save()
 
-@transaction.commit_on_success
+@transaction.atomic
 def load_links():
     Link.create_from_lx(str(root/'links/blogs.lx'))
 
