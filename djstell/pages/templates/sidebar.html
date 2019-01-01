@@ -15,27 +15,6 @@
             </form>
         </li>
 
-        {% comment %}
-        <li>
-            {# <a href='/site/hirened.html'>Hire me</a> {% ch ' . ' %} #}
-            <a href='/site/aboutned.html' rel='author'>About me</a>
-        </li>
-
-        <li class='inline'>Also me:
-            <ul>
-                <li><a href='http://twitter.com/nedbat'>twitter</a>{% ch ' .' %} </li>
-                <li><a href='mailto:ned@nedbatchelder.com'>email</a></li>
-            </ul>
-        </li>
-
-        <li class='inline'>Tip me:
-            <ul>
-                <li><a href='#' onclick='window.prompt("My bitcoin address. Copy it! Thanks :)", "1NZt31quJzL8ZPKcxwFv7GZu2YU12DyMdU")'>bitcoin</a>{% ch ' .' %} </li>
-                <li><a href='https://paypal.me/nedbat'>paypal</a></li>
-            </ul>
-        </li>
-        {% endcomment %}
-
         <li class='inline'>Me:
             <ul class='tight'>
                 <li><a href='/site/aboutned.html' rel='author'>about</a></li>
@@ -51,22 +30,9 @@
             </ul>
         </li>
 
-        {% comment %}
-        {# Flattr: https://flattr.com/thing/343733/Neds-stuff #}
-        <li>
-            <a href="http://flattr.com/thing/343733/Neds-stuff" target="_blank">
-                <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" width="93" height="20" />
-            </a>
-        </li>
-        {% endcomment %}
-
         {% if commerce %}
         <li>Commerce:
             <ul class='compact'>
-                {% comment %}
-                <li>{% ch '>> ' %}<a href='http://www.zazzle.com/zib_redlektab*'>Git shirts</a></li>
-                <li>{% ch '>> ' %}<a href='http://www.cafepress.com/nedbatchelder'>Mug &amp; T-Shirt</a></li>
-                {% endcomment %}
                 <li>{% ch '>> ' %}<a href='http://www.amazon.com/exec/obidos/redirect-home/nedbatchelder-20'>Amazon</a></li>
 
                 <li>{% ch '>> ' %}<a href='http://susansenator.com/survivalguide.html'>Susan's books</a><br>
@@ -92,10 +58,6 @@
             <ul class='compact'>
                 <li>{% ch '>> ' %}<a href='/blog'>My blog</a></li>
 
-                {% comment %}
-                <li>{% ch '>> ' %}<a href='http://www.zazzle.com/zib_redlektab*'>Git shirts</a></li>
-                {% endcomment %}
-
                 <li>{% ch '>> ' %}<a href='http://susansenator.com/makingpeace.html'>My wife's books</a><br>
                     <a href='http://susansenator.com/makingpeace.html'>
                         <img src='/pix/makingpeacetiny.png' alt='Making Peace With Autism' width='83' height='127' style='margin: 10px 0 0 0'>
@@ -107,36 +69,6 @@
             </ul>
         </li>
         {% endif %}
-
-        {% comment %}
-        {% if tags %}
-        <li><a href='/blog/tags.html'>Tags</a>:
-            <ul class='compact'>
-                {% for tag in tags %}
-                    <li>
-                        {% ch '>> ' %}<a href='{{tag.permaurl}}'>{{tag.hashtag}}</a>
-                    </li>
-                {% endfor %}
-
-                <li>
-                    {% ch '>> ' %}<a href='/blog/tags.html'>and {{more_tag_count}} more...</a>
-                </li>
-            </ul>
-        </li>
-        {% endif %}
-
-        {% if archive_years %}
-        <li class='inline'><a href='/blog/archive/all.html'>Archives</a>:
-            <ul>
-                {% for y in archive_years %}
-                <li>
-                <a href='/blog/archive/year{{y}}.html'>{{y}}</a>{% if not forloop.last %}{% ch " ." %}{% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-        </li>
-        {% endif %}
-        {% endcomment %}
 
         {% if moreblog %}
         <li class='inline'>More blog:
@@ -155,22 +87,6 @@
         </li>
         {% endif %}
 
-        {% comment %}
-        {% if blogroll %}
-        <li>You might like:
-            <ul>
-                {% for link in blogroll %}
-                    <li><a href='{{link.href}}'>{{link.text}}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-        {% endif %}
-        {% endcomment %}
-
-        {% comment %}
-        <li><a href='/site/whatisablog.html'>What's a "blog"?</a></li>
-        {% endcomment %}
-
         {% if rss %}
         <li><a
                 href='/blog/rss.xml'
@@ -185,20 +101,9 @@
                     text-decoration: none;
                     '
                 >RSS</a>
-            {% comment %}
-            (<a href='/site/whatisrss.html'>huh?</a>)
-            {% endcomment %}
             </li>
         {% endif %}
 
-        {% comment %}
-        <li><a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/feed-icon-16x16.png' height='16' width='16'> Feed</a>
-            (<a href='/site/whatisrss.html'>huh?</a>)</li>
-        {% endcomment %}
-
-        {% comment %}
-        <li><a href='mailto:ned@nedbatchelder.com'>Email me!</a></li>
-        {% endcomment %}
     </ul>
 </div>
 {% endspaceless %}
