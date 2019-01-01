@@ -1,4 +1,7 @@
 # Extensions.
+
+from __future__ import print_function
+
 import re
 
 from lxml import etree
@@ -14,8 +17,8 @@ def wrapit(fn):
     def inside(dummy, *args):
         try:
             return fn(*args)
-        except Exception, e:
-            print "Error in XSLT extension: %s" % e
+        except Exception as e:
+            print("Error in XSLT extension: %s" % e)
             raise
     return inside
 
@@ -62,7 +65,7 @@ xslt = etree.parse(r'content.xslt')
 xslt_xform = etree.XSLT(xslt)
 
 def content_transform(name, xmltext, child=None, params={}):
-    #print "XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', ''))
+    #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', '')))
     f = StringIO(xmltext.encode('utf-8'))
     doc = etree.parse(f)
     if child:
@@ -78,7 +81,7 @@ def content_transform(name, xmltext, child=None, params={}):
             fname = name
         else:
             fname = entry.filename
-        print "Message, %s @ %d: %s" % (fname, entry.line, entry.message)
+        print("Message, %s @ %d: %s" % (fname, entry.line, entry.message))
     return html
 
 def string_param(s):

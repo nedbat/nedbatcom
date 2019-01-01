@@ -4,8 +4,8 @@ import datetime
 import re
 import time
 
-from util import *
-from xslt import content_transform, string_param
+from .util import *
+from .xslt import content_transform, string_param
 
 from django.db import models
 from lxml import etree
@@ -45,7 +45,7 @@ class ModelMixin:
     def parse_xml(xmlfile):
         try:
             return etree.parse(xmlfile).getroot()
-        except Exception, e:
+        except Exception as e:
             raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
 
     def add_feature(self, feature):
