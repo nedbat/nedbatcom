@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, include
+from django.conf.urls import include, url
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Example:
-    (r'', include('djstell.pages.urls')),
+    url(r'', include('djstell.pages.urls')),
 
     # Uncomment this for admin:
-#     (r'^admin/', include('django.contrib.admin.urls')),
-)
+#     url(r'^admin/', include('django.contrib.admin.urls')),
+]

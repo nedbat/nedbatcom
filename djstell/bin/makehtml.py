@@ -188,7 +188,7 @@ class CmdLine(object):
 
     @timed
     def do_load(self):
-        call_command('syncdb', verbosity=False, interactive=False)
+        call_command('migrate', verbosity=False, interactive=False)
         loadpages.load_all()
 
     def do_1blog(self):

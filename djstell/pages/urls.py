@@ -1,5 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic.base import TemplateView
+
+import djstell.pages.views as dpv
 
 PLANET_PYTHON_TAGS = [
     'python', 'pycon', 'math', 'proglang', 'ruby', 'js',
@@ -11,26 +13,26 @@ PLANET_PYTHON_TAGS = [
     'windows', 'mac', 'unix',
     ]
 
-urlpatterns = patterns('djstell.pages.views',
-    url(r'^index.html$', 'index'),
-    url(r'^blog/index.html$', 'blogmain'),
-    url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', 'entry'),
+urlpatterns = [
+    url(r'^index.html$', dpv.index),
+    url(r'^blog/index.html$', dpv.blogmain),
+    url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', dpv.entry),
 
-    url(r'^blog/tags.html$', 'tags'),
-    url(r'^blog/tag/none.html$', 'untagged'),
-    url(r'^blog/tag/(?P<slug>.*).html$', 'tag'),
+    url(r'^blog/tags.html$', dpv.tags),
+    url(r'^blog/tag/none.html$', dpv.untagged),
+    url(r'^blog/tag/(?P<slug>.*).html$', dpv.tag),
 
-    url(r'^blog/archive/year(?P<year>\d\d\d\d).html$', 'archiveyear'),
-    url(r'^blog/archive/date(?P<month>\d\d)(?P<day>\d\d).html$', 'archivedate'),
-    url(r'^blog/archive/all.html$', 'archiveall'),
-    url(r'^blog/drafts.html$', 'drafts'),
+    url(r'^blog/archive/year(?P<year>\d\d\d\d).html$', dpv.archiveyear),
+    url(r'^blog/archive/date(?P<month>\d\d)(?P<day>\d\d).html$', dpv.archivedate),
+    url(r'^blog/archive/all.html$', dpv.archiveall),
+    url(r'^blog/drafts.html$', dpv.drafts),
 
-    url(r'^blog/rss.xml$', 'blog_rss'),
-    url(r'^blog/planetpython.xml$', 'tags_rss', {'tags': PLANET_PYTHON_TAGS}),
-    url(r'^blog/moved.php$', 'blog_moved_php'),
+    url(r'^blog/rss.xml$', dpv.blog_rss),
+    url(r'^blog/planetpython.xml$', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
+    url(r'^blog/moved.php$', dpv.blog_moved_php),
 
-    url(r'^(?P<path>(text|code|site)/.*)$', 'article'),
-    url(r'^(?P<path>err404.html)$', 'article'),
+    url(r'^(?P<path>(text|code|site)/.*)$', dpv.article),
+    url(r'^(?P<path>err404.html)$', dpv.article),
 
-    url(r'^sidebar_(?P<which>\w+).inc$', 'sidebar'),
-    )
+    url(r'^sidebar_(?P<which>\w+).inc$', dpv.sidebar),
+    ]
