@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # Load the database for nedbatchelder.com
 
-import sys, traceback
+from __future__ import print_function
+
+import sys
+import traceback
+
 import path
 from django.db import transaction
 from djstell.pages.models import Article, Section, Entry, Tag, Link
@@ -27,18 +31,18 @@ def load_categories():
 def load_entries():
     for subdir in blog_sources:
         files = list((root/subdir).walk(pattern=blog_pattern))
-        print "Loading %d files from %s" % (len(files), subdir)
+        print("Loading %d files from %s" % (len(files), subdir))
         for f in files:
             try:
                 Entry.create_from_bx(str(f))
-            except Exception, e:
+            except Exception as e:
                 raise Exception("Couldn't create from bx '%s': %s" % (f, e))
 
 @transaction.commit_on_success
 def load_articles():
     for subdir in page_sources:
         files = list((root/subdir).walk(pattern=page_pattern))
-        print "Loading %d pages from %s" % (len(files), subdir)
+        print("Loading %d pages from %s" % (len(files), subdir))
         for f in files:
             Article.create_from_px(str(f), str(root/subdir))
 
@@ -61,32 +65,32 @@ def load_all():
     create_bogus_blog_pages()
 
     # Stats
-    print
-    print "%d total blog posts" % (Entry.objects.all().count())
+    print()
+    print("%d total blog posts" % (Entry.objects.all().count()))
 
     # Show all the slugs
     if 0:
         for ent in Entry.objects.all().order_by('title'):
-            print "%4d %s: %s" % (ent.id, ent.when, ent.slug)
+            print("%4d %s: %s" % (ent.id, ent.when, ent.slug))
 
     # Yearly census
     if 0:
         years = Entry.objects.dates('when', 'year')
         for year in years:
             y = year.year
-            print "%s: %d entries" % (y, Entry.objects.filter(when__year=y).count())
+            print("%s: %d entries" % (y, Entry.objects.filter(when__year=y).count()))
 
     # Show draft titles
     if 1:
         drafts = Entry.drafts.all()
-        print "%d drafts:" % (len(drafts))
+        print("%d drafts:" % (len(drafts)))
         for d in drafts:
-            print d.when, d.title
+            print(d.when, d.title)
 
     if 0:
-        print "\nTags:"
+        print("\nTags:")
         for t in Tag.objects.all().order_by('tag'):
-            print "%s: %d entries" % (t.tag, t.entry_set.count())
+            print("%s: %d entries" % (t.tag, t.entry_set.count()))
 
 if __name__ == '__main__':
     load_all()

@@ -1,5 +1,7 @@
 """Static file generator for Django."""
 
+from __future__ import print_function
+
 # Modified by Ned Batchelder, starting with:
 __version__ = '1.1, 2007-01-09'
 
@@ -123,7 +125,7 @@ class StaticGenerator(object):
             from django.contrib.sites.models import Site
             return Site.objects.get_current().domain
         except:
-            print '*** Warning ***: Using "localhost" for domain name. Use django.contrib.sites or set settings.SERVER_NAME to disable this warning.'
+            print('*** Warning ***: Using "localhost" for domain name. Use django.contrib.sites or set settings.SERVER_NAME to disable this warning.')
             return 'localhost'
 
     def get_content_from_path(self, path):
@@ -141,7 +143,7 @@ class StaticGenerator(object):
         handler = DummyHandler()
         response = handler(request)
         if response.status_code != 200:
-            print "*** {} from {}".format(response.status_code, path)
+            print("*** {} from {}".format(response.status_code, path))
         return response.content
 
     def get_filename_from_path(self, path):
@@ -196,7 +198,7 @@ class StaticGenerator(object):
         try:
             os.rmdir(directory)
         except OSError:
-            print 'Could not delete directory %s, likely because it is not empty. Continuing...' % directory
+            print('Could not delete directory %s, likely because it is not empty. Continuing...' % directory)
             pass
 
     def delete(self):
