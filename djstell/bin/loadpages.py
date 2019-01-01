@@ -6,15 +6,23 @@ from __future__ import print_function
 import sys
 import traceback
 
-import path
+from path import Path
 from django.db import transaction
 from djstell.pages.models import Article, Section, Entry, Tag, Link
 
-root = path.path(".")
+root = Path(".")
 page_sources = 'pages'.split()
 blog_sources = 'blog 0blog 1blog'.split()
 blog_pattern = '*.bx'
 page_pattern = '*.px'
+
+def walk_pattern(root, glob):
+    """Find all files matching glob anywhere in root"""
+    for f in root.glob(glob):
+        yield f
+    for d in root.walkdirs():
+        for f in d.glob(glob):
+            yield f
 
 @transaction.commit_on_success
 def clean_data():
@@ -30,7 +38,7 @@ def load_categories():
 @transaction.commit_on_success
 def load_entries():
     for subdir in blog_sources:
-        files = list((root/subdir).walk(pattern=blog_pattern))
+        files = list(walk_pattern(root/subdir, blog_pattern))
         print("Loading %d files from %s" % (len(files), subdir))
         for f in files:
             try:
@@ -41,7 +49,7 @@ def load_entries():
 @transaction.commit_on_success
 def load_articles():
     for subdir in page_sources:
-        files = list((root/subdir).walk(pattern=page_pattern))
+        files = list(walk_pattern(root/subdir, page_pattern))
         print("Loading %d pages from %s" % (len(files), subdir))
         for f in files:
             Article.create_from_px(str(f), str(root/subdir))
