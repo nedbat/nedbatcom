@@ -1,5 +1,7 @@
 # Generate HTML pages for nedbatchelder.com
 
+from __future__ import print_function
+
 import datetime
 import glob
 import logging
@@ -27,7 +29,7 @@ def timed(fn):
         start = time.time()
         ret = fn(*args, **kwargs)
         now = time.time()
-        print "%s time: %.2fs" % (fn.__name__, now - start)
+        print("%s time: %.2fs" % (fn.__name__, now - start))
         return ret
     return wrapped
 
@@ -243,9 +245,9 @@ class CmdLine(object):
         for word in argv:
             doit = getattr(self, 'do_'+word, None)
             if not doit:
-                print "Don't understand: %s" % word
+                print("Don't understand: %s" % word)
                 return
-            print ":: %s ::" % word
+            print(":: %s ::" % word)
             doit()
 
     @timed
