@@ -179,8 +179,9 @@ class StaticGenerator(object):
         if self.use_processes:
             from concurrent.futures import ProcessPoolExecutor
             print("{} resources to publish".format(len(self.resources)))
+            chunked = list(chunks(self.resources, 100))
             with ProcessPoolExecutor() as executor:
-                executor.map(publish_one_in_subprocess, self.resources)
+                executor.map(publish_one_in_subprocess, chunked)
         else:
             for path in self.resources:
                 self.publish_from_path(path)
@@ -213,12 +214,16 @@ def quick_delete(resources):
     gen = StaticGenerator(resources)
     gen.delete()
 
-def publish_one_in_subprocess(resource):
+def chunks(lst, n):
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+def publish_one_in_subprocess(resources):
     # Undocumented: close all pooled connections, so that each process has a
     # separate connection to the db.
     from django.db import connections
     for conn in connections.all():
         conn.close()
 
-    gen = StaticGenerator([resource], use_processes=False)
+    gen = StaticGenerator(resources, use_processes=False)
     gen.publish()
