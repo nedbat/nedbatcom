@@ -24,18 +24,19 @@ def wrapit(fn):
     return inside
 
 ns = etree.FunctionNamespace('http://www.stellated.com/xuff')
-ns['endswith'] = wrapit(endswith)
 ns['makeuri'] = wrapit(makeuri)
-ns['urlquote'] = wrapit(urlquote)
-ns['phpquote'] = wrapit(phpquote)
 ns['now'] = wrapit(now8601)
-ns['w3cdtf'] = wrapit(w3cdtf)
 ns['idfromtext'] = wrapit(idfromtext)
-ns['slugfromtext'] = wrapit(slugfromtext)
 ns['lexcode'] = wrapit(lexcode)
 ns['imgwidth'] = wrapit(imgwidth)
 ns['imgheight'] = wrapit(imgheight)
-ns['smartypants'] = wrapit(smartypants.smartypants)
+
+#ns['endswith'] = wrapit(endswith)
+#ns['urlquote'] = wrapit(urlquote)
+#ns['phpquote'] = wrapit(phpquote)
+#ns['w3cdtf'] = wrapit(w3cdtf)
+#ns['slugfromtext'] = wrapit(slugfromtext)
+#ns['smartypants'] = wrapit(smartypants.smartypants)
 
 def thing_from_path(path):
     from djstell.pages.models import Article, Entry
