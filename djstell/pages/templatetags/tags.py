@@ -2,14 +2,17 @@
 
 from __future__ import print_function
 
-from django.template import Library, Node
-from django.template.defaultfilters import stringfilter
-from djstell.pages.sitemap import sitemap
-from djstell.pages.models import Entry, Tag, Link
-from django.conf import settings
-
 import os.path
 import re
+
+from django.conf import settings
+from django.template import Library, Node
+from django.template.defaultfilters import stringfilter
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+
+from djstell.pages.sitemap import sitemap
+from djstell.pages.models import Entry, Tag, Link
 
 register = Library()
 
@@ -82,7 +85,7 @@ def year_range(year1, year2):
     if year1 == year2:
         return str(year1)
     else:
-        return "%s&ndash;%s" % (year1, year2)
+        return format_html(mark_safe("{}&ndash;{}"), year1, year2)
 
 special_ch = {
     '':     '',
@@ -104,7 +107,7 @@ special_ch = {
 
 @register.simple_tag
 def ch(value):
-    return '&#xa0;'.join([special_ch[s] for s in value.split(' ')])
+    return mark_safe('&#xa0;'.join([special_ch[s] for s in value.split(' ')]))
 
 @register.simple_tag
 def twodigit(value):
@@ -124,7 +127,7 @@ def static_link(filename):
         tag = "<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
         tag = "<script type='text/javascript' src='{url}' async></script>"
-    return tag.format(url=url)
+    return mark_safe(tag.format(url=url))
 
 @register.tag
 def ifnotfirst(parser, token):
@@ -155,7 +158,7 @@ class IfNotFirstNode(Node):
 def top_areas():
     crumbs = sitemap.top_areas()
     links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in crumbs ]
-    return u" \N{MIDDLE DOT} ".join(links)
+    return mark_safe(u" \N{MIDDLE DOT} ".join(links))
 
 @register.filter()
 @stringfilter
