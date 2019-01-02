@@ -177,11 +177,10 @@ class StaticGenerator(object):
     def publish(self):
         """Publishes all resources"""
         if self.use_processes:
-            from multiprocessing import Pool
-            pool = Pool()
-            pool.map(publish_one_in_subprocess, self.resources)
-            pool.close()
-            pool.join()
+            from concurrent.futures import ProcessPoolExecutor
+            print("{} resources to publish".format(len(self.resources)))
+            with ProcessPoolExecutor() as executor:
+                executor.map(publish_one_in_subprocess, self.resources)
         else:
             for path in self.resources:
                 self.publish_from_path(path)
@@ -215,5 +214,11 @@ def quick_delete(resources):
     gen.delete()
 
 def publish_one_in_subprocess(resource):
+    # Undocumented: close all pooled connections, so that each process has a
+    # separate connection to the db.
+    from django.db import connections
+    for conn in connections.all():
+        conn.close()
+
     gen = StaticGenerator([resource], use_processes=False)
     gen.publish()
