@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import print_function
+
 from django.template import Library, Node
 from django.template.defaultfilters import stringfilter
 from djstell.pages.sitemap import sitemap
@@ -279,14 +282,14 @@ class SpacelessNode(Node):
         return s
 
 if __name__ == '__main__':
-    print "Sentences"
-    print first_sentence("<p>A dog. A cat.")
-    print first_sentence("<p>A co-worker (hi Matt!) is having a baby. A cat.</p>")
-    print first_sentence('<p>A dog (canine!) said, "woof!" before. A cat.</p>')
-    print first_sentence("<p>A dog <i>barked</i> loudly.</p>")
-    print first_sentence('<p>A dog (canine!) said, "Woof! Woof!" before. A cat.</p>')
-    print first_sentence("<p>Hello, Mr. Batchelder.</p>")
-    print first_sentence("<p>A dog <i>barked</i> loudly.</p>")
+    print("Sentences")
+    print(first_sentence("<p>A dog. A cat."))
+    print(first_sentence("<p>A co-worker (hi Matt!) is having a baby. A cat.</p>"))
+    print(first_sentence('<p>A dog (canine!) said, "woof!" before. A cat.</p>'))
+    print(first_sentence("<p>A dog <i>barked</i> loudly.</p>"))
+    print(first_sentence('<p>A dog (canine!) said, "Woof! Woof!" before. A cat.</p>'))
+    print(first_sentence("<p>Hello, Mr. Batchelder.</p>"))
+    print(first_sentence("<p>A dog <i>barked</i> loudly.</p>"))
 
-    print "Text"
-    print just_text("<p><a href='foo'><img src='bar'></a>My son Max</p>")
+    print("Text")
+    print(just_text("<p><a href='foo'><img src='bar'></a>My son Max</p>"))

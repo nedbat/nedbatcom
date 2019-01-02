@@ -5,7 +5,7 @@ import datetime
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext, Template
+from django.template import Template
 
 from djstell.pages.models import Entry, Article, Tag
 
@@ -29,7 +29,7 @@ def entry(request, year, month, slug):
     """ Single entry.
     """
     ent = get_object_or_404(Entry.all_entries.select_related(), when__year=int(year), when__month=int(month), slug=slug)
-    c = RequestContext(request)
+    c = {}
     c['entry'] = ent
     c['title'] = ent.title
     c['features'] = ent.features.split(';')
@@ -50,7 +50,7 @@ def blogmain(request):
     """ The main blog page. A dozen recent entries.
     """
     ents = list(Entry.objects.all().order_by('-when')[:12])
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['entries_shown'] = shown = ents[:6]
     features = set()
@@ -65,7 +65,7 @@ def blogmain(request):
 
 def archiveyear(request, year):
     ents = list(Entry.objects.filter(when__year=int(year)).order_by('-when'))
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['type'] = 'year'
     c['year'] = year
@@ -76,7 +76,7 @@ def archiveyear(request, year):
 def archivedate(request, month, day):
     date = datetime.datetime(2004, int(month), int(day))
     ents = list(Entry.objects.filter(when__month=date.month, when__day=date.day).order_by('-when'))
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['type'] = 'date'
     c['date'] = date
@@ -88,7 +88,7 @@ def archivedate(request, month, day):
 
 def archiveall(request):
     ents = list(Entry.objects.all().order_by('-when'))
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['type'] = 'complete'
     c['title'] = 'Blog: Complete'
@@ -97,7 +97,7 @@ def archiveall(request):
 
 def tags(request):
     tags = Tag.objects.all().order_by('name')
-    c = RequestContext(request)
+    c = {}
     c['tags'] = tags
     c['min_date'] = Entry.objects.all().order_by('when')[0].when
     c['max_date'] = Entry.objects.all().order_by('-when')[0].when
@@ -109,7 +109,7 @@ def tags(request):
 def tag(request, slug):
     tag = Tag.objects.get(tag=slug)
     ents = tag.entry_set.filter(draft=False).order_by('-when')
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['tag'] = tag
     c['title'] = 'Blog: #%s' % tag.hashtag
@@ -118,7 +118,7 @@ def tag(request, slug):
 
 def untagged(request):
     ents = untagged_entries()
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['title'] = 'Blog: untagged'
     c['bodyclass'] = 'blog tag'
@@ -132,7 +132,7 @@ def untagged_entries():
 
 def drafts(request):
     ents = list(Entry.drafts.all().order_by('-when'))
-    c = RequestContext(request)
+    c = {}
     add_entries(c, ents)
     c['type'] = 'drafts'
     c['title'] = 'Blog: Drafts'
@@ -142,13 +142,13 @@ def drafts(request):
 def blog_rss(request):
     """The RSS feed for the whole blog."""
     ents = Entry.objects.all().order_by('-when')[:10]
-    c = RequestContext(request)
+    c = {}
     c['entries'] = ents
     return render_to_response('rss.xml', c)
 
 def tags_rss(request, tags):
     """An RSS feed for just the tags mentioned in `tags`."""
-    c = RequestContext(request)
+    c = {}
     c['entries'] = Entry.objects.filter(tags__tag__in=tags).distinct().order_by('-when')[:10]
     return render_to_response('rss.xml', c)
 
@@ -157,7 +157,7 @@ def blog_moved_php(request):
     # Only need to include entries with a <more> tag, and before the re-implementation.
     ents = [ e for e in ents if ("<more" in e.text) and (e.when.year < 2008) ]
 
-    c = RequestContext(request)
+    c = {}
     c['entries'] = ents
     return render_to_response('moved.php', c)
 
@@ -166,7 +166,7 @@ def blog_moved_php(request):
 def article(request, path):
     pxpath = path.replace('.html', '.px')
     a = get_object_or_404(Article, path=pxpath)
-    c = RequestContext(request)
+    c = {}
     c['title'] = a.title
     c['lang'] = a.lang
     c['copyright'] = a.copyright
@@ -190,13 +190,13 @@ def article(request, path):
 
 def sidebar(request, which):
     html = "{% load tags %}{% sidebar which 1 %}"
-    c = RequestContext(request)
+    c = {}
     c['which'] = which
     return HttpResponse(Template(html).render(c))
 
 def index(request):
     a = get_object_or_404(Article, path='index.px')
-    c = RequestContext(request)
+    c = {}
     c['title'] = a.title
     c['body'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])

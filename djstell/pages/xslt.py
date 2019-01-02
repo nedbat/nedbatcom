@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import re
 
-from six import StringIO
+from six import BytesIO
 
 from lxml import etree
 from stellated.XsltExtensions import *
@@ -67,7 +67,7 @@ xslt_xform = etree.XSLT(xslt)
 
 def content_transform(name, xmltext, child=None, params={}):
     #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', '')))
-    f = StringIO(xmltext.encode('utf-8'))
+    f = BytesIO(xmltext.encode('utf-8'))
     doc = etree.parse(f)
     if child:
         doc = doc.find(child)
@@ -95,4 +95,4 @@ def string_param(s):
     # comes out as:
     #   "What's a "+'"'+"blog"+'"'+"?"
     parts = s.split('"')
-    return "+'\"'+".join([ repr(unicode(p).encode('utf-8')) for p in parts ])
+    return "+'\"'+".join([ repr(str(p).encode('utf-8'))[1:] for p in parts ])

@@ -91,7 +91,7 @@ class StaticGenerator(object):
         for resource in resources:
 
             # A URL string
-            if isinstance(resource, (str, unicode, Promise)):
+            if isinstance(resource, (str, bytes, Promise)):
                 extracted.append(str(resource))
                 continue
 
@@ -169,7 +169,7 @@ class StaticGenerator(object):
                 raise StaticGeneratorException('Could not create the directory: %s' % directory)
 
         try:
-            with open(fn, 'w') as f:
+            with open(fn, 'wb') as f:
                 f.write(content)
         except:
             raise StaticGeneratorException('Could not create the file: %s' % fn)

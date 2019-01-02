@@ -31,7 +31,7 @@ def nice_text(s):
 
     Takes unicode, returns unicode.
     """
-    return smartypants.smartypants(s.encode('utf8'), smartypants.Attr.q | smartypants.Attr.u).decode('utf8')
+    return smartypants.smartypants(s, smartypants.Attr.q | smartypants.Attr.u)
 
 
 class ModelMixin:
@@ -234,12 +234,12 @@ class Link(models.Model, ModelMixin):
 # Entries have drafts, and it's almost always right to exclude them, so we
 # have custom managers.
 class DraftsManager(models.Manager):
-    def get_query_set(self):
-        return super(DraftsManager, self).get_query_set().filter(draft=True)
+    def get_queryset(self):
+        return super(DraftsManager, self).get_queryset().filter(draft=True)
 
 class NoDraftsManager(models.Manager):
-    def get_query_set(self):
-        return super(NoDraftsManager, self).get_query_set().filter(draft=False)
+    def get_queryset(self):
+        return super(NoDraftsManager, self).get_queryset().filter(draft=False)
 
 
 class Entry(models.Model, ModelMixin):
@@ -271,7 +271,7 @@ class Entry(models.Model, ModelMixin):
             assert bxfile.startswith("./")
             ent.path = bxfile[2:].replace('\\', '/')
             ent.title = nice_text(e.find('title').text)
-            ent.text = etree.tostring(e)
+            ent.text = etree.tostring(e).decode('utf8')
             ent.draft = (e.get('draft', 'n') == 'y')
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
             ent.when = datetime_from_8601(e.get('when'))

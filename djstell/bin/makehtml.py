@@ -255,9 +255,7 @@ class CmdLine(object):
 
     @timed
     def main(self, argv):
-        start = time.clock()
         self.exec_words(argv)
-        now = time.clock()
 
 if __name__ == '__main__':
     cmdline = CmdLine()
