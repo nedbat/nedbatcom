@@ -5,7 +5,7 @@ import datetime
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import Template
+from django.template import RequestContext, Template
 
 from djstell.pages.models import Entry, Article, Tag
 
@@ -190,7 +190,7 @@ def article(request, path):
 
 def sidebar(request, which):
     html = "{% load tags %}{% sidebar which 1 %}"
-    c = {}
+    c = RequestContext(request)
     c['which'] = which
     return HttpResponse(Template(html).render(c))
 
