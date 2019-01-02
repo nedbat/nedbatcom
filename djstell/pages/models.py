@@ -101,7 +101,7 @@ class Article(models.Model, ModelMixin):
         art = Article()
         art.title = nice_text(p.get('title'))
         art.path = pxfile[len(root)+1:].replace('\\', '/')
-        art.text = etree.tostring(p)
+        art.text = etree.tostring(p).decode('utf8')
         art.sitemap = (p.get('sitemap', 'yes') != 'no')
         art.lang = p.get('lang', 'en')
         art.sort = int(p.get('order', '500'))

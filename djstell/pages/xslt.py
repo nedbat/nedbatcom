@@ -68,7 +68,11 @@ xslt_xform = etree.XSLT(xslt)
 def content_transform(name, xmltext, child=None, params={}):
     #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', '')))
     f = BytesIO(xmltext.encode('utf-8'))
-    doc = etree.parse(f)
+    try:
+        doc = etree.parse(f)
+    except:
+        print("Text was {!r}".format(xmltext))
+        raise
     if child:
         doc = doc.find(child)
     params = dict(params)
