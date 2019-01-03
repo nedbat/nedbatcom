@@ -1,8 +1,8 @@
-Django
-Pygments
-lxml
-pillow
+Django==2.1.4
+Pygments==2.3.1
+lxml==4.2.6
+pillow==5.4.0
 #smartypants==2.0.1
 git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes#egg=smartypants==0.0
-path.py
-six
+path.py==11.5.0
+six==1.12.0
