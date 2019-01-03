@@ -1,7 +1,5 @@
 """Static file generator for Django."""
 
-from __future__ import print_function
-
 # Modified by Ned Batchelder, starting with:
 __version__ = '1.1, 2007-01-09'
 

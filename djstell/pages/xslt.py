@@ -1,10 +1,7 @@
 # Extensions.
 
-from __future__ import print_function
-
+from io import BytesIO
 import re
-
-from six import BytesIO
 
 from lxml import etree
 from stellated.XsltExtensions import *

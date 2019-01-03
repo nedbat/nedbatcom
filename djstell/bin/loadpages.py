@@ -1,7 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Load the database for nedbatchelder.com
-
-from __future__ import print_function
 
 import sys
 import traceback
@@ -9,6 +7,7 @@ import traceback
 from path import Path
 from django.db import transaction
 from djstell.pages.models import Article, Section, Entry, Tag, Link
+
 
 root = Path(".")
 page_sources = 'pages'.split()

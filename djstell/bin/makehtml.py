@@ -1,7 +1,5 @@
 # Generate HTML pages for nedbatchelder.com
 
-from __future__ import print_function
-
 import datetime
 import glob
 import logging
