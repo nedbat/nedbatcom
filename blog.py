@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 """Create a new blog entry."""
 
-import os, re, string, sys, time
+import os
+import re
+import string
+import sys
+import time
 
 blogdir = r'~/web/stellated/blog'
 blogfmt = \
@@ -22,8 +26,8 @@ blogfmt = \
 
 editor = r'/Applications/MacVim.app/Contents/MacOS/vim --servername VIM --remote-silent'
 
-def keepChars(s, keep):
-    return ''.join([c for c in s if c in keep])
+def keep_chars(s, keep):
+    return ''.join(c for c in s if c in keep)
 
 fileok = string.ascii_letters + string.digits + '-'
 
@@ -32,7 +36,7 @@ slots['now'] = time.strftime("%Y%m%dT%H%M%S")
 
 if len(sys.argv) > 1:
     outfile = '-'.join(sys.argv[1:]).replace(' ', '-')
-    outfile = keepChars(outfile, fileok).lower()
+    outfile = keep_chars(outfile, fileok).lower()
     title = ' '.join(sys.argv[1:])
     slots['title'] = title[0].upper() + title[1:]
 else:
@@ -45,9 +49,9 @@ if not outfile.endswith('.bx'):
 outfile = os.path.join(os.path.expanduser(blogdir), outfile)
 
 if os.path.exists(outfile):
-    print "%s already exists!" % outfile
+    print(f"{outfile} already exists!")
 else:
-    print "Blogging to %s" % outfile
+    print(f"Blogging to {outfile}")
     open(outfile, 'w').write(blogfmt % slots)
 
 os.system(editor+" "+outfile)
