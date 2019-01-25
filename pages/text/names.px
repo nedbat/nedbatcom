@@ -703,7 +703,7 @@ print(nums)         # [1, 2, 3, 4, 4]
 <p>The local names in the function are drawn in a new frame. Calling the
     function assigned the actual values to the parameter names, just like any
     other assignment statement.  Remember that assignment never makes new
-    values or copies any data, so the here the local name a_list refers to the
+    values or copies any data, so here the local name a_list refers to the
     same value that was passed in, nums.</p>
 
 <p>Then we call a_list.append twice, which mutates the list:</p>
