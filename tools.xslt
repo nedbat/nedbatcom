@@ -411,6 +411,24 @@
     </img>
 </xsl:template>
 
+<xsl:template match='youtube_jump'>
+    <p class='figure youtube'>
+        <a target='_blank'>
+            <xsl:attribute name='href'>
+                <xsl:text>https://youtube.com/watch?v=</xsl:text>
+                <xsl:value-of select='@video' />
+            </xsl:attribute>
+            <img width="1280" height="720" alt="Watch the video on YouTube">
+                <xsl:attribute name='src'>
+                    <xsl:text>https://img.youtube.com/vi/</xsl:text>
+                    <xsl:value-of select='@video' />
+                    <xsl:text>/maxresdefault.jpg</xsl:text>
+                </xsl:attribute>
+            </img>
+        </a>
+    </p>
+</xsl:template>
+
 <xsl:template match='box'>
     <xsl:call-template name='checkblock'/>
     <blockquote class='box'>
