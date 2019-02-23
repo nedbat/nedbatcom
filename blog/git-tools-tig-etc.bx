@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190223T125142'>
+<title>Git tools: tig etc</title>
+<category>git</category>
+<body>
+
+<p>Recently I've had a few chats with engineers where I mention a git helper
+thing, and they hadn't heard of it.  So maybe other people would like to hear
+about them too:</p>
+
+<p><b><a href='https://jonas.github.io/tig/'>tig</a></b> is a full-window
+terminal UI for git.  It's great for spelunking through a git repo, looking at
+branches, history, blames, and so on.  For a quick overview of what it does,
+this <a href='https://www.atlassian.com/blog/git/git-tig'>old blog post from
+Atlassian</a> describes it pretty well.</p>
+
+<p>You should play with it to see all of its features.  To be honest, I
+haven't quite internalized how it displays new panes, but I still love it for
+its speedy compact presentation of just the information I want.</p>
+
+<p><b><a href='https://hub.github.com/'>hub</a></b> is a command-line tool for
+doing GitHub things that are not pure git, or for supplying helpful
+GitHub-centric defaults.  For example, cloning a repo with "hub clone
+username/repo", or opening a pull request for the current branch with "hub pr".
+It can do a ton of stuff.  If you use a lot of GitHub features, but like the
+command line, you should definitely give it a try.</p>
+
+<p>A <b><a href='https://help.github.com/en/articles/ignoring-files#create-a-global-gitignore'>global .gitignore</a></b>
+file is like the .gitignore file in your repos: it specifies files that should
+never be committed to git.  But instead of being part of a specific repo, this
+one is global to all of your repos on your machine.  This is great for
+IDE-specific files, or data files for your own quirky tools.</p>
+
+<p>Do you have other good helpers to recommend?</p>
+
+</body>
+</entry>
+</blog>
