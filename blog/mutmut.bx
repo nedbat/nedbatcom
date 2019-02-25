@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190224T152038' draft='y'>
+<title>Mutmut</title>
+<category></category>
+<body>
+
+<p>Mutation testing is an old idea that I haven't yet seen work out, but it's
+fascinating.  The idea is that your test suite should catch any bugs in your
+code, so what if we artificially insert bugs into the code, and see if the test
+suite catches them?</p>
+
+<p>Mutation testers modify (mutate) your project code in small ways, then run
+your test suite. If the tests all pass, then that mutation is considered a
+problem: a bug that your tests didn't catch.  The theory is that a mutation
+will change the behavior of your program, so if your test suite is testing
+closely enough, some test should fail for each mutation.  If a mutation doesn't
+produce a test failure, then you need to add to your tests.</p>
+
+<p>There are a few problems with this plan.  The first is that it is
+time-consuming.  Most people feel like it takes too long to run their entire
+test suite just once. Mutation testers run the whole suite once for each
+mutation, and there can be thousands of mutations.</p>
+
+<p>But my larger concern is false positives: not all mutations are bugs, and if
+the mutation tester reports too many non-bugs as bugs, then its usefulness is
+diminished or even negated.  I wanted to examine this idea more closely.</p>
+
+<p>There are a few mutation testers out there for Python. I thought I would
+give them a try, starting with <a href='https://mutmut.readthedocs.io/en/latest/'>mutmut</a>.</p>
+
+<p>I needed a test suite to use, so I created a slightly artificial project.
+The templite module in coverage.py is almost standalone, and is well-tested.
+And it's small enough that its test suite runs in less than a second.
+I extracted templite, wrote some project scaffolding, and gave it its
+<a href="https://github.com/nedbat/templite">own repository</a>.</p>
+
+<p>Now I had a project that tested well:</p>
+
+<code><![CDATA[
+$ coverage run -m pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.7.1, pytest-4.3.0, py-1.8.0, pluggy-0.9.0
+rootdir: /Users/ned/lab/templite, inifile:
+collected 26 items
+
+test_templite.py ..........................                              [100%]
+
+========================== 26 passed in 0.09 seconds ===========================
+
+$ coverage report -m
+Name              Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------
+src/templite.py     144      1     60      1    99%   137, 136->137
+]]></code>
+
+<p>(The one line missing coverage is a conditional for Python 2 vs Python 3.)</p>
+
+<p>Running mutmut was easy:</p>
+
+<code><![CDATA[
+$ pip install mutmut
+Collecting mutmut
+...
+Installing collected packages: mutmut
+Successfully installed mutmut-1.3.1
+
+$ mutmut run
+
+- Mutation testing starting -
+
+These are the steps:
+1. A full test suite run will be made to make sure we
+   can run the tests successfully and we know how long
+   it takes (to detect infinite loops for example)
+2. Mutants will be generated and checked
+
+Mutants are written to the cache in the .mutmut-cache
+directory. Print found mutants with `mutmut results`.
+
+Legend for output:
+🎉 Killed mutants. The goal is for everything to end up in this bucket.
+⏰ Timeout. Test suite took 10 times as long as the baseline so were killed.
+🤔 Suspicious. Tests took a long time, but not long enough to be fatal.
+🙁 Survived. This means your tests needs to be expanded.
+
+mutmut cache is out of date, clearing it...
+1. Running tests without mutations
+⠇ Running... Done
+
+2. Checking mutants
+⠧ 154/154  🎉 146  ⏰ 0  🤔 0  🙁 8
+]]></code>
+
+<p>This ran 154 different mutations, which took about a minute for my
+half-second-ish test suite.  146 of them resulted in test suite failures, as
+they should.   But 8 passed the test suite, so they have to be examined as
+potential test gaps.</p>
+
+<p>To look at the mutants, use the <codeword>results</codeword> command:</p>
+
+<code><![CDATA[
+$ mutmut results
+To apply a mutant on disk:
+    mutmut apply <id>
+
+To show a mutant:
+    mutmut show <id>
+
+
+Survived 🙁 (8)
+
+---- src/templite.py (8) ----
+
+10, 29, 37, 45, 46, 58, 108, 152
+]]></code>
+
+<p>This gives me the ids of the mutants that survived, that is, the mutations
+that didn't cause a failure in the test suite.</p>
+
+<p>We can see the actual code mutation with the <codeword>show</codeword> command:</p>
+
+<code><![CDATA[
+$ mutmut show 10
+--- src/templite.py
++++ src/templite.py
+@@ -48,7 +48,7 @@
+         self.code.append(section)
+         return section
+
+-    INDENT_STEP = 4      # PEP8 says so!
++    INDENT_STEP = 5      # PEP8 says so!
+
+     def indent(self):
+         """Increase the current indent for following lines."""
+]]></code>
+
+<p>Right off the bat, we have a philosophical decision to make.  A bit about
+how templite works: it converts template files into Python code.  Rendering a
+template is done by executing the generated Python code.  This
+<codeword>INDENT_STEP</codeword> constant is the indentation amount used in the
+generated code.</p>
+
+<p>I have no tests that examine the generated code. That code is an
+implementation detail.  The important thing is that the templates render
+properly, so that is what's tested.  When mutmut changed the indent level to 5,
+the generated code was different, but only in white space, so it ran the same,
+and still produced the right output.</p>
+
+<p>Does this mutation point to a problem in the test suite? I don't think I
+should test that the indentation level in the generated code is 4 spaces.
+Mutmut provides a way to mark the line to exempt it from mutation, but I'm not
+sure I want to start adding those pragmas. This is one of the things I wanted
+to understand: what kind of false positives would appear, and how would I deal
+with them?</p>
+
+<p>Let's see how the next mutant looks:</p>
+
+<code><![CDATA[
+$ mutmut show 29
+--- src/templite.py
++++ src/templite.py
+@@ -134,7 +134,7 @@
+         code.add_line("append_result = result.append")
+         code.add_line("extend_result = result.extend")
+         if sys.version_info.major == 2:
+-            code.add_line("to_str = unicode")
++            code.add_line("XXto_str = unicodeXX")
+         else:
+             code.add_line("to_str = str")
+
+]]></code>
+
+<p>The second mutant has found the one line of code that is not covered by the
+test suite, because it's for Python 2, and we are only running under Python 3.
+Mutmut has a <codeword>--use-coverage</codeword> flag, which uses coverage data
+to skip mutations on lines that are not covered by the test suite. If I had used
+it to begin with, this mutant wouldn't have appeared. Nice.</p>
+
+<p>Next:</p>
+
+<code><![CDATA[
+ mutmut show 37
+--- src/templite.py
++++ src/templite.py
+@@ -144,7 +144,7 @@
+             """Force `buffered` to the code builder."""
+             if len(buffered) == 1:
+                 code.add_line("append_result(%s)" % buffered[0])
+-            elif len(buffered) > 1:
++            elif len(buffered) >= 1:
+                 code.add_line("extend_result([%s])" % ", ".join(buffered))
+             del buffered[:]
+
+]]></code>
+
+<p>This is a classic false positive.  The condition has been changed from
+greater to greater-or-equal, but it doesn't change the behavior of the code.
+This mutations is in an "elif" clause and the equal case was already handled by
+the previous if clause, so greater-or-equal is the same as greater.</p>
+
+<p>Mutant 45 gives us our first true success:</p>
+
+<code lang="python"><![CDATA[
+$ mutmut show 45
+--- src/templite.py
++++ src/templite.py
+@@ -153,7 +153,7 @@
+         # Split the text to form a list of tokens.
+         tokens = re.split(r"(?s)({{.*?}}|{%.*?%}|{#.*?#})", text)
+
+-        squash = False
++        squash = True
+
+         for token in tokens:
+             if token.startswith('{'):
+]]></code>
+
+<p>Templite can squash whitespace around tokens, and here we are changing the
+initial value of the "should I squash whitespace?" flag.  How can it not cause
+a test failure?  Because we never tested a template that started with white space!
+Adding this simple test kills the mutant:</p>
+
+<code lang="python"><![CDATA[
+self.try_render("  hello  ", {}, "  hello  ")
+]]></code>
+
+<p>I thought that <codeword>mutmut run</codeword> again would clear the mutant
+from the results, but the only way I could find to clear it was to delete the
+mutmut cache and run all the mutations again.</p>
+
+<p>Mutant 46 is another false positive:</p>
+
+<code><![CDATA[
+$ mutmut show 46
+--- src/templite.py
++++ src/templite.py
+@@ -153,7 +153,7 @@
+         # Split the text to form a list of tokens.
+         tokens = re.split(r"(?s)({{.*?}}|{%.*?%}|{#.*?#})", text)
+
+-        squash = False
++        squash = None
+
+         for token in tokens:
+             if token.startswith('{'):
+]]></code>
+
+<p>Here <codeword>squash</codeword> is the same boolean flag we saw in mutant
+45.  I only ever check it with <codeword>if squash:</codeword>, so of course
+False and None produce the same results.  Notice here if I wanted to prevent
+this mutant by adding a pragma to the line, I would also have prevented the
+first success we had.  Adding that pragma would be counter-productive.</p>
+
+<p>Next:</p>
+
+<code><![CDATA[
+$ mutmut show 58
+--- src/templite.py
++++ src/templite.py
+@@ -160,7 +160,7 @@
+                 start, end = 2, -2
+                 squash = (token[-3] == '-')
+                 if squash:
+-                    end = -3
++                    end = -4
+
+                 if token.startswith('{#'):
+                     # Comment: ignore it and move on.
+]]></code>
+
+<p>This is another useful result.  Turns out in my tests, I always wrote space-squashing
+tags with a space, like <codeword>{{a -}}</codeword>.  This mutated code adjusted
+the trimming of punctuation to account for the dash.  Because I always had a space
+before the dash, the change to -4 went unnoticed.  I killed this mutant by changing
+some tags in my tests to have no space: <codeword>{{a-}}</codeword>, and also added some
+with many spaces for good measure.</p>
+
+<p>Mutant 108 sure looks like it's real:</p>
+
+<code><![CDATA[
+$ mutmut show 108
+--- src/templite.py
++++ src/templite.py
+@@ -211,7 +211,7 @@
+             else:
+                 # Literal content.  If it isn't empty, output it.
+                 if squash:
+-                    token = token.lstrip()
++                    token = None
+                 if token:
+                     buffered.append(repr(token))
+]]></code>
+
+<p>Seems like we have no tests of non-white-space literal content after a
+squashing tag.  Add that test, and that mutant is killed.</p>
+
+<p>Our last mutant is another interesting case:</p>
+
+<code><![CDATA[
+$ mutmut show 152
+--- src/templite.py
++++ src/templite.py
+@@ -283,7 +283,7 @@
+                     value = value[dot]
+                 except (TypeError, KeyError):
+                     raise TempliteValueError(
+-                        "Couldn't evaluate %r.%s" % (value, dot)
++                        "XXCouldn't evaluate %r.%sXX" % (value, dot)
+                     )
+             if callable(value):
+                 value = value()
+]]></code>
+
+<p>Here the error message has been mutated by adding chaff to the beginning and end.
+We do have a test for this error, including its message:</p>
+
+<code lang="python"><![CDATA[
+def test_exception_during_evaluation(self):
+    msg = "Couldn't evaluate None.bar"
+    with self.assertRaisesRegex(TempliteValueError, msg):
+        self.try_render(
+            "Hey {{foo.bar.baz}} there", {'foo': None}, "Hey ??? there"
+        )
+]]></code>
+
+<p>The test still passes because it's finding the expected error message somewhere
+in the actual error message. If mutmut had added chaff in the middle of the string
+as well, it would have failed the test.  Is this clever of mutmut? Hard to say!</p>
+
+<p>When I change the test, the mutant is killed:</p>
+
+<code lang="python"><![CDATA[
+regex = "^Couldn't evaluate None.bar$"
+with self.assertRaisesRegex(TempliteValueError, regex):
+]]></code>
+
+<p>BTW, the first time I ran mutmut, it created another nonsensical mutant:</p>
+
+<code><![CDATA[
+--- src/__init__.py
++++ src/__init__.py
+@@ -1,2 +1,2 @@
+-from .templite import *
++from .templite import /
+]]></code>
+
+<p>This mutant survived because this file was never executed.  That in itself
+was a useful clue to the fact that I had made a useless file.  Delete the file,
+and the mutant is killed.</p>
+
+
+
+</body>
+</entry>
+</blog>
