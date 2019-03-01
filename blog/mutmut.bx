@@ -5,6 +5,14 @@
 <category></category>
 <body>
 
+<!--
+
+TODO:
+    - don't know how mutmut knew where to look, it just worked
+    - mutant language "survived", "killed", etc.
+
+-->
+
 <p>Mutation testing is an old idea that I haven't yet seen work out, but it's
 fascinating.  The idea is that your test suite should catch any bugs in your
 code, so what if we artificially insert bugs into the code, and see if the test
