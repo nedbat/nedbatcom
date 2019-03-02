@@ -5,14 +5,6 @@
 <category></category>
 <body>
 
-<!--
-
-TODO:
-    - don't know how mutmut knew where to look, it just worked
-    - mutant language "survived", "killed", etc.
-
--->
-
 <p>Mutation testing is an old idea that I haven't yet seen work out, but it's
 fascinating.  The idea is that your test suite should catch any bugs in your
 code, so what if we artificially insert bugs into the code, and see if the test
@@ -62,7 +54,8 @@ Name              Stmts   Miss Branch BrPart  Cover   Missing
 src/templite.py     144      1     60      1    99%   137, 136->137
 ]]></code>
 
-<p>(The one line missing coverage is a conditional for Python 2 vs Python 3.)</p>
+<p>(The one line missing coverage is a conditional for Python 2 vs
+Python 3.)</p>
 
 <p>Running mutmut was easy:</p>
 
@@ -105,6 +98,14 @@ half-second-ish test suite.  146 of them resulted in test suite failures, as
 they should.   But 8 passed the test suite, so they have to be examined as
 potential test gaps.</p>
 
+<p>One nice touch: if you interrupt mutmut, when you run it again, it picks up
+where it left off, which is great for a long-running process like this.</p>
+
+<p>I'm not sure how mutmut decides where to find the code to mutate.  In this
+case it found it implicitly.  Other projects I tried, I had to add some
+configuration to setup.cfg, even though I thought the projects were laid out
+similarly.</p>
+
 <p>To look at the mutants, use the <codeword>results</codeword> command:</p>
 
 <code><![CDATA[
@@ -126,7 +127,8 @@ Survived 🙁 (8)
 <p>This gives me the ids of the mutants that survived, that is, the mutations
 that didn't cause a failure in the test suite.</p>
 
-<p>We can see the actual code mutation with the <codeword>show</codeword> command:</p>
+<p>We can see the actual code mutation with the <codeword>show</codeword>
+command:</p>
 
 <code><![CDATA[
 $ mutmut show 10
@@ -182,8 +184,8 @@ $ mutmut show 29
 <p>The second mutant has found the one line of code that is not covered by the
 test suite, because it's for Python 2, and we are only running under Python 3.
 Mutmut has a <codeword>--use-coverage</codeword> flag, which uses coverage data
-to skip mutations on lines that are not covered by the test suite. If I had used
-it to begin with, this mutant wouldn't have appeared. Nice.</p>
+to skip mutations on lines that are not covered by the test suite. If I had
+used it to begin with, this mutant wouldn't have appeared. Nice.</p>
 
 <p>Next:</p>
 
@@ -204,7 +206,7 @@ it to begin with, this mutant wouldn't have appeared. Nice.</p>
 
 <p>This is a classic false positive.  The condition has been changed from
 greater to greater-or-equal, but it doesn't change the behavior of the code.
-This mutations is in an "elif" clause and the equal case was already handled by
+This mutation is in an "elif" clause and the equal case was already handled by
 the previous if clause, so greater-or-equal is the same as greater.</p>
 
 <p>Mutant 45 gives us our first true success:</p>
@@ -224,10 +226,10 @@ $ mutmut show 45
              if token.startswith('{'):
 ]]></code>
 
-<p>Templite can squash whitespace around tokens, and here we are changing the
-initial value of the "should I squash whitespace?" flag.  How can it not cause
-a test failure?  Because we never tested a template that started with white space!
-Adding this simple test kills the mutant:</p>
+<p>Templite can squash white space around tokens, and here we are changing the
+initial value of the "should I squash white space?" flag.  How can it not cause
+a test failure?  Because we never tested a template that started with white
+space!  Adding this simple test kills the mutant:</p>
 
 <code lang="python"><![CDATA[
 self.try_render("  hello  ", {}, "  hello  ")
@@ -277,12 +279,13 @@ $ mutmut show 58
                      # Comment: ignore it and move on.
 ]]></code>
 
-<p>This is another useful result.  Turns out in my tests, I always wrote space-squashing
-tags with a space, like <codeword>{{a -}}</codeword>.  This mutated code adjusted
-the trimming of punctuation to account for the dash.  Because I always had a space
-before the dash, the change to -4 went unnoticed.  I killed this mutant by changing
-some tags in my tests to have no space: <codeword>{{a-}}</codeword>, and also added some
-with many spaces for good measure.</p>
+<p>This is another useful result.  Turns out in my tests, I always wrote
+space-squashing tags with a space, like <codeword>{{a -}}</codeword>.  This
+mutated code adjusted the trimming of punctuation to account for the dash.
+Because I always had a space before the dash, the change to -4 went unnoticed.
+I killed this mutant by changing some tags in my tests to have no space:
+<codeword>{{a-}}</codeword>, and also added some with many spaces for good
+measure.</p>
 
 <p>Mutant 108 sure looks like it's real:</p>
 
@@ -320,8 +323,8 @@ $ mutmut show 152
                  value = value()
 ]]></code>
 
-<p>Here the error message has been mutated by adding chaff to the beginning and end.
-We do have a test for this error, including its message:</p>
+<p>Here the error message has been mutated by adding chaff to the beginning and
+end.  We do have a test for this error, including its message:</p>
 
 <code lang="python"><![CDATA[
 def test_exception_during_evaluation(self):
@@ -332,9 +335,10 @@ def test_exception_during_evaluation(self):
         )
 ]]></code>
 
-<p>The test still passes because it's finding the expected error message somewhere
-in the actual error message. If mutmut had added chaff in the middle of the string
-as well, it would have failed the test.  Is this clever of mutmut? Hard to say!</p>
+<p>The test still passes because it's finding the expected error message
+somewhere in the actual error message. If mutmut had added chaff in the middle
+of the string as well, it would have failed the test.  Is this clever of
+mutmut? Hard to say!</p>
 
 <p>When I change the test, the mutant is killed:</p>
 
@@ -355,8 +359,22 @@ with self.assertRaisesRegex(TempliteValueError, regex):
 
 <p>This mutant survived because this file was never executed.  That in itself
 was a useful clue to the fact that I had made a useless file.  Delete the file,
-and the mutant is killed.</p>
+and the mutant is killed. (BTW: <a href='https://github.com/boxed/mutmut/issues/52#event-2173624536'>mutmut has changed</a>
+so that it won't create this mutation any more.)</p>
 
+<p>So after all this, how did mutmut do?  It gave me seven mutations, four of
+which resulted in improving the tests.  That's not a bad outcome.  But I don't
+know how I would use this regularly.  I don't have a good way to silence the
+three false positives, so if I run mutmut again in the future, I will have to
+consider them again.</p>
+
+<p>As another data point about the cost of mutation testing, I tried mutmut on
+<a href='https://github.com/edx/edx-lint'>another project</a> with a 10-second
+test suite.  It took mutmut 43 minutes to run 513 mutants, of which 165
+survived.  I haven't looked through them yet to see what they mean.</p>
+
+<p>All in all, I am pleased with the results.  As an occasional (but expensive)
+way to assess your test suite, mutmut works well.</p>
 
 
 </body>
