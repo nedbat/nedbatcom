@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20190224T152038' draft='y'>
+<entry when='20190302T063600'>
 <title>Mutmut</title>
-<category></category>
+<category>testing</category>
+<category>tools</category>
 <body>
 
 <p>Mutation testing is an old idea that I haven't yet seen work out, but it's
@@ -27,7 +28,10 @@ the mutation tester reports too many non-bugs as bugs, then its usefulness is
 diminished or even negated.  I wanted to examine this idea more closely.</p>
 
 <p>There are a few mutation testers out there for Python. I thought I would
-give them a try, starting with <a href='https://mutmut.readthedocs.io/en/latest/'>mutmut</a>.</p>
+give them a try, starting with <a href='https://mutmut.readthedocs.io/en/latest/'>mutmut</a>.
+[Mutmut's author Anders Hovmöller helped by commenting on a draft of this post.
+I've included some of his commentary.]
+</p>
 
 <p>I needed a test suite to use, so I created a slightly artificial project.
 The templite module in coverage.py is almost standalone, and is well-tested.
@@ -106,6 +110,10 @@ case it found it implicitly.  Other projects I tried, I had to add some
 configuration to setup.cfg, even though I thought the projects were laid out
 similarly.</p>
 
+<p>[Anders says it looks for "src", "lib", or a directory with the same name as
+the current directory.  My other project has a quirk: edx-lint/edx_lint has the
+code, so the punctuation different threw it off.]</p>
+
 <p>To look at the mutants, use the <codeword>results</codeword> command:</p>
 
 <code><![CDATA[
@@ -144,6 +152,10 @@ $ mutmut show 10
      def indent(self):
          """Increase the current indent for following lines."""
 ]]></code>
+
+<p>The mutation is shown as a diff. The old line is prefixed with minus, and
+the new line with plus.  Here the INDENT_STEP constant was changed from 4 to
+5.</p>
 
 <p>Right off the bat, we have a philosophical decision to make.  A bit about
 how templite works: it converts template files into Python code.  Rendering a
@@ -209,6 +221,18 @@ greater to greater-or-equal, but it doesn't change the behavior of the code.
 This mutation is in an "elif" clause and the equal case was already handled by
 the previous if clause, so greater-or-equal is the same as greater.</p>
 
+<p>On this point, Anders commented:</p>
+
+<quote><p>Mutmut here does point out that your code is overly complex. Just
+"elif buffered" can't be mutated but has the same functionality. I've found
+this to be a weird little side effect to using mutation testing. If I follow
+this the code gets better and more "just so". This specific case isn't a super
+strong argument, but I've had many similar things that build on top of each
+other in small increments.</p></quote>
+
+<p>I can see Anders' point here, though I'm not sure I want to change the code
+that way.</p>
+
 <p>Mutant 45 gives us our first true success:</p>
 
 <code lang="python"><![CDATA[
@@ -237,7 +261,8 @@ self.try_render("  hello  ", {}, "  hello  ")
 
 <p>I thought that <codeword>mutmut run</codeword> again would clear the mutant
 from the results, but the only way I could find to clear it was to delete the
-mutmut cache and run all the mutations again.</p>
+mutmut cache and run all the mutations again. [Anders wrote
+<a href='https://github.com/boxed/mutmut/issues/92'>an issue</a> about this.]</p>
 
 <p>Mutant 46 is another false positive:</p>
 
@@ -359,8 +384,8 @@ with self.assertRaisesRegex(TempliteValueError, regex):
 
 <p>This mutant survived because this file was never executed.  That in itself
 was a useful clue to the fact that I had made a useless file.  Delete the file,
-and the mutant is killed. (BTW: <a href='https://github.com/boxed/mutmut/issues/52#event-2173624536'>mutmut has changed</a>
-so that it won't create this mutation any more.)</p>
+and the mutant is killed. [<a href='https://github.com/boxed/mutmut/issues/52#event-2173624536'>mutmut has changed</a>
+so that it won't create this mutation any more.]</p>
 
 <p>So after all this, how did mutmut do?  It gave me seven mutations, four of
 which resulted in improving the tests.  That's not a bad outcome.  But I don't
