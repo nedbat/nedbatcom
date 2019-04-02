@@ -70,15 +70,17 @@
         </li>
         {% endif %}
 
-        {% if moreblog %}
+        {% if staycurrent %}
         <li class='inline'><label>Stay current: </label>
             <ul class='compact'>
                 <li><a href='/blog/rss.xml' type='application/rss+xml'>RSS&nbsp;feed</a></li>
                 <li><a href='https://blogtrottr.com/?subscribe=https://nedbatchelder.com/blog/rss.xml'>by&nbsp;email</a></li>
             </ul>
         </li>
+        {% endif %}
 
-        <li class='inline'><label>More blog: </label>
+        {% if moreblog %}
+        <li class='inline'><label>{{morebloglabel}}: </label>
             <nav>
                 <ul class='tight'>
                     {% for link in moreblog %}

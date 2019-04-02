@@ -60,10 +60,15 @@ def sidebar(which, force=False):
         for _ in range(8):
             yield next(tags)
 
+    moreblog = list(combined_more_blog())
     if which == 'blog':
-        c['moreblog'] = list(combined_more_blog())
+        c['moreblog'] = moreblog
+        c['morebloglabel'] = "More blog"
+        c['staycurrent'] = True
     elif which == 'page':
-        c['youmightlike'] = False
+        c['moreblog'] = moreblog[:22]
+        c['morebloglabel'] = "Blog"
+
     return c
 
 @register.simple_tag
