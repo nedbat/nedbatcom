@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190402T064348'>
+<title>Cog 3.0</title>
+<category>cog</category>
+<category>mycode</category>
+<body>
+
+<p><a pref="code/cog/index.px">Cog</a> is a small tool I wrote years ago. It
+finds snippets of Python in text files, executes them, and inserts the result
+back into the text.  It's good for adding a little bit of computational support
+into an otherwise static file.  Originally I wrote it to generate boilerplate C
+code, but now I use it for making all my presentations.</p>
+
+<p>It has sat dormant for a long time. Recently someone asked me if it was
+maintained, and I huffily answered, "it's maintained as much as it needs to
+be."  But they were right to ask: it certainly had the look of an abandoned
+property.</p>
+
+<p>So I jumped in and did a bunch of work to it.  Development moved from
+Bitbucket to GitHub.  I merged a few pull requests.  I added Travis and
+Appveyor CI.</p>
+
+<p>The biggest functional change is that errors during execution now get
+reasonable tracebacks that don't require you to reverse-engineer how cog ran
+your code.</p>
+
+<p>I even used <a href='blog/201903/mutmut.html'>mutmut</a> to add
+a few more tests.</p>
+
+<p>The result is <a pref="code/cog/index.px">Cog 3.0</a>, ready for your use!
+I'll try to stay on top of it better now, I promise!</p>
+
+</body>
+</entry>
+</blog>
