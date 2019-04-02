@@ -61,13 +61,7 @@ def sidebar(which, force=False):
             yield next(tags)
 
     if which == 'blog':
-        c['archive_years'] = [ d.year for d in Entry.objects.dates('when', 'year', order='DESC') ]
-        c['tags'] = Tag.objects.filter(sidebar=True).order_by('tag')
         c['moreblog'] = list(combined_more_blog())
-        c['more_tag_count'] = Tag.objects.filter(sidebar=False).count()
-        c['blogroll'] = Link.objects.filter(sidebar=True).order_by('text')
-        #c['rss'] = True
-        c['commerce'] = False
     elif which == 'page':
         c['youmightlike'] = False
     return c
