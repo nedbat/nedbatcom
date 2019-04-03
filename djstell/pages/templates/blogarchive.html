@@ -32,9 +32,9 @@
             {% endif %}
             written on {{date|date:"F j"}} of any year.
             (Nearby:
-                <a href='/blog/archive/date{{next_date|date:"md"}}.html'>{{next_date|date:"F j"}}</a>
+                <a href='/blog/archive/date{{prev_date|date:"md"}}.html'>{{prev_date|date:"F j"}}</a>
             and
-                <a href='/blog/archive/date{{prev_date|date:"md"}}.html'>{{prev_date|date:"F j"}}</a>.)
+                <a href='/blog/archive/date{{next_date|date:"md"}}.html'>{{next_date|date:"F j"}}</a>.)
         {% endifequal %}
         {% ifequal type 'drafts' %}
             These are the {{entries|length}} unfinished blog posts.
