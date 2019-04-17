@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190416T194843'>
+<title>Startup.py</title>
+<category>python</category>
+<body>
+
+<p>Someone recently asked how to permanently change the prompt in the Python
+interactive REPL.  The answer is you can point the PYTHONSTARTUP environment
+variable at a Python file, and that file will be executed every time you enter
+the interactive prompt.</p>
+
+<p>I use this to import modules I often want to use, define helpers, and
+configure my command history.</p>
+
+<p>In my .bashrc I have:</p>
+
+<code lang="python"><![CDATA[
+export PYTHONSTARTUP=~/.startup.py
+]]></code>
+
+<p>Then <a href='https://github.com/nedbat/dot/blob/master/.startup.py'>my .startup.py</a> file is:</p>
+
+<code lang="python"><![CDATA[
+# Ned's startup.py file, loaded into interactive python prompts.
+# Has to work on both 2.x and 3.x
+
+print("(.startup.py)")
+
+import collections, datetime, itertools, math, os, pprint, re, sys, time
+print("(imported collections, datetime, itertools, math, os, pprint, re, sys, time)")
+
+pp = pprint.pprint
+
+# A function for pasting code into the repl.
+def paste():
+    import textwrap
+    exec(textwrap.dedent(sys.stdin.read()), globals())
+
+# Readline and history support
+def hook_up_history():
+    try:
+        # Not sure why this module is missing in some places, but deal with it.
+        import readline
+    except ImportError:
+        print("No readline, use ^H")
+    else:
+        import atexit
+        import os
+        import rlcompleter
+
+        history_path = os.path.expanduser(
+            "~/.pyhistory{0}".format(sys.version_info[0])
+        )
+
+        def save_history(history_path=history_path):
+            import readline
+            readline.write_history_file(history_path)
+
+        if os.path.exists(history_path):
+            readline.read_history_file(history_path)
+
+        atexit.register(save_history)
+
+# Don't do history stuff if we are IPython, it has its own thing.
+is_ipython = 'In' in globals()
+if not is_ipython:
+    hook_up_history()
+
+# Get rid of globals we don't want.
+del is_ipython, hook_up_history
+]]></code>
+
+<p>A few things could us an explanation.  The paste() function lets me paste
+code into the REPL that has blank lines in it, or is indented. Basically, I can
+copy code from somewhere, and use paste() to paste it into the prompt without
+having to fix those things first.  Run paste(), then paste the code, then type
+an EOF indicator (Ctrl-D or Ctrl-Z, depending on your OS).  The pasted code
+will be run as if it had been entered correctly.</p>
+
+<p>The history stuff gives me history that persists across Python invocations,
+and keeps the Python 2 history separate from the Python 3 history.  "pp" is
+very handy to have as a short alias.</p>
+
+<p>Of course, you can put anything you want in your own .startup.py file.  It's
+only run for interactive sessions, not when you are running programs, so you
+don't have to worry that you will corrupt important programs.</p>
+
+</body>
+</entry>
+</blog>
