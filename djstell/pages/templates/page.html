@@ -6,6 +6,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="og:site" content="Ned Batchelder">
+    {% if title %}
+        <meta name="og:title" content="{{title}}">
+    {% endif %}
+    {% if url %}
+        <meta name="og:url" content="{{url}}">
+    {% endif %}
+
     {% block meta %}{{meta|safe}}{% endblock %}
 
     {% for s in scripts %}

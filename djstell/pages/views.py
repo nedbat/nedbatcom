@@ -32,6 +32,7 @@ def entry(request, year, month, slug):
     c = {}
     c['entry'] = ent
     c['title'] = ent.title
+    c['url'] = abs_url(ent.permaurl())
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
