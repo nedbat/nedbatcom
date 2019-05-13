@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190513T071420'>
+<title>Coverage.py 5.0a5: pytest contexts</title>
+<category>coverage</category>
+<body>
+
+<p>Development of version 5 of coverage.py is going slowly, but it is progressing.
+The latest alpha is out: <a href='https://pypi.org/project/coverage/5.0a5/'>coverage.py 5.0a5</a>.
+</p>
+
+<p>The biggest changes are due to Stephan Richter and Justas Sadzevičius, from
+Shoobox.  They improved the support for recording dynamic contexts, informally
+known as <a href='/blog/201612/who_tests_what.html'>Who Tests What</a>.</p>
+
+<p>Now third-party code, either as a
+<a href='https://coverage.readthedocs.io/en/latest/api_plugin.html#dynamic-context-switchers'>coverage.py plugin</a>
+or using the
+<a href='https://coverage.readthedocs.io/en/latest/api_coverage.html#coverage.Coverage.switch_context'>coverage.py API</a>
+can set the dynamic context.</p>
+
+<p>I've added support for this to the pytest-cov plugin, to record the pytest
+test id as the dynamic context. If you'd like to try it:</p>
+
+<code><![CDATA[
+pip install coverage==5.0a5
+pip install git+https://github.com/nedbat/pytest-cov.git@nedbat/contexts
+pytest --cov=. --cov-context
+]]></code>
+
+<p>The .coverage data file is now a SQLite database.  Coverage.py has no
+support yet for using the collected context data, but you can examine the
+raw data in the database:</p>
+
+<code><![CDATA[
+$ sqlite3 .coverage
+SQLite version 3.19.3 2017-06-27 16:48:08
+Enter ".help" for usage hints.
+
+sqlite> select * from context;
+id          context
+----------  --------------------------------------------------
+1
+2           test_it.py::test_prod1|setup
+3           test_it.py::test_prod1|call
+4           test_it.py::test_prod1|teardown
+5           test_it.py::test_prod2|setup
+6           test_it.py::test_prod2|call
+7           test_it.py::test_prod2|teardown
+8           test_it.py::test_prod3[1-1]|setup
+9           test_it.py::test_prod3[1-1]|call
+10          test_it.py::test_prod3[1-1]|teardown
+11          test_it.py::test_prod3[10-100]|setup
+12          test_it.py::test_prod3[10-100]|call
+13          test_it.py::test_prod3[10-100]|teardown
+14          test_it.py::test_prod3[11-121]|setup
+15          test_it.py::test_prod3[11-121]|call
+16          test_it.py::test_prod3[11-121]|teardown
+
+sqlite> select * from arc where context_id = 9;
+file_id     context_id  fromno      tono
+----------  ----------  ----------  ----------
+1           9           -14         15
+1           9           15          16
+1           9           16          17
+1           9           17          -14
+
+sqlite> select * from file where id = 1;
+id          path
+----------  --------------------------------------------------
+1           /Users/ned/lab/pytest_func_test/src/product.py
+]]></code>
+
+<p>I'm looking for feedback about what kinds of reporting would be useful.
+Stephan has a <a href='https://github.com/nedbat/coveragepy/pull/759'>pull
+request to provide some context-based reporting</a>. Does it do what you want?
+Have you used contexts? What needs to happen before they are ready for
+everybody?</p>
+
+
+</body>
+</entry>
+</blog>
