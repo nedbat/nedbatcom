@@ -66,6 +66,10 @@ borrows from the English we use to talk about classes: MyClass derives
 <em>from</em> BaseClass and AnotherBase.  And "from" is already a keyword in
 Python.</p>
 
+<p>BTW, even experts occasionally make the mistake of typing "def" where they
+meant "class", and the similar syntax means the code is valid.  The error isn't
+discovered until the traceback, which can be baffling.</p>
+
 <p>I'm not seriously proposing to change Python.  Not because this wouldn't be
 better (it would), but because a change like this is impractical at this
 late date. I guess it could be added as an alternative syntax, but it would be
