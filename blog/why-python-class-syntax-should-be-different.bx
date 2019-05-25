@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190525T070900'>
+<title>Why Python class syntax should be different</title>
+<category>python</category>
+<body>
+
+<p>If you've used any programming language for a long enough time, you've found
+things about it that you wish were different.  It's true for me with Python.
+I have ideas of a number of things I would change about Python if I could.
+I'll bore you with just one of them: the syntax of class definitions.</p>
+
+<p>But let's start with the syntax for defining functions. It has this really
+nice property: function definitions look like their corresponding function
+calls.  A function is defined like this:</p>
+
+<code lang="python"><![CDATA[
+def func_name(arg1, arg2):
+]]></code>
+
+<p>When you call the function, you use similar syntax: the name of the
+function, and a comma-separated list of arguments in parentheses:</p>
+
+<code lang="python"><![CDATA[
+x = func_name(12, 34)
+]]></code>
+
+<p>Just by lining up the punctuation in the call with the same bits of the
+definition, you can see that arg1 will be 12, and arg2 will be 34.  Nice.</p>
+
+<p>OK, so now let's look at how a class with base classes is defined:</p>
+
+<code lang="python"><![CDATA[
+class MyClass(BaseClass, AnotherBase):
+]]></code>
+
+<p>To create an instance of this class, you use the name of the class, and
+parens, but now the parallelism is gone.  You don't pass a BaseClass to
+construct a MyClass:</p>
+
+<code lang="python"><![CDATA[
+my_obj = MyClass(...)
+]]></code>
+
+<p>Just looking at the class line, you can't tell what has to go in the parens
+to make a MyClass object.  So "def" and "class" have very similar syntax, and
+function calls and object creation have very similar syntax, but the mimicry in
+function calls that can guide you to the right incantation will throw you off
+completely when creating objects.</p>
+
+<p>This is the sort of thing that experts glide right past without slowing
+down.  They are used to arcane syntax, and similar things having different
+meanings in subtly different contexts.  And a lot of that is inescapable in
+programming languages: there are only so many symbols, and many many more
+concepts. There's bound to be overlaps.</p>
+
+<p>But we could do better.  Why use parentheses that look like a function call
+to indicate base classes?  Here's a better syntax:</p>
+
+<code lang="python"><![CDATA[
+class MyClass from BaseClass, AnotherBase:
+]]></code>
+
+<p>Not only does this avoid the misleading punctuation parallelism, but it even
+borrows from the English we use to talk about classes: MyClass derives
+<em>from</em> BaseClass and AnotherBase.  And "from" is already a keyword in
+Python.</p>
+
+<p>I'm not seriously proposing to change Python.  Not because this wouldn't be
+better (it would), but because a change like this is impractical at this
+late date. I guess it could be added as an alternative syntax, but it would be
+hard to argue that having two syntaxes for classes would be better for
+beginners.</p>
+
+<p>But I think it is helpful to try to see our familiar landscape as confused
+beginners do.  It can only help with explaining it to them, and maybe help us
+make better choices in the future.</p>
+
+
+</body>
+</entry>
+</blog>
