@@ -6,10 +6,10 @@ import os
 import os.path
 import subprocess
 import textwrap
-import urllib
+import urllib.parse
 
 import cog
-import Image
+from PIL import Image
 
 
 class Graphviz(object):
@@ -148,7 +148,7 @@ def tutor_a_tag(code):
     Produce an <a> tag to pythontutor.com.
     """
     tutor_url_fmt = 'http://pythontutor.com/visualize.html#code={code}&mode=display&cumulative=false&heapPrimitives=false&drawParentPointers=false&textReferences=false&showOnlyOutputs=false&py=2'
-    url_code = urllib.quote(textwrap.dedent(code))
+    url_code = urllib.parse.quote(textwrap.dedent(code))
     url = tutor_url_fmt.replace('&', '&amp;').format(code=url_code)
     html = "<a href='{url}' target='_blank'>".format(url=url)
     cog.outl(html)
