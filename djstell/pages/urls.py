@@ -11,6 +11,7 @@ PLANET_PYTHON_TAGS = [
     'exceptions', 'feeds', 'geeky', 'regex', 'security', 'srcctrl',
     'testing', 'webpage',
     'windows', 'mac', 'unix',
+    'jupyter', 'opensource', 'presentations', 'linters', 'regex',
     ]
 
 urlpatterns = [
