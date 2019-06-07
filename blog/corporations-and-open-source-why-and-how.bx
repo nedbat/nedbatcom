@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190607T072143'>
+<title>Corporations and open source: why and how</title>
+<category>opensource</category>
+<body>
+
+<p>Here's a really simplistic model: if you want someone to do something, you
+have to give them a compelling reason to do it, and you have to make it as easy
+as possible for them to do it.  That is, you need to have good answers to
+<strong>Why?</strong> and <strong>How?</strong> (I don't know much about
+marketing, but I think these are the value proposition and the call to
+action.)</p>
+
+<p>Let's look at the Why and How model as it applies to corporations funding
+open source. They don't do it because the answers to Why and How are really bad
+right now.</p>
+
+<p>Why <em>should</em> a corporation fund open source?  As much as I wish it
+were different for all sorts of reasons, corporations act only in purely
+selfish ways.  In order to spend money, they need to see some positive benefit
+to them that wouldn't happen if they didn't spend the money.</p>
+
+<p>This frustrates me because a corporation is a collection of people, none of
+whom would act this way.  I could say much more about this, but we aren't going
+to be able to change corporations.</p>
+
+<!-- 
+<p>Imagine any one of them went to an art museum with a
+"pay what you want" policy.  They would pay something, because they don't want
+to think of themselves as freeloaders, because they value the museum, because
+they know the museum needs funds, and so on.  But these same decision makers
+are fine with using open source without spending a dime.</p>
+
+<p>Even people who understand open source and believe in it as a movement will
+respond, "What do I get for that money?" when asked about funding open source
+development.  Do they ask the same when the waiter brings the bill at the end
+of the meal?</p>
+
+<p>Part of the problem is culture and expectations.  The expectation in the
+museum is that people will pay. The expectation (and law) in a restaurant is
+that you will pay for a meal even after you've eaten it.  But the typical and
+expected stance toward open source is that it's used without supporting it.</p>
+-->
+
+<p>Companies only spend money if doing so will bring them a (perceived)
+benefit.  Funding open source would make it stronger and better, but that is a
+very long effect, and not one that accrues directly to the funder.  This is the
+famous Tragedy of the Commons.  It's a fair question for companies to ask: if
+they fund open source, what do they get for their money?</p>
+
+<p>That's the difficulty with Why, but let's imagine for a moment that we could
+somehow convince someone to spend their company's money funding open source:
+now what? <strong>How</strong> do they do it?  A significant Python project
+could have a hundred library dependencies.  How do they decide how to allocate
+the funding budget among them?  Once that decision is made, how does the money
+get delivered? Very few open source project are equipped to receive funds.  If
+even 10% of the projects have a clear path for funding, now there are 10 checks
+to write, or 10 PayPal links to click through or whatever?  Some of that money
+will need to be sent internationally, and it has to be considered at tax time.
+Does it have to be done again next year, and the year after that?  It's a
+logistical nightmare!</p>
+
+<p>So when we try to convince companies to fund open source, we don't have good
+answers for either <strong>Why?</strong> or <strong>How?</strong>  It's no
+wonder it doesn't happen.</p>
+
+<p>This is one of the reasons I am optimistic about <a href='/blog/201905/tidelift.html'>Tidelift</a>:
+they have good answers for both of these questions.  The
+<a href='https://tidelift.com/subscription?utm_source=pypi-coverage&amp;utm_medium=referral&amp;utm_campaign=blog'>Tidelift subscription</a> gives
+companies information and services around their open source dependencies, which
+answers the why.  And the payment to Tidelift solves the how: Tidelift looks at
+the list of dependencies, decides an allocation, and distributes the money to
+the maintainers.</p>
+
+<p>Sure, there are still lots of questions to be answered:
+<a href="https://forum.tidelift.com/t/package-weights/48">is the allocation
+algorithm right</a>? Will enough companies subscribe to make Tidelift itself
+sustainable? And even larger questions, like: if an interesting amount of money
+does flow to open source maintainers, what will be the cultural change in open
+source?</p>
+
+<p>I don't know the answers to those questions, but Tidelift seems like the
+most promising answer to how to support open source. I'm an
+<a href='https://tidelift.com/subscription/pkg/pypi-coverage?utm_source=pypi-coverage&amp;utm_medium=referral&amp;utm_campaign=blog'>enthusiastic
+participant</a>.  You should be too.</p>
+
+
+</body>
+</entry>
+</blog>
