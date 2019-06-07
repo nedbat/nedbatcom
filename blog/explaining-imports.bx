@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190525T162353' draft='y'>
+<title>Explaining imports</title>
+<category></category>
+<body>
+
+<!--[[[cog
+    from cupid.pyfig import PyFig
+
+    def start_figure(unit=15, title=None):
+        fig = PyFig(unit=unit, title=title, name_shape='tag', draw_grid=False)
+        return fig
+
+    def finish_figure(fig):
+        cog.outl(fig.tostring())
+]]]-->
+<!--[[[end]]]-->
+
+<p>The next statement is an assignment.  The expression on the right-hand side
+    makes a new list, which is then assigned to a_list:</p>
+
+<figurep>
+    <!--[[[cog
+    fig = start_figure(title="after assigning to a_list")
+    fig.top_code("a_list = a_list + [val, val]")
+    n_nums = fig.auto_name("nums")
+    l_nums = fig.list(texts="123", pos=fig.val_for_name(n_nums))
+    fig.reference(n_nums, l_nums[0])
+
+    fig.frame(size=(160,160), n_names=2, text="augment_twice_bad")
+    n_a_list = fig.auto_name("a_list")
+    l_a_list = fig.list(texts="12344", pos=fig.val_for_name(n_a_list))
+    fig.reference(n_a_list, l_a_list[0])
+    n_val = fig.auto_name("val")
+    i_val = fig.int(pos=fig.val_for_name(n_val), text="4")
+    fig.reference(n_val, i_val)
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="200.5" version="1.1" width="314.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><title>after assigning to a_list</title><defs><marker id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(27.0,-4.0)"><polygon class="name" points="57,37.5 116.25,37.5 120,52.5 116.25,67.5 57,67.5" /><text dy=".3em" text-anchor="middle" x="86.625" y="52.5">nums</text><rect class="list" height="30" width="24" x="165" y="37.5" /><text dy=".3em" text-anchor="middle" x="177" y="52.5">1</text><rect class="list" height="30" width="24" x="189" y="37.5" /><text dy=".3em" text-anchor="middle" x="201" y="52.5">2</text><rect class="list" height="30" width="24" x="213" y="37.5" /><text dy=".3em" text-anchor="middle" x="225" y="52.5">3</text><path class="arrow" d="M 120,52 C 131,52 131,52 142,52 C 153,52 153,52 165,52" fill="none" marker-end="url(#id1)" /><rect class="frame" height="120" rx="12" ry="12" width="160" x="-25" y="82.5" /><text class="framelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="97.5">augment_twice_bad</text><polygon class="name" points="56,112.5 116.25,112.5 120,127.5 116.25,142.5 56,142.5" /><text dy=".3em" text-anchor="middle" x="86.125" y="127.5">a_list</text><rect class="list" height="30" width="24" x="165" y="112.5" /><text dy=".3em" text-anchor="middle" x="177" y="127.5">1</text><rect class="list" height="30" width="24" x="189" y="112.5" /><text dy=".3em" text-anchor="middle" x="201" y="127.5">2</text><rect class="list" height="30" width="24" x="213" y="112.5" /><text dy=".3em" text-anchor="middle" x="225" y="127.5">3</text><rect class="list" height="30" width="24" x="237" y="112.5" /><text dy=".3em" text-anchor="middle" x="249" y="127.5">4</text><rect class="list" height="30" width="24" x="261" y="112.5" /><text dy=".3em" text-anchor="middle" x="273" y="127.5">4</text><path class="arrow" d="M 120,127 C 131,127 131,127 142,127 C 153,127 153,127 165,127" fill="none" marker-end="url(#id1)" /><polygon class="name" points="71,157.5 116.25,157.5 120,172.5 116.25,187.5 71,187.5" /><text dy=".3em" text-anchor="middle" x="93.625" y="172.5">val</text><circle class="int value" cx="180" cy="172.5" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="172.5">4</text><path class="arrow" d="M 120,172 C 131,172 131,172 142,172 C 153,172 153,172 165,172" fill="none" marker-end="url(#id1)" /><text class="top_code" dy=".3em" text-anchor="middle" x="130" y="15">a_list = a_list + [val, val]</text></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+</body>
+</entry>
+</blog>
