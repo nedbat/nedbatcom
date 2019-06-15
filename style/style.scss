@@ -610,7 +610,7 @@ a.s {
 
 /* Archive page: make the dates hang left to align all the titles. */
 
-.archive {
+div.archive {       // can't be just ".archive" because of body.archive
     a {
         @include inside-link;
     }
