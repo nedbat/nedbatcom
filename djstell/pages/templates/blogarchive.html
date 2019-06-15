@@ -59,6 +59,17 @@
                 <a class='s' href='{{entry.permaurl}}'>
                     {{entry.title}}
                 </a>
+                {% if entry.tags.all %}
+                    {# The anonymous spans here are to force spacelessness so that we can control the nbsp stuff... #}
+                    {# reallyspaceless doesn't mean what I thought, and maybe that should be fixed some day! #}
+                    <span class='also'>{% ch ' _' %}<span>
+                        {% for tag in entry.tags.all %}
+                            <span>{% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
+                                <a href='{{tag.permaurl}}'>#{{tag.hashtag}}</a>
+                            </span>
+                        {% endfor %}
+                    </span></span>
+                {% endif %}
             </p>
 
         {% endfor %}
