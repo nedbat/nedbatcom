@@ -4,7 +4,7 @@
 {% block body %}
     {% if entries %}
         <p class='first'>
-            {% if entries|length_is:"1" %}
+            {% if entries|length == 1 %}
                 This is the only blog post
             {% else %}
                 These are the {{entries|length}} blog posts
