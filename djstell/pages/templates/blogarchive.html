@@ -11,18 +11,16 @@
 
 {% block body %}
     <p class='first'>
-        {% ifequal type 'complete' %}
+        {% if type == 'complete' %}
             These are all {{entries|length}} blog posts.
-        {% endifequal %}
-        {% ifequal type 'year' %}
+        {% elif type == 'year' %}
             {% if entries|length_is:"1" %}
                 This is the single blog post for {{year}}.
             {% else %}
                 These are the {{entries|length}} blog posts for {{year}}.
             {% endif %}
             There is also a <a href='/blog/archive/all.html' rel='up'>complete archive</a>.
-        {% endifequal %}
-        {% ifequal type 'date' %}
+        {% elif type == 'date' %}
             {% if entries|length_is:"0" %}
                 I have no blog posts
             {% elif entries|length_is:"1" %}
@@ -35,16 +33,15 @@
                 <a href='/blog/archive/date{{prev_date|date:"md"}}.html'>{{prev_date|date:"F j"}}</a>
             and
                 <a href='/blog/archive/date{{next_date|date:"md"}}.html'>{{next_date|date:"F j"}}</a>.)
-        {% endifequal %}
-        {% ifequal type 'drafts' %}
+        {% elif type == 'drafts' %}
             These are the {{entries|length}} unfinished blog posts.
-        {% endifequal %}
+        {% endif %}
     </p>
 
     <div class='archive'>
         {% for entry in entries %}
 
-            {% ifequal type 'date' %}
+            {% if type == 'date' %}
                 {% ifchanged %}
                 <p class='date'>{{ entry.when|date:"Y" }}: </p>
                 {% endifchanged %}
@@ -56,7 +53,7 @@
                 {% ifchanged %}
                 <p class='date'>{{ entry.when|date:"D j" }}: </p>
                 {% endifchanged %}
-            {% endifequal %}
+            {% endif %}
 
             <p>
                 <a class='s' href='{{entry.permaurl}}'>

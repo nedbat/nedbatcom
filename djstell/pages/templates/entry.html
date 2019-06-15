@@ -6,13 +6,13 @@
 {# Start Head #}
 <header>
     {# Title #}
-    {% ifequal mode 'brief' %}
+    {% if mode == 'brief' %}
         {% if entry.title %}
             <h3 class='title'>
                 <a class='s' href='{{entry.permaurl}}' rel='bookmark' title='Link to this post'>{{entry.title}}</a>
             </h3>
         {% endif %}
-    {% endifequal %}
+    {% endif %}
 
     {# Date #}
     <p class='date'>
@@ -24,12 +24,11 @@
 
 {# Body #}
 
-{% ifequal mode 'brief' %}
+{% if mode == 'brief' %}
 {{entry.to_brief_html|safe}}
-{% endifequal %}
-{% ifequal mode 'full' %}
+{% elif mode == 'full' %}
 {{entry.to_html|safe}}
-{% endifequal %}
+{% endif %}
 
 {# End Body #}
 
@@ -67,13 +66,11 @@
     {% if entry.draft %}
         <span class='react'>{% ch '>> ' %}just a draft, no comments yet.</span>
     {% else %}
-        {% ifequal mode 'brief' %}
+        {% if mode == 'brief' %}
             <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'><?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></a></span>
-        {% endifequal %}
-
-        {% ifequal mode 'full' %}
+        {% elif mode == 'full' %}
             <span class='react'>{% ch '>> ' %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?></span>
-        {% endifequal %}
+        {% endif %}
     {% endif %}
     {% endreallyspaceless %}
 </footer>
