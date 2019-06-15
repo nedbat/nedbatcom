@@ -272,9 +272,9 @@ class Entry(models.Model, ModelMixin):
             ent.path = bxfile[2:].replace('\\', '/')
             ent.title = nice_text(e.find('title').text)
             ent.text = etree.tostring(e).decode('utf8')
-            ent.draft = (e.get('draft', 'n') == 'y')
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
             ent.when = datetime_from_8601(e.get('when'))
+            ent.draft = (e.get('draft', 'n') == 'y') or ent.when > datetime.datetime.now()
             ent.slug = e.get('slug', slug_from_text(ent.title))
             ent.add_features_from_text(e)
 
