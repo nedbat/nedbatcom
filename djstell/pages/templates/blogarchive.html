@@ -28,11 +28,11 @@
             {% else %}
                 These are the {{entries|length}} blog posts
             {% endif %}
-            written on {{date|date:"F j"}} of any year.
+            written on {{date|date:"F j"|nbsp}} of any year.
             (Nearby:
-                <a href='/blog/archive/date{{prev_date|date:"md"}}.html'>{{prev_date|date:"F j"}}</a>
+                <a href='/blog/archive/date{{prev_date|date:"md"}}.html'>{{prev_date|date:"F j"|nbsp}}</a>
             and
-                <a href='/blog/archive/date{{next_date|date:"md"}}.html'>{{next_date|date:"F j"}}</a>.)
+                <a href='/blog/archive/date{{next_date|date:"md"}}.html'>{{next_date|date:"F j"|nbsp}}</a>.)
         {% elif type == 'drafts' %}
             These are the {{entries|length}} unfinished blog posts.
         {% endif %}

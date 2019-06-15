@@ -243,6 +243,12 @@ def widont(value):
 
 @register.filter()
 @stringfilter
+def nbsp(value):
+    """Change all spaces to &nbsp;. Only use on html-safe stuff."""
+    return mark_safe(value.replace(" ", "&#xa0;"))
+
+@register.filter()
+@stringfilter
 def just_text(value):
     """ Remove non-text HTML tags (really just img for now).
     """
