@@ -6,16 +6,16 @@
         Here is my attempt at categorizing and making sense of my blog postings:
     </p>
 
-	<div class='catlist'>
+    <div class='catlist'>
         {% for tag in tags %}
             <p class='catname'>
-                <a class='s' href='{{tag.permaurl}}'>
+                <a href='{{tag.permaurl}}'>
                     {{tag.name}}
                     <span class='dn'>: </span>
                 </a>
             </p>
             <p>
-                <a class='s' href='{{tag.permaurl}}'>
+                <a href='{{tag.permaurl}}'>
                     {{tag.entry_set_no_drafts.count}}
                     post{{tag.entry_set_no_drafts.count|pluralize}} about
                     {{tag.about}}.
@@ -24,10 +24,10 @@
         {% endfor %}
 
         <p class='catname'>
-            <a class='s' href='/blog/tag/none.html'>(None)</a>
+            <a href='/blog/tag/none.html'>(None)</a>
         </p>
         <p>
-            <a class='s' href='/blog/tag/none.html'>
+            <a href='/blog/tag/none.html'>
                 {{untagged|length}}
                 post{{untagged|length|pluralize}}
                 that have no tags at all.

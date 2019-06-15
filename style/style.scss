@@ -610,43 +610,58 @@ a.s {
 
 /* Archive page: make the dates hang left to align all the titles. */
 
-div.archive p {
-    font-size: 100%;
-    margin: 0 0 0 5.5em;
-    line-height: 1.4em;
-    &.date {
-        width: 5em;
-        text-align: right;
-        padding: 0;
-        margin: 0 0 -1.4em 0;
-        color: $gray;
+.archive {
+    a {
+        @include inside-link;
+    }
+    p {
+        font-size: 100%;
+        margin: 0 0 0 5.5em;
+        line-height: 1.4em;
+        &.date {
+            width: 5em;
+            text-align: right;
+            padding: 0;
+            margin: 0 0 -1.4em 0;
+            color: $gray;
+        }
     }
 }
 
 /* Category page: Like archive, but the dates are wider. */
 
-.category p {
+.category {
+    a {
+        @include inside-link;
+    }
+    p {
     font-size: 100%;
-    margin: 0 0 0 8.5em;
-    line-height: 1.4em;
-    &.date {
-        width: 8em;
-        text-align: right;
-        padding: 0;
-        margin: 0 0 -1.4em 0;
-        color: $gray;
+        margin: 0 0 0 8.5em;
+        line-height: 1.4em;
+        &.date {
+            width: 8em;
+            text-align: right;
+            padding: 0;
+            margin: 0 0 -1.4em 0;
+            color: $gray;
+        }
     }
 }
 
-.catlist p {
-    margin: 0 0 0 10.5em;
-    line-height: 1.4em;
-    &.catname {
-        padding: 0;
-        margin: 0 0 -1.4em 0;
-        width: 10em;
-        text-align: right;
-        font-weight: bold;
+.catlist {
+    a {
+        @include inside-link;
+    }
+    p {
+        margin: 0 0 0 10.5em;
+        line-height: 1.4em;
+        &.catname {
+            padding: 0;
+            margin: 0 0 -1.4em 0;
+            width: 10em;
+            text-align: right;
+            font-weight: bold;
+        }
     }
 }
 
@@ -655,9 +670,6 @@ div.archive p {
     color: $gray;
     font-style: italic;
     text-decoration: none;
-    a {
-        @include inside-link;
-    }
 }
 
 /* Block quotes */

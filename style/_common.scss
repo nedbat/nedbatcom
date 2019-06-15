@@ -64,6 +64,7 @@ img {
     }
 }
 
+// A link among pages on the site that should be subtle.
 @mixin inside-link {
     @if $debug-links == yes {
         background: pink;

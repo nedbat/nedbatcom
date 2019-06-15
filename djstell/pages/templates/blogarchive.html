@@ -43,7 +43,7 @@
 
             {% if type == 'date' %}
                 {% ifchanged %}
-                <p class='date'><a class='s' href='/blog/archive/year{{ entry.when|date:"Y" }}.html'>{{ entry.when|date:"Y" }}</a>: </p>
+                <p class='date'><a href='/blog/archive/year{{ entry.when|date:"Y" }}.html'>{{ entry.when|date:"Y" }}</a>: </p>
                 {% endifchanged %}
             {% else %}
                 {% ifchanged %}
@@ -51,12 +51,12 @@
                 {% endifchanged %}
 
                 {% ifchanged %}
-                <p class='date'><a class='s' href='/blog/archive/date{{ entry.when|date:"md" }}.html'>{{ entry.when|date:"D j" }}</a>: </p>
+                <p class='date'><a href='/blog/archive/date{{ entry.when|date:"md" }}.html'>{{ entry.when|date:"D j" }}</a>: </p>
                 {% endifchanged %}
             {% endif %}
 
             <p>
-                <a class='s' href='{{entry.permaurl}}'>
+                <a href='{{entry.permaurl}}'>
                     {{entry.title}}
                 </a>
                 {% if entry.tags.all %}
