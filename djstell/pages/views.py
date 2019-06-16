@@ -1,5 +1,6 @@
-# Create your views here.
+# Make a site!
 
+import collections
 import datetime
 
 from django.conf import settings
@@ -206,10 +207,18 @@ def index(request):
         recent.show_year = recent.when.year != now.year
 
     # Tags to display: the most populated ones, but not "me", "site", etc.
-    bad_tags = ('me', 'site', 'mycode')
-    tags = Tag.objects.all().exclude(tag__in=bad_tags)
-    tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
-    tags = tags[:28]
+    # Only include tags from the last few years.
+    num_to_display = 28
+    years = 6
+    bad_tags = {'me', 'site', 'mycode'}
+    sunset = datetime.datetime.now() - datetime.timedelta(days=years*365)
+    entries = list(Entry.objects.filter(when__gt=sunset))
+    census = collections.Counter()
+    for entry in entries:
+        for tag in entry.tags.all():
+            if tag.tag not in bad_tags:
+                census[tag] += 1
+    tags = [t[0] for t in census.most_common(num_to_display)]
     tags = sorted(tags, key=lambda t: t.name)
     c['tags'] = tags
 
