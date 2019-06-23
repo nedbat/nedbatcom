@@ -176,6 +176,9 @@ class Tag(models.Model, ModelMixin):
     #related = models.ManyToManyField('self') # TODO
     # TODO: there's a <tag> thingy too, but that seems really redundant...
 
+    class Meta:
+        ordering = ['name']
+
     def __repr__(self):
         return "<Tag: %s>" % self.tag
 
