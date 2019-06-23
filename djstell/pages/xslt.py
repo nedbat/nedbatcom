@@ -78,6 +78,8 @@ def content_transform(name, xmltext, child=None, params={}):
         'base':     string_param(settings.BASE),
         })
     html = str(xslt_xform(doc, **params))
+    # smartypants doesn't handle </a>' properly.
+    html = re.sub(r"(</\w+>)'", r"\1&#8217;", html)
     html = smartypants.smartypants(html, smartypants.Attr.q | smartypants.Attr.n)
     #print("Transformed {!r} into {!r}".format(xmltext[:80], html[:80]))
     for entry in xslt_xform.error_log:
