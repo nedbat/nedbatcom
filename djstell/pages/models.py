@@ -15,11 +15,15 @@ if 0:
     f_plain_text = open("all-site.txt", "w")
 
     def save_plain_text(elt):
-        for xpath in ["p", "ul/li"]:
+        for xpath in ["p", "ul/li", ".//a"]:
             for p in elt.findall(xpath):
                 if p.text:
-                    f_plain_text.write(p.text.encode('utf-8'))
-                    f_plain_text.write("\n\n")
+                    f_plain_text.write(p.text)
+                if p.tail:
+                    f_plain_text.write(p.tail)
+                f_plain_text.write("\n")
+
+        f_plain_text.write("--\n")
 
 else:
     def save_plain_text(elt):
