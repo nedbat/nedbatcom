@@ -57,7 +57,7 @@
         nobr|wbr|
         small|big|
         script|input|button|
-        object|param|embed|iframe|video|source|
+        object|param|embed|iframe|video|source|audio|
         style
         '>
     <xsl:copy>

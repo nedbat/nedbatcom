@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190629T115104'>
+<title>Changelog podcast: me, double-dipping</title>
+<category>coverage</category>
+<category>audio</category>
+<category>me</category>
+<category>edx</category>
+<body>
+
+<p>I had a great conversation with Jerod Santo on the Changelog podcast:
+<a href="https://changelog.com/podcast/351">The Changelog 351: Maintainer spotlight! Ned Batchelder</a>.
+We talked about <a href="https://openedx.org">Open edX</a>, and <a href="http://coverage.readthedocs.io/">coverage.py</a>,
+and maintaining open source software.</p>
+
+<audio data-theme="night" data-src="https://changelog.com/podcast/351/embed"
+    src="https://cdn.changelog.com/uploads/podcast/351/the-changelog-351.mp3"
+        preload="none" class="changelog-episode" controls="controls"></audio>
+<script async="async" src="//cdn.changelog.com/embed.js"></script>
+
+<p>One of Jerod's questions was unexpected: what other open source maintainers
+do I appreciate?  Two people that came to mind were
+<a href="https://github.com/blueyed">Daniel Hahler</a> and
+<a href="https://github.com/Julian/">Julian Berman</a>.  Some people are
+well-known in the Python community because they are the face of large widely
+used projects.  Daniel and Julian are known to me for a different reason: they
+seem to make small contributions to many projects.  I see their names in the
+commits or issues of many repos I wander through, including my own.</p>
+
+<p>This is a different kind of maintainership: not guiding large efforts, but
+providing little pushes in lots of places.  If I had had the presence of mind, I
+would have also mentioned <a href="https://github.com/asottile/">Anthony Sottile</a>
+for the same reason.</p>
+
+<p>And I would have mentioned <a href="https://github.com/mariatta">Mariatta</a>,
+for a different reason: her efforts are focused on CPython, but on the
+contribution process and tooling around it, rather than the core code itself.  A
+point I made in the podcast was that people and process challenges are often the
+limiting factor to contribution, not technical challenges.  Mariatta has been at
+the forefront of the efforts to open up CPython contribution, and I wish I had
+mentioned her in the podcast.</p>
+
+<p>And I am sure there are people I am overlooking that should be mentioned in
+these appreciations.  My apologies to you if you are in that category...</p>
+
+</body>
+</entry>
+</blog>
