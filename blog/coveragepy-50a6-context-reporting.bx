@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190717T072500'>
+<title>Coverage.py 5.0a6: context reporting</title>
+<category>coverage</category>
+<body>
+
+<p>I've released another alpha of coverage.py 5.0:
+<a href='https://pypi.org/project/coverage/5.0a6/'>coverage.py 5.0a6</a>.
+There are some design decisions ahead that I could use feedback on.</p>
+
+<p>Important backstory:</p>
+
+<ul>
+
+<li>The big feature in 5.0 is "contexts": recording data for varying execution
+context, also known as <a href='/blog/201612/who_tests_what.html'>Who Tests
+What</a>. The idea is to record not just that a line was executed, but also
+which tests ran each line.</li>
+
+<li>Some of the changes in alpha 6 were driven by a hackathon project at work:
+using who-tests-what on the large Open edX codebase.  We wanted to collect
+context information, and then for each new pull request, run only the subset of
+tests that touched the lines you changed. Initial experiments indicate this
+could be a huge time-savings.</li>
+
+</ul>
+
+<p>Big changes in this alpha:</p>
+
+<ul>
+
+<li>Support for contexts when reporting. The --show-contexts option annotates
+lines with the names of contexts recorded for the line.  The --contexts option
+lets you filter the report to only certain contexts.  Big thanks to Stephan
+Richter and Albertas Agejevas for the contribution.</li>
+
+<li>Our largest test suite at work has 29k tests.  The .coverage SQLite data
+file was 659Mb, which was too large to work with.  I changed the database format
+to use a compact bitmap representation for line numbers, which reduced the data
+file to 69Mb, a huge win.</li>
+
+<li>The API to the CoverageData object has changed.</li>
+
+</ul>
+
+<p>Some implications of these changes:</p>
+
+<ul>
+
+<li>The HTML reporting on contexts is good for small test suites, but very
+quickly becomes unwieldy if you have more than 100 tests.  Please try using it
+and let me know what kind of reporting would be helpful.</li>
+
+<li>The new more-compact data file is harder to query.  The larger data file has
+a schema designed to be useful for ad-hoc querying.  It was a classic
+third-normal form representation of the data.  Now I consider the database
+schema to be a private implementation detail.  Should we have a new "coverage
+sql" report command that exports the data to a convenient SQLite file?</li>
+
+<li>Because CoverageData has changed, you will need an updated version of
+pytest-cov if you use that plugin.  The future of the plugin is somewhat up in
+the air.  If you would like to help maintain it, get in touch.  You can install
+the up-to-date code with:
+
+<code><![CDATA[
+pip install git+https://github.com/nedbat/pytest-cov.git@nedbat/cov5-combine#egg=pytest-cov==0.0
+]]></code>
+
+</li>
+
+<li>To support our hackathon project, we wrote a new pytest plugin: it uses
+pytest hooks to indicate the test boundaries, and can read the database and the
+code diff to choose the subset of tests to run.  This plugin is in <em>very
+rough</em> shape (as in, it hasn't yet fully worked), but if you are interested
+in participating in this experiment, get in touch.  The code is here
+<a href='https://github.com/nedbat/coverage_pytest_plugin/'>nedbat/coverage_pytest_plugin</a>.
+I don't think this will remain as an independent plugin, so again, if you want
+to help with future maintenance or direction, let me know.</li>
+
+<li>All of our experimentation (and improvements) for contexts involve line
+coverage.  Branch coverage only complicates the problems of storage and
+reporting.  I've <a href='/blog/201401/speeding_up_coverage_data_storage.html'>mused
+about how to store branch data more compactly</a> in the past, but nothing has
+been done.</li>
+
+</ul>
+
+<p>I know this is a lot, and the 5.0 alpha series has been going on for a while.
+The features are shaping up to be powerful and useful.  All of your feedback has
+been very helpful, keep it coming.</p>
+
+</body>
+</entry>
+</blog>
