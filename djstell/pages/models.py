@@ -65,7 +65,7 @@ class ModelMixin:
             self.add_feature("tweets")
 
 
-class Article(models.Model, ModelMixin):
+class Article(ModelMixin, models.Model):
     """ An article represented by a .px file.
     """
     path = models.CharField(max_length=200, db_index=True)
@@ -170,7 +170,7 @@ class WhatWhen(models.Model):
         return "<WhatWhen %s: %r>" % (self.when, self.what)
 
 
-class Tag(models.Model, ModelMixin):
+class Tag(ModelMixin, models.Model):
     """ A tag for blog entries.
     """
     tag = models.CharField(max_length=50)
@@ -209,7 +209,7 @@ class Tag(models.Model, ModelMixin):
         return self.name.replace(' ', '-').lower()
 
 
-class Link(models.Model, ModelMixin):
+class Link(ModelMixin, models.Model):
     """ A link to somewhere else, for blogroll and via.
     """
     href = models.CharField(max_length=1000)
@@ -249,7 +249,7 @@ class NoDraftsManager(models.Manager):
         return super(NoDraftsManager, self).get_queryset().filter(draft=False)
 
 
-class Entry(models.Model, ModelMixin):
+class Entry(ModelMixin, models.Model):
     """ A blog entry, slurped from a .bx file.
     """
     path = models.CharField(max_length=200, db_index=True)
