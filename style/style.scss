@@ -599,15 +599,6 @@ a.s {
     }
 }
 
-/* The style for blog entries highlighted by being a fragment target. */
-
-.hilitefragment {
-    background: #ffa;
-    padding: 0 1em;
-    margin-left: -1em;
-    border: 1px solid #ccc;
-}
-
 /* Archive page: make the dates hang left to align all the titles. */
 
 div.archive {       // can't be just ".archive" because of body.archive
