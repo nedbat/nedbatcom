@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190721T133621'>
+<title>Set_env.py</title>
+<category>mycode</category>
+<body>
+
+<p>A good practice when writing complicated software is to put in lots of
+debugging code.  This might be extra logging, or special modes that tweak the
+behavior to be more understandable, or switches to turn off some aspect of your
+test suite so you can focus on the part you care about at the moment.</p>
+
+<p>But how do you control that debugging code? Where are the on/off switches?
+You don't want to clutter your real UI with controls.  A convenient option is
+environment variables: you can access them simply in the code, your shell has
+ways to turn them on and off at a variety of scopes, and they are invisible to
+your users.</p>
+
+<p>Though if they are invisible to your users, they are also invisible to you!
+How do you remember what exotic options you've coded into your program, and how
+do you easily see what is set, and change what is set?</p>
+
+<p>I've been using environment variables like this in coverage.py for years, but
+only recently made it easier to work with them.</p>
+
+<p>To do that, I wrote <a href='https://github.com/nedbat/odds/blob/master/set_env.py'>set_env.py</a>.
+It scans a tree of files for special comments describing environment variables,
+then shows you the values of those variables.  You can type quick commands to
+change the values, and when the program is done, it updates your environment.
+It's not a masterpiece of engineering, but it works for me.</p>
+
+<p>As an example, this line appears in coverage.py:</p>
+
+<code lang="python"><![CDATA[
+# $set_env.py: COVERAGE_NO_PYTRACER - Don't run the tests under the Python tracer.
+]]></code>
+
+<p>This line is found by set_env.py, so it knows that COVERAGE_NO_PYTRACER is
+one of the environment variables it should fiddle with.</p>
+
+<p>When I run set_env.py in the coverage.py tree, I get something like this:</p>
+
+<code><![CDATA[
+$ set_env
+Read 298 files
+ 1:              COVERAGE_AST_DUMP                  Dump the AST nodes when parsing code.
+ 2:               COVERAGE_CONTEXT                  Set to 'test_function' for who-tests-what
+ 3:                 COVERAGE_DEBUG                  Options for --debug.
+ 4:           COVERAGE_DEBUG_CALLS                  Lots and lots of output about calls to Coverage.
+ 5:                COVERAGE_ENV_ID                  Use environment-specific test directories.
+ 6:              COVERAGE_KEEP_TMP                  Keep the temp directories made by tests.
+ 7:          COVERAGE_NO_CONTRACTS                  Disable PyContracts to simplify stack traces.
+ 8:            COVERAGE_NO_CTRACER                  Don't run the tests under the C tracer.
+ 9:           COVERAGE_NO_PYTRACER = '1'            Don't run the tests under the Python tracer.
+10:               COVERAGE_PROFILE                  Set to use ox_profile.
+11:            COVERAGE_TRACK_ARCS                  Trace every arc added while parsing code.
+12:                 PYTEST_ADDOPTS                  Extra arguments to pytest.
+
+(# [value] | x # ... | ? | q)>
+]]></code>
+
+<p>All of the files were scanned, and 12 environment variables found.  We can
+see that COVERAGE_NO_PYTRACER has the value "1", and none of the others are in
+the environment.  At the prompt, if I type "4", then COVERAGE_DEBUG_CALLS (line
+4) will be toggled to "1". Type "4" again, and it is cleared.  Typing "4 yes
+please" will set it to "yes please", but often I just need something or
+nothing, so toggling "1" as the value works.</p>
+
+<p>One bit of complexity here is that a program you run in your shell can't
+change environment variables for subsequent programs, which is exactly what we
+need.  So "set_env" is actually a shell alias:</p>
+
+<code lang="shell"><![CDATA[
+alias set_env='$(set_env.py $(git ls-files))'
+]]></code>
+
+<p>This runs set_env.py against all of the files checked-in to git, and then
+executes whatever set_env.py outputs.  Naturally, set_env.py outputs shell
+commands to set environment variables.  If ls-files produces too much output,
+you can use globs there also, so "**/*.py" might be useful.</p>
+
+<p>Like I said, it's not a masterpiece, but it works for me.  If there are other
+tools out there that do similar things, I'd like to hear about them.</p>
+
+</body>
+</entry>
+</blog>
