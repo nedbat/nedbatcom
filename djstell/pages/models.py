@@ -296,7 +296,7 @@ class Entry(ModelMixin, models.Model):
                         tag = Tag.objects.get(tag=cat.text)
                     except Tag.DoesNotExist:
                         tags = Tag.objects.all().order_by('tag')
-                        all_tags = " ".join([t.tag for t in tags])
+                        all_tags = " ".join(t.tag for t in tags)
                         raise Exception("No such tag as %r, choices are: %s" % (cat.text, all_tags))
                     ent.tags.add(tag)
 
