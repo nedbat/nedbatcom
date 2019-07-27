@@ -40,7 +40,19 @@ def thing_from_path(path):
     try:
         thing = Article.objects.get(path=path[0])
     except Article.DoesNotExist:
-        thing = Entry.objects.get(path=path[0])
+        try:
+            thing = Entry.objects.get(path=path[0])
+        except Entry.DoesNotExist:
+            # $set_env.py: STELL_MISSING_OK - Don't complain if a pref is missing.
+            if os.environ.get("STELL_MISSING_OK", ""):
+                class Fake(object):
+                    def __init__(self):
+                        self.title = "MISSING PAGE"
+                    def permaurl(self):
+                        return "/text/missing.html"
+                return Fake()
+            else:
+                raise
     return thing
 
 def pathtitle(path):

@@ -67,6 +67,7 @@ class CmdLine(object):
     def do_file(self):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
         self.ROOT = 'html_local'
+        self.WWWROOT = os.path.abspath(self.ROOT)
         self.PHP_INCLUDE = False
 
     def do_wf(self):
@@ -195,7 +196,7 @@ class CmdLine(object):
     def do_narrow(self):
         """Total hack expedient to only process some blog posts."""
         # Change this pattern if you want to fiddle with another one.
-        loadpages.blog_pattern = "*thing*.bx"
+        loadpages.blog_pattern = "*expl*.bx"
 
     def do_pnarrow(self):
         """Total hack expedient to only process some pages."""
