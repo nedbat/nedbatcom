@@ -33,43 +33,48 @@ def sidebar(which, force=False):
     if inc:
         return c
 
-    def combined_more_blog():
-        """Yield a sequence of shuffled-together tags and years."""
-        avoid_tags = ('me', 'site', 'blogs')
-        tags = Tag.objects.all().exclude(tag__in=avoid_tags)
-        tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
-        tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
-        tags = iter(tags)
+    global MORE_BLOG
+    if MORE_BLOG is None:
+        MORE_BLOG = list(combined_more_blog())
 
-        years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
-        years = ({'link': '/blog/archive/year{0}.html'.format(y), 'text': "{0:02d}".format(y % 100)} for y in years)
-        years = iter(years)
-
-        # Interleave tags and years.
-        try:
-            while True:
-                yield next(tags)
-                yield next(tags)
-                yield next(years)
-                yield next(tags)
-                yield next(years)
-        except StopIteration:   # ran out of years..
-            pass
-
-        # Then some more tags
-        for _ in range(8):
-            yield next(tags)
-
-    moreblog = list(combined_more_blog())
     if which == 'blog':
-        c['moreblog'] = moreblog
+        c['moreblog'] = MORE_BLOG
         c['morebloglabel'] = "More blog"
         c['staycurrent'] = True
     elif which == 'page':
-        c['moreblog'] = moreblog[:22]
+        c['moreblog'] = MORE_BLOG[:22]
         c['morebloglabel'] = "Blog"
 
     return c
+
+MORE_BLOG = None
+
+def combined_more_blog():
+    """Yield a sequence of shuffled-together tags and years."""
+    avoid_tags = ('me', 'site', 'blogs')
+    tags = Tag.objects.all().exclude(tag__in=avoid_tags)
+    tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
+    tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
+    tags = iter(tags)
+
+    years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
+    years = ({'link': '/blog/archive/year{0}.html'.format(y), 'text': "{0:02d}".format(y % 100)} for y in years)
+    years = iter(years)
+
+    # Interleave tags and years.
+    try:
+        while True:
+            yield next(tags)
+            yield next(tags)
+            yield next(years)
+            yield next(tags)
+            yield next(years)
+    except StopIteration:   # ran out of years..
+        pass
+
+    # Then some more tags
+    for _ in range(8):
+        yield next(tags)
 
 @register.simple_tag
 def year_range(year1, year2):
