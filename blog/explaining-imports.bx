@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20190525T162353' draft='y'>
+<entry when='20190730T081000' draft='y'>
 <title>Explaining imports</title>
 <category></category>
 <body>
@@ -8,8 +8,8 @@
 <!--[[[cog
     from cupid.pyfig import PyFig
 
-    def start_figure(unit=15, title=None):
-        fig = PyFig(unit=unit, title=title, name_shape='tag', draw_grid=False)
+    def start_figure(unit=15, title=None, **kwargs):
+        fig = PyFig(unit=unit, title=title, name_shape='tag', draw_grid=False, **kwargs)
         return fig
 
     def finish_figure(fig):
@@ -17,29 +17,181 @@
 ]]]-->
 <!--[[[end]]]-->
 
-<p>The next statement is an assignment.  The expression on the right-hand side
-    makes a new list, which is then assigned to a_list:</p>
+<p>Let's say we have a simple module like this:</p>
+
+<code lang="python"><![CDATA[
+# mod.py
+
+val = "original"
+
+def update_val():
+    global val
+    val = "updated"
+]]></code>
+
+<p>We want to use val from this module, and also call update_val to change val.
+There are two ways we could try to do it.  At first glance, it seems like they
+would do the same thing.</p>
+
+<p>The first version imports the names we want, and uses them:</p>
+
+<code lang="python"><![CDATA[
+# code1.py
+
+from mod import val, update_val
+
+print(val)
+update_val()
+print(val)
+]]></code>
+
+<p>The second version imports the module, and uses the names as attributes on
+the module object:</p>
+
+<code lang="python"><![CDATA[
+# code2.py
+
+import mod
+
+print(mod.val)
+mod.update_val()
+print(mod.val)
+]]></code>
+
+<p>This seems like a subtle distinction, almost a stylistic choice.  But
+code1.py prints "original original": the value hasn't changed!  Code2.py does
+what we expected: it prints "original updated."  Why the difference?</p>
+
+<!--[[[cog
+def from_mod_figure(frame_num):
+    fig = start_figure(frame_num=frame_num)
+
+    m_mod = fig.module(size=(160,160), n_names=1, text="mod.py")
+    n_val = fig.auto_name("val")
+    n_hidden = fig.auto_name("", rise=99)
+    s_first = fig.string(pos=fig.val_for_name(n_val), size=(85,30), text=repr("original"))
+    s_second = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text=repr("updated"), rise=2)
+
+    if frame_num == 1:
+        fig.reference(n_val, s_first)
+    else:
+        fig.reference(n_val, s_second, scooch=-.15)
+    fig.end_module()
+
+    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
+    fig.module(pos=pos, size=(160,160), n_names=1, text="code1.py")
+    n_mod = fig.auto_name("val")
+    fig.reference(n_mod, s_first, scooch=.5)
+    fig.end_module()
+
+    finish_figure(fig)
+]]]-->
+<!--[[[end]]]-->
+
+<p>Let's look at code1.py more closely:</p>
+
+<code lang="python"><![CDATA[
+# code1.py
+
+from mod import val, update_val
+
+print(val)
+update_val()
+print(val)
+]]></code>
+
+<p>After "from mod import val", when we first print val, we have this:</p>
 
 <figurep>
     <!--[[[cog
-    fig = start_figure(title="after assigning to a_list")
-    fig.top_code("a_list = a_list + [val, val]")
-    n_nums = fig.auto_name("nums")
-    l_nums = fig.list(texts="123", pos=fig.val_for_name(n_nums))
-    fig.reference(n_nums, l_nums[0])
-
-    fig.frame(size=(160,160), n_names=2, text="augment_twice_bad")
-    n_a_list = fig.auto_name("a_list")
-    l_a_list = fig.list(texts="12344", pos=fig.val_for_name(n_a_list))
-    fig.reference(n_a_list, l_a_list[0])
-    n_val = fig.auto_name("val")
-    i_val = fig.int(pos=fig.val_for_name(n_val), text="4")
-    fig.reference(n_val, i_val)
-    finish_figure(fig)
+    from_mod_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="200.5" version="1.1" width="314.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><title>after assigning to a_list</title><defs><marker id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(27.0,-4.0)"><polygon class="name" points="57,37.5 116.25,37.5 120,52.5 116.25,67.5 57,67.5" /><text dy=".3em" text-anchor="middle" x="86.625" y="52.5">nums</text><rect class="list" height="30" width="24" x="165" y="37.5" /><text dy=".3em" text-anchor="middle" x="177" y="52.5">1</text><rect class="list" height="30" width="24" x="189" y="37.5" /><text dy=".3em" text-anchor="middle" x="201" y="52.5">2</text><rect class="list" height="30" width="24" x="213" y="37.5" /><text dy=".3em" text-anchor="middle" x="225" y="52.5">3</text><path class="arrow" d="M 120,52 C 131,52 131,52 142,52 C 153,52 153,52 165,52" fill="none" marker-end="url(#id1)" /><rect class="frame" height="120" rx="12" ry="12" width="160" x="-25" y="82.5" /><text class="framelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="97.5">augment_twice_bad</text><polygon class="name" points="56,112.5 116.25,112.5 120,127.5 116.25,142.5 56,142.5" /><text dy=".3em" text-anchor="middle" x="86.125" y="127.5">a_list</text><rect class="list" height="30" width="24" x="165" y="112.5" /><text dy=".3em" text-anchor="middle" x="177" y="127.5">1</text><rect class="list" height="30" width="24" x="189" y="112.5" /><text dy=".3em" text-anchor="middle" x="201" y="127.5">2</text><rect class="list" height="30" width="24" x="213" y="112.5" /><text dy=".3em" text-anchor="middle" x="225" y="127.5">3</text><rect class="list" height="30" width="24" x="237" y="112.5" /><text dy=".3em" text-anchor="middle" x="249" y="127.5">4</text><rect class="list" height="30" width="24" x="261" y="112.5" /><text dy=".3em" text-anchor="middle" x="273" y="127.5">4</text><path class="arrow" d="M 120,127 C 131,127 131,127 142,127 C 153,127 153,127 165,127" fill="none" marker-end="url(#id1)" /><polygon class="name" points="71,157.5 116.25,157.5 120,172.5 116.25,187.5 71,187.5" /><text dy=".3em" text-anchor="middle" x="93.625" y="172.5">val</text><circle class="int value" cx="180" cy="172.5" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="172.5">4</text><path class="arrow" d="M 120,172 C 131,172 131,172 142,172 C 153,172 153,172 165,172" fill="none" marker-end="url(#id1)" /><text class="top_code" dy=".3em" text-anchor="middle" x="130" y="15">a_list = a_list + [val, val]</text></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id1)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id1)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
+
+<p>"from mod import val" means, import mod, and then do the assignment "val =
+mod.val".  This makes our name val refer to the same object as mod's name
+val.</p>
+
+<p>After "update_val()", when we print val again, our world looks like this:</p>
+
+<figurep>
+    <!--[[[cog
+    from_mod_figure(2)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id2" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id2)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id2)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>update_val has reassigned mod's val, but that has no effect on our val.  This
+is the same behavior as "a = 1; b = a; a = 2".  You don't expect b to be 2,
+because "b = a" doesn't make b refer to the variable a; it makes b refer to what
+a currently refers to.  In code1.py, "from mod import val" is an assignment from
+mod.val to val, and works exactly like "b = a" does. Later assignments to
+mod.val don't affect our val, just as later assignments to a don't affect b.</p>
+
+<!--[[[cog
+def import_mod_figure(frame_num):
+    fig = start_figure(frame_num=frame_num)
+
+    m_mod = fig.module(size=(160,160), n_names=1, text="mod.py")
+    n_val = fig.auto_name("val")
+    n_hidden = fig.auto_name("", rise=99)
+    s_first = fig.string(pos=fig.val_for_name(n_val), size=(85,30), text=repr("original"), fade=1, set=2)
+    s_second = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text=repr("updated"), rise=2)
+
+    if frame_num == 1:
+        fig.reference(n_val, s_first)
+    else:
+        fig.reference(n_val, s_second, scooch=-.15)
+    fig.end_module()
+
+    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
+    fig.module(pos=pos, size=(160,160), n_names=1, text="code2.py")
+    n_mod = fig.auto_name("mod")
+    fig.reference(n_mod, m_mod)
+    fig.end_module()
+
+    finish_figure(fig)
+]]]-->
+<!--[[[end]]]-->
+
+<p>Now let's look at code2.py again:</p>
+
+<code lang="python"><![CDATA[
+# code2.py
+
+import mod
+
+print(mod.val)
+mod.update_val()
+print(mod.val)
+]]></code>
+
+<p>The "import mod" statement means, make my name mod refer to the entire mod
+module. Accessing mod.val will reach into the mod module, find its val name, and
+use its value.</p>
+
+<figurep>
+    <!--[[[cog
+    import_mod_figure(1)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id3" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id3)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id3)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Then after "update_val()", mod's name val has been changed:</p>
+
+<figurep>
+    <!--[[[cog
+    import_mod_figure(2)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id4)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id4)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Now we print mod.val again, and see its updated value, just as we expected.</p>
 
 </body>
 </entry>
