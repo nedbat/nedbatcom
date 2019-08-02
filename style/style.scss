@@ -212,6 +212,12 @@ td {
 }
 
 p {
+    &.figure {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+
     &.figure, &.bulletsep {
         text-align: center;
         max-width: 32em;    // about 560px
