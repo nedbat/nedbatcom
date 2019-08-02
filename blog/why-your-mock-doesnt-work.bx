@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20190730T081000' draft='y'>
+<entry when='20190802T141500' draft='y'>
 <title>Why your mock doesn't work</title>
 <category></category>
 <body>
@@ -79,6 +79,7 @@ If one of the names is then assigned again, the other name isn't affected:</p>
 this, <a pref='text/names1.px'/> goes into much more depth about the semantics
 of Python assignment.</p>
 
+
 <h1>Importing</h1>
 
 <p>Let's say we have a simple module like this:</p>
@@ -144,8 +145,8 @@ def from_mod_figure(frame_num):
 
     pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
     fig.module(pos=pos, size=(160,160), n_names=1, text="code1.py")
-    n_mod = fig.auto_name("val")
-    fig.reference(n_mod, s_first, scooch=.5)
+    n_val2 = fig.auto_name("val")
+    fig.reference(n_val2, s_first, scooch=.5)
     fig.end_module()
 
     finish_figure(fig)
@@ -189,11 +190,10 @@ val.</p>
 </figurep>
 
 <p>update_val has reassigned mod's val, but that has no effect on our val.  This
-is the same behavior as "a = 1; b = a; a = 2".  You don't expect b to be 2,
-because "b = a" doesn't make b refer to the variable a; it makes b refer to what
-a currently refers to.  In code1.py, "from mod import val" is an assignment from
-mod.val to val, and works exactly like "b = a" does. Later assignments to
-mod.val don't affect our val, just as later assignments to a don't affect b.</p>
+is the same behavior as our x and y example, but with imports instead of more
+obvious assignments.  In code1.py, "from mod import val" is an assignment from
+mod.val to val, and works exactly like "y = x" does. Later assignments to
+mod.val don't affect our val, just as later assignments to x don't affect y.</p>
 
 <!--[[[cog
 def import_mod_figure(frame_num):
@@ -256,6 +256,256 @@ use its value.</p>
 </figurep>
 
 <p>Now we print mod.val again, and see its updated value, just as we expected.</p>
+
+
+<h1>OK, but what about mocks?</h1>
+
+<p>Mocking is a fancy kind of assignment: replace an object (or function) with
+a different one.</p>
+
+<p>Let's consider this (very roughly sketched) product code and test:</p>
+
+<code lang="python"><![CDATA[
+# product.py
+
+from os.path import exists
+
+def my_function():
+    if exists(some_file):
+        blah_blah()
+]]></code>
+
+<code lang="python"><![CDATA[
+# test.py
+
+def test_it():
+    with mock.patch("os.path.exists") as exists:
+        exists.return_value = False
+        my_function()
+]]></code>
+
+<!--[[[cog
+def os_path_figure(frame_num):
+    fig = start_figure(frame_num=frame_num)
+
+    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
+    n_exists = fig.auto_name("exists")
+    n_hidden = fig.auto_name("", rise=99)
+    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()")
+    s_mock = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text="mock!", rise=2)
+
+    if frame_num == 1:
+        fig.reference(n_exists, s_fn)
+    else:
+        fig.reference(n_exists, s_mock, scooch=-.15)
+    fig.end_module()
+
+    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
+    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    n_exists2 = fig.auto_name("exists")
+    fig.reference(n_exists2, s_fn, scooch=.5)
+    fig.end_module()
+
+    finish_figure(fig)
+]]]-->
+<!--[[[end]]]-->
+
+<p>After we've imported product.py, both os.path and product.py have a name
+"exists" which refers to the built-in exists() function. The references look
+like this:</p>
+
+<figurep>
+    <!--[[[cog
+    os_path_figure(1)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id8)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id8)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>The mock.patch in our test is really just a fancy assignment to the name
+"os.path.exists".  During the test, the references look like this:</p>
+
+<figurep>
+    <!--[[[cog
+    os_path_figure(2)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id9" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id9)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id9)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>You can see why the mock doesn't work: we're mocking something, but it's not
+the thing our product code is going to call. This situation is exactly analogous
+to our code1.py example from earlier.</p>
+
+<p>You might be thinking, "ok, so let's do that code2.py thing to make it work!"
+If we do, it will work.  Your product code and test will now look like this (the
+test code is unchanged):</p>
+
+<code lang="python"><![CDATA[
+# product.py
+
+import os.path
+
+def my_function():
+    if os.path.exists(some_file):
+        blah_blah()
+]]></code>
+
+<code lang="python"><![CDATA[
+# test.py
+
+def test_it():
+    with mock.patch("os.path.exists") as exists:
+        exists.return_value = False
+        my_function()
+]]></code>
+
+<p>When the test is run, the references look like this:</p>
+
+<!--[[[cog
+def import_mod_figure(frame_num):
+    fig = start_figure(frame_num=frame_num)
+
+    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
+    n_exists = fig.auto_name("exists")
+    n_hidden = fig.auto_name("", rise=99)
+    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()", fade=1, set=2)
+    s_mock = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text="mock!", rise=2)
+
+    if frame_num == 1:
+        fig.reference(n_exists, s_fn)
+    else:
+        fig.reference(n_exists, s_mock, scooch=-.15)
+    fig.end_module()
+
+    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
+    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    n_mod = fig.auto_name("os.path")
+    fig.reference(n_mod, m_mod)
+    fig.end_module()
+
+    finish_figure(fig)
+]]]-->
+<!--[[[end]]]-->
+
+<figurep>
+    <!--[[[cog
+    import_mod_figure(2)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="210" y="60">exists()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id10)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-155,120 -85,120 -80,135 -85,150 -155,150" /><text dy=".3em" text-anchor="middle" x="-119.375" y="135">os.path</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id10)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Because the product code refers to the os.path module, changing the name in
+the module is enough to affect the product code.</p>
+
+<p>But there's still a problem: this will mock that function for any module
+using it.  This might be a more widespread effect than you intended.  Perhaps
+your product code also calls some helpers, which also check if some other file
+exists.  The helpers might end up using your mock (depending how they imported
+os.path.exists!), which isn't what you wanted.</p>
+
+
+<h1>Mock it where it's used</h1>
+
+<p>The best approach to mocking is to mock the object where it is used, not
+where it is defined.  Your product and test code will look like this:</p>
+
+<code lang="python"><![CDATA[
+# product.py
+
+from os.path import exists
+
+def my_function():
+    if exists(some_file):
+        blah_blah()
+]]></code>
+
+<code lang="python"><![CDATA[
+# test.py
+
+def test_it():
+    with mock.patch("product.exists") as exists:
+        exists.return_value = False
+        my_function()
+]]></code>
+
+<p>The only difference here from our first try is that we mock "product.exists",
+not "os.path.exists".  That seems odd, because exists isn't defined in
+product.py.  That's fine, the name "exists" is in both os.path and in
+product.py, and they are both references to the thing you want to mock.  Neither
+is a more real name than the other.</p>
+
+<p>By mocking where the object is used, we have tighter control over what
+callers are affected.  Since we only want product.py's behavior to change, we
+mock the name in product.py.  This also makes the test more clearly tied to
+product.py.</p>
+
+<p>As before, our references look like this once product.py has been fully
+imported:</p>
+
+<!--[[[cog
+def good_mock_figure(frame_num):
+    fig = start_figure(frame_num=frame_num)
+
+    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
+    n_exists = fig.auto_name("exists")
+    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()")
+    fig.reference(n_exists, s_fn)
+    fig.end_module()
+
+    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
+    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    n_exists2 = fig.auto_name("exists")
+    s_mock = fig.string(pos=fig.val_for_name(n_exists2), size=(90,30), text="mock!", rise=2)
+    if frame_num == 1:
+        fig.reference(n_exists2, s_fn, scooch=.5)
+    else:
+        fig.reference(n_exists2, s_mock)
+    fig.end_module()
+
+    finish_figure(fig)
+]]]-->
+<!--[[[end]]]-->
+
+<figurep>
+    <!--[[[cog
+    good_mock_figure(1)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id11" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id11)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id11)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>The difference now is how the mock changes things.  During the test, our references look like this:</p>
+
+<figurep>
+    <!--[[[cog
+    good_mock_figure(2)
+    ]]]-->
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id12" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id12)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="120" /><text dy=".3em" text-anchor="middle" x="210" y="135">mock!</text><path class="arrow" d="M -80,135 C -18,135 -18,135 42,135 C 103,135 103,135 165,135" fill="none" marker-end="url(#id12)" /></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>The code in product.py will use the mock, and no other code will.  Just what
+we wanted!</p>
+
+
+<h1>Is this OK?</h1>
+
+<p>At this point, you might be concerned: it seems like mocking is kind of
+delicate.  Notice that even with our last example, how we create the mock
+depends on something as arbitrary as how we imported the function.  If our code
+had "import os.path" at the top, we wouldn't have been able to create our mock
+properly.</p>
+
+<p>You are right to be concerned: mocking is delicate.  It's using
+implementation details of the product code to construct the test.  There are
+many reasons to be wary of mocks, and there are other approaches to solving the
+problems of isolating your product code from problematic dependencies.</p>
+
+<p>If you do use mocks, at least now you know how to make them work, but again,
+there are other approaches.  <a pref='blog/tldw-stop-mocking-start-testing.bx'/>
+talks about using fakes instead.</p>
 
 </body>
 </entry>
