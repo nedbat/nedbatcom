@@ -274,7 +274,11 @@ use its value.</p>
 <h1>OK, but what about mocks?</h1>
 
 <p>Mocking is a fancy kind of assignment: replace an object (or function) with
-a different one.</p>
+a different one.  We'll use the
+<a href='https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch'>mock.patch</a>
+function in a with statement.  It makes a mock object, assigns it to the name
+given, and then restores the original value at the end of the with
+statement.</p>
 
 <p>Let's consider this (very roughly sketched) product code and test:</p>
 
