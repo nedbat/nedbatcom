@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20190802T141500' draft='y'>
+<entry when='20190802T141500'>
 <title>Why your mock doesn't work</title>
-<category></category>
+<category>python</category>
+<category>testing</category>
 <body>
 
 <!--[[[cog
@@ -17,14 +18,26 @@
 ]]]-->
 <!--[[[end]]]-->
 
-<p>Mocking is a powerful technique for isolating tests from undesired
-interactions among components.  But often people find their mock isn't taking
-effect, and it's not clear why.  Hopefully this explanation will clear things
-up.</p>
+<p><a href='https://docs.python.org/3/library/unittest.mock.html'>Mocking</a> is
+a powerful technique for isolating tests from undesired interactions among
+components.  But often people find their mock isn't taking effect, and it's not
+clear why.  Hopefully this explanation will clear things up.</p>
 
-<p>BTW: it's also really easy to over-use mocking.  For a good explanation of an
-alternative approach to testing, see Augie Fackler and Nathaniel Manista's PyCon
-talk <a pref='blog/tldw-stop-mocking-start-testing.bx'/>.</p>
+<p>BTW: it's really easy to over-use mocking.  These are good explanations of
+alternative approaches:</p>
+
+<ul>
+
+<li>Augie Fackler and Nathaniel Manista's PyCon talk
+<a pref='blog/tldw-stop-mocking-start-testing.bx'>Stop Mocking and Start
+Testing</a>.</li>
+
+<li>Itamar Turner-Trauring's article
+<a href='https://pythonspeed.com/articles/verified-fakes/'>Fast tests for slow
+services: why you should use verified fakes</a>.</li>
+
+</ul>
+
 
 <h1>A quick aside about assignment</h1>
 
@@ -268,68 +281,68 @@ a different one.</p>
 <code lang="python"><![CDATA[
 # product.py
 
-from os.path import exists
+from os import listdir
 
 def my_function():
-    if exists(some_file):
-        blah_blah()
+    files = listdir(some_directory)
+    # ... use the file names ...
 ]]></code>
 
 <code lang="python"><![CDATA[
 # test.py
 
 def test_it():
-    with mock.patch("os.path.exists") as exists:
-        exists.return_value = False
+    with mock.patch("os.listdir") as listdir:
+        listdir.return_value = ['a.txt', 'b.txt', 'c.txt']
         my_function()
 ]]></code>
 
 <!--[[[cog
-def os_path_figure(frame_num):
+def os_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
-    n_exists = fig.auto_name("exists")
+    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    n_listdir = fig.auto_name("listdir")
     n_hidden = fig.auto_name("", rise=99)
-    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()")
+    s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()")
     s_mock = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text="mock!", rise=2)
 
     if frame_num == 1:
-        fig.reference(n_exists, s_fn)
+        fig.reference(n_listdir, s_fn)
     else:
-        fig.reference(n_exists, s_mock, scooch=-.15)
+        fig.reference(n_listdir, s_mock, scooch=-.15)
     fig.end_module()
 
     pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
     fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
-    n_exists2 = fig.auto_name("exists")
-    fig.reference(n_exists2, s_fn, scooch=.5)
+    n_listdir2 = fig.auto_name("listdir")
+    fig.reference(n_listdir2, s_fn, scooch=.5)
     fig.end_module()
 
     finish_figure(fig)
 ]]]-->
 <!--[[[end]]]-->
 
-<p>After we've imported product.py, both os.path and product.py have a name
-"exists" which refers to the built-in exists() function. The references look
-like this:</p>
+<p>After we've imported product.py, both the os module and product.py have a
+name "listdir" which refers to the built-in listdir() function. The references
+look like this:</p>
 
 <figurep>
     <!--[[[cog
-    os_path_figure(1)
+    os_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id8)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id8)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id8)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id8)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
 <p>The mock.patch in our test is really just a fancy assignment to the name
-"os.path.exists".  During the test, the references look like this:</p>
+"os.listdir".  During the test, the references look like this:</p>
 
 <figurep>
     <!--[[[cog
-    os_path_figure(2)
+    os_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id9" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id9)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id9)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id9" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id9)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id9)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -344,19 +357,19 @@ test code is unchanged):</p>
 <code lang="python"><![CDATA[
 # product.py
 
-import os.path
+import os
 
 def my_function():
-    if os.path.exists(some_file):
-        blah_blah()
+    files = os.listdir(some_directory)
+    # ... use the file names ...
 ]]></code>
 
 <code lang="python"><![CDATA[
 # test.py
 
 def test_it():
-    with mock.patch("os.path.exists") as exists:
-        exists.return_value = False
+    with mock.patch("os.listdir") as listdir:
+        listdir.return_value = ['a.txt', 'b.txt', 'c.txt']
         my_function()
 ]]></code>
 
@@ -366,21 +379,21 @@ def test_it():
 def import_mod_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
-    n_exists = fig.auto_name("exists")
+    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    n_listdir = fig.auto_name("listdir")
     n_hidden = fig.auto_name("", rise=99)
-    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()", fade=1, set=2)
+    s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()", fade=1, set=2)
     s_mock = fig.string(pos=fig.val_for_name(n_hidden), size=(90,30), text="mock!", rise=2)
 
     if frame_num == 1:
-        fig.reference(n_exists, s_fn)
+        fig.reference(n_listdir, s_fn)
     else:
-        fig.reference(n_exists, s_mock, scooch=-.15)
+        fig.reference(n_listdir, s_mock, scooch=-.15)
     fig.end_module()
 
     pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
     fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
-    n_mod = fig.auto_name("os.path")
+    n_mod = fig.auto_name("os")
     fig.reference(n_mod, m_mod)
     fig.end_module()
 
@@ -392,18 +405,18 @@ def import_mod_figure(frame_num):
     <!--[[[cog
     import_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="210" y="60">exists()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id10)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-155,120 -85,120 -80,135 -85,150 -155,150" /><text dy=".3em" text-anchor="middle" x="-119.375" y="135">os.path</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id10)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id10)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-123,120 -85,120 -80,135 -85,150 -123,150" /><text dy=".3em" text-anchor="middle" x="-103.375" y="135">os</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id10)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
-<p>Because the product code refers to the os.path module, changing the name in
-the module is enough to affect the product code.</p>
+<p>Because the product code refers to the os module, changing the name in the
+module is enough to affect the product code.</p>
 
 <p>But there's still a problem: this will mock that function for any module
 using it.  This might be a more widespread effect than you intended.  Perhaps
-your product code also calls some helpers, which also check if some other file
-exists.  The helpers might end up using your mock (depending how they imported
-os.path.exists!), which isn't what you wanted.</p>
+your product code also calls some helpers, which also need to list files.  The
+helpers might end up using your mock (depending how they imported os.listdir!),
+which isn't what you wanted.</p>
 
 
 <h1>Mock it where it's used</h1>
@@ -414,25 +427,25 @@ where it is defined.  Your product and test code will look like this:</p>
 <code lang="python"><![CDATA[
 # product.py
 
-from os.path import exists
+from os import listdir
 
 def my_function():
-    if exists(some_file):
-        blah_blah()
+    files = listdir(some_directory)
+    # ... use the file names ...
 ]]></code>
 
 <code lang="python"><![CDATA[
 # test.py
 
 def test_it():
-    with mock.patch("product.exists") as exists:
-        exists.return_value = False
+    with mock.patch("product.listdir") as listdir:
+        listdir.return_value = False
         my_function()
 ]]></code>
 
-<p>The only difference here from our first try is that we mock "product.exists",
-not "os.path.exists".  That seems odd, because exists isn't defined in
-product.py.  That's fine, the name "exists" is in both os.path and in
+<p>The only difference here from our first try is that we mock "product.listdir",
+not "os.listdir".  That seems odd, because listdir isn't defined in
+product.py.  That's fine, the name "listdir" is in both the os module and in
 product.py, and they are both references to the thing you want to mock.  Neither
 is a more real name than the other.</p>
 
@@ -448,20 +461,20 @@ imported:</p>
 def good_mock_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os.path")
-    n_exists = fig.auto_name("exists")
-    s_fn = fig.string(pos=fig.val_for_name(n_exists), size=(90,30), text="exists()")
-    fig.reference(n_exists, s_fn)
+    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    n_listdir = fig.auto_name("listdir")
+    s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()")
+    fig.reference(n_listdir, s_fn)
     fig.end_module()
 
     pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
     fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
-    n_exists2 = fig.auto_name("exists")
-    s_mock = fig.string(pos=fig.val_for_name(n_exists2), size=(90,30), text="mock!", rise=2)
+    n_listdir2 = fig.auto_name("listdir")
+    s_mock = fig.string(pos=fig.val_for_name(n_listdir2), size=(90,30), text="mock!", rise=2)
     if frame_num == 1:
-        fig.reference(n_exists2, s_fn, scooch=.5)
+        fig.reference(n_listdir2, s_fn, scooch=.5)
     else:
-        fig.reference(n_exists2, s_mock)
+        fig.reference(n_listdir2, s_mock)
     fig.end_module()
 
     finish_figure(fig)
@@ -472,7 +485,7 @@ def good_mock_figure(frame_num):
     <!--[[[cog
     good_mock_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id11" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id11)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id11)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id11" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id11)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id11)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -482,7 +495,7 @@ def good_mock_figure(frame_num):
     <!--[[[cog
     good_mock_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id12" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os.path</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">exists()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id12)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">exists</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="120" /><text dy=".3em" text-anchor="middle" x="210" y="135">mock!</text><path class="arrow" d="M -80,135 C -18,135 -18,135 42,135 C 103,135 103,135 165,135" fill="none" marker-end="url(#id12)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id12" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id12)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="120" /><text dy=".3em" text-anchor="middle" x="210" y="135">mock!</text><path class="arrow" d="M -80,135 C -18,135 -18,135 42,135 C 103,135 103,135 165,135" fill="none" marker-end="url(#id12)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -495,17 +508,17 @@ we wanted!</p>
 <p>At this point, you might be concerned: it seems like mocking is kind of
 delicate.  Notice that even with our last example, how we create the mock
 depends on something as arbitrary as how we imported the function.  If our code
-had "import os.path" at the top, we wouldn't have been able to create our mock
-properly.</p>
+had "import os" at the top, we wouldn't have been able to create our mock
+properly.  This is something that could be changed in a refactoring, but at
+least mock.patch will fail in that case.</p>
 
-<p>You are right to be concerned: mocking is delicate.  It's using
+<p>You are right to be concerned: mocking is delicate.  It depends on
 implementation details of the product code to construct the test.  There are
 many reasons to be wary of mocks, and there are other approaches to solving the
 problems of isolating your product code from problematic dependencies.</p>
 
 <p>If you do use mocks, at least now you know how to make them work, but again,
-there are other approaches.  <a pref='blog/tldw-stop-mocking-start-testing.bx'/>
-talks about using fakes instead.</p>
+there are other approaches.  See the links at the top of this page.</p>
 
 </body>
 </entry>
