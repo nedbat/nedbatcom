@@ -196,7 +196,7 @@ class CmdLine(object):
     def do_narrow(self):
         """Total hack expedient to only process some blog posts."""
         # Change this pattern if you want to fiddle with another one.
-        loadpages.blog_pattern = "*expl*.bx"
+        loadpages.blog_pattern = "*why*.bx"
 
     def do_pnarrow(self):
         """Total hack expedient to only process some pages."""

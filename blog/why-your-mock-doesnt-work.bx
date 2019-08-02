@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
 <entry when='20190730T081000' draft='y'>
-<title>Explaining imports</title>
+<title>Why your mock doesn't work</title>
 <category></category>
 <body>
 
@@ -16,6 +16,70 @@
         cog.outl(fig.tostring())
 ]]]-->
 <!--[[[end]]]-->
+
+<p>Mocking is a powerful technique for isolating tests from undesired
+interactions among components.  But often people find their mock isn't taking
+effect, and it's not clear why.  Hopefully this explanation will clear things
+up.</p>
+
+<p>BTW: it's also really easy to over-use mocking.  For a good explanation of an
+alternative approach to testing, see Augie Fackler and Nathaniel Manista's PyCon
+talk <a pref='blog/tldw-stop-mocking-start-testing.bx'/>.</p>
+
+<h1>A quick aside about assignment</h1>
+
+<p>Before we get to fancy stuff like mocks, I want to review a little bit about
+Python assignment.  You may already know this, but bear with me.  Everything
+that follows is going to be directly related to this simple example.</p>
+
+<p>Variables in Python are names that refer to values. If we assign a second
+name, the names don't refer to each other, they both refer to the same value.
+If one of the names is then assigned again, the other name isn't affected:</p>
+
+<figurep>
+    <!--[[[cog
+    fig = start_figure()
+    fig.top_code("x = 23")
+    x = fig.auto_name("x")
+    c = fig.int(pos=fig.val_for_name(x), text="23")
+    fig.reference(x, c)
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="65.5" version="1.1" width="116.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(-81.0,-4.0)"><polygon class="name" points="83,37.5 115,37.5 120,52.5 115,67.5 83,67.5" /><text dy=".3em" text-anchor="middle" x="99.625" y="52.5">x</text><circle class="int value" cx="180" cy="52.5" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="52.5">23</text><path class="arrow" d="M 120,52 C 131,52 131,52 142,52 C 153,52 153,52 165,52" fill="none" marker-end="url(#id1)" /><text class="top_code" dy=".3em" text-anchor="middle" x="139" y="15">x = 23</text></g></svg>
+    <!--[[[end]]]-->
+    <!--[[[cog
+    fig = start_figure()
+    fig.top_code("y = x")
+    n_x = fig.auto_name("x")
+    n_y = fig.auto_name("y")
+    c_23 = (n_x.cy + n_y.cy) / 2
+    i_23 = fig.int(left=(fig.val_left, c_23), text="23")
+    fig.reference(n_x, i_23, scooch=-.25)
+    fig.reference(n_y, i_23, scooch=.25)
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="110.5" version="1.1" width="116.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id2" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(-81.0,-4.0)"><polygon class="name" points="83,37.5 115,37.5 120,52.5 115,67.5 83,67.5" /><text dy=".3em" text-anchor="middle" x="99.625" y="52.5">x</text><polygon class="name" points="83,82.5 115,82.5 120,97.5 115,112.5 83,112.5" /><text dy=".3em" text-anchor="middle" x="99.625" y="97.5">y</text><circle class="int value" cx="180" cy="75" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="75">23</text><path class="arrow" d="M 120,52 C 132,52 132,52 142,59 C 153,66 153,66 165,71" fill="none" marker-end="url(#id2)" /><path class="arrow" d="M 120,97 C 132,97 132,97 142,90 C 153,83 153,83 165,78" fill="none" marker-end="url(#id2)" /><text class="top_code" dy=".3em" text-anchor="middle" x="139" y="15">y = x</text></g></svg>
+    <!--[[[end]]]-->
+    <!--[[[cog
+    fig = start_figure()
+    fig.top_code("x = 12")
+    n_x = fig.auto_name("x")
+    n_y = fig.auto_name("y")
+    i_12 = fig.int(pos=fig.val_for_name(n_x), text="12")
+    i_23 = fig.int(pos=fig.val_for_name(n_y), text="23")
+    fig.reference(n_x, i_12)
+    fig.reference(n_y, i_23)
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="110.5" version="1.1" width="116.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id3" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(-81.0,-4.0)"><polygon class="name" points="83,37.5 115,37.5 120,52.5 115,67.5 83,67.5" /><text dy=".3em" text-anchor="middle" x="99.625" y="52.5">x</text><polygon class="name" points="83,82.5 115,82.5 120,97.5 115,112.5 83,112.5" /><text dy=".3em" text-anchor="middle" x="99.625" y="97.5">y</text><circle class="int value" cx="180" cy="52.5" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="52.5">12</text><circle class="int value" cx="180" cy="97.5" r="15" /><text dy=".3em" text-anchor="middle" x="180" y="97.5">23</text><path class="arrow" d="M 120,52 C 131,52 131,52 142,52 C 153,52 153,52 165,52" fill="none" marker-end="url(#id3)" /><path class="arrow" d="M 120,97 C 131,97 131,97 142,97 C 153,97 153,97 165,97" fill="none" marker-end="url(#id3)" /><text class="top_code" dy=".3em" text-anchor="middle" x="139" y="15">x = 12</text></g></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>If this is unfamiliar to you, or you just want to look at more pictures like
+this, <a pref='text/names1.px'/> goes into much more depth about the semantics
+of Python assignment.</p>
+
+<h1>Importing</h1>
 
 <p>Let's say we have a simple module like this:</p>
 
@@ -106,7 +170,7 @@ print(val)
     <!--[[[cog
     from_mod_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id1)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id1)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id4)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id4)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -120,7 +184,7 @@ val.</p>
     <!--[[[cog
     from_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id2" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id2)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id2)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id5" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id5)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id5)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -177,7 +241,7 @@ use its value.</p>
     <!--[[[cog
     import_mod_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id3" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id3)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id3)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id6" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id6)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id6)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -187,7 +251,7 @@ use its value.</p>
     <!--[[[cog
     import_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id4)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id4)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id7" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id7)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id7)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
