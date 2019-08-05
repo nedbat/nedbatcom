@@ -141,10 +141,13 @@ code1.py prints "original original": the value hasn't changed!  Code2.py does
 what we expected: it prints "original updated."  Why the difference?</p>
 
 <!--[[[cog
+MOD_WIDTH = 100
+MOD_LEFT = MOD_WIDTH + 25
+
 def from_mod_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="mod.py")
+    m_mod = fig.module(size=(MOD_WIDTH,160), n_names=1, text="mod.py")
     n_val = fig.auto_name("val")
     n_hidden = fig.auto_name("", rise=99)
     s_first = fig.string(pos=fig.val_for_name(n_val), size=(85,30), text=repr("original"))
@@ -156,8 +159,8 @@ def from_mod_figure(frame_num):
         fig.reference(n_val, s_second, scooch=-.15)
     fig.end_module()
 
-    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
-    fig.module(pos=pos, size=(160,160), n_names=1, text="code1.py")
+    pos = ('topleft', (m_mod.left - MOD_LEFT, m_mod.bottom))
+    fig.module(pos=pos, size=(MOD_WIDTH,160), n_names=1, text="code1.py")
     n_val2 = fig.auto_name("val")
     fig.reference(n_val2, s_first, scooch=.5)
     fig.end_module()
@@ -184,7 +187,7 @@ print(val)
     <!--[[[cog
     from_mod_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id4)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id4)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id4)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">code1.py</text><polygon class="name" points="-54,120 -10,120 -5,135 -10,150 -54,150" /><text dy=".3em" text-anchor="middle" x="-31.375" y="135">val</text><path class="arrow" d="M -5,135 C 40,135 43,133 86,117 C 129,101 132,99 165,67" fill="none" marker-end="url(#id4)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -198,7 +201,7 @@ val.</p>
     <!--[[[cog
     from_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id5" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id5)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code1.py</text><polygon class="name" points="-129,120 -85,120 -80,135 -85,150 -129,150" /><text dy=".3em" text-anchor="middle" x="-106.375" y="135">val</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id5)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id5" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id5)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">code1.py</text><polygon class="name" points="-54,120 -10,120 -5,135 -10,150 -54,150" /><text dy=".3em" text-anchor="middle" x="-31.375" y="135">val</text><path class="arrow" d="M -5,135 C 40,135 43,133 86,117 C 129,101 132,99 165,67" fill="none" marker-end="url(#id5)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -212,7 +215,7 @@ mod.val don't affect our val, just as later assignments to x don't affect y.</p>
 def import_mod_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="mod.py")
+    m_mod = fig.module(size=(MOD_WIDTH,160), n_names=1, text="mod.py")
     n_val = fig.auto_name("val")
     n_hidden = fig.auto_name("", rise=99)
     s_first = fig.string(pos=fig.val_for_name(n_val), size=(85,30), text=repr("original"), fade=1, set=2)
@@ -224,8 +227,8 @@ def import_mod_figure(frame_num):
         fig.reference(n_val, s_second, scooch=-.15)
     fig.end_module()
 
-    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
-    fig.module(pos=pos, size=(160,160), n_names=1, text="code2.py")
+    pos = ('topleft', (m_mod.left - MOD_LEFT, m_mod.bottom))
+    fig.module(pos=pos, size=(MOD_WIDTH,160), n_names=1, text="code2.py")
     n_mod = fig.auto_name("mod")
     fig.reference(n_mod, m_mod)
     fig.end_module()
@@ -254,7 +257,7 @@ use its value.</p>
     <!--[[[cog
     import_mod_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id6" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id6)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id6)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id6" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="207.5" y="60">'original'</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id6)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">code2.py</text><polygon class="name" points="-62,120 -10,120 -5,135 -10,150 -62,150" /><text dy=".3em" text-anchor="middle" x="-35.375" y="135">mod</text><path class="arrow" d="M -5,135 C 17,135 16,116 15,93 C 13,70 12,52 35,52" fill="none" marker-end="url(#id6)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -264,7 +267,7 @@ use its value.</p>
     <!--[[[cog
     import_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id7" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id7)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">code2.py</text><polygon class="name" points="-137,120 -85,120 -80,135 -85,150 -137,150" /><text dy=".3em" text-anchor="middle" x="-110.375" y="135">mod</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id7)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id7" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">mod.py</text><polygon class="name" points="71,45 115,45 120,60 115,75 71,75" /><text dy=".3em" text-anchor="middle" x="93.625" y="60">val</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="85" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="207.5" y="60">'original'</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">'updated'</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id7)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">code2.py</text><polygon class="name" points="-62,120 -10,120 -5,135 -10,150 -62,150" /><text dy=".3em" text-anchor="middle" x="-35.375" y="135">mod</text><path class="arrow" d="M -5,135 C 17,135 16,116 15,93 C 13,70 12,52 35,52" fill="none" marker-end="url(#id7)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -305,7 +308,7 @@ def test_it():
 def os_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    m_mod = fig.module(size=(MOD_WIDTH,160), n_names=1, text="os module")
     n_listdir = fig.auto_name("listdir")
     n_hidden = fig.auto_name("", rise=99)
     s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()")
@@ -317,8 +320,8 @@ def os_figure(frame_num):
         fig.reference(n_listdir, s_mock, scooch=-.15)
     fig.end_module()
 
-    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
-    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    pos = ('topleft', (m_mod.left - MOD_LEFT, m_mod.bottom))
+    fig.module(pos=pos, size=(MOD_WIDTH,160), n_names=1, text="product.py")
     n_listdir2 = fig.auto_name("listdir")
     fig.reference(n_listdir2, s_fn, scooch=.5)
     fig.end_module()
@@ -335,7 +338,7 @@ look like this:</p>
     <!--[[[cog
     os_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id8)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id8)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id8)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">product.py</text><polygon class="name" points="-71,120 -10,120 -5,135 -10,150 -71,150" /><text dy=".3em" text-anchor="middle" x="-39.875" y="135">listdir</text><path class="arrow" d="M -5,135 C 40,135 43,133 86,117 C 129,101 132,99 165,67" fill="none" marker-end="url(#id8)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -346,7 +349,7 @@ look like this:</p>
     <!--[[[cog
     os_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id9" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id9)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id9)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id9" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id9)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">product.py</text><polygon class="name" points="-71,120 -10,120 -5,135 -10,150 -71,150" /><text dy=".3em" text-anchor="middle" x="-39.875" y="135">listdir</text><path class="arrow" d="M -5,135 C 40,135 43,133 86,117 C 129,101 132,99 165,67" fill="none" marker-end="url(#id9)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -383,7 +386,7 @@ def test_it():
 def import_mod_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    m_mod = fig.module(size=(MOD_WIDTH,160), n_names=1, text="os module")
     n_listdir = fig.auto_name("listdir")
     n_hidden = fig.auto_name("", rise=99)
     s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()", fade=1, set=2)
@@ -395,8 +398,8 @@ def import_mod_figure(frame_num):
         fig.reference(n_listdir, s_mock, scooch=-.15)
     fig.end_module()
 
-    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
-    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    pos = ('topleft', (m_mod.left - MOD_LEFT, m_mod.bottom))
+    fig.module(pos=pos, size=(MOD_WIDTH,160), n_names=1, text="product.py")
     n_mod = fig.auto_name("os")
     fig.reference(n_mod, m_mod)
     fig.end_module()
@@ -409,7 +412,7 @@ def import_mod_figure(frame_num):
     <!--[[[cog
     import_mod_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id10)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-123,120 -85,120 -80,135 -85,150 -123,150" /><text dy=".3em" text-anchor="middle" x="-103.375" y="135">os</text><path class="arrow" d="M -80,135 C -55,135 -54,118 -52,93 C -50,69 -49,52 -25,52" fill="none" marker-end="url(#id10)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id10" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" opacity="0.25" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" opacity="0.25" text-anchor="middle" x="210" y="60">listdir()</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="90" /><text dy=".3em" text-anchor="middle" x="210" y="105">mock!</text><path class="arrow" d="M 120,60 C 135,60 137,65 142,79 C 148,94 149,99 165,102" fill="none" marker-end="url(#id10)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">product.py</text><polygon class="name" points="-48,120 -10,120 -5,135 -10,150 -48,150" /><text dy=".3em" text-anchor="middle" x="-28.375" y="135">os</text><path class="arrow" d="M -5,135 C 17,135 16,116 15,93 C 13,70 12,52 35,52" fill="none" marker-end="url(#id10)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -465,14 +468,14 @@ imported:</p>
 def good_mock_figure(frame_num):
     fig = start_figure(frame_num=frame_num)
 
-    m_mod = fig.module(size=(160,160), n_names=1, text="os module")
+    m_mod = fig.module(size=(MOD_WIDTH,160), n_names=1, text="os module")
     n_listdir = fig.auto_name("listdir")
     s_fn = fig.string(pos=fig.val_for_name(n_listdir), size=(90,30), text="listdir()")
     fig.reference(n_listdir, s_fn)
     fig.end_module()
 
-    pos = ('topleft', (m_mod.left - 200, m_mod.bottom))
-    fig.module(pos=pos, size=(160,160), n_names=1, text="product.py")
+    pos = ('topleft', (m_mod.left - MOD_LEFT, m_mod.bottom))
+    fig.module(pos=pos, size=(MOD_WIDTH,160), n_names=1, text="product.py")
     n_listdir2 = fig.auto_name("listdir")
     s_mock = fig.string(pos=fig.val_for_name(n_listdir2), size=(90,30), text="mock!", rise=2)
     if frame_num == 1:
@@ -489,7 +492,7 @@ def good_mock_figure(frame_num):
     <!--[[[cog
     good_mock_figure(1)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id11" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id11)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><path class="arrow" d="M -80,135 C -16,135 -10,134 51,123 C 114,113 120,112 165,67" fill="none" marker-end="url(#id11)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id11" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id11)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">product.py</text><polygon class="name" points="-71,120 -10,120 -5,135 -10,150 -71,150" /><text dy=".3em" text-anchor="middle" x="-39.875" y="135">listdir</text><path class="arrow" d="M -5,135 C 40,135 43,133 86,117 C 129,101 132,99 165,67" fill="none" marker-end="url(#id11)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
@@ -499,7 +502,7 @@ def good_mock_figure(frame_num):
     <!--[[[cog
     good_mock_figure(2)
     ]]]-->
-    <svg baseProfile="full" height="154.0" version="1.1" width="484.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id12" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(227.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="160" x="-25" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="55" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id12)" /><rect class="module" height="75" rx="6" ry="6" width="160" x="-225" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-145" y="105">product.py</text><polygon class="name" points="-146,120 -85,120 -80,135 -85,150 -146,150" /><text dy=".3em" text-anchor="middle" x="-114.875" y="135">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="120" /><text dy=".3em" text-anchor="middle" x="210" y="135">mock!</text><path class="arrow" d="M -80,135 C -18,135 -18,135 42,135 C 103,135 103,135 165,135" fill="none" marker-end="url(#id12)" /></g></svg>
+    <svg baseProfile="full" height="154.0" version="1.1" width="349.0" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker id="id12" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" fill="black" stroke="none" /></marker></defs><g transform="translate(92.0,-13.0)"><rect class="module" height="75" rx="6" ry="6" width="100" x="35" y="15" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="85" y="30">os module</text><polygon class="name" points="54,45 115,45 120,60 115,75 54,75" /><text dy=".3em" text-anchor="middle" x="85.125" y="60">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="45" /><text dy=".3em" text-anchor="middle" x="210" y="60">listdir()</text><path class="arrow" d="M 120,60 C 131,60 131,60 142,60 C 153,60 153,60 165,60" fill="none" marker-end="url(#id12)" /><rect class="module" height="75" rx="6" ry="6" width="100" x="-90" y="90" /><text class="modulelabel" dy=".3em" opacity="1" text-anchor="middle" x="-40" y="105">product.py</text><polygon class="name" points="-71,120 -10,120 -5,135 -10,150 -71,150" /><text dy=".3em" text-anchor="middle" x="-39.875" y="135">listdir</text><rect class="string value" height="30" rx="15" ry="15" width="90" x="165" y="120" /><text dy=".3em" text-anchor="middle" x="210" y="135">mock!</text><path class="arrow" d="M -5,135 C 37,135 37,135 80,135 C 122,135 122,135 165,135" fill="none" marker-end="url(#id12)" /></g></svg>
     <!--[[[end]]]-->
 </figurep>
 
