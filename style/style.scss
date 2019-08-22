@@ -216,6 +216,10 @@ p {
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
+
+        > .aspect {
+            flex: 1 100%;
+        }
     }
 
     &.figure, &.bulletsep {
