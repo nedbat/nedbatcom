@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190829T064359'>
+<title>Don't omit tests from coverage</title>
+<category>coverage</category>
+<body>
+
+<p>There's a common idea out there that I want to refute. It's this: when
+measuring coverage, you should omit your tests from measurement.
+Searching GitHub shows that <a href='https://github.com/search?type=Code&amp;q=omit%20tests%20filename%3A.coveragerc'>lots of people do this</a>.
+</p>
+
+<p>This is a <strong>bad idea</strong>.  Your tests are real code, and the whole
+point of coverage is to give you information about your code.  Why wouldn't you
+want that information about your tests?</p>
+
+<p>You might say, "but all my tests run all their code, so it's useless
+information." Consider this scenario: you have three tests written, and you need
+a fourth, similar to the third.  You copy/paste the third test, tweak the
+details, and now you have four tests.  Except oops, you forgot to change the
+name of the test.</p>
+
+<p>Tests are weird: you have to name them, but the names don't matter. Nothing
+calls the name directly.  It's really easy to end up with two same-named tests.
+Which means you only have one test, because the new one overwrites the old.
+Coverage would alert you to the problem.</p>
+
+<p>Also, if your test suite is large, you likely have helper code in there as
+well as straight-up tests.  Are you sure you need all that helper code?  If you
+run coverage on the tests (and the helpers), you'd know about some weird clause
+in there that is never used.  That's odd, why is that?  It's probably useful to
+know. Maybe it's a case you no longer need to consider. Maybe your tests aren't
+exercising everything you thought.</p>
+
+<p>The only argument against running coverage on tests is that it "artificially"
+inflates the results.  True, it's much easier to get 100% coverage on a test
+file than a product file. But so what? Your coverage goal was chosen arbitrarily
+anyway.  Instead of aiming for 90% coverage, you should include your tests and
+aim for 95% coverage.  90% doesn't have a magical meaning.</p>
+
+<p>What's the downside of including tests in coverage? "People will write more
+tests as a way to get the easy coverage." Sounds good to me.  If your developers
+are trying to game the stats, they'll find a way, and you have bigger
+problems.</p>
+
+<p>True, it makes the reports larger, but if your tests are 100% covered,
+you can exclude those files from the report with
+<a href='https://coverage.readthedocs.io/en/v4.5.x/config.html#report'>[report] skip_covered</a>
+setting.</p>
+
+<p>Your tests are important.  You've put significant work into them. You want to
+know everything you can about them.  Coverage can help.  Don't omit tests from
+coverage.</p>
+
+</body>
+</entry>
+</blog>
