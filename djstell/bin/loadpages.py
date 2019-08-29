@@ -2,6 +2,7 @@
 # Load the database for nedbatchelder.com
 
 import sys
+import operator
 import traceback
 
 from path import Path
@@ -91,7 +92,7 @@ def load_all():
     if 1:
         drafts = Entry.drafts.all()
         print("%d drafts:" % (len(drafts)))
-        for d in drafts:
+        for d in sorted(drafts, key=operator.attrgetter('when')):
             print(d.when, d.title)
 
     if 0:
