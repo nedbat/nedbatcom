@@ -56,9 +56,7 @@
             {% endif %}
 
             <p>
-                <a href='{{entry.permaurl}}'>
-                    {{entry.title}}
-                </a>
+                <a href='{{entry.permaurl}}'>{{entry.title}}</a>
                 {% if entry.tags.all %}
                     {# The anonymous spans here are to force spacelessness so that we can control the nbsp stuff... #}
                     {# reallyspaceless doesn't mean what I thought, and maybe that should be fixed some day! #}
