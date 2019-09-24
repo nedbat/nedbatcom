@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190917T193045'>
+<title>Variable fonts</title>
+<category>type</category>
+<body>
+
+<p>We're all used to fonts coming in different weights (normal, bold), or
+sometimes different widths (normal, condensed, extended).  Geometrically,
+there's no reason that these variations need to be discrete.  It's a limitation
+of technology that we've been given a few specific weights or widths to choose
+from.</p>
+
+<p>Over the years there have been a few attempts to make those variation
+dimensions continuous rather than discrete.
+Knuth's <a href='https://en.wikipedia.org/wiki/Metafont'>Metafont</a> was one,
+Adobe's <a href='https://en.wikipedia.org/wiki/Multiple_master'>Multiple Master fonts</a>
+were another.  The latest is OpenType's <a href='https://en.wikipedia.org/wiki/Variable_fonts'>variable fonts</a>.</p>
+
+<p>In a variable font, the type designer not only decides on the shapes of the
+glyphs, but on the axes of variability.  Weight and width are two obvious ones,
+but the choice is arbitrary.</p>
+
+<p>One of the great things about variable fonts is that browsers have good
+support for them.  You can use a variable font on a web page, and set the values
+of the variability dimensions using CSS.</p>
+
+<p>Browser support also means you can play with the variability without any special
+tools. Nick Sherman's <a href='https://v-fonts.com/'>v-fonts.com</a> is a gallery
+and playground of variable fonts.  Each is displayed with sliders for its axes.
+You can drag the sliders and see the font change in real time in your browser.</p>
+
+<p>Many of the fonts are gimmicky, either to show off the technology, or because
+exotic display faces are where variability can be used most broadly.  But here
+are a few of my choices that demonstrate variability to its best advantage:</p>
+
+<p><a href='https://v-fonts.com/fonts/antonia-variable'>Antonia Variable</a>
+includes an optical size axis.  Optical size refers to the adjustments that have
+to be made to shapes to compensate for the size of the font.  At tiny sizes,
+letters have to be wider, and features sturdier in order for type to remain
+legible, but also seem like the same family. It's kind of like how babies have
+the same features as adults, but smaller and plumper.</p>
+
+<figurep href='https://v-fonts.com/fonts/antonia-variable'>
+<img src='pix/var_antonia.png' alt='Sample of Antonia Variable'/>
+</figurep>
+
+<p><a href='https://v-fonts.com/fonts/bradley-djr-variable'>Bradley DJR Variable</a>,
+is another good example of an optical size axis.</p>
+
+<figurep href='https://v-fonts.com/fonts/bradley-djr-variable'>
+<img src='pix/var_bradley_djr.png' alt='Sample of Bradley DJR Variable'/>
+</figurep>
+
+<p><a href='https://v-fonts.com/fonts/ut-morph'>UT Morph</a> is an
+ultra-geometric display face with two stark axes, positive and negative.  This
+shows how variability can be used to control completely new aspects of a
+design.</p>
+
+<figurep href='https://v-fonts.com/fonts/ut-morph'>
+<img src='pix/var_ut_morph.png' alt='Sample of UT Morph' />
+</figurep>
+
+<p><a href='https://v-fonts.com/fonts/recursive'>Recursive</a> has some really
+interesting axes that use variability in eye-opening ways without being
+cartoonish: proportion (how monospaced is it), expression (how swoopy is it),
+and italic (changes a few letter shapes).</p>
+
+<figurep href='https://v-fonts.com/fonts/recursive'>
+<img src='pix/var_recursive.png' alt='Sample of Recursive' />
+</figurep>
+
+<p>Variable fonts are still a new technology, but we'll see them being used more
+and more.  Don't expect to see fonts stretching and squashing before your eyes
+though.  Site designers will use variability to make some choices, and you won't
+even realize variability was involved.  Like all good typography, it won't draw
+attention to itself.</p>
+
+</body>
+</entry>
+</blog>
