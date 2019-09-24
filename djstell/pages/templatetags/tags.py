@@ -53,7 +53,7 @@ def combined_more_blog():
     """Yield a sequence of shuffled-together tags and years."""
     avoid_tags = ('me', 'site', 'blogs')
     tags = Tag.objects.all().exclude(tag__in=avoid_tags)
-    tags = sorted(tags, key=lambda t: t.entry_set.count(), reverse=True)
+    tags = sorted(tags, key=lambda t: t.entry_set_no_drafts().count(), reverse=True)
     tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
     tags = iter(tags)
 

@@ -110,7 +110,7 @@ def tags(request):
 
 def tag(request, slug):
     tag = Tag.objects.get(tag=slug)
-    ents = tag.entry_set.filter(draft=False).order_by('-when')
+    ents = tag.entry_set_no_drafts().order_by('-when')
     c = {}
     add_entries(c, ents)
     c['tag'] = tag
