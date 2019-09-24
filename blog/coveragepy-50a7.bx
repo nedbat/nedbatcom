@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20190924T095846'>
+<title>Coverage.py 5.0a7, and the future of pytest-cov</title>
+<category>coverage</category>
+<body>
+
+<p>Progress continues in the Python coverage world.  Two recent things: first,
+the latest alpha of Coverage.py 5.0 is available:
+<a href='https://pypi.org/project/coverage/5.0a7/'>5.0a7</a>.  Second,
+pytest-cov is supporing coverage.py 5.0, and we're talking about the future of
+pytest-cov.</p>
+
+<p>There are two big changes in Coverage.py 5.0a7.  First, there is a new
+reporting command: <codeword>coverage json</codeword> produces a JSON file with
+information similar to the XML report.  In coverage.py 4.x, the data storage was
+a lightly cloaked JSON file.  That file was not in a supported format, and in
+fact, it is gone in 5.0.  This command produces a supported JSON format for
+people who want programmatic access to details of the coverage data.  A huge
+thanks to Matt Bachmann for implementing it.</p>
+
+<p>The second big change is to the SQL schema in the 5.x data file, which is a
+SQLite database.  Previously, each line measured produced a row in the "line"
+table.  But this proved too bulky for large projects.  Now line numbers are
+stored in a compact binary form.  There is just one row in the "line_bits" table
+for each file and context measured.  This makes it more difficult to use the
+data with ad-hoc queries.  Coverage provides
+<a href='https://coverage.readthedocs.io/en/coverage-5.0a7/dbschema.html#numbits'>functions for working with the line number bitmaps</a>,
+but I'm interested in other ideas about how to make the data more usable.</p>
+
+<p>The pytest-cov changes are to support coverage.py 5.0.  Those changes are
+already on <a href='https://github.com/pytest-dev/pytest-cov'>the master branch</a>.
+</p>
+
+<p>I'm also working on a pull request to add a
+<a href='https://github.com/pytest-dev/pytest-cov/pull/342'>--cov-contexts=test option</a>
+so that pytest can announce when tests change, for accurate and detailed dynamic
+contexts.</p>
+
+<p>Longer-term, I'd like to shrink the size of the pytest-cov plugin.  Pytest
+should be about running tests, not reporting on coverage after the tests are
+run.  Too much of the code, and too many of the bug reports, are due to it
+trying to take on more than it needs to.  The command-line arguments are getting
+convoluted, for no good reason.  I've written an issue to get feedback:
+<a href='https://github.com/pytest-dev/pytest-cov/issues/337'>Proposal:
+pytest-cov should do less</a>.  If you have opinions one way or the other, that
+would be a good place to talk about them.</p>
+
+</body>
+</entry>
+</blog>
