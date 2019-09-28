@@ -944,7 +944,7 @@
 
 <div class="text"><!-- {{{ -->
     <p>By the way, another common style of getting the index of an iterable is
-    show here: keep a separate counter, and increment it to keep it in step
+    shown here: keep a separate counter, and increment it to keep it in step
     with the enumeration.  This is just a goofy sidecar bolted on the side of
     your loop.  It works, but adds extra complexity.  If the loop is more
     complex than shown here, it is easy for it to become long enough that the
@@ -1154,7 +1154,7 @@
     <p>A normal function returns one value, with the return statement.  A
     generator looks just like a function, but instead of a return statement, it
     has one or more yield statements.  Calling the generator function creates
-    an iterable, and iterating it runs the code in the function.  Each yield
+    an iterator, and iterating it runs the code in the function.  Each yield
     statement executed produces another value in the stream.</p>
 
     <p>Here's a toy example of a generator, just containing two yield
@@ -1230,7 +1230,7 @@
     <p>Generators can be confusing.  They look very similar to functions,
     but have very important differences.  First, calling the generator doesn't
     immediately begin running the code in the generator, it simply creates
-    an iterable.  When the for loop or other consumer of the iterable starts
+    an iterator.  When the for loop or other consumer of the iterator starts
     pulling values from the stream, then the code in the generator begins 
     executing.</p>
 
