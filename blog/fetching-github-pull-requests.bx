@@ -45,7 +45,7 @@
 <code><![CDATA[
 [alias]
 copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
-                    git checkout pr/$1; }; f"
+                    git checkout pr/$1; && git reset --hard @ }; f"
 ]]></code>
 
 <p>(That should all be on one line, but I wanted it to be readable here.) This
