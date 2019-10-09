@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20191008T191409'>
+<title>Pytest-cov support for who-tests-what</title>
+<category>coverage</category>
+<body>
+
+<p>I've added a new option to the <a href='https://pypi.org/project/pytest-cov/'>pytest-cov</a>
+coverage plugin for pytest: --cov-context=test will set the dynamic context
+based on pytest test phases.  Each test has a setup, run, and teardown phase.
+This gives you the best test information in the coverage database:</p>
+
+<ul>
+
+<li>The full test id is used in the context. You have the test file name, and
+the test class name if you are using class-based tests.</li>
+
+<li>Parameterized tests start a new context for each new set of parameter
+values.</li>
+
+<li>Execution is a little faster because coverage.py doesn't have to poll for
+test starts.</li>
+
+</ul>
+
+<p>For example, here is a repo of simple pytest tests in a number of forms:
+<a href='https://github.com/nedbat/pytest-gallery'>pytest-gallery</a>.  I can
+run the tests with test contexts being recorded:</p>
+
+<code lang="shell"><![CDATA[
+$ pytest -v --cov=. --cov-context=test
+======================== test session starts =========================
+platform darwin -- Python 3.6.9, pytest-5.2.1, py-1.8.0, pluggy-0.12.0 -- /usr/local/virtualenvs/pytest-cov/bin/python3.6
+cachedir: .pytest_cache
+rootdir: /Users/ned/lab/pytest-gallery
+plugins: cov-2.8.1
+collected 25 items
+
+test_fixtures.py::test_fixture PASSED                          [  4%]
+test_fixtures.py::test_two_fixtures PASSED                     [  8%]
+test_fixtures.py::test_with_expensive_data PASSED              [ 12%]
+test_fixtures.py::test_with_expensive_data2 PASSED             [ 16%]
+test_fixtures.py::test_parametrized_fixture[1] PASSED          [ 20%]
+test_fixtures.py::test_parametrized_fixture[2] PASSED          [ 24%]
+test_fixtures.py::test_parametrized_fixture[3] PASSED          [ 28%]
+test_function.py::test_function1 PASSED                        [ 32%]
+test_function.py::test_function2 PASSED                        [ 36%]
+test_parametrize.py::test_parametrized[1-101] PASSED           [ 40%]
+test_parametrize.py::test_parametrized[2-202] PASSED           [ 44%]
+test_parametrize.py::test_parametrized_with_id[one] PASSED     [ 48%]
+test_parametrize.py::test_parametrized_with_id[two] PASSED     [ 52%]
+test_parametrize.py::test_parametrized_twice[3-1] PASSED       [ 56%]
+test_parametrize.py::test_parametrized_twice[3-2] PASSED       [ 60%]
+test_parametrize.py::test_parametrized_twice[4-1] PASSED       [ 64%]
+test_parametrize.py::test_parametrized_twice[4-2] PASSED       [ 68%]
+test_skip.py::test_always_run PASSED                           [ 72%]
+test_skip.py::test_never_run SKIPPED                           [ 76%]
+test_skip.py::test_always_skip SKIPPED                         [ 80%]
+test_skip.py::test_always_skip_string SKIPPED                  [ 84%]
+test_unittest.py::MyTestCase::test_method1 PASSED              [ 88%]
+test_unittest.py::MyTestCase::test_method2 PASSED              [ 92%]
+tests.json::hello PASSED                                       [ 96%]
+tests.json::goodbye PASSED                                     [100%]
+
+---------- coverage: platform darwin, python 3.6.9-final-0 -----------
+Name                  Stmts   Miss  Cover
+-----------------------------------------
+conftest.py              16      0   100%
+test_fixtures.py         19      0   100%
+test_function.py          4      0   100%
+test_parametrize.py       8      0   100%
+test_skip.py             12      3    75%
+test_unittest.py         17      0   100%
+-----------------------------------------
+TOTAL                    76      3    96%
+
+
+=================== 22 passed, 3 skipped in 0.18s ====================
+]]></code>
+
+<p>Then I can see the contexts that were collected:</p>
+
+<code lang="python"><![CDATA[
+$ sqlite3 -csv .coverage "select context from context"
+context
+""
+test_fixtures.py::test_fixture|setup
+test_fixtures.py::test_fixture|run
+test_fixtures.py::test_two_fixtures|setup
+test_fixtures.py::test_two_fixtures|run
+test_fixtures.py::test_with_expensive_data|setup
+test_fixtures.py::test_with_expensive_data|run
+test_fixtures.py::test_with_expensive_data2|run
+test_fixtures.py::test_parametrized_fixture[1]|setup
+test_fixtures.py::test_parametrized_fixture[1]|run
+test_fixtures.py::test_parametrized_fixture[2]|setup
+test_fixtures.py::test_parametrized_fixture[2]|run
+test_fixtures.py::test_parametrized_fixture[3]|setup
+test_fixtures.py::test_parametrized_fixture[3]|run
+test_function.py::test_function1|run
+test_function.py::test_function2|run
+test_parametrize.py::test_parametrized[1-101]|run
+test_parametrize.py::test_parametrized[2-202]|run
+test_parametrize.py::test_parametrized_with_id[one]|run
+test_parametrize.py::test_parametrized_with_id[two]|run
+test_parametrize.py::test_parametrized_twice[3-1]|run
+test_parametrize.py::test_parametrized_twice[3-2]|run
+test_parametrize.py::test_parametrized_twice[4-1]|run
+test_parametrize.py::test_parametrized_twice[4-2]|run
+test_skip.py::test_always_run|run
+test_skip.py::test_always_skip|teardown
+test_unittest.py::MyTestCase::test_method1|setup
+test_unittest.py::MyTestCase::test_method1|run
+test_unittest.py::MyTestCase::test_method2|run
+test_unittest.py::MyTestCase::test_method2|teardown
+tests.json::hello|run
+tests.json::goodbye|run
+]]></code>
+
+<p>Version 2.8.0 of pytest-cov (and later) has the new feature.  Give it a try.
+BTW, I also snuck another alpha of coverage.py (5.0a8) in at the same time, to
+get a needed API right.</p>
+
+<p>Still missing from all this is a really useful way to report on the data.
+Get in touch if you have needs or ideas.</p>
+
+</body>
+</entry>
+</blog>
