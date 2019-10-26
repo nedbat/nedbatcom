@@ -8,10 +8,10 @@ import sys
 import time
 
 blogdir = r'~/web/stellated/blog'
-blogfmt = \
-"""<?xml version='1.0' encoding='utf-8'?>
+blogfmt = """\
+<?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='%(now)s'>
+<entry when='%(now)s' draft='y'>
 <title>%(title)s</title>
 <category></category>
 <body>
