@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20191027T171400'>
+<title>Debugging TensorFlow coverage</title>
+<category>debugging</category>
+<body>
+
+<p>It started with a coverage.py issue:
+<a href='https://github.com/nedbat/coveragepy/issues/856'>Coverage not working for TensorFlow Model call function</a>.
+A line in the code is executing, but coverage.py marks it as unexecuted. How could that be?</p>
+
+<p>TensorFlow was completely new to me.  I knew it had some unusual execution
+semantics, but I didn't know what it involved.  What could it be doing that
+would interfere with coverage measurement?  Once I had instructions to reproduce
+the issue, I could see that it was true: a line that clearly printed output
+during the test run was marked as unexecuted.</p>
+
+<p>The code in question was in a file called routenet_model.py. It had a line
+like this:</p>
+
+<code lang='python'><![CDATA[
+print('******** in call ******************')
+]]></code>
+
+<p>It was the only such line in the code, and sure enough, the test output
+showed that "**** in call ****" text, so the line was definitely running.</p>
+
+<p>The first step was to see who was calling the product code.  It seemed like
+something about a caller was getting in the way, since other code in that file
+was marked as executed. I added this to get a stack trace at that point:</p>
+
+<code lang='python'><![CDATA[
+import inspect
+print("\n".join("%30s : %s:%d" % (t[3],t[1],t[2]) for t in inspect.stack()[::-1]))
+print('******** in call ******************')
+]]></code>
+
+<p>When I re-ran the test, I saw a long stack trace that ended like this (I've
+abbreviated some of the file paths):</p>
+
+<code><![CDATA[
+              ...     ...
+           compute : site-packages/tensorflow/python/ops/map_fn.py:257
+          <lambda> : /private/tmp/bug856/demo-routenet/tests/utils/test_utils.py:31
+          __call__ : site-packages/tensorflow/python/keras/engine/base_layer.py:634
+           wrapper : site-packages/tensorflow/python/autograph/impl/api.py:146
+    converted_call : site-packages/tensorflow/python/autograph/impl/api.py:453
+          tf__call : /var/folders/j2/gr3cj3jn63s5q8g3bjvw57hm0000gp/T/tmps9vwjn47.py:10
+    converted_call : site-packages/tensorflow/python/autograph/impl/api.py:349
+ _call_unconverted : site-packages/tensorflow/python/autograph/impl/api.py:258
+******** in call ******************
+]]></code>
+
+<p>This stack shows the function name, the file path, and the line number in a
+compact way. It's a useful enough debugging helper that I have it as a
+<a href='https://github.com/nedbat/dot/blob/11f4e04a2fa847152f697ca033c3181b29b12952/.vimrc#L309'>vim abbreviation</a>.</p>
+
+<p>Hmm, interesting: there's a temporary Python file (tmps9vwjn47.py) in the
+call stack.  That's definitely unusual. The file is gone by the time the tests
+are done, so to get the contents, I grab the filename from the stack trace, and
+copy the contents elsewhere:</p>
+
+<code lang='python'><![CDATA[
+import inspect
+print("\n".join("%30s : %s:%d" % (t[3],t[1],t[2]) for t in inspect.stack()[::-1]))
+with open("/tmp/bug856/weird.py", "w") as fout:
+    with open(inspect.stack()[2].filename) as fin:
+        fout.write(fin.read())
+print('******** in call ******************')
+]]></code>
+
+<p>I named the copied file "weird.py" because a temporary Python file is weird
+any time, but this is where it gets really weird: weird.py is a 528-line Python
+file, but it doesn't have the function indicated in the stack trace: there's
+nothing named tf__call in it.  The stack trace also indicates that
+line 10 is running, but line 10 is a comment:</p>
+
+<code lang='python' number='y'><![CDATA[
+# Copyright 2018 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+"""Control flow statements: loops, conditionals, etc."""
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+... etc ...
+]]></code>
+
+<p>Something is truly weird here. To add to the confusion, I can print the
+entire FrameInfo from the stack trace, with:</p>
+
+<code lang='python'><![CDATA[
+print(repr(inspect.stack()[2]))
+]]></code>
+
+<p>and it shows:</p>
+
+<code lang='python'><![CDATA[
+FrameInfo(
+    frame=<frame at 0x7ff1f0e05080, file '/var/folders/j2/gr3cj3jn63s5q8g3bjvw57hm0000gp/T/tmp1ii_1_na.py', line 14, code tf__call>,
+    filename='/var/folders/j2/gr3cj3jn63s5q8g3bjvw57hm0000gp/T/tmp1ii_1_na.py',
+    lineno=14,
+    function='tf__call',
+    code_context=["      print(ag__.converted_call(repr, None, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (ag__.converted_call('stack', inspect, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (), None)[2],), None))\n"],
+    index=0
+)
+]]></code>
+
+<p>The code_context attribute there shows a plausible line of code, but it
+doesn't correspond to the code in the file at all.  This is a twist on a
+long-standing gotcha with Python stack traces.  When Python code is running, it
+has filenames and line numbers in the frames on the call stack, but it doesn't
+keep the source of the code it runs.  To populate a stack trace with lines of
+code, it reads the file on disk.  The classic problem with this is that the file
+on disk may have changed since the code started running. So the lines of source
+in the stack trace might be wrong because they are newer than the actual code
+that is running.</p>
+
+<p>But that's not what we're seeing here.  Now the line of code in the stack
+trace doesn't match the file on disk at all. It seems to correspond to what is
+running, but not what is on disk.  The reason is that Python uses a module
+called linecache to read the line of source.  As the name implies, linecache
+caches file contents, so that reading many different lines from a file won't try
+to open the same file many times.</p>
+
+<p>What must have happened here is that the file had one program in it, and then
+was read (and cached) by linecache for some reason.  That first program is what
+is running.  Then the file was re-written with a second program.  Linecache
+checks the modification time to invalidate the cache, but if the file was
+rewritten quickly enough to not have a different modification time, then the
+stale cache would be used.  This is why the stack trace has the correct line of
+code, even though the file on disk doesn't.</p>
+
+<p>A quick look in the __pycache__ directory in the tmp directory shows a .pyc
+file, and if I dump it with <a href='https://github.com/nedbat/coveragepy/blob/master/lab/show_pyc.py'>show_pyc.py</a>,
+I can see that it has the code I'm interested in.  But rather than try to read
+disassembled bytecode, I can get the source from the stale copy in
+linecache!</p>
+
+<code lang='python'><![CDATA[
+import inspect
+print("\n".join("%30s : %s:%d" % (t[3],t[1],t[2]) for t in inspect.stack()[::-1]))
+with open("/tmp/bug856/better.py", "w") as fout:
+    import linecache
+    fout.write("".join(linecache.getlines(inspect.stack()[2].filename)))
+print('******** in call ******************')
+]]></code>
+
+<p>When I run this, I get a file better.py that makes clear why coverage.py
+claimed the original line wasn't executed.  Here's the start of better.py:</p>
+
+<code lang='python' number='y'><![CDATA[
+def create_converted_entity_factory():
+
+  def create_converted_entity(ag__, ag_source_map__, ag_module__):
+
+    def tf__call(self, inputs, training=None):
+      do_return = False
+      retval_ = ag__.UndefinedReturnValue()
+      import inspect, sys
+      print(ag__.converted_call('join', '\n', ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (('%30s : %s:%d' % (t[3], t[1], t[2]) for t in ag__.converted_call('getouterframes', inspect, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (ag__.converted_call('_getframe', sys, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (), None),), None)[::-1]),), None))
+      with open('/tmp/bug856/better.py', 'w') as fout:
+        import linecache
+        ag__.converted_call('write', fout, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (ag__.converted_call('join', '', ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (ag__.converted_call('getlines', linecache, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (ag__.converted_call('stack', inspect, ag__.ConversionOptions(recursive=True, force_conversion=False, optional_features=(), internal_convert_user_code=True), (), None)[2].filename,), None),), None),), None)
+      print('******** in call ******************')
+
+    ... lines omitted ...
+
+    return tf__call
+  return create_converted_entity
+]]></code>
+
+<p>This is the code from our original routenet_model.py (including all the
+debugging code that I put in there), translated into some kind of annotated
+form.  The reason coverage.py said the product code wasn't run is because it
+wasn't run! A <em>copy</em> of the code was run.</p>
+
+<p>Now I realize something about inspect.stack(): the first frame it shows is
+your caller.  If I had use a stack trace that showed the current frame first, it
+would have shown that my debugging code was not in the file I thought it
+was.</p>
+
+<p>It turns out that inspect.stack() is a one-line helper using other things:</p>
+
+<code lang='python'><![CDATA[
+def stack(context=1):
+    """Return a list of records for the stack above the caller's frame."""
+    return getouterframes(sys._getframe(1), context)
+]]></code>
+
+<p>Changing my stack trace one-liner to use getoutframes(sys._getframe()) is
+better, but is still confusing in this case because TensorFlow rewrites function
+calls, including sys._getframe, so the resulting stack trace ends with:</p>
+
+<code lang='python'><![CDATA[
+      __call__ : site-packages/tensorflow/python/keras/engine/base_layer.py:634
+       wrapper : site-packages/tensorflow/python/autograph/impl/api.py:146
+converted_call : site-packages/tensorflow/python/autograph/impl/api.py:453
+      tf__call : /var/folders/j2/gr3cj3jn63s5q8g3bjvw57hm0000gp/T/tmpcwhc1y2a.py:10
+converted_call : site-packages/tensorflow/python/autograph/impl/api.py:321
+]]></code>
+
+<p>Even now, I can't quite wrap my head around why it comes out that way.</p>
+
+<p>The next step is to decide what to do about this.  The converted code has a
+parameter called ag_source_map__, which is a map from converted code back to
+source code.  This could be used to get the coverage right, perhaps in a plugin,
+but I need to hear from TensorFlow people to see what would be the best
+approach.  I've written a
+<a href='https://github.com/tensorflow/tensorflow/issues/33759'>TensorFlow
+issue</a> to start the conversation.</p>
+
+</body>
+</entry>
+</blog>
