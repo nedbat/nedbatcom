@@ -189,8 +189,8 @@ form.  The reason coverage.py said the product code wasn't run is because it
 wasn't run! A <em>copy</em> of the code was run.</p>
 
 <p>Now I realize something about inspect.stack(): the first frame it shows is
-your caller.  If I had use a stack trace that showed the current frame first, it
-would have shown that my debugging code was not in the file I thought it
+your caller.  If I had used a stack trace that showed the current frame first,
+it would have shown that my debugging code was not in the file I thought it
 was.</p>
 
 <p>It turns out that inspect.stack() is a one-line helper using other things:</p>
