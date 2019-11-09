@@ -17,7 +17,7 @@ instructions).  When you compile a C program, this is what happens.  The result
 is a file that your operating system can run for you.</p>
 
 <p>In the simple definition of "interpreted", executing a program means reading
-the source file a line at a time, and doing what it says.  This is the way some 
+the source code a line at a time, and doing what it says.  This is the way some
 shells operate.</p>
 
 <p>But the real world is not so limited.  Making real programming languages useful
@@ -28,7 +28,7 @@ another language or form.  Usually the source form is a higher-level language
 than the destination form, such as when converting from C to machine code.  But
 converting from JavaScript 8 to JavaScript 5 is also a kind of compiling.</p>
 
-<p>In Python, the source is compiled into a much simpler form called
+<p>In Python, the source code is compiled into a much simpler form called
 <a href='https://en.wikipedia.org/wiki/Bytecode'>bytecode</a>.  These are
 instructions similar in spirit to CPU instructions, but instead of being
 executed by the CPU, they are executed by software called a virtual machine.
@@ -77,7 +77,7 @@ Python&#160;(!), which is useful only as an educational exercise.</p>
 <p>An important aspect of Python's compilation to bytecode is that it's
 entirely implicit.  You never invoke a compiler, you simply run a .py file.
 The Python implementation compiles the files as needed.  This is different than
-Java, for example, where you have to run the Java compiler to turn Java source
+Java, for example, where you have to run the Java compiler to turn Java source code
 into compiled class files.  For this reason, Java is often called a compiled
 language, while Python is called an interpreted language.  But both compile to
 bytecode, and then both execute the bytecode with a software implementation of
