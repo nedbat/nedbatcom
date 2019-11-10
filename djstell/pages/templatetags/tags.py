@@ -128,7 +128,30 @@ def static_link(filename):
     if ext == ".css":
         tag = "<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
-        tag = "<script type='text/javascript' src='{url}' async></script>"
+        tag = "<script type='text/javascript' src='{url}' async='async'></script>"
+    return mark_safe(tag.format(url=url))
+
+@register.simple_tag
+def static_url_link(url, type, defer=False):
+    """Reference third-party static stuff in the best way."""
+    if type == 'css':
+        # Firefox can't do rel=preload: https://caniuse.com/#feat=link-rel-preload
+        defer = False
+        if defer:
+            # https://web.dev/defer-non-critical-css/
+            tag = (
+                '''<link rel="preload" href="{url}" as="style" onload="this.onload=null;this.rel='stylesheet'">'''
+                '''<noscript><link href="{url}" rel="stylesheet"></noscript>'''
+            )
+        else:
+            tag = '<link href="{url}" rel="stylesheet">'
+    elif type == 'js':
+        if defer:
+            tag = '<script src="{url}" async="async"></script>'
+        else:
+            tag = '<script src="{url}"></script>'
+    else:
+        raise Exception("Don't know static_url_link type: {!r}".format(type))
     return mark_safe(tag.format(url=url))
 
 @register.tag

@@ -28,15 +28,14 @@
 
     {% block pagelinks %}
     {% static_link "style.css" %}
-    {# PT Serif for body text. Source Serif has no italic, Merriweather is wider and has old-style numerals. #}
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i" rel="stylesheet">
+    {% static_url_link "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i" type="css" defer=True %}
 
     {% if 'svg' in features %}
         {% static_link "svg.css" %}
     {% endif %}
 
     {% if 'tweets' in features %}
-        <script async="async" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        {% static_url_link "https://platform.twitter.com/widgets.js" type="js" defer=True %}
     {% endif %}
 
     {% endblock %}
