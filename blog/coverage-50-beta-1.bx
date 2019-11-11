@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20191111T182754'>
+<title>Coverage 5.0 beta 1</title>
+<category>coverage</category>
+<body>
+
+<p>I want to finish coverage.py 5.0. It has some big changes, so I need people
+to try it and tell me if it's ready.  Please install
+<a href='https://pypi.org/project/coverage/5.0b1/'>coverage.py 5.0 beta 1</a>
+and try it in your environment.</p>
+
+<p>I especially want to hear from you if you tried the earlier alphas of 5.0.
+There have been some changes in the SQLite database that were needed to make
+measurement efficient enough for large test suites, but that hinder ad-hoc
+querying.</p>
+
+<p>If you haven't taken a look at coverage.py 5.0 yet, the big change is the
+addition of "contexts."  These can record not just that a line was executed, but
+something about why it was executed.  Any number of contexts can be recorded for
+a line. They could be different operating systems, or versions of Python, or
+the name of the test that was running.  I think it could enable some really
+interesting tooling.</p>
+
+<p>If you are interested in recording test names as contexts, the
+<a href='https://pypi.org/project/pytest-cov/'>pytest-cov</a> pytest plugin now
+has a "--cov-context" option to do just that.</p>
+
+<p>Contexts increase the data requirements, so data storage is now a SQLite file
+rather than a JSON file.  The summary of what's new in 5.0 is here:
+<a href='https://coverage.readthedocs.io/en/latest/whatsnew5x.html'>Major changes in 5.0</a>.</p>
+
+<p>Please try this.  Soon 5.0 will be done, and people will begin installing it
+unknowingly. I would really like to minimize the turmoil when that happens.</p>
+
+</body>
+</entry>
+</blog>
