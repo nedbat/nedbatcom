@@ -31,7 +31,6 @@ a.nav:hover { text-decoration: underline; color: inherit; }
 
 #index { margin: 1em 0 0 3em; }
 
-/* Header styles */
 #header .content { padding: 1em 3rem; }
 
 h1 { font-size: 1.25em; display: inline-block; }
@@ -51,9 +50,9 @@ h2.stats { margin-top: .5em; font-size: 1em; }
 .stats span.par { background: #ffffd5; }
 .stats span.par.show_par { border-color: #999 #ccc #ccc #999; background: #ffffaa; }
 
-#source p.par span.annotate.long, td.contexts p span.context-list, .help_panel { display: none; position: absolute; z-index: 999; background: #ffffcc; border: 1px solid #888; border-radius: .2em; box-shadow: #cccccc .2em .2em .2em; color: #333; padding: .25em .5em; }
+#source p .annotate.long, .help_panel { display: none; position: absolute; z-index: 999; background: #ffffcc; border: 1px solid #888; border-radius: .2em; box-shadow: #cccccc .2em .2em .2em; color: #333; padding: .25em .5em; }
 
-#source p.par span.annotate.long, td.contexts p span.context-list { white-space: normal; float: right; top: 1.75em; right: 1em; height: auto; }
+#source p .annotate.long { white-space: normal; float: right; top: 1.75em; right: 1em; height: auto; }
 
 #keyboard_icon { float: right; margin: 5px; cursor: pointer; }
 
@@ -68,39 +67,44 @@ h2.stats { margin-top: .5em; font-size: 1em; }
 .keyhelp .key { border: 1px solid black; border-color: #888 #333 #333 #888; padding: .1em .35em; font-family: monospace; font-weight: bold; background: #eee; }
 
 #source { padding: 1em 0 1em 3rem; font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
-#source p { margin-left: -1em; white-space: pre; /* position relative makes position:absolute pop-ups appear in the right place. */ position: relative; }
-#source p .n { float: left; text-align: right; width: 3rem; margin-left: -3rem; padding-right: 1em; color: #999999; font-family: verdana, sans-serif; }
-#source p .n.highlight { background: #ffdd00; }
+#source p { position: relative; white-space: pre; }
+#source p * { box-sizing: border-box; }
+#source p .n { float: left; text-align: right; width: 3rem; box-sizing: border-box; margin-left: -3rem; padding-right: 1em; color: #999999; font-family: verdana, sans-serif; }
 #source p .n a { text-decoration: none; color: #999999; font-size: .8333em; line-height: 1em; }
 #source p .n a:hover { text-decoration: underline; color: #999999; }
-#source p .t { display: inline-block; width: 100%; margin-left: -.5em; padding: 0 0 0 .5em; }
+#source p.highlight .n { background: #ffdd00; }
+#source p .t { display: inline-block; width: 100%; box-sizing: border-box; margin-left: -.5em; padding-left: 0.3em; border-left: 0.2em solid white; }
 #source p .t:hover { background: #f2f2f2; }
+#source p .t:hover ~ .r .annotate.long { display: block; }
 #source p .t .com { color: green; font-style: italic; line-height: 1px; }
 #source p .t .key { font-weight: bold; line-height: 1px; }
 #source p .t .str { color: #000080; }
-#source p.mis .t { border-left: 2px solid #ff0000; }
+#source p.mis .t { border-left: 0.2em solid #ff0000; }
 #source p.mis.show_mis .t { background: #ffdddd; }
 #source p.mis.show_mis .t:hover { background: #f2d2d2; }
-#source p.run .t { border-left: 2px solid #00ff00; }
+#source p.run .t { border-left: 0.2em solid #00ff00; }
 #source p.run.show_run .t { background: #ddffdd; }
 #source p.run.show_run .t:hover { background: #d2f2d2; }
-#source p.exc .t { border-left: 2px solid #808080; }
+#source p.exc .t { border-left: 0.2em solid #808080; }
 #source p.exc.show_exc .t { background: #eeeeee; }
 #source p.exc.show_exc .t:hover { background: #e2e2e2; }
-#source p.par .t { border-left: 2px solid #eeee99; }
+#source p.par .t { border-left: 0.2em solid #eeee99; }
 #source p.par.show_par .t { background: #ffffaa; }
 #source p.par.show_par .t:hover { background: #f2f2a2; }
-#source p.par span.annotate { display: inline; }
-#source p.par span.annotate.long { max-width: 50%; width: 30em; }
-#source p.par:hover span.annotate.long { display: block; }
-#source p span.annotate { font-family: georgia; color: #666; float: right; padding-right: .5em; display: none; }
-
-td.contexts p { margin: 0; padding: 0 .5em; color: #999999; font-family: verdana, sans-serif; white-space: nowrap; position: relative; }
-td.contexts p:hover { background: #eee; }
-td.contexts p span.context-list { min-width: 30em; }
-td.contexts p span.context-list span.context-line { display: block; }
-td.contexts p:hover span.context-list { display: block; }
-td.contexts p span.context-button { display: inline-block; cursor: pointer; font-size: .8333em; line-height: 1em; }
+#source p .r { position: absolute; top: 0; right: 2.5em; font-family: verdana, sans-serif; }
+#source p .annotate { font-family: georgia; color: #666; padding-right: .5em; }
+#source p .annotate.short:hover ~ .long { display: block; }
+#source p .annotate.long { width: 30em; right: 2.5em; }
+#source p input { display: none; }
+#source p input ~ .r label.ctx { cursor: pointer; border-radius: .25em; }
+#source p input ~ .r label.ctx::before { content: "▶ "; }
+#source p input ~ .r label.ctx:hover { background: #d5f7ff; color: #666; }
+#source p input:checked ~ .r label.ctx { background: #aaeeff; color: #666; border-radius: .75em .75em 0 0; padding: 0 .5em; margin: -.25em 0; }
+#source p input:checked ~ .r label.ctx::before { content: "▼ "; }
+#source p input:checked ~ .ctxs { padding: .25em .5em; overflow-y: scroll; max-height: 10.5em; }
+#source p label.ctx { color: #999; display: inline-block; padding: 0 .5em; font-size: .8333em; }
+#source p .ctxs { display: block; max-height: 0; overflow-y: hidden; transition: all .2s; padding: 0 .5em; font-family: verdana, sans-serif; white-space: nowrap; background: #aaeeff; border-radius: .25em; margin-right: 1.75em; }
+#source p .ctxs span { display: block; text-align: right; }
 
 #index td, #index th { text-align: right; width: 5em; padding: .25em .5em; border-bottom: 1px solid #eee; }
 #index td.left, #index th.left { padding-left: 0; }

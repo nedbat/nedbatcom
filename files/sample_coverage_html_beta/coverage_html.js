@@ -231,7 +231,7 @@ coverage.index_ready = function ($) {
 coverage.pyfile_ready = function ($) {
     // If we're directed to a particular line number, highlight the line.
     var frag = location.hash;
-    if (frag.length > 2 && frag[1] === 'n') {
+    if (frag.length > 2 && frag[1] === 't') {
         $(frag).addClass('highlight');
         coverage.set_sel(parseInt(frag.substr(2), 10));
     }
@@ -526,7 +526,7 @@ coverage.build_scroll_markers = function () {
         max_line_height = 10,
         visible_window_h = $(window).height();
 
-    c.lines_to_mark = $('#source').find('p.show_run, p.show_mis, p.show_exc, p.show_exc');
+    c.lines_to_mark = $('#source').find('p.show_run, p.show_mis, p.show_exc, p.show_exc, p.show_par');
     $('#scroll_marker').remove();
     // Don't build markers if the window has no scroll bar.
     if (c.body_h <= visible_window_h) {
