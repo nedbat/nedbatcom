@@ -22,24 +22,28 @@ $magnifier-size: 22px;
   font-style: normal;
   font-weight: 700;
   src: local('PTSerif-NB-Bold'), url(/files/PTSerif-NB-Bold.woff2) format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: 'PT Serif NB';
   font-style: italic;
   font-weight: 700;
   src: local('PTSerif-NB-BoldItalic'), url(/files/PTSerif-NB-BoldItalic.woff2) format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: 'PT Serif NB';
   font-style: italic;
   font-weight: 400;
   src: local('PTSerif-NB-Italic'), url(/files/PTSerif-NB-Italic.woff2) format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: 'PT Serif NB';
   font-style: normal;
   font-weight: 400;
   src: local('PTSerif-NB-Regular'), url(/files/PTSerif-NB-Regular.woff2) format('truetype');
+  font-display: swap;
 }
 
 // Common simplifying rules
