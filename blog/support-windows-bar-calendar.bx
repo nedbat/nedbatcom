@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20191123T081810'>
+<title>Support windows bar calendar</title>
+<category>mycode</category>
+<body>
+
+<p>Like any large suite of applications, <a href='https://open.edx.org/'>Open edX</a>
+software (my day job) depends on a number of underpinnings: Django, Python,
+Ubuntu, MySQL, and so on.  We want to stay up-to-date on those dependencies, or
+at least ensure we are using supported versions of each.</p>
+
+<p>To help with that, I wanted to make a chart of the support windows for
+different versions of each dependency.  I figured the simplest way to draw a
+chart like that was to make a spreadsheet.  Google Sheets is enough for
+something like this, and makes it easy to share the result with others who need
+to refer to it.</p>
+
+<p>To create the spreadsheet programmatically, I used the JavaScript scripting
+support.  My program went through a few other iterations before landing on this
+technique, so it's in kind of a strange form now: it's a Python program that
+writes JavaScript, which you then paste into a spreadsheet and run.</p>
+
+<p>It makes a nice result, the
+<a href='https://docs.google.com/spreadsheets/d/11DheEtMDGrbA9hsUvZ2SEd4Cc8CaC4mAfoV8SVaLBGI'>Support Windows spreadsheet</a>:
+</p>
+
+<figurep href='https://docs.google.com/spreadsheets/d/11DheEtMDGrbA9hsUvZ2SEd4Cc8CaC4mAfoV8SVaLBGI'>
+    <img src='pix/support_windows.png' alt='Support windows spreadsheet' />
+</figurep>
+
+<p>The tree-named things at the top of the chart are the Open edX releases.
+Mostly the chart is used to reason about when we need to upgrade the
+dependencies in order for Open edX releases to stay on supported versions.
+The bolder rectangles are the currently used versions.</p>
+
+<p>The program is here:
+<a href='https://github.com/edx/repo-tools/blob/master/barcalendar.py'>barcalendar.py</a>.
+It's all in one file, though at least the code is organized from general to
+specific: first color utilities, then a generic BaseCalendar class, then a
+GsheetCalendar class, then the code specific to our software to draw the
+chart.</p>
+
+<p>When I thought about writing this blog post, I wanted to clean up the program
+first. Split it into multiple files, refactor the version logic to make some
+utilities, and so on.  It was easy to imagine making the code more re-usable,
+more of a library.  But I resisted letting the perfect be the enemy of the good.
+This program is useful to us, it might be useful to others.  Why not share it
+now?</p>
+
+<p>The hack of writing JavaScript code to be pasted into a spreadsheet
+feels slightly embarrassing: shouldn't I at least be able to use the Gsheet API
+from Python to do the work?</p>
+
+<p>But using the Gsheet API would mean struggling with authentication, which
+always seems to be difficult, and I can neatly sidestep by copying and pasting
+JavaScript.  Not to mention, refactoring is easier this way because I can save
+the JavaScript output and check that the refactored code didn't change it.</p>
+
+<p>So in some ways, this is a low-tech implementation of the functional
+programming idea that you should
+<a href='https://wiki.c2.com/?SeparateIoFromCalculation'>separate I/O from
+computation</a>.  My barcalendar.py does the computation, generating a
+JavaScript "display list".  Then Google Sheets does the "I/O" when I run the
+JavaScript in the spreadsheet.  Nice: I'm not an authentication-avoiding chump,
+I'm an insightful functional programmer!</p>
+
+<p>This kind of separation is sometimes called "clean architecture." Brandon
+Rhodes has a <a href='https://www.youtube.com/watch?v=e7RVO0Sqr4s'>detailed talk
+about Clean Architecture in Python</a>.</p>
+
+<p>So enjoy
+<a href='https://github.com/edx/repo-tools/blob/master/barcalendar.py'>barcalendar.py</a>
+despite its flaws (or because of its genius). It's working well for us. If you
+improve it or use it, let me know.</p>
+
+</body>
+</entry>
+</blog>
