@@ -129,7 +129,7 @@ fc("code")(0,0,0,0,"KABOOM",(),(),(),"","",0,"")
     can probably guess, "KABOOM" is not a valid sequence of bytecodes.  Actually,
     any one of these bytecodes would be enough, they are all binary operators that will
     try to operate on an empty operand stack, which will segfault CPython. "KABOOM"
-    is just more fun, thanks to <a href="http://b.lvh.cc/">lvh</a> for it.</p>
+    is just more fun, thanks to <a href="https://www.lvh.io/">lvh</a> for it.</p>
 
 <p>This gives us a code object: fc("code") finds the class "code" for us, and
     then we invoke it with the 12 arguments.  You can't invoke a code object
