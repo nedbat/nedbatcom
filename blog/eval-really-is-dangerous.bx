@@ -46,7 +46,7 @@ eval("__import__('os').system('clear')", {})
 eval("__import__('os').system('clear')", {'__builtins__':{}})
 ]]></code>
 
-<p>Are we safe now?  Some <a href='http://lybniz2.sourceforge.net/safeeval.html'>say yes</a>, 
+<p>Are we safe now?  Some <a href='http://lybniz2.sourceforge.net/safeeval.html'>say yes</a>,
     but they are wrong.  As a demonstration, running this in CPython will segfault
     your interpreter:</p>
 
@@ -54,8 +54,8 @@ eval("__import__('os').system('clear')", {'__builtins__':{}})
 s = """
 (lambda fc=(
     lambda n: [
-        c for c in 
-            ().__class__.__bases__[0].__subclasses__() 
+        c for c in
+            ().__class__.__bases__[0].__subclasses__()
             if c.__name__ == n
         ][0]
     ):
@@ -120,17 +120,17 @@ lambda n: [c for c in ALL_CLASSES if c.__name__ == n][0]
 <p>Now that we have our "find class" function fc, what will we do with it? We can
     make a code object!  It isn't easy, you need to provide 12 arguments to the
     constructor, but most can be given simple default values.</p>
-    
+
 <code lang="py"><![CDATA[
 fc("code")(0,0,0,0,"KABOOM",(),(),(),"","",0,"")
 ]]></code>
-    
+
 <p>The string "KABOOM" is the actual bytecodes to use in the code object, and as you
     can probably guess, "KABOOM" is not a valid sequence of bytecodes.  Actually,
     any one of these bytecodes would be enough, they are all binary operators that will
     try to operate on an empty operand stack, which will segfault CPython. "KABOOM"
     is just more fun, thanks to <a href="http://b.lvh.cc/">lvh</a> for it.</p>
-    
+
 <p>This gives us a code object: fc("code") finds the class "code" for us, and
     then we invoke it with the 12 arguments.  You can't invoke a code object
     directly, but you can create a function with one:</p>
@@ -153,7 +153,7 @@ fc("function")(CODE_OBJECT, {})
 <p>So eval is not safe, even if you remove all the globals and the builtins!</p>
 
 <p>We used the list of all subclasses of object here to make a code object and a function.
-    You can of course find other classes and use them.  Which classes you can find 
+    You can of course find other classes and use them.  Which classes you can find
     depends on where the eval() call actually is. In a real program, there will
     be many classes already created by the time the eval() happens, and all of them
     will be in our list of ALL_CLASSES.  As an example:</p>
@@ -161,14 +161,14 @@ fc("function")(CODE_OBJECT, {})
 <code lang="py"><![CDATA[
 s = """
 [
-    c for c in 
-    ().__class__.__bases__[0].__subclasses__() 
+    c for c in
+    ().__class__.__bases__[0].__subclasses__()
     if c.__name__ == "Quitter"
 ][0](0)()
 """
 ]]></code>
 
-<p>The standard site module defines a class called Quitter, it's what the name "quit" 
+<p>The standard site module defines a class called Quitter, it's what the name "quit"
     is bound to, so that you can type quit() at the interactive prompt to exit the
     interpreter.  So in eval we simply find Quitter, instantiate it, and call it.
     This string cleanly exits the Python interpreter.</p>
@@ -182,7 +182,7 @@ s = """
     because if there's just one item left off the list, you can attack the system.</p>
 
 <p>While I was poking around on this topic, I stumbled on Python's restricted evaluation
-    mode, which seems to be an attempt to plug some of these holes. Here we try 
+    mode, which seems to be an attempt to plug some of these holes. Here we try
     to access the code object for a lambda, and find we aren't allowed to:</p>
 
 <code lang="pycon"><![CDATA[
@@ -209,7 +209,7 @@ RuntimeError: function attributes not accessible in restricted mode
 
 <code lang="py"><![CDATA[
 [
-    c for c in ().__class__.__base__.__subclasses__() 
+    c for c in ().__class__.__base__.__subclasses__()
     if c.__name__ == 'catch_warnings'
 ][0]()._module.__builtins__
 ]]></code>
