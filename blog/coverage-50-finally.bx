@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20191217T074500'>
+<title>Coverage 5.0, finally</title>
+<category>coverage</category>
+<body>
+
+<p>After a quiet week of <a href='/blog/201912/coverage_50_beta_2.html'>beta 2</a>
+being available, and not hearing from anyone, I released
+<a href='https://pypi.org/project/coverage/5.0/'>coverage.py 5.0</a> on
+Saturday.</p>
+
+<p>I've been through this before, so I knew what would happen: people with
+unpinned requirements would invisibly upgrade their coverage version, and stuff
+would break.  Coverage.py is used by many projects, so it was inevitable.</p>
+
+<p>Saturday afternoon was quiet. Sunday I heard from two people.  Then Monday,
+people came back to work to find their continuous integration broken, and now
+I'm up to <a href='https://github.com/nedbat/coveragepy/milestone/2'>11 issues</a>
+to deal with.</p>
+
+<p>It remains difficult to get people to provide instructions that are specific
+enough and detailed enough for me to see their problem.  A link to your broken
+CI build doesn't tell me how to do it myself.  A link to your repo is confusing
+if you then add a commit that pins the old version of coverage to prevent the
+problem, forcing me to dig through your history to try to find the old commit
+that was broken.  And so on.</p>
+
+<p>Of course, this is nothing new, but it drove home again how hard it is to
+extract good information from distracted and annoyed users. If anyone has good
+examples of issue templates that get people's attention and guide them well,
+point me to them!</p>
+
+<p>While dealing with the issues, I came up with two new techniques, interesting
+enough to deserve their own blog posts:</p>
+
+<ul>
+<li><a href='/blog/201912/fancy_console_output_in_github_comments.html'>Fancy console output in GitHub comments</a></li>
+<li><a href='/blog/201912/pytest_trick_subsetting_unknown_suites.html'>Pytest trick: subsetting unknown suites</a></li>
+</ul>
+
+<p>Needless to say, fixes are underway for a coverage.py 5.0.1 to be released soon.</p>
+
+</body>
+</entry>
+
+<entry when='20191217T074600'>
+<title>Pytest trick: subsetting unknown suites</title>
+<category>coverage</category>
+<body>
+
+<p>While trying to reproduce an issue with <a href="/blog/201912/coverage_50_finally.html">coverage.py 5.0</a>,
+I had a test suite that showed the problem, but it was inconvenient to run the
+whole suite repeatedly, because it took too long.  I wanted to find just one
+test (or small handful of tests) that would demonstrate the problem.</p>
+
+<p>But I knew nothing about these tests. I didn't know what subset might be
+useful, or even what subsets there were, so I had to try random subsets and hope
+for the best.</p>
+
+<p>I selected random subsets with a new trick: I used
+the -k option (select tests by a substring of their names) using single
+consonants.  "pytest -k b" will run only the tests with a b in their name, for
+example.  Then I tried "-k c", "-k d", "-k f", and so on.  Some will run the
+whole test suite ("-k t" is useless because t is in every test name), but some
+ran usefully small collections.</p>
+
+<p>This is a mindless way to select tests, but I knew nothing about this test
+suite, so it was a quick way to run fewer than all of them.  Running "-k q" was
+the best (only 16 tests). Then I looked at the test names, and selected yet
+smaller subsets with more thought.  In the end, I could reduce it to just one
+test that demonstrated the problem.</p>
+
+</body>
+</entry>
+
+<entry when='20191217T074700'>
+<title>Fancy console output in GitHub comments</title>
+<category>coverage</category>
+<body>
+
+<p>Providing detailed command output in GitHub issues is hard: I want to be
+complete, but I don't want to paste unreadable walls of text.  Some commands
+have long output that is usually uninteresting (pip install), but which every
+once in a while has a useful clue.  I want to include that output without making
+it hard to find the important stuff.</p>
+
+<p>While working on an issue with <a href="/blog/201912/coverage_50_finally.html">coverage.py 5.0</a>,
+I came up with a way to show commands and their output that I think works
+well.</p>
+
+<p>I used GitHub's &lt;details> support to
+<a href='https://github.com/nedbat/coveragepy/issues/881#issuecomment-566070559'>show
+the commands I ran with their output in collapsible sections</a>.  I like the
+way it came out: you can copy all the commands, or open a section to see what
+happened for the command you're interested in.</p>
+
+<p>The raw markdown looks like this:</p>
+
+<code lang='html'><![CDATA[
+<details>
+<summary>cd meltano</summary>
+</details>
+
+<details>
+<summary>pip install '.[dev]'</summary>
+
+```
+Processing /private/tmp/bug881a/meltano
+Collecting aenum==2.1.2
+  Using cached https://files.pythonhosted.org/packages/0d/46/5b6a6c13fee40f9dfaba84de1394bfe082c0c7d95952ba0ffbd56ce3a3f7/aenum-2.1.2-py3-none-any.whl
+Collecting idna==2.7
+  Using cached https://files.pythonhosted.org/packages/4b/2a/0276479a4b3caeb8a8c1af2f8e4355746a97fab05a372e4a2c6a6b876165/idna-2.7-py2.py3-none-any.whl
+Collecting asn1crypto==0.24.0
+  Using cached https://files.pythonhosted.org/packages/ea/cd/35485615f45f30a510576f1a56d1e0a7ad7bd8ab5ed7cdc600ef7cd06222/asn1crypto-0.24.0-py2.py3-none-any.whl
+(etc)
+```
+
+</details>
+]]></code>
+
+<p>(The GitHub renderer was very particular about the blank lines around the
+&lt;details> and &lt;summary> tags, so be sure to include them if you try
+this.)</p>
+
+<p>Other people have done this: after I wrote this comment, one of the newer
+coverage.py issues used the same technique, but with &lt;tt> in the summaries to
+make them look like commands, nice. There are a few manual steps to get that
+result, but I'll be refining how to produce that style more conveniently from a
+terminal console.</p>
+
+
+</body>
+</entry>
+
+</blog>
