@@ -46,7 +46,7 @@ enough to deserve their own blog posts:</p>
 
 <entry when='20191217T074600'>
 <title>Pytest trick: subsetting unknown suites</title>
-<category>coverage</category>
+<category>testing</category>
 <body>
 
 <p>While trying to reproduce an issue with <a href="/blog/201912/coverage_50_finally.html">coverage.py 5.0</a>,
@@ -76,7 +76,8 @@ test that demonstrated the problem.</p>
 
 <entry when='20191217T074700'>
 <title>Fancy console output in GitHub comments</title>
-<category>coverage</category>
+<category>shells</category>
+<category>hacks</category>
 <body>
 
 <p>Providing detailed command output in GitHub issues is hard: I want to be
