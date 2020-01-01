@@ -209,7 +209,7 @@ def index(request):
     # Tags to display: the most populated ones, but not "me", "site", etc.
     # Only include tags from the last few years.
     num_to_display = 28
-    years = 6
+    years = 5
     bad_tags = {'me', 'site', 'mycode'}
     sunset = datetime.datetime.now() - datetime.timedelta(days=years*365)
     entries = list(Entry.objects.filter(when__gt=sunset))
