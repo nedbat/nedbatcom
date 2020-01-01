@@ -204,7 +204,7 @@ def index(request):
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
     now = datetime.datetime.now()
     for recent in c['recent_entries']:
-        recent.show_year = recent.when.year != now.year
+        recent.show_year = (now - recent.when).days > 60
 
     # Tags to display: the most populated ones, but not "me", "site", etc.
     # Only include tags from the last few years.
@@ -235,9 +235,9 @@ def index(request):
 
     # Text
     c['text'] = [
-        { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
         { title: 'Python Names and Values', url: 'text/names1.html', description: 'how assignment works' },
         { title: 'Kindling projects', url: 'text/kindling.html', description: 'small projects for new programmers' },
+        { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
     ]
 
     return render_to_response('mainpage.html', c)
