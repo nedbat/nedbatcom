@@ -18,14 +18,16 @@ coverage.py is doing wrong that causes the errors.</p>
 
 <p>To reproduce it, start a Travis-based docker image:</p>
 
-<code lang='python'><![CDATA[
-cid=$(docker run -dti --privileged=true --entrypoint=/sbin/init -v /sys/fs/cgroup:/sys/fs/cgroup:ro travisci/ci-sardonyx:packer-1542104228-d128723)
+<code lang='bash'><![CDATA[
+cid=$(docker run -dti --privileged=true --entrypoint=/sbin/init \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    travisci/ci-sardonyx:packer-1542104228-d128723)
 docker exec -it $cid /bin/bash
 ]]></code>
 
 <p>Then in the container, run these commands:</p>
 
-<code lang='python'><![CDATA[
+<code lang='bash'><![CDATA[
 su - travis
 git clone --depth=1 --branch=nedbat/debug-915 https://github.com/nedbat/apprise-api.git
 cd apprise-api
