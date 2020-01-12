@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200112T101752'>
+<title>Bug #915: please help!</title>
+<category>coverage</category>
+<category>help</category>
+<body>
+
+<p>I just released coverage.py 5.0.3, with two bug fixes.  There was another bug
+I really wanted to fix, but it has stumped me.  I'm hoping someone can figure it
+out.</p>
+
+<p><a href="https://github.com/nedbat/coveragepy/issues/915">Bug #915</a>
+describes a disk I/O failure.  Thanks to some help from Travis support, Chris
+Caron has provided instructions for reproducing it in Docker, and they work: I
+can generate disk I/O errors at will.  What I can't figure out is what
+coverage.py is doing wrong that causes the errors.</p>
+
+<p>To reproduce it, start a Travis-based docker image:</p>
+
+<code lang='python'><![CDATA[
+cid=$(docker run -dti --privileged=true --entrypoint=/sbin/init -v /sys/fs/cgroup:/sys/fs/cgroup:ro travisci/ci-sardonyx:packer-1542104228-d128723)
+docker exec -it $cid /bin/bash
+]]></code>
+
+<p>Then in the container, run these commands:</p>
+
+<code lang='python'><![CDATA[
+su - travis
+git clone --depth=1 --branch=nedbat/debug-915 https://github.com/nedbat/apprise-api.git
+cd apprise-api
+source ~/virtualenv/python3.6/bin/activate
+pip install tox
+tox -e bad,good
+]]></code>
+
+<p>This will run two tox environments, called <b>good</b> and <b>bad</b>.  Bad
+will fail with a disk I/O error, good will succeed.  The difference is that bad
+uses the pytest-cov plugin, good does not.  Two detailed debug logs will be
+created: debug-good.txt and debug-bad.txt.  They show what operations were
+executed in the SqliteDb class in coverage.py.</p>
+
+<p>The Big Questions: Why does bad fail? What is it doing at the SQLite level
+that causes the failure? And most importantly, what can I change in coverage.py
+to prevent the failure?</p>
+
+<p>Some observations and questions:</p>
+
+<ul>
+
+<li>If I change the last line of the steps to "tox -e good,bad" (that is, run
+the environments in the other order) then the error doesn't happen. I don't
+understand why that would make a difference.</li>
+
+<li>I've tried adding time.sleep's to try to slow the pace of database access,
+but maybe in not enough places? And if this fixes it, what's the right way to
+productize that change?</li>
+
+<li>I've tried using the detailed debug log to create a small Python program
+that in theory accesses the SQLite database in exactly the same way, but I
+haven't managed to create the error that way.  What aspect of access am I
+overlooking?</li>
+
+</ul>
+
+<p>If you come up with answers to any of these questions, I will reward you
+somehow. I am also eager to chat if that would help you solve the mysteries.
+I can be reached on <a href="mailto:ned@nedbatchelder.com">email</a>,
+<a href='http://twitter.com/nedbat'>Twitter</a>,
+as <a href='irc://irc.freenode.net/#python'>nedbat on IRC</a>,
+or in <a href="https://about.bostonpython.com/slack">Slack</a>. Please get in
+touch if you have any ideas. Thanks.</p>
+
+</body>
+</entry>
+</blog>
