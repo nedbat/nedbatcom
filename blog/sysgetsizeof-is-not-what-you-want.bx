@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200112T141327' draft='y'>
+<title>sys.getsizeof is not what you want</title>
+<category>python</category>
+<body>
+
+<p>Last week at work, and engineer mentioned that they were looking at the sizes
+of data returned by an API, and it was always coming out the same, which seemed
+strange.  It turned out the data was a dict, and they were looking at the size
+with <a href="https://docs.python.org/3/library/sys.html#sys.getsizeof">sys.getsizeof</a>.</p>
+
+<p>It has a really appealing name, and the description in the docs sounds
+good:</p>
+
+    <quote><p>Return the size of an object in bytes. The object can be any type
+    of object. All built-in objects will return correct results
+    [...]</p></quote>
+
+<p>But the fact is, sys.getsizeof is almost never what you want, for two
+reasons: it doesn't count all the bytes, and it counts the wrong bytes.</p>
+
+<p>The docs go on to say:</p>
+
+    <quote><p>Only the memory consumption directly attributed to the object is
+    accounted for, not the memory consumption of objects it refers
+    to.</p></quote>
+
+<p>This is why it doesn't count all the bytes.  In the case of a dictionary,
+"objects it refers to" includes all of the keys and values.  getsizeof is only
+reporting on the memory occupied by the internal table the dict uses to track
+all the keys and values.</p>
+
+<p>The reason my co-worker's data was all the same size was because the API
+responses were dicts with the same number of keys, and getsizeof was ignoring
+all the keys and values when reporting the size:</p>
+
+<code lang='pycon'><![CDATA[
+>>> d1 = {'a': 'a', 'b': 'b', 'c': 'c'}
+>>> d2 = {'a': 'a'*100000, 'b': 'b'*100000, 'c': 'c'*100000}
+>>> sys.getsizeof(d1)
+232
+>>> sys.getsizeof(d2)
+232
+]]></code>
+
+<p>If you wanted to know how large all the keys and values were, you could sum
+their lengths:</p>
+
+<code lang='pycon'><![CDATA[
+>>> def key_value_length(d):
+...     klen = sum(len(k) for k in d.keys())
+...     vlen = sum(len(v) for v in d.values())
+...     return klen + vlen
+...
+>>> key_value_length(d1)
+6
+>>> key_value_length(d2)
+300003
+]]></code>
+
+<p>But is this what we want?  "A thing" has many different sizes, depending on
+what you are interested in.  In my co-worker's case, the real question was, how
+many bytes will this be when it is written to a CSV file?</p>
+
+<p>The key thing to understand here is that "the size of a thing" depends a lot
+on what you mean by that.
+
+</p>
+
+</body>
+</entry>
+</blog>
