@@ -6,6 +6,10 @@
 <category>help</category>
 <body>
 
+<p><b><i>Updated:</i></b> this was solved on Hacker News. Details in
+<a href="/blog/202001/bug_915_solved.html">Bug #915: solved!</a>
+</p>
+
 <p>I just released coverage.py 5.0.3, with two bug fixes.  There was another bug
 I really wanted to fix, but it has stumped me.  I'm hoping someone can figure it
 out.</p>
@@ -29,7 +33,7 @@ docker exec -it $cid /bin/bash
 
 <code lang='bash'><![CDATA[
 su - travis
-git clone --depth=1 --branch=nedbat/debug-915 https://github.com/nedbat/apprise-api.git
+git clone --branch=nedbat/debug-915 https://github.com/nedbat/apprise-api.git
 cd apprise-api
 source ~/virtualenv/python3.6/bin/activate
 pip install tox
@@ -75,4 +79,92 @@ touch if you have any ideas. Thanks.</p>
 
 </body>
 </entry>
+
+
+<entry when='20200113T061500'>
+<title>Bug #915: solved!</title>
+<category>debugging</category>
+<body>
+
+<p>Yesterday I pleaded,
+<a href="/blog/202001/bug_915_please_help.html">Bug #915: please help!</a>
+It got posted to
+<a href="https://news.ycombinator.com/item?id=22028581">Hacker News</a>,
+where Robert Xiao (nneonneo) did some impressive debugging and
+<a href="https://news.ycombinator.com/item?id=22031494">found the answer</a>.
+</p>
+
+<p>The user's code used mocks to simulate an OSError when trying to make
+temporary files
+(<a href="https://github.com/caronc/apprise-api/blob/90ead45abd168112599f4a258019b733622659a0/apprise_api/api/tests/test_add.py#L165-L166">source</a>):</p>
+
+<code lang='python'><![CDATA[
+with patch('tempfile._TemporaryFileWrapper') as mock_ntf:
+    mock_ntf.side_effect = OSError()
+]]></code>
+
+<p>Inside tempfile.NamedTemporaryFile, the error handling misses the possibility
+that _TemporaryFileWrapper will fail
+(<a href="https://github.com/python/cpython/blob/09c482fad11c769be38b2449f1056e264b701bb7/Lib/tempfile.py#L541-L550">source</a>):</p>
+
+<code lang='python'><![CDATA[
+(fd, name) = _mkstemp_inner(dir, prefix, suffix, flags, output_type)
+try:
+    file = _io.open(fd, mode, buffering=buffering,
+                    newline=newline, encoding=encoding, errors=errors)
+
+    return _TemporaryFileWrapper(file, name, delete)
+except BaseException:
+    _os.unlink(name)
+    _os.close(fd)
+    raise
+]]></code>
+
+<p>If _TemporaryFileWrapper fails, the file descriptor fd is closed, but the
+file object referencing it still exists.  Eventually, it will be garbage
+collected, and the file descriptor it references will be closed again.</p>
+
+<p>But file descriptors are just small integers which will be reused.  The
+failure in bug 915 is that the file descriptor did get reused, by SQLite.  When
+the garbage collector eventually reclaimed the file object leaked by
+NamedTemporaryFile, it closed a file descriptor that SQLite was using. Boom.</p>
+
+<p>There are two improvements to be made here. First, the user code should be
+mocking public functions, not internal details of the Python stdlib. In
+fact, the variable is already named mock_ntf as if it had been a mock of
+NamedTemporaryFile at some point.</p>
+
+<p>NamedTemporaryFile would be a better mock because that is the function being
+used by the user's code.  Mocking _TemporaryFileWrapper is relying on an
+internal detail of the standard library.</p>
+
+<p>The other improvement is to close the leak in NamedTemporaryFile.
+That request is now <a href="https://bugs.python.org/issue39318">bpo39318</a>.
+As it happens, the leak had also been reported as
+<a href="https://bugs.python.org/issue21058">bpo21058</a> and
+<a href="https://bugs.python.org/issue26385">bpo26385</a>.</p>
+
+<p>Lessons learned:</p>
+
+<ul>
+
+<li>Hacker News can be helpful, in spite of the tangents about shell
+redirection, authorship attribution, and GitHub monoculture.</li>
+
+<li>There are always people more skilled at debugging. I had no idea you could
+<a href="https://news.ycombinator.com/item?id=22031219">script gdb</a>.</li>
+
+<li>Error handling is hard to get right. Edge cases can be really subtle.
+Bugs can linger for years.</li>
+
+</ul>
+
+<p>I named Robert Xiao at the top, but lots of people chipped in effort to help
+get to the bottom of this. ikanobori posted it to Hacker News in the first
+place. Chris Caron reported the original #915 and stuck with the process as it
+dragged on. Thanks everybody.</p>
+
+</body>
+</entry>
+
 </blog>
