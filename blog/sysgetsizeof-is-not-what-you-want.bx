@@ -36,8 +36,8 @@ responses were dicts with the same number of keys, and getsizeof was ignoring
 all the keys and values when reporting the size:</p>
 
 <code lang='pycon'><![CDATA[
->>> d1 = {'a': 'a', 'b': 'b', 'c': 'c'}
->>> d2 = {'a': 'a'*100000, 'b': 'b'*100000, 'c': 'c'*100000}
+>>> d1 = {"a": "a", "b": "b", "c": "c"}
+>>> d2 = {"a": "a"*100000, "b": "b"*100000, "c": "c"*100000}
 >>> sys.getsizeof(d1)
 232
 >>> sys.getsizeof(d2)
@@ -58,6 +58,21 @@ their lengths:</p>
 >>> key_value_length(d2)
 300003
 ]]></code>
+
+<p>You might ask, why is getsizeof like this? Wouldn't it be more useful if it
+gave you the size of the whole dictionary, including its contents? Well, it's
+not so simple.</p>
+
+<code lang='python'><![CDATA[
+>>> x100k = "x" * 100000
+>>> d3 = {"a": x100k, "b": x100k, "c": x100k}
+>>> key_value_length(d3)
+300003
+]]></code>
+
+<p>Here there are three values, each 100k characters, but in fact, they are all
+the same value, actually the same object in memory.  That 100k string only
+exists once.  Is the "complete" size of the dict 300k? Or only 100k?</p>
 
 <p>But is this what we want?  "A thing" has many different sizes, depending on
 what you are interested in.  In my co-worker's case, the real question was, how
