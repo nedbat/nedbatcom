@@ -16,6 +16,7 @@
 <category id='arch'>
     <name>Architecture</name>
     <about>software architecture</about>
+    <short>arch</short>
 </category>
 
 <category id='art'>
@@ -86,7 +87,7 @@
 
 <category id='obits'>
     <name>Obituaries</name>
-    <tag>obits</tag>
+    <short>obits</short>
     <about>people who have died</about>
 </category>
 
@@ -143,6 +144,7 @@
 <category id='reference'>
     <name>Reference</name>
     <about>reference materials</about>
+    <short>ref</short>
 </category>
 
 <category id='crafts'>
@@ -153,6 +155,7 @@
 <category id='type' sidebar='y'>
     <name>Typography</name>
     <about>the construction and use of type faces</about>
+    <short>type</short>
     <related>design</related>
     <related>printing</related>
 </category>
@@ -205,6 +208,7 @@
 <category id='quick'>
     <name>Quick Links</name>
     <about>ephemera briefly noted</about>
+    <short>quick</short>
 </category>
 
 <category id='howto'>
@@ -280,6 +284,7 @@
 <category id='srcctrl'>
     <name>Source Control</name>
     <about>source control systems</about>
+    <short>src ctrl</short>
 </category>
 
 <category id='git'>
@@ -307,13 +312,13 @@
 
 <category id='db'>
     <name>Databases</name>
-    <tag>db</tag>
+    <short>db</short>
     <about>database software and systems</about>
 </category>
 
 <category id='business'>
     <name>Business</name>
-    <tag>biz</tag>
+    <short>biz</short>
     <about>running businesses</about>
 </category>
 
@@ -350,6 +355,7 @@
 <category id='proglang'>
     <name>Programming Languages</name>
     <about>programming languages, either esoteric, or in general</about>
+    <short>prog lang</short>
 </category>
 
 <category id='exceptions'>
@@ -420,6 +426,7 @@
 <category id='development'>
     <name>Development</name>
     <about>the process of writing software</about>
+    <short>dev</short>
 </category>
 
 <category id='devmindset'>
@@ -435,11 +442,12 @@
 <category id='libs'>
     <name>Libraries</name>
     <about>software components you can use in your software</about>
+    <short>libs</short>
 </category>
 
 <category id='admin'>
     <name>Administration</name>
-    <tag>admin</tag>
+    <short>admin</short>
     <about>managing computer systems</about>
 </category>
 
@@ -503,6 +511,7 @@
 <category id='edu'>
     <name>Education</name>
     <about>teaching and learning</about>
+    <short>edu</short>
 </category>
 
 <category id='browsers'>
@@ -573,11 +582,13 @@
 <category id='management'>
     <name>Management</name>
     <about>organizing and overseeing the work of others</about>
+    <short>mgmt</short>
 </category>
 
 <category id='algorithms'>
     <name>Algorithms</name>
     <about>computational procedures</about>
+    <short>algo</short>
 </category>
 
 <category id='shells'>
@@ -686,6 +697,7 @@
 <category id='swim'>
     <name>Swimming</name>
     <about>my favorite exercise</about>
+    <short>swim</short>
 </category>
 
 <category id='phones'>
@@ -696,6 +708,7 @@
 <category id='presentations'>
     <name>Presentations</name>
     <about>my presentations, or thoughts about presentations</about>
+    <short>prez</short>
 </category>
 
 <category id='linters'>
@@ -716,6 +729,7 @@
 <category id='opensource'>
     <name>Open Source</name>
     <about>open source software as a concept and movement</about>
+    <short>oss</short>
 </category>
 
 </categories>

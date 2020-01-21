@@ -60,7 +60,7 @@ def combined_more_blog():
         key=lambda t: t.entry_set_no_drafts().filter(when__gt=sunset).count(),
         reverse=True
     )
-    tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
+    tags = ({'link': t.permaurl(), 'text': t.short or t.name} for t in tags)
     tags = iter(tags)
 
     years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
