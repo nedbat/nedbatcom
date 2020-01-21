@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import os.path
 import re
 
@@ -53,7 +54,12 @@ def combined_more_blog():
     """Yield a sequence of shuffled-together tags and years."""
     avoid_tags = ('me', 'site', 'blogs')
     tags = Tag.objects.all().exclude(tag__in=avoid_tags)
-    tags = sorted(tags, key=lambda t: t.entry_set_no_drafts().count(), reverse=True)
+    sunset = datetime.datetime.now() - datetime.timedelta(days=5*365)
+    tags = sorted(
+        tags,
+        key=lambda t: t.entry_set_no_drafts().filter(when__gt=sunset).count(),
+        reverse=True
+    )
     tags = ({'link': t.permaurl(), 'text': t.name} for t in tags)
     tags = iter(tags)
 
