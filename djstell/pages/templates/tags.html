@@ -44,6 +44,15 @@
         <p class='first'>That's funny, I could've sworn I had some entries tagged #{{tag.hashtag}}...</p>
     {% endif %}
 
+    {% if tag.related.all %}
+    <p>These tags are nearby:</p>
+    <ul>
+        {% for reltag in tag.related.all %}
+            <li><a href='{{reltag.permaurl}}'>#{{reltag.hashtag}}</a>, about {{reltag.about}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <p>
         {% if tag %}
             Didn't find what you were looking for?

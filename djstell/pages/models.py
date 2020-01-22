@@ -177,7 +177,7 @@ class Tag(ModelMixin, models.Model):
     name = models.CharField(max_length=50, null=True)
     about = models.TextField(null=True)
     short = models.TextField(null=True)
-    #related = models.ManyToManyField('self') # TODO
+    related = models.ManyToManyField('self')
 
     class Meta:
         ordering = ['name']
@@ -197,6 +197,14 @@ class Tag(ModelMixin, models.Model):
             if short is not None:
                 tag.short = short.text
             tag.save()
+
+        for cat in root.findall('category'):
+            related = cat.findall('related')
+            if len(related) > 0:
+                tag = Tag.objects.get(tag=cat.get('id'))
+                for rel in related:
+                    rel_tag = Tag.objects.get(tag=rel.text)
+                    tag.related.add(rel_tag)
 
     def permaurl(self):
         return "/blog/tag/%s.html" % self.tag
