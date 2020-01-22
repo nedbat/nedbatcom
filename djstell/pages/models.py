@@ -178,7 +178,6 @@ class Tag(ModelMixin, models.Model):
     about = models.TextField(null=True)
     short = models.TextField(null=True)
     #related = models.ManyToManyField('self') # TODO
-    # TODO: there's a <tag> thingy too, but that seems really redundant...
 
     class Meta:
         ordering = ['name']
