@@ -176,7 +176,6 @@ class Tag(ModelMixin, models.Model):
     tag = models.CharField(max_length=50)
     name = models.CharField(max_length=50, null=True)
     about = models.TextField(null=True)
-    sidebar = models.BooleanField()
     short = models.TextField(null=True)
     #related = models.ManyToManyField('self') # TODO
     # TODO: there's a <tag> thingy too, but that seems really redundant...
@@ -195,7 +194,6 @@ class Tag(ModelMixin, models.Model):
             tag.tag = cat.get('id')
             tag.name = cat.find('name').text
             tag.about = cat.find('about').text
-            tag.sidebar = cat.get('sidebar', '') == 'y'
             short = cat.find('short')
             if short is not None:
                 tag.short = short.text
