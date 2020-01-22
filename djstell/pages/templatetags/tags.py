@@ -162,6 +162,12 @@ def static_url_link(url, type, defer=False):
 
 @register.tag
 def ifnotfirst(parser, token):
+    """Like ``{% if not forloop.first %}`` but a little different.
+
+    forloop.first is true only for the first iteration of a loop.
+    This is true for the second and subsequent times the tag is
+    encountered.  This can be different if inside a conditional.
+    """
     bits = token.contents.split()
     nodelist = parser.parse(('endifnotfirst',))
     parser.delete_first_token()
