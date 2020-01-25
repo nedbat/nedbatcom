@@ -40,6 +40,10 @@ show the user an "invalid email address" error box that has two buttons:
 "Fix mistake" which lets the user re-enter an email address, and "Use it anyway"
 which takes the email address as-is even though it failed the match.</p>
 
+<figurep>
+<img src='pix/letmefixitdialog.png' alt='An ugly dialog box demonstrating the humane choices' />
+</figurep>
+
 <p>This is the best of both worlds, since the common case of a catchable typo in
 an email address will force the user to double-check their entry, but any address
 can be used if the user knows what they are doing.  Most users will never see
@@ -47,6 +51,18 @@ the error box, since they'll enter their address correctly.</p>
 
 <p>I've never seen a work flow like this, but it seems like a really simple solution
 to the problem.  Is there something I'm over-looking?  Is it too geeky?</p>
+
+<p>BTW, I made that image with the command-line <a href="https://linux.die.net/man/1/dialog">dialog</a> tool:</p>
+
+<code lang='shell'><![CDATA[
+dialog \
+    --title 'Email address' \
+    --yes-label 'Let me fix it' \
+    --no-label 'Use it anyway' \
+    --yesno 'The email address "root@localhost" seems invalid.' 7 40
+]]></code>
+
+
 
 </body>
 </entry>
