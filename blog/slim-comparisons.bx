@@ -4,8 +4,8 @@
 <title>Slim comparisons</title>
 <category>python</category>
 <body>
-    
-    <p>Hanging out in the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel today, 
+
+    <p>Hanging out in the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel today,
         I learned something new about Python comparisons.
         It isn't so much a new detail of the language, as a way to make use of a detail,
         a clever technique that I hadn't seen before.</p>
@@ -22,7 +22,7 @@ class Thing(object):
         self.c = c
 
     def __eq__(self, other):
-        print "Comparing %r and %r" % (self, other) 
+        print "Comparing %r and %r" % (self, other)
         return (
             self.a == other.a and
             self.b == other.b and
@@ -53,7 +53,7 @@ class Thing(object):
         self.c = c
 
     def __eq__(self, other):
-        print "Comparing %r and %r" % (self, other) 
+        print "Comparing %r and %r" % (self, other)
         return (self.a, self.b, self.c) == other
 ]]></code>
 
@@ -77,7 +77,7 @@ True
     compares (1, 2, 3) to (1, 2, 3), which succeeds, producing the final True
     result.</p>
 
-<p>This is an interesting technique, but I'm not sure I like it.  For one thing, the code 
+<p>This is an interesting technique, but I'm not sure I like it.  For one thing, the code
     doesn't read clearly.  It's comparing a tuple to an object, which isn't supported.
     It only makes sense when you keep in mind the argument-swapping dance.</p>
 
