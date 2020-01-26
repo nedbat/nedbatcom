@@ -81,7 +81,7 @@ True
     doesn't read clearly.  It's comparing a tuple to an object, which isn't supported.
     It only makes sense when you keep in mind the argument-swapping dance.</p>
 
-<p>For another, it make operations work that maybe shouldn't:</p>
+<p>For another, it makes operations work that maybe shouldn't:</p>
 
 <code lang='python'><![CDATA[
 x == (1, 2, 3)
