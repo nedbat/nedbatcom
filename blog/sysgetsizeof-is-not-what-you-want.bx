@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200112T141327' draft='y'>
+<entry when='20200209T075400'>
 <title>sys.getsizeof is not what you want</title>
 <category>python</category>
 <body>
 
-<p>Last week at work, and engineer mentioned that they were looking at the sizes
+<p>This week at work, an engineer mentioned that they were looking at the sizes
 of data returned by an API, and it was always coming out the same, which seemed
 strange.  It turned out the data was a dict, and they were looking at the size
 with <a href="https://docs.python.org/3/library/sys.html#sys.getsizeof">sys.getsizeof</a>.</p>
 
-<p>It has a really appealing name, and the description in the docs sounds
-good:</p>
+<p>Sounds great! sys.getsizeof has an appealing name, and the description in the
+docs seems really good:</p>
 
-    <quote><p>Return the size of an object in bytes. The object can be any type
-    of object. All built-in objects will return correct results
-    [...]</p></quote>
+    <quote><p>sys.<b>getsizeof</b>(<i>object</i>)<br/>
+    Return the size of an object in bytes. The object can be any type of object.
+    All built-in objects will return correct results [...]</p></quote>
 
 <p>But the fact is, sys.getsizeof is almost never what you want, for two
 reasons: it doesn't count all the bytes, and it counts the wrong bytes.</p>
@@ -29,15 +29,17 @@ reasons: it doesn't count all the bytes, and it counts the wrong bytes.</p>
 <p>This is why it doesn't count all the bytes.  In the case of a dictionary,
 "objects it refers to" includes all of the keys and values.  getsizeof is only
 reporting on the memory occupied by the internal table the dict uses to track
-all the keys and values.</p>
+all the keys and values, not the size of the keys and values themselves.
+In other words, it tells you about the internal bookkeeping, and not any of your
+actual data!</p>
 
-<p>The reason my co-worker's data was all the same size was because the API
-responses were dicts with the same number of keys, and getsizeof was ignoring
+<p>The reason my co-worker's API responses was all the same size was because
+they were dictionaries with the same number of keys, and getsizeof was ignoring
 all the keys and values when reporting the size:</p>
 
 <code lang='pycon'><![CDATA[
 >>> d1 = {"a": "a", "b": "b", "c": "c"}
->>> d2 = {"a": "a"*100000, "b": "b"*100000, "c": "c"*100000}
+>>> d2 = {"a": "a"*100_000, "b": "b"*100_000, "c": "c"*100_000}
 >>> sys.getsizeof(d1)
 232
 >>> sys.getsizeof(d2)
@@ -61,10 +63,10 @@ their lengths:</p>
 
 <p>You might ask, why is getsizeof like this? Wouldn't it be more useful if it
 gave you the size of the whole dictionary, including its contents? Well, it's
-not so simple.</p>
+not so simple.  Data in memory can be shared:</p>
 
-<code lang='python'><![CDATA[
->>> x100k = "x" * 100000
+<code lang='pycon'><![CDATA[
+>>> x100k = "x" * 100_000
 >>> d3 = {"a": x100k, "b": x100k, "c": x100k}
 >>> key_value_length(d3)
 300003
@@ -74,14 +76,75 @@ not so simple.</p>
 the same value, actually the same object in memory.  That 100k string only
 exists once.  Is the "complete" size of the dict 300k? Or only 100k?</p>
 
-<p>But is this what we want?  "A thing" has many different sizes, depending on
-what you are interested in.  In my co-worker's case, the real question was, how
-many bytes will this be when it is written to a CSV file?</p>
+<p>It depends on why you are asking about the size.  Our d3 dict is only about
+100k bytes in RAM, but if we try to write it out, it will probably be about 300k
+bytes.</p>
 
-<p>The key thing to understand here is that "the size of a thing" depends a lot
-on what you mean by that.
+<p>And sys.getsizeof also reports on the wrong bytes:</p>
 
-</p>
+<code lang='pycon'><![CDATA[
+>>> sys.getsizeof(1)
+28
+>>> sys.getsizeof("a")
+50
+]]></code>
+
+<p>Huh? How can a small integer be 28 bytes? And the one-character string "a" is
+50 bytes!? It's because Python objects have internal bookkeeping, like links to
+their type, and reference counts for managing memory.  That extra bookkeeping
+is overhead per-object, and sys.getsizeof includes that overhead.</p>
+
+<p>Because sys.getsizeof reports on internal details, it can be baffling:</p>
+
+<code lang='pycon'><![CDATA[
+>>> sys.getsizeof("a")
+50
+>>> sys.getsizeof("ab")
+51
+>>> sys.getsizeof("abc")
+52
+>>> sys.getsizeof("á")
+74
+>>> sys.getsizeof("áb")
+75
+>>> sys.getsizeof("ábc")
+76
+>>> face = "\N{GRINNING FACE}"
+>>> len(face)
+1
+>>> sys.getsizeof(face)
+80
+>>> sys.getsizeof(face + "b")
+84
+>>> sys.getsizeof(face + "bc")
+88
+]]></code>
+
+<p>With an ASCII string, we start at 50 bytes, and need one more byte for each
+ASCII character.  With an accented character, we start at 74, but still only
+need one more byte for each ASCII character.  With an exotic Unicode character
+(expressed here with the little-used \N Unicode name escape), we start at 80,
+and then need four bytes for each ASCII character we add!  Why?  Because Python
+has a complex internal representation for strings. I don't know why those
+numbers are the way they are.
+<a href="https://www.python.org/dev/peps/pep-0393/">PEP 393</a> has the details
+if you are curious. The point here is: sys.getsizeof is almost certainly not the
+thing you want.</p>
+
+<p>The "size" of a thing depends on how the thing is being represented. The
+in-memory Python data structures are one representation.  When the data is
+serialized to JSON, that will be another representation, with completely
+different reasons for the size it becomes.</p>
+
+<p>In my co-worker's case, the real question was, how many bytes will this be
+when written as CSV?  The sum-of-len method would be much closer to the right
+answer than sys.getsizeof.  But even sum-of-len might not be good enough,
+depending on how accurate the answer has to be.  Quoting rules and punctuation
+overhead change the exact length.  It might be that the only way to get an
+accurate enough answer is to serialize to CSV and check the actual result.</p>
+
+<p>So: know what question you are really asking, and choose the right tool for
+the job. sys.getsizeof is almost never the right tool.</p>
 
 </body>
 </entry>
