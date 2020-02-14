@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200213T155100'>
+<title>Re-using my presentations</title>
+<category>presentations</category>
+<category>online</category>
+<body>
+
+<p>Yesterday I got an email saying that someone in Turkey had stolen one of my
+presentations. The email included a YouTube link.  The video showed a meetup.
+The presenter (I'll call him Samuel) was standing in front of a title slide in
+my style that said, "Big-O: How Code Slows as Data Grows," which is the title of
+my <a href="https://nedbatchelder.com/text/bigo.html">PyCon 2018 talk</a>.</p>
+
+<p>The video was in Turkish, so I couldn't tell exactly what Samuel was saying,
+but I scrolled through the video, and sure enough, it was my entire talk,
+complete with
+<a href="https://nedbatchelder.com/text/bigo/bigo.html#5">illustrations by my
+son Ben</a>.</p>
+
+<p>Looking closer, the title slide had been modified:</p>
+
+<figurep>
+    <img src="pix/bigo_modified.jpg" alt="My title slide, with someone else's name" />
+</figurep>
+
+<p>(I've blurred Samuel's specifics in this image, and Samuel is not his actual
+name.  This post isn't about Samuel, and I'm not interested in directing any
+more negative attention to him.)</p>
+
+<p>Scrolling to the end of the talk, my last slide, which repeated my name and
+contact details, was gone.  In its place was a slide promoting other videos
+featuring Samuel or his firm.</p>
+
+<p>I felt like I had been forcibly elbowed off the stage, and Samuel was taking
+my place while trying to minimize my contributions.</p>
+
+<p>In 2018, I did two things for this presentation: I wrote it, and I presented
+it at PyCon 2018.  By far the most work was in the writing.  It takes months of
+thinking, writing, designing, and honing to make a good presentation.  In fact,
+of the two types of work, Samuel valued the writing most, since that is the part
+he kept.  The reason this presentation attracted his attention, and why he
+wanted to present it himself, was because of its content.</p>
+
+<p>"Originally presented by" is hardly the way to credit the author of a
+presentation, especially in small type while removing his name and leaving only
+a GitHub handle.</p>
+
+<p>So I tweeted,</p>
+
+<quote><p>This is my talk from PyCon 2018, in its entirety, with my name nearly
+removed. It's theft. I was not asked, and did not give permission.</p></quote>
+
+<p>Samuel apologized and took down the video. There were other tweets claiming
+that this was a pattern of Samuel's, and that perhaps the apology would not be
+followed by changed behavior.  But again, this post isn't about Samuel.</p>
+
+<p>This whole event got me thinking about people re-using my presentations.</p>
+
+<p>I enjoy writing presentations.  I like thinking about how to explain things.
+People have liked the explanations I've written.  I like that they like them
+enough to want to show them to people.</p>
+
+<p>But I've never thought much about how I would answer if someone asked me if
+they could present one of my talks.  If people can use my talks to help
+strengthen their local community and up-skill their members, I want them to be
+able to. I am not interested in people using my talks to unfairly promote
+themselves.</p>
+
+<p>I'm not sure re-using someone else's presentation is a good idea.  Wouldn't
+it be better to write your own talk based on what you learned from someone
+else's?  But if people want to re-use a talk, I'd like to have an answer.</p>
+
+<p>So here are my first-cut guidelines for re-using one of my talks:</p>
+
+<ol>
+
+<li>Ask me if you can use a talk. If I say no, then you can't.</li>
+
+<li>Don't change the main title slide. I wrote the presentation, my name should
+be on it.  If you were lecturing about a novel, you wouldn't hand out copies of
+the book with your name in place of the author's.</li>
+
+<li>Make clear during the presentation that I was the author and first
+presenter.  A way to do that would be to include a slide about that first event,
+with links, and maybe even a screenshot of me from the video recording of the
+first event.</li>
+
+<li>I include a bit.ly short-link and my Twitter handle in the footer of my
+slides.  Leave these in place.  We live in a social online world. I want to
+benefit from the connections that might arise from one of my presentations.</li>
+
+<li>Keep my name and contact details prominent in the end slide.</li>
+
+<li>If your video is posted online, include my name and the point about this
+being a re-run in the first paragraph of the description.</li>
+
+</ol>
+
+<p>It would be great if my talks could get a broader reach than I can make
+happen all by myself.  To be honest, I'm still not sure if it's a good idea to
+present someone else's talk, but it's better to do it this way than the way
+that just happened.</p>
+
+</body>
+</entry>
+</blog>
