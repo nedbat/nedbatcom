@@ -1,0 +1,359 @@
+body, html {
+    background: #222;
+    font-family: sans-serif;
+    line-height: 1.3;
+}
+
+div.text, div.hidden_text {
+    display: none;
+}
+
+.slide {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    margin: 1em;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background: #fffaf0;
+    font-size: 150%;
+    overflow: hidden;
+}
+h1, h2, h3, h4 {
+    font-family: "PT Serif";
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+    word-spacing: .1em;
+}
+
+.slide.title h1 {
+    font-weight: 800;
+    padding-top: 2em;
+    font-size: 200%;
+    text-align: center;
+}
+.slide.title h2 {
+    text-align: center;
+    font-size: 125%;
+    color: #666;
+    margin-top: 2em;
+}
+.slide.section {
+    background-color: #ffb;
+}
+.slide.section label {
+    color: #888;
+    font-style: italic;
+    font-size: 85%;
+    display: block;
+}
+.slide.section h1 {
+    font-weight: 700;
+    margin-top: 3em;
+    font-size: 200%;
+    text-align: center;
+}
+.slide.section h2 {
+    text-align: center;
+    font-size: 125%;
+    color: #666;
+    margin-top: 2em;
+}
+.hidden_slide {
+    display: none;
+}
+.slide.hidden {
+    background-color: #ecc;
+}
+.slide p {
+    text-align: left;
+    margin-top: 1em;
+}
+.slide .footer {
+    font-weight: 400;
+    color: #666;
+}
+.slide .punct {
+    padding: 0 .2em;
+    color: #aaa;
+}
+.slide .punct:first-child {
+    padding-left: 0;
+}
+
+img.icon {
+    width: 1.2em;
+    vertical-align: bottom;
+}
+
+.slide p.generic {
+    font-family: serif;
+    margin-top: .5em;
+}
+
+.larger {
+    font-size: 200%;
+}
+
+.fullwidth {
+    width: 100%;
+    height: auto;
+}
+
+.fullheight {
+    width: auto;
+    height: calc(100% - 1em);   /* Slides have no bottom margin. */
+}
+
+.center {
+    text-align: center !important;
+}
+
+/* Styled the same as an h1 */
+.big {
+    font-weight: 700;
+    font-size: 150%;
+}
+
+.slide pre {
+    font-family: Consolas, monaco, monospace;
+    margin-top: 1em;
+    background: #e0e0ff;
+    padding: .3em .15em;
+    line-height: 1.15;
+    border-radius: .2em;
+    border: 1px solid #bbb;
+}
+.slide pre .line {
+    padding: 0 .2em;
+}
+.slide .prelabel {
+    font-size: 80%;
+    font-style: italic;
+    color: #030;
+    float: right;
+    margin-right: .25em;
+    margin-top: .25em;
+    border: 1px solid #beb;
+    border-radius: .15em;
+    padding: .25em .5em;
+    background: #f8fff8;
+}
+
+.slide pre .lineno {
+    font-size: 80%;
+    font-weight: normal;
+    font-style: italic;
+    color: #888;
+    padding-right: .3em;
+    margin-right: .5em;
+}
+
+.slide tt {
+    font-family: Consolas, monaco, monospace;
+}
+
+.slide pre.clear {
+    background: none;
+    border: 0;
+}
+
+.slide pre.clear.python {
+    background: none;
+    border: 0;
+}
+
+.slide pre.s100 {
+    font-size: 100%;
+}
+
+.slide pre.medium, .slide pre.s85 {
+    font-size: 85%;
+}
+
+.slide pre.small, .slide pre.s75 {
+    font-size: 75%;
+}
+
+.slide pre.tiny, .slide pre.s50 {
+    font-size: 50%;
+}
+
+.slide pre.micro, .slide pre.s30 {
+    font-size: 30%;
+}
+
+.slide pre.s40 {
+    font-size: 40%;
+}
+
+.slide pre.nano, .slide pre.s10 {
+    font-size: 10%;
+}
+
+.slide pre.python {
+    background: #dfd;
+    border-color: #ddd;
+}
+
+.slide pre.python.console {
+    background: #dee;
+    border-color: #ccc;
+}
+
+.slide pre.python.console .meta {
+    color: #666;
+}
+
+.slide pre .attn {
+    background: #ada;
+    border-radius: .15em;
+}
+
+.slide pre .hilite {
+    background: rgba(256, 256, 256, .66);
+}
+
+.slide pre .comment {
+    font-style: italic;
+}
+
+.slide pre .selected {
+    background: #fff;
+    border: .15em solid #f66;
+    border-radius: 5px;
+    padding: .15em .15em .05em .15em;
+    margin: -.30em -.30em -.20em -.1em;
+}
+
+html.phantompng pre .selected {
+    border-width: 0;
+    background: inherit;
+}
+
+/* Hide the slide numbers for pngs on the web site */
+html.phantompng .slideDisplay {
+    display: none;
+}
+
+/* class='no-png' means don't use this for the png rendering. */
+html.phantompng .no-png {
+    display: none;
+}
+/* class='png-only' means this is only for the png rendering. */
+html .png-only {
+    display: none;
+}
+html.phantompng .png-only {
+    display: inherit;
+}
+
+.slide ul>li {
+    margin-top: .5em;
+    position: relative;
+    line-height: 1.2em;
+    list-style: none;
+}
+.slide ul.tight>li {
+    margin-top: .25em;
+}
+.slide ul>li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: .4em;
+    height: .4em;
+    border-radius: .4em;
+    left: -1em;
+    top: .4em;
+    background-color: #999;
+}
+
+a:visited, a:active, a:link, a {
+    color: #0000CC;
+    cursor: pointer;
+}
+a.implicit {
+    text-decoration: none;
+    color: inherit;
+}
+
+body.notes {
+    overflow: auto;
+    background: white;
+}
+.notes .slide {
+    position: static;
+    left: auto;
+    top: auto;
+    width: 20em;
+    height: auto;
+    border: 2px solid #888;
+    padding: 1em 2em;
+    margin: 1em 1em;
+    font-size: 100%;
+}
+.notes img {
+    display: none;
+}
+
+.overlay_container {
+    padding-top: 1em;
+}
+.overlay {
+    position: relative;
+    width: 100%;
+    height: 0;
+}
+.lefthalf {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.righthalf {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.tophalf {
+    position: relative;
+    width: 100%;
+}
+.bottomhalf {
+    position: relative;
+    width: 100%;
+}
+.opaque {
+    background: #fffaf0;
+}
+.slide pre.tophalf {
+    margin-top: 0;  /* No idea why I need this... :( :( */
+}
+
+table, td, th {
+    border: 1px solid #888;
+    font-weight: 600;
+}
+td, th {
+    padding: .35em .5em;
+}
+
+/* Slippy's css reset clobbers the meaning of <sub> and <sup> */
+sub {
+    line-height: 0;
+    font-size: 75%;
+    vertical-align: sub;
+}
+
+sup {
+    line-height: 0;
+    font-size: 75%;
+    vertical-align: super;
+}
+
+.overviewWrapper {
+    border: 1px solid #000;
+}
+.overviewWrapper.active {
+    border: 1px solid #fff;
+}

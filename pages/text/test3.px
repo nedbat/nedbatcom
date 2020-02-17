@@ -1,0 +1,765 @@
+<page title="Getting Started Testing: pytest edition">
+<history>
+<what when="20200201T195500">Created</what>
+</history>
+
+<p>This is an update of a presentation I gave at PyCon 2014.
+<a href="/text/test0.html">The original version</a> used unittest,
+this version uses pytest.</p>
+
+<p>You can read the slides and text on this page, or open the
+<a href="text/test3/test3.html">actual presentation</a> in your
+browser (use right and left arrows to advance the slides).</p>
+
+<p>There is also a zipfile of <a href="text/test3/test3.zip">all the code examples</a>.</p>
+
+<figurep href="text/test3/test3.html#1"><img src="text/test3_pix/000.png" alt="Getting Started Testing" scale="0.5"/></figurep><figurep href="text/test3/test3.html#2"><img src="text/test3_pix/001.png" alt="Goals" scale="0.5"/></figurep><!-- {{{ --><p>Writing correct code is complicated, it's hard.  How do you know when
+    you've gotten it right, and how do you know your code has stayed right
+    even after you've changed it?</p><p>The best we know to do this is with automated testing.  Testing is a
+    large topic, with its own tools and techniques.  It can be
+    overwhelming.</p><p>In this talk, I will show you how to write automated tests to test your
+    Python code.  I'll start from scratch. By the time we're done here, you
+    should have a mystery-free view of the basics and even a few advanced
+    techniques, of automated testing.</p><p>I'll include some pointers off to more advanced or exotic techniques,
+    but you will have a good set of tools if you follow the methods shown
+    here.</p><figurep href="text/test3/test3.html#3"><img src="text/test3_pix/002.png" alt="Why test?" scale="0.5"/></figurep><!-- {{{ --><p>My main point here isn't to convince you to test, I hope you are reading
+    this because you already know you want to do it.  But I have to say at
+    least a little bit about why you should test.</p><p>Automated testing is the best way we know to determine if your code
+    works.  There are other techniques, like manual testing, or shipping it to
+    customers and waiting for complaints, but automated testing works much
+    better than those ways.</p><p>Although writing tests is serious effort that takes real time, in
+    the long run it will let you produce software faster because it makes your
+    development process more predictable, and you'll spend less time fighting
+    expensive fires.</p><p>Testing also gives you another view into your code, and will probably
+    help you write just plain better code.  The tests force you to think about
+    the structure of your code, and you will find better ways to modularize
+    it.</p><p>Lastly, testing removes fear, because your tests are a safety net that
+    can tell you early when you have made a mistake and set you back on the
+    right path.</p><figurep href="text/test3/test3.html#4"><img src="text/test3_pix/003.png" alt="untitled" scale="0.5"/></figurep><!-- {{{ --><p>If you are like most developers, you know that you should be writing
+    tests, but you aren't, and you feel bad about it.  Tests are the dental
+    floss of development: everyone knows they should do it more, but they
+    don't, and they feel guilty about it.</p><p>BTW: illustrations by my son <a href="https://artofbatch.com">Ben</a>!</p><figurep href="text/test3/test3.html#5"><img src="text/test3_pix/004.png" alt="Yeah, it's hard" scale="0.5"/></figurep><!-- {{{ --><p>It's true, testing is not easy.  It's real engineering that takes
+    real thought and hard work.  But it pays off in the end.</p><figurep href="text/test3/test3.html#6"><img src="text/test3_pix/005.png" alt="Chaos!" scale="0.5"/></figurep><!-- {{{ --><p>The fact is that developing software is a constant battle against chaos,
+    in all sorts of little ways.  You carefully organize your ideas in lines of
+    code, but things change.  You add extra lines later, and they don't quite
+    work as you want.  New components are added to the system and your previous
+    assumptions are invalidated.  The services you depended on shift
+    subtly.</p><p>You know the feeling: on a bad day, it seems like everything is out to
+    get you, the world is populated by gremlins and monsters, and they are all
+    trying to get at your code.</p><p>You have to fight that chaos, and one of your weapons is automated
+    tests.</p><p>OK, enough of the sermon, let's talk about how to write tests.</p><figurep href="text/test3/test3.html#7"><img src="text/test3_pix/006.png" alt="Roadmap" scale="0.5"/></figurep><!-- {{{ --><p>The rest of the talk is divided has these parts:</p><ul>
+        <li>We'll grow some tests from first principles in an ad-hoc way,
+            examining what's good and bad about the style of code we get,</li>
+        <li>we'll use pytest to write tests the right way,</li>
+        <li>we'll dive deeper into pytest's fixtures,</li>
+        <li>and we'll talk about some more advanced topics, including coverage and test doubles.</li>
+    </ul><h1>First principles</h1><figurep href="text/test3/test3.html#8"><img src="text/test3_pix/007.png" alt="First principles" scale="0.5"/></figurep><!-- {{{ --><p>We'll start with a real (if tiny) piece of code, and start testing
+    it.  First we'll do it manually, and then grow in sophistication from there,
+    adding to our tests to solve problems we see along the way.</p><p>Keep in mind, the first few iterations of these tests are not the good
+    way to write tests.  I'll let you know when we've gotten to the right
+    way!</p><figurep href="text/test3/test3.html#9"><img src="text/test3_pix/008.png" alt="Stock portfolio class" scale="0.5"/></figurep><!-- {{{ --><p>Here is our code under test, a simple stock portfolio class.  It just
+    stores the lots of stocks purchased: each lot is a stock name, a number of
+    shares, and the price it was bought at.  We have a method to buy a stock,
+    and a method that tells us the total cost of the portfolio:</p><!--[[[cog include_file("portfolio1.py", px=True) ]]] {{{ --><code lang="python">
+# portfolio1.py
+
+class Portfolio:
+    """A simple stock portfolio"""
+    def __init__(self):
+        # A list of lists: [[name, shares, price], ...]
+        self.stocks = []
+
+    def buy(self, name, shares, price):
+        """Buy shares at a certain price."""
+        self.stocks.append([name, shares, price])
+
+    def cost(self):
+        """What was the total cost of this portfolio?"""
+        amt = 0.0
+        for name, shares, price in self.stocks:
+            amt += shares * price
+        return amt
+</code><!--[[[end]]] }}}--><figurep href="text/test3/test3.html#10"><img src="text/test3_pix/009.png" alt="First test: interactive" scale="0.5"/></figurep><!-- {{{ --><p>For our first test, we just run it manually in a Python prompt.  This is
+    where most programmers start with testing: play around with the code and
+    see if it works.</p><p>Running it like this, we can see that it's right.  An empty portfolio
+    has a cost of zero.  We buy one stock, and the cost is the price times the
+    shares. Then we buy another, and the cost has gone up as it should.</p><p>This is good, we're testing the code.  Some developers wouldn't have
+    even taken this step!  But it's bad because it's not repeatable.  If
+    tomorrow we make a change to this code, it's hard to make sure that we'll
+    run the same tests and cover the same conditions that we did today.</p><p>It's also labor intensive: we have to type these function calls each
+    time we want to test the class.  And how do we know the results are right?
+    We have to carefully examine the output, and get out a calculator, and see
+    that the answer is what we expect.</p><p>So we have one good quality, and three bad ones.  Let's improve the
+    situation.</p><figurep href="text/test3/test3.html#11"><img src="text/test3_pix/010.png" alt="Second test: standalone" scale="0.5"/></figurep><!-- {{{ --><p>Instead of typing code into a Python prompt, let's make a separate file
+    to hold test code.  We'll do the same series of steps as before, but
+    they'll be recorded in our test file, and we'll print the results we
+    get:</p><!--[[[cog include_file("porttest1.py", px=True) ]]] {{{ --><code lang="python">
+# porttest1.py
+from portfolio1 import Portfolio
+
+p = Portfolio()
+print(f"Empty portfolio cost: {p.cost()}")
+p.buy("IBM", 100, 176.48)
+print(f"With 100 IBM @ 176.48: {p.cost()}")
+p.buy("HPQ", 100, 36.15)
+print(f"With 100 HPQ @ 36.15: {p.cost()}")
+</code><!--[[[end]]] }}}--><p>When we run it, we get:</p><!--[[[cog include_file("porttest1.out", px=True) ]]] {{{ --><code lang="text">
+$ python porttest1.py
+Empty portfolio cost: 0.0
+With 100 IBM @ 176.48: 17648.0
+With 100 HPQ @ 36.15: 21263.0
+</code><!--[[[end]]] }}}--><p>This is better because it's repeatable: we can run this test file
+    any time we want and have the same tests run every time.  And it's low
+    effort: running a file is easy and quick.</p><p>But we still don't know for sure that the answers are right unless we
+    peer at the printed numbers and work out each time what they are supposed
+    to be.</p><figurep href="text/test3/test3.html#12"><img src="text/test3_pix/011.png" alt="Third test: expected results" scale="0.5"/></figurep><!-- {{{ --><p>Here we've added to our test file so that in addition to printing the
+    result it got, it prints the result it should have gotten:</p><!--[[[cog include_file("porttest2.py", px=True) ]]] {{{ --><code lang="python">
+# porttest2.py
+from portfolio1 import Portfolio
+
+p = Portfolio()
+print(f"Empty portfolio cost: {p.cost()}, should be 0.0")
+p.buy("IBM", 100, 176.48)
+print(f"With 100 IBM @ 176.48: {p.cost()}, should be 17648.0")
+p.buy("HPQ", 100, 36.15)
+print(f"With 100 HPQ @ 36.15: {p.cost()}, should be 21263.0")
+</code><!--[[[end]]] }}}--><p>This is better: we don't have to calculate the expected results, they
+    are recorded right there in the output:</p><!--[[[cog include_file("porttest2.out", px=True) ]]] {{{ --><code lang="text">
+$ python porttest2.py
+Empty portfolio cost: 0.0, should be 0.0
+With 100 IBM @ 176.48: 17648.0, should be 17648.0
+With 100 HPQ @ 36.15: 21263.0, should be 21263.0
+</code><!--[[[end]]] }}}--><p>But we still have to examine all the output and compare the actual
+    result to the expected result.  Keep in mind, the code here is very small,
+    so it doesn't seem like a burden.  But in a real system, you might have
+    thousands of tests.  You don't want to examine each one to see if the
+    result is correct.</p><p>This is still tedious work we have to do. We should get the computer to
+    do it for us.</p><figurep href="text/test3/test3.html#13"><img src="text/test3_pix/012.png" alt="Fourth test: check results automatically" scale="0.5"/></figurep><!-- {{{ --><p>Here we've used the Python assert statement.  You may not have run
+    across this before.  It takes a condition, and evaluates whether it's
+    true or not.  If it's true, then execution continues onto the next
+    statement.  If the condition is false, it raises an AssertionError
+    exception.</p><!--[[[cog include_file("porttest3.py", px=True, start=4) ]]] {{{ --><code lang="python">
+p = Portfolio()
+print(f"Empty portfolio cost: {p.cost()}, should be 0.0")
+assert p.cost() == 0.0
+p.buy("IBM", 100, 176.48)
+print(f"With 100 IBM @ 176.48: {p.cost()}, should be 17648.0")
+assert p.cost() == 17648.0
+p.buy("HPQ", 100, 36.15)
+print(f"With 100 HPQ @ 36.15: {p.cost()}, should be 21263.0")
+assert p.cost() == 21263.0
+</code><!--[[[end]]] }}}--><p>So now we have the results checked automatically.  If one of the results
+    is incorrect, the assert statement will raise an exception.</p><p>Assertions like these are at the heart of automated testing. You'll
+    see a lot of them in real tests.</p><figurep href="text/test3/test3.html#14"><img src="text/test3_pix/013.png" alt="Fourth test: what failure looks like" scale="0.5"/></figurep><!-- {{{ --><p>There are a couple of problems with assertions like these.  First, all
+    the successful tests clutter up the output.  You may think it's good to see
+    all your successes, but it's not good if they obscure failures.  Second,
+    when an assertion fails, it raises an exception, which ends our
+    program:</p><!--[[[cog include_file("porttest3_broken.out", px=True) ]]] {{{ --><code lang="text">
+$ python porttest3_broken.py
+Empty portfolio cost: 0.0, should be 0.0
+With 100 IBM @ 176.48: 17648.0, should be 17600.0
+Traceback (most recent call last):
+  File "porttest3_broken.py", line 9, in &lt;module&gt;
+    assert p.cost() == 17600.0
+AssertionError
+</code><!--[[[end]]] }}}--><p>We can only see a single failure, then the rest of the program is
+    skipped, and we don't know the results of the rest of the tests.  This
+    limits the amount of information our tests can give us.</p><figurep href="text/test3/test3.html#15"><img src="text/test3_pix/014.png" alt="Getting complicated!" scale="0.5"/></figurep><!-- {{{ --><p>As you can see, we're starting to build up a real program here. To make
+    the output hide successes, and continue on in the face of failures, you'll
+    have to create a way to divide this test file into chunks, and run the
+    chunks so that if one fails, others will still run.  It starts to get
+    complicated.</p><p>Anyone writing tests will face these problems, and common problems can
+    often be solved with common frameworks. In the next section, we'll use
+    a test framework called pytest to solve these problems.</p><h1>Test frameworks</h1><figurep href="text/test3/test3.html#16"><img src="text/test3_pix/015.png" alt="Test frameworks" scale="0.5"/></figurep><figurep href="text/test3/test3.html#17"><img src="text/test3_pix/016.png" alt="All test frameworks" scale="0.5"/></figurep><!-- {{{ --><p>Test frameworks all look weird when you first learn about them.
+    Running tests is different than running a program, so they have
+    different conventions for how to write tests, and how they get run.</p><p>There are also different tools for reusing code and reducing duplication.</p><p>We'll consider a few alternatives to pytest before diving in.</p><figurep href="text/test3/test3.html#18"><img src="text/test3_pix/017.png" alt="unittest" scale="0.5"/></figurep><!-- {{{ --><p>The Python standard library provides the
+    <a href="https://docs.python.org/3/library/unittest.html">unittest</a> module.
+    It gives an infrastructure for writing class-oriented tests.</p><p>The design of unittest is modelled on the common xUnit pattern that is
+    available in many different languages, notably jUnit for Java.  This gives
+    unittest a more verbose feeling than many Python libraries.  Some people
+    don't like this and prefer other styles of tests.  But these class-based
+    tests are classic, and are well-supported by other test tools.</p><p>You will find lots of examples and help based on unittest.  If you write
+    your tests in unittest style, pytest will run them for you.  But we won't
+    be using unittest in this presentation.</p><figurep href="text/test3/test3.html#19"><img src="text/test3_pix/018.png" alt="nose" scale="0.5"/></figurep><!-- {{{ --><p>Nose was a popular test framework and runner.  But it
+    <a href="https://github.com/nose-devs/nose/commit/0f40fa995384afad77e191636c89eb7d5b8870ca">hasn't been maintained</a>
+    for years.  You should not use it.</p><figurep href="text/test3/test3.html#20"><img src="text/test3_pix/019.png" alt="pytest" scale="0.5"/></figurep><!-- {{{ --><p><a href="https://pytest.org">pytest</a> is the most popular and powerful
+    test framework these days.  You write tests as functions rather than
+    classes, and asserts are written as assert statements rather than unittest's
+    assert methods.  Many people find this a more natural "Pythonic" style of
+    writing tests.</p><p>pytest will also run unittest-style tests. If you already have a unittest
+    test suite, you can switch to pytest as a test runner, and start taking
+    advantage of pytest features without re-writing any tests.</p><figurep href="text/test3/test3.html#21"><img src="text/test3_pix/020.png" alt="Project structure" scale="0.5"/></figurep><!-- {{{ --><p>The usual layout for a project is to have one directory with your product
+    code, and a separate parallel directory with tests. The tests are all in
+    files named test_*.py.</p><p>BTW, this is not the structure of the
+    <a href="text/test3/test3.zip">code accompanying this presentation</a>,
+    but it will be how most real projects are organized.</p><figurep href="text/test3/test3.html#22"><img src="text/test3_pix/021.png" alt="Running tests" scale="0.5"/></figurep><!-- {{{ --><p>A great thing about test runners is they can find your tests
+    automatically, so you don't have to write code to somehow collect them all
+    into one test suite. (nose is called nose because it was the first test
+    runner to "sniff out" your tests.)</p><figurep href="text/test3/test3.html#23"><img src="text/test3_pix/022.png" alt="A simple test" scale="0.5"/></figurep><!-- {{{ --><p>Finally we write our first test.  The test is a function named
+    test_buy_one_stock.  In the function, we create a Portfolio, buy a stock,
+    and then make an assertion about the cost of the portfolio:</p><!--[[[cog include_file("test_port1_pytest.py", px=True) ]]] {{{ --><code lang="python">
+# test_port1_pytest.py
+
+from portfolio1 import Portfolio
+
+def test_buy_one_stock():
+    p = Portfolio()
+    p.buy("IBM", 100, 176.48)
+    assert p.cost() == 17648.0
+</code><!--[[[end]]] }}}--><p>We run the test with pytest, which finds our test function and runs it.
+    It prints a single dot when the test passes:</p><!--[[[cog include_file("test_port1_pytest.out", px=True)   ]]] {{{ --><code lang="text">
+$ pytest -q test_port1_pytest.py
+.                                                            [100%]
+1 passed in 0.01s
+</code><!--[[[end]]] }}}--><p>The name we chose for our function doesn't matter: every function that
+    starts with "test_" will be run as a test.  You just have to make sure to
+    not reuse a function name, since Python won't let you have two functions
+    with the same name.</p><figurep href="text/test3/test3.html#24"><img src="text/test3_pix/023.png" alt="Under the hood" scale="0.5"/></figurep><!-- {{{ --><p>Once you've defined the test function, the test runner is now
+    responsible for running it for you. It calls every one of your test
+    functions in its own try/except block.  This lets one function succeed or
+    fail without affecting other functions.</p><p>If your test function runs without an exception, then the test is
+    recorded as a success.  If an exception happens, it's recorded as a
+    failure.  The test runner keeps track of all that bookkeeping so that it
+    can present the results to you at the end of the test run.</p><figurep href="text/test3/test3.html#25"><img src="text/test3_pix/024.png" alt="Add more tests" scale="0.5"/></figurep><!-- {{{ --><p>One test isn't enough: let's add some more.  Here we add a simpler test,
+    test_empty, and a more complicated test, test_buy_two_stocks.  Each test is
+    another test method in our PortfolioTest class:</p><!--[[[cog include_file("test_port2_pytest.py", px=True) ]]] {{{ --><code lang="python">
+# test_port2_pytest.py
+
+from portfolio1 import Portfolio
+
+def test_empty():
+    p = Portfolio()
+    assert p.cost() == 0.0
+
+def test_buy_one_stock():
+    p = Portfolio()
+    p.buy("IBM", 100, 176.48)
+    assert p.cost() == 17648.0
+
+def test_buy_two_stocks():
+    p = Portfolio()
+    p.buy("IBM", 100, 176.48)
+    p.buy("HPQ", 100, 36.15)
+    assert p.cost() == 21263.0
+</code><!--[[[end]]] }}}--><p>Each one creates the Portfolio object it needs, performs the
+    manipulations it wants, and makes assertions about the outcome.</p><p>When you run the tests, pytest prints a dot for every test that passes,
+    which is why you see "..." in the test output here:</p><!--[[[cog include_file("test_port2_pytest.out", px=True) ]]] {{{ --><code lang="text">
+$ pytest -q test_port2_pytest.py
+...                                                          [100%]
+3 passed in 0.01s
+</code><!--[[[end]]] }}}--><figurep href="text/test3/test3.html#26"><img src="text/test3_pix/025.png" alt="Under the hood" scale="0.5"/></figurep><!-- {{{ --><p>With three tests, the execution model is much as before.  Every test is
+    run in its own try/except block so that one test won't affect the others.
+    This helps to guarantee an important property of good tests: isolation.</p><figurep href="text/test3/test3.html#27"><img src="text/test3_pix/026.png" alt="Test isolation" scale="0.5"/></figurep><!-- {{{ --><p>Test isolation means that each of your tests is unaffected by every
+    other test. This is good because it makes your tests more repeatable, and
+    they are clearer about what they are testing. It also means that if a
+    test fails, you don't have to think about all the conditions and data
+    created by earlier tests: running just that one test will reproduce the
+    failure.</p><p>Earlier we had a problem where one test failing prevented the other
+    tests from running.  Here pytest is running each test independently, so
+    if one fails, the rest will run, and will run just as if the earlier test
+    had succeeded.</p><p>Pytest has a great -k option which will run only the tests whose name
+    contain the given string.  This lets you run just part of your test suite,
+    either because you want to run just one test for debugging, or for a faster
+    run of only the tests you are interested in.</p><p>Pytest can run a subset of tests because you've written your tests (with
+    pytest's help) to be independent of each other. If one test relied on a
+    previous test's results, you couldn't run them separately.</p><figurep href="text/test3/test3.html#28"><img src="text/test3_pix/027.png" alt="What failure looks like" scale="0.5"/></figurep><!-- {{{ --><p>So far, all of our tests have passed.  What happens when they fail?</p><!--[[[cog include_file("test_port2_pytest_broken.out", px=True) ]]] {{{ --><code lang="text">
+$ pytest -q test_port2_pytest_broken.py
+.F.                                                          [100%]
+============================= FAILURES =============================
+________________________ test_buy_one_stock ________________________
+
+    def test_buy_one_stock():
+        p = Portfolio()
+        p.buy("IBM", 100, 176)      # this is wrong, to make the test fail!
+&gt;       assert p.cost() == 17648.0
+E       assert 17600.0 == 17648.0
+E        +  where 17600.0 = &lt;bound method Portfolio.cost of &lt;portfolio1.Portfolio object at 0x1b01dface&gt;&gt;()
+E        +    where &lt;bound method Portfolio.cost of &lt;portfolio1.Portfolio object at 0x1b01dface&gt;&gt; = &lt;portfolio1.Portfolio object at 0x1b01dface&gt;.cost
+
+test_port2_pytest_broken.py:12: AssertionError
+1 failed, 2 passed in 0.01s
+</code><!--[[[end]]] }}}--><p>The test runner prints a dot for every test that passes, and it prints
+    an "F" for each test failure, so here we see ".F." in the output.  Then
+    for each test failure, it prints the name of the test, and the traceback
+    of the assertion failure.</p><p>This style of test output means that test successes are very quiet, just
+    a single dot.  When a test fails, it stands out, and you can focus on them.
+    Remember: when your tests pass, you don't have to do anything, you can go
+    on with other work, so passing tests, while a good thing, should not cause
+    a lot of noise.  It's the failing tests we need to think about.</p><p>One of the ways that pytest differs from unittest is that pytest
+    interprets the traceback and shows the actual values that occurred.  In
+    this case, the actual p.cost() was 17600.0.</p><p>Sometimes the traceback annotation is a little too much, as in this case
+    where it's showing us the actual Portfolio object.  In other cases, that
+    kind of detail could be very helpful in understanding the cause of the
+    failure.</p><figurep href="text/test3/test3.html#29"><img src="text/test3_pix/028.png" alt="Testing for exceptions" scale="0.5"/></figurep><!-- {{{ --><p>Here we try to write an automated test of an error case: calling a
+    method with too few arguments:</p><!--[[[cog include_file("test_port4_pytest_broken.py", start_from="test_bad_input", end_at="buy", px=True) ]]] {{{ --><code lang="python">
+def test_bad_input():
+    p = Portfolio()
+    p.buy("IBM")
+</code><!--[[[end]]] }}}--><p>This test won't do what we want.  When we call buy() with too few
+    arguments, of course it raises TypeError, but there's nothing to catch the
+    exception, so the test ends with an Error status:</p><!--[[[cog include_file("test_port4_pytest_broken.out", px=True) ]]] {{{ --><code lang="text">
+$ pytest -q test_port4_pytest_broken.py
+...F                                                         [100%]
+============================= FAILURES =============================
+__________________________ test_bad_input __________________________
+
+    def test_bad_input():
+        p = Portfolio()
+&gt;       p.buy("IBM")
+E       TypeError: buy() missing 2 required positional arguments: 'shares' and 'price'
+
+test_port4_pytest_broken.py:22: TypeError
+1 failed, 3 passed in 0.01s
+</code><!--[[[end]]] }}}--><p>That's not good, we want all our tests to pass.</p><figurep href="text/test3/test3.html#30"><img src="text/test3_pix/029.png" alt="pytest.raises" scale="0.5"/></figurep><!-- {{{ --><p>To properly test the error-raising function call, we use a function
+    called pytest.raises:</p><!--[[[cog include_file("test_port4_pytest.py", start=22, end=25, px=True) ]]] {{{ --><code lang="python">
+def test_bad_input():
+    p = Portfolio()
+    with pytest.raises(TypeError):
+        p.buy("IBM")
+</code><!--[[[end]]] }}}--><p>This neatly captures our intent: we are asserting that a statement will
+    raise an exception.  It's used as a context manager with a "with" statement
+    so that it can handle the exception when it is raised.</p><!--[[[cog include_file("test_port4_pytest.out", px=True) ]]] {{{ --><code lang="text">
+$ pytest -q test_port4_pytest.py
+....                                                         [100%]
+4 passed in 0.01s
+</code><!--[[[end]]] }}}--><p>Now our test passes because the TypeError is caught by the pytest.raises
+    context manager.  The assertion passes because the exception raised is the
+    same type we claimed it would be, and all is well.</p><figurep href="text/test3/test3.html#31"><img src="text/test3_pix/030.png" alt="Negative assertions" scale="0.5"/></figurep><!-- {{{ --><p>One thing to be careful of: making assertions about something
+    <em>not</em> happening.  This is tempting, especially when writing
+    regression tests. If something bad happened in the past, but now it's
+    fixed, you'd like to assert that the bad thing doesn't happen any more.</p><p>But there are an infinite number of things that could be happening that
+    are not the bad thing you are thinking of, and many of those things could
+    also be bad!  Be sure to pair up your negative assertions with positive
+    assertions of the good things that you do want to happen.</p><h1>Fixtures</h1><figurep href="text/test3/test3.html#32"><img src="text/test3_pix/031.png" alt="Fixtures" scale="0.5"/></figurep><!-- {{{ --><p>One of pytest's powerful features for organizing your test code is
+    called fixtures.  Fixtures are functions that can be run automatically to
+    create test data, configure dependent services, or any other kind of
+    pre-test set up that you need.</p><figurep href="text/test3/test3.html#33"><img src="text/test3_pix/032.png" alt="More code:  sell()" scale="0.5"/></figurep><!-- {{{ --><p>Our testing is going well, time to extend our product.  Let's add
+    a .sell() method to our Portfolio class.  It will remove shares of a
+    particular stock from our portfolio:</p><!--[[[cog include_file("portfolio2.py", start_from="def sell", end_at="You don't", px=True) ]]] {{{ --><code lang="python">
+def sell(self, name, shares):
+    """Sell some shares."""
+    for holding in self.stocks:
+        if holding[0] == name:
+            if holding[1] &lt; shares:
+                raise ValueError("Not enough shares")
+            holding[1] -= shares
+            break
+    else:
+        raise ValueError("You don't own that stock")
+</code><!--[[[end]]] }}}--><p>Note: this code is unrealistically simple, so that it will fit on a
+    slide!</p><figurep href="text/test3/test3.html#34"><img src="text/test3_pix/033.png" alt="untitled" scale="0.5"/></figurep><!-- {{{ --><p>To test the .sell() method, we add three more tests.  In each case,
+    we need to create a Portfolio with some stocks in it so that we have
+    something to sell:</p><!--[[[cog include_file("test_port5_pytest.py", start_from="test_sell", px=True) ]]] {{{ --><code lang="python">
+def test_sell():
+    p = Portfolio()
+    p.buy("MSFT", 100, 27.0)
+    p.buy("DELL", 100, 17.0)
+    p.buy("ORCL", 100, 34.0)
+    p.sell("MSFT", 50)
+    assert p.cost() == 6450
+
+def test_not_enough():
+    p = Portfolio()                 # Didn't I just do this?
+    p.buy("MSFT", 100, 27.0)        #  |
+    p.buy("DELL", 100, 17.0)        #  |
+    p.buy("ORCL", 100, 34.0)        #  /
+    with pytest.raises(ValueError):
+        p.sell("MSFT", 200)
+
+def test_dont_own_it():
+    p = Portfolio()                 # What, again!?!?
+    p.buy("MSFT", 100, 27.0)        #  |
+    p.buy("DELL", 100, 17.0)        #  |
+    p.buy("ORCL", 100, 34.0)        #  /
+    with pytest.raises(ValueError):
+        p.sell("IBM", 1)
+</code><!--[[[end]]] }}}--><p>But now our tests are getting really repetitive.  We've used the same
+    four lines of code to create the same portfolio object three times.</p><figurep href="text/test3/test3.html#35"><img src="text/test3_pix/034.png" alt="Refactor using functions" scale="0.5"/></figurep><!-- {{{ --><p>One way to remove the repetition is with a simple function.
+    simple_portfolio() creates the portfolio we need.  We call it from each of
+    our tests and then use the portfolio in our tests.  This works, but pytest
+    gives us a more powerful way to solve the problem.</p><figurep href="text/test3/test3.html#36"><img src="text/test3_pix/035.png" alt="Fixtures" scale="0.5"/></figurep><!-- {{{ --><p>Creating test data is a common need, so pytest has a solution for us.
+    A fixture is a function to create the required initial state.  Pytest will
+    find and execute them as needed.</p><p>The fixture is a function decorated with @pytest.fixture.  A test
+    declares that it needs a certain fixture by having an argument with the
+    same name as the fixture. Yes, this is very odd, and runs counter to
+    everything you've learned about how function arguments work.</p><p>The value returned by the fixture function is passed into the test
+    function as the argument value.  In our case, the simple_portfolio fixture
+    creates and returns a Portfolio object.  Our tests use that Portfolio:</p><!--[[[cog include_file("test_port6_pytest.py", start_from="fixture", end_at="IBM", px=True) ]]] {{{ --><code lang="python">
+@pytest.fixture
+def simple_portfolio():
+    p = Portfolio()
+    p.buy("MSFT", 100, 27.0)
+    p.buy("DELL", 100, 17.0)
+    p.buy("ORCL", 100, 34.0)
+    return p
+
+def test_sell(simple_portfolio):
+    simple_portfolio.sell("MSFT", 50)
+    assert simple_portfolio.cost() == 6450
+
+def test_not_enough(simple_portfolio):
+    with pytest.raises(ValueError):
+        simple_portfolio.sell("MSFT", 200)
+
+def test_dont_own_it(simple_portfolio):
+    with pytest.raises(ValueError):
+        simple_portfolio.sell("IBM", 1)
+</code><!--[[[end]]] }}}--><figurep href="text/test3/test3.html#37"><img src="text/test3_pix/036.png" alt="Under the hood" scale="0.5"/></figurep><!-- {{{ --><p>Here's the detail on how pytest runs the fixture and test function.
+    When pytest finds a test function, it examines its argument names to
+    identify fixtures it needs.  It runs the fixtures, collecting their
+    returned values, then calls the test function, passing it the values.</p><p>All of this happens with appropriate try/except blocks so that
+    exceptions can be properly reported.  Exceptions in the fixtures are
+    counted as Errors, whereas exceptions in the test function are Failures.
+    This is a subtle but important distinction.  A Failure means the test ran,
+    and detected a problem in the product code. An Error means we couldn't run
+    the test properly.</p><p>This distinction is one reason to put set-up code in fixtures, but there
+    are others as we'll see.</p><figurep href="text/test3/test3.html#38"><img src="text/test3_pix/037.png" alt="Fixture cleanup" scale="0.5"/></figurep><!-- {{{ --><p>Fixtures can do more than just create data for a test.  If your fixture
+    uses the yield statement instead of return, then the code after the yield
+    is run once the test is finished.  This lets one fixture both create an
+    initial environment, and clean it up.</p><p>This is much more convenient than trying to create and destroy objects
+    in the test itself, because a fixture's clean up will be run even if the
+    test fails.</p><figurep href="text/test3/test3.html#39"><img src="text/test3_pix/038.png" alt="Fixture scope" scale="0.5"/></figurep><!-- {{{ --><p>Fixtures can also run at different "scopes."  For example, if you define
+    your fixture with scope="session", then the fixture is run just once for
+    your entire test suite. All test functions are passed the same value.
+    This can be useful if your fixture is especially expensive.</p><p>Pytest manages all of the execution and bookkeeping of fixtures, and
+    only runs them if needed.  You might define a session-scoped fixture, but
+    only have a few test functions that need it.  If you run a subset of your
+    tests, and none of them need that fixture, then it will never be run.</p><figurep href="text/test3/test3.html#40"><img src="text/test3_pix/039.png" alt="Fixtures" scale="0.5"/></figurep><!-- {{{ --><p>Fixtures are really powerful. Pytest has a number of other features that
+    let you combine fixtures to build elaborate systems of set up and tear down
+    for your tests.</p><figurep href="text/test3/test3.html#41"><img src="text/test3_pix/040.png" alt="Parameterized tests" scale="0.5"/></figurep><!-- {{{ --><p>Let's say we want to write more tests of our sell() method. They might
+    all take the same form, just with different data:</p><!--[[[cog include_file("test_port6_pytest.py", start_from="test_sell1", end_at="4740", px=True) ]]] {{{ --><code lang="python">
+def test_sell1(simple_portfolio):
+    simple_portfolio.sell("MSFT", 50)
+    assert simple_portfolio.cost() == 6450
+
+def test_sell2(simple_portfolio):
+    simple_portfolio.sell("MSFT", 10)
+    assert simple_portfolio.cost() == 7530
+
+def test_sell3(simple_portfolio):
+    simple_portfolio.sell("ORCL", 90)
+    assert simple_portfolio.cost() == 4740
+</code><!--[[[end]]] }}}--><p>These tests are only two lines each, but they are repetitive lines.
+    Pytest gives us a way to parameterize tests, so that the logic can be
+    expressed once.  The data is provided as a list of tuples:</p><!--[[[cog include_file("test_port6_pytest.py", start_from="parametrize", end_at="== cost", px=True) ]]] {{{ --><code lang="python">
+@pytest.mark.parametrize("sym, num, cost", [
+    ("MSFT", 50, 6450),
+    ("MSFT", 10, 7530),
+    ("ORCL", 90, 4740),
+])
+def test_selling(simple_portfolio, sym, num, cost):
+    simple_portfolio.sell(sym, num)
+    assert simple_portfolio.cost() == cost
+</code><!--[[[end]]] }}}--><p>The parametrize decorator takes a string of argument names, and a list
+    of values for those arguments.  Then pytest synthesizes one test for each
+    set of values.  The logic is written just once and the data is nice and
+    compact.  Each synthesized test can pass or fail independently, just as we
+    want.</p><p>Notice here our test function takes four arguments: the first is our
+    simple_portfolio fixture as before.  The remaining three are provided by
+    the parameterized data.  Pytest makes it simple to combine its features
+    together to write short tests and still have complex execution
+    semantics.</p><p>This simple parameterization can be very helpful, but it's just the
+    tip of the iceberg of what pytest provides.  Brian Okken's presentation at
+    PyCascades 2020,
+    <a href="https://github.com/okken/pycascades2020">Multiply your Testing Effectiveness with Parametrized Testing</a>,
+    goes into much more depth, including parameterized fixtures.</p><h1>· Intermission ·</h1><figurep href="text/test3/test3.html#42"><img src="text/test3_pix/041.png" alt="· Intermission ·" scale="0.5"/></figurep><h1>Coverage</h1><figurep href="text/test3/test3.html#43"><img src="text/test3_pix/042.png" alt="Coverage" scale="0.5"/></figurep><figurep href="text/test3/test3.html#44"><img src="text/test3_pix/043.png" alt="What code are you testing?" scale="0.5"/></figurep><!-- {{{ --><p>OK, so you've written a bunch of tests. Your goal has been to run your
+    product code to see if it works.  But are your tests really running all
+    your code?  How can you find out?</p><figurep href="text/test3/test3.html#45"><img src="text/test3_pix/044.png" alt="Coverage measurement" scale="0.5"/></figurep><!-- {{{ --><p>Coverage measurement is a technique for checking how much of your
+    product code is tested by your tests.  Using a coverage tool, you track
+    what parts of your code are executed by your test suite.  You get a report
+    of what code is covered and not covered.  This shows you what parts of your
+    product weren't run at all by your tests.</p><p>Code that isn't run by your tests can't have been tested.  This gives
+    you a clear direction: devise tests that will run the parts that aren't
+    run yet.</p><figurep href="text/test3/test3.html#46"><img src="text/test3_pix/045.png" alt="coverage.py" scale="0.5"/></figurep><!-- {{{ --><p>The most popular Python coverage testing tool is boringly named
+    "coverage.py".  (Full disclosure: I am the maintainer of coverage.py.)</p><p>After installing coverage.py, you have a "coverage" command.  "coverage
+    run" works like "python", but will monitor execution to see what parts of
+    the code have been executed.  Then "coverage report" will list your files,
+    and what parts of them were not executed.</p><figurep href="text/test3/test3.html#47"><img src="text/test3_pix/046.png" alt="untitled" scale="0.5"/></figurep><!-- {{{ --><p>The "coverage html" command gives you an HTML report showing your code,
+    with colored lines indicating executed vs not executed.</p><figurep href="text/test3/test3.html#48"><img src="text/test3_pix/047.png" alt="Coverage can only tell you a few things" scale="0.5"/></figurep><!-- {{{ --><p>Coverage measurement is not a magic wand.  It's good at telling you some
+    things, but you have to understand what it is telling you.  It can tell you
+    what lines were executed, and what branches were taken.</p><p>People often think 100% coverage is the goal.  More coverage is better,
+    but 100% can be very difficult to get to.  Usually, your efforts are better
+    placed elsewhere.</p><p>And 100% coverage doesn't mean your code is perfectly tested.</p><figurep href="text/test3/test3.html#49"><img src="text/test3_pix/048.png" alt="What coverage can't tell you" scale="0.5"/></figurep><!-- {{{ --><p>There are lots of things coverage measurement can't tell you.</p><ul>
+
+        <li>Are you exercising all your data? Coverage can measure code
+            execution, but not the data you are operating on. You might have
+            bugs that only reveal themselves with unusual data.</li>
+
+        <li>Are you checking results properly? Your tests might be calling your
+            product code, but your assertions might be wrong.  Maybe there's an
+            important part of your result that you are not checking at
+            all.</li>
+
+        <li>Are you building the right product? Not to be glib about it, but
+            the larger problem here is that automated testing can only tell you
+            if your code works as you planned.  It can't tell you whether
+            people will like what your code does.</li>
+
+    </ul><h1>Test doubles</h1><figurep href="text/test3/test3.html#50"><img src="text/test3_pix/049.png" alt="Test doubles" scale="0.5"/></figurep><!-- {{{ --><p>We've covered the basics of how to write tests.  Now let's talk about a
+    more advanced topic: test doubles.</p><figurep href="text/test3/test3.html#51"><img src="text/test3_pix/050.png" alt="Testing small amounts of code" scale="0.5"/></figurep><!-- {{{ --><p>Any real-sized program is built in layers and components.  In the full
+    system, each component uses a number of other components.  As we've
+    discussed, the best tests focus on just one piece of code.  How can you
+    test a component in isolation from all of the components it depends on?</p><figurep href="text/test3/test3.html#52"><img src="text/test3_pix/051.png" alt="Dependencies are bad" scale="0.5"/></figurep><!-- {{{ --><p>Dependencies among components are bad for testing.  When you test one
+    component, you are actually testing it and all the components it depends
+    on.  This is more code than you want to be thinking about when writing or
+    debugging a test.</p><p>Also, some components might be slow, which will make your tests slow,
+    which makes it hard to write lots of tests that will be run frequently.</p><p>Lastly, some components are unpredictable, which makes it hard to write
+    repeatable tests.</p><figurep href="text/test3/test3.html#53"><img src="text/test3_pix/052.png" alt="Test Doubles" scale="0.5"/></figurep><!-- {{{ --><p>The solutions to these problems are known as test doubles: code that
+    can stand in for real code during testing, kind of like stunt doubles in
+    movies.</p><p>The idea is to replace certain dependencies with doubles. During
+    testing, you test the primary component, and avoid invoking the complex,
+    time-consuming, or unpredictable dependencies, because they have been
+    replaced.</p><p>The result is tests that focus in on the primary component without
+    involving complicating dependencies.</p><figurep href="text/test3/test3.html#54"><img src="text/test3_pix/053.png" alt="Portfolio: Real-time data" scale="0.5"/></figurep><figurep href="text/test3/test3.html#55"><img src="text/test3_pix/054.png" alt="Portfolio: Real-time data" scale="0.5"/></figurep><!-- {{{ --><p>As an example, we'll add more code to our Portfolio class.  This code
+    will tell us the actual real-world current value of our collection of
+    stocks.  To do that, we've added a method called current_prices which
+    uses a web service to get the current market prices of the stocks
+    we hold:</p><!--[[[cog include_file("portfolio3.py", start_from="current_prices", end_at="return total", px=True) ]]] {{{ --><code lang="python">
+def current_prices(self):
+    """Return a dict mapping names to current prices."""
+    url = "https://api.worldtradingdata.com/api/v1/stock?symbol="
+    url += ",".join(s[0] for s in sorted(self.stocks))
+    url += self.SUFFIX
+    data = requests.get(url).text
+    lines = data.splitlines()[1:]
+    return { row[0]: float(row[3]) for row in csv.reader(lines) }
+
+def value(self):
+    """Return the current value of the portfolio."""
+    prices = self.current_prices()
+    total = 0.0
+    for name, shares, _ in self.stocks:
+        total += shares * prices[name]
+    return total
+</code><!--[[[end]]] }}}--><p>The new .value() method will get the current prices, and sum up the
+    value of each holding to tell us the current value.</p><p>Here we can try out our code manually, and see that .current_prices()
+    really does return us a dictionary of market prices, and .value() computes
+    the value of the portfolio using those market prices.</p><figurep href="text/test3/test3.html#56"><img src="text/test3_pix/055.png" alt="But how to test it?" scale="0.5"/></figurep><!-- {{{ --><p>This simple example gives us all the problems of difficult dependencies
+    in a nutshell.  Our product code is great, but depends on an external web
+    service run by a third party.  It could be slow to contact, or it could be
+    unavailable.  But even when it is working, it is impossible to predict what
+    values it will return.  The whole point of this function is to give us
+    real-world data as of the current moment, so how can you write a test that
+    proves it is working properly?  You don't know in advance what values it
+    will produce.</p><p>If we actually hit the web service as part of our testing, then we are
+    testing whether that external service is working properly as well as our
+    own code.  We want to only test our own code.  Our test should tell us, if
+    the web service is working properly, will our code work properly?</p><figurep href="text/test3/test3.html#57"><img src="text/test3_pix/056.png" alt="Fake implementation of current_prices" scale="0.5"/></figurep><!-- {{{ --><p>Our first test double will be a fake implementation of current_prices().
+    We make a fixture that gets a simple portfolio, and stuffs a new
+    implementation of current_prices into it.  fake_current_prices simply
+    returns a fixed value:</p><!--[[[cog include_file("test_port7_pytest.py", start_from="fixture", start_nth=2, px=True) ]]] {{{ --><code lang="python">
+@pytest.fixture
+def fake_prices_portfolio(simple_portfolio):
+    def fake_current_prices():
+        return {'DELL': 140.0, 'ORCL': 32.0, 'MSFT': 51.0}
+    simple_portfolio.current_prices = fake_current_prices
+    return simple_portfolio
+
+def test_value(fake_prices_portfolio):
+    assert fake_prices_portfolio.value() == 22300
+</code><!--[[[end]]] }}}--><p>This is very simple, and neatly solves a number of our problems: the
+    code no longer contacts a web service, so it is fast and reliable, and it
+    always produces the same value, so we can predict what values our .value()
+    method should return.</p><p>BTW, notice that fake_prices_portfolio is a fixture that uses the
+    simple_portfolio fixture, by naming it as an argument, just as a test
+    function can. Fixtures can be chained together to build sophisticated
+    dependencies to support your test functions.</p><figurep href="text/test3/test3.html#58"><img src="text/test3_pix/057.png" alt="Bad: un-tested code!" scale="0.5"/></figurep><!-- {{{ --><p>But we may have gone too far: none of our actual current_prices() method
+    is tested now.  Coverage.py shows us that a number of lines are not
+    executed.  Those are the body of the current_prices() method.</p><p>That's our code, and we need to test it somehow.  We got isolation from
+    the web service, but we removed some of our own code in the process.</p><figurep href="text/test3/test3.html#59"><img src="text/test3_pix/058.png" alt="Fake requests instead" scale="0.5"/></figurep><!-- {{{ --><p>To test our code but still not use the external service, we can intercept the flow
+    lower down.  Our current_prices() method uses the requests package to make
+    the external HTTP request.  We can replace requests to let our code run,
+    but not make a real network request.</p><p>Here we define a class called FakeRequests with a method called get
+    that will be the test double for requests.get().  Our fake implementation
+    returns an object that provides the same text attribute that the real
+    response object would have had:</p><!--[[[cog include_file("test_port8_pytest.py", start_from="Fake", px=True) ]]] {{{ --><code lang="python">
+class FakeRequests:
+    # A simple fake for requests that is only good for one request.
+    def get(self, url):
+        return SimpleNamespace(
+            text='\nDELL,,,140\nORCL,,,32\nMSFT,,,51\n'
+        )
+
+@pytest.fixture
+def fake_requests():
+    old_requests = portfolio3.requests
+    portfolio3.requests = FakeRequests()
+    yield
+    portfolio3.requests = old_requests
+
+def test_value(simple_portfolio, fake_requests):
+    assert simple_portfolio.value() == 22300
+</code><!--[[[end]]] }}}--><p>Here we've defined another fixture: fake_requests. It replaces our
+    requests import with FakeRequests.  When the test function runs, our
+    FakeRequests object will be invoked instead of the requests module, it will
+    return its canned response, and our code will process it just as if it had
+    come from the web.</p><p>Notice that the product code uses a module with a function, and we are
+    replacing it with an object with a method.  That's fine, Python's dynamic
+    nature means that it doesn't matter what "requests" is defined as, so long
+    as it has a .get attribute that is callable, the product code will be
+    fine.</p><p>This sort of manipulation is one place where Python really shines, since
+    types and access protection don't constrain what we can do to create the
+    test environment we want.</p><p>Another point about fixtures: here our test function asks for two
+    fixtures.  fake_requests is an argument to the test function, so it will be
+    executed, but the test function doesn't even use the value it produces.  We
+    count on it to install FakeRequests, and then the test function benefits
+    from that modification.  The fake_requests fixture uses yield so that it
+    can create some state before the test (it installs FakeRequests), and then
+    it can clean up that state when the test is done (it puts back the real
+    requests).</p><figurep href="text/test3/test3.html#60"><img src="text/test3_pix/059.png" alt="All of our code is executed" scale="0.5"/></figurep><!-- {{{ --><p>Now the coverage report shows that all of our code has been executed.
+    By stubbing the requests, we cut off the component dependencies at just the
+    right point: where our code (current_prices) started calling someone else's
+    code (requests.get).</p><figurep href="text/test3/test3.html#61"><img src="text/test3_pix/060.png" alt="Mock objects" scale="0.5"/></figurep><!-- {{{ --><p>A more powerful way to create test doubles is with Mock objects.  The
+    mock library provides the Mock class.  A Mock() object will happily act
+    like any object you please.  You can set a return_value on it, and when
+    called, it will return that value.  Then you can ask what arguments it was
+    called with.</p><p>Mock objects can do other magic things, but these two behaviors give us
+    what we need for now.</p><figurep href="text/test3/test3.html#62"><img src="text/test3_pix/061.png" alt="Mocking with no setup" scale="0.5"/></figurep><!-- {{{ --><p>Here's a new test of our current_prices code:</p><!--[[[cog include_file("test_port9_pytest.py", start_from="test_value", px=True) ]]] {{{ --><code lang="python">
+def test_value(simple_portfolio, mocker):
+    req_get = mocker.patch(
+        "portfolio3.requests.get",
+        return_value=SimpleNamespace(
+            text='\nDELL,,,140\nORCL,,,32\nMSFT,,,51\n'
+        ),
+    )
+    assert simple_portfolio.value() == 22300
+
+    assert len(req_get.call_args_list) == 1
+    opened_url = req_get.call_args_list[0][0][0]
+    assert "api.worldtradingdata.com/api/v1/stock" in opened_url
+    assert "symbol=DELL,MSFT,ORCL" in opened_url
+</code><!--[[[end]]] }}}--><p>In our test method, we use a fixture provided by pytest-mock: mocker
+    has a .patch method that will replace the given name with a mock object, and give us the
+    mock object so we can manipulate it.</p><p>We mock out requests.get, and then set the value it should return. We
+    use the same SimpleNamespace object we used in the last example, which just
+    mimics the object that requests would return to us.</p><p>Then we can run the product code, which will call current_prices, which
+    will call requests.get, which is now our mock object.  It will return our
+    mocked return value, and produce the expected portfolio value.</p><p>Mock objects also have a bunch of handy methods for checking what
+    happened to the mock.  Here we use call_args_list to see how the mock was
+    called.  We can make assertions on those values to give us certainty that
+    our code used the external component properly.</p><p>The mocker fixture cleans up all the patched objects automatically.
+    This is why we use it as a fixture rather than as a simple import.</p><p>The net result is a clean self-contained test double, with assertions
+    about how it was called.</p><figurep href="text/test3/test3.html#63"><img src="text/test3_pix/062.png" alt="Test doubles: good" scale="0.5"/></figurep><figurep href="text/test3/test3.html#64"><img src="text/test3_pix/063.png" alt="Test doubles: bad" scale="0.5"/></figurep><!-- {{{ --><p>Test doubles are a big topic all of their own.  I wanted to give you a
+    quick taste of what they are and what they can do.  Using them will
+    dramatically improve the isolation, and therefore the speed and usefulness
+    of your tests.</p><p>Notice though, that they also make our tests more fragile.  I tested
+    current_prices by mocking requests.get, which only works because I knew
+    that current_prices used requests.  If I later change the implementation
+    of current_prices to access the URL differently, my test will break.</p><p>Finding the right way to use test doubles is a very tricky problem,
+    involving trade-offs between what code is tested, and how dependent on the
+    implementation you want to be.</p><h1>Testability</h1><figurep href="text/test3/test3.html#65"><img src="text/test3_pix/064.png" alt="Testability" scale="0.5"/></figurep><figurep href="text/test3/test3.html#66"><img src="text/test3_pix/065.png" alt="Refactoring for tests" scale="0.5"/></figurep><!-- {{{ --><p>We just tried a few different ways to test our current_prices function.
+    There's something we haven't tried yet: change the function to make it more
+    inherently testable!</p><p>Your first reaction might be, isn't that cheating? Ideally tests are
+    written as a stand-apart check that the code has been written properly.
+    Don't we run the danger of weakening that check if we twist the product
+    code to suit the tests?</p><p>The kind of change I'm talking about here is refactoring your product
+    code so that your tests can get at the parts they want to.  There's nothing
+    wrong with using your testing as a way to challenge the modularity of your
+    code.  Usually, improving the structure to benefit tests also ends up
+    helping you in other ways.</p><p>If we look at our current_prices function, it's got three parts: build a
+    URL, then get the text from that URL, then make a dictionary from the text.
+    Let's look at some other ways to structure that code that could make
+    testing easier.</p><figurep href="text/test3/test3.html#67"><img src="text/test3_pix/066.png" alt="Separate I/O" scale="0.5"/></figurep><!-- {{{ --><p>We can pull the I/O out of the middle of the function by moving it into
+    its own function:</p><!--[[[cog include_file("portfolio4.py", start_from="def text_from_url", end_at="csv", px=True)   ]]] {{{ --><code lang="python">
+    def text_from_url(url):
+        return requests.get(url).text
+
+    def current_prices(self):
+        """Return a dict mapping names to current prices."""
+        url = "https://api.worldtradingdata.com/api/v1/stock?symbol="
+        url += ",".join(s[0] for s in sorted(self.stocks))
+        url += self.SUFFIX
+        data = text_from_url(url)
+        lines = data.splitlines()[1:]
+        return { row[0]: float(row[3]) for row in csv.reader(lines) }
+    </code><!--[[[end]]] }}}--><p>This isn't a radical change, but now we could test this function by
+    patching text_from_url.</p><figurep href="text/test3/test3.html#68"><img src="text/test3_pix/067.png" alt="Dependency injection" scale="0.5"/></figurep><!-- {{{ --><p>Here we've used the same text_from_url function, but instead of
+    referencing it by name, it's passed into current_prices as an argument.
+    The product implementation of text_from_url is the default for the
+    argument, so everything works normally if the argument isn't provided.</p><p>But now we can test this function by explicitly calling it with a fake
+    implementation of text_from_url.  No mocking or patching is needed, we can
+    be explicit about how we want current_prices to get some text from a
+    URL.</p><figurep href="text/test3/test3.html#69"><img src="text/test3_pix/068.png" alt="Separate phases" scale="0.5"/></figurep><!-- {{{ --><p>The last refactoring is extremely modular about the three phases of
+    current_prices.  Each phase is now a separate function.  The build_url
+    method and dict_from_csv functions are easily testable in isolation: they
+    are just computation based on some previous state.</p><figurep href="text/test3/test3.html#70"><img src="text/test3_pix/069.png" alt="Tests are real code!" scale="0.5"/></figurep><!-- {{{ --><p>You can see as we add more capability to our tests, they are becoming
+    significant, even with the help of pytest.  This is a key point to
+    understand: writing tests is real engineering!</p><p>If you approach your tests as boring paperwork to get done because
+    everyone says you have to, you will be unhappy and you will have bad
+    tests.</p><p>You have to approach tests as valuable solutions to a real problem: how
+    do you know if your code works?  And as a valuable solution, you will put
+    real effort into it, designing a strategy, building helpers, and so on.</p><p>In a well-tested project, it isn't unusual to have more lines of tests
+    than you have lines of product code! It is definitely worthwhile to
+    engineer those tests well.</p><h1>Also...</h1><figurep href="text/test3/test3.html#71"><img src="text/test3_pix/070.png" alt="Also..." scale="0.5"/></figurep><figurep href="text/test3/test3.html#72"><img src="text/test3_pix/071.png" alt="More tools" scale="0.5"/></figurep><!-- {{{ --><p>Other tools:</p><ul>
+
+        <li><a href="https://docs.python.org/2/library/doctest.html">doctest</a>
+        is a module in the standard library for writing tests.  It executes
+        Python code embedded in docstrings.  Some people love it, but most
+        developers think it should only be used for testing code that naturally
+        appears in docstrings, and not for anything else.</li>
+
+        <li><a href="http://docs.seleniumhq.org/">Selenium</a> is a tool for
+        running tests of web sites.  It automates a browser to run your tests
+        in an actual browser, so you can incorporate the behavior of JavaScript
+        code and browser behaviors into your tests.</li>
+
+        <li><a href="http://jenkins-ci.org/">Jenkins</a> and
+        <a href="https://docs.travis-ci.org/">Travis</a> are
+        continuous-integration servers.  They run your test suite
+        automatically, for example, whenever you make a commit to your repo.
+        Running your tests automatically on a server lets your tests results be
+        shared among all collaborators, and historical results kept for
+        tracking progress.</li>
+
+    </ul><figurep href="text/test3/test3.html#73"><img src="text/test3_pix/072.png" alt="More topics" scale="0.5"/></figurep><!-- {{{ --><p>Other topics:</p><ul>
+
+        <li>Test-driven development (TDD) is a style of development where you
+        write tests before you write your code.  This isn't so much to ensure
+        that your code is tested as it is to give you a chance to think hard
+        about how your code will be used before you write the code.  Advocates
+        of the style claim your code will be better designed as a result, and
+        you have the tests as a side-benefit.</li>
+
+        <li>Behavior-driven development (BDD) uses specialized languages such
+        as Cucumber and Lettuce to write tests.  These languages provide a
+        higher level of description and focus on the external user-visible
+        behavior of your product code.</li>
+
+        <li>In this talk, I've focused on unit tests, which try to test as
+        small a chunk of code as possible.  Integration tests work on larger
+        chunks, after components have been integrated together.  The scale
+        continues on to system tests (of the entire system), and acceptance
+        tests (user-visible behavior).  There is no crisp distinction between
+        these categories: they fall on a spectrum of scale.</li>
+
+        <li>Load testing is the process of generating synthetic traffic to a
+        web site or other concurrent system to determine its behavior as the
+        traffic load increases.  Specialized tools can help generate the
+        traffic and record response times as the load changes.</li>
+
+    </ul><p>There are plenty of other topics, I wish I had time and space to discuss
+    them all!</p><h1>Summing up</h1><figurep href="text/test3/test3.html#74"><img src="text/test3_pix/073.png" alt="Summing up" scale="0.5"/></figurep><figurep href="text/test3/test3.html#75"><img src="text/test3_pix/074.png" alt="Testing is..." scale="0.5"/></figurep><!-- {{{ --><p>I hope this quick introduction has helped orient you in the world of
+    testing.  Testing is a complicated pursuit, because it is trying to solve a
+    difficult problem: determining if your code works.  If your code does
+    anything interesting at all, then it is large and complex and involved, and
+    determining how it behaves is a nearly impossible task.</p><p>Writing tests is the process of crafting a program to do this
+    impossible thing, so of course it is difficult.  But it needs to be done:
+    how else can you know that your code is working, and stays working as you
+    change it?</p><p>From a pure engineering standpoint, writing a good test suite can itself
+    be rewarding, since it is a technical challenge to study and overcome.</p><p>Here are our two developers, happy and confident at last because they
+    have a good set of tests.  (I couldn't get my son to draw me a third
+    picture!)</p><figurep href="text/test3/test3.html#76"><img src="text/test3_pix/075.png" alt="Thank You" scale="0.5"/></figurep>
+
+
+
+    
+
+    
+
+    
+
+    
+
+<pagecomments/>
+
+</page>
