@@ -4,6 +4,10 @@ body, html {
     line-height: 1.3;
 }
 
+html.phantompng, html.phantompng body {
+    background: transparent;
+}
+
 div.text, div.hidden_text {
     display: none;
 }
@@ -18,6 +22,10 @@ div.text, div.hidden_text {
     font-size: 150%;
     overflow: hidden;
 }
+html.phantompng .slide {
+    border: 3px solid black;
+}
+
 h1, h2, h3, h4 {
     font-family: "PT Serif";
     font-weight: 700;
