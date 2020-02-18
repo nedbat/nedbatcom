@@ -5,87 +5,111 @@
 <category></category>
 <body>
 
-<p>
-</p>
+<p>People coming from FP are told "no need for map/filter/lambda, use list
+comprehensions", so listcomps are viewed as anti-FP.  But list comps are one of
+the most FP things Python has, because they encourage making new data instead of
+mutating existing data.</p>
+
+<p>FP strategies:</p>
+<ul>
+<li>Unmutated data</li>
+<li>Small pure functions</li>
+<li>Power ways to combine functions</li>
+</ul>
+
+<p>FP tactics:</p>
+
+<ul>
+<li>Immutable data structures</li>
+<li>Higher-order functions</li>
+<li>Recursion</li>
+</ul>
 
 <!--
 
-moquist:house_with_garden:  7:23 AM
-:scream: Unless list comprehension provides a way to produce a single result from the list (like reduce), this is precisely the wrong way to go IMO; 'reduce' is the most fundamental and Guido explicitly chose an "easy" thing instead of a "simple" thing:
-...lambda, map() and filter() are still part of core Python. Only reduce() had to go; it moved into the module functools.
+moquist  7:23 AM
+:scream: Unless list comprehension provides a way to produce a single result
+from the list (like reduce), this is precisely the wrong way to go IMO;
+'reduce' is the most fundamental and Guido explicitly chose an "easy" thing
+instead of a "simple" thing: ...lambda, map() and filter() are still part of
+core Python. Only reduce() had to go; it moved into the module functools.
 His reasoning for dropping them is like this:
-> There is an equally powerful alternative to lambda, filter, map and reduce, i.e. list comprehension
+> There is an equally powerful alternative to lambda, filter, map and reduce,
+> i.e. list comprehension.
 > List comprehension is more evident and easier to understand
-> Having both list comprehension and "Filter, map, reduce and lambda" is transgressing the Python motto "There should be one obvious way to solve a problem"
+> Having both list comprehension and "Filter, map, reduce and lambda" is
+> transgressing the Python motto "There should be one obvious way to solve a problem"
 https://www.python-course.eu/python3_lambda.php
-So add me to the list: "He expected resistance from the Lisp and the scheme 'folks'. What he didn't anticipate was the rigidity of this opposition."
+
+So add me to the list: "He expected resistance from the Lisp and the scheme
+'folks'. What he didn't anticipate was the rigidity of this opposition."
 python-course.eupython-course.eu
 Chapter on the Lambda Operator and the functions map, filter and reduce
-7:24
+
 You can write filter and map by using reduce, but you can't create reduce given only the other two.
-7:25
-I don't see (yet) how list comprehension can do the same thing as reduce, so that first claim seems patently false. Am I missing something?
+
+I don't see (yet) how list comprehension can do the same thing as reduce,
+so that first claim seems patently false. Am I missing something?
 
 nedbat  7:34 AM
 list comprehensions cannot do the same thing as reduce
-7:35
-doesn’t want to fight about it though :slightly_smiling_face:
-:nod:
-1
-
 
 nedbat  8:02 AM
-I think one of the challenges of being pro-functional-programming is coming to terms with why it remains a minority technology after more than 50 years.
-:cry:
-1
+I think one of the challenges of being pro-functional-programming is coming to
+terms with why it remains a minority technology after more than 50 years.
 
-
-moquist:house_with_garden:  8:14 AM
-@nedbat Do you think it's because we think of the world as a mutable place, so mutation and procedural thinking fit the model of the world we use everywhere else?
+moquist  8:14 AM
+@nedbat Do you think it's because we think of the world as a mutable place,
+so mutation and procedural thinking fit the model of the world we use everywhere else?
 
 nedbat  8:14 AM
 basically, yes.
 
-moquist:house_with_garden:  8:14 AM
-I wasn't looking for a fight, just complaining and hoping someone could explain how I was misunderstanding. :slightly_smiling_face:
+moquist  8:14 AM
+I wasn't looking for a fight, just complaining and hoping someone could explain
+how I was misunderstanding. :slightly_smiling_face:
 
 nedbat  8:15 AM
-I think the more accurate statement for Python is: “filter and map can usually be replaced with list comprehensions; therefore you need lambda much less; and reduce kind of gets lumped in with the rest”
-8:16
+I think the more accurate statement for Python is: “filter and map can usually
+be replaced with list comprehensions; therefore you need lambda much less;
+and reduce kind of gets lumped in with the rest”
+
 btw, a similar impulse means that iteration is much preferred over recursion in python
 
-moquist:house_with_garden:  8:17 AM
+moquist  8:17 AM
 Your statement seems accurate to me.
-8:19
-Context: I'm trying to teach functional ideas to some Python programmers. I thought I'd write a couple refactoring examples to show how Python can be more functional, and ran into the above... hence my expression of dismay.
-8:20
-@nedbat Fair to say that Guido intentionally decided to aim Python more toward "easy" and less toward "functional"? (I'm not saying that to be critical, I'm asking if that's a fair statement.)
+Context: I'm trying to teach functional ideas to some Python programmers.
+I thought I'd write a couple refactoring examples to show how Python can be
+more functional, and ran into the above... hence my expression of dismay.
+
+@nedbat Fair to say that Guido intentionally decided to aim Python more toward
+"easy" and less toward "functional"? (I'm not saying that to be critical,
+I'm asking if that's a fair statement.)
 
 nedbat  8:20 AM
-to me, the main idea from functional programming is not the tactics of filter, map, reduce; but the strategy of not mutating data.
-8:20
+to me, the main idea from functional programming is not the tactics of filter,
+map, reduce; but the strategy of not mutating data.
+
 it’s definitely fair to say that guido aimed away from “functional”.
 
-moquist:house_with_garden:  8:21 AM
+moquist  8:21 AM
 OK
 
 nedbat  8:21 AM
 “toward easy” sounds a little more debatable over the nuances
 
-moquist:house_with_garden:  8:21 AM
+moquist  8:21 AM
 I don't have language examples in mind, but aren't there functional paradigms that mutate data?
 
 nedbat  8:21 AM
 he wanted Python to be approachable by lots of people
-8:22
+
 i’m not well versed enough in the variety of FP languages to know if there are paradigms that mutate data.
-8:22
+
 You can look at list comprehensions as aiding in the FP idea of, “don’t change the data, just make new data”
-:nod:
-1
 
 
-moquist:house_with_garden:  8:22 AM
+moquist  8:22 AM
 @nedbat Yeah, I wasn't entirely comfortable with "easy" in my statement. I almost edited it to say "easy/clarity".
 
 
@@ -94,25 +118,53 @@ https://n01se.slack.com/archives/C47NLHRB3/p1581945771475500
 
 nedbat  8:31 AM
 @moquist thanks for asking this, it might become a blog post :slightly_smiling_face:
-new messages
 
-moquist:house_with_garden:  8:33 AM
-@nedbat Thanks for responding with clarity! I really appreciate the comment about noodling over why FP continues to be a minority technology.
-8:37
-@nedbat As I remember conversations with @aaron back in my PHP days, he would look at my code or hear about scenarios and (for example) say (very nicely :slightly_smiling_face:) "Hmm, I think it would be better to write it with functions like A, B, C so you can test each piece and compose them in different combinations". I would hear that and think "Yeah, I could do that... but that sounds harder, and this is [almost working | stable | in production]." As I look at the enormous, branching, trying-trying-excepting-excepting-excepting Python code of this team I'm trying to help, I want to say things just like @aaron said to me, and yet I realize that despite my respect for @aaron I wasn't really able to appreciate the reasoning until I learned FP.
-8:40
-Remembering the procedural|mutation-oriented code I used to write, the FP I do now is obviously better. But how to help someone else see the difference for themselves? If they don't become FPers that's OK, but I would like to see the adoption of practices that lead to better testability, constrained mutation scopes, and clearer control flows. I don't know how to get them there without trying to take them along a path similar to the one I walked... by learning FP. (edited)
-8:41
-closes Gandalf Epic Sax
+moquist  8:33 AM
+@nedbat Thanks for responding with clarity! I really appreciate the comment
+about noodling over why FP continues to be a minority technology.
+@nedbat As I remember conversations with @aaron back in my PHP days,
+he would look at my code or hear about scenarios and (for example) say
+(very nicely :slightly_smiling_face:) "Hmm, I think it would be better to
+write it with functions like A, B, C so you can test each piece and compose
+them in different combinations". I would hear that and think "Yeah, I could
+do that... but that sounds harder, and this is [almost working | stable | in
+production]." As I look at the enormous, branching,
+trying-trying-excepting-excepting-excepting Python code of this team
+I'm trying to help, I want to say things just like @aaron said to me,
+and yet I realize that despite my respect for @aaron I wasn't really able
+to appreciate the reasoning until I learned FP.
+
+Remembering the procedural|mutation-oriented code I used to write,
+the FP I do now is obviously better. But how to help someone else see
+the difference for themselves? If they don't become FPers that's OK,
+but I would like to see the adoption of practices that lead to better
+testability, constrained mutation scopes, and clearer control flows.
+I don't know how to get them there without trying to take them along
+a path similar to the one I walked... by learning FP. (edited)
 
 nedbat  8:59 AM
 The things that i focus on that help me:  1) smaller functions, 2) don’t change data
-9:04
 neither of those require passing functions to functions, which is a leap that people can find difficult.
 
 
--->
+nedbat  11:47 AM
+i think you hit the nail on the head: people are taught from an early age how to work with mutable things.
+You don’t hear this: “Here’s how to make a cake. Take a mixing bowl.  Turn it into a new bowl with flour in it…”
 
+moquist  11:47 AM
+So our from-the-cradle model of ourselves and the world is a very good fit with procedural/mutable programming.
+
+nedbat  11:49 AM
+Right. We often tell people in the Python world, “don’t modify the list,
+make a new list” and that is hard enough for people to get used to.
+
+natouno  11:49 AM
+is right in the middle of some math, and can’t really participate, but… some
+of us OLDER folks started when computing resource restraints were much tighter,
+pre-GC, where mutability was “cheaper” than endlessly making copies of new objects
+
+
+-->
 
 </body>
 </entry>
