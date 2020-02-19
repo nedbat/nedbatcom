@@ -647,7 +647,9 @@ def test_value(simple_portfolio, mocker):
     that current_prices used requests.  If I later change the implementation
     of current_prices to access the URL differently, my test will break.</p><p>Finding the right way to use test doubles is a very tricky problem,
     involving trade-offs between what code is tested, and how dependent on the
-    implementation you want to be.</p><h1>Testability</h1><figurep href="text/test3/test3.html#65"><img src="text/test3_pix/064.png" alt="Testability" scale="0.5"/></figurep><figurep href="text/test3/test3.html#66"><img src="text/test3_pix/065.png" alt="Refactoring for tests" scale="0.5"/></figurep><!-- {{{ --><p>We just tried a few different ways to test our current_prices function.
+    implementation you want to be.</p><p>One thing to keep in mind: if you are trying to mock out a popular
+    third-party package like requests, there might already be a specialized
+    third-party implementation of the exact test doubles you need.</p><h1>Testability</h1><figurep href="text/test3/test3.html#65"><img src="text/test3_pix/064.png" alt="Testability" scale="0.5"/></figurep><figurep href="text/test3/test3.html#66"><img src="text/test3_pix/065.png" alt="Refactoring for tests" scale="0.5"/></figurep><!-- {{{ --><p>We just tried a few different ways to test our current_prices function.
     There's something we haven't tried yet: change the function to make it more
     inherently testable!</p><p>Your first reaction might be, isn't that cheating? Ideally tests are
     written as a stand-apart check that the code has been written properly.
@@ -700,7 +702,26 @@ def test_value(simple_portfolio, mocker):
     change it?</p><p>From a pure engineering standpoint, writing a good test suite can itself
     be rewarding, since it is a technical challenge to study and overcome.</p><p>Here are our two developers, happy and confident at last because they
     have a good set of tests.  (I couldn't get my son to draw me a third
-    picture!)</p><figurep href="text/test3/test3.html#73"><img src="text/test3_pix/072.png" alt="Thank You" scale="0.5"/></figurep>
+    picture!)</p><figurep href="text/test3/test3.html#73"><img src="text/test3_pix/072.png" alt="Thank You" scale="0.5"/></figurep><!-- {{{ --><p>There's an entire world of other resources and more information about
+    testing topics.  Here are some:</p><ul>
+
+    <li><a href="https://salmonmode.github.io/2019/03/29/building-good-tests.html">Building
+    Good Tests</a>, Chris NeJame's detailed, pithy, opinionated list of do's
+    and don'ts for writing tests.</li>
+
+    <li>Brian Okken's presentation at PyCascades 2020,
+    <a href="https://github.com/okken/pycascades2020">Multiply your Testing Effectiveness with Parametrized Testing</a>,
+    has many examples of the types of complex supporting structures you can
+    create with pytest parameterization.
+    </li>
+
+    </ul>
+
+
+
+    
+
+    
 
 
 

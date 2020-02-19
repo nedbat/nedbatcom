@@ -2706,6 +2706,7 @@ def test_value(simple_portfolio, mocker):
         <li class="incremental">Powerful: isolates code</li>
         <li class="incremental">Focuses tests</li>
         <li class="incremental">Removes speed bumps and randomness</li>
+        <li class="incremental">Third-party implementations</li>
     </ul>
 </div>
 
@@ -2734,6 +2735,10 @@ def test_value(simple_portfolio, mocker):
     <p>Finding the right way to use test doubles is a very tricky problem,
     involving trade-offs between what code is tested, and how dependent on the
     implementation you want to be.</p>
+
+    <p>One thing to keep in mind: if you are trying to mock out a popular
+    third-party package like requests, there might already be a specialized
+    third-party implementation of the exact test doubles you need.</p>
 
 </div><!-- }}} -->
 
@@ -3096,6 +3101,29 @@ def test_value(simple_portfolio, mocker):
     </p>
     </div>
 </div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>There's an entire world of other resources and more information about
+    testing topics.  Here are some:</p>
+
+    <ul>
+
+    <li><a href="https://salmonmode.github.io/2019/03/29/building-good-tests.html">Building
+    Good Tests</a>, Chris NeJame's detailed, pithy, opinionated list of do's
+    and don'ts for writing tests.</li>
+
+    <li>Brian Okken's presentation at PyCascades 2020,
+    <a href="https://github.com/okken/pycascades2020">Multiply your Testing Effectiveness with Parametrized Testing</a>,
+    has many examples of the types of complex supporting structures you can
+    create with pytest parameterization.
+    </li>
+
+    </ul>
+
+</div><!-- }}} -->
+
 
 <!-- }}} -->
 
