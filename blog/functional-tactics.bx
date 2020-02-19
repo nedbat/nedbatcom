@@ -12,9 +12,9 @@ mutating existing data.</p>
 
 <p>FP strategies:</p>
 <ul>
-<li>Unmutated data</li>
-<li>Small pure functions</li>
-<li>Power ways to combine functions</li>
+<li>Write small functions with no side-effect</li>
+<li>Don't change existing data, make new data</li>
+<li>Combine functions to make larger functions</li>
 </ul>
 
 <p>FP tactics:</p>
@@ -165,6 +165,46 @@ pre-GC, where mutability was “cheaper” than endlessly making copies of new o
 
 
 -->
+
+<!--
+
+moquist  9:22 AM
+@nedbat In Stu Halloway's talk "Simplicity Ain't Easy", he has a slide with a kazoo and a violin and makes the point that if "ease for beginners" is the goal (of language designers or programmers) then we at least run the risk of relegating ourselves to the kazoo and never realizing the beauty and glory of a well-played violin. BUT... the majority of programmers are always going to be closer to beginning, or working with others who are closer to beginning. Many programmers never have reason, inclination, interest, etc. in moving beyond the "kazoo". So maybe there's value in the strategy of attempting to meet beginners where they are but still provide tools for the budding violinists. As a junior-varsity violinist, I do find it frustrating to discover myself on a team of kazooists.
+9:23
+The main reason for my comment is the middle bit, realizing that beginners are almost always the majority, so that's another reason haughty violin hawkers only ever reach a niche market, even if the benefits they cite aren't imaginary.
+9:23
+I'd like to help this team of kazooists move beyond the stage where they play everything as loud and fast as possible...
+
+nedbat  9:24 AM
+i want to talk about this a lot.  i also am in a meeting atm
+
+moquist  9:24 AM
+ends, for now, his metacommentary and increasingly strained metaphor.
+
+nedbat  9:25 AM
+tl;dr: there are other instruments than violins; the goal is beautiful music, don’t fixate on the instrument.
+
+aaron  9:26 AM
+@nedbat Python is a hot mess when it comes to mutation. Dicts and default parameter values are great examples of python landmines. Sure strings and tuples are immutable but you can't actually write any generic code that operates on generic Dicts (yes there are immutable Dicts but they're an entirely separate thing). I get so frustrated when trying to do FP in python. It fights you and makes it too hard to do properly.
+
+nedbat  9:26 AM
+i can understand that feeling
+
+aaron  9:31 AM
+@nedbat Reduce, foldl, etc. are also very core pieces of another aspect of functional programming which is functional composition. Functional composition is possible in any language that allows you to pass functions as values and create on-demand function closures. This ability gives you an expressiveness that templating aims to give you in OOP languages but is much more powerful (because it's not constrained by coding time types but by runtime values). This is definitely a blub feature... it's the sort of thing you don't miss until you've had it and understand what it can do.
+
+nedbat  9:31 AM
+i’m curious about “generic code that operates on generic dicts”: what would that look like, and why is it hard in Python?
+
+aaron  9:31 AM
+Because update on a dict only ever returns None... the API contract enforces mutation only.
+9:32
+@nedbat Python is also terrible when it comes to function closures... it basically doesn't do them in any helpful sort of way.
+
+
+-->
+
+
 
 </body>
 </entry>
