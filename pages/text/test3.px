@@ -690,55 +690,7 @@ def test_value(simple_portfolio, mocker):
     do you know if your code works?  And as a valuable solution, you will put
     real effort into it, designing a strategy, building helpers, and so on.</p><p>In a well-tested project, it isn't unusual to have more lines of tests
     than you have lines of product code! It is definitely worthwhile to
-    engineer those tests well.</p><h1>Also...</h1><figurep href="text/test3/test3.html#71"><img src="text/test3_pix/070.png" alt="Also..." scale="0.5"/></figurep><figurep href="text/test3/test3.html#72"><img src="text/test3_pix/071.png" alt="More tools" scale="0.5"/></figurep><!-- {{{ --><p>Other tools:</p><ul>
-
-        <li><a href="https://docs.python.org/2/library/doctest.html">doctest</a>
-        is a module in the standard library for writing tests.  It executes
-        Python code embedded in docstrings.  Some people love it, but most
-        developers think it should only be used for testing code that naturally
-        appears in docstrings, and not for anything else.</li>
-
-        <li><a href="http://docs.seleniumhq.org/">Selenium</a> is a tool for
-        running tests of web sites.  It automates a browser to run your tests
-        in an actual browser, so you can incorporate the behavior of JavaScript
-        code and browser behaviors into your tests.</li>
-
-        <li><a href="http://jenkins-ci.org/">Jenkins</a> and
-        <a href="https://docs.travis-ci.org/">Travis</a> are
-        continuous-integration servers.  They run your test suite
-        automatically, for example, whenever you make a commit to your repo.
-        Running your tests automatically on a server lets your tests results be
-        shared among all collaborators, and historical results kept for
-        tracking progress.</li>
-
-    </ul><figurep href="text/test3/test3.html#73"><img src="text/test3_pix/072.png" alt="More topics" scale="0.5"/></figurep><!-- {{{ --><p>Other topics:</p><ul>
-
-        <li>Test-driven development (TDD) is a style of development where you
-        write tests before you write your code.  This isn't so much to ensure
-        that your code is tested as it is to give you a chance to think hard
-        about how your code will be used before you write the code.  Advocates
-        of the style claim your code will be better designed as a result, and
-        you have the tests as a side-benefit.</li>
-
-        <li>Behavior-driven development (BDD) uses specialized languages such
-        as Cucumber and Lettuce to write tests.  These languages provide a
-        higher level of description and focus on the external user-visible
-        behavior of your product code.</li>
-
-        <li>In this talk, I've focused on unit tests, which try to test as
-        small a chunk of code as possible.  Integration tests work on larger
-        chunks, after components have been integrated together.  The scale
-        continues on to system tests (of the entire system), and acceptance
-        tests (user-visible behavior).  There is no crisp distinction between
-        these categories: they fall on a spectrum of scale.</li>
-
-        <li>Load testing is the process of generating synthetic traffic to a
-        web site or other concurrent system to determine its behavior as the
-        traffic load increases.  Specialized tools can help generate the
-        traffic and record response times as the load changes.</li>
-
-    </ul><p>There are plenty of other topics, I wish I had time and space to discuss
-    them all!</p><h1>Summing up</h1><figurep href="text/test3/test3.html#74"><img src="text/test3_pix/073.png" alt="Summing up" scale="0.5"/></figurep><figurep href="text/test3/test3.html#75"><img src="text/test3_pix/074.png" alt="Testing is..." scale="0.5"/></figurep><!-- {{{ --><p>I hope this quick introduction has helped orient you in the world of
+    engineer those tests well.</p><h1>Summing up</h1><figurep href="text/test3/test3.html#71"><img src="text/test3_pix/070.png" alt="Summing up" scale="0.5"/></figurep><figurep href="text/test3/test3.html#72"><img src="text/test3_pix/071.png" alt="Testing is..." scale="0.5"/></figurep><!-- {{{ --><p>I hope this quick introduction has helped orient you in the world of
     testing.  Testing is a complicated pursuit, because it is trying to solve a
     difficult problem: determining if your code works.  If your code does
     anything interesting at all, then it is large and complex and involved, and
@@ -748,7 +700,7 @@ def test_value(simple_portfolio, mocker):
     change it?</p><p>From a pure engineering standpoint, writing a good test suite can itself
     be rewarding, since it is a technical challenge to study and overcome.</p><p>Here are our two developers, happy and confident at last because they
     have a good set of tests.  (I couldn't get my son to draw me a third
-    picture!)</p><figurep href="text/test3/test3.html#76"><img src="text/test3_pix/075.png" alt="Thank You" scale="0.5"/></figurep>
+    picture!)</p><figurep href="text/test3/test3.html#73"><img src="text/test3_pix/072.png" alt="Thank You" scale="0.5"/></figurep>
 
 
 
