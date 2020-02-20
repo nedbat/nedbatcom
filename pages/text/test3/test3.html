@@ -1060,7 +1060,7 @@ $ pytest -q test_port1_pytest.py
 
     <p>One test isn't enough: let's add some more.  Here we add a simpler test,
     test_empty, and a more complicated test, test_buy_two_stocks.  Each test is
-    another test method in our PortfolioTest class:</p>
+    another test function:</p>
 
 <!--[[[cog include_file("test_port2_pytest.py", px=True) ]]] {{{ -->
 <code lang='python'>
@@ -2285,10 +2285,10 @@ def test_selling(simple_portfolio, sym, num, cost):
     &gt;&gt;&gt; p.buy("HPQ", 100, 30.0)
 
     &gt;&gt;&gt; p.current_prices()
-    {'HPQ': 22.24, 'IBM': 151.1}
+    {'HPQ': 22.73, 'IBM': 150.64}
 
     &gt;&gt;&gt; p.value()
-    17334.0
+    17337.0
     </pre>
     <!--[[[end]]] }}}-->
 </div>

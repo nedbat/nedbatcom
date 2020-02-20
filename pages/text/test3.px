@@ -222,7 +222,7 @@ $ pytest -q test_port1_pytest.py
     failure.  The test runner keeps track of all that bookkeeping so that it
     can present the results to you at the end of the test run.</p><figurep href="text/test3/test3.html#25"><img src="text/test3_pix/024.png" alt="Add more tests" scale="0.5"/></figurep><!-- {{{ --><p>One test isn't enough: let's add some more.  Here we add a simpler test,
     test_empty, and a more complicated test, test_buy_two_stocks.  Each test is
-    another test method in our PortfolioTest class:</p><!--[[[cog include_file("test_port2_pytest.py", px=True) ]]] {{{ --><code lang="python">
+    another test function:</p><!--[[[cog include_file("test_port2_pytest.py", px=True) ]]] {{{ --><code lang="python">
 # test_port2_pytest.py
 
 from portfolio1 import Portfolio
