@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200220T071218'>
+<title>Getting Started Testing with pytest</title>
+<category>testing</category>
+<body>
+
+<p>Next week I am presenting <a pref='text/test3.px'/> at Boston Python
+(<a href="https://www.meetup.com/bostonpython/events/266720542/">event page</a>).</p>
+
+<p>This talk has been through a few iterations. In 2011, I gave a
+<a href="https://www.meetup.com/bostonpython/events/23388681/">presentation at Boston Python</a>
+about Getting Started Testing, based on the standard library unittest module.  In 2014, I updated it and
+<a href="https://nedbatchelder.com/text/test0.html">presented it at PyCon</a>.
+Now I've updated it again, and will be presenting it at Boston Python.
+</p>
+
+<p>The latest edition, <a pref='text/test3.px'/>, uses pytest throughout.  It's
+a little long for one evening of talking, but I really wanted to cover the
+material in it.  I wanted to touch on not just the mechanics of testing, but the
+philosophy and central challenges as well.</p>
+
+<p>I'm sure there are important things I left out, and probably digressions I
+could trim, but it'll do.  Thoughts welcome.</p>
+
+</body>
+</entry>
+</blog>
