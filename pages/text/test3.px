@@ -47,7 +47,7 @@ browser (use right and left arrows to advance the slides).</p>
     subtly.</p><p>You know the feeling: on a bad day, it seems like everything is out to
     get you, the world is populated by gremlins and monsters, and they are all
     trying to get at your code.</p><p>You have to fight that chaos, and one of your weapons is automated
-    tests.</p><p>OK, enough of the sermon, let's talk about how to write tests.</p><figurep href="text/test3/test3.html#7"><img src="text/test3_pix/006.png" alt="Roadmap" scale="0.5"/></figurep><!-- {{{ --><p>The rest of the talk is divided has these parts:</p><ul>
+    tests.</p><p>OK, enough of the sermon, let's talk about how to write tests.</p><figurep href="text/test3/test3.html#7"><img src="text/test3_pix/006.png" alt="Roadmap" scale="0.5"/></figurep><!-- {{{ --><p>The rest of the talk is divided into these parts:</p><ul>
         <li>We'll grow some tests from first principles in an ad-hoc way,
             examining what's good and bad about the style of code we get,</li>
         <li>we'll use pytest to write tests the right way,</li>
