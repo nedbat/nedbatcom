@@ -1,29 +1,88 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200217T082839' draft='y'>
-<title>Functional tactics</title>
+<entry when='20200306T082839' draft='y'>
+<title>Functional strategies in Python</title>
 <category></category>
 <body>
 
-<p>People coming from FP are told "no need for map/filter/lambda, use list
-com­pre­hen­sions", so listcomps are viewed as anti-FP.  But list comps are one of
-the most FP things Python has, because they encourage making new data instead of
-mutating existing data.</p>
+<p>I got into a debate about Python's support for functional programming (FP)
+with a friend.  One of the challenging parts was listening to him say, "Python
+is broken" a number of times.</p>
 
-<p>FP strategies:</p>
+<p>Python is not broken. It's just not a great language in which to write pure
+functional programs.  Python seemed broken to my friend in exactly the same way
+that a hammer seems broken to someone trying to turn a screw with it.</p>
+
+<p>I understand his frustration.  Once you have fully embraced the FP mindset,
+it is difficult to understand why people would write programs any other way.
+</p>
+
+<p>I have not fully embraced the FP mindset.  But that doesn't mean that I can't
+apply some FP lessons to my Python programs.</p>
+
+<p>In discussions about how FP and Python relate, I think too much attention is
+paid to the tactics.  For example, some people say, "no need for
+map/­filter/­lambda, use list comprehensions".  Not only does this put off FP
+people because they're being told to abandon the tools they are used to, but it
+gives the impression that list com­pre­hensions are somehow at odds with FP
+constructs, or are exact replacements.</p>
+
+<p>Rather than focus on the tactics, the important ideas to take from FP are
+strategies, including:</p>
+
 <ul>
-<li>Write small functions with no side-effect</li>
+<li>Write small functions with no side-effects</li>
 <li>Don't change existing data, make new data</li>
 <li>Combine functions to make larger functions</li>
 </ul>
 
-<p>FP tactics:</p>
+<p>These strategies all lead to modularized code, free from mysterious action at
+a distance.  The code is easier to reason about, debug, and extend.</p>
+
+<p>Of course, languages that are built from the ground up with these ideas in
+mind will have great tools to support them.  They have tactics like:</p>
 
 <ul>
 <li>Immutable data structures</li>
-<li>Higher-order functions</li>
-<li>Recursion</li>
+<li>Rich libraries of higher-order functions</li>
+<li>Good support for recursion</li>
 </ul>
+
+<p>Functional languages like Scheme, Clojure, Haskell, and Scala have these
+tools built-in.  They are of course going to be way better for writing
+Functional programs than Python is.</p>
+
+<p>FP people look at Python, see none of these tools, and conclude that Python
+can't be used for functional programming.  As I said before, Python is not a
+great language for writing purely function programs.  But it's not a lost
+cause.</p>
+
+<p>Even without those FP tools in Python, we can keep the FP strategies in mind.
+Although list comprehensions are presented as the alternative to FP tools, they
+help with the FP strategies, because they force you to make new data instead of
+mutating existing data.</p>
+
+<p>If other FP professionals are like my friend, they are probably saying to
+themselves, "Ned, you just don't get it." Perhaps that is true, how would I
+know? That doesn't mean I can't improve my Python programs by thinking
+Functionally.  I'm only just dipping my toes in the water so far, but I want
+to do more.</p>
+
+<p>For more thoughts about this:</p>
+
+<ul>
+    <li><a href='https://www.youtube.com/watch?v=eOYal8elnZk'>Gary Bernhardt: Boundaries</a>,
+    a PyCon talk that discusses Functional Core and Imperative Shell.</li>
+    <li>If you want more Functional tools, there are third-party Python packages like:
+        <ul>
+        <li><a href="https://pypi.org/project/pyrsistent/">pyrsistent</a>, providing immutable data structures</li>
+        <li><a href="https://pypi.org/project/pydash/">pydash</a>, providing functional tools</li>
+        <li><a href="https://pypi.org/project/fnc/">fnc</a>, providing functional tools</li>
+        </ul>
+    </li>
+
+</ul>
+
 
 <!--
 
