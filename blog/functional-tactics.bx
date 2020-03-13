@@ -1,15 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200306T082839' draft='y'>
+<entry when='20200313T140101'>
 <title>Functional strategies in Python</title>
-<category></category>
+<category>python</category>
+<category>devmindset</category>
 <body>
 
 <p>I got into a debate about Python's support for functional programming (FP)
 with a friend.  One of the challenging parts was listening to him say, "Python
 is broken" a number of times.</p>
 
-<p>Python is not broken. It's just not a great language in which to write pure
+<p>Python is not broken. It's just not a great language for writing pure
 functional programs.  Python seemed broken to my friend in exactly the same way
 that a hammer seems broken to someone trying to turn a screw with it.</p>
 
@@ -22,7 +23,7 @@ apply some FP lessons to my Python programs.</p>
 
 <p>In discussions about how FP and Python relate, I think too much attention is
 paid to the tactics.  For example, some people say, "no need for
-map/­filter/­lambda, use list comprehensions".  Not only does this put off FP
+map/­filter/­lambda, use list comprehensions."  Not only does this put off FP
 people because they're being told to abandon the tools they are used to, but it
 gives the impression that list com­pre­hensions are somehow at odds with FP
 constructs, or are exact replacements.</p>
