@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200327T082854'>
+<title>How long did it take you to learn Python?</title>
+<category>edu</category>
+<category>python</category>
+<body>
+
+<p>Wait, don't answer that. It doesn't matter.</p>
+
+<p>Beginners seem to ask this question when they are feeling daunted by the
+challenge before them.  Maybe they are hoping for a helpful answer, but it seems
+like most answers will just be a jumping off point for feeling bad about their
+own progress.</p>
+
+<p>Everyone learns differently.  They learn from different sources, at different
+paces.  Suppose you ask this question and someone answers "one month"?  Will you
+feel bad about yourself because you've been at it for six weeks?  Suppose they
+say, "ten years"? Now what do you think?</p>
+
+<p>The question doesn't even make sense in a way.  What do we mean by "learn"?
+If you can write a number guessing game in Python, have you learned Python?  Are
+we talking about basic familiarity, or deep memorization?  Does something have
+to be second nature, or is it OK if you are still looking through the docs for
+details?  "Learned" is not a binary state. There isn't a moment where you don't
+know Python, and then suddenly you do.</p>
+
+<p>And what do we even mean by "Python"? Are we talking about the basic syntax,
+or do you need to be able to write a metaclass, a descriptor, and a decorator
+with arguments?  Is it just the language, or also the standard library? How many
+of the <a href="https://docs.python.org/3/py-modindex.html">200+ modules</a> in
+the standard library do you need to be familiar with?  What about commonly used
+third-party libraries?  Are we also including the skills needed to write large
+(10k lines) programs in Python?  "Python" is a large and varied landscape, and
+you will be finding out new things about it for years and years.</p>
+
+<p>Especially since it keeps changing! Python isn't sitting still, so you will
+never be done "learning Python."  I have been using Python for more than 20
+years, and been deeply involved with it for at least half that time.  I thought
+I knew Python well, then they added "async". I will have to figure that out one
+of these days...</p>
+
+<p>Since Python is used in many different domains, the things you need to learn
+could be completely different from someone else.  These days, lots of people are
+learning Python to get into data science.  I don't do data science.  Here are
+more things I don't know (taken from a random sampling of "libraries you should
+know" blog posts): TensorFlow, Scikit-Learn, Numpy, Keras, PyTorch, SciPy,
+Pandas, Matplotlib, Theano, NLTK, etc.  How should I compare my learning to a
+data scientist's?</p>
+
+<p>My advice to beginners is: don't compare your learning to other peoples'.
+Everyone learns differently, using different materials, at different speeds.
+Everyone has different definitions of "learn," and of "Python."  Understand your
+goals and your learning style.  Find materials that work for you.  Study, and
+learn in your own way. You can do it.</p>
+
+</body>
+</entry>
+</blog>
