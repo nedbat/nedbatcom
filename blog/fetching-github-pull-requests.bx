@@ -5,6 +5,18 @@
 <category>git</category>
 <body>
 
+<p><b>tl;dr</b>: This Git alias lets you pull down a branch based on the GitHub
+    pull request number, without worrying about the repo or name of the
+    branch:</p>
+
+<code><![CDATA[
+[alias]
+copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
+                    git checkout pr/$1; && git reset --hard @ }; f"
+]]></code>
+
+<bulletsep/>
+
 <p>When reviewing GitHub pull requests, I sometimes want to get the proposed
     code onto my own machine, for running it, or just reading it in my own
     editor.  Here are a few ways to do it, with a digression into git/alias/shell
@@ -90,9 +102,9 @@ $ git copr 789 upstream    # gets and switches to pr/789 from upstream
 
 <code lang="python"><![CDATA[
 [alias]
-    ee1 = "!echo 2 is $2 stop; echo 1 is $1 stop"
-    ee2 = "!echo 2 is $2 stop; echo 1 is $1 stop && :"
-    ee3 = "!f() { echo 2 is $2 stop; echo 1 is $1 stop; }; f"
+    ee1 = "!echo 1 is $1 stop; echo 2 is $2 stop"
+    ee2 = "!echo 1 is $1 stop; echo 2 is $2 stop && :"
+    ee3 = "!f() { echo 1 is $1 stop; echo 2 is $2 stop; }; f"
 ]]></code>
 
 <p>When we try these, the first does a bad thing, but the second and third are
