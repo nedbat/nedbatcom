@@ -185,7 +185,7 @@
 
         <xsl:when test='contains(@href, "://")'>
             <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
-            <xsl:attribute name='rel'>external</xsl:attribute>
+            <xsl:attribute name='rel'>external noopener</xsl:attribute>
         </xsl:when>
 
         <xsl:when test='@isbn'>
