@@ -859,6 +859,7 @@ div.linenodiv {
 img {
     max-width: 100%;
     height: auto;
+    align-self: flex-start; /* https://stackoverflow.com/a/61196907/14343 */
 }
 
 .tweet a {
