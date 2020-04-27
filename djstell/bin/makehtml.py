@@ -259,3 +259,10 @@ class CmdLine(object):
 if __name__ == '__main__':
     cmdline = CmdLine()
     cmdline.main(sys.argv[1:])
+    def do_local(self):
+        self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
+        self.ROOT = '../www'
+        self.HTACCESS = 'local.htaccess'
+        self.WWWROOT = os.path.abspath(self.ROOT)
+        self.all_words = "load make"    # Don't clean: it clobbers reactor.
+
