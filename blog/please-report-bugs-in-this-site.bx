@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200427T082131'>
+<title>Please report bugs in this site</title>
+<category>site</category>
+<category>online</category>
+<body>
+
+<p><b>tl;dr:</b> If you see something wrong on my site,
+<a href="/site/aboutned.html">please let me know</a>. I won't be annoyed or
+offended.  You'll be helping me. It's a contribution.</p>
+
+<bulletsep/>
+
+<p>This morning I tweeted out a link to my
+<a pref='blog/latos-unfortunate-ligatures.bx'/> blog post.  Łukasz Langa tweeted
+back at me:</p>
+
+<figurep href="https://twitter.com/i/status/1254725584028160000">
+    <img src="pix/lukasz_tweet.png" class="hairline"
+        alt="This is low pri but since we're already nitpicking: your website's design doesn't do image resizing proportionally. That's how it looks on the iPhone in horizontal mode (vertical is worse)."
+    />
+</figurep>
+
+<p>OMG! Are images looking like that on my site and I didn't know? (I've since
+fixed the problem.) Turns out it wasn't just iPhones: Safari on desktop also
+showed stretched images like this!  Why didn't anyone tell me?</p>
+
+<p>I could have done more thorough testing to begin with, but bugs will happen
+no matter what.</p>
+
+<p>If you see something wrong, <a href="/site/aboutned.html">get in touch</a> to
+let me know.  As a creator, I want to make good things.  If you can point me to
+a problem, you are helping me make better things.  Even small things like
+dropped words or mispellings are good to report (see what I did there?).</p>
+
+<p>I know it might feel like you are being a nit-picker, but it shows me that
+you care enough about what I do to respond.  It's a good thing. Probably other
+blog authors feel the same way.</p>
+
+<p>Thanks in advance.</p>
+
+</body>
+</entry>
+</blog>
