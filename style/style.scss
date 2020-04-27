@@ -288,7 +288,7 @@ a.headerlink {
 }
 
 .tight {
-    word-spacing: -25%;
+    word-spacing: -.05em;
 }
 
 .body {
@@ -558,7 +558,7 @@ a.s {
         }
     }
     @media (min-width: $tiny-break) {
-        word-spacing: 60%;
+        word-spacing: .125em;
         text-transform: none;
         .chelder {
             display: inline;
@@ -604,14 +604,14 @@ a.s {
     .via {
         display: block;
         @media (min-width: $tiny-break) {
-            display: span;
+            display: inline;
             float: right;
         }
     }
     .react {
         display: block;
         @media (min-width: $tiny-break) {
-            display: span;
+            display: inline;
         }
     }
 }
