@@ -6,7 +6,7 @@ $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
-$copyright-height: 3rem;
+$footer-height: 3rem;
 $thick-border-small-horz: 3px;
 $thick-border-small-vert: 1px;
 $thick-border-large-horz: 3px;
@@ -130,10 +130,12 @@ body {
     vertical-align: middle;
 }
 
-#copyright {
+#footer {
     padding: 0 1em;
     border-top-width: $thick-border-small-horz;
-    height: $copyright-height;
+    @media (min-width: $tiny-break) {
+        height: $footer-height;
+    }
     text-align: left;
     @if $color-scheme == gaudy {
         background: lighten(#be5fc6, 30%);
@@ -141,7 +143,14 @@ body {
     @else {
         background: #eee;
     }
-    color: black;
+
+    font-size: 85%;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 0;
+    a {
+        @include inside-link;
+    }
 }
 
 @media screen and (min-width: $narrow-break) {
@@ -175,7 +184,7 @@ body {
         order: 3;
         width: $logo-size-large;
         margin-top: $logo-size-large - $banner-height-large;
-        margin-bottom: -$copyright-height;
+        margin-bottom: -$footer-height;
         flex: 0 $logo-size-large;
         border-width: 0 $thick-border-large-vert 0 0;
     }
@@ -188,7 +197,7 @@ body {
         max-width: calc(100% - 10rem);
     }
 
-    #copyright {
+    #footer {
         order: 5;
         margin-left: $logo-size-large;
         border-top-width: $thick-border-large-horz;
@@ -354,13 +363,10 @@ a.headerlink {
     }
 }
 
-.copyright {
-    font-size: 85%;
-    font-style: italic;
-    color: #333;
-    margin-bottom: 0;
-    a {
-        @include inside-link;
+.wrong {
+    @media (min-width: $tiny-break) {
+        text-align: right;
+        float: right;
     }
 }
 
@@ -1040,14 +1046,14 @@ img {
 }
 
 @media print {
-    body, #banner, #copyright {
+    body, #banner, #footer {
         background: white;
         margin: 0;
     }
     #banner {
         border-bottom-width: 1px;
     }
-    #copyright {
+    #footer {
         border-top-width: 1px;
     }
     #logo, #sidebar, #comments {
