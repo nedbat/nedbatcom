@@ -56,6 +56,7 @@ class CmdLine(object):
             *.ttf *.woff2
             '''
         self.use_processes = True
+        self.messages = []
 
     def do_local(self):
         self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
@@ -63,6 +64,16 @@ class CmdLine(object):
         self.HTACCESS = 'local.htaccess'
         self.WWWROOT = os.path.abspath(self.ROOT)
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
+
+    def do_pylocal(self):
+        host = socket.gethostbyname(socket.gethostname())
+        self.BASE = '//%s' % (host,)
+        self.ROOT = '../www'
+        self.WWWROOT = os.path.abspath(self.ROOT)
+        self.PHP_INCLUDE = False
+        self.messages.append(
+            f"Simple local server:\n  sudo python -m http.server -b {host} -d ../www 80 & open http://{host}"
+        )
 
     def do_file(self):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
@@ -251,6 +262,8 @@ class CmdLine(object):
                 return
             print(":: %s ::" % word)
             doit()
+        for message in self.messages:
+            print(message)
 
     @timed
     def main(self, argv):
@@ -259,10 +272,3 @@ class CmdLine(object):
 if __name__ == '__main__':
     cmdline = CmdLine()
     cmdline.main(sys.argv[1:])
-    def do_local(self):
-        self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
-        self.ROOT = '../www'
-        self.HTACCESS = 'local.htaccess'
-        self.WWWROOT = os.path.abspath(self.ROOT)
-        self.all_words = "load make"    # Don't clean: it clobbers reactor.
-
