@@ -59,6 +59,9 @@ grep '^[a-zA-Z]' $(MAKEFILE_LIST) | \
     awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 ]]></code>
 
+<!--
+	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
+-->
 <p>The terminal coloring is cute, but unnecessary and can actually be
 counterproductive depending on your terminal's natural colors, so:</p>
 
