@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200514T063739' draft='y'>
+<title>Pickle's flaws</title>
+<category></category>
+<body>
+
+<ul>
+
+<li>Insecure</li>
+<li>Slow</li>
+<li>Python only</li>
+<li>__init__ isn't called</li>
+<li>Old pickles look like old code</li>
+<li>Implicit</li>
+<li>Over-serializes</li>
+<li>Unreadable</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
