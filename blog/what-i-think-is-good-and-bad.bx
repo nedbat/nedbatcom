@@ -28,51 +28,31 @@
 20151119.log:[10:08:35] <nedbat> throstur: that is a good indicator, but you can write really readable code that is bad code.
 20151212.log:[07:22:26] <nedbat> phale: that sounds right.  spinning hard like that is bad. the threads should block on an io operation
 20160127.log:[06:08:50] <nedbat> John: sqlite is bad at concurrency
-20160215.log:[11:41:48] <nedbat> max3: people often say that is bad. but that expression is hugely subjective.  in this case, the iterators are probably better.
-20160305.log:[13:21:47] <nedbat> dedgecumbe: my point was this: some people say, "you should start my learning assembler," and i think that is bad advice.
-20160320.log:[16:21:31] <nedbat> Gustavo6046: line 149 is bad because you are discarding whatever you read.
-20160515.log:[08:56:21] <nedbat> papna: ok, I get it: you don't think there's a problem, and the solution is bad. I'll put you in the camp that thinks everything is fine as it is.
+20160305.log:[13:21:47] <nedbat> dedgecumbe: my point was this: some people say, "you should start by learning assembler," and i think that is bad advice.
 20160705.log:[22:57:08] <nedbat> Zequal: singletons are bad. it's the concept that is bad, not the implementation.
 20161021.log:[17:20:55] <nedbat> jaziz: del is fine. __del__ is bad
 20161125.log:[06:20:57] <nedbat> lesshaste: and implicit copying is bad, because then how do I shuffle without making a copy?
-20161218.log:[20:08:49] <nedbat> average: idk, this seems like someone on the sidelines saying everything is bad, while others are just getting things done.
 20170121.log:[13:50:04] <nedbat> texture is bad in code
-20170302.log:[14:54:38] <nedbat> Zictex_: it's very easy to write OOP in a way that is bad.
-20170302.log:[14:54:54] <nedbat> Zictex_: because it's easy to write in any style in a way that is bad.
 20170325.log:[12:25:39] <nedbat> Akuli: aligning indents with the opening delimiter is bad.
 20170403.log:[17:38:17] <nedbat> StopAndDecrypt: this is bad: def main(nums=[1,2,3]).
 20170423.log:[11:41:56] <nedbat> toothe: monkeypatching is bad
 20170509.log:[20:26:02] <nedbat> Ether_Man: it is bad to modify a list you are iterating, yes.
-20171013.log:[08:03:30] <nedbat> ikanobori: yeah, that is bad
 20171126.log:[20:40:08] <nedbat> mentalita: __import__ is bad, why bother?
-20180105.log:[20:21:29] <nedbat> Omega037: yes, that is bad too
 20180106.log:[19:57:35] <nedbat> veek: that is bad advice
-20180130.log:[13:59:12] <nedbat> xsteadfastx: btw: i think writing the import this way (inside the function) is bad, and will someday break because someone "fixes" it by moving it to the top of the file
 20180411.log:[11:05:19] <nedbat> campitor: just import that function then.  import * is bad stuff
 20180411.log:[11:15:32] <nedbat> campitor: import * is bad stuff :)  glad it's working
-20180806.log:[07:00:04] <nedbat> tjt263: .. and why infinite objects is bad
 20180813.log:[07:22:03] <nedbat> andrzej: the python doc search is bad
-20180815.log:[07:20:20] <nedbat> uniusz: describing commands is bad, showing commands is good.
-20190416.log:[20:30:53] <nedbat> energizer: i agree that side effects as part of the expression is bad, and then if you discard the list, it's bad.  It's ok to consume an iterator.
-20190516.log:[09:05:15] <nedbat> grym: I will take a guess: research code is bad because the code is not the ultimate product: the answers from the research are the product.
 20190527.log:[15:27:20] <nedbat> catern: and-or is bad
 20190529.log:[21:22:59] <nedbat> astronavt: singletons are hidden global state, and global state is bad
-20190707.log:[20:29:02] <nedbat> Jan-: your central thesis seems to be 1) everything is bad, and/or 2) python people are stupid.  So let's just drop it.
 20190813.log:[10:11:20] <nedbat> horribleprogram: checking types is bad
-20191021.log:[18:47:02] <nedbat> CodePoint: _habnabit believes that entire API is bad, and there are better tools
-20191110.log:[09:32:53] <nedbat> TwistedFate: it looks to me like this is bad formatting in the book. all of those lines should start in the first column
-20191110.log:[09:33:50] <nedbat> TwistedFate: right: you included spaces that shouldn't be there because the book layout is bad.
 20191203.log:[08:21:49] <nedbat> cdunklau: ugh, the classic way is bad
 20191212.log:[17:01:19] <nedbat> Guest43781: that ":type myparam:"  syntax is bad, it's not readable. use google style instead: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#google-vs-numpy
 20191212.log:[17:06:09] <nedbat> rbo: python is bad at recursion deeper than 1000
 20200227.log:[17:30:36] <nedbat> gravataflorida: hmm, there is a package on pypi called time, which is bad.  Which module did you want?
-20200317.log:[07:57:28] <nedbat> graingert: yes, calling requests.get twice is bad
 -->
 
 <!--
 
-20140903.log:[21:21:42] <nedbat> zosky`: this is good.  Tell me about line 16.
-20140905.log:[22:40:09] <nedbat> NJBS: this is a very odd style of coding, and not one that Python is good at.
 20140917.log:[18:06:15] <nedbat> polymorph: "python -m app_name" is good, but recent.
 20140919.log:[20:06:02] <nedbat> nevodka: endswith is good
 20140927.log:[12:52:22] <nedbat> djinja: xpath is good at selecting nodes in an xml dom tree.
@@ -85,24 +65,15 @@
 20141108.log:[19:49:27] <nedbat> stormmore: learning is good! :)
 20141110.log:[22:33:02] <nedbat> wbdecker: right, python is good for full applications.
 20141126.log:[06:56:19] <nedbat> Xatenev: python is good for writing modern web applications :)
-20141127.log:[08:16:12] <nedbat> edk: it's hard to state things clearly, discussion can work it out.  all is good! :)
 20141128.log:[21:43:02] <nedbat> hays: unittest is good for writing your tests.
 20141201.log:[22:09:20] <nedbat> audioburn: re.sub is good. what characters are you replacing?
 20141207.log:[17:48:02] <nedbat> cdunklau: mock(spec=thing) is good, right?
-20141216.log:[20:49:35] <nedbat> MrJones: I'm not sauying the XML is good.
 20141218.log:[21:56:26] <nedbat> runciter: excitement is good :)
-20141220.log:[13:06:10] <nedbat> komanda1: I'm not opposed to C on principle either, but just because C is good and C has goto doesn't mean that goto is good.
 20141220.log:[20:46:09] <nedbat> themediator: also, pip will know how to install into virtualenvs, which is good.
-20141223.log:[21:25:37] <nedbat> sproingie: i wasn't talking about language quality.  We're talking about choosing an ecosystem to build on, and whether python 3 is good or bad.
 20141224.log:[21:59:27] <nedbat> YoStealth: importlib is good for when you want to do advanced things with imports.  PlaidRab is just trying to get a simple import working.
-20141226.log:[17:09:46] <nedbat> efes: I don't have another recommendation, i just want to be sure people understand what lptwh is good for.
-20141230.log:[18:51:01] <nedbat> yury: there's a huge set of Things Which Work that we choose not to do because we want to write software that is good :)
 20150107.log:[19:45:19] <nedbat> learner: gist.github.com is good
 20150110.log:[22:06:33] <nedbat> Moult: argparse is good for simple things
 20150117.log:[17:11:13] <nedbat> dachary: also, I think it is good to cover your tests, though others disagree with me
-20150128.log:[21:42:52] <nedbat> buck1: sounds like you're saying, "ReST is another thing to worry about; markdown is good, if the tools aren't there yet, they'll be developed eventually"
-20150131.log:[14:34:43] <nedbat> ionelmc: this started because someone said, "diveintopython3 is good."
-20150207.log:[20:09:52] <nedbat> POliveira: i have no idea if this is good: http://sqlserverplanet.com/indexes/sql-server-indexes-tutorial
 20150210.log:[09:08:08] <nedbat> acmehandle: this is good: http://stackoverflow.com/questions/626759/whats-the-difference-between-list-and-tuples  "tuples have structure, lists have order"
 20150304.log:[08:15:41] <nedbat> heedly: textwrap.dedent is good for this
 20150309.log:[12:07:51] <nedbat> pokEarl: yes, requirements.txt is good for recreaating environments.
@@ -112,105 +83,59 @@
 20150405.log:[07:27:12] <nedbat> Iloo: colorama is good
 20150502.log:[21:08:51] <nedbat> Seylerius: yaml is good
 20150511.log:[22:05:37] <nedbat> gmcastil: setUp is good.  tearDown is better down as addCleanup
-20150528.log:[19:56:45] <nedbat> Vainglory: it just seems like you're mostly doing things that bash is good at, so bash might be easier than python.
 20150531.log:[15:39:51] <nedbat> dowwie: yield from is good for when you want one generator to produce all the values from another generator.
-20150609.log:[21:14:38] <nedbat> tull: the spec says "null" is good.
 20150619.log:[20:55:28] <nedbat> badrabbit: requests is good at doing that for you
 20150627.log:[16:22:33] <nedbat> iron_houzi: duck typing is good when there's an operation supported across a number of types, and you can just use the operation without worrying about the type.
-20150702.log:[15:31:00] <nedbat> offby1: yes, which is good, it's why "vim" still "works" :)
-20150702.log:[19:17:29] <nedbat> FeebleFreak: any link is good
-20150704.log:[23:02:45] <nedbat> master: in any case, "small scripting" is not an accurate description of what it is good at
-20150728.log:[16:29:35] <nedbat> Phroh|work: sorry for the ugly speaker, but the content is good...
-20150808.log:[08:36:32] <nedbat> EvilPudding: that sounds great.  It doesn;t mean you have to do everything in C.  It's still useful to have a layer of Python that does the things Python is good at.
 20150823.log:[21:08:09] <nedbat> voldial: learning is good! :)
-20150911.log:[07:23:38] <nedbat> cdunklau: so regex is good for *something*.... :)
-20150926.log:[17:14:18] <nedbat> Trivia_Man: yes, that is good enough.
 20151003.log:[17:08:37] <nedbat> stryngs: yes, bash is good for running binaries.  That hardly makes it a good way to do lots of things.
-20151006.log:[20:41:02] <nedbat> kxb901: that is good advice
 20151011.log:[19:08:16] <nedbat> ZEDGR: django is good if you like having lots of things handled for you.  Flask is good if you like to put together all the pieces yourself.
 20151015.log:[13:37:12] <nedbat> LyndsySimon: seriously, pex is good for this: it's a single-file version of your package and the whole virtualenv
-20151101.log:[15:09:46] <nedbat> poacheR: also, deniska's answer is good:   python -i the_file.py
-20151101.log:[15:56:11] <nedbat> shaun413: that's off-topic, #vim is good
-20151107.log:[09:58:44] <nedbat> m_ben: fluent python is good, but it's not an introduction to python, i don't think?
-20151129.log:[07:55:39] <nedbat> nopcode: Fluent Python is good, though I would steer away from "tricks" :)
-20151130.log:[06:40:08] <nedbat> Lionyx: that page is good, but keep in mind, it is about Django, which is a little different from generic Python.
-20151210.log:[16:42:52] <nedbat> APXtvlKDVI: sets is good for part 1, true.
 20151212.log:[18:57:38] <nedbat> Linkandzelda: tox is good if you need multiple python versions for one project.
 20151228.log:[20:53:06] <nedbat> Guiri: tox is good for testing against multiple environments
-20160101.log:[10:54:38] <nedbat> phillip: structure is good, but there are still rules.  are you using a test runner?
-20160202.log:[19:33:56] <nedbat> mandeep: "FLuent Python" is good.
 20160204.log:[04:49:53] <nedbat> HowardwLo: don't worry about all the edge cases.  For what you want, this is good:  [^@ ]+@[^@ ]+\.[^@ ]+
-20160213.log:[13:26:32] <nedbat> TE: i have no doubt that he is good at explaining things, but he is wrong if he is telling you to use private attributes and getters and setters.
-20160228.log:[12:45:20] <nedbat> aq2: Python is good at using the shortest str representation, so it usually works out, but you have to understand what's going on under the covers.
 20160303.log:[22:16:31] <nedbat> tannerstirrat: when math is good, it's very very good :)
 20160309.log:[05:46:30] <nedbat> e^1: the python.org tut is good if you have programmed in other languages before.
-20160311.log:[17:04:04] <nedbat> BlaXpirit: not sure whether it's true, but the fact that it's even possible is good news.
 20160321.log:[08:10:28] <nedbat> tribals: "pip install -e ."  is good
 20160328.log:[06:59:13] <nedbat> mueslo: that's about CI, which I wouldn't call deployment.  Tox is good any time you want to run your test suite under a number of different insallation scenarios.
 20160328.log:[19:02:24] <nedbat> stercor: the interactive interpreter is good for experimentation, but isn't good for real development.
 20160403.log:[08:51:21] <nedbat> aq2: experimentation is good, but people will ask why things happen that they observe.
-20160408.log:[17:55:25] <nedbat> ich_dien: no, this is good.
-20160413.log:[21:23:29] <nedbat> malwar3hun73r: urls can have commas in them, but no one would include this one:  "this url: http://ibm.com, is good"
 20160418.log:[21:34:18] <nedbat> max3: some people think type hnting is good, some people think it's silly.  only time will tell how most people will feel
 20160424.log:[18:01:29] <nedbat> qdk: twisted is good at any networking use
-20160508.log:[18:23:22] <nedbat> Pulec: 60 is good!
 20160510.log:[11:46:40] <nedbat> diphtherial: bpaste.net is good
 20160517.log:[16:54:00] <nedbat> KirkMcDonald: hmm, state is good.
-20160521.log:[18:34:51] <nedbat> Enchanter_tim: it does, and I think it is good design to have a class to represent the report, with methods that talk about the report concepts.
 20160523.log:[21:10:57] <nedbat> JustinHitla: Think Python is good
-20160604.log:[19:16:38] <nedbat> rrt: balance is good.  you only mentioned performance analysis earlier.
 20160620.log:[19:19:24] <nedbat> foo: atexit is good.
 20160721.log:[20:26:43] <nedbat> nine_milli: python is good, and we are helpful and friendly :)
-20160723.log:[19:38:55] <nedbat> Lartza: that is good to hear
-20160820.log:[09:52:35] <nedbat> kanyeezy: any way you can explain it is good.
-20160824.log:[14:14:12] <nedbat> jkbbwr: they received the data, they know it is good.
 20160831.log:[15:49:09] <nedbat> DeltaHeavy: pandas is good if you need to manipulate tables of data. If you don't, then don't use pandas
-20160911.log:[07:29:04] <nedbat> kblin: no problem, this is good philosophy
-20160913.log:[17:06:03] <nedbat> Perspicaciosity: i don't think that guide's advice is good any more.
 20160918.log:[09:56:14] <nedbat> Yiota: you want to do something for each thing in a list, that's what a for loop is good for :)
 20161015.log:[08:03:32] <nedbat> Paul1337: learning is good, but pinging random people here can be annoying.
 20161103.log:[17:16:25] <nedbat> malwar3hun73r: there's an old habit of using ":type:blah:" or whatever, which is horrible. Sphinx now supports the "napoleon" style natively, which is good: http://www.sphinx-doc.org/en/1.4.8/ext/napoleon.html
 20161117.log:[10:56:39] <nedbat> f1gjam: pytest does cool assert rewriting, which 99.9999% of the time is good magic.
 20161127.log:[08:48:16] <nedbat> zerorax: programmers often have mindsets like "X is slow" or "X is good practice", and they should be thinking "X is slow in $LANGUAGE" or "X is good $LANGUAGE practice"
 20161230.log:[16:11:29] <nedbat> Akuli: tox is good
-20170121.log:[17:18:05] <nedbat> The_DarkKnight: the book Fluent Python is good.
 20170122.log:[21:33:56] <nedbat> BaggaTea: and for no good reason: def is good because it looks like the function call, but class syntax is just confusing.
 20170131.log:[21:40:53] <nedbat> Goobagoob: pudb is good in the terminal
 20170205.log:[14:38:06] <nedbat> zerorax: http://paste.pound-python.org is good
 20170207.log:[21:19:48] <nedbat> jfhbrook: trying to be efficient is good.
-20170208.log:[08:09:49] <nedbat> mazula: edX uses both sql and non-sql databases, because each is good for different things.
 20170208.log:[08:29:14] <nedbat> mazula: sql is good for some kinds of data. nosql is good for others.
 20170208.log:[22:48:31] <nedbat> jfcaron: .format is good
 20170219.log:[07:53:59] <nedbat> plasticfish: a decorator is good for wrapping functions in new functionality.
-20170311.log:[19:48:42] <nedbat> kousu: dstufft's idea is good too.
-20170325.log:[21:18:11] <nedbat> alburaq: no one is denying that *someone's* C code is good for speed.  Just that it shouldn't be *your's*.
 20170327.log:[21:21:08] <nedbat> JeroenDeDauw: python 3 is good, but switching to fix this would be an overreaction
 20170404.log:[21:44:18] <nedbat> kutenai: the -k option is good at that.
 20170411.log:[07:19:10] <nedbat> gtristan: btw, i would not try to jam everything into setup.py.  this feels like something a makefile is good at.
 20170416.log:[08:49:09] <nedbat> valhala_22: Fluent Python is good.  look at the table of contents to see if it covers classes the way you want.
-20170419.log:[19:24:55] <nedbat> bjs: it's an unusual thing about Python, it's true. I think it is good that it is real data accessible to programs, and that it falls where it does.
 20170420.log:[21:13:03] <nedbat> unomystEz: pytest is good at parameterized tests.
 20170429.log:[19:10:10] <nedbat> maroloccio: your self-education is good for the business in the long run.
 20170430.log:[12:55:13] <nedbat> SnoopJeDi: "if not list:" is good python
-20170507.log:[08:35:44] <nedbat> "what apache is good at" is off-topic
-20170513.log:[19:21:41] <nedbat> catern: ah, yes, that is good.
 20170627.log:[21:57:35] <nedbat> tsukasa_: @classmethod is good for alternate constructors, yes.
 20170707.log:[16:30:37] <nedbat> mandeepb: rg is good: https://github.com/BurntSushi/ripgrep
 20170713.log:[12:29:34] <nedbat> psmolak: there's a book called Effective Python :)  Also, Fluent Python is good, though i don't know if it covers what you are looking for.
 20170723.log:[18:23:35] <nedbat> also, what you do in your small programs is good practice for what you can later do in your large programs.
-20170726.log:[17:05:35] <nedbat> BonAmiko: KingRodian's idea is good.
-20170727.log:[13:03:39] <nedbat> kid4coding: here is good too.
 20170729.log:[10:21:37] <nedbat> VG234: the prompt is good for doing small experiments.  Once you have larger programs, put them in .py files, and run them:  python myprog.py
-20170818.log:[12:56:47] <nedbat> altendky: i don't know enough about cffi.  I think it is good for the "I need to think about C data, but from Python"
 20170819.log:[18:09:56] <nedbat> blackbird1: i guess .replace is good so you only change it if it has some existing value.
 20170822.log:[21:16:38] <nedbat> Warrigal_: lowtech is good tech
 20170911.log:[19:47:09] <nedbat> gaazkam: it depends why you are slicing it, and what you want to do with the parts.  s.partition() is good
 20171005.log:[14:06:10] <nedbat> rmah: tell me what you think npm is bad at that python is good at
-20171023.log:[21:03:40] <nedbat> Geren: then stop wasting your time asking questions about what python is good for.
-20171111.log:[16:32:06] <nedbat> anarcat: this channel is good for sphinx.
-20171201.log:[20:02:51] <nedbat> maroloccio: but especially: just because some code is in the stdlib, that doesn't mean it is good.
-20171202.log:[21:17:06] <nedbat> mentalita: code is good too :)
-20171210.log:[11:12:41] <nedbat> kuribas: i'm not sure it's that simple. i think they believe a test case is good documentation, and should be usable as such
 20171230.log:[09:34:23] <nedbat> FRWB_: no shame! Learning is good.
 20171230.log:[15:02:52] <nedbat> rond_: numpy is good when you can do whole-matrix operations at once.  If you need to iterate over elements and do individual operations, it doesn't provide any benefit.
 20180101.log:[20:58:19] <nedbat> setuid: i think it is good to separate the xml parsing from the image generation.  Parse the data into a natural in-memory format (not json)
