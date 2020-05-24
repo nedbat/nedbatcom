@@ -14,7 +14,7 @@ sophisticated sentiment analysis.</p>
 "sophisticated sentiment analysis" was two regexes:
 "&lt;nedbat>.* is good" and "&lt;nedbat>.* is bad"!</p>
 
-<p>Without further commentary, is a sampling of things that I said were bad:</p>
+<p>Without further commentary, here is a sampling of things that I said were bad:</p>
 
 <ul>
 <li>vertical alignment is bad because it means you might have to change many lines just because one of them got wider.</li>
@@ -27,7 +27,7 @@ sophisticated sentiment analysis.</p>
 <li>some people say, "you should start by learning assembler," and i think that is bad advice.</li>
 <li>del is fine. __del__ is bad</li>
 <li>implicit copying is bad</li>
-<li>texture is bad in code</li>
+<li>texture (repetition you can see when you squint) is bad in code</li>
 <li>aligning indents with the opening delimiter is bad.</li>
 <li>this is bad: def main(nums=[1,2,3]).</li>
 <li>monkeypatching is bad</li>
@@ -85,12 +85,11 @@ sophisticated sentiment analysis.</p>
 <li>there's an old habit of using ":type:blah:" or whatever, which is horrible. Sphinx now supports the "napoleon" style natively, which is good: <a href="http://www.sphinx-doc.org/en/1.4.8/ext/napoleon.html">http://www.sphinx-doc.org/en/1.4.8/ext/napoleon.html</a></li>
 <li>pytest does cool assert rewriting, which 99.9999% of the time is good magic.</li>
 <li>pudb is good in the terminal</li>
-<li>http://paste.pound-python.org is good</li>
 <li>trying to be efficient is good.</li>
 <li>sql is good for some kinds of data. nosql is good for others.</li>
 <li>.format is good</li>
 <li>a decorator is good for wrapping functions in new functionality.</li>
-<li>the -k option is good at that.</li>
+<li>the pytest -k option is good at that.</li>
 <li>i would not try to jam everything into setup.py.  this feels like something a makefile is good at.</li>
 <li>pytest is good at parameterized tests.</li>
 <li>"if not list:" is good python</li>
