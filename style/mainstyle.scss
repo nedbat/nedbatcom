@@ -25,7 +25,12 @@ body {
 
 #pagetitle {
     padding: 0.5em 0;
-    border-bottom: 1px solid #ccc;
+    @if $dark == yes {
+        border-bottom: 15px solid #333;
+    }
+    @else {
+        border-bottom: 1px solid #ccc;
+    }
     display: flex;
     align-items: baseline;
     justify-content: space-between;

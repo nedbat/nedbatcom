@@ -7,17 +7,28 @@ $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
 $footer-height: 3rem;
+$thick-border-color: #999;
 $thick-border-small-horz: 3px;
 $thick-border-small-vert: 1px;
 $thick-border-large-horz: 3px;
 $thick-border-large-vert: 3px;
 $outer-border-large: 5px;
 
+$texture: url(pix/hilbert.png);
+
 $narrow-break: 760px;
 $tiny-break: 350px;
 $comment-break: 500px;
 
 @import 'common';
+
+@if $dark == yes {
+    $thick-border-color: #333;
+    $outer-border-large: 12px;
+    $thick-border-large-horz: 6px;
+    $thick-border-large-vert: 6px;
+    $thick-border-small-horz: 20px;
+}
 
 /*
 http://fvsch.com/code/em-alternatives/
@@ -41,7 +52,7 @@ body {
         background-color: red;
     }
     @else {
-        background-color: #999;
+        background-color: $thick-border-color;
     }
     max-width: 55rem;
     display: flex;
@@ -50,7 +61,7 @@ body {
     > * {
         padding: 10px;
         flex: 1 100%;
-        border: 0 solid #999;
+        border: 0 solid $thick-border-color;
     }
 }
 
@@ -93,8 +104,8 @@ body {
 #logo {
     position: absolute;
     padding: 0;
-    width: calc(#{$logo-size-small} - #{$thick-border-small-horz} + #{$thick-border-small-vert});
-    height: $logo-size-small;
+    width: calc(#{$logo-size-small} + #{$thick-border-small-vert});
+    height: calc(#{$logo-size-small} + #{$thick-border-small-horz});
     @if $color-scheme == gaudy {
         background: red;
     }
@@ -116,8 +127,8 @@ body {
 }
 
 #banner {
-    min-height: $banner-height-small;
-    margin-left: calc(#{$logo-size-small} - #{$thick-border-small-horz} + #{$thick-border-small-vert});
+    min-height: calc(#{$banner-height-small} + #{$thick-border-small-horz});
+    margin-left: calc(#{$logo-size-small} + #{$thick-border-small-vert});
     @if $color-scheme == gaudy {
         background: lighten(yellow, 30%);
     }
@@ -156,11 +167,11 @@ body {
 @media screen and (min-width: $narrow-break) {
     body {
         // larger sizes can have a fancy background.
-        background: url(pix/hilbert.png);
-        border: $outer-border-large solid #999;
+        background: $texture;
+        border: $outer-border-large solid $thick-border-color;
 
         > * {
-            border: 0 solid #999;
+            border: 0 solid $thick-border-color;
         }
     }
 
