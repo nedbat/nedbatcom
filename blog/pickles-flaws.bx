@@ -5,6 +5,12 @@
 <category>python</category>
 <body>
 
+<p>Python's <a href="https://docs.python.org/3/library/pickle.html">pickle</a>
+module is a very convenient way to serialize and deserialize objects. It needs
+no schema, and can handle arbitrary Python objects. But it has problems.</p>
+
+<p>Some people will tell you to never use pickle because it's bad.  I won't go
+that far.  I'll say, only use pickle if you are OK with its nine flaws:</p>
 
 <ul>
 
@@ -15,72 +21,131 @@
 <li>__init__ isn't called</li>
 <li>Python only</li>
 <li>Unreadable</li>
-<li>Pretends to pickle code</li>
+<li>Appears to pickle code</li>
 <li>Slow</li>
 
 </ul>
 
 <h1>The flaws</h1>
 
+<p>Here is a brief explanation of each flaw, in roughly the order of
+importance.</p>
+
+
 <h2>Insecure</h2>
 
-<p>Sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam
-aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-exercitationem ullam corporis suscipit laboriosam.</p>
+<p>Pickles can be hand-crafted that will have malicious effects when you
+unpickle them. As a result, you should never unpickle data that you do not
+trust.</p>
+
+<p>The insecurity is not because pickles contain code, but because they create
+objects by calling constructors named in the pickle.  Malicious pickles will use
+other Python callables as the "constructors." For example, instead of executing
+"models.MyObject(17)", it might execute "os.system('rm -rf /')".  The unpickler
+doesn't know that "models.MyObject" is a constructor, but "os.system" is not. It
+executes either of them as directed by the pickle.</p>
+
 
 <h2>Old pickles look like old code</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt.</p>
+<p>Because pickles store the structure of your objects, when they are unpickled,
+they have the same structure as when you pickled them.  This sounds like a good
+thing.  But if your code changes between the time you made the pickle and the
+time you used it, your objects may not correspond to your code.  The objects
+will still have the structure created by the old code, but they will be running
+with the new code.</p>
+
+<p>For example, if you've added an attribute since the pickle was made, the
+objects from the pickle won't have that attribute.  Your code will be expecting
+the attribute, causing problems.</p>
+
 
 <h2>Implicit</h2>
 
-<p>Labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam,
-quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea
-voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem
-eum fugiat, quo voluptas nulla pariatur.</p>
+<p>The great convenience of pickles is because they will serialize whatever
+structure your object has.  There's no extra work to create a serialization
+structure.  But that brings problems of its own.  Do you really want your
+datetimes serialized as datetimes? Or as iso8601 strings?</p>
+
+<p>Not only don't you have to specify the serialization form, you can't specify
+it.</p>
+
 
 <h2>Over-serializes</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt.</p>
+<p>Pickles are implicit: they serialize everything in your objects.  You might
+have an attribute that is a cache of computation that you don't want serialized.
+Pickle doesn't have a convenient way to skip that attribute.</p>
+
+<p>Worse, if your object contains an attribute that can't be pickled, like an
+open file, pickle won't skip it, it will throw an exception.</p>
+
 
 <h2>__init__ isn't called</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt.</p>
+<p>Pickles store the entire structure of your objects.  When the pickle module
+recreates your objects, it does not call your __init__ method, since the object
+has already been created.</p>
+
+<p>This can be surprising, since nowhere else do objects come into being without
+calling __init__.  The logic here is that __init__ was already called when the
+object was first created in the process that made the pickle.</p>
+
+<p>But your __init__ method might perform some essential work, like opening file
+objects.  Your unpickled objects will be in a state that is inconsistent with
+your __init__ method.</p>
+
 
 <h2>Python only</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat
-voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-suscipit laboriosam.</p>
+<p>Pickles are specific to Python, and are only usable by other Python programs.
+This isn't strictly true, you can find packages for other languages that can use
+pickles, but they will naturally be limited to the generic list/dict object
+structures, at which point you might as well just use JSON.</p>
+
 
 <h2>Unreadable</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat
-voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-suscipit laboriosam.</p>
+<p>A pickle is a binary data stream (actually instructions for an abstract
+execution engine.) If you open a pickle as a plain file, you cannot read its
+contents.  The only way to know what is in a pickle is to use the pickle module
+to load it.  This can make debugging difficult, since you might not be able to
+search your pickle files for data you are interested in:</p>
 
-<h2>Pretends to pickle code</h2>
+<code><![CDATA[
+>>> pickle.dumps([123, 456])
+b'\x80\x03]q\x00(K{M\xc8\x01e.'
+]]></code>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt.</p>
+
+<h2>Appears to pickle code</h2>
+
+<p>Functions and classes are first-class objects in Python: you can store them
+in lists, dicts, attributes, and so on.  Pickle will gladly serialize objects
+that contain callables like functions and classes.  But it doesn't store the
+code in the pickle, just the name of the function or class.</p>
+
+<p>Pickles are not a way to move or store code, though they can appear to be.
+When you unpickle your data, the names of the functions are used to find
+functions in your running process.</p>
+
 
 <h2>Slow</h2>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat
-voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel
-eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae
-consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+<p>Compared to other serialization techniques, pickle can be slow.</p>
+
+
+<h1>But but..</h1>
+
+<p>Some of these problems can be addressed by
+<a href="https://docs.python.org/3/library/pickle.html#pickling-class-instances">adding
+special methods</a> to your class, like __getstate__ or __reduce__.  But once
+you start down that path, you might as well use another serialization method
+that doesn't have these flaws to begin with.</p>
 
 
 <h1>What's better?</h1>
+
 <p>Too many options to list.</p>
 
 </body>
