@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200514T063739' draft='y'>
+<entry when='20200613T063739' draft='y'>
 <title>Pickle's flaws</title>
 <category>python</category>
 <body>
@@ -44,6 +44,10 @@ other Python callables as the "constructors." For example, instead of executing
 "models.MyObject(17)", it might execute "os.system('rm -rf /')".  The unpickler
 doesn't know that "models.MyObject" is a constructor, but "os.system" is not. It
 executes either of them as directed by the pickle.</p>
+
+<p>More details, including an example, are in Supakeen's post
+<a href="https://supakeen.com/weblog/dangers-in-pythons-standard-library.html">Dangers
+in Python's standard library</a>.</p>
 
 
 <h2>Old pickles look like old code</h2>
@@ -127,12 +131,15 @@ code in the pickle, just the name of the function or class.</p>
 
 <p>Pickles are not a way to move or store code, though they can appear to be.
 When you unpickle your data, the names of the functions are used to find
-functions in your running process.</p>
+existing code in your running process.</p>
 
 
 <h2>Slow</h2>
 
-<p>Compared to other serialization techniques, pickle can be slow.</p>
+<p>Compared to other serialization techniques, pickle can be slow as Ben
+Frederickson demonstrates in
+<a href="https://www.benfrederickson.com/dont-pickle-your-data/">Don't pickle
+your data</a>.</p>
 
 
 <h1>But but..</h1>
