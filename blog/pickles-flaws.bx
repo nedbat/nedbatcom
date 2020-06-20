@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200613T063739' draft='y'>
-<title>Pickle's flaws</title>
+<entry when='20200620T160739'>
+<title>Pickle's nine flaws</title>
 <category>python</category>
 <body>
 
 <p>Python's <a href="https://docs.python.org/3/library/pickle.html">pickle</a>
-module is a very convenient way to serialize and deserialize objects. It needs
-no schema, and can handle arbitrary Python objects. But it has problems.</p>
+module is a very convenient way to serialize and de-serialize objects. It needs
+no schema, and can handle arbitrary Python objects. But it has problems. This
+post briefly explains the problems.</p>
 
 <p>Some people will tell you to never use pickle because it's bad.  I won't go
 that far.  I'll say, only use pickle if you are OK with its nine flaws:</p>
@@ -39,11 +40,13 @@ unpickle them. As a result, you should never unpickle data that you do not
 trust.</p>
 
 <p>The insecurity is not because pickles contain code, but because they create
-objects by calling constructors named in the pickle.  Malicious pickles will use
+objects by calling constructors named in the pickle.  Any callable can be used
+in place of your class name to construct objects.  Malicious pickles will use
 other Python callables as the "constructors." For example, instead of executing
-"models.MyObject(17)", it might execute "os.system('rm -rf /')".  The unpickler
-doesn't know that "models.MyObject" is a constructor, but "os.system" is not. It
-executes either of them as directed by the pickle.</p>
+"models.MyObject(17)", a dangerous pickle might execute "os.system('rm -rf /')".
+The unpickler can't tell the difference between "models.MyObject" and
+"os.system".  Both are names it can resolve, producing something it can call.
+The unpickler executes either of them as directed by the pickle.</p>
 
 <p>More details, including an example, are in Supakeen's post
 <a href="https://supakeen.com/weblog/dangers-in-pythons-standard-library.html">Dangers
@@ -54,10 +57,10 @@ in Python's standard library</a>.</p>
 
 <p>Because pickles store the structure of your objects, when they are unpickled,
 they have the same structure as when you pickled them.  This sounds like a good
-thing.  But if your code changes between the time you made the pickle and the
-time you used it, your objects may not correspond to your code.  The objects
-will still have the structure created by the old code, but they will be running
-with the new code.</p>
+thing and is exactly what pickle is designed to do.  But if your code changes
+between the time you made the pickle and the time you used it, your objects may
+not correspond to your code.  The objects will still have the structure created
+by the old code, but they will be running with the new code.</p>
 
 <p>For example, if you've added an attribute since the pickle was made, the
 objects from the pickle won't have that attribute.  Your code will be expecting
@@ -66,10 +69,11 @@ the attribute, causing problems.</p>
 
 <h2>Implicit</h2>
 
-<p>The great convenience of pickles is because they will serialize whatever
+<p>The great convenience of pickles is that they will serialize whatever
 structure your object has.  There's no extra work to create a serialization
 structure.  But that brings problems of its own.  Do you really want your
-datetimes serialized as datetimes? Or as iso8601 strings?</p>
+datetimes serialized as datetimes? Or as iso8601 strings? You don't have a
+choice: they will be datetimes.</p>
 
 <p>Not only don't you have to specify the serialization form, you can't specify
 it.</p>
@@ -77,12 +81,14 @@ it.</p>
 
 <h2>Over-serializes</h2>
 
-<p>Pickles are implicit: they serialize everything in your objects.  You might
-have an attribute that is a cache of computation that you don't want serialized.
-Pickle doesn't have a convenient way to skip that attribute.</p>
+<p>Pickles are implicit: they serialize everything in your objects, even data
+you didn't want to serialize.  For example, you might have an attribute that is
+a cache of computation that you don't want serialized.  Pickle doesn't have a
+convenient way to skip that attribute.</p>
 
 <p>Worse, if your object contains an attribute that can't be pickled, like an
-open file, pickle won't skip it, it will throw an exception.</p>
+open file object, pickle won't skip it, it will insist on trying to pickle it,
+and then throw an exception.</p>
 
 
 <h2>__init__ isn't called</h2>
@@ -97,15 +103,18 @@ object was first created in the process that made the pickle.</p>
 
 <p>But your __init__ method might perform some essential work, like opening file
 objects.  Your unpickled objects will be in a state that is inconsistent with
-your __init__ method.</p>
+your __init__ method.  Or your __init__ might log information about the object
+being created.  Unpickled objects won't appear in the log.</p>
+
 
 
 <h2>Python only</h2>
 
 <p>Pickles are specific to Python, and are only usable by other Python programs.
 This isn't strictly true, you can find packages for other languages that can use
-pickles, but they will naturally be limited to the generic list/dict object
-structures, at which point you might as well just use JSON.</p>
+pickles, but they are rare. They will naturally be limited to the cross-language
+generic list/dict object structures, at which point you might as well just use
+JSON.</p>
 
 
 <h2>Unreadable</h2>
@@ -153,17 +162,16 @@ that doesn't have these flaws to begin with.</p>
 
 <h1>What's better?</h1>
 
-<p>Too many options to list.</p>
+<p>There are lots of other ways to serialize objects, ranging from plain-old
+JSON to fancier alternatives like <a
+href="https://marshmallow.readthedocs.io">marshmallow</a>, <a
+href="https://cattrs.readthedocs.io/en/latest/readme.html">cattrs</a>, <a
+href="https://developers.google.com/protocol-buffers">protocol buffers</a>, and
+more.</p>
 
-<!--
+<p>I don't have a strong recommendation for any one of these. The right answer
+will depend on the particulars of your problem.  It might even be pickle...</p>
 
-https://marshmallow.readthedocs.io/en/stable/ is one,
-https://cattrs.readthedocs.io/en/latest/ is another (mostly if you already have attrs),
-https://developers.google.com/protocol-buffers also exist,
-erm flatpak,
-capnproto
-
--->
 
 </body>
 </entry>
