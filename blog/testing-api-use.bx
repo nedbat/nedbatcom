@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200628T133112' draft='y'>
+<title>Testing API use</title>
+<category>testing</category>
+<body>
+
+<p>Consider a program to update the labels in a GitHub repo.</p>
+
+<p>Ways to test it:</p>
+
+<ul>
+<li>Let the code use GitHub for real, and check the results.</li>
+<li>Use a GitHub library, and mock it.</li>
+<li>Use requests-mock and mock the GitHub API calls.</li>
+<li>Write your own GitHub abstraction, and mock it.</li>
+<li>Implement a fake GitHub using requests-mock</li>
+<li>Implement a fake GitHub as a separate http process.</li>
+</ul>
+
+</body>
+</entry>
+</blog>
