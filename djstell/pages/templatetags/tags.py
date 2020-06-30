@@ -48,6 +48,25 @@ def sidebar(which, force=False):
 
     return c
 
+@register.inclusion_tag('navbar.html')
+def navbar(force=False):
+    """ Make the navbar.
+    """
+    inc = settings.PHP_INCLUDE
+    if force:
+        inc = False
+    return {"include": inc}
+
+@register.inclusion_tag('footer.html')
+def footer(force=False):
+    """ Make the footer.
+    """
+    inc = settings.PHP_INCLUDE
+    if force:
+        inc = False
+    return {"include": inc}
+
+
 MORE_BLOG = None
 
 def combined_more_blog():

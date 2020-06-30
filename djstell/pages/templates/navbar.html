@@ -1,0 +1,16 @@
+{# The top navbar #}
+{% load tags %}
+{% if include %}
+<?php include('navbar.inc'); ?>
+{% else %}
+{% spaceless %}
+    {# Above the title: a horizontal version of the root pagemenu. #}
+    <nav class='path'>
+        <a class='home' href='/'>Ned<span class='chelder'>&nbsp;</span>Bat<span class='chelder'>chelder</span></a>
+        <span class='top_areas'>
+            {% top_areas %}
+            <a class="blm" href="/blog/202006/black_lives_matter.html">BLM</a>
+        </span>
+    </nav>
+{% endspaceless %}
+{% endif %}

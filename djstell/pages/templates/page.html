@@ -47,14 +47,7 @@
 
 <body{% if bodyclass %} class="{{ bodyclass }}"{% endif %}>
     <header id='banner'>
-        {# Above the title: a horizontal version of the root pagemenu. #}
-        <nav class='path'>
-            <a class='home' href='/'>Ned<span class='chelder'>&nbsp;</span>Bat<span class='chelder'>chelder</span></a>
-            <span class='top_areas'>
-                {% top_areas %}
-                <a class="blm" href="/blog/202006/black_lives_matter.html">BLM</a>
-            </span>
-        </nav>
+        {% navbar %}
     </header>
 
     <main id='content'>
@@ -112,27 +105,7 @@
     </aside>
 
     <footer id='footer'>
-        <p class='wrong'>
-            <a href='/blog/202004/please_report_bugs_in_this_site.html'>
-                Something wrong?
-            </a>
-        </p>
-        <p class='copyright'>
-            {% if copyright %}
-                {{copyright}}
-            {% else %}
-                <a rel='license' href='/site/legal.html'>
-                    {% ch '(c)' %} Copyright
-                    {% if min_date %}
-                        {% year_range min_date max_date %},
-                    {% else %}
-                        {% now "Y" as now_year %}
-                        {% year_range 2002 now_year %},
-                    {% endif %}
-                    Ned Batchelder
-                </a>
-            {% endif %}
-        </p>
+        {% footer %}
     </footer>
 
     <header id='logo'>

@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^(?P<path>err404.html)$', dpv.article),
 
     url(r'^sidebar_(?P<which>\w+).inc$', dpv.sidebar),
+    url(r'^navbar.inc$', dpv.navbar),
+    url(r'^footer.inc$', dpv.footer),
     ]

@@ -138,6 +138,8 @@ class CmdLine(object):
             '/blog/drafts.html',
             '/sidebar_blog.inc',
             '/sidebar_page.inc',
+            '/navbar.inc',
+            '/footer.inc',
             '/index.html',
             ]
 

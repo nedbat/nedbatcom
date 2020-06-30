@@ -196,6 +196,14 @@ def sidebar(request, which):
     c['which'] = which
     return HttpResponse(Template(html).render(c))
 
+def navbar(request):
+    html = "{% load tags %}{% navbar 1 %}"
+    return HttpResponse(Template(html).render(RequestContext(request)))
+
+def footer(request):
+    html = "{% load tags %}{% footer 1 %}"
+    return HttpResponse(Template(html).render(RequestContext(request)))
+
 def index(request):
     a = get_object_or_404(Article, path='index.px')
     c = {}

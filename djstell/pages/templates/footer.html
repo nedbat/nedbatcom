@@ -1,0 +1,30 @@
+{# The footer #}
+{% load tags %}
+{% if include %}
+<?php include('footer.inc'); ?>
+{% else %}
+{% spaceless %}
+    <p class='wrong'>
+        <a href='/blog/202004/please_report_bugs_in_this_site.html'>
+            Something wrong?
+        </a>
+    </p>
+    <p class='copyright'>
+        {% if copyright %}
+            {{copyright}}
+        {% else %}
+            <a rel='license' href='/site/legal.html'>
+                {% ch '(c)' %} Copyright
+                {% if min_date %}
+                    {% year_range min_date max_date %},
+                {% else %}
+                    {% now "Y" as now_year %}
+                    {% year_range 2002 now_year %},
+                {% endif %}
+                Ned Batchelder
+            </a>
+        {% endif %}
+    </p>
+{% endspaceless %}
+{% endif %}
+
