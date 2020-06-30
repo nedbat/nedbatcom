@@ -23,7 +23,7 @@ $comment-break: 500px;
 @import 'common';
 
 @if $dark == yes {
-    $thick-border-color: #333;
+    $thick-border-color: #000;
     $outer-border-large: 12px;
     $thick-border-large-horz: 6px;
     $thick-border-large-vert: 6px;
@@ -46,7 +46,7 @@ http://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
 
 body {
     font-family: $me-font;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
     padding: 0;
     @if $color-scheme == gaudy {
         background-color: red;
@@ -142,9 +142,9 @@ body {
 }
 
 #footer {
-    padding: 0 1em;
+    padding: 0 1rem;
     border-top-width: $thick-border-small-horz;
-    @media (min-width: $tiny-break) {
+    @media (min-width: $narrow-break) {
         height: $footer-height;
     }
     text-align: left;
@@ -186,7 +186,7 @@ body {
         order: 2;
         font-size: 120%;
         margin-left: $logo-size-large;
-        padding: .75em 1.5em;
+        padding: .75rem 1.5rem;
         min-height: $banner-height-large;
         border-bottom-width: $thick-border-large-horz;
     }
@@ -204,7 +204,7 @@ body {
         order: 4;
         flex: 1 0;
         border-width: 0;
-        padding: 1.5em;
+        padding: 1.5rem;
         max-width: calc(100% - 10rem);
     }
 
@@ -566,7 +566,10 @@ a.s {
             font-weight: bold;
             padding: .25em .5em;
             margin-left: .25em;
-            margin-right: -.5em;
+            @media (min-width: $narrow-break) {
+                margin-right: -.5em;
+            }
+            border-radius: 2px;
         }
     }
 
