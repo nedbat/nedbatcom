@@ -4,9 +4,9 @@ import datetime
 import glob
 import logging
 import os
+import os.path
 import shutil
 import socket
-import subprocess
 import sys
 import time
 
@@ -21,6 +21,7 @@ from stellated import XuffApp
 import generator
 import loadpages
 import password
+import sass
 
 from djstell.pages.models import Entry, Article, Tag
 
@@ -184,12 +185,10 @@ class CmdLine(object):
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""
         basename = os.path.splitext(os.path.basename(sassname))[0]
-        cmd = ['sass', '--sourcemap=none', '--style=compressed']
-        cmd += [sassname]
-        cmd += [os.path.join(dst, basename + '.css')]
-        status = subprocess.call(cmd)
-        if status != 0:
-            sys.exit("Sass returned {}!".format(status))
+        output_file = os.path.join(dst, basename + '.css')
+        css = sass.compile(filename=sassname, output_style="compressed")
+        with open(output_file, "w") as css_out:
+            css_out.write(css)
 
     @timed
     def do_clean(self):
