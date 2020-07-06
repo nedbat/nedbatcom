@@ -68,12 +68,13 @@ class CmdLine(object):
 
     def do_pylocal(self):
         host = socket.gethostbyname(socket.gethostname())
-        self.BASE = '//%s' % (host,)
-        self.ROOT = '../www'
+        port = 8123
+        self.BASE = f"//{host}:{port}"
+        self.ROOT = "../www"
         self.WWWROOT = os.path.abspath(self.ROOT)
         self.PHP_INCLUDE = False
         self.messages.append(
-            f"Simple local server:\n  sudo python -m http.server -b {host} -d ../www 80 & open http://{host}"
+            f"Simple local server:\n  sudo -v; sudo python -m http.server -b {host} -d ../www {port} & open http://{host}:{port}"
         )
 
     def do_file(self):
