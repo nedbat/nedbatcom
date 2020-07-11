@@ -66,6 +66,15 @@ def footer(force=False):
         inc = False
     return {"include": inc}
 
+@register.inclusion_tag('metatags.html')
+def metatags(force=False):
+    """ Make the meta tags.
+    """
+    inc = settings.PHP_INCLUDE
+    if force:
+        inc = False
+    return {"include": inc}
+
 
 MORE_BLOG = None
 
