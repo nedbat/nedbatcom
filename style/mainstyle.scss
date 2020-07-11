@@ -14,7 +14,8 @@ body {
     @media (min-width: 450px) {
         font-size: 120%;
     }
-    background: white;
+    background: var(--bg-color);
+    color: var(--fg-color);
     padding: 1em;
     line-height: 1.5em;
 }
@@ -25,7 +26,7 @@ body {
 
 #pagetitle {
     padding: 0.5em 0;
-    @if $dark == yes {
+    @if $mourning == yes {
         border-bottom: 15px solid #333;
     }
     @else {
@@ -55,7 +56,10 @@ body {
 
     #star {
         display: block;
-        background: url(/pix/dodeca3_640.jpg) no-repeat bottom right;
+        background: url(/pix/dodeca3_light_640.jpg) no-repeat bottom right;
+        @media (prefers-color-scheme: dark) {
+            background-image: url(/pix/dodeca3_dark_640.jpg);
+        }
         height: 40vw;
         background-size: 50vw;
         margin: 0 -4em 0 -2em;
@@ -109,11 +113,20 @@ h2 {
         flex: 0 auto;
     }
     .searchbox {
+        background: var(--bg-color);
+        color: var(--fg-color);
         flex: 1 0px;
         border: 1px solid #7e9db9;
         border-radius: 2px;
         width: 100%;
         padding: 2px;
+    }
+    input {
+        &[type="image"] {
+            @media (prefers-color-scheme: dark) {
+                filter: invert(1);
+            }
+        }
     }
     #submit {
         margin-left: .25em;
@@ -127,13 +140,13 @@ h2 {
 
 .blog-entry p.date {
     display: inline;
-    color: $gray;
+    color: var(--info-text-color);
 }
 
 .huh {
     display: inline;
     margin: 0 0 0 1em;
-    color: $gray;
+    color: var(--info-text-color);
 }
 
 .oneline {
@@ -158,7 +171,7 @@ aside section {
 }
 
 .readmore {
-    color: $gray;
+    color: var(--info-text-color);
     font-style: italic;
     a {
         @include inside-link;
@@ -180,10 +193,10 @@ a {
         @include inside-link;
     }
     text-decoration: none;
-    color: #008;
+    color: var(--link-color);
     &:hover {
         text-decoration: underline;
-        color: #00f;
+        color: var(--link-hover-color);
     }
 }
 
@@ -204,7 +217,7 @@ li {
         content: "▫";
         display: inline-block;
         width: $list-indent;
-        color: $gray;
+        color: var(--info-text-color);
         text-indent: 0;
     }
 
@@ -225,7 +238,7 @@ li {
 }
 
 .copyright {
-    color: $gray;
+    color: var(--info-text-color);
     font-style: italic;
     font-size: 85%;
     margin-bottom: 0;

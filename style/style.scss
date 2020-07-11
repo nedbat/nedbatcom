@@ -22,7 +22,7 @@ $comment-break: 500px;
 
 @import 'common';
 
-@if $dark == yes {
+@if $mourning == yes {
     $thick-border-color: #000;
     $outer-border-large: 12px;
     $thick-border-large-horz: 6px;
@@ -72,12 +72,23 @@ body {
         background: lighten(#09ca16, 30%);
     }
     @else {
-        background: #fff;
+        @include colors(--bg-color);
     }
+
     font-size: 110%;
     text-align: left;
     max-width: 100%;
     hyphens: manual;
+
+    a {
+        &.s {
+            @include inside-link;
+        }
+        color: var(--link-color);
+        &:hover {
+            color: var(--link-hover-color);
+        }
+    }
 }
 
 #sidebar {
@@ -89,7 +100,7 @@ body {
         background: lighten(#86dbf3, 10%);
     }
     @else {
-        background: #eee;
+        @include colors(--sidebar-bg-color);
     }
     text-align: left;
     font-size: 85%;
@@ -110,12 +121,15 @@ body {
         background: red;
     }
     @else {
-        background: #fff;
+        background: var(--bg-color);
     }
     text-align: center;
     border-width: 0 $thick-border-small-vert $thick-border-small-horz 0;
 
-    background-image: url(/pix/dodeca3_60.jpg);
+    background-image: url(/pix/dodeca3_light_60.jpg);
+    @media (prefers-color-scheme: dark) {
+        background-image: url(/pix/dodeca3_dark_60.jpg);
+    }
     background-size: contain;
 
     a {
@@ -133,7 +147,7 @@ body {
         background: lighten(yellow, 30%);
     }
     @else {
-        background: #eee;
+        @include colors(--sidebar-bg-color);
     }
     border-bottom-width: $thick-border-small-horz;
     text-align: left;
@@ -152,12 +166,11 @@ body {
         background: lighten(#be5fc6, 30%);
     }
     @else {
-        background: #eee;
+        @include colors(--sidebar-bg-color, --footer-fg-color);
     }
 
     font-size: 85%;
     font-style: italic;
-    color: #333;
     margin-bottom: 0;
     a {
         @include inside-link;
@@ -168,6 +181,9 @@ body {
     body {
         // larger sizes can have a fancy background.
         background: $texture;
+        @media (prefers-color-scheme: dark) {
+            background: #333;
+        }
         border: $outer-border-large solid $thick-border-color;
 
         > * {
@@ -176,7 +192,10 @@ body {
     }
 
     #logo {
-        background-image: url(/pix/dodeca3_200.jpg);
+        background-image: url(/pix/dodeca3_light_200.jpg);
+        @media (prefers-color-scheme: dark) {
+            background-image: url(/pix/dodeca3_dark_200.jpg);
+        }
         width: $logo-size-large;
         height: $logo-size-large;
         border-width: 0 $thick-border-large-vert $thick-border-large-horz 0;
@@ -386,7 +405,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: $gray;
+    color: var(--info-text-color);
 }
 
 .docinfo {
@@ -396,7 +415,7 @@ a.headerlink {
     text-align: right;
     font-size: 85%;
     font-style: italic;
-    color: $gray;
+    color: var(--info-text-color);
 }
 
 ul {
@@ -463,10 +482,20 @@ dt, dd {
         display: flex;
         margin-left: 0;
     }
+
+    input {
+        &[type="image"] {
+            @media (prefers-color-scheme: dark) {
+                filter: invert(1);
+            }
+        }
+    }
 }
 
 input {
     &.searchbox {
+        background: var(--bg-color);
+        color: var(--fg-color);
         border: 1px solid #7e9db9;
         border-radius: 2px;
         padding: 2px;
@@ -548,7 +577,7 @@ a.s {
     margin: 0 0 0 0;
 }
 
-.path {
+#banner .path {
     margin: .25em 0 -1em 0;
     display: flex;
     align-items: baseline;
@@ -573,10 +602,10 @@ a.s {
         }
     }
 
-    // A too-cute way to have the header work at ultra-narrow sizes.
     .home {
         font-weight: bold;
     }
+    // A too-cute way to have the header work at ultra-narrow sizes.
     .chelder {
         display: none;
     }
@@ -594,14 +623,14 @@ a.s {
     }
 }
 
-.blog-entry {
+#content .blog-entry {
     header {
         padding-bottom: .2em;
         margin-bottom: 0;
     }
     footer {
         font-size: 85%;
-        color: $gray;
+        color: var(--info-text-color);
         font-style: italic;
         border-bottom: solid 1px silver;
         padding-bottom: 12pt;
@@ -619,11 +648,11 @@ a.s {
     }
     .date {
         font-size: 85%;
-        color: $gray;
+        color: var(--info-text-color);
         margin: 0;
         padding: 0;
         a.s {
-            color: $gray;
+            color: var(--info-text-color);
         }
     }
     p {
@@ -646,7 +675,7 @@ a.s {
 
 /* Archive page: make the dates hang left to align all the titles. */
 
-div.archive {       // can't be just ".archive" because of body.archive
+#content div.archive {          // can't be just ".archive" because of body.archive
     a {
         @include inside-link;
     }
@@ -659,14 +688,14 @@ div.archive {       // can't be just ".archive" because of body.archive
             text-align: right;
             padding: 0;
             margin: 0 0 -1.4em 0;
-            color: $gray;
+            color: var(--info-text-color);
         }
     }
 }
 
 /* Category page: Like archive, but the dates are wider. */
 
-.category {
+#content .category {
     a {
         @include inside-link;
     }
@@ -679,12 +708,12 @@ div.archive {       // can't be just ".archive" because of body.archive
             text-align: right;
             padding: 0;
             margin: 0 0 -1.4em 0;
-            color: $gray;
+            color: var(--info-text-color);
         }
     }
 }
 
-.catlist {
+#content .catlist {
     a {
         @include inside-link;
     }
@@ -703,7 +732,7 @@ div.archive {       // can't be just ".archive" because of body.archive
 
 .also {
     font-size: 85%;
-    color: $gray;
+    color: var(--info-text-color);
     font-style: italic;
     text-decoration: none;
 }
@@ -716,7 +745,7 @@ blockquote {
     max-width: 95%;
     border-left: 1px solid #c0c0c0;
     padding: 0;
-    background-color: #f0f0f0;
+    @include colors(--blockquote-bg-color);
     div {
         margin: 0;
         padding: .3em 1em .1em 1em;
@@ -769,6 +798,13 @@ blockquote.code {
         padding: 0 .5em 0 0;
         margin: 0 .5em 0 0;
     }
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #ddd;
+        filter: invert(1) brightness(150%);
+    }
+
+    color: #000;
 
     /* Code styling.  There are a lot of different styles! */
     .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
@@ -888,6 +924,9 @@ img {
     max-width: 100%;
     height: auto;
     align-self: flex-start; /* https://stackoverflow.com/a/61196907/14343 */
+    @media (prefers-color-scheme: dark) {
+        filter: grayscale(50%);
+    }
 }
 
 .tweet a {
@@ -948,7 +987,7 @@ img {
     }
 
     .notice {
-        color: $gray;
+        color: var(--info-text-color);
         font-style: italic;
         margin: .5em 0;
 
@@ -1034,7 +1073,7 @@ img {
             font-family: $them-font;
             float: right;
             font-size: 85%;
-            color: $gray;
+            color: var(--info-text-color);
             margin-top: 0;
         }
         .head {

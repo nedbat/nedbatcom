@@ -5,11 +5,45 @@ $debug-structure: no;
 $debug-links: no;
 
 // Political changes
-$dark: yes;
+$mourning: yes;
 
 // Global constants
 
-$gray: #595959;
+:root {
+    --bg-color: white;
+    --sidebar-bg-color: #eee;
+    --blockquote-bg-color: #f0f0f0;
+    --fg-color: black;
+    --footer-fg-color: #333;
+    --inside-link-color: red;
+    --info-text-color: #595959;
+    --link-color: #00a;
+    --link-hover-color: #00f;
+    @media (prefers-color-scheme: dark) {
+        --bg-color: #121212;
+        --sidebar-bg-color: var(--bg-color);
+        --blockquote-bg-color: #222;
+        --fg-color: #eeeeee;
+        --footer-fg-color: var(--fg-color);
+        --inside-link-color: #f88;
+        --info-text-color: #888;
+        --link-color: #aaf;
+        --link-hover-color: #88f;
+    }
+
+    --light-dark-duration: 0.5s;
+    --light-dark-timing: ease;
+
+    color-scheme: light dark;
+}
+
+@mixin colors($bgcolor, $fgcolor: --fg-color) {
+    background: var($bgcolor);
+    color: var($fgcolor);
+    transition:
+        color var(--light-dark-duration) var(--light-dark-timing),
+        background-color var(--light-dark-duration) var(--light-dark-timing);
+}
 
 // PT Serif for body text. Source Serif has no italic, Merriweather is wider and has old-style numerals.
 $me-font: "PT Serif NB", Georgia, serif;
@@ -81,6 +115,6 @@ img {
     color: inherit;
     &:hover {
         text-decoration: underline;
-        color: red;
+        color: var(--inside-link-color);
     }
 }
