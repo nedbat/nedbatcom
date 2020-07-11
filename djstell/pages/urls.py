@@ -35,8 +35,8 @@ urlpatterns = [
     url(r'^(?P<path>(text|code|site)/.*)$', dpv.article),
     url(r'^(?P<path>err404.html)$', dpv.article),
 
-    url(r'^sidebar_(?P<which>\w+).inc$', dpv.sidebar),
-    url(r'^navbar.inc$', dpv.navbar),
-    url(r'^footer.inc$', dpv.footer),
-    url(r'^metatags.inc$', dpv.metatags),
+    url(r'^0inc/sidebar_(?P<which>\w+).inc$', dpv.sidebar),
+    url(r'^0inc/navbar.inc$', dpv.navbar),
+    url(r'^0inc/footer.inc$', dpv.footer),
+    url(r'^0inc/metatags.inc$', dpv.metatags),
     ]
