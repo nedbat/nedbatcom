@@ -14,8 +14,6 @@ $thick-border-large-horz: 3px;
 $thick-border-large-vert: 3px;
 $outer-border-large: 5px;
 
-$texture: url(pix/hilbert.png);
-
 $narrow-break: 760px;
 $tiny-break: 350px;
 $comment-break: 500px;
@@ -180,9 +178,10 @@ body {
 @media screen and (min-width: $narrow-break) {
     body {
         // larger sizes can have a fancy background.
-        background: $texture;
+        background: url(pix/hilbert.png);
+
         @media (prefers-color-scheme: dark) {
-            background: #333;
+            background: #222;
         }
         border: $outer-border-large solid $thick-border-color;
 
@@ -958,7 +957,7 @@ img {
         border-radius: 3px;
         margin: 0;
         padding: 1em;
-        background: #eee;
+        background: var(--blockquote-bg-color);
     }
     h2 {
         border: none;
@@ -1001,7 +1000,7 @@ img {
     }
     label {
         flex: 0 0 $label-width;
-        color: #666666;
+        color: var(--info-text-color);
 
         &.check {
             flex: 1 0 auto;
@@ -1020,6 +1019,7 @@ img {
 
     input {
         &.edit {
+            @include colors(--bg-color);
             font-size: 100%;
             flex: 1 0 0;
             max-width: 30em;
@@ -1043,6 +1043,7 @@ img {
     }
 
     textarea {
+        @include colors(--bg-color);
         font-family: $them-font;
         font-size: 100%;
         flex: 1 0 0;
@@ -1053,6 +1054,9 @@ img {
     .comment {
         font-family: $them-font;
         border-top: solid 1px #eee;
+        @media (prefers-color-scheme: dark) {
+            border-top-color: #888;
+        }
         padding: .5em 10pt 0 50px;
         margin-top: .5em;
         overflow: auto;

@@ -13,20 +13,23 @@ $mourning: yes;
     --bg-color: white;
     --sidebar-bg-color: #eee;
     --blockquote-bg-color: #f0f0f0;
+
     --fg-color: black;
     --footer-fg-color: #333;
     --inside-link-color: red;
     --info-text-color: #595959;
     --link-color: #00a;
     --link-hover-color: #00f;
+
     @media (prefers-color-scheme: dark) {
         --bg-color: #121212;
         --sidebar-bg-color: var(--bg-color);
         --blockquote-bg-color: #222;
+
         --fg-color: #eeeeee;
         --footer-fg-color: var(--fg-color);
         --inside-link-color: #f88;
-        --info-text-color: #888;
+        --info-text-color: #999;
         --link-color: #aaf;
         --link-hover-color: #88f;
     }
