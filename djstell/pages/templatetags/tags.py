@@ -57,15 +57,6 @@ def navbar(force=False):
         inc = False
     return {"include": inc}
 
-@register.inclusion_tag('footer.html')
-def footer(force=False):
-    """ Make the footer.
-    """
-    inc = settings.PHP_INCLUDE
-    if force:
-        inc = False
-    return {"include": inc}
-
 @register.inclusion_tag('metatags.html')
 def metatags(force=False):
     """ Make the meta tags.

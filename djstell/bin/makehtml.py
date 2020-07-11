@@ -141,7 +141,6 @@ class CmdLine(object):
             '/0inc/sidebar_blog.inc',
             '/0inc/sidebar_page.inc',
             '/0inc/navbar.inc',
-            '/0inc/footer.inc',
             '/0inc/metatags.inc',
             '/index.html',
             ]

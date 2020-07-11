@@ -37,6 +37,5 @@ urlpatterns = [
 
     url(r'^0inc/sidebar_(?P<which>\w+).inc$', dpv.sidebar),
     url(r'^0inc/navbar.inc$', dpv.navbar),
-    url(r'^0inc/footer.inc$', dpv.footer),
     url(r'^0inc/metatags.inc$', dpv.metatags),
     ]
