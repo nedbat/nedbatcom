@@ -6,8 +6,6 @@
 #declare Mask=0;
 #declare Star=1;
 
-global_settings { assumed_gamma 2.2 }
-
 #include "colors.inc"
 
 #if (Dark)
@@ -26,15 +24,15 @@ camera {
 }
 
 light_source {
-    <-4, 6, -6> 
+    <-4, 6, -6>
     color White
     area_light <1, 0, 0>, <0, 0, 1>, 8,8
     adaptive 1
     jitter
 }
 
-sky_sphere { 
-    pigment { 
+sky_sphere {
+    pigment {
         #if (Mask)
         Black
         #else
@@ -44,17 +42,18 @@ sky_sphere {
 }
 
 // Floor
-plane { <0, 1, 0>, -1
-    pigment { 
+plane {
+    <0, 1, 0>, -1
+    pigment {
         #if (Mask)
         Black
         #else
         bg_color
-        #end 
+        #end
     }
     finish {
-        ambient 1.1     // Lighten the shadow. 
-        diffuse 1 
+        ambient 1.1     // Lighten the shadow.
+        diffuse 1
         brilliance 0    // No fade-off or horizon.
     }
     #if (!Shadow)
@@ -63,6 +62,7 @@ plane { <0, 1, 0>, -1
 }
 
 global_settings {
+    assumed_gamma 2.2
     ambient_light 0.9
     radiosity {
         brightness 0.4
@@ -79,17 +79,16 @@ global_settings {
 #declare tex =
 texture {
     #if (Mask)
-    pigment { color White }
-    finish { ambient 10 diffuse 0 brilliance 0 } 
+    pigment { White }
+    finish { ambient 10 diffuse 0 brilliance 0 }
     #else
-    pigment { White * .95 }
-    finish {
         #if (Dark)
-        ambient 3 diffuse .9
+            pigment { White }
+            finish { ambient 20 diffuse 1.3 }
         #else
-        ambient 1 diffuse .7
+            pigment { White * .95 }
+            finish { ambient 1 diffuse .7 }
         #end
-    } 
     #end
 }
 
@@ -136,7 +135,8 @@ object {
     }
     texture { tex }
 
-    rotate <0,0,clock*180> 
+    rotate <0, 0, 30>
+
     #if (Mask)
     no_shadow
     #end
@@ -144,4 +144,3 @@ object {
     no_image
     #end
 }
-
