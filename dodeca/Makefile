@@ -20,10 +20,10 @@ final:
 	done
 
 ico:
-	for size in 16 32 48; do \
-		magick dodeca3_light_large.png -resize $${size} -bordercolor black -border 1 dodeca3_light_$${size}.bmp; \
+	for size in 16 32 48 64 96; do \
+		magick dodeca3_light_large.png -resize $${size} -bordercolor black -border $$((($${size}-1)/32+1)) dodeca3_light_$${size}.bmp; \
 	done
-	magick convert dodeca3_light_{16,32,48}.bmp dodeca3.ico
+	magick convert dodeca3_light_{16,32,48,64,96}.bmp dodeca3.ico
 
 publish:
 	cp dodeca3_*_*.jpg ../pix

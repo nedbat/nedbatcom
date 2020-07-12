@@ -166,7 +166,9 @@ class CmdLine(object):
                     outjs.write(jsin.read())
                 outjs.write("\n")
 
-    def copy_verbatim(self, dst):
+    @timed
+    def do_copy_verbatim(self):
+        dst = self.ROOT
         self.xuff.copytree(src='pages', dst=dst,
             include='''
                 *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf *.woff2
@@ -222,7 +224,7 @@ class CmdLine(object):
     @timed
     def do_make(self):
         self.generate(self.ROOT)
-        self.copy_verbatim(self.ROOT)
+        self.do_copy_verbatim()
         self.do_support()
 
     @timed
