@@ -19,8 +19,17 @@ final:
 		done \
 	done
 
+ico:
+	for size in 16 32 48; do \
+		magick dodeca3_light_large.png -resize $${size} -bordercolor black -border 1 dodeca3_light_$${size}.bmp; \
+	done
+	magick convert dodeca3_light_{16,32,48}.bmp dodeca3.ico
+
 publish:
 	cp dodeca3_*_*.jpg ../pix
 
+publish_ico:
+	cp dodeca3.ico ../pages/favicon.ico
+
 clean:
-	rm -f *.pov-state *.png *.jpg
+	rm -f *.pov-state *.png *.jpg *.bmp *.ico
