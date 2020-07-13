@@ -28,6 +28,9 @@ body {
     padding: 0.5em 0;
     @if $mourning == yes {
         border-bottom: 15px solid #333;
+        @media (prefers-color-scheme: dark) {
+            border-bottom-color: #111;
+        }
     }
     @else {
         border-bottom: 1px solid #ccc;

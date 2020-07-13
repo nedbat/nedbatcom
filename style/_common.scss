@@ -22,9 +22,9 @@ $mourning: yes;
     --link-hover-color: #00f;
 
     @media (prefers-color-scheme: dark) {
-        --bg-color: #121212;
-        --sidebar-bg-color: var(--bg-color);
-        --blockquote-bg-color: #222;
+        --bg-color: #2C2C2C;
+        --sidebar-bg-color: #202020;
+        --blockquote-bg-color: #383838;
 
         --fg-color: #eeeeee;
         --footer-fg-color: var(--fg-color);
