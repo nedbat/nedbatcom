@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200713T194108'>
+<title>Dark mode</title>
+<category>site</category>
+<category>css</category>
+<body>
+
+<p>Recently I released <a href="https://pypi.org/project/coverage/5.2/">Coverage.py 5.2</a>,
+which included a dark-mode for the HTML report, contributed by
+<a href="https://twitter.com/vincesalvino">Vince Salvino</a>.  I hadn't seen a
+dark-mode implementation for HTML before, so it piqued my interest.</p>
+
+<p>Now I've implemented a dark mode for this site. There is no manual control
+for it, it uses the "prefers-color-scheme" CSS media query to follow the current
+operating system setting.  If you use a Mac in dark mode, Chrome or Safari
+should show you this site in dark mode.</p>
+
+<p>Implementing it was fun, as fiddling with this site always is. It's a good
+chance to learn new things.  In this case, CSS variables were new to me.</p>
+
+<p>The article "<a href="https://web.dev/prefers-color-scheme/">prefers-color-scheme: Hello
+darkness, my old friend</a>" by Thomas Steiner was very helpful. Luckily, for
+this simple site I could skip over many parts of Thomas' comprehensive treatment
+of the considerations.</p>
+
+<p>One of the trickier things in dark mode is adjusting color palettes, but this
+site pretty much has no colors, so that wasn't a problem. I did have to be
+careful to keep the text at sufficiently high
+<a href="https://color.a11y.com/">contrast ratios</a>.</p>
+
+<p>Here's how it looks in light mode (the classic, unchanged):</p>
+
+<figurep>
+    <thumbnail href="pix/site-light.png" class="hairline" alt="This site, in light mode"/>
+</figurep>
+
+<p>And in dark mode:</p>
+
+<figurep>
+    <thumbnail href="pix/site-dark.png" alt="This site, in dark mode"/>
+</figurep>
+
+<p>A big challenge was re-rendering the star in the upper left. I'll have to
+switch from POV-Ray to Blender one of these days...</p>
+
+<p>I don't use dark mode myself, so I'm not sure if I got the vibe right. Let me
+know if there's something I should adjust.</p>
+
+</body>
+</entry>
+</blog>
