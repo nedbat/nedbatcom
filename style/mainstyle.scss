@@ -14,8 +14,7 @@ body {
     @media (min-width: 450px) {
         font-size: 120%;
     }
-    background: var(--bg-color);
-    color: var(--fg-color);
+    @include colors(--bg-color);
     padding: 1em;
     line-height: 1.5em;
 }
@@ -116,8 +115,7 @@ h2 {
         flex: 0 auto;
     }
     .searchbox {
-        background: var(--bg-color);
-        color: var(--fg-color);
+        @include colors(--bg-color);
         flex: 1 0px;
         border: 1px solid #7e9db9;
         border-radius: 2px;
