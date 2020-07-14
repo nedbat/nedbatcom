@@ -946,6 +946,19 @@ img {
 }
 
 .comments {
+    --preview-bg-color: #ffee99;
+    --button-bg-color: #eee;
+    --border-color: #eee;
+    --input-top-edge: #666;
+    --input-bottom-edge: #ccc;
+    @media (prefers-color-scheme: dark) {
+        --preview-bg-color: #540;
+        --button-bg-color: #666;
+        --border-color: #888;
+        --input-top-edge: #999;
+        --input-bottom-edge: #666;
+    }
+
     $label-width: 7em;
     $label-gutter: .5em;
 
@@ -1023,13 +1036,15 @@ img {
             font-size: 100%;
             flex: 1 0 0;
             max-width: 30em;
+            border: 1px solid #888;
+            border-color: var(--input-top-edge) var(--input-bottom-edge) var(--input-bottom-edge) var(--input-top-edge);
         }
 
         &[type="submit"] {
             padding: .5em 1em;
             border: 1px solid #888;
             border-radius: 4px;
-            background: #eee;
+            @include colors(--button-bg-color);
         }
 
         &[type="checkbox"] {
@@ -1053,16 +1068,13 @@ img {
 
     .comment {
         font-family: $them-font;
-        border-top: solid 1px #eee;
-        @media (prefers-color-scheme: dark) {
-            border-top-color: #888;
-        }
+        border-top: solid 1px var(--border-color);
         padding: .5em 10pt 0 50px;
         margin-top: .5em;
         overflow: auto;
         &.preview {
-            background-color: #ffff80;
-            border: 1px solid #cccccc;
+            @include colors(--preview-bg-color);
+            border: 1px solid var(--input-bottom-edge);
             border-radius: 3px;
             padding: .5em 10pt 0 54px;
         }
@@ -1086,7 +1098,7 @@ img {
         img.gravatar {
             float: left;
             margin: 3px 0 0 -50px;
-            border: 1px solid #eee;
+            border: 1px solid var(--border-color);
             border-radius: 3px;
         }
         .commenttext {
