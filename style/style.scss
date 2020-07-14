@@ -983,7 +983,7 @@ img {
     form div {
         display: flex;
         flex-wrap: wrap;
-        align-items: flex-start;
+        align-items: baseline;
         margin-top: .5em;
 
         &.finish {
