@@ -908,15 +908,16 @@ div.linenodiv {
 .codeword, tt {
     font-size: 80%;
     font-family: $code-font;
-    background-color: #e8e8e8;
+    @include colors(--blockquote-bg-color);
     padding: 0 .2em;
+    border-radius: 2px;
 }
 
 .box {
     border: 1px solid;
     border-color: #ccc #999 #999 #ccc;
     padding: .3em .6em;
-    background-color: #ffc;
+    background-color: #ffc; /* #540 */
 }
 
 img {
