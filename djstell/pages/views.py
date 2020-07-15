@@ -200,10 +200,6 @@ def navbar(request):
     html = "{% load tags %}{% navbar 1 %}"
     return HttpResponse(Template(html).render(RequestContext(request)))
 
-def footer(request):
-    html = "{% load tags %}{% footer 1 %}"
-    return HttpResponse(Template(html).render(RequestContext(request)))
-
 def metatags(request):
     html = "{% load tags %}{% metatags 1 %}"
     return HttpResponse(Template(html).render(RequestContext(request)))
