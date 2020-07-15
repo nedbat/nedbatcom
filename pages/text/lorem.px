@@ -67,7 +67,7 @@
             correct answer."</li>
         </ul>
     </li>
-    
+
     </ul>
 </li>
 
@@ -134,7 +134,7 @@ print("Goodbye")
 if input() == "yes":
     # Wrapped at 80 chars:
     # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia none
-    # numquam eius modi tempora incidunt. 
+    # numquam eius modi tempora incidunt.
     # Much longer (261 chars):
     # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 ]]></code>
@@ -201,6 +201,17 @@ All mimsy were the borogroves, and the mome wrath outgrabe.</p>
 <li>Three</li>
 </ol>
 </quote>
+
+<p>Some text in a box:</p>
+
+<box>
+Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
+numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat
+voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+suscipit laboriosam.
+</box>
+
+<p>Didn't that stand out nicely?</p>
 
 
 <h1>Images</h1>
