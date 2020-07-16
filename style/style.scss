@@ -128,6 +128,9 @@ body {
     @media (prefers-color-scheme: dark) {
         background-image: url(/pix/dodeca3_dark_60.jpg);
     }
+    html.dark & {
+        background-image: url(/pix/dodeca3_dark_60.jpg);
+    }
     background-size: contain;
 
     a {
@@ -183,6 +186,9 @@ body {
         @media (prefers-color-scheme: dark) {
             background: #080808;
         }
+        html.dark & {
+            background: #080808;
+        }
         border: $outer-border-large solid $thick-border-color;
 
         > * {
@@ -193,6 +199,9 @@ body {
     #logo {
         background-image: url(/pix/dodeca3_light_200.jpg);
         @media (prefers-color-scheme: dark) {
+            background-image: url(/pix/dodeca3_dark_200.jpg);
+        }
+        html.dark & {
             background-image: url(/pix/dodeca3_dark_200.jpg);
         }
         width: $logo-size-large;
@@ -487,6 +496,9 @@ dt, dd {
             @media (prefers-color-scheme: dark) {
                 filter: invert(1);
             }
+            html.dark & {
+                filter: invert(1);
+            }
         }
     }
 }
@@ -742,7 +754,7 @@ blockquote {
     font-size: 100%;
     margin: 1em auto;
     max-width: 95%;
-    border-left: 1px solid #c0c0c0;
+    border-left: 1px solid var(--light-edge);
     padding: 0;
     @include colors(--blockquote-bg-color);
     div {
@@ -799,6 +811,10 @@ blockquote.code {
     }
 
     @media (prefers-color-scheme: dark) {
+        background-color: #ddd;
+        filter: invert(1) brightness(150%);
+    }
+    html.dark & {
         background-color: #ddd;
         filter: invert(1) brightness(150%);
     }
@@ -915,9 +931,15 @@ div.linenodiv {
 
 .box {
     border: 1px solid;
-    border-color: #ccc #999 #999 #ccc;
+    border-color: var(--light-edge) var(--dark-edge) var(--dark-edge) var(--light-edge);
     padding: .3em .6em;
-    background-color: #ffc; /* #540 */
+    background-color: #ffc;
+    @media (prefers-color-scheme: dark) {
+        background-color: #3c3f34;
+    }
+    html.dark & {
+        background-color: #3c3f34;
+    }
 }
 
 img {
@@ -925,6 +947,9 @@ img {
     height: auto;
     align-self: flex-start; /* https://stackoverflow.com/a/61196907/14343 */
     @media (prefers-color-scheme: dark) {
+        filter: grayscale(50%);
+    }
+    html.dark & {
         filter: grayscale(50%);
     }
 }
@@ -947,17 +972,28 @@ img {
 }
 
 .comments {
-    --preview-bg-color: #ffee99;
+    --preview-bg-color: #{$light-green-bg};
     --button-bg-color: #eee;
     --border-color: #eee;
     --input-top-edge: #666;
     --input-bottom-edge: #ccc;
+    --error-bg-color: #{$light-red-bg};
+
     @media (prefers-color-scheme: dark) {
-        --preview-bg-color: #540;
+        --preview-bg-color: #{$dark-green-bg};
         --button-bg-color: #666;
         --border-color: #888;
         --input-top-edge: #999;
         --input-bottom-edge: #666;
+        --error-bg-color: #{$dark-red-bg};
+    }
+    html.dark & {
+        --preview-bg-color: #{$dark-green-bg};
+        --button-bg-color: #666;
+        --border-color: #888;
+        --input-top-edge: #999;
+        --input-bottom-edge: #666;
+        --error-bg-color: #{$dark-red-bg};
     }
 
     $label-width: 7em;
@@ -1038,7 +1074,8 @@ img {
             flex: 1 0 0;
             max-width: 30em;
             border: 1px solid #888;
-            border-color: var(--input-top-edge) var(--input-bottom-edge) var(--input-bottom-edge) var(--input-top-edge);
+            border-color: var(--dark-edge) var(--light-edge) var(--light-edge) var(--dark-edge);
+            padding-left: .15em;
         }
 
         &[type="submit"] {
@@ -1077,7 +1114,7 @@ img {
             @include colors(--preview-bg-color);
             border: 1px solid var(--input-bottom-edge);
             border-radius: 3px;
-            padding: .5em 10pt 0 54px;
+            padding: .5em 10pt 0 60px;
         }
         .who {
             font-family: $them-font;
@@ -1094,6 +1131,7 @@ img {
             margin-top: 0;
         }
         .head {
+            margin-top: 0;
             margin-bottom: 20pt;
         }
         img.gravatar {
@@ -1113,10 +1151,8 @@ img {
     }
 
     .errormsg {
-        color: #800;
-        font-weight: bold;
-        background: #fcc;
-        padding: 2pt 4pt;
+        background: var(--error-bg-color);
+        padding: .25em .5em;
         border: 1px solid red;
         border-radius: 3px;
         margin: .5em 0;

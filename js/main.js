@@ -32,3 +32,10 @@ jQuery(function($){
     var thisdate = new Date().toJSON().slice(5,10).replace('-', '');
     $(".thisdate").attr("href", "/blog/archive/date" + thisdate + ".html");
 });
+
+jQuery(function ($) {
+    var darkmode = (window.location.href.indexOf("darkmode") !== -1);
+    if (darkmode) {
+        $("html").addClass("dark");
+    }
+});
