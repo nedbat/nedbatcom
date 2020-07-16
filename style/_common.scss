@@ -22,6 +22,7 @@ $light-green-bg: #cfd;
 $light-red-bg: #fcc;
 $light-light-edge: #ccc;
 $light-dark-edge: #999;
+$light-tint-border: #00000080;
 
 $dark-bg-color: #1F1F1F;
 $dark-sidebar-bg-color: $dark-bg-color;
@@ -36,6 +37,7 @@ $dark-green-bg: #325541;
 $dark-red-bg: #844;
 $dark-light-edge: #666;
 $dark-dark-edge: #000;
+$dark-tint-border: #ffffff66;
 
 :root {
     --bg-color: #{$light-bg-color};
@@ -51,6 +53,7 @@ $dark-dark-edge: #000;
     --red-bg: #{$light-red-bg};
     --light-edge: #{$light-light-edge};
     --dark-edge: #{$light-dark-edge};
+    --tint-border: #{$light-tint-border};
 
     @media (prefers-color-scheme: dark) {
         --bg-color: #{$dark-bg-color};
@@ -66,6 +69,7 @@ $dark-dark-edge: #000;
         --red-bg: #{$dark-red-bg};
         --light-edge: #{$dark-light-edge};
         --dark-edge: #{$dark-dark-edge};
+        --tint-border: #{$dark-tint-border};
     }
 
     --light-dark-duration: 0.5s;
@@ -88,6 +92,7 @@ html.dark {
     --red-bg: #{$dark-red-bg};
     --light-edge: #{$dark-light-edge};
     --dark-edge: #{$dark-dark-edge};
+    --tint-border: #{$dark-tint-border};
 }
 
 @mixin colors($bgcolor, $fgcolor: --fg-color) {

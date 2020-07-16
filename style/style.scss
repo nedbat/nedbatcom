@@ -1112,7 +1112,7 @@ img {
         overflow: auto;
         &.preview {
             @include colors(--preview-bg-color);
-            border: 1px solid var(--input-bottom-edge);
+            border: 1px solid var(--tint-border);
             border-radius: 3px;
             padding: .5em 10pt 0 60px;
         }
@@ -1137,7 +1137,7 @@ img {
         img.gravatar {
             float: left;
             margin: 3px 0 0 -50px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--tint-border);
             border-radius: 3px;
         }
         .commenttext {
@@ -1153,7 +1153,7 @@ img {
     .errormsg {
         background: var(--error-bg-color);
         padding: .25em .5em;
-        border: 1px solid red;
+        border: 1px solid var(--tint-border);
         border-radius: 3px;
         margin: .5em 0;
     }
