@@ -7,92 +7,88 @@ $debug-links: no;
 // Political changes
 $mourning: yes;
 
-// Global constants
+// Mixins for defining specifics of light mode and dark mode.
 
-$light-bg-color: white;
-$light-sidebar-bg-color: #eee;
-$light-blockquote-bg-color: #f0f0f0;
-$light-fg-color: black;
-$light-footer-fg-color: #333;
-$light-inside-link-color: red;
-$light-info-text-color: #595959;
-$light-link-color: #00a;
-$light-link-hover-color: #00f;
-$light-green-bg: #cfd;
-$light-red-bg: #fcc;
-$light-light-edge: #ccc;
-$light-dark-edge: #999;
-$light-tint-border: #00000080;
-
-$dark-bg-color: #1F1F1F;
-$dark-sidebar-bg-color: $dark-bg-color;
-$dark-blockquote-bg-color: #2C2C2C;
-$dark-fg-color: #eeeeee;
-$dark-footer-fg-color: $dark-fg-color;
-$dark-inside-link-color: #f88;
-$dark-info-text-color: #aaa;
-$dark-link-color: #fff2aa;
-$dark-link-hover-color: #eee;
-$dark-green-bg: #325541;
-$dark-red-bg: #844;
-$dark-light-edge: #666;
-$dark-dark-edge: #000;
-$dark-tint-border: #ffffff66;
-
-:root {
-    --bg-color: #{$light-bg-color};
-    --sidebar-bg-color: #{$light-sidebar-bg-color};
-    --blockquote-bg-color: #{$light-blockquote-bg-color};
-    --fg-color: #{$light-fg-color};
-    --footer-fg-color: #{$light-footer-fg-color};
-    --inside-link-color: #{$light-inside-link-color};
-    --info-text-color: #{$light-info-text-color};
-    --link-color: #{$light-link-color};
-    --link-hover-color: #{$light-link-hover-color};
-    --green-bg: #{$light-green-bg};
-    --red-bg: #{$light-red-bg};
-    --light-edge: #{$light-light-edge};
-    --dark-edge: #{$light-dark-edge};
-    --tint-border: #{$light-tint-border};
-
+@mixin lightmode {
+    @content;
     @media (prefers-color-scheme: dark) {
-        --bg-color: #{$dark-bg-color};
-        --sidebar-bg-color: #{$dark-sidebar-bg-color};
-        --blockquote-bg-color: #{$dark-blockquote-bg-color};
-        --fg-color: #{$dark-fg-color};
-        --footer-fg-color: #{$dark-footer-fg-color};
-        --inside-link-color: #{$dark-inside-link-color};
-        --info-text-color: #{$dark-info-text-color};
-        --link-color: #{$dark-link-color};
-        --link-hover-color: #{$dark-link-hover-color};
-        --green-bg: #{$dark-green-bg};
-        --red-bg: #{$dark-red-bg};
-        --light-edge: #{$dark-light-edge};
-        --dark-edge: #{$dark-dark-edge};
-        --tint-border: #{$dark-tint-border};
+        html.othermode & {
+            @content;
+        }
     }
+}
 
+@mixin darkmode {
+    html.othermode & {
+        @content;
+    }
+    @media (prefers-color-scheme: dark) {
+        @content;
+    }
+}
+
+@mixin rootlightmode {
+    html {
+        @content;
+    }
+    @media (prefers-color-scheme: dark) {
+        html.othermode {
+            @content;
+        }
+    }
+}
+
+@mixin rootdarkmode {
+    html.othermode {
+        @content;
+    }
+    @media (prefers-color-scheme: dark) {
+        html {
+            @content;
+        }
+    }
+}
+
+
+@include rootlightmode {
+    --bg-color: white;
+    --sidebar-bg-color: #eee;
+    --blockquote-bg-color: #f0f0f0;
+    --fg-color: black;
+    --footer-fg-color: #333;
+    --inside-link-color: red;
+    --info-text-color: #595959;
+    --link-color: #00a;
+    --link-hover-color: #00f;
+    --green-bg: #cfd;
+    --red-bg: #fcc;
+    --light-edge: #ccc;
+    --dark-edge: #999;
+    --tint-border: #00000080;
+}
+
+@include rootdarkmode {
+    --bg-color: #1F1F1F;
+    --sidebar-bg-color: var(--bg-color);
+    --blockquote-bg-color: #2C2C2C;
+    --fg-color: #eeeeee;
+    --footer-fg-color: var(--fg-color);
+    --inside-link-color: #f88;
+    --info-text-color: #aaa;
+    --link-color: #fff2aa;
+    --link-hover-color: #eee;
+    --green-bg: #325541;
+    --red-bg: #844;
+    --light-edge: #666;
+    --dark-edge: #000;
+    --tint-border: #ffffff66;
+}
+
+html {
     --light-dark-duration: 0.5s;
     --light-dark-timing: ease;
 
     color-scheme: light dark;
-}
-
-html.dark {
-    --bg-color: #{$dark-bg-color};
-    --sidebar-bg-color: #{$dark-sidebar-bg-color};
-    --blockquote-bg-color: #{$dark-blockquote-bg-color};
-    --fg-color: #{$dark-fg-color};
-    --footer-fg-color: #{$dark-footer-fg-color};
-    --inside-link-color: #{$dark-inside-link-color};
-    --info-text-color: #{$dark-info-text-color};
-    --link-color: #{$dark-link-color};
-    --link-hover-color: #{$dark-link-hover-color};
-    --green-bg: #{$dark-green-bg};
-    --red-bg: #{$dark-red-bg};
-    --light-edge: #{$dark-light-edge};
-    --dark-edge: #{$dark-dark-edge};
-    --tint-border: #{$dark-tint-border};
 }
 
 @mixin colors($bgcolor, $fgcolor: --fg-color) {

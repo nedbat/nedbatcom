@@ -124,11 +124,10 @@ body {
     text-align: center;
     border-width: 0 $thick-border-small-vert $thick-border-small-horz 0;
 
-    background-image: url(/pix/dodeca3_light_60.jpg);
-    @media (prefers-color-scheme: dark) {
-        background-image: url(/pix/dodeca3_dark_60.jpg);
+    @include lightmode {
+        background-image: url(/pix/dodeca3_light_60.jpg);
     }
-    html.dark & {
+    @include darkmode {
         background-image: url(/pix/dodeca3_dark_60.jpg);
     }
     background-size: contain;
@@ -181,12 +180,10 @@ body {
 @media screen and (min-width: $narrow-break) {
     body {
         // larger sizes can have a fancy background.
-        background: url(pix/hilbert.png);
-
-        @media (prefers-color-scheme: dark) {
-            background: #080808;
+        @include lightmode {
+            background: url(pix/hilbert.png);
         }
-        html.dark & {
+        @include darkmode {
             background: #080808;
         }
         border: $outer-border-large solid $thick-border-color;
@@ -197,11 +194,10 @@ body {
     }
 
     #logo {
-        background-image: url(/pix/dodeca3_light_200.jpg);
-        @media (prefers-color-scheme: dark) {
-            background-image: url(/pix/dodeca3_dark_200.jpg);
+        @include lightmode {
+            background-image: url(/pix/dodeca3_light_200.jpg);
         }
-        html.dark & {
+        @include darkmode {
             background-image: url(/pix/dodeca3_dark_200.jpg);
         }
         width: $logo-size-large;
@@ -492,11 +488,8 @@ dt, dd {
     }
 
     input {
-        &[type="image"] {
-            @media (prefers-color-scheme: dark) {
-                filter: invert(1);
-            }
-            html.dark & {
+        @include darkmode {
+            &[type="image"] {
                 filter: invert(1);
             }
         }
@@ -810,11 +803,7 @@ blockquote.code {
         margin: 0 .5em 0 0;
     }
 
-    @media (prefers-color-scheme: dark) {
-        background-color: #ddd;
-        filter: invert(1) brightness(150%);
-    }
-    html.dark & {
+    @include darkmode {
         background-color: #ddd;
         filter: invert(1) brightness(150%);
     }
@@ -933,11 +922,10 @@ div.linenodiv {
     border: 1px solid;
     border-color: var(--light-edge) var(--dark-edge) var(--dark-edge) var(--light-edge);
     padding: .3em .6em;
-    background-color: #ffc;
-    @media (prefers-color-scheme: dark) {
-        background-color: #3c3f34;
+    @include lightmode {
+        background-color: #ffc;
     }
-    html.dark & {
+    @include darkmode {
         background-color: #3c3f34;
     }
 }
@@ -946,10 +934,7 @@ img {
     max-width: 100%;
     height: auto;
     align-self: flex-start; /* https://stackoverflow.com/a/61196907/14343 */
-    @media (prefers-color-scheme: dark) {
-        filter: grayscale(50%);
-    }
-    html.dark & {
+    @include darkmode {
         filter: grayscale(50%);
     }
 }
@@ -972,28 +957,17 @@ img {
 }
 
 .comments {
-    --preview-bg-color: #{$light-green-bg};
-    --button-bg-color: #eee;
-    --border-color: #eee;
-    --input-top-edge: #666;
-    --input-bottom-edge: #ccc;
-    --error-bg-color: #{$light-red-bg};
-
-    @media (prefers-color-scheme: dark) {
-        --preview-bg-color: #{$dark-green-bg};
-        --button-bg-color: #666;
-        --border-color: #888;
-        --input-top-edge: #999;
-        --input-bottom-edge: #666;
-        --error-bg-color: #{$dark-red-bg};
+    @include lightmode {
+        --button-bg-color: #eee;
+        --border-color: #eee;
+        --input-top-edge: #666;
+        --input-bottom-edge: #ccc;
     }
-    html.dark & {
-        --preview-bg-color: #{$dark-green-bg};
+    @include darkmode {
         --button-bg-color: #666;
         --border-color: #888;
         --input-top-edge: #999;
         --input-bottom-edge: #666;
-        --error-bg-color: #{$dark-red-bg};
     }
 
     $label-width: 7em;
@@ -1111,7 +1085,7 @@ img {
         margin-top: .5em;
         overflow: auto;
         &.preview {
-            @include colors(--preview-bg-color);
+            @include colors(--green-bg);
             border: 1px solid var(--tint-border);
             border-radius: 3px;
             padding: .5em 10pt 0 60px;
@@ -1151,7 +1125,7 @@ img {
     }
 
     .errormsg {
-        background: var(--error-bg-color);
+        background: var(--red-bg);
         padding: .25em .5em;
         border: 1px solid var(--tint-border);
         border-radius: 3px;

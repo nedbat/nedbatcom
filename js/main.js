@@ -34,8 +34,8 @@ jQuery(function($){
 });
 
 jQuery(function ($) {
-    var darkmode = (window.location.href.indexOf("darkmode") !== -1);
-    if (darkmode) {
-        $("html").addClass("dark");
+    var othermode = (window.location.href.indexOf("othermode") !== -1);
+    if (othermode) {
+        $("html").addClass("othermode");
     }
 });
