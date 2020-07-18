@@ -29,66 +29,41 @@ $mourning: yes;
     }
 }
 
-@mixin rootlightmode {
-    html {
-        @content;
+body {
+    @include lightmode {
+        --bg-color: white;
+        --sidebar-bg-color: #eee;
+        --blockquote-bg-color: #f0f0f0;
+        --fg-color: black;
+        --footer-fg-color: #333;
+        --inside-link-color: red;
+        --info-text-color: #595959;
+        --link-color: #00a;
+        --link-hover-color: #00f;
+        --green-bg: #cfd;
+        --red-bg: #fcc;
+        --light-edge: #ccc;
+        --dark-edge: #999;
+        --tint-border: #00000080;
     }
-    @media (prefers-color-scheme: dark) {
-        html.othermode {
-            @content;
-        }
+
+    @include darkmode {
+        --bg-color: #1F1F1F;
+        --sidebar-bg-color: var(--bg-color);
+        --blockquote-bg-color: #2C2C2C;
+        --fg-color: #eeeeee;
+        --footer-fg-color: var(--fg-color);
+        --inside-link-color: #f88;
+        --info-text-color: #aaa;
+        --link-color: #fff2aa;
+        --link-hover-color: #eee;
+        --green-bg: #325541;
+        --red-bg: #844;
+        --light-edge: #666;
+        --dark-edge: #000;
+        --tint-border: #ffffff66;
     }
-}
 
-@mixin rootdarkmode {
-    @media (prefers-color-scheme: dark) {
-        html {
-            @content;
-        }
-    }
-    @media (prefers-color-scheme: light) {
-        html.othermode {
-            @content;
-        }
-    }
-}
-
-
-@include rootlightmode {
-    --bg-color: white;
-    --sidebar-bg-color: #eee;
-    --blockquote-bg-color: #f0f0f0;
-    --fg-color: black;
-    --footer-fg-color: #333;
-    --inside-link-color: red;
-    --info-text-color: #595959;
-    --link-color: #00a;
-    --link-hover-color: #00f;
-    --green-bg: #cfd;
-    --red-bg: #fcc;
-    --light-edge: #ccc;
-    --dark-edge: #999;
-    --tint-border: #00000080;
-}
-
-@include rootdarkmode {
-    --bg-color: #1F1F1F;
-    --sidebar-bg-color: var(--bg-color);
-    --blockquote-bg-color: #2C2C2C;
-    --fg-color: #eeeeee;
-    --footer-fg-color: var(--fg-color);
-    --inside-link-color: #f88;
-    --info-text-color: #aaa;
-    --link-color: #fff2aa;
-    --link-hover-color: #eee;
-    --green-bg: #325541;
-    --red-bg: #844;
-    --light-edge: #666;
-    --dark-edge: #000;
-    --tint-border: #ffffff66;
-}
-
-html {
     --light-dark-duration: 0.5s;
     --light-dark-timing: ease;
 

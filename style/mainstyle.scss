@@ -27,6 +27,9 @@ body {
     padding: 0.5em 0;
     @if $mourning == yes {
         border-bottom: 15px solid #333;
+        @include lightmode {
+            border-bottom-color: #333;
+        }
         @include darkmode {
             border-bottom-color: #111;
         }
@@ -59,6 +62,9 @@ body {
     #star {
         display: block;
         background: url(/pix/dodeca3_light_640.jpg) no-repeat bottom right;
+        @include lightmode {
+            background-image: url(/pix/dodeca3_light_640.jpg);
+        }
         @include darkmode {
             background-image: url(/pix/dodeca3_dark_640.jpg);
         }
@@ -122,9 +128,12 @@ h2 {
         width: 100%;
         padding: 2px;
     }
-    @include darkmode {
-        input {
-            &[type="image"] {
+    input {
+        &[type="image"] {
+            @include lightmode {
+                filter: none;
+            }
+            @include darkmode {
                 filter: invert(1);
             }
         }

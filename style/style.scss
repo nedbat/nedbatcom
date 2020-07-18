@@ -488,8 +488,11 @@ dt, dd {
     }
 
     input {
-        @include darkmode {
-            &[type="image"] {
+        &[type="image"] {
+            @include lightmode {
+                filter: none;
+            }
+            @include darkmode {
                 filter: invert(1);
             }
         }
@@ -803,6 +806,10 @@ blockquote.code {
         margin: 0 .5em 0 0;
     }
 
+    @include lightmode {
+        background-color: inherit;
+        filter: none;
+    }
     @include darkmode {
         background-color: #ddd;
         filter: invert(1) brightness(150%);
@@ -934,6 +941,9 @@ img {
     max-width: 100%;
     height: auto;
     align-self: flex-start; /* https://stackoverflow.com/a/61196907/14343 */
+    @include lightmode {
+        filter: none;
+    }
     @include darkmode {
         filter: grayscale(50%);
     }
