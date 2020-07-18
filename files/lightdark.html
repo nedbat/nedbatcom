@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <title>Light-Dark preferences</title>
+    <style>
+    p {
+        padding: 1em .5em;
+    }
+    p.light, p.dark {
+        background: #888;
+        color: #666;
+    }
+
+    p.light {
+        background: white;
+        color: black;
+        border: 2px solid black;
+    }
+    @media (prefers-color-scheme: light) {
+        p.light {
+            background: white;
+            color: black;
+            border: 2px solid black;
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        p.dark {
+            background: white;
+            color: black;
+            border: 2px solid black;
+        }
+    }
+    </style>
+</head>
+<body>
+<p class="light">light</p>
+<p class="dark">dark</p>
+</body>
+</html>
