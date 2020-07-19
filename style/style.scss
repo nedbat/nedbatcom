@@ -175,6 +175,52 @@ body {
     a {
         @include inside-link;
     }
+
+    .sitetools {
+        word-spacing: .125em;
+        @media (min-width: $tiny-break) {
+            text-align: right;
+            float: right;
+        }
+
+        .othermode-switch {
+            display: none;
+            @include lightmode {
+                display: inline;
+            }
+            @include darkmode {
+                display: inline;
+            }
+            &:after {
+                content: "\00A0\00B7\0020";  // nbsp mid-dot space
+            }
+            .btn {
+                padding: .1em .5em;
+                border-radius: .33em;
+                cursor: pointer;
+                @include colors(--fg-color, --bg-color);
+
+                &.light {
+                    @include lightmode {
+                        display: none;
+                    }
+                    @include darkmode {
+                        display: inline;
+                    }
+                }
+
+                &.dark {
+                    @include lightmode {
+                        display: inline;
+                    }
+                    @include darkmode {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 @media screen and (min-width: $narrow-break) {
@@ -394,13 +440,6 @@ a.headerlink {
         &.thinline {
             border: 1px solid #888;
         }
-    }
-}
-
-.wrong {
-    @media (min-width: $tiny-break) {
-        text-align: right;
-        float: right;
     }
 }
 
@@ -1066,6 +1105,7 @@ img {
             padding: .5em 1em;
             border: 1px solid #888;
             border-radius: 4px;
+            cursor: pointer;
             @include colors(--button-bg-color);
         }
 

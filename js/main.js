@@ -34,8 +34,17 @@ jQuery(function($){
 });
 
 jQuery(function ($) {
-    var othermode = (window.location.href.indexOf("othermode") !== -1);
-    if (othermode) {
-        $("html").addClass("othermode");
+    var storage = window.localStorage;
+
+    if (storage.getItem("othermode") == "true") {
+        $("html").toggleClass("othermode");
     }
+
+    $(".othermode-switch").click(function () {
+        storage.setItem(
+            "othermode",
+            (storage.getItem("othermode") == "true") ? "false" : "true"
+        );
+        $("html").toggleClass("othermode");
+    });
 });
