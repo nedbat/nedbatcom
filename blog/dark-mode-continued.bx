@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200719T162532'>
+<title>Dark mode, continued</title>
+<category>site</category>
+<category>css</category>
+<body>
+
+<p>I've continued to work on the dark mode for this site.  After playing around
+with different approaches, and learning more about Sass, I have something I
+like.</p>
+
+<p>I wanted the site to respect the user's OS settings, but I also wanted a
+control that would switch to the other mode.  A common CSS technique is to put a
+class on the &lt;html> tag, and then have the CSS use that class to choose
+styling. Media queries would get me the user's preference, and an
+"html.othermode" class would be used to override the media query.</p>
+
+<p>The Sass I came up with looks like this:</p>
+
+<code lang="scss"><![CDATA[
+@mixin lightmode {
+    @content;
+    @media (prefers-color-scheme: dark) {
+        html.othermode & {
+            @content;
+        }
+    }
+}
+
+@mixin darkmode {
+    @media (prefers-color-scheme: dark) {
+        @content;
+    }
+    @media (prefers-color-scheme: light) {
+        html.othermode & {
+            @content;
+        }
+    }
+}
+]]></code>
+
+<p>These mixins let me declare the light- or dark-mode properties just once:</p>
+
+<code lang="scss"><![CDATA[
+body {
+    @include lightmode {
+        --bg-color: white;
+        --fg-color: black;
+        --tint-border: #00000080;
+    }
+
+    @include darkmode {
+        --bg-color: #1F1F1F;
+        --fg-color: #eeeeee;
+        --tint-border: #ffffff66;
+    }
+}
+]]></code>
+
+<p>The lightmode mixin uses its properties as the default, and also as the
+"othermode" settings for users who prefer dark mode.  The darkmode mixin uses
+its properties for dark mode, and also for the "othermode" settings for users
+who prefer light mode.  The Sass mixin syntax lets me get that without having to
+repeat any property settings.</p>
+
+<p>One important rule though: you have to always use the mixins together, or you
+will have defined only half the settings you need.</p>
+
+<p>Coupled with a light/dark switcher (look at the bottom of this page, in the
+footer), now the user can choose what look they want.</p>
+
+<p>A few other points:</p>
+
+<ul>
+
+<li>I learned that media queries do not change the CSS specificity. Originally,
+my mixins were more symmetric: darkmode didn't use a light media query.  But
+they didn't work right because the darkmode "othermode" properties came later in
+the file than the lightmode prefers-dark "othermode" properties.  So a
+prefers-dark user would still get dark properties even when othermode was in
+effect.  (I know: that explanation is confusing, but trust me, it makes
+sense!)</li>
+
+<li>Many examples of CSS variables show them being defined on "--root", but I
+don't see the advantage over defining them on &lt;body>.  The &lt;body> tag is
+more convenient because it has "html.othermode" as a possible ancestor, letting
+me use my mixins to control the styling.</li>
+
+<li>I've tweaked some colors since last week when I first rolled this out:
+dark-mode links are now yellow instead of blue.</li>
+
+<li>Sass is remarkably good at providing just the right kinds of abstraction for
+compiling CSS.</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
