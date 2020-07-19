@@ -787,8 +787,7 @@ a.s {
 
 blockquote {
     font-size: 100%;
-    margin: 1em auto;
-    max-width: 95%;
+    margin: 1em;
     border-left: 1px solid var(--light-edge);
     padding: 0;
     @include colors(--blockquote-bg-color);
@@ -846,7 +845,7 @@ blockquote.code {
     }
 
     @include lightmode {
-        background-color: inherit;
+        background-color: var(--blockquote-bg-color);
         filter: none;
     }
     @include darkmode {
