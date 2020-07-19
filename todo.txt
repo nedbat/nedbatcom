@@ -16,6 +16,10 @@ New design:
     + text home nests too deep. Use H2
 
 - next
+    - get rid of jQuery:
+        http://vanilla-js.com/
+        https://github.com/supakeen/pinnwand/blob/02152c1ad5f07168eb31db5e0eb9686e299572a3/pinnwand/static/pinnwand.js
+    - move #footer.sitetools into an include file
     - a11y
         + don't use aside, use nav
             + html5 says aside for a sidebar is fine. I added nav inside it.
