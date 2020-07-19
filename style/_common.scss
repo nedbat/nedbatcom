@@ -64,18 +64,12 @@ body {
         --tint-border: #ffffff66;
     }
 
-    --light-dark-duration: 0.5s;
-    --light-dark-timing: ease;
-
     color-scheme: light dark;
 }
 
 @mixin colors($bgcolor, $fgcolor: --fg-color) {
     background: var($bgcolor);
     color: var($fgcolor);
-    transition:
-        color var(--light-dark-duration) var(--light-dark-timing),
-        background-color var(--light-dark-duration) var(--light-dark-timing);
 }
 
 // PT Serif for body text. Source Serif has no italic, Merriweather is wider and has old-style numerals.
