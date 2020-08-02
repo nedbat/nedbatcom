@@ -4,13 +4,25 @@ SMALL = 300
 LARGE = 3840
 SIZES = 60 200 640
 
-test:
+povtest:
 	povray +W$(SMALL) +H$(SMALL) Declare=Dark=0 +Ododeca3_light.png dodeca3.pov
 	povray +W$(SMALL) +H$(SMALL) Declare=Dark=1 +Ododeca3_dark.png dodeca3.pov
 
-large:
+povlarge:
 	povray +W$(LARGE) +H$(LARGE) Declare=Dark=0 +Ododeca3_light_large.png dodeca3.pov
 	povray +W$(LARGE) +H$(LARGE) Declare=Dark=1 +Ododeca3_dark_large.png dodeca3.pov
+
+BLENDER = /Applications/Blender.app/Contents/MacOS/Blender
+
+preview:
+	QUAL=0 $(BLENDER) -b dodeca3.blend -P blender-render.py | python nicer-progress.py
+	magick convert dodeca3_transparent.png -background white -alpha remove -flatten -alpha off dodeca3_light_preview.png
+	magick convert dodeca3_transparent.png -background '#1f1f1f' -alpha remove -flatten -alpha off dodeca3_dark_preview.png
+
+blend:
+	QUAL=2 $(BLENDER) -b dodeca3.blend -P blender-render.py | python nicer-progress.py
+	magick convert dodeca3_transparent.png -background white -alpha remove -flatten -alpha off dodeca3_light_large.png
+	magick convert dodeca3_transparent.png -background '#1f1f1f' -alpha remove -flatten -alpha off dodeca3_dark_large.png
 
 final:
 	for size in $(SIZES); do \
@@ -32,4 +44,6 @@ publish_ico:
 	cp dodeca3.ico ../pages/favicon.ico
 
 clean:
-	rm -f *.pov-state *.png *.jpg *.bmp *.ico
+	rm -f *.pov-state
+	rm -f *.png *.jpg *.bmp *.ico
+	rm -f *.blend1
