@@ -32,6 +32,12 @@ $mourning: yes;
 body {
     @include lightmode {
         --bg-color: white;
+        @if $mourning == yes {
+            --thick-border-color: #000;
+        }
+        @else {
+            --thick-border-color: #999;
+        }
         --sidebar-bg-color: #eee;
         --blockquote-bg-color: #f0f0f0;
         --fg-color: black;
@@ -49,6 +55,12 @@ body {
 
     @include darkmode {
         --bg-color: #1F1F1F;
+        @if $mourning == yes {
+            --thick-border-color: #000;
+        }
+        @else {
+            --thick-border-color: #080808;
+        }
         --sidebar-bg-color: var(--bg-color);
         --blockquote-bg-color: #2C2C2C;
         --fg-color: #eeeeee;
