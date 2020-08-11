@@ -21,7 +21,7 @@ def blog_entry(entry, mode):
 
 @register.inclusion_tag('sidebar.html')
 def sidebar(which, force=False):
-    """ Make the blogroll.
+    """ Make the sidebar.
     """
     inc = settings.PHP_INCLUDE
     if force:

@@ -219,7 +219,7 @@ class Tag(ModelMixin, models.Model):
 
 
 class Link(ModelMixin, models.Model):
-    """ A link to somewhere else, for blogroll and via.
+    """ A link to somewhere else, for sidebar and via.
     """
     href = models.CharField(max_length=1000)
     slug = models.CharField(max_length=30)
