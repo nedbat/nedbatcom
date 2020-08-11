@@ -1,12 +1,76 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200622T163946' draft='y'>
+<entry when='20200811T081700'>
 <title>You should include your tests in coverage</title>
-<category></category>
+<category>testing</category>
+<category>coverage</category>
 <body>
 
-<p>
-</p>
+<p>This seems to be a recurring debate: should you measure the coverage of your
+tests? In my opinion, definitely yes.</p>
+
+<p>Just to clarify: I'm not talking about using coverage measurement with your
+test suite to see what parts of your product are covered. I'll assume we're all
+doing that.  The question here is, do you measure how much of your tests
+themselves are executed?  You should.</p>
+
+<p>The reasons all boil down to one idea: tests are real code.  Coverage
+measurement can tell you useful things about that code:</p>
+
+<ul>
+
+<li>You might have tests you aren't running.  It's easy to copy and paste a test
+to create a new test, but forget to change the name.  Since test names are
+arbitrary and never used except in the definition, this is a very easy mistake
+to make.  Coverage can tell you where those mistakes are.</li>
+
+<li>In any large enough project, the tests directory has code that is not a test
+itself, but is a helper for the tests.  This code can become obsolete, or can
+have mistakes.  Helpers might have logic meant for a test to use, but somehow is
+not being used.  Coverage can point you to these problems.</li>
+
+</ul>
+
+<p>Let's flip the question around: why <b>not</b> measure coverage for your
+tests? What's the harm?</p>
+
+<ul>
+
+<li><p><b>"It skews my results"</b>: This is the main complaint.  A project has
+a goal for coverage measurement: coverage has to be above 80%, or some other
+number.  Measuring the tests feels like cheating, because for the most part,
+tests are straight-line code executed by the test runner, so it will all be
+close to 100%.</p>
+
+<p>Simple: change your goal.  80% was just a number your team picked out of the
+air anyway.  If your tests are 100% covered, and you include them, your total
+will go up. So use (say) 90% as a goal.  There is no magic number that is the
+"right" level of coverage.</p>
+
+</li>
+
+<li><b>"It clutters the output"</b>: Coverage.py has a --skip-covered option
+that will leave all the 100% files out of the report, so that you can focus on
+the files that need work.</li>
+
+<li><b>"I don't intend to run all the tests"</b>: Some people run only their
+unit tests in CI, saving integration or system tests for another time.  This
+will require some care, but you can configure coverage.py to measure only the
+part of the test suite you mean to run.</li>
+
+</ul>
+
+<p>Whenever I discuss this idea with people, I usually get one of two
+responses:</p>
+
+<ul>
+<li>"There are people who don't measure their tests!?"</li>
+<li>"Interesting, I had a problem this could have found for me."</li>
+</ul>
+
+<p>If you haven't been measuring your tests, give it a try.  I bet you will
+learn something interesting. There's no downside to measuring the coverage of
+your tests, only benefits.  Do it.</p>
 
 </body>
 </entry>
