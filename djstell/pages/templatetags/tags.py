@@ -83,7 +83,7 @@ def combined_more_blog():
     tags = iter(tags)
 
     years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
-    years = ({'link': '/blog/archive/year{0}.html'.format(y), 'text': "{0:02d}".format(y % 100)} for y in years)
+    years = ({'link': '/blog/archive/year{0}.html'.format(y), 'text': "'{0:02d}".format(y % 100)} for y in years)
     years = iter(years)
 
     # Interleave tags and years.
