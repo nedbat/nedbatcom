@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200819T170359'>
+<title>Do a pile of work</title>
+<category>python</category>
+<category>concurrency</category>
+<body>
+
+<p>I had a large pile of data to feed through an expensive function.
+The <a href="https://docs.python.org/3/library/concurrent.futures.html">concurrent.futures</a>
+module in the Python standard library has always worked well for me as a simple
+way to farm out work across threads or processes.</p>
+
+<p>For example, if my work function is "workfn", and it takes tuples of
+arguments as produced by "argsfn()", this is how you could run them all:</p>
+
+<code lang="python"><![CDATA[
+for args in argsfn():
+    workfn(*args)
+]]></code>
+
+<p>This is how you would run them on a number of threads:</p>
+
+<code lang="python"><![CDATA[
+import concurrent.futures as cf
+
+with cf.ThreadPoolExecutor(max_workers=nthreads) as executor:
+    for args in argsfn():
+        executor.submit(workfn, *args)
+]]></code>
+
+<p>But this will generate all of the arguments up-front.  If I have millions of
+work invocations, this could be a problem.  I wanted a way to feed the tasks in
+as they are processed, to keep the queue small.  And I wanted a progress bar.
+</p>
+
+<p>I started from
+<a href="https://stackoverflow.com/a/60760199/14343">this Stack Overflow answer</a>,
+added in <a href="https://pypi.org/project/tqdm/">tqdm</a> for a progress bar,
+and made this:</p>
+
+<code lang="python"><![CDATA[
+import concurrent.futures as cf
+from tqdm import tqdm
+
+def wait_first(futures):
+    """
+    Wait for the first future to complete.
+
+    Returns:
+        (done, not_done): two sets of futures.
+
+    """
+    return cf.wait(futures, return_when=cf.FIRST_COMPLETED)
+
+def do_work(nthreads, argsfn, workfn):
+    """
+    Do a pile of work, maybe in threads, with a progress bar.
+
+    Two callables are provided: `workfn` is the unit of work to be done,
+    many times.  Its arguments are provided by calling `argsfn`, which
+    must produce a sequence of tuples.  `argsfn` will be called a few
+    times, and must produce the same sequence each time.
+
+    Args:
+        nthreads: the number of threads to use.
+        argsfn: a callable that produces tuples, the arguments to `workfn`.
+        workfn: a callable that does work.
+
+    """
+    total = sum(1 for _ in argsfn())
+    with tqdm(total=total, smoothing=0.1) as progressbar:
+        if nthreads:
+            limit = 2 * nthreads
+            not_done = set()
+            with cf.ThreadPoolExecutor(max_workers=nthreads) as executor:
+                for args in argsfn():
+                    if len(not_done) >= limit:
+                        done, not_done = wait_first(not_done)
+                        progressbar.update(len(done))
+                    not_done.add(executor.submit(workfn, *args))
+                while not_done:
+                    done, not_done = wait_first(not_done)
+                    progressbar.update(len(done))
+        else:
+            for args in argsfn():
+                workfn(*args)
+                progressbar.update(1)
+]]></code>
+
+<p>There might be a better way.  I don't like the duplication of the wait_first
+call, but this works, and produces the right results.</p>
+
+<p>BTW: my actual work function spawned subprocesses, which is why a thread pool
+worked to give me parallelism. A pure-Python work function wouldn't get a
+speed-up this way, but a ProcessPoolExecutor could help.</p>
+
+</body>
+</entry>
+</blog>
