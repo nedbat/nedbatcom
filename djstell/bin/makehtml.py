@@ -213,6 +213,10 @@ class CmdLine(object):
         # Change this pattern if you want to fiddle with another one.
         loadpages.blog_pattern = "*why*.bx"
 
+    def only_some(self, word):
+        loadpages.blog_pattern = "*{}*.bx".format(word)
+        loadpages.page_pattern = "*{}*.px".format(word)
+
     def do_pnarrow(self):
         """Total hack expedient to only process some pages."""
         # Change this pattern if you want to fiddle with another one.
@@ -260,6 +264,9 @@ class CmdLine(object):
 
     def exec_words(self, argv):
         for word in argv:
+            if word.startswith("only_"):
+                self.only_some(word[5:])
+                continue
             doit = getattr(self, 'do_'+word, None)
             if not doit:
                 print("Don't understand: %s" % word)

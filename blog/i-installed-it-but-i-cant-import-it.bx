@@ -1,22 +1,82 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20190917T084047' draft='y'>
+<entry when='20200820T074047' draft='y'>
 <title>I installed it, but I can't import it</title>
 <category></category>
 <body>
 
-<!--
-        - double-check that you have the right import name
-        - python installation theory
-        - diagnosis
-            - which python pip
-        - use a virtualenv
-        - other solutions
-            - pipenv, poetry
--->
+<p>A common Python problem: "I installed XYZZY, but I can't import it."</p>
 
-<p>
-</p>
+<p>I'll explain what's going on, and how to fix it. If you don't care about the
+reasons, and just want to fix it, try this:</p>
+
+<box>
+
+    <p><b>tl;dr:</b> Don't use "pip install" to install the package.
+    Use:</p>
+
+    <code>python -m pip install</code>
+
+    <p>where "python" is whatever Python you use to run your program.</p>
+
+</box>
+
+<p>Other quick advice:</p>
+
+<ul>
+    <li>Double-check that you have the correct import name.  Sometimes the name
+    of the package you install is not the name you import.  Read the docs.</li>
+    <li>Use a virtualenv.</li>
+    <li>Don't use sudo.</li>
+</ul>
+
+<p>If it's still broken, or you want to know more, read on.</p>
+
+<h1>Multiple Pythons</h1>
+
+<p>It is possible, and common, to have multiple Python installations on your
+machine.  Not only can you have different versions of Python available, they can
+each have multiple separate environments where packages are installed.</p>
+
+<p>The most common reason for an import failing after an install is that you
+installed into one environment, but are running your program in another one.
+Using the "python -m pip" advice from the top of this page avoids the problem by
+using the same command ("python") to install the package and to run the program.
+This makes both steps operate in the same environment.</p>
+
+<h1>Diagnosis</h1>
+
+<p>To understand the different environments, the "which" command is very
+helpful.  Look at the output of "which python" and "which pip": they will tell
+you specifically what installation of Python each is running from.</p>
+
+<h1>Don't use sudo</h1>
+
+<p>Many installation instructions will tell you to use "sudo pip install".
+<b>Don't use sudo</b>.  It will almost certainly install into a different place
+then you run your program.  Sudo is a very blunt instrument: you should only use
+it when you know for sure that you need elevated privileges.  Installing a
+Python package often runs Python code, which can do anything it wants. Don't run
+it with sudo.</p>
+
+<h1>Use a virtualenv</h1>
+
+<p>Virtualenv (or venv in the standard library) is a tool for making a new
+package installation environment.  Using a virtualenv is strongly recommended.
+Not only does it explicitly make a new environment for you to use, but it makes
+the "python" and "pip" commands refer to the same environment, simplifying
+installation.</p>
+
+<h1>Other solutions</h1>
+
+<p>Beyond pip, there are other tools built on top of pip to help manage
+installations.  I don't have much experience with them, so I can't tell you much
+about them here, but you should look into:</p>
+
+<ul>
+<li>pipenv</li>
+<li>poetry</li>
+</ul>
 
 </body>
 </entry>
