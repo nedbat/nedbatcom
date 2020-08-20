@@ -5,19 +5,21 @@
 <category></category>
 <body>
 
+<p>[This is a draft. It needs more words in many places, but has the basic structure. Comments are welcome.]</p>
+
 <p>A common Python problem: "I installed XYZZY, but I can't import it."</p>
 
-<p>I'll explain what's going on, and how to fix it. If you don't care about the
-reasons, and just want to fix it, try this:</p>
+<p>I'll explain what's going on, and how to fix it, but if you don't care about
+the reasons, and just want to fix it, try this:</p>
 
 <box>
 
-    <p><b>tl;dr:</b> Don't use "pip install" to install the package.
-    Use:</p>
+    <p>Don't use "pip install PACKAGE_NAME" to install the package.  Use:</p>
 
-    <code>python -m pip install</code>
+    <code>pythonXX -m pip install PACKAGE_NAME</code>
 
-    <p>where "python" is whatever Python you use to run your program.</p>
+    <p>where "pythonXX" is the particular Python command you're using to run
+    your program.</p>
 
 </box>
 
@@ -26,11 +28,12 @@ reasons, and just want to fix it, try this:</p>
 <ul>
     <li>Double-check that you have the correct import name.  Sometimes the name
     of the package you install is not the name you import.  Read the docs.</li>
-    <li>Use a virtualenv.</li>
+    <li>Use a virtual environment.</li>
     <li>Don't use sudo.</li>
 </ul>
 
 <p>If it's still broken, or you want to know more, read on.</p>
+
 
 <h1>Multiple Pythons</h1>
 
@@ -44,36 +47,53 @@ Using the "python -m pip" advice from the top of this page avoids the problem by
 using the same command ("python") to install the package and to run the program.
 This makes both steps operate in the same environment.</p>
 
+
 <h1>Diagnosis</h1>
 
 <p>To understand the different environments, the "which" command is very
 helpful.  Look at the output of "which python" and "which pip": they will tell
 you specifically what installation of Python each is running from.</p>
 
+<p>Sometimes you aren't running Python directly, you are running a command
+installed by a Python package.  In that case, use "which" on that command. So if
+you are running (let's say) "cooltool", use "which cooltool" to see what Python
+environment it's using.</p>
+
+
 <h1>Don't use sudo</h1>
 
 <p>Many installation instructions will tell you to use "sudo pip install".
-<b>Don't use sudo</b>.  It will almost certainly install into a different place
-then you run your program.  Sudo is a very blunt instrument: you should only use
-it when you know for sure that you need elevated privileges.  Installing a
-Python package often runs Python code, which can do anything it wants. Don't run
-it with sudo.</p>
+<b>DON'T!</b>  It will almost certainly install into a different place than you
+run your program, and it could actually be dangerous.  Sudo is a very blunt
+instrument: you should only use it when you know for sure that you need elevated
+privileges.  Installing a Python package often runs Python code, which can do
+anything it wants. Don't run it with sudo.</p>
 
-<h1>Use a virtualenv</h1>
 
-<p>Virtualenv (or venv in the standard library) is a tool for making a new
-package installation environment.  Using a virtualenv is strongly recommended.
-Not only does it explicitly make a new environment for you to use, but it makes
-the "python" and "pip" commands refer to the same environment, simplifying
+<h1>Use a virtual environment</h1>
+
+<p>A virtual environment is a Python-specific way to make an isolated place to
+install Python packages.  You can make one with
+<a href="https://docs.python.org/3/library/venv.html">venv</a> in the standard
+library, or with <a href="https://pypi.org/project/virtualenv/">virtualenv</a>.
+Using a virtual environment is strongly recommended.  Not only does it
+explicitly make a new separate environment for you to use, but it makes the
+"python" and "pip" commands refer to that environment, simplifying
 installation.</p>
+
+<p><a href="https://chriswarrick.com/blog/2018/09/04/python-virtual-environments">Python Virtual Environments in Five Minutes</a>
+is a good explainer on how to use virtual environments.</p>
+
 
 <h1>Other solutions</h1>
 
-<p>Beyond pip, there are other tools built on top of pip to help manage
-installations.  I don't have much experience with them, so I can't tell you much
-about them here, but you should look into:</p>
+<p>There are other tools built on top of pip to manage installations.  Using
+them instead of pip directly can help. I don't have much experience with them,
+so I can't tell you much about them here, but you should look into:</p>
 
 <ul>
+<li>pip --user</li>
+<li>pipx</li>
 <li>pipenv</li>
 <li>poetry</li>
 </ul>
