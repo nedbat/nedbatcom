@@ -6,6 +6,9 @@
 <category>concurrency</category>
 <body>
 
+<p><b>Update:</b> this code swallows exceptions. An improved version is at
+<a href="/blog/202008/do_a_pile_of_work_better.html">Do a pile of work better</a>.</p>
+
 <p>I had a large pile of data to feed through an expensive function.
 The <a href="https://docs.python.org/3/library/concurrent.futures.html">concurrent.futures</a>
 module in the Python standard library has always worked well for me as a simple
@@ -97,4 +100,78 @@ speed-up this way, but a ProcessPoolExecutor could help.</p>
 
 </body>
 </entry>
+
+
+<entry when='20200822T065500'>
+<title>Do a pile of work better</title>
+<category>python</category>
+<category>concurrency</category>
+<body>
+
+<p>A few days ago I wrote about
+<a href="/blog/202008/do_a_pile_of_work.html">doing a pile of work</a> with
+concurrent.futures.  Since then, I discovered a problem with the code:
+exceptions raised by the work function were silently ignored.</p>
+
+<p>Here's the improved code that logs exceptions:</p>
+
+<code lang="python"><![CDATA[
+def wait_first(futures):
+    """
+    Wait for the first future to complete.
+
+    Returns:
+        (done, not_done): two sets of futures.
+
+    """
+    return cf.wait(futures, return_when=cf.FIRST_COMPLETED)
+
+def do_work(threads, argsfn, workfn):
+    """
+    Do a pile of work, maybe in threads, with a progress bar.
+
+    Two callables are provided: `workfn` is the unit of work to be done,
+    many times.  Its arguments are provided by calling `argsfn`, which
+    must produce a sequence of tuples.  `argsfn` will be called a few
+    times, and must produce the same sequence each time.
+
+    Args:
+        threads: the number of threads to use.
+        argsfn: a callable that produces tuples, the arguments to `workfn`.
+        workfn: a callable that does work.
+
+    """
+    total = sum(1 for _ in argsfn())
+    with tqdm(total=total, smoothing=0.02) as progressbar:
+        if threads:
+            limit = 2 * threads
+            not_done = set()
+
+            def finish_some():
+                nonlocal not_done
+                done, not_done = wait_first(not_done)
+                for done_future in done:
+                    exc = done_future.exception()
+                    if exc is not None:
+                        log.error("Failed future:", exc_info=exc)
+                progressbar.update(len(done))
+
+            with cf.ThreadPoolExecutor(max_workers=threads) as executor:
+                for args in argsfn():
+                    while len(not_done) >= limit:
+                        finish_some()
+                    not_done.add(executor.submit(workfn, *args))
+                while not_done:
+                    finish_some()
+        else:
+            for args in argsfn():
+                workfn(*args)
+                progressbar.update(1)
+]]></code>
+
+<p>This might also be the first time I've used "nonlocal" in real code...</p>
+
+</body>
+</entry>
+
 </blog>
