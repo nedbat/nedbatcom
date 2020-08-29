@@ -28,6 +28,7 @@ the reasons, and just want to fix it, try this:</p>
 <ul>
     <li>Double-check that you have the correct import name.  Sometimes the name
     of the package you install is not the name you import.  Read the docs.</li>
+    <li>Make sure your pip is up-to-date: <code>pythonXX -m pip install -U pip</code></li>
     <li>Use a virtual environment.</li>
     <li>Don't use sudo.</li>
 </ul>
