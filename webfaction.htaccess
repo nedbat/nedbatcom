@@ -4,7 +4,7 @@
 AddType image/x-icon ico
 
 # Treat .html files as PHP and .py as plain text
-AddHandler php74-cgi .php .php3 .phtml .html .htm .php4
+AddHandler php56-cgi .php .php3 .phtml .html .htm .php4
 #AddHandler text/plain .py
 
 # Get XML files served properly for interpretation and charset issues.
