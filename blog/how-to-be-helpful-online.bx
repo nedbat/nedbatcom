@@ -6,12 +6,13 @@
 <body>
 
 <p>Helping people online is difficult. We expect technical questions and
-discussions, but we are just people, so it doesn't always go smoothly.</p>
+discussions, but we are just people, so it doesn't always go smoothly.  There
+are things we as helpers can do to improve the interactions.</p>
 
 <p>There are plenty of pieces out there explaining how to ask good questions.
-This piece is different: it's aimed at the helpers, not the questioners.  We are
-the experts and the regulars. We are the constants in the help forums. How we
-behave sets the tone for everyone.</p>
+This piece is different: it's aimed at the helpers, not the askers.  We are the
+experts and the regulars. We are the constants in the help forums. How we behave
+sets the tone for everyone. We can't expect to "fix" the askers.</p>
 
 <p>Mostly, these ideas came from my experience in the #python IRC channel on
 Freenode, but they apply anywhere people are trying to communicate.  The more
@@ -27,12 +28,14 @@ complex emotional state with us.</p>
 <p>So I know this is hard. I'm hoping that talking about how things can go wrong
 will help us make them go right.</p>
 
+
 <h2>Answer the question first</h2>
 
 <p>When someone shows their code, it's easy to lose sight of the question, and
 jump to other things in the code.  Answer their actual question first. Once
 you've helped someone, and built a rapport with them, it will be easier to talk
 to them about other problems you see in their work.</p>
+
 
 <h2>No third rails</h2>
 
@@ -42,33 +45,46 @@ answering the question first.  It should be OK for someone to ask for help with
 a program using sockets, and not have to defend using sockets, especially if the
 question has nothing to do with sockets.</p>
 
-<p>Other third-rail topics: threads, pickle, multiprocessing, globals.  I know
-you don't like them.  I know you have been burned by them.  I know you have
-better ideas of how to do what they do.  Don't let that derail the conversation.
-The goal is to help people.  Immediately casting them as villains for their
-choice of libraries is not going to help them.</p>
+<p>Other third-rail Python topics include: threads, pickle, multiprocessing,
+globals, singletons.  I know you don't like them.  I know you have been burned
+by them.  I know you have better ideas of how to do what they do.  Don't let
+that derail the conversation.  The goal is to help people.  Strong reactions
+against a library can make the asker feel attacked.</p>
+
 
 <h2>No dog-piling</h2>
 
 <p>The #python channel is large, and there are many energetic helpers.  Everyone
-wants to help, that's why they are there.  But there can be too many voices.  If
+wants to help, that's why we are there.  But there can be too many voices.  If
 people are already helping, you don't have to chime in.  If you have something
 truly different to say, say it, but if you don't, adding another voice could
-make things more difficult.  Beginners can be overwhelmed, or feel like they we
+make things more difficult.  Beginners can be overwhelmed, or feel like we
 are ganging up on them.</p>
 
 <p>Conversely, if you have already been helping, and it's getting frustrating,
 let someone else take over. You can step away. Maybe someone else will have
 better luck. I know it's difficult, because we get invested.  "I'm explaining
-it, and it's not getting through" is a very frustrating feeling.</p>
+it, and it's not getting through" is a very frustrating feeling. Hammering away
+at it probably won't fix it.</p>
+
 
 <h2>Meet their level</h2>
 
-<p>If you are a helper, you are probably an expert. You have learned tools and
-techniques over the years that have served you well.  The people looking for
-help may not be ready to hear about those things.  The things that work for you
-might be over their head.  Try to understand what they know, and give them a
-reasonable next step, not the ultimate solution.</p>
+<p>If you are a helper, you are an expert. You have learned tools and techniques
+over the years that have served you well.  Askers may not be ready to hear about
+those things.  The things that work for you might be over their head.  Try to
+determine what they know, and give them a reasonable next step, not the ultimate
+solution.</p>
+
+<p>A suboptimal solution they understand is better than a gold standard they
+can't make use of.</p>
+
+<p>As an expert, it's tempting to present the full picture of a topic.  You've
+mastered intricate details, and you want to share them, and to be accurate.
+But those extra details added to an ongoing conversation with a beginner can be
+distracting or confusing.  It's most important to give the beginner what they
+need next, not what they will need eventually.</p>
+
 
 <h2>Say yes</h2>
 
@@ -85,7 +101,16 @@ the way of actually providing help.</p>
 
 <p>You are right: that isn't an array.  But you are here to help people, not to
 ding them for inaccuracies.  Find the essence of their question, and answer it
-with a positive answer.</p>
+with a positive response.</p>
+
+
+<h2>Avoid absolutes</h2>
+
+<p>You are an expert, you know things.  But strong absolute stances can come off
+as inflexible, off-putting or even confrontational.  Add some doubt words.  Even
+just "in my experience" helps to soften your message and put you on a more equal
+footing with others.  This makes the ideas easier to consider and accept.</p>
+
 
 <h2>Step back</h2>
 
@@ -97,21 +122,40 @@ this happens, try to step back.</p>
 Someone else will probably take over.  Another is to step back with them.  You
 can talk about the difficulty.</p>
 
+
 <h2>Take some blame</h2>
 
 <p>It's easy when things are going badly to think the other person isn't trying,
-or is stupid.  Frankly, maybe they are.  But try taking some of the blame.
-Instead of, "are you listening to me," try saying, "maybe I didn't explain it
-well."</p>
+can't be bothered, or won't be able to understand.  Frankly, maybe some of that
+is true.  But try taking some of the blame.  Instead of, "are you listening to
+me," try saying, "maybe I didn't explain it well," or, "I don't feel like I'm
+getting through."</p>
 
 <p>As much as possible, try to avoid "you're doing it wrong" responses, and try
 to find ways to share in the effort and troubleshooting of the discussion.</p>
+
+<p>Talking about yourself is always better than talking about them.  Talking
+about the asker sounds accusatory and confrontational.</p>
+
 
 <h2>Use more words</h2>
 
 <p>IRC and other online mediums encourage quick short responses, which are
 exactly the kinds of responses that will be easy to misinterpret.  Try to use
 more words, especially encouraging optimistic words.</p>
+
+
+<h2>Understand your motivations</h2>
+
+<p>We want to help, but let's be honest: there are other forces driving us.
+There's a dark appeal in pointing out where someone is
+<a href="https://xkcd.com/386/">wrong</a>.  We can retaliate against poor
+language stewardship by ranting to others. It feels good to win the competition
+for highest mastery of language implementation arcana.</p>
+
+<p>It's natural to find outlets for this kind of negative energy, but we have to
+keep it in check. Focus on helping people.</p>
+
 
 <h2>Humility</h2>
 
@@ -121,12 +165,25 @@ don't know is very satisfying.  But you can help people better if you approach
 the job with humility. Maybe you don't know everything. Maybe some of it was
 your fault.  You can be gracious in overlooking small mistakes.</p>
 
+
+<h2>Make connections</h2>
+
+<p>Another theme running through this advice is: making a connection with a
+person is more important than the technical details of the conversation.  Points
+of correctness are useless without points of connection.  Establish a rapport
+with people, and then deliver your technical message.</p>
+
+
 <h2>It's hard</h2>
 
-<p>Again, I know this is all difficult.  I know that some people are just not ready
-to be helped in IRC.  Sometimes things will go badly.  I want things to go as
-well as they can, and I want us, the helpers, to handle ourselves as well as we can.
-Thanks for helping.</p>
+<p>Again, I know this is all difficult.  I know that some people are just not
+ready to be helped in IRC.  Sometimes things will go badly.  We can't fix
+everything.</p>
+
+<p>But I want things to go as well as they can, and I want us, the helpers, to
+handle ourselves as well as we can.</p>
+
+<p>Thanks for helping.</p>
 
 </body>
 </entry>
