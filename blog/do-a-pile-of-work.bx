@@ -6,13 +6,13 @@
 <category>concurrency</category>
 <body>
 
-<p><b>Update:</b> this code swallows exceptions. An improved version is at
-<a href="/blog/202008/do_a_pile_of_work_better.html">Do a pile of work better</a>.</p>
-
 <p>I had a large pile of data to feed through an expensive function.
 The <a href="https://docs.python.org/3/library/concurrent.futures.html">concurrent.futures</a>
 module in the Python standard library has always worked well for me as a simple
 way to farm out work across threads or processes.</p>
+
+<p><b>Update:</b> this code swallows exceptions. An improved version is at
+<a href="/blog/202008/do_a_pile_of_work_better.html">Do a pile of work better</a>.</p>
 
 <p>For example, if my work function is "workfn", and it takes tuples of
 arguments as produced by "argsfn()", this is how you could run them all:</p>
