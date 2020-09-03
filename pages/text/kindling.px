@@ -5,6 +5,7 @@
 <what when='20150201T082900'>Added Game of Life and Programming Koans</what>
 <what when='20150103T062800'>Added adventofcode and a few others</what>
 <what when='20170420T104500'>Added donnemartin/interactive-coding-challenges</what>
+<what when='20200903T165700'>Added poker and username generator</what>
 </history>
 
 <p>New programmers often need small projects to work on as they hone their
@@ -15,10 +16,10 @@
     experimentation and pure coding practice.</p>
 
 <p>Kindling projects are meant to fill this gap: simple enough that a new learner
-    can take them on, but with possibilities for extension and creativity.  
+    can take them on, but with possibilities for extension and creativity.
     Large enough that there isn't one right answer, but designed to be hacked
     on by a learner simply to flex their muscles.</p>
-    
+
 <p>This is a list of ideas, and pointers to lists of ideas, of projects that
     beginners can tackle.  If you have an idea to add, send it in.  I don't
     personally have experience with most of these pointers, so if you have a
@@ -70,7 +71,7 @@
     coded in many different ways. Some are open ended, and involve thinking
     about the issues behind programming. These are unlikely to have a single
     correct answer."</li>
-    
+
 <li><a href="https://projecteuler.net/">Project Euler</a>: A collection of
     math/programming problems.  Many require math expertise to solve.</li>
 
@@ -93,6 +94,13 @@
 
 <li>Re-implement a Unix command to work the way you want.  Find, grep, and ls
     are good options.</li>
+
+<li>Username generator: purely random? Based on a dictionary? Random but
+    pronounceable? Lots of possibilities.</li>
+
+<li>Poker game: start with code to rank hands, then add features until you have
+    a playable poker game. Different poker games have different rules. This
+    could keep you busy for a long time.</li>
 
 <!-- Suggested by Julia Hansbrough -->
 <li>It's a bit of a cliche, but: implement a blog.  The good news is, you
@@ -141,7 +149,7 @@
 <li><a href="http://adventofcode.com/">Advent of Code</a>: 25 fun
     Christmas-themed challenges. Each has two parts, often requiring
     refactoring.</li>
-    
+
 <!-- Suggested by Jeremy Beker, gothmog@confusticate.com -->
 <li><a href="http://cryptopals.com/">Matasano Crypto Challenges</a>: learn
     cryptography concepts by working through a series of challenges and
