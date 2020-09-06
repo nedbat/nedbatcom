@@ -5,20 +5,50 @@
 <category></category>
 <body>
 
-<p>When people ask what they should implement to practice Python, I say Madlibs.
-</p>
+<p>When people ask what they should implement to practice Python, I often say,
+"Madlibs".  It's a game, but purely text-based. It can start simple but get
+complicated if you want.</p>
 
-<!--
+<p>Madlibs is a language game.  One person has a story with blanks in it.  They
+ask the other player(s) to provide words to go in the blanks, but without
+knowing the story.  The result is usually funny.</p>
 
-- give an example of madlibs
-- levels of difficulty:
-    1: hard-coded story in the code
-    2: story is stored in a data structure in the code
-    3: read the story from a data file
-    4: provide an editing experience for stories
-    5: madlibs web application
+<p>For example, the story might be:</p>
 
--->
+<quote><p>There was a tiny
+<u>&#160;&#160;&#160;(adjective)&#160;&#160;&#160;</u>
+&#160;<u>&#160;&#160;&#160;(noun)&#160;&#160;&#160;</u> who was feeling very
+<u>&#160;&#160;&#160;(adjective)&#160;&#160;&#160;</u>.  After
+<u>&#160;&#160;&#160;(verb)&#160;&#160;&#160;</u>'ing, she felt
+<u>&#160;&#160;&#160;(adjective)&#160;&#160;&#160;</u>.</p></quote>
+
+<p>(An actual story would be longer, about a paragraph.) The reader will ask for
+the words, either in order, or randomized:</p>
+
+<quote><p>Give me an adjective: "purple". A noun: "barn". A verb: "jump".
+Another adjective: "lumpy".  Another adjective: "perturbed".</p></quote>
+
+<p>Then the reader presents the finished story:</p>
+
+<quote><p>There was a tiny perturbed barn who was feeling very purple. After
+jumping, she felt lumpy.</p></quote>
+
+<p>To do this in software, the program will prompt the user for the words, and
+then output the finished story.  There are a few different ways you could
+structure it, of different compexities:</p>
+
+<ul>
+<li>Hard-code the story in the code.</li>
+<li>Represent the story in a data structure (maybe a list?) in the code.</li>
+<li>Read the story from a data file, to make it easier to use different stories.</li>
+<li>Provide a way to edit stories.</li>
+<li>Make a Madlibs web application.</li>
+</ul>
+
+<p>There are other bells and whistles you can add along the way.  If you are
+interested, you can read about how I approached it with my son:
+<a pref="text/madlibs.px"/>.</p>
+
 </body>
 </entry>
 </blog>
