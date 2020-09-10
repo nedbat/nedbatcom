@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200826T101527' draft='y'>
+<entry when='20200910T171600'>
 <title>How to be helpful online</title>
-<category></category>
+<category>online</category>
 <body>
 
 <!--
@@ -12,24 +12,25 @@ TODO: Assume positive intent: online we insert negative as the default
 -->
 
 <p>Helping people online is difficult. We expect technical questions and
-discussions, but we are just people, so it doesn't always go smoothly.  There
-are things we as helpers can do to improve the interactions.</p>
+discussions, but everyone involved are just people, so it doesn't always go
+smoothly.  There's no way to guarantee a good outcome, but there are things we
+as helpers can do to improve the interactions.</p>
 
 <p>There are plenty of pieces out there explaining how to ask good questions.
-This piece is different: it's aimed at the helpers, not the askers.  We are the
-experts and the regulars. We are the constants in the help forums. How we behave
-sets the tone for everyone. We can't expect to "fix" the askers.</p>
+This piece is different: it's aimed at the helpers, not the askers.  We helpers
+are the experts and the regulars. We are the constants in the help forums. How
+we behave sets the tone for everyone. We can't expect to "fix" the askers.</p>
 
 <p>Mostly, these ideas came from my experience in the #python IRC channel on
 Freenode, but they apply anywhere people are trying to communicate.  The more
 emotionally weak the communication channel, the harder it will be to keep things
 going smoothly, so IRC is a tough medium and a good laboratory.</p>
 
-<p>Let me say at the outset though: <i>I have done all of the wrong things.</i>
-Helping people online is not easy.  Perhaps they don't know how to ask, or how
-to interpret our answers.  Perhaps English is not their first language.  We
-don't know what they already know.  And we are all human, so we are bringing our
-complex emotional state with us.</p>
+<p>Let me say at the outset though: <i>I have done and still do, all of the
+wrong things.</i> Helping people online is not easy.  Perhaps askers don't know
+how to ask, or how to interpret our answers.  Perhaps English is not their first
+language.  We don't know what they already know.  And we are all human, so we
+are bringing our complex emotional state with us.</p>
 
 <p>So I know this is hard. I'm hoping that talking about how things can go wrong
 will help us make them go right.</p>
@@ -45,17 +46,17 @@ to them about other problems you see in their work.</p>
 
 <h2>No third rails</h2>
 
-<p>There are some topics which are so disliked that any mention of them bring
+<p>There are some topics which are so disliked that any mention of them brings
 immediate scorn.  This is especially troublesome when we should instead be
 answering the question first.  It should be OK for someone to ask for help with
 a program using sockets, and not have to defend using sockets, especially if the
-question has nothing to do with sockets.</p>
+specific question has nothing to do with sockets.</p>
 
 <p>Other third-rail Python topics include: threads, pickle, multiprocessing,
 globals, singletons.  I know you don't like them.  I know you have been burned
 by them.  I know you have better ideas of how to do what they do.  Don't let
 that derail the conversation.  The goal is to help people.  Strong reactions
-against a library can make the asker feel attacked.</p>
+can make the asker feel attacked.</p>
 
 
 <h2>No dog-piling</h2>
@@ -63,9 +64,9 @@ against a library can make the asker feel attacked.</p>
 <p>The #python channel is large, and there are many energetic helpers.  Everyone
 wants to help, that's why we are there.  But there can be too many voices.  If
 people are already helping, you don't have to chime in.  If you have something
-truly different to say, say it, but if you don't, adding another voice could
-make things more difficult.  Beginners can be overwhelmed, or feel like we
-are ganging up on them.</p>
+truly different to say, say it. But if you don't have a new thing to say, adding
+another voice could make things more difficult.  Beginners can be overwhelmed,
+or feel like we are ganging up on them.</p>
 
 <p>Conversely, if you have already been helping, and it's getting frustrating,
 let someone else take over. You can step away. Maybe someone else will have
@@ -188,6 +189,10 @@ everything.</p>
 
 <p>But I want things to go as well as they can, and I want us, the helpers, to
 handle ourselves as well as we can.</p>
+
+<p>If you are looking for other thoughts about this, the
+<a href="https://freenode.net/catalysts">Freenode Catalyst Guidelines</a> are
+also good tips for how to be useful online.</p>
 
 <p>Thanks for helping.</p>
 
