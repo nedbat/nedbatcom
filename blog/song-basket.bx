@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200913T170320'>
+<title>Song-basket</title>
+<category>music</category>
+<category>mycode</category>
+<body>
+
+<p>I threw together a Spotify API program called
+<a href="https://github.com/nedbat/song-basket">song-basket</a>.  I have a few
+large themed playlists (for example, Instrumental Funk).  This app is to help me
+add songs to them.  I can choose a playlist (the basket), and then as I surf
+around Spotify, it lets me add the current song to the basket with one click.
+It also shows me whether the current song is already in the basket or not, which
+they often are.  If the song is already in the basket, I don't have to think
+about whether to add it, and I don't have to deal with the annoying "Add
+duplicate?" question.</p>
+
+<p>This started as an
+<a href="https://tekore.readthedocs.io/en/stable/examples/auth_server.html">example
+in the Tekore docs</a>, and I hacked at it until it did what I wanted.  A lot of
+it is wrong: no templating, incorrect HTML, a stateful web application, horrid
+styling, and so on.  It doesn't matter, it's a quick app to do what I need.  If
+I want, I can polish it later.</p>
+
+</body>
+</entry>
+</blog>
