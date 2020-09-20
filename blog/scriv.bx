@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200920T184355'>
+<title>Scriv</title>
+<category>mycode</category>
+<body>
+
+<p>I've written a tool for managing changelog files, called
+<a href="https://scriv.readthedocs.io">scriv</a>.  It focuses on a simple
+workflow, but with lots of flexibility.</p>
+
+<p>I've long felt that it's enormously beneficial for engineers to write about
+what they do, not only so that other people can understand it, but to help the
+engineers themselves understand it.  Writing about a thing gives you another
+perspective on it, your own code included.</p>
+
+<p>The philosophy behind scriv, and a quick list of other similar tools, is on the
+<a href="https://scriv.readthedocs.io/en/latest/philosophy.html">Philosophy</a>
+page in the docs.</p>
+
+<p>Scriv only does a few things now, but I'm interested to hear about other
+changelog workflows that could use better tooling.</p>
+
+</body>
+</entry>
+</blog>
