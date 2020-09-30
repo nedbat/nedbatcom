@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20200929T090755' draft='y'>
+<title>Working with many git repos</title>
+<category></category>
+<body>
+
+<p>Lots of code.
+</p>
+
+<p>In your shell startup file (.bashrc, .zshrc, whatever):</p>
+
+<code lang="bash"><![CDATA[
+# Run a command for every repo found somewhere beneath the current directory.
+#
+#   $ gittree git fetch --all --prune
+#
+# To only run commands in repos with a particular branch, use gittreeif:
+#
+#   $ gittreeif branch_name git fetch --all --prune
+#
+# If the command has subcommands that need to run in each directory, quote the
+# entire command:
+#
+#   $ gittreeif origin/foo 'git log --format="%s" origin/foo ^$(git merge-base origin/master origin/foo)'
+#
+# The directory name is printed before each command.  Use -q to suppress this:
+#
+#   $ gittreeif origin/foo -q git status
+#
+gittreeif() {
+    local test_branch="$1"
+    shift
+    local show=true
+    if [[ $1 == -q ]]; then
+        # -q means, don't echo the separator line with the directory.
+        shift
+        local show=false
+    fi
+    find . -name .git -type d -prune | while read d; do
+        local d=$(dirname "$d")
+        git -C "$d" rev-parse --verify -q "$test_branch" >& /dev/null || continue
+        if [[ $show == true ]]; then
+            echo "---- $d ----"
+        fi
+        if [[ $# == 1 && $1 == *' '* ]]; then
+            (cd "$d" && eval "$1")
+        else
+            (cd "$d" && "$@")
+        fi
+    done
+}
+
+gittree() {
+    # @ is in every repo, so this runs on all repos
+    gittreeif @ "$@"
+}
+]]></code>
+
+<p>In your ~/.gitconfig:</p>
+
+<code><![CDATA[
+[alias]
+  relnotes = log --pretty='%h %ad %an: %s' --date=short --no-merges
+]]></code>
+
+<p>To summarize the changes between "old-commit" and "new-commit":</p>
+
+<code><![CDATA[
+gittreeif some-branch git relnotes new-commit ^old-commit
+]]></code>
+
+<p>To see the changes between juniper.2 and juniper.3 in all the repos that have Juniper branches:</p>
+
+<code><![CDATA[
+$ gittreeif open-release/juniper.master git relnotes open-release/juniper.3 ^open-release/juniper.2
+---- ./ecommerce ----
+ ca9cddb4 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./devstack ----
+ 10f02ca 2020-08-17 Zachary Trabookis: Remove `xqueue` as `DEFAULT_SERVICES` for Juniper release.
+ 8ff8dd0 2020-08-17 Zachary Trabookis: Make additional adjustments to the documentation for multiple releases one machine (regisb review).
+ 57455fe 2020-08-10 Zachary Trabookis: Add `xqueue` to default services to provision initially.
+ 3ca4c9d 2020-07-29 Zachary Trabookis: Make sure to pass in `DOCKER_COMPOSE_FILES` to `docker-compose exec` commands for services outside of `docker-compose.yml`.
+ cef4aa2 2020-07-28 Zachary Trabookis: Updated `README` to include necessary information when running multiple isolated devstacks for same host.
+ 9415683 2020-07-27 Zachary Trabookis: Update `docker` commands to be `docker-compose` to handle unnamed containers for multi-version devstack support
+ 67c7c9b 2020-08-16 morenol: Do not use openedx release for registrar and edx-mktg docker images. (#594)
+ 56312bc 2020-08-04 Guruprasad Lakshmi Narayanan: Remove duplicate section
+ 34a46a3 2020-07-24 Guruprasad Lakshmi Narayanan: Remove the non-release services from the default devstack services
+---- ./xqueue ----
+ f004caa 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./edx-e2e-tests ----
+---- ./edx-platform ----
+ d9e0ca5e70 2020-08-12 Ali-D-Akbar: This commit contains security fixes for the following JIRA tickets: 1. PROD-1603 2. PROD-1605 3. PROD-1612 4. PROD-1619 5. PROD-1289 6. PROD-1530 7 . PROD-1525 8. PROD-1534
+ c8421f66fc 2020-08-07 uzairr: Fix xss vulnerabilities in templates
+ 47ab6af637 2020-08-06 Attiya Ishaque: [YONK-1759] Version bump of studio-frontend. (#24677)
+ 8dd78619c9 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+ b295389e96 2020-07-23 Zachary Trabookis: Set `SESSION_COOKIE_SAMESITE=Lax` for `devstack_docker` environment by default to allow login to LMS service.
+ 91af099933 2020-07-23 uzairr: Fix xss in templates
+ 0e45ecb743 2020-07-22 Ali-D-Akbar: Sustaining xss fixes This commit contains xsslint fixes for the following Jira Tickets:
+ 3757f0d11e 2020-07-06 Florian Haas: Fix profile image URLs for image storage on non-public S3 buckets
+---- ./edx-analytics-pipeline ----
+---- ./repo-tools/repo-tools ----
+---- ./edx-notes-api ----
+ ad53edd 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./cs_comments_service ----
+ 3079804 2020-08-19 Samuel Walladge: Bump codecov to latest version
+---- ./course-discovery ----
+ e984f273 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./credentials ----
+ 7a7aab55 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./src/edx-analytics-configuration ----
+---- ./src/edx-documentation ----
+---- ./src/configuration ----
+ 05bb4edcf 2020-08-24 Feanil Patel: Improve sandboxing. (#5953) (#5960)
+ 860994c0d 2020-08-21 Feanil Patel: Timmc/codejail improvements (#5956)
+---- ./src/enterprise-catalog ----
+ f886da6 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./src/blockstore ----
+---- ./src/edx-analytics-data-api ----
+ 64b4c7f 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./src/frontend-app-publisher ----
+---- ./src/edx-app-android ----
+---- ./src/notifier ----
+---- ./src/edx-analytics-dashboard ----
+ b8dfa559 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
+---- ./src/frontend-app-support-tools ----
+---- ./src/edx-app-ios ----
+---- ./src/edx-demo-course ----
+---- ./src/ecommerce-worker ----
+---- ./src/frontend-app-learning ----
+---- ./src/edx-certificates ----
+---- ./src/frontend-app-profile ----
+---- ./src/license-manager ----
+ 85003a6 2020-08-05 Ned Batchelder: Upgrade to Django 2.2.15
+---- ./src/testeng-ci ----
+---- ./src/frontend-app-gradebook ----
+---- ./src/edx-developer-docs ----
+---- ./src/frontend-app-account ----
+]]></code>
+
+</body>
+</entry>
+</blog>
