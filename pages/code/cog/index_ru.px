@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- $Id$ -->
 <page title='Cog' sitemap='no' lang='ru'>
 <history>
 <what when='20041110T205200'>Alexander Belchenko's translation.</what>
@@ -12,8 +11,9 @@
 <what when='20200930T135100'>decorator-factory's updates (to version 3.0).</what>
 </history>
 
-<docinfo>(Оригинал текста на английском языке <a href='code/cog/index.html'>находится здесь</a>.
-Перевод на русский язык: Александр Бельченко, страница обновлена 19 мая 2008; перевод обновлён decorator-factory 30 сентября 2020)
+<docinfo>Оригинал текста на английском языке <a href='code/cog/index.html'>находится здесь</a>.
+<br/>Перевод на русский язык: Александр Бельченко, страница обновлена 19 мая 2008.
+<br/>Перевод обновлён decorator-factory 30 сентября 2020.
 </docinfo>
 
 <p>Cog <emdash/> это инструмент для препроцессинга файлов. Он позволяет использовать
