@@ -67,14 +67,13 @@ class CmdLine(object):
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
     def do_pylocal(self):
-        host = socket.gethostbyname(socket.gethostname())
         port = 8123
-        self.BASE = f"//{host}:{port}"
+        self.BASE = ""
         self.ROOT = "../www"
         self.WWWROOT = os.path.abspath(self.ROOT)
         self.PHP_INCLUDE = False
         self.messages.append(
-            f"Simple local server:\n  sudo -v; sudo python -m http.server -b {host} -d ../www {port} & open http://{host}:{port}"
+            f"Simple local server:\n  sudo -v; sudo python -m http.server -b 0.0.0.0 -d ../www {port} & open http://localhost:{port}"
         )
 
     def do_file(self):
