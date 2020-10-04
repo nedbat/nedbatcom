@@ -8,10 +8,10 @@ $main-break: 760px;
 body {
     font-family: $me-font;
     font-size: 100%;
-    @media (min-width: 300px) {
+    @media (min-width: 18em) {
         font-size: 110%;
     }
-    @media (min-width: 450px) {
+    @media (min-width: 28em) {
         font-size: 120%;
     }
     @include colors(--bg-color);
