@@ -3,6 +3,10 @@
 <what when="20150329T182200">Created</what>
 </history>
 
+<docinfo>An earlier version of this page is also available in
+<a href='https://baspinarenes.github.io/python/degisken-deyince-ne-anlamali/'>Turkish</a>.
+</docinfo>
+
 <p>This is a presentation I gave at PyCon 2015 in Montreal.  You can read the slides
 and text on this page, or open the <a href="text/names1/names1.html">actual
 presentation</a> in your browser (use right and left arrows to advance the
@@ -18,7 +22,7 @@ You can also watch the video of me presenting it:</p>
 text and figures.</p>
 
 <figurep href="text/names1/names1.html#1"><img alt="Facts and Myths about Names and Values" scale="0.5" src="text/names1_pix/000.png"/></figurep><!-- {{{ --><p>This talk is about some fundamental concepts in Python: names and
-values.</p><p>These lessons apply to both Python 2 and Python 3.</p><figurep href="text/names1/names1.html#2"><img alt="Python is simple" scale="0.5" src="text/names1_pix/001.png"/></figurep><!-- {{{ --><p>Python is a very approachable language.  Often it works just as you 
+values.</p><p>These lessons apply to both Python 2 and Python 3.</p><figurep href="text/names1/names1.html#2"><img alt="Python is simple" scale="0.5" src="text/names1_pix/001.png"/></figurep><!-- {{{ --><p>Python is a very approachable language.  Often it works just as you
     expect if you come to it from other languages.  But you might suddenly
     encounter surprising behavior.</p><p>The underlying mechanisms of Python are often quite simple, but their
     combined effects might not be what you expect.  By understanding the
@@ -102,7 +106,7 @@ num.append(7)       # changes num
 </code><p>But these are two very different operations.  The first is
 <strong>rebinding</strong> x.  x+1 creates an entirely new object, and then the
 assignment statement makes x refer to it.  Appending to num is <strong>mutating</strong>
-num.  The name num still refers to the same object, but that object has been 
+num.  The name num still refers to the same object, but that object has been
 modified, its value has been updated in-place.</p><p>The words "rebinding" and "mutating" are too awkward to use all the time,
 but when we're doing a close reading of a piece of code to understand how it
 works, they can be very useful for distinguishing between the two different
@@ -248,7 +252,7 @@ now 10, but nums[0] still refers to the old value, 1.</p><p>Our loop never modif
 the name x over and over again.</p><p>The best advice is to avoid mutating lists, and instead to make new lists:</p><code lang="py">
 nums = [ 10*x for x in nums ]
 </code><figurep href="text/names1/names1.html#19"><img alt="Function arguments are assignments" scale="0.5" src="text/names1_pix/018.png"/></figurep><!-- {{{ --><p>Function arguments are perhaps the most important thing that doesn't look
-like an assignment, but is.  When you define a function, you specify its 
+like an assignment, but is.  When you define a function, you specify its
 formal parameters, as x is here:</p><code lang="py">
 def func(x):
     print(x)
@@ -324,7 +328,7 @@ function has a local variable, we mean that the name is scoped to the function:
 you can't use the name outside the function, and when the function returns, the
 name is destroyed.  But as we've seen, if the name's value has other
 references, it will live on beyond the function call.  It is a local name, not
-a local value.</p><p>Values can be created, used, and ultimately destroyed all up and down the 
+a local value.</p><p>Values can be created, used, and ultimately destroyed all up and down the
 call stack.  There is no rule about when values can be created, and how long
 they can live.</p><figurep href="text/names1/names1.html#26"><img alt="Other topics" scale="0.5" src="text/names1_pix/025.png"/></figurep><!-- {{{ --><p>Here are a number of quick topics that I didn't have time to cover in depth.</p><p><strong>"Python has no variables"</strong>  In all honesty, the original
 reason I started writing this talk was because I would see people try to
@@ -343,7 +347,7 @@ by assignment.</p><p><strong>Making a 2D list:</strong> the simple way to make a
 (let's say an 8x8 board for checkers) doesn't work.  You get a list of eight zeros,
 but the outer list has eight references to that single list, rather than eight
 seperate lists of zeros.  The second form gives you the correct structure.
-You can read more about that in this blog post: 
+You can read more about that in this blog post:
 <a href="blog/201308/names_and_values_making_a_game_board.html">Names and values: making a game board</a>.
 </p><p><strong>pythontutor.com</strong> is a site that lets you enter your own
 Python code, and it will diagram and animate its behavior.  The diagrams aren't
@@ -639,21 +643,21 @@ Understand them, and your programs will not surprise you in bad ways!</p>
 
 
 
- 
 
 
 
 
 
 
- 
 
 
 
-    
 
-    
-    
+
+
+
+
+
 
 
 

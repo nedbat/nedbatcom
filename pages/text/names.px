@@ -54,12 +54,16 @@ TODO:
     + lists, dicts, and user-defined objects are mutable.
     - rhs can make new values, but assignment does not.
     + "frames": don't mention.
-    - placeholder for += 
+    - placeholder for +=
     - clarify CBV and CBR
     + anchors for boxes.
     - Include the NxM board example?
 -->
 
+
+<docinfo>This page is also available in
+<a href='https://baspinarenes.github.io/python/degisken-deyince-ne-anlamali/'>Turkish</a>.
+</docinfo>
 
 <p>The behavior of names and values in Python can be confusing.  Like many
     parts of Python, it has an underlying simplicity that can be hard to
@@ -110,7 +114,7 @@ x = 23
 ]]></code>
 
 <p>Now the name "x" refers to the value 23.  The next time we use the name x,
-    we'll get the value 23:</p> 
+    we'll get the value 23:</p>
 
 <code lang='python'>
 print(x+2)       # prints 25
@@ -379,7 +383,7 @@ print(tri)      # [1, 2, 3, 4]
 <p>Why did tri change!?  The answer follows from what we've learned so far.
     Assignment never copies values, so after the assignment to tri, we have two
     names referring to the same list:</p>
-    
+
 <figurep>
     <!--[[[cog
     fig = start_figure(title="nums and tri both refer to the same list")
@@ -446,13 +450,13 @@ print(tri)      # [1, 2, 3, 4]
     believe that assignment works differently for mutable values than for
     immutable values. It doesn't.</p>
 
-<p>All assignment works the same: it makes a name refer to a value.  But with 
+<p>All assignment works the same: it makes a name refer to a value.  But with
     an immutable value, no matter how many names are referring to the same
     value, the value can't be changed in-place, so you can never get into a
     surprising Presto-Chango situation.</p>
 
 
-<!-- 
+<!--
 
 <box id='old_value'>Fact: Assignment never affects the old value of the name.</box>
 
@@ -571,7 +575,7 @@ print(y)    # 1
     <!--[[[end]]]-->
 </figurep>
 
-<p>If you have list elements referring to other mutable values, like sub-lists, 
+<p>If you have list elements referring to other mutable values, like sub-lists,
     it's important to remember that the list elements are just references to
     values.</p>
 
@@ -840,7 +844,7 @@ print(nums)         # [1, 2, 3]
     <!--[[[end]]]-->
 </figurep>
 
-<p>(Try this code 
+<p>(Try this code
 <!--[[[cog
 tutor_a_tag("""\
 def augment_twice_bad(a_list, val):
@@ -974,7 +978,7 @@ x = x.__iadd__(y)   # Note the 'i' in __iadd__
 
 <p>In the x.__add__(y) case, the result must be a new list, since the result of the
     addition could be used for anything.  That new list is assigned to x, and
-    the old value of x is unreferenced.</p> 
+    the old value of x is unreferenced.</p>
 
 <p>But in the x.__iadd__(y) case, the result can only be assigned back to x, since
     it's the result of a += statement.  So the list.__iadd__ implementation extends
@@ -1003,7 +1007,7 @@ x = x.__iadd__(y)   # Note the 'i' in __iadd__
         list1:1 -> list2:0
         list1:2 -> list2:0 [constraint=False]
         """)
-    g.img(alt="") 
+    g.img(alt="")
     ] ] ]- ->
     <img src="text/names_dot/d016.png" alt="board = [['_']*3] * 3" align="top"/>
     <!- -[ [ [end] ] ]- ->
@@ -1034,7 +1038,7 @@ x = x.__iadd__(y)   # Note the 'i' in __iadd__
 <p>There are lots of side trips that I skipped here:</p>
 
 <ul>
-    <li>Is Python call-by-value or not?</li> 
+    <li>Is Python call-by-value or not?</li>
     <li>Why do beginners find it hard to make a tic-tac-toe board in Python?
         Answered in <a href="blog/201308/names_and_values_making_a_game_board.html">Names and values: making a game board</a>.
         </li>
