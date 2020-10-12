@@ -1,14 +1,36 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200929T090755' draft='y'>
+<entry when='20201012T075900'>
 <title>Working with many git repos</title>
-<category></category>
+<category>git</category>
+<category>shells</category>
 <body>
 
-<p>Lots of code.
-</p>
+<p>Some of my work on the <a href="https://openedx.org">Open edX</a> team at
+<a href="https://edx.org">edX</a> requires working with the three dozen or so
+repos that form the backbone of the Open edX software.  That often means doing
+the same thing to all of them (tagging, logs, etc).</p>
 
-<p>In your shell startup file (.bashrc, .zshrc, whatever):</p>
+<p>To make it easier to work with a collection of repos, I have a shell function
+to run the same command on the git directories found under the current
+directory.  It gets a little more complicated than that: I might have 100 repos
+in the current directory, but only the ones that have certain master branches
+should be included in an operation.</p>
+
+<p>My function is called "gittreeif": it takes a branch name and a command, and
+walks the current directory tree looking for git repos that have that branch.
+For each one, it executes the command:</p>
+
+<code><![CDATA[
+$ gitttreif origin/juniper.master git status
+]]></code>
+
+<p>I also define "gittree", which runs on every repo regardless of its
+branches.</p>
+
+<p>Here is the definition of gittreeif.  Put it in your shell startup file
+(.bashrc, .zshrc,
+<a href="https://github.com/nedbat/dot/blob/f8fe4db8f944696d9744f147c8dfbcca5ce0ce39/.rc.sh#L109-L161">whatever</a>):</p>
 
 <code lang="bash"><![CDATA[
 # Run a command for every repo found somewhere beneath the current directory.
@@ -24,24 +46,33 @@
 #
 #   $ gittreeif origin/foo 'git log --format="%s" origin/foo ^$(git merge-base origin/master origin/foo)'
 #
-# The directory name is printed before each command.  Use -q to suppress this:
+# The directory name is printed before each command.  Use -q to suppress this,
+# or -r to show the origin remote url instead of the directory name.
 #
 #   $ gittreeif origin/foo -q git status
 #
 gittreeif() {
     local test_branch="$1"
     shift
-    local show=true
+    local show_dir=true show_repo=false
+    if [[ $1 == -r ]]; then
+        # -r means, show the remote url instead of the directory.
+        shift
+        local show_dir=false show_repo=true
+    fi
     if [[ $1 == -q ]]; then
         # -q means, don't echo the separator line with the directory.
         shift
-        local show=false
+        local show_dir=false show_repo=false
     fi
     find . -name .git -type d -prune | while read d; do
         local d=$(dirname "$d")
         git -C "$d" rev-parse --verify -q "$test_branch" >& /dev/null || continue
-        if [[ $show == true ]]; then
+        if [[ $show_dir == true ]]; then
             echo "---- $d ----"
+        fi
+        if [[ $show_repo == true ]]; then
+            echo "----" $(git -C "$d" config --get remote.origin.url) "----"
         fi
         if [[ $# == 1 && $1 == *' '* ]]; then
             (cd "$d" && eval "$1")
@@ -57,47 +88,53 @@ gittree() {
 }
 ]]></code>
 
-<p>In your ~/.gitconfig:</p>
+<p>Let's say I want to summarize the changes between two tags. Here's a
+convenient alias to put in your ~/.gitconfig:</p>
 
 <code><![CDATA[
 [alias]
-  relnotes = log --pretty='%h %ad %an: %s' --date=short --no-merges
+    relnotes = log --pretty='%h %ad %an: %s' --date=short --no-merges
 ]]></code>
 
-<p>To summarize the changes between "old-commit" and "new-commit":</p>
+<p>The git command to show the changes between "old-commit" and "new-commit"
+is:</p>
 
 <code><![CDATA[
-gittreeif some-branch git relnotes new-commit ^old-commit
+git log new-commit ^old-commit
 ]]></code>
 
-<p>To see the changes between juniper.2 and juniper.3 in all the repos that have Juniper branches:</p>
+<p>Putting it all together: to see the changes between juniper.2 and juniper.3
+in all the repos that have Juniper branches, using "relnotes" to get the summary
+style I like:</p>
 
 <code><![CDATA[
-$ gittreeif open-release/juniper.master git relnotes open-release/juniper.3 ^open-release/juniper.2
+$ gittreeif \
+    open-release/juniper.master \
+    git relnotes open-release/juniper.3 ^open-release/juniper.2
 ---- ./ecommerce ----
  ca9cddb4 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
 ---- ./devstack ----
- 10f02ca 2020-08-17 Zachary Trabookis: Remove `xqueue` as `DEFAULT_SERVICES` for Juniper release.
- 8ff8dd0 2020-08-17 Zachary Trabookis: Make additional adjustments to the documentation for multiple releases one machine (regisb review).
- 57455fe 2020-08-10 Zachary Trabookis: Add `xqueue` to default services to provision initially.
- 3ca4c9d 2020-07-29 Zachary Trabookis: Make sure to pass in `DOCKER_COMPOSE_FILES` to `docker-compose exec` commands for services outside of `docker-compose.yml`.
- cef4aa2 2020-07-28 Zachary Trabookis: Updated `README` to include necessary information when running multiple isolated devstacks for same host.
- 9415683 2020-07-27 Zachary Trabookis: Update `docker` commands to be `docker-compose` to handle unnamed containers for multi-version devstack support
- 67c7c9b 2020-08-16 morenol: Do not use openedx release for registrar and edx-mktg docker images. (#594)
+ 10f02ca 2020-08-17 Zachary Trabookis: Remove `xqueue` as `DEFAULT_SERVICES` for
+ 8ff8dd0 2020-08-17 Zachary Trabookis: Make additional adjustments to the docume
+ 57455fe 2020-08-10 Zachary Trabookis: Add `xqueue` to default services to provi
+ 3ca4c9d 2020-07-29 Zachary Trabookis: Make sure to pass in `DOCKER_COMPOSE_FILE
+ cef4aa2 2020-07-28 Zachary Trabookis: Updated `README` to include necessary inf
+ 9415683 2020-07-27 Zachary Trabookis: Update `docker` commands to be `docker-co
+ 67c7c9b 2020-08-16 morenol: Do not use openedx release for registrar and edx-mk
  56312bc 2020-08-04 Guruprasad Lakshmi Narayanan: Remove duplicate section
- 34a46a3 2020-07-24 Guruprasad Lakshmi Narayanan: Remove the non-release services from the default devstack services
+ 34a46a3 2020-07-24 Guruprasad Lakshmi Narayanan: Remove the non-release service
 ---- ./xqueue ----
  f004caa 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
 ---- ./edx-e2e-tests ----
 ---- ./edx-platform ----
- d9e0ca5e70 2020-08-12 Ali-D-Akbar: This commit contains security fixes for the following JIRA tickets: 1. PROD-1603 2. PROD-1605 3. PROD-1612 4. PROD-1619 5. PROD-1289 6. PROD-1530 7 . PROD-1525 8. PROD-1534
+ d9e0ca5e70 2020-08-12 Ali-D-Akbar: This commit contains security fixes for the
  c8421f66fc 2020-08-07 uzairr: Fix xss vulnerabilities in templates
- 47ab6af637 2020-08-06 Attiya Ishaque: [YONK-1759] Version bump of studio-frontend. (#24677)
+ 47ab6af637 2020-08-06 Attiya Ishaque: [YONK-1759] Version bump of studio-fronte
  8dd78619c9 2020-08-05 Ned Batchelder: Upgrade Django to 2.2.15
- b295389e96 2020-07-23 Zachary Trabookis: Set `SESSION_COOKIE_SAMESITE=Lax` for `devstack_docker` environment by default to allow login to LMS service.
+ b295389e96 2020-07-23 Zachary Trabookis: Set `SESSION_COOKIE_SAMESITE=Lax` for
  91af099933 2020-07-23 uzairr: Fix xss in templates
- 0e45ecb743 2020-07-22 Ali-D-Akbar: Sustaining xss fixes This commit contains xsslint fixes for the following Jira Tickets:
- 3757f0d11e 2020-07-06 Florian Haas: Fix profile image URLs for image storage on non-public S3 buckets
+ 0e45ecb743 2020-07-22 Ali-D-Akbar: Sustaining xss fixes This commit contains xs
+ 3757f0d11e 2020-07-06 Florian Haas: Fix profile image URLs for image storage on
 ---- ./edx-analytics-pipeline ----
 ---- ./repo-tools/repo-tools ----
 ---- ./edx-notes-api ----
@@ -137,6 +174,10 @@ $ gittreeif open-release/juniper.master git relnotes open-release/juniper.3 ^ope
 ---- ./src/edx-developer-docs ----
 ---- ./src/frontend-app-account ----
 ]]></code>
+
+<p>This is how I do it.  There are probably other tools to do the same job.
+Maybe someone will point them out... :)</p>
+
 
 </body>
 </entry>
