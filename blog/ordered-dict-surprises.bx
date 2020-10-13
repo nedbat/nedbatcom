@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20201012T144843'>
+<title>Ordered dict surprises</title>
+<category>python</category>
+<body>
+
+<p>Since Python 3.6, regular dictionaries retain their insertion order: when you
+iterate over a dict, you get the items in the same order they were added to the
+dict.  Before 3.6, dicts were unordered: the iteration order was seemingly
+random.</p>
+
+<p>Here are two surprising things about these ordered dicts.</p>
+
+<h3>You can't get the first item</h3>
+
+<p>Since the items in a dict have a specific order, it should be easy to get the
+first (or Nth) item, right?  Wrong. It's not possible to do this directly. You
+might think that <codeword>d[0]</codeword> would be the first item, but it's
+not, it's the value of the key 0, which could be the last item added to the
+dict.</p>
+
+<p>The only way to get the Nth item is to iterate over the dict, and wait until
+you get to the Nth item.  There's no random access by ordered index.  This is
+one place where lists are better than dicts.  Getting the Nth element of a list
+is an O(1) operation.  Getting the Nth element of a dict (even if it is ordered)
+is an O(N) operation.</p>
+
+<h3>OrderedDict is a little different</h3>
+
+<p>If dicts are ordered now,
+<a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict">collections.OrderedDict</a>
+is useless, right?  Well, maybe.  It won't be removed because that would break
+code using that class, and it has some methods that regular dicts don't.  But
+there's also one subtle difference in behavior.  Regular dicts don't take order
+into account when comparing dicts for equality, but OrderedDicts do:</p>
+
+<code><![CDATA[
+>>> d1 = {"a": 1, "b": 2}
+>>> d2 = {"b": 2, "a": 1}
+>>> d1 == d2
+True
+>>> list(d1)
+['a', 'b']
+>>> list(d2)
+['b', 'a']
+
+>>> from collections import OrderedDict
+>>> od1 = OrderedDict([("a", 1), ("b", 2)])
+>>> od2 = OrderedDict([("b", 2), ("a", 1)])
+>>> od1 == od2
+False
+>>> list(od1)
+['a', 'b']
+>>> list(od2)
+['b', 'a']
+>>>
+]]></code>
+
+<p>BTW, this post is the result of a surprisingly long and contentious discussion
+in the <a href="https://discord.gg/python">Python Discord</a>.</p>
+
+</body>
+</entry>
+</blog>
