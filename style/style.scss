@@ -999,7 +999,7 @@ img {
     padding-top: 0;
 }
 
-.comments {
+#comments {
     @include lightmode {
         --button-bg-color: #eee;
         --border-color: #eee;
@@ -1147,6 +1147,10 @@ img {
             font-size: 85%;
             color: var(--info-text-color);
             margin-top: 0;
+            a {
+                @include inside-link;
+                color: var(--info-text-color);
+            }
         }
         .head {
             margin-top: 0;
