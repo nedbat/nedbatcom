@@ -22,7 +22,7 @@ walks the current directory tree looking for git repos that have that branch.
 For each one, it executes the command:</p>
 
 <code><![CDATA[
-$ gitttreif origin/juniper.master git status
+$ gittreeif origin/juniper.master git status
 ]]></code>
 
 <p>I also define "gittree", which runs on every repo regardless of its
