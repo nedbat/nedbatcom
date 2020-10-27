@@ -1138,7 +1138,7 @@ img {
             font-family: $them-font;
             float: left;
             a {
-                color: black;
+                color: var(--fg-color);
             }
         }
         .when {
