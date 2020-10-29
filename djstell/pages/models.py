@@ -177,6 +177,7 @@ class Tag(ModelMixin, models.Model):
     name = models.CharField(max_length=50, null=True)
     about = models.TextField(null=True)
     short = models.TextField(null=True)
+    description = models.TextField(null=True)
     related = models.ManyToManyField('self')
 
     class Meta:
@@ -193,6 +194,9 @@ class Tag(ModelMixin, models.Model):
             tag.tag = cat.get('id')
             tag.name = cat.find('name').text
             tag.about = cat.find('about').text
+            description = cat.find('description')
+            if description is not None:
+                tag.description = etree.tostring(description).decode('utf8')
             short = cat.find('short')
             if short is not None:
                 tag.short = short.text
@@ -216,6 +220,9 @@ class Tag(ModelMixin, models.Model):
     def hashtag(self):
         """The name, but for a hashtag."""
         return self.name.replace(' ', '-').lower()
+
+    def description_html(self):
+        return content_transform("HUH", self.description)
 
 
 class Link(ModelMixin, models.Model):

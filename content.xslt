@@ -12,12 +12,12 @@
 
 <xsl:include href='tools.xslt' />
 
-<xsl:output 
-	method='html' 
-	indent='no' 
+<xsl:output
+	method='html'
+	indent='no'
 	/>
 
-<xsl:template match='body|page'>
+<xsl:template match='body|page|description'>
 	<xsl:apply-templates select='*' />
 </xsl:template>
 
@@ -33,7 +33,7 @@
 <xsl:template match='more'>
 	<xsl:if test='$blogmode="brief"'>
 		<xsl:variable name='census' select='count(p|ul/li|ol/li|code|quote)' />
-	
+
 		<p class='more'>
 			&#xbb;
 			<a class='s' href='{$permaurl}#more'>
@@ -47,9 +47,9 @@
 						<xsl:value-of select='$title'/>
 					</xsl:otherwise>
 				</xsl:choose>
-	
+
 				<xsl:text>... (</xsl:text>
-	
+
 				<xsl:choose>
 					<xsl:when test='$census = 0'>
 						<xsl:text>empty!</xsl:text>
@@ -62,7 +62,7 @@
 						<xsl:text> paragraphs</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
-	
+
 				<xsl:text>)</xsl:text>
 			</a>
 		</p>

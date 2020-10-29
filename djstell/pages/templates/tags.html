@@ -3,7 +3,11 @@
 
 {% block body %}
     {% if entries %}
-        <p class='first'>
+        {% if tag.description %}
+            {{tag.description_html|safe}}
+        {% endif %}
+
+        <p>
             {% if entries|length == 1 %}
                 This is the only blog post
             {% else %}
@@ -45,7 +49,7 @@
     {% endif %}
 
     {% if tag.related.all %}
-    <p>These tags are nearby:</p>
+    <p>These tags are related:</p>
     <ul>
         {% for reltag in tag.related.all %}
             <li><a href='{{reltag.permaurl}}'>#{{reltag.hashtag}}</a>, about {{reltag.about}}</li>
