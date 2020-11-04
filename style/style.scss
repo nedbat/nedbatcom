@@ -950,6 +950,7 @@ div.linenodiv {
     margin-right: auto;
     max-width: 550px;
     background: white;
+    color: black;
     border: 0;
     .inner {
         padding: 0 1em.5em 1em;
@@ -958,6 +959,7 @@ div.linenodiv {
         font-family: sans-serif;
         a {
             text-decoration: none;
+            color: #00a !important;
         }
     }
 }
