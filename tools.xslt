@@ -232,6 +232,8 @@
 <!-- Custom "symbols" -->
 <xsl:template match='permalinksym'>(&#164;)</xsl:template>
 <xsl:template match='nbsp'>&#160;</xsl:template>
+<xsl:template match='enspace'>&#x2002;</xsl:template>
+<xsl:template match='emspace'>&#x2003;</xsl:template>
 <xsl:template match='chev'>&#187;</xsl:template>
 <xsl:template match='middot'>&#183;</xsl:template>
 <xsl:template match='space'><xsl:text> </xsl:text></xsl:template>

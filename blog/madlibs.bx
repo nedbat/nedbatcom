@@ -1,30 +1,33 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20200824T133206' draft='y'>
-<title>Madlibs</title>
-<category></category>
+<entry when='20201127T09440'>
+<title>Mad Libs</title>
+<category>games</category>
+<category>coding</category>
 <body>
 
-<p>When people ask what they should implement to practice Python, I often say,
-"Madlibs".  It's a game, but purely text-based. It can start simple but get
-complicated if you want.</p>
+<p>When people ask what they should implement to practice programming, I often
+say, Mad Libs.  It's a game, so it might appeal to youthful minds, but it's
+purely text-based, so it won't be overwhelming to implement. It can start
+simple, for beginners, but get complicated if you are more advanced.</p>
 
-<p>Madlibs is a language game.  One person, the reader, has a story with blanks
-in it.  They ask the other player(s) to provide words to go in the blanks, but
-without knowing the story.  The result is usually funny.</p>
+<p><a href="https://en.wikipedia.org/wiki/Mad_Libs">Mad Libs</a> is a language
+game.  One person, the reader, has a story with blanks in it.  The other
+player(s) provide words to go in the blanks, but they don't know the story.  The
+result is usually funny.</p>
 
 <p>For example, the story might be:</p>
 
 <quote><p>There was a tiny
-<u>&#160;&#160;&#160;&#160;(adjective)&#160;&#160;&#160;&#160;</u>
-&#160;&#160;<u>&#160;&#160;&#160;&#160;(noun)&#160;&#160;&#160;&#160;</u> who
+<u><nbsp/><nbsp/><nbsp/><nbsp/>(adjective)<nbsp/><nbsp/><nbsp/><nbsp/></u>
+<enspace/><u><nbsp/><nbsp/><nbsp/><nbsp/>(noun)<nbsp/><nbsp/><nbsp/><nbsp/></u> who
 was feeling very
-<u>&#160;&#160;&#160;&#160;(adjective)&#160;&#160;&#160;&#160;</u>.  After
-<u>&#160;&#160;&#160;&#160;(verb)&#160;&#160;&#160;&#160;</u>'ing, she felt
-<u>&#160;&#160;&#160;&#160;(adjective)&#160;&#160;&#160;&#160;</u>.</p></quote>
+<u><nbsp/><nbsp/><nbsp/><nbsp/>(adjective)<nbsp/><nbsp/><nbsp/><nbsp/></u>.  After
+<u><nbsp/><nbsp/><nbsp/><nbsp/>(verb)<nbsp/><nbsp/><nbsp/><nbsp/></u>'ing, she felt
+<u><nbsp/><nbsp/><nbsp/><nbsp/>(adjective)<nbsp/><nbsp/><nbsp/><nbsp/></u>.</p></quote>
 
-<p>(An actual story would be longer, about a paragraph.) The reader will ask for
-the words, either in order, or randomized:</p>
+<p>(An actual story would be longer, usually a full paragraph.) The reader will
+ask for the words, either in order, or randomized:</p>
 
 <quote><p>Give me an adjective.<br/>
 "Purple".<br/>
@@ -52,8 +55,12 @@ you could structure it, of different complexities:</p>
 <li>Represent the story in a data structure (maybe a list?) in the code.</li>
 <li>Read the story from a data file, to make it easier to use different stories.</li>
 <li>Provide a way to edit stories.</li>
-<li>Make a Madlibs web application.</li>
+<li>Make a Mad Libs web application.</li>
 </ul>
+
+<p>Each of these has design choices to be made.  How will you separate the text
+from the blanks? How will you indicate what kind of word goes in each blank?
+How complex a story structure will you allow?</p>
 
 <p>There are other bells and whistles you can add along the way, for any of the
 stages of complexity:</p>
@@ -62,7 +69,7 @@ stages of complexity:</p>
 
 <li>Randomize the order the words are requested.</li>
 
-<li>Provide a way for a provided word to be re-used in the story for some
+<li>Have a way for a provided word to be re-used in the story for some
 coherence.</li>
 
 <li>Stories that have random paths through them, so that it is not always the
@@ -73,8 +80,8 @@ with a provided word.</li>
 
 </ul>
 
-<p>If you are interested, you can read about how I approached it with my son:
-<a pref="text/madlibs.px"/>.</p>
+<p>If you are interested, you can read the details of how I approached it years
+ago with my son: <a pref="text/madlibs.px"/>.</p>
 
 </body>
 </entry>
