@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20201205T134611'>
+<title>Favicons with ImageMagick</title>
+<category>graphics</category>
+<body>
+
+<p>I needed to revisit how favicons work today.  First I wanted to do an
+empirical experiment to see what size and format would get used by browsers.
+This has always been a confusing landscape. Some pages offer dozens of different
+files to use as the icon.  I wasn't going to go crazy with all of that, so I
+just wanted to see what would do a simple job.</p>
+
+<p>To run my experiment, I used ImageMagick to create a test favicon.ico, and
+also some different-sized png files.  So I would know what I was looking at,
+each size is actually a different visual image: the 32-pixel icon shows "32",
+and so on.</p>
+
+<p>This is how I made them:</p>
+
+<code lang="bash"><![CDATA[
+for size in 16 32 48 ; do
+    magick convert \
+        -background lightgray \
+        -fill black \
+        -size ${size}x${size} \
+        -gravity center \
+        -bordercolor black \
+        -border 1 \
+        label:${size} \
+        icon_${size}.bmp
+done
+for size in 16 32 48 64 96 128 256; do
+    magick convert \
+        -background lime \
+        -fill black \
+        -size ${size}x${size} \
+        -gravity center \
+        -bordercolor black \
+        -border 1 \
+        label:${size} \
+        icon_${size}.png
+done
+magick convert *.bmp favicon.ico
+]]></code>
+
+<p>Playing with these a bit showed me that favicon.ico is not that reliable, and
+the simplest thing to do that works well is just to use a 32-pixel PNG file.</p>
+
+<p>I wanted to make an icon of a circled <a pref="blog/sleepy-snake.bx">Sleepy Snake</a> image.
+I started with GIMP, but got lost in selections, paths, and alpha channels, so I
+went back to ImageMagick:</p>
+
+<code lang="bash"><![CDATA[
+magick convert SleePYsnake.png \
+    -background white -alpha remove -alpha off \
+    SleePYwhite.png
+magick convert \
+    -size 3600x3600 xc:Purple -fill LightBlue \
+    -stroke black -strokewidth 30 \
+    -draw "circle 1100,1000 1100,1700" -transparent LightBlue \
+    mask.png
+magick convert SleePYwhite.png mask.png -composite temp.png
+magick convert temp.png -transparent Purple temp2.png
+magick convert temp2.png -crop 1430x1430+385+285 +repage round.png
+magick convert round.png -resize 32x32 round_32.png
+]]></code>
+
+<p>Probably some of these steps could be combined.  The ImageMagick execution
+model is still a bit baffling to me. It made these intermediate steps:</p>
+
+<figurep>
+    <img src="pix/favicon_stages.png" alt="The six images made by the pipeline above."/>
+</figurep>
+
+<p>I made that montage made with:</p>
+
+<code lang="bash"><![CDATA[
+magick montage \
+    SleePYsnake.png SleePYwhite.png mask.png temp.png temp2.png round.png \
+    -geometry 300x300 -background '#ccc' -mode concatenate -tile 2x \
+    favicon_stages.png
+]]></code>
+
+<p>In the end, I got the result I wanted:</p>
+
+<figurep>
+    <img src='pix/sleepy_icon_32_640.png' alt='32-pixel rendering of Sleepy Snake'/>
+</figurep>
+
+</body>
+</entry>
+</blog>
