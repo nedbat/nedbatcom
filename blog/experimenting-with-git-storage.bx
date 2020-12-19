@@ -11,7 +11,7 @@ understand it.  To really wrap my head around it, I checked it empirically.</p>
 
 <p>The misconception starts because git presents commits as diffs, and lets you
 manipulate them (rebase, cherry-pick, etc) as if they were diffs.  But
-internally, git does not store diffs, it stores complete copies of the file at
+internally, git commits are not diffs, they are complete copies of the file at
 each revision that changes the file.</p>
 
 <p>At first glance, this seems dumb: why store the whole file over again just
@@ -191,8 +191,8 @@ total 1720
 <p>Now instead of individual blob files, we have one pack file.  And it's a
 little smaller than either of the blobs!</p>
 
-<p>This may seem like a semantic game: isn't this the same as storing deltas?
-It's not for a few reasons:</p>
+<p>This may seem like a semantic game: doesn't this show that commits are deltas?
+It's not the same, for a few reasons:</p>
 
 <ul>
 
@@ -203,6 +203,10 @@ revision is available with the same amount of effort.</li>
 storage.  Git stores a commit as a full snapshot of all of the files' contents.
 The file contents might be stored in a shared-bytes way within the pack
 files.</li>
+
+<li>The object model is full-file contents in blobs, and commits referencing
+those blobs.  If you removed pack files from the implementation, the conceptual
+model and all operations would work the same, just take more disk space.</li>
 
 <li>The storage savings in a pack file are not limited to a single file. If two
 files (or two revisions of two different files) are very similar, their bytes
