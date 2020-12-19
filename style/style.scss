@@ -899,7 +899,11 @@ blockquote.code {
         font-weight: bold;
     }
     .gp {
-        color: #666699;
+        // Command prompts. Make them visible, and make them separate the
+        // commands a bit.
+        color: black;
+        font-size: 1.1em;
+        line-height: 1.75;
     }
     .kc, .kd, .kn, .kp, .kr {
         color: #0000ff;

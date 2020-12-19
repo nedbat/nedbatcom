@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20201219T091908'>
+<title>Experimenting with git storage</title>
+<category>git</category>
+<body>
+
+<p>The recent blog post <a href="https://github.blog/2020-12-17-commits-are-snapshots-not-diffs/">Commits are snapshots, not diffs</a>
+did a good job explaining away a common git misconception, and helped me finally
+understand it.  To really wrap my head around it, I checked it empirically.</p>
+
+<p>The misconception starts because git presents commits as diffs, and lets you
+manipulate them (rebase, cherry-pick, etc) as if they were diffs.  But
+internally, git does not store diffs, it stores complete copies of the file at
+each revision that changes the file.</p>
+
+<p>At first glance, this seems dumb: why store the whole file over again just
+because one line changed?  The reason is speed and immutability. If git stored
+each commit as a diff against the previous version (<a href="https://www.gnu.org/software/rcs/manual/rcs.html#Fundamental-operations">as RCS did</a>),
+then getting the latest version of a file would require replaying all the diffs
+against the very first version of the file, getting slower and slower as the
+repo accumulated more commits.  This means the most common checkout would get
+worse and worse over time.</p>
+
+<p>If git stored the latest version of a file, and diffs going backward in time
+(<a href="https://stackoverflow.com/questions/2332833/how-exactly-does-subversion-store-files-in-the-repository">as Subversion does</a>),
+then getting older versions would get slower and slower, which isn't so bad. But
+it would require re-writing the previous commit each time a new commit was
+made. This would ruin git's hash-based immutability.</p>
+
+<p>So, surprisingly, git stores the full contents of the file each time the file changes.
+I wanted to see this for myself, so I did an experiment.</p>
+
+<p>First, make a new git repo:</p>
+
+<code lang="console"><![CDATA[
+$ mkdir gitsize
+$ cd gitsize
+$ git init
+Initialized empty Git repository in /tmp/gitsize/.git/
+]]></code>
+
+<p>I used a Python program (makebig.py) to create large files with repeatably
+random contents and one changeable word in the middle:</p>
+
+<code lang="python"><![CDATA[
+# Make a 1Mb randomish file, repeatably
+
+import random, sys
+
+random.seed(int(sys.argv[1]))
+
+for lineno in range(2048):
+    if lineno == 1000:
+        print(sys.argv[2])
+    print("".join(chr(random.randint(32, 126)) for _ in range(512)))
+]]></code>
+
+<p>Let's make a big file with "one" in the middle, and commit it:</p>
+
+<code lang="console"><![CDATA[
+$ python /tmp/makebig.py 1 one > one.txt
+$ ls -lh
+total 2136
+-rw-r--r--  1 ned  wheel   1.0M Dec 19 11:13 one.txt
+$ git add one.txt
+$ git commit -m "One"
+[master (root-commit) 8fceff3] One
+ 1 file changed, 2049 insertions(+)
+ create mode 100644 one.txt
+]]></code>
+
+<p>Git stores everything in the .git directory, with the file contents in the
+.git/objects directory:</p>
+
+<code lang="console"><![CDATA[
+$ ls -Rlh .git/objects/*
+.git/objects/13:
+total 1720
+-r--r--r--  1 ned  wheel   859K Dec 19 11:14 b581d8695866f880eac2fef47c2594bbebbb3b
+
+.git/objects/7d:
+total 8
+-r--r--r--  1 ned  wheel    52B Dec 19 11:14 32a67a911e8a04ad1703712481afe93b00c7af
+
+.git/objects/8f:
+total 8
+-r--r--r--  1 ned  wheel   127B Dec 19 11:14 ceff3e3926764197742b01639a42765e34cd72
+
+.git/objects/info:
+
+.git/objects/pack:
+]]></code>
+
+<p>Git stores three kinds of things: blobs, trees, and commits.  We now have one
+of each.  Blobs store the file contents.  You can see the
+<codeword>b581d8</codeword> blob is 859Kb, which is our 1Mb file with a little
+compression applied.</p>
+
+<p>Now we change the file just a little bit by writing it over again with a
+different word in the middle:</p>
+
+<code lang="console"><![CDATA[
+$ python /tmp/makebig.py 1 one-changed > one.txt
+$ git diff
+diff --git a/one.txt b/one.txt
+index 13b581d..b13026a 100644
+--- a/one.txt
++++ b/one.txt
+@@ -998,7 +998,7 @@ wLh&#DvF%em\Bb}^Y<gk?5vR8npq{ ~".][T|@.At@~fGYf<0/=cth`e}/}='qBFb&FP?+ENmAA:_g+0
+ u$d|\v=y$oi@\, (o`=a49|!r\LL^B:y.f)*@5^bR\,Ck=i (.. snipped)
+ lbY#m++>32X>^gh\/q34})uxZ"e/p;Ybb9\k,UTLPb*?3l7 (.. snipped)
+ B11\\!x]jM9m't"KD%|,&r(lfh%vfT}~{jOQYBb?|TZ(<<R (.. snipped)
+-one
++one-changed
+ >Mu2P-/=8Z+A&"#@'"8*~fb]kkn;>}Ie.)wGjjHsbO5Nw]" (.. snipped)
+ Vl {Q)k|{E!vF*@S')U5bK3u1fInN*ZrIe{-qXW}Fr`6*#N (.. snipped)
+ 3lF#jR!"JxXjAvih 4I6E\W:Y.*}b@eZ8xl-"*c/!pe"$Mx (.. snipped)
+]]></code>
+
+<p>Commit the change, and we can look again at the .git storage:</p>
+
+<code lang="console"><![CDATA[
+$ git commit -am "One, changed"
+[master a2410c8] One, changed
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+$ ls -Rlh .git/objects/*
+.git/objects/0e:
+total 8
+-r--r--r--  1 ned  wheel    52B Dec 19 11:22 2de9f34b9140c3e99c5d5106a1078d22aa9063
+
+.git/objects/13:
+total 1720
+-r--r--r--  1 ned  wheel   859K Dec 19 11:14 b581d8695866f880eac2fef47c2594bbebbb3b
+
+.git/objects/7d:
+total 8
+-r--r--r--  1 ned  wheel    52B Dec 19 11:14 32a67a911e8a04ad1703712481afe93b00c7af
+
+.git/objects/8f:
+total 8
+-r--r--r--  1 ned  wheel   127B Dec 19 11:14 ceff3e3926764197742b01639a42765e34cd72
+
+.git/objects/a2:
+total 8
+-r--r--r--  1 ned  wheel   163B Dec 19 11:22 410c8b799b7829e1360649011754739e0a5c50
+
+.git/objects/b1:
+total 1720
+-r--r--r--  1 ned  wheel   859K Dec 19 11:22 3026a4c10928821aa2b89b3e67d766dfbd533a
+
+.git/objects/info:
+
+.git/objects/pack:
+]]></code>
+
+<p>Now, as promised, there are two blobs, each 859Kb.  The original file
+contents are still in blob <codeword>b581d8</codeword>, and there's a new blob
+(<codeword>3026a4</codeword>) to hold the updated contents.</p>
+
+<p>Even though we changed just one line in a 2000-line file, git stores the full
+contents of both revisions of the file.</p>
+
+<p>Isn't this terrible!? Won't my repos balloon to unmanageable sizes? Nope,
+because git has another trick up its sleeve.  It can store those blobs in "pack
+files", which store repeated sequences of bytes once.</p>
+
+<p>Git will automatically pack blobs when it makes sense to, but we can ask it
+to explicitly in order to see them in action:</p>
+
+<code lang="console"><![CDATA[
+$ git gc --aggressive
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), done.
+Total 6 (delta 1), reused 0 (delta 0), pack-reused 0
+$ ls -Rlh .git/objects/*
+.git/objects/info:
+total 16
+-rw-r--r--  1 ned  wheel   1.2K Dec 19 11:41 commit-graph
+-rw-r--r--  1 ned  wheel    54B Dec 19 11:41 packs
+
+.git/objects/pack:
+total 1720
+-r--r--r--  1 ned  wheel   1.2K Dec 19 11:41 pack-a0d87c64abc0f03070fd14449891fe20ca98926b.idx
+-r--r--r--  1 ned  wheel   855K Dec 19 11:41 pack-a0d87c64abc0f03070fd14449891fe20ca98926b.pack
+]]></code>
+
+<p>Now instead of individual blob files, we have one pack file.  And it's a
+little smaller than either of the blobs!</p>
+
+<p>This may seem like a semantic game: isn't this the same as storing deltas?
+It's not for a few reasons:</p>
+
+<ul>
+
+<li>Reconstructing a file doesn't require revisiting its history.  Every
+revision is available with the same amount of effort.</li>
+
+<li>The sharing between blobs is at a conceptually different layer than the blob
+storage.  Git stores a commit as a full snapshot of all of the files' contents.
+The file contents might be stored in a shared-bytes way within the pack
+files.</li>
+
+<li>The storage savings in a pack file are not limited to a single file. If two
+files (or two revisions of two different files) are very similar, their bytes
+will be shared.</li>
+
+</ul>
+
+<p>To demonstrate this last point, we'll make another file with almost the same
+contents as one.txt:</p>
+
+<code lang="console"><![CDATA[
+$ python /tmp/makebig.py 1 two > two.txt
+$ ls -lh
+total 4280
+-rw-r--r--  1 ned  wheel   1.0M Dec 19 11:18 one.txt
+-rw-r--r--  1 ned  wheel   1.0M Dec 19 11:49 two.txt
+$ git add two.txt
+$ git commit -m "Two"
+[master 079baa5] Two
+ 1 file changed, 2049 insertions(+)
+ create mode 100644 two.txt
+$ git gc --aggressive
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (9/9), done.
+Total 9 (delta 2), reused 4 (delta 0), pack-reused 0
+$ ls -Rlh .git/objects/*
+.git/objects/info:
+total 16
+-rw-r--r--  1 ned  wheel   1.2K Dec 19 11:50 commit-graph
+-rw-r--r--  1 ned  wheel    54B Dec 19 11:50 packs
+
+.git/objects/pack:
+total 1720
+-r--r--r--  1 ned  wheel   1.3K Dec 19 11:50 pack-36b681bfc8ebef963bb8a7dcfe65addab822f5d4.idx
+-r--r--r--  1 ned  wheel   855K Dec 19 11:50 pack-36b681bfc8ebef963bb8a7dcfe65addab822f5d4.pack
+]]></code>
+
+<p>Now we have two separate source files in our working tree, each 1Mb. But in
+the .git storage there is still just one 855Kb pack file.  The parts of one.txt
+and two.txt that are the same are only stored once.</p>
+
+<p>As another example, let's change two.txt completely by using a different
+random seed, commit it, then change it back again:</p>
+
+<code lang="console"><![CDATA[
+$ python /tmp/makebig.py 2 two > two.txt
+$ git commit -am "Two, completely changed"
+[master 6dac887] Two, completely changed
+ 1 file changed, 2049 insertions(+), 2049 deletions(-)
+ rewrite two.txt (86%)
+$ python /tmp/makebig.py 1 two > two.txt
+$ git commit -am "Never mind, I liked it the old way"
+[master c06ad2f] Never mind, I liked it the old way
+ 1 file changed, 2049 insertions(+), 2049 deletions(-)
+ rewrite two.txt (86%)
+]]></code>
+
+<p>Looking at the storage, our pack file is twice the size, because we've had
+two completely different 1Mb-chunks of data.  But thinking about two.txt, its
+first and third revisions were nearly identical, so they can share bytes in the
+pack file:</p>
+
+<code lang="console"><![CDATA[
+$ git gc --aggressive
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), done.
+Total 13 (delta 3), reused 6 (delta 0), pack-reused 0
+$ ls -Rlh .git/objects/*
+.git/objects/info:
+total 16
+-rw-r--r--  1 ned  wheel   1.3K Dec 19 11:58 commit-graph
+-rw-r--r--  1 ned  wheel    54B Dec 19 11:58 packs
+
+.git/objects/pack:
+total 3432
+-r--r--r--  1 ned  wheel   1.4K Dec 19 11:58 pack-49f264f911dc97e529dc56a4f6ad450f8013f720.idx
+-r--r--r--  1 ned  wheel   1.7M Dec 19 11:58 pack-49f264f911dc97e529dc56a4f6ad450f8013f720.pack
+]]></code>
+
+<p>If git stored diffs, we'd need two different megabyte-sized diffs for the two
+complete changes we've made to two.txt.</p>
+
+<p>Note that in this experiment I have used "git gc" to force the storage into
+its most compact form.  You typically wouldn't do this. Git will automatically
+repack files when it makes sense to.</p>
+
+<p>Git doesn't store diffs, it stores the complete contents of the file at each
+revision.  But beneath those full-file snapshots is clever redundancy-removing
+byte storage that makes the total size even smaller than a diff-based system
+could achieve.</p>
+
+<p>If you want to know more,
+<a href="https://www.linkedin.com/pulse/git-internals-how-works-kaushik-rangadurai/">How Git Works</a>
+is a good overview, and
+<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects">Git Internals - Git Objects</a>
+is the authoritative reference.</p>
+
+</body>
+</entry>
+</blog>
