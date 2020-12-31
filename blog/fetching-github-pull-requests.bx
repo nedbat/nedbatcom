@@ -15,6 +15,15 @@ copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
                     git checkout pr/$1; && git reset --hard @ }; f"
 ]]></code>
 
+<p>You use it with the number of the pull request you want:</p>
+
+<code><![CDATA[
+$ git copr 1234
+...
+Switched to branch 'pr/1234'
+HEAD is now at a2d8da8ffa blah blah blah blah
+]]></code>
+
 <bulletsep/>
 
 <p>When reviewing GitHub pull requests, I sometimes want to get the proposed
@@ -69,7 +78,7 @@ $ git copr 1234            # gets and switches to pr/1234 from origin
 $ git copr 789 upstream    # gets and switches to pr/789 from upstream
 </code>
 
-<p>This technique has the advantage that once you define the alias, it's 
+<p>This technique has the advantage that once you define the alias, it's
     available in any repo, and also, it both fetches the branch and switches
     you to it.</p>
 
@@ -125,7 +134,7 @@ $ git ee3 one two
 <p>The second one works because the ":" command eats up the extra arguments.
     The third one works because the eventual command run is "f one two", so the
     values are passed to the function. So the "&amp;&amp; :" wasn't pointless
-    afterall, it was needed to make the arguments work properly.</p> 
+    afterall, it was needed to make the arguments work properly.</p>
 
 <p>From previous cargo-cult expeditions, my ~/.gitconfig has other aliases using
     a different form:</p>
