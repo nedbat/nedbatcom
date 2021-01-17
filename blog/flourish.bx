@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210117T135829'>
+<title>Flourish</title>
+<category>mycode</category>
+<category>art</category>
+<category>math</category>
+<body>
+
+<p><a href="https://flourish.nedbat.com">Flourish</a> is a visual toy app that
+draws harmonographs, sinuous curves simulating a multi-pendulum trace:
+</p>
+
+<figurep href="https://flourish.nedbat.com">
+    <img src="pix/flourish.png" alt="Front page of Flourish, showing thumbnails of harmonographs" class="hairline"/>
+</figurep>
+
+<p>Each harmonograph is determined by a few dozen parameter values, which are
+chosen randomly. The number of parameters depends on the number of pendulums,
+which defaults to 3.</p>
+
+<p>Click a thumbnail to see a larger version.  The large-image pages have
+thumbnails of "adjacent" images.  Each harmonograph is determined by a few dozen
+parameter values.  For each parameter, four nearby values are substituted,
+giving four thumbnails for each parameter.  Clicking an adjacent thumbnail
+continues your exploration of the parameter space:</p>
+
+<figurep href="https://flourish.nedbat.com/one/xaf1xaa517xat2370xap160xbf5xba507xbt3051xbp4242xcf5xca333xct-4308xcp1922yaf1yaa700yat-1041yap6519ybf1yba148ybt-722ybp1869ycf5yca990yct-3236ycp3960jf2ja319jt-2115jp1345d100tsc900tsw200rampstop500">
+    <img src="pix/flourish2.png" alt="A large harmonograph, with adjacent thumbnails" class="hairline"/>
+</figurep>
+
+<p>The settings dialog lets you adjust the number of pendulums (which determines
+the number of parameters) and the kinds of symmetry you are interested in.</p>
+
+<p>I started this because I wanted to understand how the parameters affected the
+outcome, but I was also interested to give it a purely visual design.  As an
+engineer, it was tempting to present the values of the parameters
+quantitatively, but I like the simplicity of just clicking curves you like.</p>
+
+<p>I repeated a trick I've used in other
+<a href="https://nedbatchelder.com/code/aptus/">mathy visual toys</a>: when
+you download a PNG file of an image, the parameter values are stored in a data
+island in the file.  You can re-upload the image, and Flourish will extract the
+parameters and put you back into the parameter-space exploration at that
+point.</p>
+
+<p>This is one of those side projects that let me use different sorts of things
+than I usually do: numpy, SVG, sass, Docker, and so on. I had more ideas for
+things to add (there is color in the code but not the UI). Maybe someday I will
+build them.</p>
+
+<p>BTW, I am happy that my first post of 2021 is called "Flourish."  I hope it
+is a harbinger of things to come.</p>
+
+</body>
+</entry>
+</blog>
