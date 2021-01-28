@@ -4,27 +4,40 @@
 <what when="20090216T063742">Created.</what>
 <what when="20090325T210926">Final for Pycon 2009</what>
 <what when="20090409T230112">Added video (and comments!)</what>
+<what when="20141028T000000">Changed video to embedded</what>
+<what when="20210128T071000">Changed video to archive.org</what>
 </history>
 
 <!--
 
 0....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
-        
+
 -->
 
 <!--
     TODO: Bruce requests
-    
+
     - Want to have code chunks exposed a section at a time.
     - Highlighting of code segments?
     + smartypants in Bruce?
-    
+
 -->
 
-<p>This is a presentation for PyCon 2009 in Chicago.  
+<p>This is a presentation for PyCon 2009 in Chicago.
 A <a href="http://pyvideo.org/video/230/pycon-2009--a-whirlwind-excursion-through-writing">video of me presenting it</a>
-is available on pyvideo.org, or right here if your browser supports mp4:</p>
+is available on pyvideo.org, or at
+<a href="https://archive.org/details/pyvideo_230___pycon-2009-a-whirlwind-excursion-through-writing-a-c-extension-68">archive.org</a>,
+or right here:</p>
 
+<figurep aspect="4x3">
+    <iframe
+        src="https://archive.org/embed/pyvideo_230___pycon-2009-a-whirlwind-excursion-through-writing-a-c-extension-68"
+        width="640" height="480"
+        frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="allowfullscreen"
+    ></iframe>
+</figurep>
+
+<!--
 <figurep>
     <video width="550" controls="controls">
         <source type="video/mp4"
@@ -32,6 +45,7 @@ is available on pyvideo.org, or right here if your browser supports mp4:</p>
             />
     </video>
 </figurep>
+-->
 
 <!--
 Here is video of me
@@ -227,7 +241,7 @@ function can really be called, and so on. Notice that hello_world's type is
 function, they are both written with the same C API, and called in the same way.
 To the Python interpreter, your hello_world is the same as, say, len.</p>
 
-        
+
 <!-- ======================================================================= -->
 
 <h1>API details</h1>
@@ -293,13 +307,13 @@ string_peek(PyObject *self, PyObject *args)
 {
    const char *pstr;
    int indx;
-   
+
    if (!PyArg_ParseTuple(args, "si:string_peek", &amp;pstr, &amp;indx)) {
       return NULL;
    }
 
    int char_value = pstr[indx];
-   
+
    return Py_BuildValue("i", char_value);
 }
 </code>
@@ -413,7 +427,7 @@ the args it passes into a called function, so arguments are almost always borrow
     These are documented as returning a "new reference".  Most C API functions
     that return PyObject pointers return a new reference, but some return
     borrowed references.  Read the docs carefully.</li>
-    
+
     <li>Use Py_INCREF on a borrowed PyObject pointer you already have. This increments
     the reference count on the object, and obligates you to dispose of it properly.</li>
 </ul>
@@ -424,9 +438,9 @@ three ways are:</p>
 <ul>
     <li>Return it to the caller of your function. This transfers the ownership
     from you to your caller.  Now they have an owned reference.</li>
-    
+
     <li>Use Py_DECREF on it.  This decrements the reference count.</li>
-    
+
     <li>Store it with PyTuple_SetItem() or PyList_SetItem(), which are unusual
     among C API functions: they steal ownership of their item argument.</li>
 </ul>
@@ -445,13 +459,13 @@ insert_powers1(PyObject *self, PyObject *args)
 {
    PyObject *numbers;
    int n;
-   
+
    if (!PyArg_ParseTuple(args, "Oi", &amp;numbers, &amp;n)) {
       return NULL;
    }
-   
+
    PyObject *powers = Py_BuildValue("(iii)", n, n*n, n*n*n);
-   
+
    // Equivalent to Python: numbers[n] = powers
    if (PySequence_SetItem(numbers, n, powers) &lt; 0) {
       return NULL;
@@ -504,13 +518,13 @@ insert_powers2(PyObject *self, PyObject *args)
 {
    PyObject *numbers;
    int n;
-   
+
    if (!PyArg_ParseTuple(args, "Oi", &amp;numbers, &amp;n)) {
       return NULL;
    }
-   
+
    PyObject *powers = Py_BuildValue("(iii)", n, n*n, n*n*n);
-   
+
    if (PySequence_SetItem(numbers, n, powers) &lt; 0) {
       // Because we won't return powers, we have to discard it.
       Py_DECREF(powers);
@@ -532,7 +546,7 @@ and resource clean up is all in one place at the end also:
     int ok = 0;
     PyObject * retval = NULL;
     PyObject * something = NULL;
-    
+
     // ..do all the work, using goto to jump to the
     //   end on error...
     Blah(); Blah();
@@ -543,12 +557,12 @@ and resource clean up is all in one place at the end also:
     // final step: build the return value, and set ok=1.
     retval = Py_BuildValue("");
     ok = 1;
-    
+
     done:
-    
+
     // ..clean up resources..
     Py_XDECREF(something);
-    
+
     return retval;
 </code>
 
@@ -640,10 +654,10 @@ static PyMemberDef
 CountDict_members[] = {
    { "dict",   T_OBJECT, offsetof(CountDict, dict), 0,
                "The dictionary of values collected so far." },
-               
+
    { "count",  T_INT,    offsetof(CountDict, count), 0,
                "The number of times set() has been called." },
-               
+
    { NULL }
 };
 </code>
@@ -665,7 +679,7 @@ CountDict_set(CountDict *self, PyObject *args)
 {
    const char *key;
    PyObject *value;
-   
+
    if (!PyArg_ParseTuple(args, "sO:set", &amp;key, &amp;value)) {
       return NULL;
    }
@@ -673,9 +687,9 @@ CountDict_set(CountDict *self, PyObject *args)
    if (PyDict_SetItemString(self-&gt;dict, key, value) &lt; 0) {
       return NULL;
    }
-   
+
    self-&gt;count++;
-   
+
    return Py_BuildValue("i", self-&gt;count);
 }
 </code>
@@ -690,7 +704,7 @@ CountDict_methods[] = {
    { "set",    (PyCFunction) CountDict_set, METH_VARARGS,
                "Set a key and increment the count." },
    // typically there would be more here...
-   
+
    { NULL }
 };
 </code>
@@ -812,7 +826,7 @@ are done.
 <p>We can construct it, examine it, call its methods, and use its attributes,
 just like a Python type.</p>
 
-<!-- ======================================================================= -->    
+<!-- ======================================================================= -->
 
 
 <h1>In closing</h1>
@@ -821,7 +835,7 @@ just like a Python type.</p>
 
 
         <figurep><img src="text/whirlext/whirlext_045.png" alt="Slide 45"/></figurep><!--
-    
+
 - Python C API: C code that thinks like Python
 - ctypes: Python code that thinks like C
 
