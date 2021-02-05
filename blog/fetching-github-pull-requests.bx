@@ -12,7 +12,7 @@
 <code><![CDATA[
 [alias]
 copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
-                    git checkout pr/$1; && git reset --hard @ }; f"
+                    git checkout pr/$1 && git reset --hard @; }; f"
 ]]></code>
 
 <p>You use it with the number of the pull request you want:</p>
@@ -66,7 +66,7 @@ HEAD is now at a2d8da8ffa blah blah blah blah
 <code><![CDATA[
 [alias]
 copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
-                    git checkout pr/$1; && git reset --hard @ }; f"
+                    git checkout pr/$1 && git reset --hard @; }; f"
 ]]></code>
 
 <p>(That should all be on one line, but I wanted it to be readable here.) This
