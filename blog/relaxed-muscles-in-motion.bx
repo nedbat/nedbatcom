@@ -8,17 +8,8 @@ recently posted a video.  It's a yoga teacher demonstrating two extremes of
 bad form, and the happy medium:
 </p>
 
-<figurep>
-    <object width="425" height="344">
-        <param name="movie" value="https://www.youtube.com/v/2KwqxZiM9y4&amp;hl=en_US&amp;fs=1&amp;"/>
-        <param name="allowFullScreen" value="true"/>
-        <param name="allowscriptaccess" value="always"/>
-        <embed
-            src="https://www.youtube.com/v/2KwqxZiM9y4&amp;hl=en_US&amp;fs=1&amp;"
-            type="application/x-shockwave-flash"
-            allowscriptaccess="always"
-            allowfullscreen="true" width="425" height="344"/>
-    </object>
+<figurep aspect="4x3">
+    <youtube_embed video="2KwqxZiM9y4"/>
 </figurep>
 
 <p>I almost didn't click on the video at first, because there's a lot of stuff

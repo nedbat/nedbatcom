@@ -19,17 +19,8 @@ built <a href="http://aturingmachine.com/index.php">an actual Turing machine</a>
 Not an electronic one, but an actual mechanical device that reads and writes ones
 and zeros on a scrolling tape:</p>
 
-<figurep>
-    <object width="480" height="295">
-        <param name="movie" value="http://www.youtube.com/v/WJ-ODmFjmrU&amp;hl=en_US&amp;fs=1&amp;"></param>
-        <param name="allowFullScreen" value="true"></param>
-        <param name="allowscriptaccess" value="always"></param>
-        <embed src="https://www.youtube.com/v/WJ-ODmFjmrU&amp;hl=en_US&amp;fs=1&amp;"
-               type="application/x-shockwave-flash" allowscriptaccess="always"
-               allowfullscreen="true" width="480" height="295">
-
-        </embed>
-    </object>
+<figurep aspect="16x9">
+    <youtube_embed video="WJ-ODmFjmrU"/>
 </figurep>
 
 <p>It's a great piece of work, complete with a single-step debugger.  The

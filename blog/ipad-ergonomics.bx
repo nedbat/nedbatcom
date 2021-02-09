@@ -15,17 +15,8 @@ of interesting facets to debate (open/closed, produce/create, and so on).
 <p>One thing I definitely don't get is the ergonomics of it. Look at this
 demonstration of editing a slide show on the iPad:</p>
 
-<figurep>
-    <object width="560" height="340">
-        <param name="movie" value="https://www.youtube.com/v/SBPnB3noTa8&amp;hl=en_US&amp;fs=1&amp;"/>
-        <param name="allowFullScreen" value="true"/>
-        <param name="allowscriptaccess" value="always"/>
-        <embed src="https://www.youtube.com/v/SBPnB3noTa8&amp;hl=en_US&amp;fs=1&amp;"
-               type="application/x-shockwave-flash"
-               allowscriptaccess="always" allowfullscreen="true"
-               width="560" height="340"
-               />
-    </object>
+<figurep aspect="16x9">
+    <youtube_embed video="SBPnB3noTa8"/>
 </figurep>
 
 <p>First of all, I don't understand his emphasis on the apparent miracle of

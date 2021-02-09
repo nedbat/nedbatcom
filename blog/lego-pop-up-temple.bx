@@ -9,18 +9,8 @@ not sure why it hasn't been done before.  But then he opens the box, and inside
 is a <i>pop-up temple</i>:
 </p>
 
-<figurep>
-<object width="480" height="385">
-    <param name="movie" value="https://www.youtube.com/v/uYlA3NV0rFA&amp;hl=en&amp;fs=1"></param>
-    <param name="allowFullScreen" value="true"></param>
-    <param name="allowscriptaccess" value="always"></param>
-    <embed
-        src="https://www.youtube.com/v/uYlA3NV0rFA&amp;hl=en&amp;fs=1"
-        type="application/x-shockwave-flash"
-        allowscriptaccess="always" allowfullscreen="true"
-        width="480" height="385">
-    </embed>
-</object>
+<figurep aspect="4x3">
+    <youtube_embed video="uYlA3NV0rFA"/>
 </figurep>
 
 <p>Bravo!</p>

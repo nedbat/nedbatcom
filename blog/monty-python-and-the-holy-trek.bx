@@ -7,13 +7,8 @@
 <body>
 <p>A very well-done mashup of Monty Python's Knights of the Round Table song with Star Trek visuals:</p>
 
-<figurep>
-<object width="425" height="350">
-    <param name="movie" value="https://www.youtube.com/v/cnCvpJwKKpw"></param>
-    <param name="wmode" value="transparent"></param>
-    <embed src="https://www.youtube.com/v/cnCvpJwKKpw" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350">
-    </embed>
-</object>
+<figurep aspect="4x3">
+    <youtube_embed video="cnCvpJwKKpw"/>
 </figurep>
 
 <p>I had wanted to link to an authoritative copy of this video (it has been uploaded

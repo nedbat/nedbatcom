@@ -13,18 +13,8 @@ would move in some way.  I tried pulling gently at its panels but nothing happen
 
 <p>Then I tossed it lightly and caught it: now it was orange!  Look:</p>
 
-<figurep>
-<object width="425" height="344">
-    <param name="movie" value="https://www.youtube.com/v/6cv4krHyt2s&amp;hl=en&amp;fs=1&amp;"></param>
-    <param name="allowFullScreen" value="true"></param>
-    <param name="allowscriptaccess" value="always"></param>
-    <embed src="https://www.youtube.com/v/6cv4krHyt2s&amp;hl=en&amp;fs=1&amp;"
-           type="application/x-shockwave-flash"
-           allowscriptaccess="always"
-           allowfullscreen="true"
-           width="425" height="344"
-           ></embed>
-</object>
+<figurep aspect="16x9">
+    <youtube_embed video="6cv4krHyt2s"/>
 </figurep>
 
 <p>Even after you've tried it a few times, it's still a bit startling to see

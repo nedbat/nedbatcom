@@ -27,16 +27,8 @@ your center.</p>
 
 <p>Or maybe another year isn't to be taken too seriously:</p>
 
-<figurep>
-<object width="480" height="385">
-    <param name="movie" value="https://www.youtube.com/v/ZnT5JkGydVY&amp;hl=en_US&amp;fs=1&amp;"></param>
-    <param name="allowFullScreen" value="true"></param>
-    <param name="allowscriptaccess" value="always"></param>
-    <embed src="https://www.youtube.com/v/ZnT5JkGydVY&amp;hl=en_US&amp;fs=1&amp;"
-           type="application/x-shockwave-flash" allowscriptaccess="always"
-           allowfullscreen="true" width="480" height="385">
-    </embed>
-</object>
+<figurep aspect="4x3">
+    <youtube_embed video="ZnT5JkGydVY"/>
 </figurep>
 
 </body>
