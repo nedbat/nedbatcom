@@ -8,7 +8,7 @@ You can read the slides and text on this page, or open the <a href="text/unipain
 or watch the video:</p>
 
 <figurep aspect='4x3'>
-<iframe src="https://www.youtube.com/embed/sgHbC6udIqc" frameborder="0" allowfullscreen="allowfullscreen"/>
+    <youtube_embed video="sgHbC6udIqc" />
 </figurep>
 
 <p>Also, clicking the slide images will jump into the full presentation at that point.
@@ -29,7 +29,7 @@ special symbols will appear.</p>
     stopped.</p><figurep href="text/unipain/unipain.html#3"><img alt="You" scale="0.5" src="text/unipain_pix/002.png"/></figurep><p>So now you have a program that works, but you're annoyed and
     uncomfortable, it took too long, you know it isn't "right," and you hate
     yourself.  And the main thing you know about Unicode is that you don't like
-    Unicode.</p><p>You don't want to know about weirdo character sets, you just want 
+    Unicode.</p><p>You don't want to know about weirdo character sets, you just want
     to be able to write a program that doesn't make you feel bad.</p><figurep href="text/unipain/unipain.html#4"><img alt="This talk" scale="0.5" src="text/unipain_pix/003.png"/></figurep><p>You don't have to play whack-a-mole.  Unicode isn't simple, but it isn't
     difficult either. With knowledge and discipline, you can deal with Unicode
     easily and with grace.</p><p>I'll teach you five Facts of Life, and give you three Pro Tips that will
@@ -78,7 +78,7 @@ special symbols will appear.</p>
     characters are one byte each, using the same values as ASCII, so ASCII is a
     subset of UTF-8.</p><p>Here we show our exotic string as UTF-8.  The ASCII characters H and i are
     single bytes, and other characters use two or three bytes depending on their
-    code point value. Some Unicode code points require four bytes, but we aren't 
+    code point value. Some Unicode code points require four bytes, but we aren't
     using any of those here.</p><h1>Python 2</h1><figurep href="text/unipain/unipain.html#17"><img alt="Python 2" scale="0.5" src="text/unipain_pix/016.png"/></figurep><p>OK, enough theory, let's talk about Python 2. In the slides, Python 2
     samples have a big 2 in the upper-right corner, Python 3 samples will have
     a big 3.</p><figurep href="text/unipain/unipain.html#18"><img alt="Str vs Unicode" scale="0.5" src="text/unipain_pix/017.png"/></figurep><p>In Python 2, there are two different string data types.  A plain-old
@@ -94,7 +94,7 @@ special symbols will appear.</p>
     a .decode() method that produces unicode. Each takes an argument, which
     is the name of the encoding to use for the operation.</p><p>We can define a Unicode string named my_unicode, and see that it has
     9 characters.  We can encode it to UTF-8 to create the my_utf8 byte string,
-    which has 19 bytes.  As you'd expect, reversing the operation by decoding 
+    which has 19 bytes.  As you'd expect, reversing the operation by decoding
     the UTF-8 string produces the original Unicode string.</p><figurep href="text/unipain/unipain.html#20"><img alt="Encoding errors" scale="0.5" src="text/unipain_pix/019.png"/></figurep><p>Unfortunately, encoding and decoding can produce errors if the data
     isn't appropriate for the specified encoding.  Here we try to encode our
     exotic Unicode string to ASCII.  It fails because ASCII can only represent
@@ -136,14 +136,14 @@ special symbols will appear.</p>
     is decoding the byte string "world" using the ASCII codec.  The encoding
     used for these implicit decodings is the value of
     sys.getdefaultencoding().</p><p>The implicit encoding is ASCII because it's the only safe guess: ASCII
-    is so widely accepted, and is a subset of so many encodings, that it's 
+    is so widely accepted, and is a subset of so many encodings, that it's
     unlikely to produce false positives.</p><figurep href="text/unipain/unipain.html#25"><img alt="Implicit decoding errors" scale="0.5" src="text/unipain_pix/024.png"/></figurep><p>Of course, these implicit decodings are not immune to decoding errors.  If you
     try to combine a byte string with a unicode string and the byte string can't be
     decoded as ASCII, then the operation will raise a UnicodeDecodeError.</p><p>This is the source of those painful UnicodeErrors.  Your code
     inadvertently mixes unicode strings and byte strings, and as long as the
     data is all ASCII, the implicit conversions silently succeed.  Once a
     non-ASCII character finds its way into your program, an implicit decode
-    will fail, causing a UnicodeDecodeError.</p><figurep href="text/unipain/unipain.html#26"><img alt="Python 2 is &#8220;helpful&#8221;" scale="0.5" src="text/unipain_pix/025.png"/></figurep><p>Python 2's philosophy was that unicode strings and byte strings are 
+    will fail, causing a UnicodeDecodeError.</p><figurep href="text/unipain/unipain.html#26"><img alt="Python 2 is &#8220;helpful&#8221;" scale="0.5" src="text/unipain_pix/025.png"/></figurep><p>Python 2's philosophy was that unicode strings and byte strings are
     confusing, and it tried to ease your burden by automatically converting
     between them, just as it does for ints and floats.  But the conversion
     from int to float can't fail, while byte string to unicode string can.</p><p>Python 2 silently glosses over byte to unicode conversions, making it
@@ -167,15 +167,15 @@ special symbols will appear.</p>
     string is ASCII, it succeeds, and then goes on to encode it as UTF-8,
     producing the original byte string, since ASCII is a subset of UTF-8.</p><figurep href="text/unipain/unipain.html#28"><img alt="Bytes and Unicode" scale="0.5" src="text/unipain_pix/027.png"/></figurep><p>This is the most important Fact of Life: bytes and unicode are both
     important, and you need to deal with both of them.  You can't pretend
-    that everything is bytes, or everything is unicode.  You need to use 
+    that everything is bytes, or everything is unicode.  You need to use
     each for their purpose, and explicitly convert between them as needed.</p><h1>Python 3</h1><figurep href="text/unipain/unipain.html#29"><img alt="Python 3" scale="0.5" src="text/unipain_pix/028.png"/></figurep><p>We've seen the source of Unicode pain in Python 2, now let's take
-    a look at Python 3.  The biggest change from Python 2 to Python 3 is 
+    a look at Python 3.  The biggest change from Python 2 to Python 3 is
     their treatment of Unicode.</p><figurep href="text/unipain/unipain.html#30"><img alt="Str vs bytes" scale="0.5" src="text/unipain_pix/029.png"/></figurep><p>Just as in Python 2, Python 3 has two string types, one for unicode and
     one for bytes, but they are named differently.</p><p>Now the "str" type that you get from a plain string literal stores unicode,
     and the "bytes" types stores bytes.  You can create a bytes literal with a b
     prefix.</p><p>So "str" in Python 2 is now called "bytes," and "unicode" in Python 2 is
-    now called "str".  This makes more sense than the Python 2 names, since 
-    Unicode is how you want all text stored, and byte strings are only for 
+    now called "str".  This makes more sense than the Python 2 names, since
+    Unicode is how you want all text stored, and byte strings are only for
     when you are dealing with bytes.</p><figurep href="text/unipain/unipain.html#31"><img alt="No coercion!" scale="0.5" src="text/unipain_pix/030.png"/></figurep><p>The biggest change in the Unicode support in Python 3 is that there is
     no automatic decoding of byte strings.  If you try to combine a byte string
     with a unicode string, you will get an error all the time, regardless of
@@ -192,9 +192,9 @@ special symbols will appear.</p>
     between bytes and unicode.</p><p>Python 3 is strict about the difference between bytes and unicode.
     You are forced to be clear in your code which you are dealing with.
     This has been controversial, and can cause you pain.</p><figurep href="text/unipain/unipain.html#33"><img alt="Reading files" scale="0.5" src="text/unipain_pix/032.png"/></figurep><p>Because of this new strictness, Python 3 has changed how you read files.
-    Python has always had two modes for reading files: binary and text.  In Python 2, it 
+    Python has always had two modes for reading files: binary and text.  In Python 2, it
     only affected the line endings, and on Unix platforms, even that was a no-op.</p><p>In Python 3, the two modes produce different results.  When you open a file in text
-    mode, either with "r", or by defaulting the mode entirely, the data read from the 
+    mode, either with "r", or by defaulting the mode entirely, the data read from the
     file is implicitly decoded into Unicode, and you get str objects.</p><p>If you open a file in binary mode, by supplying "rb" as the mode, then the data
     read from the file is bytes, with no processing done on them.</p><p>The implicit conversion from bytes to unicode uses the encoding returned
     from locale.getpreferredencoding(), and it may not give you the results you
@@ -228,7 +228,7 @@ special symbols will appear.</p>
     examples from HTTP, HTML, XML, and Python source files.  You may
     also know the encoding by prior arrangement, for example, the spec
     for a data source may specify the encoding.</p><p>There are ways to guess at the encoding of the bytes, but they are
-    just guesses. The only way to be sure of the encoding is to find it 
+    just guesses. The only way to be sure of the encoding is to find it
     out some other way.</p><figurep href="text/unipain/unipain.html#38"><img alt="Poo happens" scale="0.5" src="text/unipain_pix/037.png"/></figurep><p>Here's an example of our exotic Unicode string, encoded as UTF-8, and
     then mistakenly decoded in a variety of encodings.  As you can see, decoding
     with an incorrect encoding might succeed, but produce the wrong characters.
@@ -262,12 +262,12 @@ special symbols will appear.</p>
     <li>Encoding specifications can be wrong.</li>
     </ol><figurep href="text/unipain/unipain.html#43"><img alt="Pro tips" scale="0.5" src="text/unipain_pix/042.png"/></figurep><p>These are the three Pro Tips to keep in mind as you build your software
     to keep your code Unicode-clean:</p><ol>
-    
+
     <li>Unicode sandwich: keep all text in your program as Unicode, and convert
     as close to the edges as possible.</li>
 
     <li>Know what your strings are: you should be able to explain which of your
-    strings are Unicode, which are bytes, and for your byte strings, what 
+    strings are Unicode, which are bytes, and for your byte strings, what
     encoding they use.</li>
 
     <li>Test your Unicode support.  Use exotic strings throughout your test
@@ -282,50 +282,50 @@ special symbols will appear.</p>
     for use on social networks work great.</p><figurep href="text/unipain/unipain.html#45"><img alt="Thank You" scale="0.5" src="text/unipain_pix/044.png"/></figurep>
 
 
-    
-    
-    
-
-
-
-    
-
-    
-
-
-    
 
 
 
 
 
-    
 
 
 
-    
 
 
 
-    
-
-    
 
 
 
-    
 
 
 
-    
-
-    
 
 
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

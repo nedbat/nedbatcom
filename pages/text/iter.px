@@ -18,7 +18,7 @@ this page, or open the <a href="text/iter/iter.html">actual presentation</a> in
 your browser (use right and left arrows to advance the slides), or watch the video:</p>
 
 <figurep aspect="4x3">
-    <iframe src="https://www.youtube.com/embed/EnSu9hHGq5o" frameborder="0" allowfullscreen="allowfullscreen"/>
+    <youtube_embed video="EnSu9hHGq5o" />
 </figurep>
 
 <figurep href="text/iter/iter.html#1"><img alt="Loop like a native" scale="0.5" src="text/iter_pix/000.png"/></figurep><!-- {{{ --><p>A talk for PyCon 2013.</p><figurep href="text/iter/iter.html#2"><img alt="tl;dl" scale="0.5" src="text/iter_pix/001.png"/></figurep><!-- {{{ --><p>This talk is billed as Beginner, and sounds like a beginner topic, but I
@@ -39,8 +39,8 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     N-1. You can use the idiom "for i in range(N)", as we see next.  Here i
     again takes on values starting with zero and going up to the last index of
     my_list.  This is the Python version of C or Javascript's classic for-loop
-    structure.</p><p>C programmers coming to Python often end here: they are used to a loop 
-    that iterates over integers, and range() gives them a nice compact way to 
+    structure.</p><p>C programmers coming to Python often end here: they are used to a loop
+    that iterates over integers, and range() gives them a nice compact way to
     do it.</p><p>But Python gives us a much more natural way to loop over the values in
     my_list.  Why are we talking about integers?  This is like a Rube Goldberg
     machine.  We set up a mechanism to give us integers, when we don't want the
@@ -118,8 +118,8 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     really need the index.  Perhaps you just want to print the values with
     their position.</p><p>Some will go back to the range(len()) twistiness, but there's a better
     way.</p><p>The second code example shows how to use the enumerate() function to
-    get two values at each iteration: i is the index of the value, and v is 
-    the value.  Now we can print the value with its index, again without 
+    get two values at each iteration: i is the index of the value, and v is
+    the value.  Now we can print the value with its index, again without
     resorting to iterating over integers.</p><figurep href="text/iter/iter.html#14"><img alt="A: enumerate() makes useful pairs" scale="0.5" src="text/iter_pix/013.png"/></figurep><!-- {{{ --><p>In addition to looping over iterables, you can manipulate iterables to
     produce new iterables that might be more convenient for you.  The built-in
     enumerate() function takes one iterable, and produces a stream of pairs.
@@ -198,7 +198,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     but have very important differences.  First, calling the generator doesn't
     immediately begin running the code in the generator, it simply creates
     an iterator.  When the for loop or other consumer of the iterator starts
-    pulling values from the stream, then the code in the generator begins 
+    pulling values from the stream, then the code in the generator begins
     executing.</p><p>When a yield statement is encountered, execution is suspended, and the
     value is used as the next value in the stream.  With a regular function, a
     return statement ends the function for good.  But with a generator, the
@@ -210,7 +210,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     This makes it a very convenient way to write iterables.</p><p>The iterator finally ends when the generator returns, either with an
     explicit return statement, or by executing the last statement in the
     generator.</p><figurep href="text/iter/iter.html#25"><img alt="Abstracting your iteration" scale="0.5" src="text/iter_pix/024.png"/></figurep><!-- {{{ --><p>With generators, we have a very powerful tool for abstracting iteration.
-    Just as functions are great for abstracting a series of statements, and 
+    Just as functions are great for abstracting a series of statements, and
     classes are great for abstracting a collection of data and the methods that
     operate on it, generators are great for abstracting iteration.</p><p>As a real-world example, consider a program that reads a text file and
     acts on the lines in it.  Our file can have comments, which are lines
@@ -309,7 +309,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
     a feature we haven't seen yet, a generator expression.</p><p>I used three different techniques for these three iterator methods, just
     as a demonstration of a range of possibilities. The power here is in
     providing customized iteration using all the tools Python gives us.</p><h1>~ Wrapping up ~</h1><figurep href="text/iter/iter.html#35"><img alt="~ Wrapping up ~" scale="0.5" src="text/iter_pix/034.png"/></figurep><!-- {{{ --><p>There is much more in this topic than can be covered in a short talk:</p><ul>
-        
+
         <li>The "iterator protocol" is the actual sequence of function and
         method calls that happen to create and consume iterables.  It can
         be useful for advanced uses of iterables.</li>
@@ -324,7 +324,7 @@ your browser (use right and left arrows to advance the slides), or watch the vid
         <li>Generator expressions are a lot like list comprehensions, but
         generate values on demand, like generators.</li>
 
-        <li>itertools is a module in the Python standard library full of 
+        <li>itertools is a module in the Python standard library full of
         functions for creating, manipulating, and consuming iterables.</li>
 
     </ul><figurep href="text/iter/iter.html#36"><img alt="sum(slides)" scale="0.5" src="text/iter_pix/035.png"/></figurep><!-- {{{ --><p>To summarize:</p><ul>
@@ -340,14 +340,14 @@ your browser (use right and left arrows to advance the slides), or watch the vid
 
 
 
-    
-
-    
-    
 
 
-    
-    
+
+
+
+
+
+
 
 <pagecomments/>
 
