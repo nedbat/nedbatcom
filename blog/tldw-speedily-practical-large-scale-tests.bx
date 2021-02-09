@@ -19,9 +19,9 @@
     <p>For those in too much of a hurry to even read the text here, the <b>tl;dr</b>:</p>
 
     <quote><p>Slow test suites are usually slow due to I/O.  Erik reduced test fixture I/O by
-            moving fixture setup and teardown to the class instead of the tests, 
+            moving fixture setup and teardown to the class instead of the tests,
             by rearranging classes to reuse fixtures, and by removing fixtures in favor
-            of constructed objects.  Two nose plugins, 
+            of constructed objects.  Two nose plugins,
             <a href='http://pypi.python.org/pypi/django-nose/'>django-nose</a> and
             <a href='http://pypi.python.org/pypi/nose-progressive/'>nose-progressive</a>,
             helped Erik improve the usability, maintainability and usefulness of his tests.</p></quote>
@@ -67,7 +67,7 @@ Buddy-system code reviews: code for the tree goes into a github pull request.
 Buddy reviews code.  Then we push it into the tree, and of course, it's backed
 with a ton of automated testing.
 
-Jenkins screen (3:10), lots of projects, including duplicates.  sumo (support.mozilla) 
+Jenkins screen (3:10), lots of projects, including duplicates.  sumo (support.mozilla)
 has sumo-master, sumo-master-js, etc.  Testing code destined for production
 as well as what's on production.  It's a busy test farm.
 
@@ -135,7 +135,7 @@ database test fixtures, one was 98,123,728 bytes.</p>
 <!--
 A db test fixture is a Djangoism.  25% of Django's code is in its model layer. Django
 code always involves models at some point.  Django gives you a lot of support for creating
-fake model data, with fixtures.  
+fake model data, with fixtures.
 -->
 
 <p>Test fixtures are fake model data created from json files.
@@ -172,16 +172,16 @@ style of opening and closing the connection each time.</p>
 
 <p>Here [14:10] are three actual test cases from sumo.  They all use the same set of test
 fixtures. Imagine how many times those fixtures are loaded: three times, once for each
-test class.  We could combine them by combining the test classes, but I don't want to 
+test class.  We could combine them by combining the test classes, but I don't want to
 have my class structure dictated to me by the test fixtures.</p>
 
 <p>We use nose to get more speed.  nose is generally great, it lets you skip all the
-boilerplate from unittest, run profiling, coverage, etc.  Plugins give you tremendous 
+boilerplate from unittest, run profiling, coverage, etc.  Plugins give you tremendous
 power over every phase of running tests: finding and picking tests, dealing with errors,
 formatting results, and the real dark magic: mucking with the test suite before it runs.
 We can do better than per-class fixture loading with this last power.</p>
 
-<p>When nose runs your tests, it runs them in alphabetical order.  [16:00] The trouble is 
+<p>When nose runs your tests, it runs them in alphabetical order.  [16:00] The trouble is
 that consecutive test classes may have very similar test fixtures.  Even with class-loaded
 test fixtures, a class may tear down a fixture only to have the next class re-create it.
 If we sort our test classes to keep similar fixtures together, then we can add advisory flags
@@ -232,12 +232,12 @@ that we each ran the test suite four times a day (which is a gross under-estimat
 a day off a month!</p>
 
 <p>So if you happen to be using Django and you have a lot of fixture-heavy tests, all these
-    optimizations are available as part of the 
+    optimizations are available as part of the
     <a href='http://pypi.python.org/pypi/django-nose/'>django-nose package</a>.</p>
 
 <h1>Maintainability</h1>
 
-<p>Shared setup is evil.  The unittest module encourages you to create 
+<p>Shared setup is evil.  The unittest module encourages you to create
 common setup shared by many tests. This is a coupling problem:  if your requirements
 change, you have to change setup, and now you don't know which tests have been invalidated.
 Especially if you try hard not to repeat yourself, your setup will be shared by many tests.</p>
@@ -248,7 +248,7 @@ need, instead of all tests running the full setup.  Memoized properties can make
 more readable if you like.</p>
 
 <p>[21:30] An example of a test that referred to a specific user from a fixture with a cryptic
-primary key.  It's difficult to read the test and know what it does. Model makers can help with 
+primary key.  It's difficult to read the test and know what it does. Model makers can help with
 this.  Model makers are a pattern, not a library, they are simple to write.</p>
 
 <p>Here's [23:30] an example of a model maker.  document() instantiates an ORM
@@ -294,8 +294,8 @@ in the database immediately, so you can create and save the object in one line.<
     <li>freedom to refactor, tests aren't bound to class setup methods.</li>
 </ul>
 
-<p>There are some situations where you don't want model instances at all.  Then you use 
-mocking.  A mock is used when the real implementation is too performance-intensive, 
+<p>There are some situations where you don't want model instances at all.  Then you use
+mocking.  A mock is used when the real implementation is too performance-intensive,
 or too complicated to understand.  A mock is a self-evidently correct lightweight substitute
 for more complicated things.  We use mocks to test code that operates on those
 things.</p>
@@ -312,7 +312,7 @@ test infrastructure, I should use someone else's already-tested library.</p>
 and fudge is more declarative.  Sometimes one feels more natural, sometimes the other one
 does.  I'll show you both.</p>
 
-<p><a href='http://www.voidspace.org.uk/python/mock/'>Mock</a> [28:30]:  
+<p><a href='http://www.voidspace.org.uk/python/mock/'>Mock</a> [28:30]:
 Here a with block calls patch.object on APIVoterManager to replace the _raw_voters method. I want
 to replace it with something that is very simple and predictable.  This binds the new mocked-out
 _raw_voters method as "voters", and then I can say, "your return value is such-and-such."
@@ -335,9 +335,9 @@ You don't see the assertions, fudge takes care of all the asserting for you.</p>
 
 <h1>Informative tests</h1>
 
-<p>[31:00] How do you make your tests more useful to people as they are running, 
+<p>[31:00] How do you make your tests more useful to people as they are running,
 and after they are running? How do they help you diagnose and debug?  I hate plain dots.
-If I get an error, I get an E, and can't get any information about it until I 
+If I get an error, I get an E, and can't get any information about it until I
 get more dots.  At the very end, we get a pile of messy tracebacks.</p>
 
 <p>[33:00] Wouldn't it be nice if we had more useful output?  I put together an
@@ -354,7 +354,7 @@ get more dots.  At the very end, we get a pile of messy tracebacks.</p>
 <p>Comments: The zope test runner does many of the things described in nose-progressive.
     So does twisted.trial.</p>
 
-<p>Q: What about running the tests in parallel?  A: Parallelization support in nose needs work.  
+<p>Q: What about running the tests in parallel?  A: Parallelization support in nose needs work.
     Py.test is better, but we haven't tried it yet. Comment: twisted.trial is good at parallelization</p>
 
 <p>Q: Any recommendations for integration testing over unit testing?  A: Sure, if you have limited

@@ -7,19 +7,19 @@
 <body>
 
     <p>At PyCon 2012, Augie Fackler and Nathaniel Manista gave a talk entitled,
-        <a href='http://pyvideo.org/video/629/stop-mocking-start-testing'>Stop Mocking, Start Testing</a>.  
+        <a href='http://pyvideo.org/video/629/stop-mocking-start-testing'>Stop Mocking, Start Testing</a>.
         This is my textual summary of the talk, the first of a
         <a href='blog/201206/tldw.html'>series of summaries</a>.  You can look at Augie and Nathaniel's
         <a href='http://code.google.com/a/google.com/p/stop-mocking-start-testing/'>slides themselves</a>,
         or watch the video:</p>
-    
+
     <figurep aspect='4x3'>
         <iframe src="https://www.youtube.com/embed/Xu5EhKVZdV8" frameborder="0" allowfullscreen="allowfullscreen"/>
     </figurep>
 
     <p>If you not only don't have time to watch the video, but don't even want
         to read this summary, here's the <b>tl;dr</b>:</p>
-    
+
     <quote><p>Test doubles are useful, but can get out of hand. Use fakes, not
             mocks. Have one authoritative fake implementation of each
             service.</p></quote>

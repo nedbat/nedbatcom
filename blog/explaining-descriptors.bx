@@ -19,7 +19,7 @@
         wall to scale right at the start of the learning process.</p>
 
     <p>The best explanation I've seen of what descriptors do and why you'd want to write them
-        was in Chris Beaumont's lightning talk at Boston Python, 
+        was in Chris Beaumont's lightning talk at Boston Python,
         <a href='https://www.youtube.com/watch?v=9A1ycvcgc_U'>Demystifying Descriptors in 5 Minutes</a>.
         The video quality was not great, but now Chris has written it up: <a href='http://bit.ly/dscrptrs'>Python Descriptors Demystified</a>.</p>
 
@@ -41,7 +41,7 @@
         are extending their land out into the unknown ocean.  You want to make
         their island bigger, and there's a particular point out in the ocean
         you want to encompass.</p>
-    
+
     <p>Some technical descriptions will explain that distant point, and either
         hope you can build the peninsula yourself, or expect to be able to
         build backwards toward the mainland.  The classic descriptor
@@ -51,9 +51,9 @@
     <p>Chris' explanation is more incremental.  Start with what we know, and extend
         a little bit at a time, with motivations as we go. I love it.</p>
 
-    <p>BTW: I made some edits to the Python documentation, but they haven't been 
+    <p>BTW: I made some edits to the Python documentation, but they haven't been
         adopted: <a href='http://bugs.python.org/issue17894'>Edits to descriptor howto</a>.
-        Others have also suggested reorganizations of the docs about descriptors: 
+        Others have also suggested reorganizations of the docs about descriptors:
         <a href='http://bugs.python.org/issue12077'>Harmonizing descriptor protocol documentation</a>.</p>
 
     <p>Descriptors are still an advanced feature, and I don't expect everyone to understand
