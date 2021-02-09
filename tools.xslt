@@ -431,6 +431,15 @@
     </p>
 </xsl:template>
 
+<xsl:template match='youtube_embed'>
+    <iframe frameborder="0" allowfullscreen="allowfullscreen">
+        <xsl:attribute name='src'>
+            <xsl:text>https://youtube.com/embed/</xsl:text>
+            <xsl:value-of select='@video' />
+        </xsl:attribute>
+    </iframe>
+</xsl:template>
+
 <xsl:template match='box'>
     <xsl:call-template name='checkblock'/>
     <blockquote class='box'>
