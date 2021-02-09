@@ -64,7 +64,7 @@ you really have to fix up every URL, even if it doesn't seem like it's being use
 anything.  Flash content? There's a macromedia.com URL in there in the codebase attribute:</p>
 
 <code lang='html'><![CDATA[
-<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
    codebase="//download.macromedia.com/pub/shockwave/cabs/flash/blah#blah"
    width="600" height="400"> ... </object>
 ]]></code>

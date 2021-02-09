@@ -8,7 +8,7 @@
 <body>
 <p>In 1936, Alan Turing wrote a landmark paper about what kinds of numbers could be
 computed: <a href='http://www.thocp.net/biographies/papers/turing_oncomputablenumbers_1936.pdf'>On Computable Numbers</a>.
-In it, he described what's now known as a Turing machine, which computes with 
+In it, he described what's now known as a Turing machine, which computes with
 a tape it can scroll back and forth, reading and writing ones and zeros,
 and transitioning among internal states based on a program.
 </p>
@@ -27,9 +27,9 @@ and zeros on a scrolling tape:</p>
         <embed src="https://www.youtube.com/v/WJ-ODmFjmrU&amp;hl=en_US&amp;fs=1&amp;"
                type="application/x-shockwave-flash" allowscriptaccess="always"
                allowfullscreen="true" width="480" height="295">
-            
+
         </embed>
-    </object>    
+    </object>
 </figurep>
 
 <p>It's a great piece of work, complete with a single-step debugger.  The
