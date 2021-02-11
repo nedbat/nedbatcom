@@ -4,7 +4,6 @@
 <title>My RSS Feed</title>
 <category>site</category>
 <category>feeds</category>
-<via /> <!-- id= or href= -->
 <body>
 <p>I've added an
 <a href='http://purl.org/rss/1.0/spec'>RSS</a> feed for this blog.
@@ -33,7 +32,7 @@ shared resource.</p>
 so I've added an
 <a href='blog/rss.xml'>RSS feed</a> just to try it out.</p>
 
-<figurep href='http://feeds.archive.org/validator/check?url=http://www.nedbatchelder.com/blog/rss.xml'>
+<figurep href='http://feeds.archive.org/validator/check?url=https://nedbatchelder.com/blog/rss.xml'>
 <img src="pix/valid-rss-dylan2.gif" alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" border='0'/>
 </figurep>
 

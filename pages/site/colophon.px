@@ -16,7 +16,7 @@
 <a href='https://djangoproject.com'>Django</a> driven by
 <a href='https://pypi.org/project/staticgenerator/'>StaticGenerator</a>
 to produce HTML.
-The whole process is managed by a Python script.  It's all on 
+The whole process is managed by a Python script.  It's all on
 <a href="https://github.com/nedbat/nedbatcom">GitHub</a> if you dare.</p>
 
 <p>I wanted a purely text-based process that produced purely static HTML.
@@ -59,7 +59,7 @@ It features a great anti-spam technique: <a pref='text/stopbots.px'/>.
         width="88" height="31"/>
 </a>
 
-<a href="http://feedvalidator.org/check.cgi?url=https://www.nedbatchelder.com/blog/rss.xml">
+<a href="http://feedvalidator.org/check.cgi?url=https://nedbatchelder.com/blog/rss.xml">
     <img
         src="pix/valid-rss-dylan2.gif"
         alt="[Valid RSS]"

@@ -49,8 +49,7 @@
                     If you don't know what an RSS feed is, read the
                     <a href='https://nedbatchelder.com/site/whatisrss.html'>What's RSS?</a> page.
                     This feed only includes the first paragraph from each posting, and strips
-                    out links and style information.  A link at the end of each post takes you to
-                    the full entry in the blog.  If you want to read the whole blog, use the
+                    out links and style information.  If you want to read the whole blog, use the
                     <a href='https://nedbatchelder.com/blog'>main blog</a> page.
             </p>
 
