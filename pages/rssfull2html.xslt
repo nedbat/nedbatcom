@@ -47,10 +47,10 @@
                     This is an RSS feed for
                     <a href='{rss:channel/rss:link}'><xsl:value-of select='rss:channel/rss:title'/></a>.
                     If you don't know what an RSS feed is, read the
-                    <a href='http://www.nedbatchelder.com/site/whatisrss.html'>What's RSS?</a> page.
+                    <a href='https://nedbatchelder.com/site/whatisrss.html'>What's RSS?</a> page.
                     A link at the end of each post takes you to the full entry in the blog.
                     If you want to read the whole blog, use the
-                    <a href='http://www.nedbatchelder.com/blog'>main blog</a> page.
+                    <a href='https://nedbatchelder.com/blog'>main blog</a> page.
             </p>
 
             <xsl:apply-templates select='rss:item' />

@@ -9,7 +9,7 @@
 		<image rdf:resource="https://nedbatchelder.com/pix/rss-banner.gif"/>
 		<items>
 			<rdf:Seq>
-				{% for entry in entries %}<rdf:li resource="https://nedbatchelder.com/{{entry.permaurl}}"/>{% endfor %}
+				{% for entry in entries %}<rdf:li resource="https://nedbatchelder.com{{entry.permaurl}}"/>{% endfor %}
 			</rdf:Seq>
 		</items>
 	</channel>
@@ -19,9 +19,9 @@
 		<url>https://nedbatchelder.com/pix/rss-banner.gif</url>
 	</image>
 	{% for entry in entries %}
-	<item rdf:about="https://nedbatchelder.com/{{entry.permaurl}}">
+	<item rdf:about="https://nedbatchelder.com{{entry.permaurl}}">
 		<title>{{entry.title}}</title>
-		<link>https://nedbatchelder.com/{{entry.permaurl}}</link>
+		<link>https://nedbatchelder.com{{entry.permaurl}}</link>
 		{# RSS wants a very specific date format that the date filter doesn't do. #}
 		<dc:date>{{entry.when|date:"Y-m-d\TH:i:sO"|slice:":22"}}:00</dc:date>
 		<dc:creator>Ned Batchelder</dc:creator>
