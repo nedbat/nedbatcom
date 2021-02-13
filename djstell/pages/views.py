@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Template
 
 from djstell.pages.models import Entry, Article, Tag
+from djstell.pages.templatetags.tags import first_sentence, just_text
 
 ## Blog stuff
 
@@ -39,7 +40,10 @@ def entry(request, year, month, slug):
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
-    c['description'] = ent.description
+    if ent.description:
+        c['description'] = ent.description
+    else:
+        c['description'] = first_sentence(just_text(ent.to_html()), 2)
     c['image'] = abs_url(ent.image)
     c['image_alt'] = ent.image_alt
     if ent.draft:
