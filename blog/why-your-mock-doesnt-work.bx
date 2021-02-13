@@ -4,6 +4,14 @@
 <title>Why your mock doesn't work</title>
 <category>python</category>
 <category>testing</category>
+
+<description>
+Mocking is a powerful technique for isolating tests from undesired interactions
+among components.  But often people find their mock isn't taking effect, and
+it's not clear why.  I can explain.
+</description>
+<image src="pix/cards/mock_doesnt_work.png" alt="A diagram of two modules with references, and a bad mock"/>
+
 <body>
 
 <!--[[[cog

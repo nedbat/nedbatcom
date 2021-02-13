@@ -1,4 +1,5 @@
-{% extends "blogbase.html" %}
+{# A .px file #}
+{% extends "page.html" %}
 {% load tags %}
 
 {% block meta %}
@@ -8,8 +9,4 @@
 {% else %}
     <meta property="og:type" content="article">
 {% endif %}
-{% endblock %}
-
-{% block body %}
-    {% blog_entry entry 'full' %}
 {% endblock %}

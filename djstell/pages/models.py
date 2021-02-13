@@ -38,6 +38,11 @@ def nice_text(s):
     return smartypants.smartypants(s, smartypants.Attr.q | smartypants.Attr.u)
 
 
+def one_line(s):
+    """Make one nice line of text."""
+    return nice_text(re.sub(r"\s+", " ", s).strip())
+
+
 class ModelMixin:
     def get_absolute_url(self):
         purl = self.permaurl()
@@ -80,6 +85,9 @@ class Article(ModelMixin, models.Model):
     scripts = models.TextField()    # Space-separated script URLs.
     style = models.TextField()      # Extra css for the page.
     features = models.TextField()   # A set of slugs of features in use on the page.
+    description = models.TextField(null=True)
+    image = models.CharField(max_length=200, null=True)
+    image_alt = models.TextField(null=True)
 
     def __repr__(self):
         return "<Article %r>" % self.title
@@ -124,6 +132,15 @@ class Article(ModelMixin, models.Model):
         art.style = p.get('style', '')
 
         art.add_features_from_text(p)
+
+        desc = p.find("description")
+        if desc is not None:
+            art.description = one_line(desc.text)
+
+        img = p.find("image")
+        if img is not None:
+            art.image = img.get("src")
+            art.image_alt = img.get("alt")
 
         art.save()
 
@@ -277,6 +294,9 @@ class Entry(ModelMixin, models.Model):
     slug = models.CharField(max_length=200, db_index=True)
     comments_closed = models.BooleanField()
     features = models.TextField()   # A set of slugs of features in use on the page.
+    description = models.TextField(null=True)
+    image = models.CharField(max_length=200, null=True)
+    image_alt = models.TextField(null=True)
 
     # Use all_entries to get absolutely everything.
     all_entries = models.Manager()
@@ -303,6 +323,15 @@ class Entry(ModelMixin, models.Model):
 
             if ent.draft:
                 ent.title += " (draft)"
+
+            desc = e.find("description")
+            if desc is not None:
+                ent.description = one_line(desc.text)
+
+            img = e.find("image")
+            if img is not None:
+                ent.image = img.get("src")
+                ent.image_alt = img.get("alt")
 
             ent.save()
 

@@ -20,6 +20,8 @@ def add_entries(c, ents):
         c['max_date'] = ents[0].when
 
 def abs_url(url):
+    if not url:
+        return url
     absurl = settings.EXT_BASE
     if not absurl.endswith('/') and not url.startswith('/'):
         absurl += '/'
@@ -37,6 +39,9 @@ def entry(request, year, month, slug):
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
+    c['description'] = ent.description
+    c['image'] = abs_url(ent.image)
+    c['image_alt'] = ent.image_alt
     if ent.draft:
         c['comments'] = None
     else:
@@ -188,7 +193,7 @@ def article(request, path):
             'title': a.title,
             'lorem': path == "text/lorem.html",
         }
-    return render_to_response('page.html', c)
+    return render_to_response('article.html', c)
 
 def sidebar(request, which):
     html = "{% load tags %}{% sidebar which 1 %}"

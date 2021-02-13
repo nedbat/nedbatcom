@@ -2,14 +2,33 @@
 {% load tags %}
 {# Basic structure of a page on the site. #}
 {% spaceless %}
-<html lang='{% firstof lang "en" %}'>
+<html lang="{% firstof lang "en" %}">
 <head>
+    <title>{{title}} | Ned Batchelder</title>
+
     {% metatags %}
+    {% comment %}
+    OpenGraph meta data. Use these validators:
+        https://developers.facebook.com/tools/debug/
+        https://cards-dev.twitter.com/validator
+    {% endcomment %}
     {% if title %}
-        <meta name="og:title" content="{{title}}">
+        <meta property="og:title" content="{{title}}">
     {% endif %}
     {% if url %}
-        <meta name="og:url" content="{{url}}">
+        <meta property="og:url" content="{{url}}">
+    {% endif %}
+    {% if description %}
+        <meta property='og:description' content='{{description}}'>
+    {% endif %}
+    {% if image %}
+        <meta property='og:image' content='{{image}}'>
+        {% if image_alt %}
+            <meta property='og:image:alt' content='{{image_alt}}'>
+        {% endif %}
+    {% endif %}
+    {% if max_date %}
+        <meta property='og:updated_time' content='{{max_date|date:"Y-m-d\TH:i:s"}}'>
     {% endif %}
 
     {% block meta %}{{meta|safe}}{% endblock %}
@@ -21,8 +40,6 @@
     {% if style %}
         <style>{{style}}</style>
     {% endif %}
-
-    <title>{{title}} | Ned Batchelder</title>
 
     {% block pagelinks %}
     {% static_link "style.css" %}
