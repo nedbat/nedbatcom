@@ -3,6 +3,18 @@
 <what when="20200201T195500">Created</what>
 </history>
 
+<meta>
+
+<description>How to get started writing tests, from first
+principles. Everything you need to use pytest to test your
+code.</description>
+<img src="text/test3/img/card.png" alt="A slide from the presentation showing three test functions"/>
+</meta>
+
+<p>This presentation explains the concepts behind automated testing,
+and explains how to do it from first principles.  If you have never
+written tests before, this will tell you what you need to know.</p>
+
 <p>This is an update of a presentation I gave at PyCon 2014.
 <a href="/text/test0.html">The original version</a> used unittest,
 this version uses pytest.</p>
