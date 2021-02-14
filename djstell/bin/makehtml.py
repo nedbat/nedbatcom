@@ -215,7 +215,7 @@ class CmdLine(object):
     def do_smallupload(self):
         """Total hack expedient to only upload some files."""
         # Change this pattern if you want to fiddle with another one.
-        self.FTP["only"] = "*mock*"
+        self.FTP["only"] = "*bigo*"
 
     def only_some(self, word):
         loadpages.blog_pattern = "*{}*.bx".format(word)
