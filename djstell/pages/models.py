@@ -133,14 +133,16 @@ class Article(ModelMixin, models.Model):
 
         art.add_features_from_text(p)
 
-        desc = p.find("description")
-        if desc is not None:
-            art.description = one_line(desc.text)
+        meta = p.find("meta")
+        if meta is not None:
+            desc = meta.find("description")
+            if desc is not None:
+                art.description = one_line(desc.text)
 
-        img = p.find("image")
-        if img is not None:
-            art.image = img.get("src")
-            art.image_alt = img.get("alt")
+            img = meta.find("img")
+            if img is not None:
+                art.image = img.get("src")
+                art.image_alt = img.get("alt")
 
         art.save()
 
@@ -328,7 +330,7 @@ class Entry(ModelMixin, models.Model):
             if desc is not None:
                 ent.description = one_line(desc.text)
 
-            img = e.find("image")
+            img = e.find("img")
             if img is not None:
                 ent.image = img.get("src")
                 ent.image_alt = img.get("alt")

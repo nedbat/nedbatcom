@@ -179,6 +179,7 @@ def article(request, path):
     a = get_object_or_404(Article, path=pxpath)
     c = {}
     c['title'] = a.title
+    c['url'] = abs_url(a.permaurl())
     c['lang'] = a.lang
     c['copyright'] = a.copyright
     c['meta'] = a.meta
@@ -190,6 +191,10 @@ def article(request, path):
         c['min_date'] = edits[0].when
         c['max_date'] = edits[-1].when
     c['body'] = a.to_html()
+    if a.description:
+        c['description'] = a.description
+    c['image'] = abs_url(a.image)
+    c['image_alt'] = a.image_alt
     if a.comments:
         c['comments'] = {
             'entryid': path,
