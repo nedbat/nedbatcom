@@ -5,7 +5,7 @@ PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
 BASE = 'http://localhost/'
 LOG_SQL = False
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
