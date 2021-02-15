@@ -3,6 +3,10 @@
 <entry when='20200620T160739'>
 <title>Pickle's nine flaws</title>
 <category>python</category>
+
+<description>Python's pickle module is a very convenient way to serialize and
+de-serialize objects.  But it has nine problems.</description>
+
 <body>
 
 <p>Python's <a href="https://docs.python.org/3/library/pickle.html">pickle</a>
