@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210215T082500'>
+<title>Mapping walks</title>
+<category>walking</category>
+<category>maps</category>
+
+<description>How I mapped the pandemic walks I've been taking.</description>
+<img src="pix/cards/panwalks2.png" alt="A segment of the walk map, showing where we've been"/>
+
+<body>
+
+<p>As I mentioned last week in <a pref="blog/pandemic-walks.bx"/>, part of the
+fun of the long walks I've taken with Nat is mapping them out. The tooling
+is a hodge-podge of discovered things along the way, but it works for me.</p>
+
+
+<h1>Planning</h1>
+
+<p>Each walk is kept in a GPX file.  I can get a picture of
+where we've been on previous walks by looking at them as a collection.
+<a href="https://erik.github.io/derive/">Dérive</a> is a simple elegant site
+that will map a set of GPX files dropped onto it. It's open-source, and they
+even implemented <a href="https://github.com/erik/derive/issues/44">a feature
+request</a> I made.</p>
+
+<p>To plan the walks, I originally used
+<a href="https://gmap-pedometer.com/">gmap-pedometer.com</a>, but now I use
+<a href="https://onthegomap.com">On The Go Map</a>.  Both will create a route
+between two points automatically.  On The Go has a big clean layout, and I can
+tweak the plan by dragging new points in the middle of the route as needed.
+Gmap-pedometer has more options for map sources, but I found On The Go was
+better at knowing where I could walk, and making correct routes
+automatically.</p>
+
+<p>It helps to have a good planning tool because I want to get the right
+distance, not too short and not too long.  I also want to include new streets we
+haven't visited before.</p>
+
+<p>I use <a href="https://www.google.com/maps">Google Street View</a>
+to take a look at spots I'm uncertain about.  Is that a street or driveway? Can
+you get from the end of that street into the park next to it?</p>
+
+
+<h1>Walking</h1>
+
+<p>Before heading out, I print the map, on paper!  It's easier than fiddling
+with the phone, and I can draw on it if we go off-plan or if I want to make a
+note of something we saw along the way.</p>
+
+<p>I use my phone to figure out where I am when I am uncertain, and I have a
+link to a large map of all of our previous walks if I want to consider an ad-hoc
+addition.</p>
+
+<p>There might be apps that can track my walk automatically. I've used some in
+the past that captured an approximation, so I would rather map them myself.</p>
+
+
+<h1>Recording</h1>
+
+<p>Back home after the walk, I can use the route from On The Go Map, or re-plot
+it if needed.  On The Go gives me the GPX file to add to my collection, and
+gives me the distance walked for my stats spreadsheet.</p>
+
+<p>When I want to know more about the history of the place we've been, I use
+<a href="https://www.mapjunction.com/">Mapjunction</a>. It's a great dual-view
+of two maps at once, of your choice.  For example, you can look at the current
+streets and the same region 100 years ago to understand how things have
+changed.</p>
+
+<p>To produce the animated GIF in the last post, I cobbled together a program
+using a bunch of tools I didn't fully understand!  The result is
+<a href="https://github.com/nedbat/gpxmapper">gpxmapper</a>.  It uses
+<a href="https://github.com/Toblerity/Fiona">Fiona</a> to read the GPX files,
+<a href="https://github.com/Toblerity/Shapely">Shapely</a> to compute and plot
+the geometries, and
+<a href="https://scitools.org.uk/cartopy/docs/latest/">Cartopy</a> to draw the
+maps. This was definitely a copy-paste patchwork, so don't take it as the work
+of an expert.  It works, but I can't promise it does it the best way.</p>
+
+<p>I got some inspiration and headstart from a recent Boston Python
+presentation: <a href="https://youtu.be/si14Yb_zXMg?t=4080">On Python and
+Positioning: An Introduction to Working with Geospatial Data in Python with
+GeoPandas</a> by Heather Kusmierz.</p>
+
+<p>The program writes out a pile of PNG files, then uses
+<a href="https://imagemagick.org">ImageMagick</a> and
+<a href="https://www.lcdf.org/gifsicle/">Gifsicle</a> to wrangle them into a
+good animated GIF.  A large static version of the total walks is posted online
+for me to refer to in the field if needed.</p>
+
+
+<bulletsep/>
+
+<p>Some of this might surprise you as low-tech.  For a software engineer, I tend
+toward low-tech.  And as I mentioned in the
+<a pref="blog/pandemic-walks.bx">last post</a>, this whole walking endeavor
+has given me a much deeper understanding of the neighborhoods around me.
+Working with the maps to plan and record the walks is part of that process, so
+I'm not looking to make it more automated.</p>
+
+<p>That said, if you have suggestions, I'm interested to learn!</p>
+
+
+</body>
+</entry>
+</blog>
