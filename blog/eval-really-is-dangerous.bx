@@ -4,6 +4,10 @@
 <title>Eval really is dangerous</title>
 <category>python</category>
 <category>security</category>
+
+<description>eval() is tempting, but it's truly dangerous. Here's how common
+safety attempts can be circumvented.</description>
+
 <body>
 <p>Python has an eval() function which evaluates a string of Python code:
 </p>
