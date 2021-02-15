@@ -4,19 +4,19 @@
 __version__ = '1.1, 2007-01-09'
 
 # The MIT License
-# 
+#
 # Copyright (c) 2008 Jared Kuolt
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,6 +26,8 @@ __version__ = '1.1, 2007-01-09'
 # THE SOFTWARE.
 
 import os
+import traceback
+
 from django.http import HttpRequest
 from django.core.handlers.base import BaseHandler
 from django.db.models.base import ModelBase
@@ -76,7 +78,7 @@ class StaticGenerator(object):
 
     def __init__(self, resources, use_processes=False):
         self.use_processes = use_processes
-        self.resources = self.extract_resources(resources)
+        self.resources = list(set(self.extract_resources(resources)))
         self.server_name = self.get_server_name()
         try:
             self.web_root = getattr(settings, 'WEB_ROOT')
@@ -162,7 +164,8 @@ class StaticGenerator(object):
         directory = os.path.dirname(fn)
         if not os.path.exists(directory):
             try:
-                os.makedirs(directory)
+                # exist_ok=True to fix a race condition.
+                os.makedirs(directory, exist_ok=True)
             except:
                 raise StaticGeneratorException('Could not create the directory: %s' % directory)
 
@@ -217,11 +220,15 @@ def chunks(lst, n):
         yield lst[i:i + n]
 
 def publish_one_in_subprocess(resources):
-    # Undocumented: close all pooled connections, so that each process has a
-    # separate connection to the db.
-    from django.db import connections
-    for conn in connections.all():
-        conn.close()
+    try:
+        # Undocumented: close all pooled connections, so that each process has a
+        # separate connection to the db.
+        from django.db import connections
+        for conn in connections.all():
+            conn.close()
 
-    gen = StaticGenerator(resources, use_processes=False)
-    gen.publish()
+        gen = StaticGenerator(resources, use_processes=False)
+        gen.publish()
+    except Exception as exc:
+        traceback.print_exc()
+        raise
