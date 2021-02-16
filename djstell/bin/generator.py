@@ -162,12 +162,10 @@ class StaticGenerator(object):
         fn = self.get_filename_from_path(path)
         content = self.get_content_from_path(path)
         directory = os.path.dirname(fn)
-        if not os.path.exists(directory):
-            try:
-                # exist_ok=True to fix a race condition.
-                os.makedirs(directory, exist_ok=True)
-            except:
-                raise StaticGeneratorException('Could not create the directory: %s' % directory)
+        try:
+            os.makedirs(directory, exist_ok=True)
+        except:
+            raise StaticGeneratorException('Could not create the directory: %s' % directory)
 
         try:
             with open(fn, 'wb') as f:
