@@ -3,9 +3,14 @@
 <entry when='20160818T061433'>
 <title>Lists vs. Tuples</title>
 <category>python</category>
+
+<description>A common Python question: what's the difference between a
+list and a tuple?  There are two different differences, with
+complex interplay between the two.</description>
+
 <body>
 
-<p>A common beginner Python question: what's the difference between a list and
+<p>A common Python question: what's the difference between a list and
     a tuple?</p>
 
 <p>The answer is that there are two different differences, with complex
@@ -170,7 +175,7 @@ TypeError: unhashable type: 'list'
     reason about code.  If you are a functional programming fan, you will
     probably prefer tuples for their immutability.</p>
 
-<p>So: should you use a tuple or a list? The answer is: it's not always a 
+<p>So: should you use a tuple or a list? The answer is: it's not always a
     simple answer.</p>
 
 </body>
