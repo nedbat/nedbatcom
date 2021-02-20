@@ -210,7 +210,7 @@ class CmdLine(object):
     def do_narrow(self):
         """Total hack expedient to only process some blog posts."""
         # Change this pattern if you want to fiddle with another one.
-        loadpages.blog_pattern = "*why*.bx"
+        loadpages.blog_pattern = "*github*.bx"
 
     def do_smallupload(self):
         """Total hack expedient to only upload some files."""
@@ -224,7 +224,7 @@ class CmdLine(object):
     def do_pnarrow(self):
         """Total hack expedient to only process some pages."""
         # Change this pattern if you want to fiddle with another one.
-        loadpages.page_pattern = "*x*.px"
+        loadpages.page_pattern = "*xx*.px"
 
     def do_slow(self):
         self.use_processes = False

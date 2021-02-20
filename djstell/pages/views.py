@@ -44,6 +44,9 @@ def entry(request, year, month, slug):
         c['description'] = ent.description
     else:
         c['description'] = first_sentence(just_text(ent.to_html()), 2)
+        # print("-"*50)
+        # print(f"descripition: {c['description']}")
+        # print("="*50)
     c['image'] = abs_url(ent.image)
     c['image_alt'] = ent.image_alt
     if ent.draft:
