@@ -1,3 +1,4 @@
+import html
 import re
 
 def first_par(value):
@@ -61,3 +62,12 @@ def first_sentence(value, number=1):
         number -= 1
 
     return sentence
+
+
+def description_safe(text):
+    """Turn an HTML fragment into something that can be og:description."""
+    # No html entities.
+    text = html.unescape(text)
+    # No text styling.
+    text = re.sub(r"</?[bi]>", "", text)
+    return text

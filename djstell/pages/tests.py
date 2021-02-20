@@ -1,6 +1,6 @@
 import pytest
 
-from .text import first_sentence, just_text
+from .text import description_safe, first_sentence, just_text
 
 @pytest.mark.parametrize("text, num, sentences", [
     ("<p>A dog. A cat.", 1, "A dog."),
@@ -18,3 +18,10 @@ def test_first_sentence(text, num, sentences):
 ])
 def test_just_text(text, result):
     assert just_text(text) == result
+
+@pytest.mark.parametrize("text, result", [
+    ("<b>tl;dr</b>: <i>Look!</i>", "tl;dr: Look!"),
+    ("A&amp;B isn&#8217;t OK.", "A&B isn’t OK."),
+])
+def test_description_safe(text, result):
+    assert description_safe(text) == result

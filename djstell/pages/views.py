@@ -10,6 +10,7 @@ from django.template import RequestContext, Template
 
 from djstell.pages.models import Entry, Article, Tag
 from djstell.pages.templatetags.tags import first_sentence, just_text
+from djstell.pages.text import description_safe
 
 ## Blog stuff
 
@@ -40,13 +41,7 @@ def entry(request, year, month, slug):
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
-    if ent.description:
-        c['description'] = ent.description
-    else:
-        c['description'] = first_sentence(just_text(ent.to_html()), 2)
-        # print("-"*50)
-        # print(f"descripition: {c['description']}")
-        # print("="*50)
+    c['description'] = description_safe(ent.description or first_sentence(just_text(ent.to_html()), 2))
     c['image'] = abs_url(ent.image)
     c['image_alt'] = ent.image_alt
     if ent.draft:
@@ -194,8 +189,7 @@ def article(request, path):
         c['min_date'] = edits[0].when
         c['max_date'] = edits[-1].when
     c['body'] = a.to_html()
-    if a.description:
-        c['description'] = a.description
+    c['description'] = a.description
     c['image'] = abs_url(a.image)
     c['image_alt'] = a.image_alt
     if a.comments:
