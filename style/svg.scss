@@ -1,23 +1,42 @@
 /*! Styles for svg figures on nedbatchelder.com !*/
 
+@import 'common';
+
 svg {
-    stroke: black;
-    fill: white;
+    stroke: var(--fg-color);
+    fill: var(--bg-color);
+
+    @include lightmode {
+        --name-fill: #ddd;
+        --frame-stroke: #666;
+        --highlight: #f00;
+    }
+
+    @include darkmode {
+        --name-fill: #444;
+        --frame-stroke: #aaa;
+        --highlight: #f88;
+    }
+
     text {
         stroke: none;
-        fill: black;
+        fill: var(--fg-color);
         &.top_code {
             font-family: monospace;
         }
     }
     .arrow {
         fill: none;
-        stroke: black;
+        stroke: var(--fg-color);
         stroke-width: 1;
+    }
+    .arrowend {
+        fill: var(--fg-color);
+        stroke: none;
     }
     .highlight {
         stroke-width: 5;
-        stroke: #f00;
+        stroke: var(--highlight);
         fill: none;
         opacity: 0.5;
     }
@@ -47,18 +66,18 @@ svg {
         fill: #f00;
     }
     .name {
-        stroke: black;
+        stroke: var(--fg-color);
         stroke-width: 1.66;
-        fill: #ddd;
+        fill: var(--name-fill);
     }
     .value, .list {
-        stroke: black;
+        stroke: var(--fg-color);
         stroke-width: 1;
-        fill: white;
+        fill: var(--bg-color);
     }
     .frame {
         stroke-width: 3;
-        stroke: #666;
+        stroke: var(--frame-stroke);
         stroke-dasharray: 10 10;
         fill: none;
     }
