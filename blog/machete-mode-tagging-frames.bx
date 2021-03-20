@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210320T113547'>
+<title>Machete mode: tagging frames</title>
+<category>debugging</category>
+
+<description>I had a puzzle about Python execution today, and used a
+machete-mode debugging trick to figure it out.</description>
+
+<body>
+
+<p>I had a puzzle about Python execution today, and used a
+<a pref="text/machete.px">machete-mode debugging</a> trick to figure it
+out.  If you haven't heard me use the term before, machete mode is when you use
+gross temporary code to get information any way you can.</p>
+
+<p>Here's what happened: I added a new parameterized test to the coverage.py
+test suite.  It was really slow, so I ran it with timings displayed:</p>
+
+
+<code><![CDATA[
+$ tox -qe py39 -- -n 0 -k virtualenv --durations=0 -vvv
+... output omitted ...
+========================= slowest test durations ==========================
+7.14s call     tests/test_process.py::VirtualenvTest::test_making_virtualenv[False]
+6.23s call     tests/test_process.py::VirtualenvTest::test_making_virtualenv[True]
+0.47s setup    tests/test_process.py::VirtualenvTest::test_making_virtualenv[False]
+0.01s setup    tests/test_process.py::VirtualenvTest::test_making_virtualenv[True]
+0.01s setup    tests/test_process.py::VirtualenvTest::test_making_virtualenv[False]
+0.01s setup    tests/test_process.py::VirtualenvTest::test_making_virtualenv[True]
+0.00s teardown tests/test_process.py::VirtualenvTest::test_making_virtualenv[True]
+0.00s teardown tests/test_process.py::VirtualenvTest::test_making_virtualenv[True]
+0.00s teardown tests/test_process.py::VirtualenvTest::test_making_virtualenv[False]
+0.00s teardown tests/test_process.py::VirtualenvTest::test_making_virtualenv[False]
+========================= short test summary info =========================
+FAILED tests/test_process.py::VirtualenvTest::test_making_virtualenv[False] ...
+FAILED tests/test_process.py::VirtualenvTest::test_making_virtualenv[True] ...
+]]></code>
+
+<p>Huh, that's weird: two tests ("call"), but four invocations of my test setup
+function, and four to the teardown.  I've only just recently converted this test
+suite over from a unittest.TestCase foundation, and I have some odd shims in
+place to reduce the code churn.  Thinking about the double-setup, I thought
+either my shims were wrong, or I was in some strange edge case in how pytest
+runs tests.</p>
+
+<p>But how to figure out why the setup is called twice for each test run?  I
+decided to use a tool I've reached for often in the past: capture the stack
+information and record it someplace:</p>
+
+<code lang="python"><![CDATA[
+def setup_test(self):
+    import inspect
+    project_home = "/Users/ned/coverage"
+    site_packages = ".tox/py39/lib/python3.9/site-packages/"
+    with open("/tmp/foo.txt", "a") as foo:
+        print("setup_test", file=foo)
+        for t in inspect.stack()[::-1]:
+            # t is (frame, filename, lineno, function, code_context, index)
+            frame, filename, lineno, function = t[:4]
+            filename = os.path.relpath(filename, project_home)
+            filename = filename.replace(site_packages, "")
+            show = "%30s : %s:%d" % (function, filename, lineno)
+            print(show, file=foo)
+]]></code>
+
+<p>This is my test setup function which is being called too often.  I used a
+low-tech logging technique: append to a temporary file.  For each frame in the
+call stack, I write the function name and where it's defined.  The file paths
+are long and repetitive, so I make them relative to the project home, and also
+get rid of the site-packages path I'll be using.</p>
+
+<p>This works, it gave me four stack traces, one for each setup call.  But all
+four were identical:</p>
+
+<code><![CDATA[
+setup_test
+                      <module> : igor.py:424
+                          main : igor.py:416
+           do_test_with_tracer : igor.py:216
+                     run_tests : igor.py:133
+                          main : _pytest/config/__init__.py:84
+                      __call__ : pluggy/hooks.py:286
+                     _hookexec : pluggy/manager.py:93
+                      <lambda> : pluggy/manager.py:84
+                    _multicall : pluggy/callers.py:187
+           pytest_cmdline_main : _pytest/main.py:243
+                  wrap_session : _pytest/main.py:206
+                         _main : _pytest/main.py:250
+                      __call__ : pluggy/hooks.py:286
+                     _hookexec : pluggy/manager.py:93
+                      <lambda> : pluggy/manager.py:84
+                    _multicall : pluggy/callers.py:187
+            pytest_runtestloop : _pytest/main.py:271
+                      __call__ : pluggy/hooks.py:286
+                     _hookexec : pluggy/manager.py:93
+                      <lambda> : pluggy/manager.py:84
+                    _multicall : pluggy/callers.py:187
+       pytest_runtest_protocol : flaky/flaky_pytest_plugin.py:94
+       pytest_runtest_protocol : _pytest/runner.py:78
+               runtestprotocol : _pytest/runner.py:87
+               call_and_report : flaky/flaky_pytest_plugin.py:138
+             call_runtest_hook : _pytest/runner.py:197
+                     from_call : _pytest/runner.py:226
+                      <lambda> : _pytest/runner.py:198
+                      __call__ : pluggy/hooks.py:286
+                     _hookexec : pluggy/manager.py:93
+                      <lambda> : pluggy/manager.py:84
+                    _multicall : pluggy/callers.py:187
+          pytest_runtest_setup : _pytest/runner.py:116
+                       prepare : _pytest/runner.py:362
+                         setup : _pytest/python.py:1468
+                  fillfixtures : _pytest/fixtures.py:296
+                 _fillfixtures : _pytest/fixtures.py:469
+               getfixturevalue : _pytest/fixtures.py:479
+        _get_active_fixturedef : _pytest/fixtures.py:502
+        _compute_fixture_value : _pytest/fixtures.py:587
+                       execute : _pytest/fixtures.py:894
+                      __call__ : pluggy/hooks.py:286
+                     _hookexec : pluggy/manager.py:93
+                      <lambda> : pluggy/manager.py:84
+                    _multicall : pluggy/callers.py:187
+          pytest_fixture_setup : _pytest/fixtures.py:936
+             call_fixture_func : _pytest/fixtures.py:795
+             connect_to_pytest : tests/mixins.py:33
+                    setup_test : tests/test_process.py:1651
+]]></code>
+
+<p>I had hoped that perhaps the first and second calls would have slightly
+different stack traces, and the difference would point me to the reasons for the
+multiple calls.  Since the stacks were the same, there must be loops involved
+somewhere.  How to find where in the stack they were?</p>
+
+<p>If I were familiar with the code in question, reading one stack trace might
+point me to the right place.  But pytest is opaque to me, and I didn't want to
+start digging in.  I've got a few different pytest features at play here, so it
+seemed like it was going to be difficult.</p>
+
+<p>The stack traces were the same, because they only show the static aspects of
+the calls: who calls who, from where.  But the stacks differ in the specific
+instances of the calls to the functions.  The very top frame is the same
+(there's only one execution of the main program), and the very bottom frame is
+different (there are four executions of my test setup function).  If we find the
+highest frame that differs between two stacks, then we know which the loop is
+calling the setup function twice.</p>
+
+<p>My first thought was to show the id of the frame objects, but ids get reused
+as objects are reused from free-lists.  Instead, why not just tag them
+explicitly?  Every frame has its own set of local variables, stored in a
+dictionary attached to the frame.  I write an integer into each frame, which is
+the number of times we've seen that frame.</p>
+
+<p>Now the loop over frames also checks the locals of each frame. If our visit
+count isn't there, initialize it to zero, and if it is there, increment it.
+The visit count is added to the stack display, and we're good to go:</p>
+
+<code lang="python"><![CDATA[
+def setup_test(self):
+    import inspect
+    project_home = "/Users/ned/coverage"
+    site_packages = ".tox/py39/lib/python3.9/site-packages/"
+    with open("/tmp/foo.txt", "a") as foo:
+        print("setup_test", file=foo)
+        for t in inspect.stack()[::-1]:
+            # t is (frame, filename, lineno, function, code_context, index)
+            frame, filename, lineno, function = t[:4]
+            visits = frame.f_locals.get("$visits", 0)       ## new
+            frame.f_locals["$visits"] = visits + 1          ## new
+            filename = os.path.relpath(filename, project_home)
+            filename = filename.replace(site_packages, "")
+            show = "%30s :  %d  %s:%d" % (function, visits, filename, lineno)
+            print(show, file=foo)
+]]></code>
+
+<p>Now the stacks are still the same, except the visit counts differ.  Here's
+the stack from the second call to the test setup:</p>
+
+<code><![CDATA[
+setup_test
+                      <module> :  1  igor.py:424
+                          main :  1  igor.py:416
+           do_test_with_tracer :  1  igor.py:216
+                     run_tests :  1  igor.py:133
+                          main :  1  _pytest/config/__init__.py:84
+                      __call__ :  1  pluggy/hooks.py:286
+                     _hookexec :  1  pluggy/manager.py:93
+                      <lambda> :  1  pluggy/manager.py:84
+                    _multicall :  1  pluggy/callers.py:187
+           pytest_cmdline_main :  1  _pytest/main.py:243
+                  wrap_session :  1  _pytest/main.py:206
+                         _main :  1  _pytest/main.py:250
+                      __call__ :  1  pluggy/hooks.py:286
+                     _hookexec :  1  pluggy/manager.py:93
+                      <lambda> :  1  pluggy/manager.py:84
+                    _multicall :  1  pluggy/callers.py:187
+            pytest_runtestloop :  1  _pytest/main.py:271
+                      __call__ :  1  pluggy/hooks.py:286
+                     _hookexec :  1  pluggy/manager.py:93
+                      <lambda> :  1  pluggy/manager.py:84
+                    _multicall :  1  pluggy/callers.py:187
+       pytest_runtest_protocol :  1  flaky/flaky_pytest_plugin.py:94
+       pytest_runtest_protocol :  0  _pytest/runner.py:78
+               runtestprotocol :  0  _pytest/runner.py:87
+               call_and_report :  0  flaky/flaky_pytest_plugin.py:138
+             call_runtest_hook :  0  _pytest/runner.py:197
+                     from_call :  0  _pytest/runner.py:226
+                      <lambda> :  0  _pytest/runner.py:198
+                      __call__ :  0  pluggy/hooks.py:286
+                     _hookexec :  0  pluggy/manager.py:93
+                      <lambda> :  0  pluggy/manager.py:84
+                    _multicall :  0  pluggy/callers.py:187
+          pytest_runtest_setup :  0  _pytest/runner.py:116
+                       prepare :  0  _pytest/runner.py:362
+                         setup :  0  _pytest/python.py:1468
+                  fillfixtures :  0  _pytest/fixtures.py:296
+                 _fillfixtures :  0  _pytest/fixtures.py:469
+               getfixturevalue :  0  _pytest/fixtures.py:479
+        _get_active_fixturedef :  0  _pytest/fixtures.py:502
+        _compute_fixture_value :  0  _pytest/fixtures.py:587
+                       execute :  0  _pytest/fixtures.py:894
+                      __call__ :  0  pluggy/hooks.py:286
+                     _hookexec :  0  pluggy/manager.py:93
+                      <lambda> :  0  pluggy/manager.py:84
+                    _multicall :  0  pluggy/callers.py:187
+          pytest_fixture_setup :  0  _pytest/fixtures.py:936
+             call_fixture_func :  0  _pytest/fixtures.py:795
+             connect_to_pytest :  0  tests/mixins.py:33
+                    setup_test :  0  tests/test_process.py:1651
+]]></code>
+
+<p>The 1's are frames that were the same from the first call to the second, and
+the 0's are new frames.  We can clearly see that flaky_pytest_plugin.py has the
+loop that calls the setup a second time.</p>
+
+<p>Typical: once you know the answer, it's obvious!  I use the pytest-flaky
+plugin to automatically retry tests that fail.  My new slow test isn't just
+slow, it's also a failing test (for now).  So pytest-flaky is running it
+again.</p>
+
+<p>The real mystery isn't why the setup is called twice, but why the actual run
+of the test is only reported once.  I checked: it's not just the setup that runs
+twice, the body of the test is also running twice.</p>
+
+<p>When I made the test pass, the double execution went away, because
+pytest-flaky wasn't re-running the failed test.</p>
+
+<p>This is a classic <a pref="text/machete.px">machete-mode debugging</a>
+story: the problem was easier to dissect with dynamic tools rather than static;
+I hacked in some gross code to get me the information I needed; I didn't know if
+it would work well, but it did.</p>
+
+<p>BTW, it seems a bit presumptuous to promote this column of numbers to a
+"visualization," but it is a good way to see the looping nature of the test
+runner. Here's the fourth call stack:</p>
+
+<code><![CDATA[
+setup_test
+                      <module> :  3  igor.py:424
+                          main :  3  igor.py:416
+           do_test_with_tracer :  3  igor.py:216
+                     run_tests :  3  igor.py:133
+                          main :  3  _pytest/config/__init__.py:84
+                      __call__ :  3  pluggy/hooks.py:286
+                     _hookexec :  3  pluggy/manager.py:93
+                      <lambda> :  3  pluggy/manager.py:84
+                    _multicall :  3  pluggy/callers.py:187
+           pytest_cmdline_main :  3  _pytest/main.py:243
+                  wrap_session :  3  _pytest/main.py:206
+                         _main :  3  _pytest/main.py:250
+                      __call__ :  3  pluggy/hooks.py:286
+                     _hookexec :  3  pluggy/manager.py:93
+                      <lambda> :  3  pluggy/manager.py:84
+                    _multicall :  3  pluggy/callers.py:187
+            pytest_runtestloop :  3  _pytest/main.py:271
+                      __call__ :  1  pluggy/hooks.py:286
+                     _hookexec :  1  pluggy/manager.py:93
+                      <lambda> :  1  pluggy/manager.py:84
+                    _multicall :  1  pluggy/callers.py:187
+       pytest_runtest_protocol :  1  flaky/flaky_pytest_plugin.py:94
+       pytest_runtest_protocol :  0  _pytest/runner.py:78
+               runtestprotocol :  0  _pytest/runner.py:87
+               call_and_report :  0  flaky/flaky_pytest_plugin.py:138
+             call_runtest_hook :  0  _pytest/runner.py:197
+                     from_call :  0  _pytest/runner.py:226
+                      <lambda> :  0  _pytest/runner.py:198
+                      __call__ :  0  pluggy/hooks.py:286
+                     _hookexec :  0  pluggy/manager.py:93
+                      <lambda> :  0  pluggy/manager.py:84
+                    _multicall :  0  pluggy/callers.py:187
+          pytest_runtest_setup :  0  _pytest/runner.py:116
+                       prepare :  0  _pytest/runner.py:362
+                         setup :  0  _pytest/python.py:1468
+                  fillfixtures :  0  _pytest/fixtures.py:296
+                 _fillfixtures :  0  _pytest/fixtures.py:469
+               getfixturevalue :  0  _pytest/fixtures.py:479
+        _get_active_fixturedef :  0  _pytest/fixtures.py:502
+        _compute_fixture_value :  0  _pytest/fixtures.py:587
+                       execute :  0  _pytest/fixtures.py:894
+                      __call__ :  0  pluggy/hooks.py:286
+                     _hookexec :  0  pluggy/manager.py:93
+                      <lambda> :  0  pluggy/manager.py:84
+                    _multicall :  0  pluggy/callers.py:187
+          pytest_fixture_setup :  0  _pytest/fixtures.py:936
+             call_fixture_func :  0  _pytest/fixtures.py:795
+             connect_to_pytest :  0  tests/mixins.py:33
+                    setup_test :  0  tests/test_process.py:1651
+]]></code>
+
+<p>The 3's change to 1's at _pytest/main.py:271, which is the loop over the
+tests to run. Cool :)</p>
+
+</body>
+</entry>
+</blog>
