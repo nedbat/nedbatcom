@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210324T110228' draft='y'>
+<title>Adding a dunder to an object</title>
+<category></category>
+<body>
+
+<code><![CDATA[
+class SomeObject:
+    def __init__(self):
+        self.attr = "first"
+
+obj = SomeObject()
+print(f"attr is {obj.attr}")
+obj.attr = "second"
+print(f"attr is {obj.attr}")
+
+def patch_it(obj):
+    class Wrapper(obj.__class__):
+        def __setattr__(self, name, value):
+            print(f"setting {name} to {value!r}")
+            return super().__setattr__(name, value)
+    obj.__class__ = Wrapper
+
+patch_it(obj)
+print(f"attr is {obj.attr}")
+obj.attr = "third"
+print(f"attr is {obj.attr}")
+]]></code>
+
+</body>
+</entry>
+</blog>
