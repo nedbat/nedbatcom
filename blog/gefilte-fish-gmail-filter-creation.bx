@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210328T132444'>
+<title>Gefilte Fish: gmail filter creation</title>
+<description>Gefilte Fish is a Python module to create Gmail filters with code.</description>
+<category>mycode</category>
+<category>email</category>
+<body>
+
+<p>At work, to keep up with mailing lists and GitHub notifications, I had more
+than fifty GMail filters.  It wasn't too bad to create them by hand with the
+GMail UI, but I'm sure there were filters there I didn't need any more.</p>
+
+<p>But then I wanted a filter with both an if-action, and an else-action. Worse,
+I wanted if-A, then do this, if-B, do this, else, do that.  GMail filters just
+aren't constructed that way. It was going to be a pain to set them up and
+maintain them.</p>
+
+<p>Looking around for tools, I found <a href="https://github.com/antifuchs/gmail-britta">gmail-britta</a>,
+a Ruby DSL.  This was the right kind of tool for me, except I don't write Ruby.
+I hadn't found <a href="https://pypi.org/project/gmail-yaml-filters/">gmail-yaml-filters</a>,
+but I don't think I want to write YAML.</p>
+
+<p><a href="https://github.com/tsiemens/gmail-tools">gmail-tools</a> looked
+promising, but my work GMail account wouldn't let me follow its authentication
+steps.  Honestly, I often run afoul of authentication when trying to use APIs.
+(See <a pref="blog/support-windows-bar-calendar.bx"/> for another project I
+built in a strange way specifically to avoid having to figure out
+authentication.)</p>
+
+<p>So naturally, I built my own module to do it:
+<a href="https://github.com/nedbat/gefilte">Gefilte Fish</a> is a Python DSL
+(domain-specific language) of sorts to create GMail filters.  (The name is
+fitting since this is the start of Passover.) Using gefilte, you write Python
+code to express your filters.  Running your program outputs XML that you then
+import into GMail to create the filters.</p>
+
+<p>The DSL lets you write this to make filters:</p>
+
+<code lang="python"><![CDATA[
+from gefilte import GefilteFish
+
+# Make the filter-maker and use its DSL. All of the methods of GitHubFilter
+# are now usable as global functions.
+fish = GefilteFish()
+with fish.dsl():
+
+    # Google's spam moderation messages should never get sent to spam.
+    with replyto("noreply-spamdigest@google.com"):
+        never_spam()
+        mark_important()
+
+    # If the subject and body have these, label it "liked".
+    with subject(exact("[Confluence]")).has(exact("liked this page")):
+        label("liked")
+
+    with from_("notifications@github.com"):
+        # Skip the inbox (archive them).
+        skip_inbox().label("github")
+
+        # Delete annoying bot messages.
+        with from_("renovate[bot]"):
+            delete()
+
+        # GitHub sends to synthetic addresses to provide information.
+        with to("author@noreply.github.com"):
+            label("mine").star()
+
+        # Notifications from some repos are special.
+        with repo("myproject/tasks") as f:
+            label("todo")
+            with f.elif_(repo("otherproject/something")) as f:
+                label("otherproject")
+                with f.else_():
+                    # But everything else goes into "Code reviews".
+                    label("Code reviews")
+
+    # Some inbound addresses come to me, mark them so
+    # I understand what I'm # looking at in my inbox.
+    for toaddr, the_label in [
+        ("info@mycompany.com", "info@"),
+        ("security@mycompany.com", "security@"),
+        ("con2020@mycompany.com", "con20"),
+        ("con2021@mycompany.com", "con21"),
+    ]:
+        with to(toaddr):
+            label(the_label)
+
+print(fish.xml())
+]]></code>
+
+<p>To make the DSL flow somewhat naturally, I definitely bent the rules on what
+is considered good Python.  But it let me write succinct descriptions of the
+filters I want, while still having the power of a programming language.</p>
+
+</body>
+</entry>
+</blog>
