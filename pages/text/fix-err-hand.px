@@ -12,7 +12,7 @@ in it.
 It is important to fix the error handling problems first, then the original
 error.</p>
 
-<p>Sometimes there is a whole chaing of problems started by the original error condition,
+<p>Sometimes there is a whole chain of problems started by the original error condition,
 then compounded as layers of error handling code mis-handle the condition.
 Fix all the problems, backwards.
 </p>
