@@ -11,3 +11,6 @@ publish: ## publish to Webfaction
 
 test: ## run the few tests we have
 	pytest djstell/pages/tests.py
+
+clean: ## get rid of stuff we don't need
+	rm -rf html html0
