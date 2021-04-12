@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210407T072013' draft='y'>
+<title>Shazam for fractals?</title>
+<category></category>
+<body>
+
+<p>
+</p>
+<!--
+https://ca.slack-edge.com/T03HT05JZ-U01TUNTV4U9-31d215e8c55b-512
+https://nedbatchelder.com/code/aptus/JamesGiantPeach_med.png
+https://guciek.github.io/web_mandelbrot.html#-1.8605327723759248;-0.00001270334865601334;1.788139343261719e-7;1000
+-->
+
+<code><![CDATA[
+$ identify -verbose JamesGiantPeach_med.png
+Image:
+  Filename: JamesGiantPeach_med.png
+  Format: PNG (Portable Network Graphics)
+  ...
+  Properties:
+    Aptus State: {"Aptus State": 1,
+"iter_limit": 999,
+"palette_phase": 190,
+"palette": [["spectrum",{"ncolors":12,"l":[50,150]}],["stretch",{"steps":25,"hsl":true}]],
+"diam": [1.788139343261719e-007,1.788139343261719e-007],
+"angle": 0.0,
+"center": [-1.8605327723759248,-1.270334865601334e-005],
+"continuous": true,
+"mode": "mandelbrot",
+"palette_scale": 1.0,
+"supersample": 3,
+"size": [500,370]}
+    Aptus Stats: {"minitercycle":0,"computedpoints":1665000,"maxitercycle":0,"miniter":77,"longestboundary":93,"totalcycles":0,"maxedpoints":1,"boundaries":1574008,"boundariesfilled":0,"maxiter":631,"miniteredge":74,"totaliter":173821812}
+    Software: Aptus 2.0
+]]></code>
+
+</body>
+</entry>
+</blog>
