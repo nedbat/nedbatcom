@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210412T221900'>
+<title>Coverage.py and third-party code</title>
+<category>coverage</category>
+<body>
+
+<p>I've made a change to coverage.py, and I could use your help testing it
+before it's released to the world.</p>
+
+<box>
+<b>tl;dr</b>: install this and let me know if you don't like the results:
+
+<code><![CDATA[
+pip install coverage==5.6b1
+]]></code>
+</box>
+
+<p>What's changed?  Previously, coverage.py didn't understand about third-party
+code you had installed.  With no options specified, it would measure and report
+on that code, for example in site-packages.  A common solution was to use
+<codeword>--source=.</codeword> to only measure code in the current directory
+tree.  But many people put their virtualenv in the current directory, so
+third-party code installed into the virtualenv would still get reported.</p>
+
+<p>Now, coverage.py understands where third-party code gets installed, and won't
+measure code it finds there.  This should produce more useful results with less
+work on your part.</p>
+
+<p>This was a bit tricky because the <codeword>--source</codeword> option can
+also specify an importable name instead of a directory, and it had to still
+measure that code even if it was installed where third-party code goes.</p>
+
+<p>As of now, there is no way to change this new behavior.  Third-party code is
+never measured.</p>
+
+<p>This is kind of a big change, and there could easily be unusual arrangements
+that aren't handled properly.  I would like to find out about those before an
+official release.  Try the new version and let me know what you find out:</p>
+
+<code><![CDATA[
+pip install coverage==5.6b1
+]]></code>
+
+<p>In particular, I would like to know if any of the code you wanted measured
+wasn't measured, or if there is code being measured that "obviously" shouldn't
+be.  Testing on Debian (or a derivative like Ubuntu) would be helpful; I know
+they have different installation schemes.</p>
+
+<p>If you see a problem,
+<a href="https://github.com/nedbat/coveragepy/issues">write up an issue</a>.
+Thanks for helping.</p>
+
+</body>
+</entry>
+</blog>
