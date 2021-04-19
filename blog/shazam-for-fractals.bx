@@ -1,14 +1,40 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20210407T072013' draft='y'>
+<entry when='20210419T134600'>
 <title>Shazam for fractals?</title>
-<category></category>
+<category>math</category>
+<category>graphics</category>
 <body>
 
-<p>
-</p>
+<p>Is there any way to find the coordinates of a Mandelbrot image from the
+image? Even a guess as to the rough neighborhood?</p>
+
+<p>I recently saw this as someone's avatar:</p>
+
+<figurep>
+<!-- Originally from a Slack avatar: https://ca.slack-edge.com/T03HT05JZ-U01TUNTV4U9-31d215e8c55b-512 -->
+<img src="pix/mystery-mandelbrot.jpg" alt="A portion of the Mandelbrot fractal, with interesting features"/>
+</figurep>
+
+<p>This is clearly the Mandelbrot fractal, but where is it?  What coordinates
+and magnification? Without accompanying information, is it possible to find it?
+I'd like to explore that region, but how can I find it?</p>
+
+<p>This problem reminds me of <a href="https://www.shazam.com/">Shazam</a>,
+the seemingly magical app that listens to what's playing in your environment,
+and tells you what song it is.</p>
+
+<p>Is there any way?</p>
+
+<p>BTW, the way I solved this problem in my own long-neglected Mandelbrot
+explorer <a href="/code/aptus/">Aptus</a> is to write data records into the
+PNG files it produces.</p>
+
+<p>For example, you can download the image from the Aptus page, and use
+<a href="https://imagemagick.org/script/identify.php">imagemagick</a> to see
+what data it contains:</p>
+
 <!--
-https://ca.slack-edge.com/T03HT05JZ-U01TUNTV4U9-31d215e8c55b-512
 https://nedbatchelder.com/code/aptus/JamesGiantPeach_med.png
 https://guciek.github.io/web_mandelbrot.html#-1.8605327723759248;-0.00001270334865601334;1.788139343261719e-7;1000
 -->
@@ -20,21 +46,38 @@ Image:
   Format: PNG (Portable Network Graphics)
   ...
   Properties:
-    Aptus State: {"Aptus State": 1,
-"iter_limit": 999,
-"palette_phase": 190,
-"palette": [["spectrum",{"ncolors":12,"l":[50,150]}],["stretch",{"steps":25,"hsl":true}]],
-"diam": [1.788139343261719e-007,1.788139343261719e-007],
-"angle": 0.0,
-"center": [-1.8605327723759248,-1.270334865601334e-005],
-"continuous": true,
-"mode": "mandelbrot",
-"palette_scale": 1.0,
-"supersample": 3,
-"size": [500,370]}
-    Aptus Stats: {"minitercycle":0,"computedpoints":1665000,"maxitercycle":0,"miniter":77,"longestboundary":93,"totalcycles":0,"maxedpoints":1,"boundaries":1574008,"boundariesfilled":0,"maxiter":631,"miniteredge":74,"totaliter":173821812}
+    Aptus State:
+{
+    "Aptus State": 1,
+    "angle": 0.0,
+    "center": [-1.8605327723759248, -1.270334865601334e-05],
+    "continuous": true,
+    "diam": [1.788139343261719e-07, 1.788139343261719e-07],
+    "iter_limit": 999,
+    "mode": "mandelbrot",
+    "palette": [
+        ["spectrum", {"l": [50, 150], "ncolors": 12}],
+        ["stretch", {"hsl": true, "steps": 25}]
+    ],
+    "palette_phase": 190,
+    "palette_scale": 1.0,
+    "size": [500, 370],
+    "supersample": 3
+}
     Software: Aptus 2.0
 ]]></code>
+
+<p>To prove it works, here is the
+<a href="https://guciek.github.io/web_mandelbrot.html#-1.8605327723759248;-0.00001270334865601334;1.788139343261719e-7;1000">same place with a different viewer</a>,
+using a URL crafted from the data in the PNG.</p>
+
+<p>Aptus also knows how to read these files, so you can open a PNG it produced,
+and you will be exploring where it was captured.  It's like jumping into a
+photo to visit the place it was taken.  I used the same technique in
+<a pref="blog/flourish.bx">Flourish</a>.</p>
+
+<p>Too bad more images don't carry metadata to help you re-find their location
+in mathematical space.</p>
 
 </body>
 </entry>
