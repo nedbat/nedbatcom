@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210516T154504'>
+<title>Cherry-picking a pull request</title>
+<category>git</category>
+
+<description>Is there a way to automatically find the commits to cherry pick to
+get the effect of a pull request on another branch?</description>
+<img src="pix/cards/cherry_pick.png" alt="A git branch diagram"/>
+
+<body>
+
+<!--[[[cog
+    from cupid.svgfig import SvgFig
+
+    COMMITW = 45
+    COMMITGAP = 25
+    COMMITSTRIDE = COMMITW + COMMITGAP
+    MARGIN = 10
+    STROKE = 1.5
+
+    class Branch:
+        def __init__(self, fig, x, y, pod=None):
+            self.fig = fig
+            self.curx = x
+            self.cury = y
+            self.head = pod
+
+        def commit(self, name=None, **kwargs):
+            circle_args = dict(
+                center=(self.curx, self.cury),
+                size=(COMMITW, COMMITW),
+                stroke_width=STROKE,
+                )
+            circle_args.update(kwargs)
+            if name:
+                circle_args.update(text=name)
+            c = self.fig.circle(**circle_args)
+            if self.head:
+                self.fig.connect(self.head.east, 0, c.west, 0)
+            self.head = c
+            self.curx += COMMITSTRIDE
+            return c
+
+        def merge(self, other, name, **kwargs):
+            y = min(self.cury, other.cury)
+            circle_args = dict(
+                center=(self.curx, y),
+                size=(COMMITW, COMMITW),
+                stroke_width=STROKE
+                )
+            circle_args.update(kwargs)
+            c = self.fig.circle(**circle_args, text=name)
+            self.fig.connect(self.head.east, 0, c.west, 0)
+            self.fig.connect(other.head.east, 0, c.south, 270)
+            self.head = c
+            self.curx += COMMITSTRIDE
+            return c
+
+    class GitFig(SvgFig):
+        def __init__(self, nbranches, ncommits, **kwargs):
+            figw = (ncommits * COMMITW) + ((ncommits - 1) * COMMITGAP) + 2 * MARGIN
+            figh = (nbranches * COMMITW) + ((nbranches - 1) * COMMITGAP) + 2 * MARGIN
+            super().__init__(size=(figw, figh), **kwargs)
+            self.curx = MARGIN + COMMITW / 2
+
+        def branch(self, name, y, pod=None, advance=0):
+            y = MARGIN + COMMITW / 2 + y * COMMITSTRIDE
+            if pod is None:
+                x = self.curx + COMMITSTRIDE * advance
+            else:
+                x = pod.cx + COMMITSTRIDE * advance
+            return Branch(self, x, y, pod=pod)
+
+    figsvgs = []
+
+    MASTER_KWARGS = dict(class_="bluetint")
+    BRANCH_KWARGS = dict(class_="greentint")
+    RELEASE_KWARGS = dict(class_="redtint")
+    MERGECOMMIT_KWARGS = dict(stroke_width=STROKE+1.5)
+
+    def base_fig(branchkwargs={}, pr=True, release=False):
+        global fig, main, pr1, relbranch
+        nbranches = 1
+        if release:
+            nbranches += 1
+            mainy = 1
+        else:
+            mainy = 0
+        if pr:
+            nbranches += 1
+        fig = GitFig(nbranches=nbranches, ncommits=7)
+        main = fig.branch("main", y=mainy)
+        m1 = main.commit("A", **MASTER_KWARGS)
+        m2 = main.commit("B", **MASTER_KWARGS)
+        main.commit("C", **MASTER_KWARGS)
+        main.commit("D", **MASTER_KWARGS)
+        main.commit("E", **MASTER_KWARGS)
+        if pr:
+            pr1 = fig.branch("pr1", pod=m2, advance=1.5, y=mainy+1)
+            pr1.commit("F", **BRANCH_KWARGS, **branchkwargs)
+            pr1.commit("G", **BRANCH_KWARGS, **branchkwargs)
+        if release:
+            relbranch = fig.branch("release", pod=m1, advance=1, y=0)
+            relbranch.commit("R", **RELEASE_KWARGS)
+            relbranch.commit("S", **RELEASE_KWARGS)
+
+    def finish_figure(fig):
+        cog.outl(fig.tostring())
+]]]-->
+<!--[[[end]]]-->
+
+<p>At <a href="https://edx.org">work</a>, we work in GitHub pull requests that
+get merged to the main branch. We also have twice-yearly community release
+branches, and a small fraction of the main-branch changes need to be copied onto
+the current release branch.  Trying to automate choosing the commits to
+cherry-pick lead me into some Git and GitHub complexities.</p>
+
+<p>Git has three different ways to finish up a pull request, which complicates
+the process of figuring out what to cherry-pick.  Before getting into
+cherry-picking, let's look at the three finishes to pull requests.  Suppose we
+have four commits on the main branch (A-B-C-D), and a pull request for a feature
+branch started from B with two commits (F-G) on it:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig()
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="bluetint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id1)" /><circle class="bluetint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">C</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id1)" /><circle class="bluetint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">D</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id1)" /><circle class="bluetint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">E</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id1)" /><circle class="greentint" cx="207.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">F</text><path d="M 125,32 C 148,32 150,44 155,67 C 159,90 161,102 185,102" fill="none" marker-end="url(#id1)" /><circle class="greentint" cx="277.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">G</text><path d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id1)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>The F-G pull request can be brought into the main branch in three ways.
+First, the F-G commits can be <b>merged</b> to main with a merge commit:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig()
+    main.merge(pr1, name="M", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id2" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="bluetint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id2)" /><circle class="bluetint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">C</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id2)" /><circle class="bluetint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">D</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id2)" /><circle class="bluetint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">E</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id2)" /><circle class="greentint" cx="207.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">F</text><path d="M 125,32 C 148,32 150,44 155,67 C 159,90 161,102 185,102" fill="none" marker-end="url(#id2)" /><circle class="greentint" cx="277.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">G</text><path d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id2)" /><circle class="yellowtint" cx="382.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">M</text><path d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id2)" /><path d="M 300,102 C 323,102 331,99 353,90 C 375,81 382,78 382,55" fill="none" marker-end="url(#id2)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Second, the two commits can be <b>rebased</b> onto main as two new commits
+Fr-Gr (for F-rebased and G-rebased):</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(branchkwargs={"stroke_dasharray": "4"})
+    main.commit("Fr", class_="yellowtint")
+    main.commit("Gr", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id3" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="bluetint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id3)" /><circle class="bluetint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">C</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id3)" /><circle class="bluetint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">D</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id3)" /><circle class="bluetint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">E</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id3)" /><circle class="greentint" cx="207.5" cy="102.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">F</text><path d="M 125,32 C 148,32 150,44 155,67 C 159,90 161,102 185,102" fill="none" marker-end="url(#id3)" /><circle class="greentint" cx="277.5" cy="102.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">G</text><path d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id3)" /><circle class="yellowtint" cx="382.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">Fr</text><path d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id3)" /><circle class="yellowtint" cx="452.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="32.5">Gr</text><path d="M 405,32 C 411,32 411,32 417,32 C 423,32 423,32 430,32" fill="none" marker-end="url(#id3)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Lastly, the two commits can be <b>squashed</b> down to one new commit FGs
+(for F and G squashed):</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(branchkwargs={"stroke_dasharray": "4"})
+    main.commit("FGs", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="bluetint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id4)" /><circle class="bluetint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">C</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id4)" /><circle class="bluetint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">D</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id4)" /><circle class="bluetint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">E</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id4)" /><circle class="greentint" cx="207.5" cy="102.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">F</text><path d="M 125,32 C 148,32 150,44 155,67 C 159,90 161,102 185,102" fill="none" marker-end="url(#id4)" /><circle class="greentint" cx="277.5" cy="102.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">G</text><path d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id4)" /><circle class="yellowtint" cx="382.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">FGs</text><path d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id4)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Note that for rebased and squashed pull requests, the original commits F-G
+will not be reachable from the main branch, and will eventually disappear from
+the repo, indicated by their dashed outlines.</p>
+
+<p>Now let's consider the release branch.  This is a branch made twice a year to
+mark community releases of the platform.  Once the branch is made, some fixes
+need to be cherry-picked onto it from the main branch.  We can't just merge the
+fixes, because that would bring the entire history of the main branch into the release.
+Cherry-picking lets us take just the commits we want.</p>
+
+<p>As an example, here E has been cherry-picked as Ec:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(release=True, pr=False)
+    relbranch.commit("Ec", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id5" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="102.5">A</text><circle class="bluetint" cx="102.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="102.5">B</text><path d="M 55,102 C 61,102 61,102 67,102 C 73,102 73,102 80,102" fill="none" marker-end="url(#id5)" /><circle class="bluetint" cx="172.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="102.5">C</text><path d="M 125,102 C 131,102 131,102 137,102 C 143,102 143,102 150,102" fill="none" marker-end="url(#id5)" /><circle class="bluetint" cx="242.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="102.5">D</text><path d="M 195,102 C 201,102 201,102 207,102 C 213,102 213,102 220,102" fill="none" marker-end="url(#id5)" /><circle class="bluetint" cx="312.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="102.5">E</text><path d="M 265,102 C 271,102 271,102 277,102 C 283,102 283,102 290,102" fill="none" marker-end="url(#id5)" /><circle class="redtint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">R</text><path d="M 55,102 C 73,102 70,85 67,67 C 64,49 61,32 80,32" fill="none" marker-end="url(#id5)" /><circle class="redtint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">S</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id5)" /><circle class="yellowtint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">Ec</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id5)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>The question now is: to get the changes from a finished pull request onto the
+release branch, what commits should we cherry-pick?  The two rules are: they
+should be commits that make the same change to the release branch that were made
+to the main branch, and they should be commits that are reachable from the main
+branch, in case we need to later investigate how the changes came to be.</p>
+
+<p>GitHub doesn't record what approach was used to finish a pull request (unless
+I've missed something).  It records what it calls the "merge commit".  For
+merged pull request, this is the actual merge commit.  For rebased and squashed
+pull requests, it's the final commit that ended up on the main branch.</p>
+
+<p>In the case of a merged pull request, the answer is easy: cherry-pick the two
+original commits in the pull request.  We can tell the pull request was merged
+because the merge commit (with a thicker outline) has two parents (it's actually
+a merge):</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(release=True)
+    main.merge(pr1, name="M", class_="yellowtint", **MERGECOMMIT_KWARGS)
+    relbranch.commit("Fc", class_="yellowtint")
+    relbranch.commit("Gc", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="205" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id6" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="102.5">A</text><circle class="bluetint" cx="102.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="102.5">B</text><path d="M 55,102 C 61,102 61,102 67,102 C 73,102 73,102 80,102" fill="none" marker-end="url(#id6)" /><circle class="bluetint" cx="172.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="102.5">C</text><path d="M 125,102 C 131,102 131,102 137,102 C 143,102 143,102 150,102" fill="none" marker-end="url(#id6)" /><circle class="bluetint" cx="242.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="102.5">D</text><path d="M 195,102 C 201,102 201,102 207,102 C 213,102 213,102 220,102" fill="none" marker-end="url(#id6)" /><circle class="bluetint" cx="312.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="102.5">E</text><path d="M 265,102 C 271,102 271,102 277,102 C 283,102 283,102 290,102" fill="none" marker-end="url(#id6)" /><circle class="greentint" cx="207.5" cy="172.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="172.5">F</text><path d="M 125,102 C 148,102 150,114 155,137 C 159,160 161,172 185,172" fill="none" marker-end="url(#id6)" /><circle class="greentint" cx="277.5" cy="172.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="172.5">G</text><path d="M 230,172 C 236,172 236,172 242,172 C 248,172 248,172 255,172" fill="none" marker-end="url(#id6)" /><circle class="redtint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">R</text><path d="M 55,102 C 73,102 70,85 67,67 C 64,49 61,32 80,32" fill="none" marker-end="url(#id6)" /><circle class="redtint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">S</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id6)" /><circle class="yellowtint" cx="382.5" cy="102.5" r="22.5" stroke-width="3.0" /><text dy=".3em" text-anchor="middle" x="382.5" y="102.5">M</text><path d="M 335,102 C 341,102 341,102 347,102 C 353,102 353,102 360,102" fill="none" marker-end="url(#id6)" /><path d="M 300,172 C 323,172 331,169 353,160 C 375,151 382,148 382,125" fill="none" marker-end="url(#id6)" /><circle class="yellowtint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">Fc</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id6)" /><circle class="yellowtint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">Gc</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id6)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>But for rebased and squashed pull requests, the answer is not so simple.  We
+can tell the pull request wasn't merged, because the recorded "merge commit"
+isn't a merge.  Somehow we have to figure out how many commits starting with the
+merge commit are the right ones to take.  For a rebased pull request we'd like
+to cherry-pick as many commits as the pull request had:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(branchkwargs={"stroke_dasharray": "4"}, release=True)
+    main.commit("Fr", class_="yellowtint")
+    main.commit("Gr", class_="yellowtint", **MERGECOMMIT_KWARGS)
+    relbranch.commit("Frc", class_="yellowtint")
+    relbranch.commit("Grc", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="205" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id7" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="102.5">A</text><circle class="bluetint" cx="102.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="102.5">B</text><path d="M 55,102 C 61,102 61,102 67,102 C 73,102 73,102 80,102" fill="none" marker-end="url(#id7)" /><circle class="bluetint" cx="172.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="102.5">C</text><path d="M 125,102 C 131,102 131,102 137,102 C 143,102 143,102 150,102" fill="none" marker-end="url(#id7)" /><circle class="bluetint" cx="242.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="102.5">D</text><path d="M 195,102 C 201,102 201,102 207,102 C 213,102 213,102 220,102" fill="none" marker-end="url(#id7)" /><circle class="bluetint" cx="312.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="102.5">E</text><path d="M 265,102 C 271,102 271,102 277,102 C 283,102 283,102 290,102" fill="none" marker-end="url(#id7)" /><circle class="greentint" cx="207.5" cy="172.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="172.5">F</text><path d="M 125,102 C 148,102 150,114 155,137 C 159,160 161,172 185,172" fill="none" marker-end="url(#id7)" /><circle class="greentint" cx="277.5" cy="172.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="172.5">G</text><path d="M 230,172 C 236,172 236,172 242,172 C 248,172 248,172 255,172" fill="none" marker-end="url(#id7)" /><circle class="redtint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">R</text><path d="M 55,102 C 73,102 70,85 67,67 C 64,49 61,32 80,32" fill="none" marker-end="url(#id7)" /><circle class="redtint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">S</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id7)" /><circle class="yellowtint" cx="382.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="102.5">Fr</text><path d="M 335,102 C 341,102 341,102 347,102 C 353,102 353,102 360,102" fill="none" marker-end="url(#id7)" /><circle class="yellowtint" cx="452.5" cy="102.5" r="22.5" stroke-width="3.0" /><text dy=".3em" text-anchor="middle" x="452.5" y="102.5">Gr</text><path d="M 405,102 C 411,102 411,102 417,102 C 423,102 423,102 430,102" fill="none" marker-end="url(#id7)" /><circle class="yellowtint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">Frc</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id7)" /><circle class="yellowtint" cx="312.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">Grc</text><path d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id7)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>And for a squashed pull request, we want to cherry-pick just the one squashed
+commit:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig(branchkwargs={"stroke_dasharray": "4"}, release=True)
+    main.commit("FGs", class_="yellowtint", **MERGECOMMIT_KWARGS)
+    relbranch.commit("FGsc", class_="yellowtint")
+    finish_figure(fig)
+    ]]]-->
+    <svg baseProfile="full" height="205" version="1.1" width="485" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id8" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="bluetint" cx="32.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="102.5">A</text><circle class="bluetint" cx="102.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="102.5">B</text><path d="M 55,102 C 61,102 61,102 67,102 C 73,102 73,102 80,102" fill="none" marker-end="url(#id8)" /><circle class="bluetint" cx="172.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="102.5">C</text><path d="M 125,102 C 131,102 131,102 137,102 C 143,102 143,102 150,102" fill="none" marker-end="url(#id8)" /><circle class="bluetint" cx="242.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="102.5">D</text><path d="M 195,102 C 201,102 201,102 207,102 C 213,102 213,102 220,102" fill="none" marker-end="url(#id8)" /><circle class="bluetint" cx="312.5" cy="102.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="102.5">E</text><path d="M 265,102 C 271,102 271,102 277,102 C 283,102 283,102 290,102" fill="none" marker-end="url(#id8)" /><circle class="greentint" cx="207.5" cy="172.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="172.5">F</text><path d="M 125,102 C 148,102 150,114 155,137 C 159,160 161,172 185,172" fill="none" marker-end="url(#id8)" /><circle class="greentint" cx="277.5" cy="172.5" r="22.5" stroke-dasharray="4" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="172.5">G</text><path d="M 230,172 C 236,172 236,172 242,172 C 248,172 248,172 255,172" fill="none" marker-end="url(#id8)" /><circle class="redtint" cx="102.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">R</text><path d="M 55,102 C 73,102 70,85 67,67 C 64,49 61,32 80,32" fill="none" marker-end="url(#id8)" /><circle class="redtint" cx="172.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">S</text><path d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id8)" /><circle class="yellowtint" cx="382.5" cy="102.5" r="22.5" stroke-width="3.0" /><text dy=".3em" text-anchor="middle" x="382.5" y="102.5">FGs</text><path d="M 335,102 C 341,102 341,102 347,102 C 353,102 353,102 360,102" fill="none" marker-end="url(#id8)" /><circle class="yellowtint" cx="242.5" cy="32.5" r="22.5" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">FGsc</text><path d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id8)" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>But how to tell the difference between these two situations?  I don't know
+the best approach.  Maybe comparing the commit messages?  My first way was to
+look at the count of added and deleted lines.  If the merge commit changes as
+many lines as the pull request as a whole, then just take that one commit.  But
+that could be wrong if a rebased pull request had overlapping commits, and the
+last commit changed all the lines.</p>
+
+<p>Is there some bit of information I've overlooked?  Does git or GitHub have a
+way to unambiguously distinguish these cases?</p>
+
+
+</body>
+</entry>
+</blog>

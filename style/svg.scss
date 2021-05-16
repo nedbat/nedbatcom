@@ -89,4 +89,17 @@ svg {
         font-size: 90%;
         font-family: monospace;
     }
+
+    @include lightmode {
+        .redtint { fill: #fdd; }
+        .bluetint { fill: #ddf; }
+        .greentint { fill: #cfc; }
+        .yellowtint { fill: #ffc; }
+    }
+    @include darkmode {
+        .redtint { fill: #633; }
+        .bluetint { fill: #336; }
+        .greentint { fill: #363; }
+        .yellowtint { fill: #663; }
+    }
 }
