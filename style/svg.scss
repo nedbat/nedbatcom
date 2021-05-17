@@ -3,6 +3,8 @@
 @import 'common';
 
 svg {
+    height: 100%;
+
     stroke: var(--fg-color);
     fill: var(--bg-color);
 
