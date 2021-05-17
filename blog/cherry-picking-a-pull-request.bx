@@ -193,11 +193,19 @@ Cherry-picking lets us take just the commits we want.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>The question now is: to get the changes from a finished pull request onto the
-release branch, what commits should we cherry-pick?  The two rules are: they
-should be commits that make the same change to the release branch that were made
-to the main branch, and they should be commits that are reachable from the main
-branch, in case we need to later investigate how the changes came to be.</p>
+<p>The question now is:</p>
+
+<box>To get the changes from a finished pull request onto the
+release branch, what commits should we cherry-pick?</box>
+
+<p>The two rules are:</p>
+
+<ol>
+<li>The commits should make the same change to the release branch that were made
+to the main branch, and</li>
+<li>The commits should be reachable from the main
+branch, in case we need to later investigate how the changes came to be.</li>
+</ol>
 
 <p>GitHub doesn't record what approach was used to finish a pull request (unless
 I've missed something).  It records what it calls the "merge commit".  For
