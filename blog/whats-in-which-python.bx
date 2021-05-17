@@ -222,4 +222,50 @@
 
 </body>
 </entry>
+
+<entry when='20210517T190400'>
+<title>What's in which Python 3.7–3.9?</title>
+<category>python</category>
+<body>
+
+    <p>This is the fourth in a series of summarizations of what's in each
+    release of Python.  The first three were:</p>
+
+    <ul>
+    <li><a href="/blog/201109/whats_in_which_python.html">What's in which Python 2.x?</a></li>
+    <li><a href="/blog/201310/whats_in_which_python_3.html">What's in which Python 3.0–3.3?</a></li>
+    <li><a href="/blog/201803/whats_in_which_python_3436.html">What's in which Python 3.4–3.6?</a></li>
+    </ul>
+
+    <h1>3.7: June 27, 2018</h1>
+    <ul>
+        <li>postponed evaluation of type annotations (PEP 563)</li>
+        <li>async and await are keywords</li>
+        <li>dataclasses</li>
+        <li>dict order is guaranteed</li>
+    </ul>
+
+    <p><a href='https://docs.python.org/3/whatsnew/3.7.html'>Full list of 3.7 changes</a>.</p>
+
+    <h1>3.8: October 14, 2019</h1>
+    <ul>
+        <li>assignment expressions (walrus operator := )</li>
+        <li>f-string "=" specifier</li>
+        <li>positional-only parameters</li>
+    </ul>
+
+    <p><a href='https://docs.python.org/3/whatsnew/3.8.html'>Full list of 3.8 changes</a>.</p>
+
+    <h1>3.9: October 5, 2020</h1>
+    <ul>
+        <li>dict union operators</li>
+        <li>type hinting generics in standard collections</li>
+        <li>relaxed decorator syntax</li>
+        <li>str.removeprefix and str.removesuffix</li>
+    </ul>
+
+    <p><a href='http://docs.python.org/3/whatsnew/3.9.html'>Full list of 3.9 changes</a>.</p>
+
+</body>
+</entry>
 </blog>
