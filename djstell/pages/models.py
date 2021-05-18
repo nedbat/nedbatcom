@@ -14,15 +14,17 @@ import smartypants
 if 0:
     f_plain_text = open("all-site.txt", "w")
 
+    text_tags = [
+        "h1", "h2", "h3", "h4", "h5", "h6",
+        "p", "ul", "ol", "li", "a",
+        "em", "b", "i", "u", "span", "strong",
+        "quote", "blockquote", "quotep", "box",
+        "table", "tr", "th", "td",
+        "dl", "dt", "dd", "term",
+        "codeword", "tt",
+        ]
     def save_plain_text(elt):
-        for xpath in ["p", "ul/li", ".//a"]:
-            for p in elt.findall(xpath):
-                if p.text:
-                    f_plain_text.write(p.text)
-                if p.tail:
-                    f_plain_text.write(p.tail)
-                f_plain_text.write("\n")
-
+        f_plain_text.write("".join(elt.itertext(*text_tags)))
         f_plain_text.write("--\n")
 
 else:
