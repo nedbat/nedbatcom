@@ -630,6 +630,9 @@ a.s {
     .top_areas {
         text-align: right;
         width: 100%;
+        .plaindot {
+            display: none;
+        }
         .blm {
             background: black;
             color: yellow;
