@@ -20,6 +20,11 @@ svg {
         --highlight: #f88;
     }
 
+    .normal {
+        stroke: var(--fg-color);
+        fill: var(--bg-color);
+    }
+
     text {
         stroke: none;
         fill: var(--fg-color);
@@ -92,16 +97,21 @@ svg {
         font-family: monospace;
     }
 
-    @include lightmode {
-        .redtint { fill: #fdd; }
-        .bluetint { fill: #ddf; }
-        .greentint { fill: #cfc; }
-        .yellowtint { fill: #ffc; }
-    }
-    @include darkmode {
-        .redtint { fill: #633; }
-        .bluetint { fill: #336; }
-        .greentint { fill: #363; }
-        .yellowtint { fill: #663; }
+    .tint {
+        stroke: var(--fg-color);
+
+        @include lightmode {
+            &.red { fill: #fdd; }
+            &.blue { fill: #ddf; }
+            &.green { fill: #cfc; }
+            &.yellow { fill: #ffc; }
+        }
+
+        @include darkmode {
+            &.red { fill: #633; }
+            &.blue { fill: #336; }
+            &.green { fill: #363; }
+            &.yellow { fill: #663; }
+        }
     }
 }
