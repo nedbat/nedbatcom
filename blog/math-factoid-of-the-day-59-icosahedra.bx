@@ -1,13 +1,94 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20210616T184550' draft='y'>
+<entry when='20210616T055300'>
 <title>Math factoid of the day: 59 icosahedra</title>
-<category></category>
+<category>math</category>
+<category>me</category>
 <body>
 
-<p>
-<a href="https://en.wikipedia.org/wiki/The_Fifty-Nine_Icosahedra">The Fifty-None Icosahedra</a>
-</p>
+<p>Today's math factoid of the day: there are 59 icosahedra.</p>
+
+<p>I've long been fascinated by
+<a href="https://en.wikipedia.org/wiki/Stellation">stellation</a>, the process
+of extending a polyhedron's faces to form new structures.  The word stellation
+is from the Latin root for star, so it means to make star-like. The star that
+graces the upper-left corner of this site is a stellated dodecahedron.</p>
+
+<p>To understand stellations, let's start with two dimensions.  Consider a
+regular pentagon. If we extend the sides of the pentagon, they will intersect
+again, making a five-pointed star:</p>
+
+<figurep>
+    <img src="pix/pentagram.png" alt="Pentagon extending to become a five-pointed star"/>
+</figurep>
+
+<p>(image from <a href="https://brilliant.org/daily-problems/stellated-2/">brilliant.org</a>.)</p>
+
+<p>Looked at this way, the original pentagon is just the first 2D area enclosed
+by the sides' five infinite lines.  When we extend the sides, we're finding five
+more areas (the points) enclosed by those same five lines.  The five-pointed
+star is a stellation of the pentagon.</p>
+
+<p>With a pentagon, there are no more stellations: extending the sides even more
+won't find any more intersections, so no new areas are enclosed.  But more
+complex shapes can have more stellations.  As an example, a 9-sided polygon
+will have three stellations in sequence:</p>
+
+<figurep href="https://en.wikipedia.org/wiki/Stellation">
+    <img src="pix/Enneagon_stellations.png" alt="Three stellations of a 9-sided polygon"/>
+</figurep>
+
+<p>(image by Tomruen, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons.)</p>
+
+<p>Going to three dimensions, stellating a polyhedron doesn't extend edges, it
+extends faces.  Here's a video my son <a href="https://artofbatch.com">Ben</a>
+<a href="https://www.instagram.com/p/CQLd1QsjVu5/">made</a> showing a
+dodecahedron producing three stellations. The faces each lie in one of 12
+infinite planes, which intersect in a few different ways, producing new
+shapes:</p>
+
+<figurep aspect="16x9">
+    <youtube_embed video="wptPY2VDT00" />
+</figurep>
+<!-- How I made an animated gif clip of it:
+ffmpeg -i stellations.mp4 -ss 8 -t 4.2 -vf scale=550:-1 -r 20 -f image2pipe -vcodec ppm - | convert -crop 309x309+120+0 +repage -delay 5 -loop 180 - stell.gif
+-->
+
+<p>The 12-sided dodecahedron only has those three stellations.  Extending the
+planes further doesn't produce any more intersections, so no new volumes are
+enclosed. The star on this site is the last (third) stellation of the
+dodecahedron.</p>
+
+<p>What about the 20-sided icosahedron, how many stellations does it have?
+Things get much more complicated.  In 1938, H.S.M. Coxeter and his co-authors
+wrote a famous book about the enumeration of the icosahedron's stellations.
+First, rules had to be considered about what would count as a stellation, and
+what would not.</p>
+
+<p>Like the 9-sided polygon, the dodecahedron has a simple linear sequence of
+stellations, each building on the previous, like nested Russian dolls.  But the
+icosahedron is not so tidy.  The book describes intricate rules that I won't get
+into for determining what would be considered a stellation.</p>
+
+<p>They counted 58 stellations of the icosahedron.  When you include the
+original icosahedron itself in the list, you get the title of the book:
+<a href="https://en.wikipedia.org/wiki/The_Fifty-Nine_Icosahedra">The
+Fifty-Nine Icosahedra</a>.</p>
+
+<p>Jan Albert Vroegop has a
+<a href="https://artstation.vroegop.nu/projects/mqJlZZ?album_id=2298428">beautiful
+gallery of all 59</a>, but here is a sampling (from
+<a href="https://maths.ac-noumea.nc/polyhedr/st_icosa_.htm">Maurice Starck's
+page</a>):</p>
+
+<figurep>
+    <img src="pix/icosa_stell.jpg" alt="10 of the 59 stellations"/>
+</figurep>
+
+<p>BTW, you can buy
+<a href="https://www.shapeways.com/marketplace?type=product&amp;q=stellation">3D-printed
+stellations</a>, but trigger warning: some of them are called icosahedra when
+they are really dodecahedra!</p>
 
 </body>
 </entry>
