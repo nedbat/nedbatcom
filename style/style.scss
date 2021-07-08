@@ -899,12 +899,12 @@ blockquote.code {
         font-style: italic;
     }
     .gh, .gp, .gs, .gu {
+        color: black;
         font-weight: bold;
     }
-    .gp {
+    .console .gp {
         // Command prompts. Make them visible, and make them separate the
         // commands a bit.
-        color: black;
         font-size: 1.1em;
         line-height: 1.75;
     }

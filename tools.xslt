@@ -275,6 +275,7 @@
         <code>
             <xsl:choose>
             <xsl:when test='@lang'>
+                <xsl:attribute name='class'><xsl:value-of select='@lang' /></xsl:attribute>
                 <xsl:value-of
                     disable-output-escaping='yes'
                     select='xuff:lexcode(string(text()), string(@lang), string(@number))'/>
