@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210718T163050'>
+<title>Coverage 6.0 beta 1</title>
+<category>coverage</category>
+<body>
+
+<p>I've just published coverage.py 6.0 beta 1. The
+<a href="https://coverage.readthedocs.io/en/6.0b1/changes.html#version-6-0b1-2021-07-18">latest changes</a>
+are not monumental, but I would love for you to test it.</p>
+
+<p>The version bump to 6.0 is because I've dropped support for Python 2 and
+Python 3.5.  But also because the
+<a pref="blog/coveragepy-and-third-party-code.bx">changes to how third-party
+code is handled</a> felt potentially disruptive.  Please read
+<a pref="blog/coveragepy-and-third-party-code.bx">that blog post</a> for
+details.</p>
+
+<p>The other big thing happening with coverage.py is Python 3.10.  Because of
+<a href="https://www.python.org/dev/peps/pep-0626/">PEP 626</a> ("Precise line
+numbers for debugging and other tools"), there have been many changes to how
+Python reports line numbers. Coverage.py depends on those line numbers, so there
+have been more than a few bug reports written against Python as the work has
+progressed.</p>
+
+<p>It will be important to test with 3.10, but to be fair, there have already
+been a few problems reported in the latest version, 3.10 beta 4.  So if you use
+beta 4, you'll want to avoid re-reporting the known problems:</p>
+
+<ul>
+<li><a href="https://bugs.python.org/issue44600">match/case statements trace incorrectly in 3.10.0b4</a></li>
+<li><a href="https://bugs.python.org/issue44626">Incorrect tracing of nested if/if/for/yield</a> (fixed)</li>
+<li><a href="https://bugs.python.org/issue44616">Incorrect tracing for "except" with variable</a> (fixed)</li>
+<li><a href="https://bugs.python.org/issue44622">async-for loops are traced incorrectly in Python 3.10</a> (fixed)</li>
+</ul>
+
+<p>If you can build 3.10 from source, that would be a great thing to use for
+testing, or get ready to jump on 3.10.0 rc1 when it
+<a href="https://www.python.org/dev/peps/pep-0619/#schedule">comes out on
+August 2</a>.</p>
+
+<p>Thanks!</p>
+
+</body>
+</entry>
+</blog>
