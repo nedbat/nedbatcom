@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210725T191943'>
+<title>Aptus v3</title>
+<category>mycode</category>
+<category>art</category>
+<category>math</category>
+<body>
+
+<p>After a hiatus of almost 13 years, I've made a new release of
+<a href="/code/aptus/v3.html">Aptus</a>, my Mandelbrot explorer.  I got
+re-interested in it as a way to make Zoom backgrounds during the pandemic.</p>
+
+<p>I started by moving it from Python 2 to Python 3.9.  Then the wxPython GUI
+needed to move up a few versions, but it wasn't working too well.  So I built a
+new browser-based user interface.  A compute server in FastAPI and a UI in
+vanilla JavaScript are the new GUI.</p>
+
+<p>There are features from the old GUI that aren't available yet (You Are Here
+is my favorite), but it's very usable.</p>
+
+<figurep href='code/aptus/v3.html'>
+    <img src='pix/CurrencyCurrent.png' alt='Intricate Mandelbrot'/>
+</figurep>
+
+</body>
+</entry>
+</blog>

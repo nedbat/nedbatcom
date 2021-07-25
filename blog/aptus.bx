@@ -16,7 +16,7 @@ the last few months.  It's a Mandelbrot set explorer and renderer.
 
 <p>Aptus is written in Python with a wxPython user interface.  It runs on Windows,
 Mac, and Linux.  It has a computation engine in C for speed, with boundary
-tracing and cycle detection for more speed. There's also command-line renderer 
+tracing and cycle detection for more speed. There's also a command-line renderer
 for making higher-quality renderings by supersampling pixels to get smoother
 contours and more detail.</p>
 
@@ -27,7 +27,7 @@ and partly to have fun on a side project.</p>
 
 <p>This is one of those side projects with a number of different facets to hold
 my attention as my interests shift.  In a visual mood, I can extend the graphic
-options, in a quantitative mood, I can dig out a little more speed from the
+options; in a quantitative mood, I can dig out a little more speed from the
 engine, and so on.</p>
 
 <p>Side projects have always been a good way for me to extend my skills.  For example,
