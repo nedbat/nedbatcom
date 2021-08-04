@@ -1,4 +1,4 @@
-.PHONY: help publish test
+.PHONY: help publish html test
 
 .DEFAULT_GOAL := help
 
@@ -8,6 +8,9 @@ help: ## display this help message
 
 publish: ## publish to Webfaction
 	python djstell/bin/makehtml.py wf all
+
+html: ## publish to Webfaction
+	python djstell/bin/makehtml.py wf clean load make
 
 test: ## run the few tests we have
 	pytest djstell/pages/tests.py
