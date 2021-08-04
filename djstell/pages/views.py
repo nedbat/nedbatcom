@@ -5,7 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.http import HttpResponse, Http404
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext, Template
 
 from djstell.pages.models import Entry, Article, Tag
@@ -53,7 +53,7 @@ def entry(request, year, month, slug):
             'title': ent.title,
             'closed': ent.comments_closed,
             }
-    return render_to_response('oneentry.html', c)
+    return render(request, 'oneentry.html', c)
 
 def blogmain(request):
     """ The main blog page. A dozen recent entries.
@@ -70,7 +70,7 @@ def blogmain(request):
     c['title'] = 'Blog'
     c['hide_h1'] = True
     c['bodyclass'] = 'blog main'
-    return render_to_response('blogmain.html', c)
+    return render(request, 'blogmain.html', c)
 
 def archiveyear(request, year):
     ents = list(Entry.objects.filter(when__year=int(year)).order_by('-when'))
@@ -80,7 +80,7 @@ def archiveyear(request, year):
     c['year'] = year
     c['title'] = 'Blog: %s' % year
     c['bodyclass'] = 'blog archive year'
-    return render_to_response('blogarchive.html', c)
+    return render(request, 'blogarchive.html', c)
 
 def archivedate(request, month, day):
     date = datetime.datetime(2004, int(month), int(day))
@@ -93,7 +93,7 @@ def archivedate(request, month, day):
     c['bodyclass'] = 'blog archive date'
     c['prev_date'] = date - datetime.timedelta(days=1)
     c['next_date'] = date + datetime.timedelta(days=1)
-    return render_to_response('blogarchive.html', c)
+    return render(request, 'blogarchive.html', c)
 
 def archiveall(request):
     ents = list(Entry.objects.all().order_by('-when'))
@@ -102,7 +102,7 @@ def archiveall(request):
     c['type'] = 'complete'
     c['title'] = 'Blog: Complete'
     c['bodyclass'] = 'blog archive all'
-    return render_to_response('blogarchive.html', c)
+    return render(request, 'blogarchive.html', c)
 
 def tags(request):
     tags = Tag.objects.all().order_by('name')
@@ -113,7 +113,7 @@ def tags(request):
     c['untagged'] = untagged_entries()
     c['title'] = 'Blog: tags'
     c['bodyclass'] = 'blog tags'
-    return render_to_response('alltags.html', c)
+    return render(request, 'alltags.html', c)
 
 def tag(request, slug):
     tag = Tag.objects.get(tag=slug)
@@ -123,7 +123,7 @@ def tag(request, slug):
     c['tag'] = tag
     c['title'] = 'Blog: #%s' % tag.hashtag
     c['bodyclass'] = 'blog tag'
-    return render_to_response('tags.html', c)
+    return render(request, 'tags.html', c)
 
 def untagged(request):
     ents = untagged_entries()
@@ -131,7 +131,7 @@ def untagged(request):
     add_entries(c, ents)
     c['title'] = 'Blog: untagged'
     c['bodyclass'] = 'blog tag'
-    return render_to_response('tags.html', c)
+    return render(request, 'tags.html', c)
 
 def untagged_entries():
     # There's probably a good ORM way to find untagged entries, but I don't know what it is.
@@ -146,20 +146,20 @@ def drafts(request):
     c['type'] = 'drafts'
     c['title'] = 'Blog: Drafts'
     c['bodyclass'] = 'blog archive all'
-    return render_to_response('blogarchive.html', c)
+    return render(request, 'blogarchive.html', c)
 
 def blog_rss(request):
     """The RSS feed for the whole blog."""
     ents = Entry.objects.all().order_by('-when')[:10]
     c = {}
     c['entries'] = ents
-    return render_to_response('rss.xml', c)
+    return render(request, 'rss.xml', c)
 
 def tags_rss(request, tags):
     """An RSS feed for just the tags mentioned in `tags`."""
     c = {}
     c['entries'] = Entry.objects.filter(tags__tag__in=tags).distinct().order_by('-when')[:10]
-    return render_to_response('rss.xml', c)
+    return render(request, 'rss.xml', c)
 
 def blog_moved_php(request):
     ents = Entry.objects.all()
@@ -168,7 +168,7 @@ def blog_moved_php(request):
 
     c = {}
     c['entries'] = ents
-    return render_to_response('moved.php', c)
+    return render(request, 'moved.php', c)
 
 ## Article stuff
 
@@ -199,7 +199,7 @@ def article(request, path):
             'title': a.title,
             'lorem': path == "text/lorem.html",
         }
-    return render_to_response('article.html', c)
+    return render(request, 'article.html', c)
 
 def sidebar(request, which):
     html = "{% load tags %}{% sidebar which 1 %}"
@@ -259,4 +259,4 @@ def index(request):
         { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
     ]
 
-    return render_to_response('mainpage.html', c)
+    return render(request, 'mainpage.html', c)
