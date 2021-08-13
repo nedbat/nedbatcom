@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20210812T1937'>
+<title>Pythonic monotonic</title>
+<category>python</category>
+<body>
+
+<p>In a recent conversation, someone shared some code from a book about
+technical job interviews. They wanted to know if I agreed that the code was
+"Pythonic."</p>
+
+<p>The problem was to find the runs of increasing and decreasing values in a
+list, and to produce a sequence of the runs, but to reverse the decreasing runs,
+so that they are also increasing.  This was the "Pythonic" code:</p>
+
+<code lang="python"><![CDATA[
+import itertools
+
+def mono_runs_pythonic(seq):
+    class Monotonic:
+        def __init__(self):
+            self._last = float("-inf")
+
+        def __call__(self, curr):
+            res = curr < self._last
+            self._last = curr
+            return res
+
+    return [
+        list(group)[::-1 if is_decreasing else 1]
+        for is_decreasing, group in itertools.groupby(seq, Monotonic())
+    ]
+
+mono_runs_pythonic([1, 2, 3, 2, 1, 4, 5, 6, 7])
+# --> [1, 2, 3], [1, 2], [4, 5, 6, 7]
+]]></code>
+
+<p>My first response was that I don't like this code, because I had to <b>read
+it with my eyebrows</b>.  That is, I furrow my brow, and read slowly, and scowl
+at the code as I puzzle through it. This code is dense and tricky.</p>
+
+<p>Is it Pythonic? I guess in the sense that it uses a number of Python-specific
+constructs and tools, yes.  But not in the sense of Python code being clear and
+straightforward. It uses Python thoroughly, but misses the spirit.</p>
+
+<p>I tried my hand at my own solution.  It came out like this:</p>
+
+<code lang="python"><![CDATA[
+def mono_runs_simpler(seq):
+    seqit = iter(seq)
+    run = [next(seqit)]
+    up = True
+    for v in seqit:
+        good = (v > run[-1]) if up else (v < run[-1])
+        if good:
+            run.append(v)
+        else:
+            yield run if up else run[::-1]
+            run = [v]
+            up = not up
+    if run:
+        yield run
+]]></code>
+
+<p>This code also uses some unusual Python techniques, but is clearer to me. I'm
+not sure everyone would agree it is clearer. Maybe you have an even better way
+to do it.</p>
+
+<p>Aside from the question of which code is better, I also didn't like that this
+code was presented as a good solution for a job interview.  Studying code like
+this to learn intricate tricks of Python is not a good way to get a job.  Or, it
+might be a good way to get a job, but I don't like that it might work.  Job
+interviews should be about much deeper concerns than whether you know
+little-visited corners of the Python standard library.</p>
+
+</body>
+</entry>
+</blog>
