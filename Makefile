@@ -9,7 +9,7 @@ help: ## display this help message
 publish: ## publish to Webfaction
 	python djstell/bin/makehtml.py wf all
 
-html: ## publish to Webfaction
+html: ## make HTML for uploading
 	python djstell/bin/makehtml.py wf clean load make
 
 test: ## run the few tests we have
