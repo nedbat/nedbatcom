@@ -83,7 +83,7 @@ def combined_more_blog():
     tags = iter(tags)
 
     years = ( d.year for d in Entry.objects.dates('when', 'year', order='DESC') )
-    years = ({'link': '/blog/archive/year{0}.html'.format(y), 'text': "'{0:02d}".format(y % 100)} for y in years)
+    years = ({'link': f'/blog/archive/year{y}.html', 'text': f"'{y % 100:02d}"} for y in years)
     years = iter(years)
 
     # Interleave tags and years.
@@ -146,15 +146,15 @@ def static_link(filename):
     """Insert our best cache-busting static link."""
     main, ext = os.path.splitext(filename)
     if settings.PHP_INCLUDE:
-        time = "<?php echo filemtime('{wwwroot}/{filename}') ?>".format(wwwroot=settings.WWWROOT, filename=filename)
-        url = "{base}/{main}__{time}{ext}".format(base=settings.BASE, main=main, time=time, ext=ext)
+        time = f"<?php echo filemtime('{settings.WWWROOT}/{filename}') ?>"
+        url = f"{settings.BASE}/{main}__{time}{ext}"
     else:
-        url = "{base}/{filename}".format(base=settings.BASE, filename=filename)
+        url = f"{settings.BASE}/{filename}"
     if ext == ".css":
-        tag = "<link rel='stylesheet' href='{url}' type='text/css'>"
+        tag = f"<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
-        tag = "<script type='text/javascript' src='{url}' async='async'></script>"
-    return mark_safe(tag.format(url=url))
+        tag = f"<script type='text/javascript' src='{url}' async='async'></script>"
+    return mark_safe(tag)
 
 @register.simple_tag
 def static_url_link(url, type, defer=False):
@@ -165,19 +165,19 @@ def static_url_link(url, type, defer=False):
         if defer:
             # https://web.dev/defer-non-critical-css/
             tag = (
-                '''<link rel="preload" href="{url}" as="style" onload="this.onload=null;this.rel='stylesheet'">'''
-                '''<noscript><link href="{url}" rel="stylesheet"></noscript>'''
+                f'''<link rel="preload" href="{url}" as="style" onload="this.onload=null;this.rel='stylesheet'">'''
+                f'''<noscript><link href="{url}" rel="stylesheet"></noscript>'''
             )
         else:
-            tag = '<link href="{url}" rel="stylesheet">'
+            tag = f'<link href="{url}" rel="stylesheet">'
     elif type == 'js':
         if defer:
-            tag = '<script src="{url}" async="async"></script>'
+            tag = f'<script src="{url}" async="async"></script>'
         else:
-            tag = '<script src="{url}"></script>'
+            tag = f'<script src="{url}"></script>'
     else:
-        raise Exception("Don't know static_url_link type: {!r}".format(type))
-    return mark_safe(tag.format(url=url))
+        raise Exception(f"Don't know static_url_link type: {type!r}")
+    return mark_safe(tag)
 
 @register.tag
 def ifnotfirst(parser, token):
