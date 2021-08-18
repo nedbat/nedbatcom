@@ -12,6 +12,9 @@ publish: ## publish to Webfaction
 html: ## make HTML for uploading
 	python djstell/bin/makehtml.py wf clean load make
 
+live: ## run a local Django server
+	python djstell/manage.py runserver --settings=djstell.settings_live
+
 test: ## run the few tests we have
 	pytest djstell/pages/tests.py
 
