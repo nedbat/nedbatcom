@@ -15,8 +15,8 @@ PLANET_PYTHON_TAGS = [
     ]
 
 urlpatterns = [
-    url(r'^index.html$', dpv.index),
-    url(r'^blog/index.html$', dpv.blogmain),
+    url(r'^(?:index.html)?$', dpv.index),
+    url(r'^blog(?:/index.html)?$', dpv.blogmain),
     url(r'^blog/(?P<year>\d\d\d\d)(?P<month>\d\d)/(?P<slug>[^/]+).html$', dpv.entry),
 
     url(r'^blog/tags.html$', dpv.tags),
@@ -32,7 +32,8 @@ urlpatterns = [
     url(r'^blog/planetpython.xml$', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
     url(r'^blog/moved.php$', dpv.blog_moved_php),
 
-    url(r'^(?P<path>(text|code|site)/.*)$', dpv.article),
+    url(r'^(?P<path>(text|code|site))/?$', dpv.article_root),
+    url(r'^(?P<path>(text|code|site)/.+)$', dpv.article),
     url(r'^(?P<path>err404.html)$', dpv.article),
 
     url(r'^0inc/sidebar_(?P<which>\w+).inc$', dpv.sidebar),

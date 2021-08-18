@@ -172,6 +172,9 @@ def blog_moved_php(request):
 
 ## Article stuff
 
+def article_root(request, path):
+    return article(request, f"{path}/index.html")
+
 def article(request, path):
     pxpath = path.replace('.html', '.px')
     a = get_object_or_404(Article, path=pxpath)
