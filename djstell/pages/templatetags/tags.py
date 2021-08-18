@@ -145,11 +145,14 @@ def twodigit(value):
 def static_link(filename):
     """Insert our best cache-busting static link."""
     main, ext = os.path.splitext(filename)
+    base = settings.BASE
+    if settings.STATIC_URL:
+        base += settings.STATIC_URL.rstrip("/")
     if settings.PHP_INCLUDE:
         time = f"<?php echo filemtime('{settings.WWWROOT}/{filename}') ?>"
-        url = f"{settings.BASE}/{main}__{time}{ext}"
+        url = f"{base}/{main}__{time}{ext}"
     else:
-        url = f"{settings.BASE}/{filename}"
+        url = f"{base}/{filename}"
     if ext == ".css":
         tag = f"<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":

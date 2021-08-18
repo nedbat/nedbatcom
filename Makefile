@@ -1,4 +1,4 @@
-.PHONY: help publish html test
+.PHONY: help publish html css js live test clean
 
 .DEFAULT_GOAL := help
 
@@ -11,6 +11,19 @@ publish: ## publish to Webfaction
 
 html: ## make HTML for uploading
 	python djstell/bin/makehtml.py wf clean load make
+
+css: ## make css from .scss
+	for f in style/[a-z]*.scss; do \
+		pysassc --style=compressed $$f static/$$(basename $${f%.scss}.css); \
+	done
+
+js: static/nedbatchelder.js
+static/nedbatchelder.js:
+	echo "" >$@
+	for f in $$(<js/ingredients.txt); do \
+		cat js/$$f >>$@; \
+		echo "" >>$@; \
+	done
 
 live: ## run a local Django server
 	python djstell/manage.py runserver --settings=djstell.settings_live

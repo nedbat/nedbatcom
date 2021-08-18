@@ -7,3 +7,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
+
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    mybase + "../static",
+]
