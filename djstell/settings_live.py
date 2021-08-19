@@ -12,3 +12,5 @@ STATIC_URL = "/"
 STATICFILES_DIRS = [
     mybase + "../live",
 ]
+
+SENDFILE_BACKEND = "sendfile.backends.development"

@@ -2,11 +2,13 @@
 
 import collections
 import datetime
+import os.path
 
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext, Template
+from sendfile import sendfile
 
 from djstell.pages.models import Entry, Article, Tag
 from djstell.pages.templatetags.tags import first_sentence, just_text
@@ -176,6 +178,11 @@ def article_root(request, path):
     return article(request, f"{path}/index.html")
 
 def article(request, path):
+    if settings.STATICFILES_DIRS:
+        maybe_file = os.path.join(settings.STATICFILES_DIRS[0], path)
+        if os.path.exists(maybe_file):
+            return sendfile(request, os.path.abspath(maybe_file))
+
     pxpath = path.replace('.html', '.px')
     a = get_object_or_404(Article, path=pxpath)
     c = {}
