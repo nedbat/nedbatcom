@@ -8,7 +8,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
-STATIC_URL = "/static/"
+STATIC_URL = "/"
 STATICFILES_DIRS = [
-    mybase + "../static",
+    mybase + "../live",
 ]

@@ -76,6 +76,12 @@ class CmdLine(object):
             f"Simple local server:\n  sudo -v; sudo python -m http.server -b 0.0.0.0 -d ../www {port} & open http://localhost:{port}"
         )
 
+    def do_live(self):
+        self.BASE = "http://127.0.0.1:8000"
+        self.ROOT = "live"
+        self.WWWROOT = os.path.abspath(self.ROOT)
+        self.PHP_INCLUDE = False
+
     def do_file(self):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
         self.ROOT = 'html_local'
