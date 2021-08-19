@@ -18,7 +18,7 @@ You can read the slides and text on this page, or watch the video, or open the
 <a href="text/machete/machete.html">actual presentation</a> in your browser
 (use right and left arrows to advance the slides).</p>
 
-<youtube_jump video="5XvAVgcbmdY"/>
+<youtube_jump video="bAcfPzxB3dk"/>
 
 <figurep href="text/machete/machete.html#1"><img alt="Machete-Mode Debugging" scale="0.5" src="text/machete_pix/000.png"/></figurep><figurep href="text/machete/machete.html#2"><img alt="Python can be chaotic" scale="0.5" src="text/machete_pix/001.png"/></figurep><!-- {{{ --><p>Python is a great language.  We love it for its flexibility and dynamism.
 With discipline, we use Python in ways similar to stricter languages, and build
@@ -94,7 +94,7 @@ entries in sys.path.  The asterisks show the directories that were in sys.path.
 The file that was being imported twice was project/thing/apps/first/models.py.</p><p>In one file, it was imported as "thing.apps.first.models", and was found via
 the "project" sys.path entry.  In the other file, it was imported as "first.models"
 and was found via the "project/thing/apps" sys.path entry.  The first import created
-a "thing.apps.first.models" key in sys.modules.  The second import looked for a 
+a "thing.apps.first.models" key in sys.modules.  The second import looked for a
 key of "first.models", didn't find it, and then imported the same file again.</p><p>The fix was to choose one style of import, and stick with it throughout the
 code.</p><!-- Where i fixed them: https://github.com/edx/edx-platform/pull/9988/files --><figurep href="text/machete/machete.html#10"><img alt="&#9758; Lessons &#9756;" scale="0.5" src="text/machete_pix/009.png"/></figurep><!-- {{{ --><p>Some things we took advantage of here:</p><ul>
     <li>Importing modules really executes code.  Good practice is to avoid
