@@ -156,15 +156,6 @@ class CmdLine(object):
 
         generator.quick_publish(resources, use_processes=self.use_processes)
 
-        # Build the JS file as the concatenation of others.
-        with open("js/ingredients.txt") as ingredients:
-            js = ingredients.read().split()
-        with open(dst+"/nedbatchelder.js", "w") as outjs:
-            for f in js:
-                with open("js/"+f) as jsin:
-                    outjs.write(jsin.read())
-                outjs.write("\n")
-
     @timed
     def do_copy_verbatim(self):
         dst = self.ROOT
@@ -177,9 +168,6 @@ class CmdLine(object):
                 '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
-            include='*.gif *.jpg *.png *.svg *.swf'
-            )
-        self.xuff.copytree(src='blog', dst=dst+"/blog",
             include='*.gif *.jpg *.png *.svg *.swf'
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
@@ -243,6 +231,15 @@ class CmdLine(object):
             self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
         if self.PHPINI:
             self.xuff.copyfile(self.PHPINI, self.ROOT+"/php.ini")
+
+        # Build the JS file as the concatenation of others.
+        with open("js/ingredients.txt") as ingredients:
+            js = ingredients.read().split()
+        with open(self.ROOT+"/nedbatchelder.js", "w") as outjs:
+            for f in js:
+                with open("js/"+f) as jsin:
+                    outjs.write(jsin.read())
+                outjs.write("\n")
 
     @timed
     def do_upload(self):
