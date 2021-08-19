@@ -178,6 +178,9 @@ class CmdLine(object):
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
+    def do_copy_db(self):
+        self.xuff.copyfile("djstell/stell.db", self.ROOT + "/stell.db")
+
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""
         basename = os.path.splitext(os.path.basename(sassname))[0]

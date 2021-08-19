@@ -8,6 +8,13 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': mybase + "../live/stell.db",
+    }
+}
+
 STATIC_URL = "/"
 STATICFILES_DIRS = [
     mybase + "../live",
