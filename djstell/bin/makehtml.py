@@ -42,8 +42,7 @@ class CmdLine(object):
         self.BASE = None
         self.EXT_BASE = None
         self.ROOT = r'html'
-        self.HTACCESS = None
-        self.PHPINI = None
+        self.COPY_FILES = []
         self.PHP_INCLUDE = True
         self.all_words = "clean load make upload"
         self.text_ext='''
@@ -62,7 +61,9 @@ class CmdLine(object):
     def do_local(self):
         self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = '../www'
-        self.HTACCESS = 'local.htaccess'
+        self.COPY_FILES = [
+            ("deploy/local.htaccess", ".htaccess"),
+            ]
         self.WWWROOT = os.path.abspath(self.ROOT)
         self.all_words = "load make"    # Don't clean: it clobbers reactor.
 
@@ -91,8 +92,10 @@ class CmdLine(object):
     def do_wf(self):
         self.BASE = '//nedbatchelder.com'
         self.EXT_BASE = 'https://nedbatchelder.com'
-        self.HTACCESS = 'webfaction.htaccess'
-        self.PHPINI = 'webfaction.php.ini'
+        self.COPY_FILES = [
+            ("deploy/webfaction.htaccess", ".htaccess"),
+            ("deploy/webfaction.php.ini", "php.ini"),
+            ]
         self.WWWROOT = '/home/nedbat/webapps/main'
         self.FTP = dict(
             host='nedbat.webfactional.com', hostdir='webapps/main',
@@ -100,12 +103,14 @@ class CmdLine(object):
             src='html',
             text=self.text_ext,
             binary=self.binary_ext,
-            md5file='webfaction.md5',
+            md5file='deploy/webfaction.md5',
             )
 
     def do_nednet(self):
         self.BASE = '//nedbatchelder.net'
-        self.HTACCESS = 'nednet.htaccess'
+        self.COPY_FILES = [
+            ("deploy/nednet.htaccess", ".htaccess"),
+            ]
         self.WWWROOT = '/home/nedbat/nedbatchelder.net'
         self.PHP_INCLUDE = False
         self.FTP = dict(
@@ -114,7 +119,7 @@ class CmdLine(object):
             src='html',
             text=self.text_ext,
             binary=self.binary_ext,
-            md5file='nedbat.md5',
+            md5file='deploy/nedbat.md5',
             )
 
     def generate(self, dst):
@@ -236,10 +241,8 @@ class CmdLine(object):
     def do_support(self):
         for sassfile in glob.glob("style/[a-z]*.scss"):
             self.run_sass(sassfile, self.ROOT)
-        if self.HTACCESS:
-            self.xuff.copyfile(self.HTACCESS, self.ROOT+"/.htaccess")
-        if self.PHPINI:
-            self.xuff.copyfile(self.PHPINI, self.ROOT+"/php.ini")
+        for here, there in self.COPY_FILES:
+            self.xuff.copyfile(here, os.path.join(self.ROOT, there))
 
         # Build the JS file as the concatenation of others.
         with open("js/ingredients.txt") as ingredients:
