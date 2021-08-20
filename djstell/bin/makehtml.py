@@ -7,6 +7,7 @@ import os
 import os.path
 import shutil
 import socket
+import subprocess
 import sys
 import time
 
@@ -80,7 +81,6 @@ class CmdLine(object):
     def do_live(self):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
-        self.WWWROOT = os.path.abspath(self.ROOT)
         self.PHP_INCLUDE = False
 
     def do_file(self):
@@ -108,19 +108,13 @@ class CmdLine(object):
 
     def do_nednet(self):
         self.BASE = '//nedbatchelder.net'
+        self.ROOT = "live"
         self.COPY_FILES = [
             ("deploy/nednet.htaccess", ".htaccess"),
+            ("deploy/nednet_passenger_wsgi.py", "passenger_wsgi.py"),
             ]
-        self.WWWROOT = '/home/nedbat/nedbatchelder.net'
         self.PHP_INCLUDE = False
-        self.FTP = dict(
-            host='nedbatchelder.net', hostdir='nedbatchelder.net',
-            user='nedbat', password=password.NEDNET,
-            src='html',
-            text=self.text_ext,
-            binary=self.binary_ext,
-            md5file='deploy/nedbat.md5',
-            )
+        self.RSYNC_DST = "dreamhost:nedbatchelder.net"
 
     def generate(self, dst):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
@@ -260,6 +254,13 @@ class CmdLine(object):
         logging.getLogger().addHandler(handler)
         logging.getLogger().setLevel(logging.INFO)
         self.xuff.upload(**self.FTP)
+
+    @timed
+    def do_rsync(self):
+        cmd = ["rsync", "-arvz", self.ROOT + "/", self.RSYNC_DST]
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        for line in process.stdout:
+            sys.stdout.buffer.write(line)
 
     def do_ping(self):
         self.xuff.xmlrpc(
