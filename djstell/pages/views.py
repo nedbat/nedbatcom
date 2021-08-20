@@ -174,16 +174,16 @@ def blog_moved_php(request):
 
 ## Article stuff
 
-def article_root(request, path):
-    return article(request, f"{path}/index.html")
-
 def article(request, path):
     if settings.STATICFILES_DIRS:
         maybe_file = os.path.join(settings.STATICFILES_DIRS[0], path)
-        if os.path.exists(maybe_file):
+        if os.path.exists(maybe_file) and not os.path.isdir(maybe_file):
             return sendfile(request, os.path.abspath(maybe_file))
 
-    pxpath = path.replace('.html', '.px')
+    if path.endswith(".html"):
+        pxpath = path.replace('.html', '.px')
+    else:
+        pxpath = path + "/index.px"
     a = get_object_or_404(Article, path=pxpath)
     c = {}
     c['title'] = a.title
