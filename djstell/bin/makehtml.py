@@ -44,6 +44,7 @@ class CmdLine(object):
         self.EXT_BASE = None
         self.ROOT = r'html'
         self.COPY_FILES = []
+        self.COPY_TREES = []
         self.PHP_INCLUDE = True
         self.all_words = "clean load make upload"
         self.text_ext='''
@@ -110,11 +111,15 @@ class CmdLine(object):
         self.BASE = '//nedbatchelder.net'
         self.ROOT = "live"
         self.COPY_FILES = [
-            ("deploy/nednet.htaccess", ".htaccess"),
             ("deploy/nednet_passenger_wsgi.py", "passenger_wsgi.py"),
+            ("requirements.txt", "requirements.txt"),
+            ]
+        self.COPY_TREES = [
+            ("../../py/stellated", "stellated"),
             ]
         self.PHP_INCLUDE = False
         self.RSYNC_DST = "dreamhost:nedbatchelder.net"
+        self.all_words = "clean load copy_verbatim copy_live support djstell rsync"
 
     def generate(self, dst):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
@@ -177,8 +182,13 @@ class CmdLine(object):
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
-    def do_copy_db(self):
+    def do_copy_live(self):
         self.xuff.copyfile("djstell/stell.db", self.ROOT + "/stell.db")
+        self.xuff.copytree(src=".", dst=self.ROOT, include="*.xslt")
+        tmp = os.path.join(self.ROOT, "tmp")
+        os.makedirs(tmp, exist_ok=True)
+        with open(os.path.join(tmp, "restart.txt"), "w") as f:
+            print(str(datetime.datetime.now()), file=f)
 
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""
@@ -237,6 +247,8 @@ class CmdLine(object):
             self.run_sass(sassfile, self.ROOT)
         for here, there in self.COPY_FILES:
             self.xuff.copyfile(here, os.path.join(self.ROOT, there))
+        for here, there in self.COPY_TREES:
+            self.xuff.copytree(src=here, dst=os.path.join(self.ROOT, there), include="*.*")
 
         # Build the JS file as the concatenation of others.
         with open("js/ingredients.txt") as ingredients:
@@ -246,6 +258,9 @@ class CmdLine(object):
                 with open("js/"+f) as jsin:
                     outjs.write(jsin.read())
                 outjs.write("\n")
+
+    def do_djstell(self):
+        self.xuff.copytree(src='djstell', dst=os.path.join(self.ROOT, "djstell"), include='*.*')
 
     @timed
     def do_upload(self):
@@ -257,7 +272,7 @@ class CmdLine(object):
 
     @timed
     def do_rsync(self):
-        cmd = ["rsync", "-arvz", self.ROOT + "/", self.RSYNC_DST]
+        cmd = ["rsync", "-arz", "--info=stats1", self.ROOT + "/", self.RSYNC_DST]
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in process.stdout:
             sys.stdout.buffer.write(line)
