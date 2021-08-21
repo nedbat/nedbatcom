@@ -111,6 +111,7 @@ class CmdLine(object):
         self.BASE = '//nedbatchelder.net'
         self.ROOT = "live"
         self.COPY_FILES = [
+            ("deploy/nednet.htaccess", ".htaccess"),
             ("deploy/nednet_passenger_wsgi.py", "passenger_wsgi.py"),
             ("requirements.txt", "requirements.txt"),
             ]

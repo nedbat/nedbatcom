@@ -5,7 +5,7 @@ from .settings import *
 BASE = '//nedbatchelder.net'
 EXT_BASE = BASE
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.net"]
@@ -25,4 +25,5 @@ STATICFILES_DIRS = [
 # Tried other backends, without extra settings:
 #   Backends that did work: development, simple (with DEBUG=True)
 #   Backends that didn't work: xsendfile, mod_wsgi, nginx
-SENDFILE_BACKEND = "sendfile.backends.simple"
+# With .htaccess, xsendfile worked (even without XSendFile..)
+SENDFILE_BACKEND = "sendfile.backends.xsendfile"
