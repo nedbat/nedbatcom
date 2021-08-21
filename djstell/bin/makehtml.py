@@ -134,6 +134,7 @@ class CmdLine(object):
         else:
             settings.EXT_BASE = 'http:' + self.BASE
         settings.PHP = False
+        settings.AS_PHP = True
         settings.PHP_INCLUDE = self.PHP_INCLUDE
 
         resources = [

@@ -5,6 +5,7 @@ from .settings import *
 BASE = '//nedbatchelder.net'
 EXT_BASE = BASE
 
+PHP = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

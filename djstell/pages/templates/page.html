@@ -1,4 +1,4 @@
-<?php ob_start(); ?><!DOCTYPE HTML>
+{% if settings.AS_PHP %}<?php ob_start(); ?>{% endif %}<!DOCTYPE HTML>
 {% load tags %}
 {# Basic structure of a page on the site. #}
 {% spaceless %}
@@ -86,10 +86,14 @@
             {% endblock %}
 
             {% if comments %}
+                {% if settings.AS_PHP %}
                 <?php
                     require_once('inc/reactor_class.php');
                     $ror = new Reactor();
                 ?>
+                {% else %}
+                <p><b>[Comment Include]</b></p>
+                {% endif %}
             {% endif %}
 
             {% block body %}
@@ -97,6 +101,7 @@
             {% endblock body %}
 
             {% if comments %}
+                {% if settings.AS_PHP %}
                 <?php
                     $entryinfo = array();
                     $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
@@ -113,6 +118,9 @@
                         $entryinfo
                     );
                 ?>
+                {% else %}
+                <p><b>[Comment Notice]</b></p>
+                {% endif %}
             {% endif %}
 
         </div>

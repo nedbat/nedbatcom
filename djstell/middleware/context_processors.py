@@ -2,7 +2,7 @@
 
 from django.conf import settings
 
-def doit(request):
+def inject_settings(request):
     """ Put settings into the context as 'settings'
     """
     return {

@@ -2,10 +2,12 @@
 
 PHP = True              # Should we execute PHP tags in the output?
 PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
+AS_PHP = False
+
 BASE = 'http://localhost/'
 LOG_SQL = False
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -54,6 +56,8 @@ MEDIA_URL = ''
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
 
+STATIC_URL = "/"
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '6wws-8*df&1#^_ddh^tj%@!ho)n9vwi)y#%gwt2ur_e!-ack11'
 
@@ -65,16 +69,6 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
     )),
-)
-
-# List of processors used by RequestContext to populate the context.
-# Each one should be a callable that takes the request object as its
-# only parameter and returns a dictionary to add to the context.
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'djstell.middleware.context_processors.doit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,6 +89,14 @@ TEMPLATES = [
         'DIRS': [
             mybase + 'pages/templates',
         ],
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                # 'django.core.context_processors.i18n',
+                # 'django.core.context_processors.media',
+                'djstell.middleware.context_processors.inject_settings',
+            ],
+        },
     },
 ]
 
