@@ -22,4 +22,7 @@ STATICFILES_DIRS = [
     os.path.abspath(mybase + ".."),
 ]
 
-SENDFILE_BACKEND = "sendfile.backends.development"
+# Tried other backends, without extra settings:
+#   Backends that did work: development, simple (with DEBUG=True)
+#   Backends that didn't work: xsendfile, mod_wsgi, nginx
+SENDFILE_BACKEND = "sendfile.backends.simple"
