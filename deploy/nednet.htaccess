@@ -11,6 +11,9 @@ ErrorDocument 404 /err404.html
 # Serving a directory should try these files in turn.
 DirectoryIndex home.php index.php index.html index.htm
 
+#LoadModule xsendfile_module #modules/mod_xsendfile.so
+#XSendFile on
+
 ## Rewrite rules
 RewriteEngine on
 
