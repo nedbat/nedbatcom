@@ -1,17 +1,19 @@
 """ Helpful middleware!
 """
 
+import datetime, os, re, sys
+from textwrap import TextWrapper
+
 from django.db import connection
 from django.conf import settings
-from textwrap import TextWrapper
-import datetime, os, re, sys
+from django.utils.deprecation import MiddlewareMixin
 
-class AnnounceErrorsMiddleware:
+class AnnounceErrorsMiddleware(MiddlewareMixin):
     """ Make sure exceptions get mentioned on stdout, for use while generating
         static pages.
     """
     def process_exception(self, request, exception):
-        print "Error: %s -> %s" % (request.path, exception)
+        print("Error: %s -> %s" % (request.path, exception))
 
 wrapper = TextWrapper(subsequent_indent=' '*9, width=159)
 table_name_re = re.compile(r'FROM (?P<table_name>[^ ]+) *(WHERE|$)')
@@ -39,7 +41,7 @@ def print_queries(showsql=1, outfile=sys.stdout):
                 outfile.write(l)
                 outfile.write('\n')
 
-class LogQueriesMiddleware:
+class LogQueriesMiddleware(MiddlewareMixin):
     """ Log the queries for each path
     """
 

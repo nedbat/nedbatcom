@@ -67,20 +67,13 @@ SECRET_KEY = '6wws-8*df&1#^_ddh^tj%@!ho)n9vwi)y#%gwt2ur_e!-ack11'
 
 CONN_MAX_AGE = None
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
-
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'djstell.middleware.phpware.PhpMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.doc.XViewMiddleware',
+    #'django.middleware.doc.XViewMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
     'djstell.middleware.standard.LogQueriesMiddleware',
 )
@@ -100,6 +93,12 @@ TEMPLATES = [
                 # 'django.core.context_processors.media',
                 'djstell.middleware.context_processors.inject_settings',
             ],
+            'loaders': [
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ]),
+            ],
         },
     },
 ]
@@ -110,4 +109,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'djstell.pages',
+    'debug_toolbar',
 )
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

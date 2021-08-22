@@ -2,10 +2,11 @@
 """
 
 import shlex, subprocess
-from cStringIO import StringIO
+from io import StringIO
 from django.conf import settings
+from django.utils.deprecation import MiddlewareMixin
 
-class PhpMiddleware:
+class PhpMiddleware(MiddlewareMixin):
 
     if settings.PHP:
         def process_response(self, request, response):
