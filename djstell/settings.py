@@ -72,6 +72,7 @@ MIDDLEWARE = (
     'djstell.middleware.phpware.PhpMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.doc.XViewMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
@@ -92,6 +93,9 @@ TEMPLATES = [
                 # 'django.core.context_processors.i18n',
                 # 'django.core.context_processors.media',
                 'djstell.middleware.context_processors.inject_settings',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
             'loaders': [
                 ('django.template.loaders.cached.Loader', [
@@ -104,8 +108,10 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
     'djstell.pages',
