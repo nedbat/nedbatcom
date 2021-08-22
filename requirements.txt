@@ -1,6 +1,7 @@
 Django==3.2.6
 Pygments==2.10.0
-lxml==4.6.3
+# lxml 4.6.3 had problems with the russian pages
+lxml==4.5.2
 pillow==8.3.1
 #smartypants==2.0.1
 git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes#egg=smartypants==0.0
