@@ -11,10 +11,11 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.net"]
 
+# mybase = '..blah/djstell'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': mybase + "stell.db",
+        'NAME': os.path.abspath(mybase + "stell.db"),
     }
 }
 

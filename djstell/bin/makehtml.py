@@ -120,7 +120,15 @@ class CmdLine(object):
             ]
         self.PHP_INCLUDE = False
         self.RSYNC_DST = "dreamhost:nedbatchelder.net"
-        self.all_words = "clean load copy_verbatim copy_live support djstell rsync"
+        self.all_words = "clean load copy_verbatim copy_live support djstell upload rsyncdb"
+        self.FTP = dict(
+            host='nedbatchelder.net', hostdir='nedbatchelder.net',
+            user='nedbat', password=password.NEDNET,
+            src='live',
+            text=self.text_ext,
+            binary=self.binary_ext,
+            md5file='deploy/nedbat.md5',
+            )
 
     def generate(self, dst):
         settings.SERVER_NAME = "example.com"    # Doesn't matter...
@@ -185,7 +193,6 @@ class CmdLine(object):
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
     def do_copy_live(self):
-        self.xuff.copyfile("djstell/stell.db", self.ROOT + "/stell.db")
         self.xuff.copytree(src=".", dst=self.ROOT, include="*.xslt")
         tmp = os.path.join(self.ROOT, "tmp")
         os.makedirs(tmp, exist_ok=True)
@@ -273,8 +280,8 @@ class CmdLine(object):
         self.xuff.upload(**self.FTP)
 
     @timed
-    def do_rsync(self):
-        cmd = ["rsync", "-arz", "--info=stats1", self.ROOT + "/", self.RSYNC_DST]
+    def do_rsyncdb(self):
+        cmd = ["rsync", "-arvz", self.ROOT + "/djstell/stell.db", self.RSYNC_DST + "/djstell"]
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in process.stdout:
             sys.stdout.buffer.write(line)

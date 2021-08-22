@@ -1,3 +1,5 @@
+import os
+
 from .settings import *
 
 BASE = 'http://127.0.0.1:8000'
@@ -11,13 +13,13 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': mybase + "../live/stell.db",
+        'NAME': os.path.abspath(mybase + "/stell.db"),
     }
 }
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
-    mybase + "../live",
+    os.path.abspath(mybase + "../live"),
 ]
 
 SENDFILE_BACKEND = "sendfile.backends.development"
