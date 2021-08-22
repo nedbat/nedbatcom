@@ -23,7 +23,7 @@ DJSTELL = Path(__file__.replace('.pyc','').replace('.py','').replace('settings',
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(DJSTELL / "stell.db"),
+        'NAME': DJSTELL / "stell.db",
     }
 }
 
@@ -85,7 +85,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            str(DJSTELL / 'pages/templates'),
+            DJSTELL / 'pages/templates',
         ],
         'OPTIONS': {
             'context_processors': [

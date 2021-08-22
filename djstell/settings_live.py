@@ -15,13 +15,13 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(DJSTELL / "stell.db"),
+        'NAME': DJSTELL / "stell.db",
     }
 }
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
-    str((DJSTELL / "../live").resolve()),
+    (DJSTELL / "../live").resolve(),
 ]
 
 SENDFILE_BACKEND = "sendfile.backends.development"
