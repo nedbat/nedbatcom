@@ -193,7 +193,8 @@ class CmdLine(object):
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
     def do_copy_live(self):
-        self.xuff.copytree(src=".", dst=self.ROOT, include="*.xslt")
+        for xslt_file in glob.glob("*.xslt"):
+            self.xuff.copyfile(src=xslt_file, dst=os.path.join(self.ROOT, xslt_file))
         tmp = os.path.join(self.ROOT, "tmp")
         os.makedirs(tmp, exist_ok=True)
         with open(os.path.join(tmp, "restart.txt"), "w") as f:
