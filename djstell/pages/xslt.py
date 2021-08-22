@@ -72,11 +72,14 @@ def permaurl(path):
 ns['permaurl'] = wrapit(permaurl)
 
 # The transform from xml to html for content.
-xslt = etree.parse(r'content.xslt')
-xslt_xform = etree.XSLT(xslt)
+XSLT_XFORM = None
 
 def content_transform(name, xmltext, child=None, params={}):
     #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', '')))
+    global XSLT_XFORM
+    if XSLT_XFORM is None:
+        XSLT_XFORM = etree.XSLT(etree.parse("content.xslt"))
+
     f = BytesIO(xmltext.encode('utf-8'))
     try:
         doc = etree.parse(f)
@@ -89,12 +92,12 @@ def content_transform(name, xmltext, child=None, params={}):
     params.update({
         'base':     string_param(settings.BASE),
         })
-    html = str(xslt_xform(doc, **params))
+    html = str(XSLT_XFORM(doc, **params))
     # smartypants doesn't handle </a>' properly.
     html = re.sub(r"(</\w+>)'", r"\1&#8217;", html)
     html = smartypants.smartypants(html, smartypants.Attr.q | smartypants.Attr.n)
     #print("Transformed {!r} into {!r}".format(xmltext[:80], html[:80]))
-    for entry in xslt_xform.error_log:
+    for entry in XSLT_XFORM.error_log:
         if entry.filename == '<string>':
             fname = name
         else:
