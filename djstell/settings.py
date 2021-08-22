@@ -1,5 +1,7 @@
 # Django settings for djstell project.
 
+from pathlib import Path
+
 PHP = True              # Should we execute PHP tags in the output?
 PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
 AS_PHP = False
@@ -16,12 +18,12 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-mybase = __file__.replace('.pyc','').replace('.py','').replace('settings','')
+DJSTELL = Path(__file__.replace('.pyc','').replace('.py','').replace('settings','')).resolve()
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': mybase + "stell.db",         # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': str(DJSTELL / "stell.db"),
     }
 }
 
@@ -87,7 +89,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            mybase + 'pages/templates',
+            str(DJSTELL / 'pages/templates'),
         ],
         'OPTIONS': {
             'context_processors': [

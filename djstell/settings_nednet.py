@@ -11,17 +11,16 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.net"]
 
-# mybase = '..blah/djstell'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.abspath(mybase + "stell.db"),
+        'NAME': str(DJSTELL / "stell.db"),
     }
 }
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
-    os.path.abspath(mybase + ".."),
+    str(DJSTELL.parent),
 ]
 
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
