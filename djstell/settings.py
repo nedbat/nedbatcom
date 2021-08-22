@@ -18,7 +18,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DJSTELL = Path(__file__.replace('.pyc','').replace('.py','').replace('settings','')).resolve()
+DJSTELL = Path(__file__).resolve().parent
 
 DATABASES = {
     'default': {
@@ -44,7 +44,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -74,7 +74,6 @@ MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.middleware.doc.XViewMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
     'djstell.middleware.standard.LogQueriesMiddleware',
 )
@@ -90,8 +89,6 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                # 'django.core.context_processors.i18n',
-                # 'django.core.context_processors.media',
                 'djstell.middleware.context_processors.inject_settings',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',

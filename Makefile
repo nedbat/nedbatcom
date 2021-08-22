@@ -7,10 +7,10 @@ help: ## display this help message
 	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 publish: ## publish to Webfaction
-	python djstell/bin/makehtml.py wf all
+	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf all
 
 html: ## make HTML for uploading
-	python djstell/bin/makehtml.py wf clean load make
+	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
 
 css: ## make css from .scss
 	for f in style/[a-z]*.scss; do \

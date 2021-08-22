@@ -41,8 +41,7 @@ class CmdLine(object):
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
         self.BASE = None
-        self.EXT_BASE = None
-        self.ROOT = r'html'
+        self.ROOT = "html"
         self.COPY_FILES = []
         self.COPY_TREES = []
         self.PHP_INCLUDE = True
@@ -92,12 +91,10 @@ class CmdLine(object):
 
     def do_wf(self):
         self.BASE = '//nedbatchelder.com'
-        self.EXT_BASE = 'https://nedbatchelder.com'
         self.COPY_FILES = [
             ("deploy/webfaction.htaccess", ".htaccess"),
             ("deploy/webfaction.php.ini", "php.ini"),
             ]
-        self.WWWROOT = '/home/nedbat/webapps/main'
         self.FTP = dict(
             host='nedbat.webfactional.com', hostdir='webapps/main',
             user='nedbat', password=password.WEBFACTION,
@@ -131,20 +128,6 @@ class CmdLine(object):
             )
 
     def generate(self, dst):
-        settings.SERVER_NAME = "example.com"    # Doesn't matter...
-        settings.WEB_ROOT = dst
-        settings.BASE = self.BASE
-        settings.WWWROOT = self.WWWROOT
-        if self.EXT_BASE:
-            settings.EXT_BASE = self.EXT_BASE
-        elif ':' in self.BASE:
-            settings.EXT_BASE = self.BASE
-        else:
-            settings.EXT_BASE = 'http:' + self.BASE
-        settings.PHP = False
-        settings.AS_PHP = True
-        settings.PHP_INCLUDE = self.PHP_INCLUDE
-
         resources = [
             Entry.all_entries,
             Article,
