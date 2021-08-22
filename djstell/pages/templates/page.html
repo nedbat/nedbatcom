@@ -1,5 +1,5 @@
 {% if settings.AS_PHP %}<?php ob_start(); ?>{% endif %}<!DOCTYPE HTML>
-{% load tags %}
+{% load tags reactor %}
 {# Basic structure of a page on the site. #}
 {% spaceless %}
 <html lang="{% firstof lang "en" %}">
@@ -91,8 +91,6 @@
                     require_once('inc/reactor_class.php');
                     $ror = new Reactor();
                 ?>
-                {% else %}
-                <p><b>[Comment Include]</b></p>
                 {% endif %}
             {% endif %}
 
@@ -119,7 +117,7 @@
                     );
                 ?>
                 {% else %}
-                <p><b>[Comment Notice]</b></p>
+                {% entry_comments comments.entryid %}
                 {% endif %}
             {% endif %}
 

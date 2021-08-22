@@ -16,8 +16,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DJSTELL / "stell.db",
-    }
+    },
+    'reactor': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DJSTELL / "reactor.db",
+    },
 }
+
+DATABASE_ROUTERS = ['djstell.reactor.models.ReactorRouter']
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [

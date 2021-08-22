@@ -26,7 +26,7 @@ static/nedbatchelder.js:
 	done
 
 live: ## run a local Django server
-	python djstell/bin/makehtml.py live clean load copy_verbatim support
+	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
 nednet:

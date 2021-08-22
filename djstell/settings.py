@@ -20,13 +20,6 @@ MANAGERS = ADMINS
 
 DJSTELL = Path(__file__).resolve().parent
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DJSTELL / "stell.db",
-    }
-}
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Local time zone for this installation. Choices can be found here:
@@ -112,6 +105,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'djstell.pages',
+    'djstell.reactor',
     'debug_toolbar',
 )
 

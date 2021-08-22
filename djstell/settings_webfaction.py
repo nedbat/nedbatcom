@@ -9,3 +9,10 @@ PHP = False
 AS_PHP = True
 PHP_INCLUDE = True
 ALLOWED_HOSTS = [SERVER_NAME]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DJSTELL / "stell.db",
+    },
+}
