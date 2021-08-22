@@ -23,7 +23,5 @@ STATICFILES_DIRS = [
     os.path.abspath(mybase + ".."),
 ]
 
-# Tried other backends, without extra settings:
-#   Backends that did work: development, simple (with DEBUG=True)
-#   Backends that didn't work: xsendfile, mod_wsgi, nginx
-SENDFILE_BACKEND = "sendfile.backends.simple"
+# xsendfile works on dreamhost if you ask support to enable it for your domain.
+SENDFILE_BACKEND = "sendfile.backends.xsendfile"
