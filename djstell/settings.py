@@ -114,4 +114,6 @@ INSTALLED_APPS = (
 
 INTERNAL_IPS = [
     '127.0.0.1',
+    # For debug-toolbar on remote servers:
+    # '71.232.43.199',
 ]
