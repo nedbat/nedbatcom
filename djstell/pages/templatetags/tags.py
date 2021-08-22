@@ -17,7 +17,7 @@ register = Library()
 
 @register.inclusion_tag('entry.html')
 def blog_entry(entry, mode):
-    return {'entry':entry, 'mode':mode}
+    return {'entry':entry, 'mode':mode, 'settings': settings}
 
 @register.inclusion_tag('sidebar.html')
 def sidebar(which, force=False):
