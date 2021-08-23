@@ -41,7 +41,7 @@ def thing_from_path(path):
         thing = Article.objects.get(path=path[0])
     except Article.DoesNotExist:
         try:
-            thing = Entry.objects.get(path=path[0])
+            thing = Entry.all_entries.get(path=path[0])
         except Entry.DoesNotExist:
             # $set_env.py: STELL_MISSING_OK - Don't complain if a pref is missing.
             if os.environ.get("STELL_MISSING_OK", ""):
