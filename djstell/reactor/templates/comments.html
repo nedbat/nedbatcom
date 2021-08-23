@@ -3,7 +3,7 @@
 
 {% for comment in comments %}
     <div class='comment{% if preview %} preview{% endif %}' id='comment_{{comment.id}}'>
-        <img class='gravatar' src='{{ comment.gravatar_url }}' width='40' height='40' alt='[gravatar]'>
+        <img class='gravatar' src='{{comment.gravatar_url}}' width='40' height='40' alt='[gravatar]'>
         <div class='head'>
             <span class='who'><b>
                 {% if comment.website %}
@@ -13,7 +13,7 @@
                     {{comment.name}}
                 {% endif %}
                 </b></span>
-            <span class='when'><span class='adminlink'>!admin</span>
+            <span class='when'>{# <span class='adminlink'>!admin</span> #}
                 <a href="#comment_{{comment.id}}">
                     {{comment.posted|time:"g:i A"}} on
                     {{comment.posted|date:"j M Y"}}

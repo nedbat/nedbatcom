@@ -1,4 +1,4 @@
-{% load tags %}
+{% load tags reactor %}
 {% spaceless %}
 {# A single blog entry, used by the blog_entry tag. #}
 <article class='blog-entry' id='{{entry.entryid}}'>
@@ -67,9 +67,21 @@
         <span class='react'>{% ch '>> ' %}just a draft, no comments yet.</span>
     {% else %}
         {% if mode == 'brief' %}
-            <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'>{% if settings.AS_PHP %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>{% else %}<b>[CommentLabel]</b>{% endif %}</a></span>
+            <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'>
+            {% if settings.AS_PHP %}
+                <?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>
+            {% else %}
+                {% comment_label entry.entryid %}
+            {% endif %}
+            </a></span>
         {% elif mode == 'full' %}
-            <span class='react'>{% ch '>> ' %}{% if settings.AS_PHP %}<?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>{% else %}<b>[CommentLabel]</b>{% endif %}</span>
+            <span class='react'>{% ch '>> ' %}
+            {% if settings.AS_PHP %}
+                <?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>
+            {% else %}
+                {% comment_label entry.entryid %}
+            {% endif %}
+            </span>
         {% endif %}
     {% endif %}
     {% endreallyspaceless %}
