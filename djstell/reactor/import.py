@@ -19,7 +19,13 @@ def fix(v):
 with open(sys.argv[1]) as data:
     for i, d in enumerate(csv.DictReader(data), start=1):
         fixed = {k: fix(v) for k, v in d.items()}
-        Comment(**fixed).save()
+        try:
+            Comment(**fixed).save()
+        except:
+            print("Couldn't save row:")
+            import pprint
+            pprint.pprint(fixed)
+            raise
         if i % 100 == 0:
             print(".", end="", flush=True)
 print(f"\n{i} rows imported")

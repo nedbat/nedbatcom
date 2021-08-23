@@ -2,6 +2,12 @@ import os
 
 from .settings import *
 
+# Read .env
+# It should have:
+#   NEDNET_REACTOR_PASSWORD=xyzzy
+import dotenv
+dotenv.load_dotenv()
+
 BASE = '//nedbatchelder.net'
 EXT_BASE = BASE
 
@@ -15,8 +21,21 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DJSTELL / "stell.db",
-    }
+    },
+    'reactor': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'nednet_reactor',
+        'USER': 'nednet_reactor',
+        'PASSWORD': os.environ.get('NEDNET_REACTOR_PASSWORD', 'xyz'),
+        'HOST': 'mysql2.nedbatchelder.net',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_ALL_TABLES'",
+        },
+    },
 }
+
+DATABASE_ROUTERS = ['djstell.reactor.models.ReactorRouter']
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [

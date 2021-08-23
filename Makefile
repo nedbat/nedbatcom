@@ -30,7 +30,7 @@ live: ## run a local Django server
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
 nednet:
-	python djstell/bin/makehtml.py nednet all
+	DJANGO_SETTINGS_MODULE=djstell.settings_nednet python djstell/bin/makehtml.py nednet all
 
 test: ## run the few tests we have
 	pytest djstell/pages/tests.py

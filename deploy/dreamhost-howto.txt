@@ -24,5 +24,13 @@
     $ make nednet
 
 - making the reactor db
-    DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/manage.py migrate --database=reactor reactor
-    DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/reactor/import.py data/reactor_db_20210822.csv
+    locally:
+        DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/manage.py migrate --database=reactor reactor
+        DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/reactor/import.py data/reactor_db_20210822.csv
+
+    on dreamhost:
+        export PYTHONPATH=~/nedbatchelder.net/
+        export DJANGO_SETTINGS_MODULE=djstell.settings_nednet
+        source ~/venvs/nednet/bin/activate
+        python3 djstell/manage.py migrate --database=reactor reactor
+        python3 djstell/reactor/import.py ~/reactor_db_20210822.csv
