@@ -10,5 +10,4 @@ def entry_comments(entryid):
     comments = Comment.objects.filter(entryid=entryid).order_by("posted")
     return {
         "comments": comments,
-        "entryid": entryid,
     }

@@ -1,4 +1,11 @@
+import hashlib
+
+from django.conf import settings
 from django.db import models
+
+def md5(*parts):
+    text = "".join((p or "") for p in parts)
+    return hashlib.md5(text.encode("utf-8")).hexdigest()
 
 class Comment(models.Model):
     entryid = models.CharField(max_length=40, db_index=True)
@@ -8,6 +15,14 @@ class Comment(models.Model):
     posted = models.DateTimeField(db_index=True)
     body = models.TextField()
     notify = models.BooleanField()
+
+    def gravatar_url(self):
+        anum = int(md5(self.email, self.website)[:4], 16) % 282
+        email_hash = md5(self.email)
+        avhost = "https://nedbatchelder.com"
+        default_url = f"{avhost}/pix/avatar/a{anum}.jpg"
+        url = f"//www.gravatar.com/avatar/{email_hash}.jpg?default={default_url}&size=80"
+        return url
 
 
 class ReactorRouter:

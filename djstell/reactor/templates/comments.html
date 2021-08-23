@@ -1,6 +1,29 @@
-<p>Comments for {{entryid}}.</p>
-<ul>
-{% for c in comments %}
-<li>{{ c.name }}</li>
+<div id='comments'>
+<h1>Comments</h1>
+
+{% for comment in comments %}
+    <div class='comment{% if preview %} preview{% endif %}' id='comment_{{comment.id}}'>
+        <img class='gravatar' src='{{ comment.gravatar_url }}' width='40' height='40' alt='[gravatar]'>
+        <div class='head'>
+            <span class='who'><b>
+                {% if comment.website %}
+                    <a href="{{comment.website}}" rel="nofollow noopener"
+                             target="_blank">{{comment.name}}</a>
+                {% else %}
+                    {{comment.name}}
+                {% endif %}
+                </b></span>
+            <span class='when'><span class='adminlink'>!admin</span>
+                <a href="#comment_{{comment.id}}">
+                    {{comment.posted|time:"g:i A"}} on
+                    {{comment.posted|date:"j M Y"}}
+                </a>
+            </span>
+        </div>
+
+        <p class='commenttext'>
+            {{comment.body|safe}}
+        </p>
+    </div>
 {% endfor %}
-</ul>
+</div>
