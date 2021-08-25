@@ -1,6 +1,14 @@
 # Django settings for djstell project.
 
+import os
 from pathlib import Path
+
+# Read .env
+# It should have:
+#   SECRET_KEY=xyzzy
+#   NEDNET_REACTOR_PASSWORD=xyzzy
+import dotenv
+dotenv.load_dotenv()
 
 PHP = True              # Should we execute PHP tags in the output?
 PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
@@ -56,7 +64,7 @@ ADMIN_MEDIA_PREFIX = '/media/'
 STATIC_URL = "/"
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '6wws-8*df&1#^_ddh^tj%@!ho)n9vwi)y#%gwt2ur_e!-ack11'
+SECRET_KEY = os.environ.get("SECRET_KEY", "doesn't matter")
 
 CONN_MAX_AGE = None
 

@@ -2,12 +2,6 @@ import os
 
 from .settings import *
 
-# Read .env
-# It should have:
-#   NEDNET_REACTOR_PASSWORD=xyzzy
-import dotenv
-dotenv.load_dotenv()
-
 BASE = '//nedbatchelder.net'
 EXT_BASE = BASE
 
