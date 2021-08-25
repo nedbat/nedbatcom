@@ -1,7 +1,7 @@
-from django.conf import settings
 from django import template
 
-from djstell.reactor.models import Comment
+from ..models import Comment
+from ..honey import Honeypotter
 
 register = template.Library()
 
@@ -17,9 +17,15 @@ def comment_label(entryid):
         return f"{num} reactions"
 
 
-@register.inclusion_tag("comments.html")
-def entry_comments(entryid):
+@register.inclusion_tag("comments.html", takes_context=True)
+def entry_comments(context, entryid, url):
     comments = Comment.objects.filter(entryid=entryid).order_by("posted")
-    return {
+    hp = Honeypotter(context["request"], entryid)
+    hp.new()
+    context = {
         "comments": comments,
+        "entryid": entryid,
+        "url": url,
     }
+    context.update(hp.context_data())
+    return context

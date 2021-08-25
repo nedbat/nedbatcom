@@ -1,11 +1,8 @@
-import hashlib
-
 from django.conf import settings
 from django.db import models
 
-def md5(*parts):
-    text = "".join((p or "") for p in parts)
-    return hashlib.md5(text.encode("utf-8")).hexdigest()
+from .tools import md5
+
 
 class Comment(models.Model):
     entryid = models.CharField(max_length=40, db_index=True)
