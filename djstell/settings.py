@@ -111,11 +111,13 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'djstell.pages',
     'djstell.reactor',
     'debug_toolbar',
 )
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 INTERNAL_IPS = [
     '127.0.0.1',

@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from django.conf import settings
@@ -17,22 +18,25 @@ class Honeypotter:
         self.entryid = entryid
 
         self.client_ip = get_client_ip(self.request)
+        self.errormsgs = []
 
-        self.timestamp = None
-        self.spinner = None
+        self.is_post = self.request.method == "POST"
+        if self.is_post:
+            self.spinner = self.field_value("spinner")
+            self.timestamp = self.field_value("timestamp")
+        else:
+            self.timestamp = int(time.time())
+            self.spinner = md5(
+                self.client_ip,
+                self.timestamp,
+                self.entryid,
+                settings.SECRET_KEY,
+                "spinner",
+            )
 
-    def new(self):
-        self.timestamp = int(time.time())
-        self.make_spinner()
-
-    def make_spinner(self):
-        self.spinner = md5(
-            self.client_ip,
-            self.timestamp,
-            self.entryid,
-            settings.SECRET_KEY,
-            "spinner",
-        )
+    def field_value(self, field):
+        assert self.is_post
+        return self.request.POST.get(self.field_name(field), "")
 
     def field_name(self, field):
         if field == "spinner":
@@ -40,11 +44,46 @@ class Honeypotter:
         else:
             return "f" + md5(field, self.spinner, "field")
 
+    def pushed_button(self, btnname):
+        """Did the user push the `btnname` button?"""
+        return self.is_post and self.field_value(btnname) != ""
+
+    def add_error(self, message):
+        self.errormsgs.append(message)
+
     def context_data(self):
         data = {
             "spinner": self.spinner,
             "timestamp": self.timestamp,
+            "errormsgs": self.errormsgs,
+            "username": self.request.session.get("name", ""),
+            "useremail": self.request.session.get("email", ""),
+            "userpage": self.request.session.get("website", ""),
         }
         for field in self.FIELDS:
             data[f"field_{field}"] = self.field_name(field)
         return data
+
+    def handle_post(self, context):
+        #print("\n".join(f"{k!r}: {v!r}" for k, v in self.request.POST.items()))
+        self.latest_name = self.field_value("name")
+        self.latest_email = self.field_value("email")
+        self.latest_website = self.field_value("website")
+        self.latest_body = self.field_value("body")
+
+        self.request.session["name"] = self.latest_name
+        self.request.session["email"] = self.latest_email
+        self.request.session["website"] = self.latest_website
+        context["body"] = self.latest_body
+
+        if self.pushed_button("previewcomment"):
+            if not self.latest_name:
+                self.add_error("You must provide a name.")
+
+            if not self.errormsgs:
+                context["preview"] = {
+                    "website": self.latest_website,
+                    "name": self.latest_name,
+                    "posted": datetime.datetime.now(),
+                    "body": self.latest_body,
+                }

@@ -1,3 +1,5 @@
+import copy
+
 from django import template
 
 from ..models import Comment
@@ -19,13 +21,17 @@ def comment_label(entryid):
 
 @register.inclusion_tag("comments.html", takes_context=True)
 def entry_comments(context, entryid, url):
-    comments = Comment.objects.filter(entryid=entryid).order_by("posted")
     hp = Honeypotter(context["request"], entryid)
-    hp.new()
-    context = {
+    context = copy.copy(context)
+
+    if hp.is_post:
+        hp.handle_post(context)
+    comments = Comment.objects.filter(entryid=entryid).order_by("posted")
+
+    context.update({
         "comments": comments,
         "entryid": entryid,
         "url": url,
-    }
+    })
     context.update(hp.context_data())
     return context
