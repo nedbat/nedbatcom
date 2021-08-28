@@ -1,6 +1,6 @@
 import pytest
 
-from .text import description_safe, first_sentence, just_text
+from djstell.pages.text import description_safe, first_sentence, just_text
 
 @pytest.mark.parametrize("text, num, sentences", [
     ("<p>A dog. A cat.", 1, "A dog."),
