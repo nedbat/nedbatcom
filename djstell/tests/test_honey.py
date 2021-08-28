@@ -71,16 +71,39 @@ def test_previewing(page):
     assert labeled_input_value(page, "Email:") == "tom@edison.org"
     assert labeled_input_value(page, "Comment:") == ""
 
-def test_errors(page):
+NAME_MSG = "You must provide a name."
+EMWB_MSG = "You must provide either an email or a website."
+COMM_MSG = "You didn't write a comment!"
+
+@pytest.mark.parametrize("name, email, website, comment, msgs", [
+    (False, False, False, True, [NAME_MSG, EMWB_MSG]),
+    (True, False, False, True, [EMWB_MSG]),
+    (False, True, False, True, [NAME_MSG]),
+    (True, True, False, False, [COMM_MSG]),
+    (True, False, True, False, [COMM_MSG]),
+    (True, False, False, False, [EMWB_MSG, COMM_MSG]),
+])
+def test_missing_info(page, name, email, website, comment, msgs):
     url = "/blog/200203/my_first_job_ever.html"
     # Load the page and fill in the comment form.
     nav(page.goto, url)
-    fill_labeled_input(page, "Comment:", "This is a great blog post!")
+    if name:
+        fill_labeled_input(page, "Name:", "Thomas Edison")
+    if email:
+        fill_labeled_input(page, "Email:", "tom@edison.org")
+    if website:
+        fill_labeled_input(page, "Web site:", "https://edison.org")
+    if comment:
+        fill_labeled_input(page, "Comment:", "This is a great blog post!")
 
     # Click "preview", the page has errors and no preview.
     nav(page.click, f"input:has-text('{PREVIEW}')")
-    assert errors(page) == ["You must provide a name."]
+    assert errors(page) == msgs
     assert len(page.query_selector_all(".comment.preview")) == 0
-    assert labeled_input_value(page, "Comment:") == "This is a great blog post!"
+    if comment:
+        assert labeled_input_value(page, "Comment:") == "This is a great blog post!"
+    assert labeled_input_value(page, "Name:") == ("Thomas Edison" if name else "")
+    assert labeled_input_value(page, "Email:") == ("tom@edison.org" if email else "")
+    assert labeled_input_value(page, "Web site:") == ("https://edison.org" if website else "")
     assert len(page.query_selector_all(f"input:has-text('{PREVIEW}')")) == 1
     assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 0

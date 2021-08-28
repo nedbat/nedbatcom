@@ -20,10 +20,11 @@ class Honeypotter:
         self.client_ip = get_client_ip(self.request)
         self.errormsgs = []
 
-        self.is_post = self.request.method == "POST"
+        self.is_post = (self.request.method == "POST")
         if self.is_post:
             self.spinner = self.field_value("spinner")
             self.timestamp = self.field_value("timestamp")
+            self.is_previewing = self.pushed_button("previewcomment")
         else:
             self.timestamp = int(time.time())
             self.spinner = md5(
@@ -76,9 +77,15 @@ class Honeypotter:
         self.request.session["website"] = self.latest_website
         context["body"] = self.latest_body
 
-        if self.pushed_button("previewcomment"):
+        if self.is_previewing:
             if not self.latest_name:
                 self.add_error("You must provide a name.")
+
+            if (not self.latest_email) and (not self.latest_website):
+                self.add_error("You must provide either an email or a website.")
+
+            if not self.latest_body:
+                self.add_error("You didn't write a comment!")
 
             if not self.errormsgs:
                 context["preview"] = {
