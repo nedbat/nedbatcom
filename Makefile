@@ -33,7 +33,7 @@ nednet:
 	DJANGO_SETTINGS_MODULE=djstell.settings_nednet python djstell/bin/makehtml.py nednet all
 
 test: ## run the few tests we have
-	pytest djstell/pages/tests.py
+	pytest --base-url http://127.0.0.1:8000
 
 clean: ## get rid of stuff we don't need
 	rm -rf html html0

@@ -26,6 +26,7 @@ def nav(meth, *args, **kwargs):
 
 PREVIEW = "Preview >>"
 ADD_IT = "Add it >>"
+BLOG_POST = "/blog/200203/my_first_job_ever.html"
 
 @pytest.mark.parametrize("url, title", [
     ("/blog/202108/me_on_bug_hunters_caf.html", "Me on Bug Hunters Café"),
@@ -44,9 +45,8 @@ def test_blog_post(page, url, title):
     assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 0
 
 def test_previewing(page):
-    url = "/blog/200203/my_first_job_ever.html"
     # Load the page and fill in the comment form.
-    nav(page.goto, url)
+    nav(page.goto, BLOG_POST)
     assert len(page.query_selector_all(".comment.preview")) == 0
     fill_labeled_input(page, "Name:", "Thomas Edison")
     fill_labeled_input(page, "Email:", "tom@edison.org")
@@ -65,7 +65,7 @@ def test_previewing(page):
     assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 1
 
     # Reload the page, it has no preview, but the simple fields are filled in.
-    nav(page.goto, url)
+    nav(page.goto, BLOG_POST)
     assert len(page.query_selector_all(".comment.preview")) == 0
     assert labeled_input_value(page, "Name:") == "Thomas Edison"
     assert labeled_input_value(page, "Email:") == "tom@edison.org"
@@ -84,15 +84,14 @@ COMM_MSG = "You didn't write a comment!"
     (True, False, False, False, [EMWB_MSG, COMM_MSG]),
 ])
 def test_missing_info(page, name, email, website, comment, msgs):
-    url = "/blog/200203/my_first_job_ever.html"
     # Load the page and fill in the comment form.
-    nav(page.goto, url)
+    nav(page.goto, BLOG_POST)
     if name:
-        fill_labeled_input(page, "Name:", "Thomas Edison")
+        fill_labeled_input(page, "Name:", " Thomas Edison")
     if email:
-        fill_labeled_input(page, "Email:", "tom@edison.org")
+        fill_labeled_input(page, "Email:", "tom@edison.org ")
     if website:
-        fill_labeled_input(page, "Web site:", "https://edison.org")
+        fill_labeled_input(page, "Web site:", " https://edison.org    ")
     if comment:
         fill_labeled_input(page, "Comment:", "This is a great blog post!")
 
@@ -100,8 +99,7 @@ def test_missing_info(page, name, email, website, comment, msgs):
     nav(page.click, f"input:has-text('{PREVIEW}')")
     assert errors(page) == msgs
     assert len(page.query_selector_all(".comment.preview")) == 0
-    if comment:
-        assert labeled_input_value(page, "Comment:") == "This is a great blog post!"
+    assert labeled_input_value(page, "Comment:") == ("This is a great blog post!" if comment else "")
     assert labeled_input_value(page, "Name:") == ("Thomas Edison" if name else "")
     assert labeled_input_value(page, "Email:") == ("tom@edison.org" if email else "")
     assert labeled_input_value(page, "Web site:") == ("https://edison.org" if website else "")

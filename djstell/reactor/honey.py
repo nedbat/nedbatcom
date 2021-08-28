@@ -4,6 +4,7 @@ import time
 from django.conf import settings
 
 from .tools import get_client_ip, md5
+from .valid import valid_email, valid_name, valid_website
 
 class Honeypotter:
     FIELDS = [
@@ -67,10 +68,10 @@ class Honeypotter:
 
     def handle_post(self, context):
         #print("\n".join(f"{k!r}: {v!r}" for k, v in self.request.POST.items()))
-        self.latest_name = self.field_value("name")
-        self.latest_email = self.field_value("email")
-        self.latest_website = self.field_value("website")
-        self.latest_body = self.field_value("body")
+        self.latest_name = self.field_value("name").strip()
+        self.latest_email = self.field_value("email").strip()
+        self.latest_website = self.field_value("website").strip()
+        self.latest_body = self.field_value("body").strip()
 
         self.request.session["name"] = self.latest_name
         self.request.session["email"] = self.latest_email
@@ -83,6 +84,15 @@ class Honeypotter:
 
             if (not self.latest_email) and (not self.latest_website):
                 self.add_error("You must provide either an email or a website.")
+
+            if self.latest_name and not valid_name(self.latest_name):
+                self.add_error("That doesn't look like a real name.")
+
+            if self.latest_email and not valid_email(self.latest_email):
+                self.add_error("That doesn't look like a valid email.")
+
+            if self.latest_website and not valid_website(self.latest_website):
+                self.add_error("That doesn't look like a valid web site.")
 
             if not self.latest_body:
                 self.add_error("You didn't write a comment!")
