@@ -2,7 +2,7 @@
 <h1>Comments</h1>
 
 {% for comment in comments %}
-    <div class='comment{% if preview %} preview{% endif %}' id='comment_{{comment.id}}'>
+    <div class='comment' id='comment_{{comment.id}}'>
         <img class='gravatar' src='{{comment.gravatar_url}}' width='40' height='40' alt='[gravatar]'>
         <div class='head'>
             <span class='who'><b>
@@ -81,7 +81,7 @@
         <div>
             <label class='check' for="{{field_notify}}">
                 <input type="checkbox" name="{{field_notify}}" id="{{field_notify}}" {{usernotify}}>
-                Email me future comments
+                Email me future comments on this page
             </label>&#160;&#160;
         </div>
         <div class="finish">

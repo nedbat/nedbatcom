@@ -3,6 +3,7 @@ import time
 
 from django.conf import settings
 
+from .models import Comment
 from .tools import get_client_ip, md5
 from .valid import valid_email, valid_name, valid_website
 
@@ -29,6 +30,7 @@ class Honeypotter:
         self.errormsgs = []
 
     def field_name(self, field):
+        assert field in self.FIELDS
         if field == "spinner":
             return "f" + md5(self.client_ip, self.entryid, settings.SECRET_KEY, "spinner_field")
         else:
@@ -40,7 +42,7 @@ class Honeypotter:
     def context_data(self):
         data = {
             "spinner": self.spinner,
-            "timestamp": self.timestamp,
+            "timestamp": int(time.time()),
             "errormsgs": self.errormsgs,
             "username": self.request.session.get("name", ""),
             "useremail": self.request.session.get("email", ""),
@@ -89,6 +91,7 @@ class PostHoneypotter(Honeypotter):
                 self.add_error("You took a long time entering this post. Please preview it and submit it again.")
 
         self.is_previewing = self.pushed_button("previewcomment")
+        self.is_adding = self.pushed_button("addcomment")
 
     def field_value(self, field):
         return self.request.POST.get(self.field_name(field), "")
@@ -108,6 +111,9 @@ class PostHoneypotter(Honeypotter):
         self.request.session["email"] = self.latest_email
         self.request.session["website"] = self.latest_website
         context["body"] = self.latest_body
+
+        if self.field_value("entryid") != self.entryid:
+            self.add_error("Posting to the wrong entry")
 
         if any(self.field_value(f"honey{hnum}") for hnum in "1234"):
             self.add_error("Go away stupid bear")
@@ -133,10 +139,23 @@ class PostHoneypotter(Honeypotter):
         if not self.latest_body:
             self.add_error("You didn't write a comment!")
 
-        if self.is_previewing and not self.errormsgs:
-            context["preview"] = {
-                "website": self.latest_website,
-                "name": self.latest_name,
-                "posted": datetime.datetime.now(),
-                "body": self.latest_body,
-            }
+        if not self.errormsgs:
+            if self.is_previewing:
+                context["preview"] = {
+                    "website": self.latest_website,
+                    "name": self.latest_name,
+                    "posted": datetime.datetime.now(),
+                    "body": self.latest_body,
+                }
+            elif self.is_adding:
+                Comment(
+                    entryid=self.entryid,
+                    name=self.latest_name,
+                    email=self.latest_email,
+                    website=self.latest_website,
+                    posted=datetime.datetime.now(),
+                    body=self.latest_body,
+                    notify=False,   # TODO: notify
+                ).save()
+            else:
+                raise Exception("Shouldn't something be happening?")

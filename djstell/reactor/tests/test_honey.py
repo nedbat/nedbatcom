@@ -5,10 +5,20 @@ import time
 import lxml.html
 import pytest
 
+from ..models import Comment
+
+
 def has_error(response, msg):
     assert f"<p class='errormsg'>{msg}</p>".encode("utf8") in response.content
 
+def errors(response):
+    dom = lxml.html.fromstring(response.content)
+    error_msgs = dom.cssselect("p.errormsg")
+    return [msg.text for msg in error_msgs]
+
+
 BLOG_POST = "/blog/200203/my_first_job_ever.html"
+ENTRYID = "e20020307T000000"
 
 # This is the order of field names in comments.html
 FIELD_NAMES = """\
@@ -46,6 +56,7 @@ class Inputs:
         self.inputs[name].value = value
 
     def post_data(self, btnname):
+        assert btnname in self.inputs
         data = {
             inp.name: inp.value
             for label, inp in self.inputs.items()
@@ -68,27 +79,27 @@ class TestPosting:
         t = int(inputs["timestamp"])
         now = time.time()
         assert (now - 5) < t < (now + 5)
-        assert inputs["entryid"] == "e20020307T000000"
+        assert inputs["entryid"] == ENTRYID
         assert inputs["previewbtn"] == "Preview >>"
         assert inputs["honeybtn"] == "I'm a spambot"
 
     def test_no_data(self, client):
         response = client.post(BLOG_POST, {})
-        has_error(response, "Something is wrong with the timestamp")
+        assert "Something is wrong with the timestamp" in errors(response)
 
     def test_future_timestamp(self, client):
         response = client.get(BLOG_POST)
         inputs = input_fields(response)
         inputs["timestamp"] = str(int(inputs["timestamp"]) + 30)
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        has_error(response, "A post from the future!")
+        assert "A post from the future!" in errors(response)
 
     def test_old_timestamp(self, client):
         response = client.get(BLOG_POST)
         inputs = input_fields(response)
         inputs["timestamp"] = str(int(inputs["timestamp"]) - 35*60)
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        has_error(response, "You took a long time entering this post. Please preview it and submit it again.")
+        assert "You took a long time entering this post. Please preview it and submit it again." in errors(response)
 
     @pytest.mark.parametrize("hnum", "1234")
     def test_honeypot_fields(self, client, hnum):
@@ -96,10 +107,28 @@ class TestPosting:
         inputs = input_fields(response)
         inputs[f"honey{hnum}"] = "x"
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        has_error(response, "Go away stupid bear")
+        assert "Go away stupid bear" in errors(response)
 
     def test_honeypot_button(self, client):
         response = client.get(BLOG_POST)
         inputs = input_fields(response)
         response = client.post(BLOG_POST, inputs.post_data("honeybtn"))
-        has_error(response, "Go away stupid bear")
+        assert "Go away stupid bear" in errors(response)
+
+
+@pytest.mark.django_db(databases=['default', 'reactor'])
+class TestSaving:
+    def test_comment(self, client):
+        response = client.get(BLOG_POST)
+        content = re.sub(r"\s+", " ", response.content.decode("utf8"))
+        assert "<span class='react'>&#xbb;&#xa0; react </span>" in content
+        assert Comment.objects.filter(entryid=ENTRYID).count() == 0
+        inputs = input_fields(response)
+        inputs["name"] = "Thomas Edison"
+        inputs["email"] = "tom@edison.org"
+        inputs["body"] = "This is a great blog post"
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        inputs = input_fields(response)
+        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        assert errors(response) == []
+        assert Comment.objects.filter(entryid=ENTRYID).count() == 1
