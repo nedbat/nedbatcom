@@ -1,111 +1,105 @@
+import dataclasses
+import re
+import time
+
+import lxml.html
 import pytest
 
-def fill_labeled_input(page, label, value):
-    id = input_for_label(page, label)
-    return page.fill(f"#{id}", value)
+def has_error(response, msg):
+    assert f"<p class='errormsg'>{msg}</p>".encode("utf8") in response.content
 
-def input_for_label(page, label):
-    assert "'" not in label
-    labels = page.query_selector_all(f"label:has-text('{label}')")
-    assert len(labels) == 1
-    return labels[0].get_attribute("for")
-
-def labeled_input_value(page, label):
-    id = input_for_label(page, label)
-    return page.input_value(f"#{id}")
-
-def errors(page):
-    return [elt.inner_text() for elt in page.query_selector_all(".errormsg")]
-
-def nav(meth, *args, **kwargs):
-    __tracebackhide__ = True
-    with meth.__self__.expect_response("*") as response_info:
-        meth(*args, **kwargs)
-    response = response_info.value
-    assert response.status == 200, f"{response.request.method} {response.url} returned {response.status}"
-
-@pytest.fixture(autouse=True)
-def fail_faster(page):
-    page.set_default_timeout(5000)
-
-PREVIEW = "Preview >>"
-ADD_IT = "Add it >>"
 BLOG_POST = "/blog/200203/my_first_job_ever.html"
 
-@pytest.mark.parametrize("url, title", [
-    ("/blog/202108/me_on_bug_hunters_caf.html", "Me on Bug Hunters Café"),
-    ("/blog/200203/my_first_job_ever.html", "My first job ever"),
-])
-def test_blog_post(page, url, title):
-    nav(page.goto, url)
-    assert page.inner_text("h1") == title
-    assert page.title() == f"{title} | Ned Batchelder"
-    # No errors on the page.
-    assert errors(page) == []
-    # No previewed comment.
-    assert page.query_selector_all(".comment.preview") == []
-    # There is a preview button, but no Add It button.
-    assert len(page.query_selector_all(f"input:has-text('{PREVIEW}')")) == 1
-    assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 0
+# This is the order of field names in comments.html
+FIELD_NAMES = """\
+    name
+    honey1 email honey2
+    website
+    honey3 body honey4
+    notify previewbtn honeybtn
+    entryid spinner timestamp
+    addbtn
+""".split()
 
-def test_previewing(page):
-    # Load the page and fill in the comment form.
-    nav(page.goto, BLOG_POST)
-    assert len(page.query_selector_all(".comment.preview")) == 0
-    fill_labeled_input(page, "Name:", "Thomas Edison")
-    fill_labeled_input(page, "Email:", "tom@edison.org")
-    fill_labeled_input(page, "Comment:", "This is a great blog post!")
+@dataclasses.dataclass
+class Input:
+    name: str
+    value: str
+    type: str
 
-    # Click "preview", the page has a preview, and filled in fields.
-    nav(page.click, f"input:has-text('{PREVIEW}')")
-    assert errors(page) == []
-    assert len(page.query_selector_all(".comment.preview")) == 1
-    assert page.query_selector(".comment.preview .who").inner_text() == "Thomas Edison"
-    assert page.query_selector(".comment.preview .commenttext").inner_text() == "This is a great blog post!"
-    assert labeled_input_value(page, "Name:") == "Thomas Edison"
-    assert labeled_input_value(page, "Email:") == "tom@edison.org"
-    assert labeled_input_value(page, "Comment:") == "This is a great blog post!"
-    assert len(page.query_selector_all(f"input:has-text('{PREVIEW}')")) == 1
-    assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 1
+    @classmethod
+    def from_input(cls, inp):
+        return cls(
+            inp.name,
+            inp.value or "",
+            getattr(inp, "type", "textarea"),
+        )
 
-    # Reload the page, it has no preview, but the simple fields are filled in.
-    nav(page.goto, BLOG_POST)
-    assert len(page.query_selector_all(".comment.preview")) == 0
-    assert labeled_input_value(page, "Name:") == "Thomas Edison"
-    assert labeled_input_value(page, "Email:") == "tom@edison.org"
-    assert labeled_input_value(page, "Comment:") == ""
+class Inputs:
+    def __init__(self, inputs):
+        self.inputs = dict(zip(FIELD_NAMES, map(Input.from_input, inputs)))
 
-NAME_MSG = "You must provide a name."
-EMWB_MSG = "You must provide either an email or a website."
-COMM_MSG = "You didn't write a comment!"
+    def __getitem__(self, name):
+        return self.inputs[name].value
 
-@pytest.mark.parametrize("name, email, website, comment, msgs", [
-    (False, False, False, True, [NAME_MSG, EMWB_MSG]),
-    (True, False, False, True, [EMWB_MSG]),
-    (False, True, False, True, [NAME_MSG]),
-    (True, True, False, False, [COMM_MSG]),
-    (True, False, True, False, [COMM_MSG]),
-    (True, False, False, False, [EMWB_MSG, COMM_MSG]),
-])
-def test_missing_info(page, name, email, website, comment, msgs):
-    # Load the page and fill in the comment form.
-    nav(page.goto, BLOG_POST)
-    if name:
-        fill_labeled_input(page, "Name:", " Thomas Edison")
-    if email:
-        fill_labeled_input(page, "Email:", "tom@edison.org ")
-    if website:
-        fill_labeled_input(page, "Web site:", " https://edison.org    ")
-    if comment:
-        fill_labeled_input(page, "Comment:", "This is a great blog post!")
+    def __setitem__(self, name, value):
+        self.inputs[name].value = value
 
-    # Click "preview", the page has errors and no preview.
-    nav(page.click, f"input:has-text('{PREVIEW}')")
-    assert errors(page) == msgs
-    assert len(page.query_selector_all(".comment.preview")) == 0
-    assert labeled_input_value(page, "Comment:") == ("This is a great blog post!" if comment else "")
-    assert labeled_input_value(page, "Name:") == ("Thomas Edison" if name else "")
-    assert labeled_input_value(page, "Email:") == ("tom@edison.org" if email else "")
-    assert labeled_input_value(page, "Web site:") == ("https://edison.org" if website else "")
-    assert len(page.query_selector_all(f"input:has-text('{PREVIEW}')")) == 1
-    assert len(page.query_selector_all(f"input:has-text('{ADD_IT}')")) == 0
+    def post_data(self, btnname):
+        data = {
+            inp.name: inp.value
+            for label, inp in self.inputs.items()
+            if label == btnname or inp.type != "submit"
+        }
+        return data
+
+def input_fields(response):
+    dom = lxml.html.fromstring(response.content)
+    inputs = dom.cssselect("#commentformform input, #commentformform textarea")
+    return Inputs(inputs)
+
+@pytest.mark.django_db(databases=['default', 'reactor'])
+class TestPosting:
+    def test_get(self, client):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        # Check that we got the fields right
+        assert re.fullmatch(r"[0-9a-f]{32}", inputs["spinner"])
+        t = int(inputs["timestamp"])
+        now = time.time()
+        assert (now - 5) < t < (now + 5)
+        assert inputs["entryid"] == "e20020307T000000"
+        assert inputs["previewbtn"] == "Preview >>"
+        assert inputs["honeybtn"] == "I'm a spambot"
+
+    def test_no_data(self, client):
+        response = client.post(BLOG_POST, {})
+        has_error(response, "Something is wrong with the timestamp")
+
+    def test_future_timestamp(self, client):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs["timestamp"] = str(int(inputs["timestamp"]) + 30)
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        has_error(response, "A post from the future!")
+
+    def test_old_timestamp(self, client):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs["timestamp"] = str(int(inputs["timestamp"]) - 35*60)
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        has_error(response, "You took a long time entering this post. Please preview it and submit it again.")
+
+    @pytest.mark.parametrize("hnum", "1234")
+    def test_honeypot_fields(self, client, hnum):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs[f"honey{hnum}"] = "x"
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        has_error(response, "Go away stupid bear")
+
+    def test_honeypot_button(self, client):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        response = client.post(BLOG_POST, inputs.post_data("honeybtn"))
+        has_error(response, "Go away stupid bear")
