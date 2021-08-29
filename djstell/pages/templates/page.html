@@ -80,7 +80,7 @@
             {% block dateline %}
             {% if min_date %}
                 <p class='dateline'>
-                    Created {{min_date|date:"j F Y"}}{% ifnotequal min_date max_date %}, last updated {{max_date|date:"j F Y"}}{% endifnotequal %}
+                    Created {{min_date|date:"j F Y"}}{% if min_date != max_date %}, last updated {{max_date|date:"j F Y"}}{% endif %}
                 </p>
             {% endif %}
             {% endblock %}
