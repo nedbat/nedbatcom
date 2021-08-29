@@ -3,7 +3,7 @@ import copy
 from django import template
 
 from ..models import Comment
-from ..honey import Honeypotter
+from ..honey import make_honeypotter
 
 register = template.Library()
 
@@ -21,7 +21,7 @@ def comment_label(entryid):
 
 @register.inclusion_tag("comments.html", takes_context=True)
 def entry_comments(context, entryid, url):
-    hp = Honeypotter(context["request"], entryid)
+    hp = make_honeypotter(context["request"], entryid)
     context = copy.copy(context)
 
     if hp.is_post:

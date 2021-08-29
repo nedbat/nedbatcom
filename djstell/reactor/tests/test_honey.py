@@ -24,6 +24,10 @@ def nav(meth, *args, **kwargs):
     response = response_info.value
     assert response.status == 200, f"{response.request.method} {response.url} returned {response.status}"
 
+@pytest.fixture(autouse=True)
+def fail_faster(page):
+    page.set_default_timeout(5000)
+
 PREVIEW = "Preview >>"
 ADD_IT = "Add it >>"
 BLOG_POST = "/blog/200203/my_first_job_ever.html"

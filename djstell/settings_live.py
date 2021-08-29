@@ -16,6 +16,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DJSTELL / "stell.db",
+        'TEST': {
+            'NAME': DJSTELL / "stell.db",
+        },
     },
     'reactor': {
         'ENGINE': 'django.db.backends.sqlite3',
