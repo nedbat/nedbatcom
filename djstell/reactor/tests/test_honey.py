@@ -16,6 +16,9 @@ def errors(response):
     error_msgs = dom.cssselect("p.errormsg")
     return [msg.text for msg in error_msgs]
 
+def save(response):
+    with open("bad.html", "wb") as f:
+        f.write(response.content)
 
 BLOG_POST = "/blog/200203/my_first_job_ever.html"
 ENTRYID = "e20020307T000000"
@@ -130,5 +133,23 @@ class TestSaving:
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        # save(response)
+        # content = re.sub(r"\s+", " ", response.content.decode("utf8"))
+        # assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content
         assert errors(response) == []
         assert Comment.objects.filter(entryid=ENTRYID).count() == 1
+
+        inputs["name"] = "Nikola Tesla"
+        inputs["email"] = "nik@tesla.com"
+        inputs["body"] = "I agree"
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        dom = lxml.html.fromstring(response.content)
+        previews = dom.cssselect(".comment.preview")
+        assert len(previews) == 1
+        inputs = input_fields(response)
+
+        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        assert errors(response) == []
+        assert Comment.objects.filter(entryid=ENTRYID).count() == 2
+        # content = re.sub(r"\s+", " ", response.content.decode("utf8"))
+        # assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content

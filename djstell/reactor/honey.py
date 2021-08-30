@@ -101,7 +101,7 @@ class PostHoneypotter(Honeypotter):
         return self.field_value(btnname) != ""
 
     def handle_post(self, context):
-        print("\n".join(f"{k!r}: {v!r}" for k, v in self.request.POST.items()))
+        # print("\n".join(f"{k!r}: {v!r}" for k, v in self.request.POST.items()))
         self.latest_name = self.field_value("name").strip()
         self.latest_email = self.field_value("email").strip()
         self.latest_website = self.field_value("website").strip()
