@@ -16,6 +16,10 @@ def errors(response):
     error_msgs = dom.cssselect("p.errormsg")
     return [msg.text for msg in error_msgs]
 
+def content(response):
+    content = re.sub(r"\s+", " ", response.content.decode("utf8"))
+    return content
+
 def save(response):
     with open("bad.html", "wb") as f:
         f.write(response.content)
@@ -123,8 +127,7 @@ class TestPosting:
 class TestSaving:
     def test_comment(self, client):
         response = client.get(BLOG_POST)
-        content = re.sub(r"\s+", " ", response.content.decode("utf8"))
-        assert "<span class='react'>&#xbb;&#xa0; react </span>" in content
+        assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
         assert Comment.objects.filter(entryid=ENTRYID).count() == 0
         inputs = input_fields(response)
         inputs["name"] = "Thomas Edison"
@@ -133,9 +136,15 @@ class TestSaving:
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
-        # save(response)
-        # content = re.sub(r"\s+", " ", response.content.decode("utf8"))
-        # assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" in content(response)
+        assert "This is a great blog post" in content(response)
+
+        response = client.get(BLOG_POST)
+        assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" in content(response)
+        assert "This is a great blog post" in content(response)
         assert errors(response) == []
         assert Comment.objects.filter(entryid=ENTRYID).count() == 1
 
@@ -146,10 +155,29 @@ class TestSaving:
         dom = lxml.html.fromstring(response.content)
         previews = dom.cssselect(".comment.preview")
         assert len(previews) == 1
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" not in content(response)
+        assert "This is a great blog post" in content(response)
+        assert "Nikola Tesla" in content(response)
+        assert "nik@tesla.com" in content(response)
+        assert "I agree" in content(response)
         inputs = input_fields(response)
 
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert errors(response) == []
         assert Comment.objects.filter(entryid=ENTRYID).count() == 2
-        # content = re.sub(r"\s+", " ", response.content.decode("utf8"))
-        # assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" not in content(response)
+        assert "This is a great blog post" in content(response)
+        assert "Nikola Tesla" in content(response)
+        assert "nik@tesla.com" in content(response)
+        assert "I agree" in content(response)
+
+        response = client.get(BLOG_POST)
+        assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" not in content(response)
+        assert "This is a great blog post" in content(response)
+        assert "Nikola Tesla" in content(response)
+        assert "nik@tesla.com" in content(response)
+        assert "I agree" in content(response)
