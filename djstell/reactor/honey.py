@@ -18,7 +18,7 @@ class Honeypotter:
     FIELDS = [
         "name", "email", "website", "body", "notify", "entryid", "timestamp",
         "honey1", "honey2", "honey3", "honey4",
-        "previewcomment", "addcomment", "honeybtn",
+        "previewbtn", "addbtn", "honeybtn",
         "spinner",
         ]
 
@@ -44,9 +44,9 @@ class Honeypotter:
             "spinner": self.spinner,
             "timestamp": int(time.time()),
             "errormsgs": self.errormsgs,
-            "username": self.request.session.get("name", ""),
-            "useremail": self.request.session.get("email", ""),
-            "userpage": self.request.session.get("website", ""),
+            "name": self.request.session.get("name", ""),
+            "email": self.request.session.get("email", ""),
+            "website": self.request.session.get("website", ""),
         }
         for field in self.FIELDS:
             data[f"field_{field}"] = self.field_name(field)
@@ -90,8 +90,8 @@ class PostHoneypotter(Honeypotter):
             if age > 30*60:
                 self.add_error("You took a long time entering this post. Please preview it and submit it again.")
 
-        self.is_previewing = self.pushed_button("previewcomment")
-        self.is_adding = self.pushed_button("addcomment")
+        self.is_previewing = self.pushed_button("previewbtn")
+        self.is_adding = self.pushed_button("addbtn")
 
     def field_value(self, field):
         return self.request.POST.get(self.field_name(field), "")

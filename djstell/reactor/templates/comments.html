@@ -32,7 +32,7 @@
     <form method="post" action="{{url}}#commentform" id="commentformform">
         <div>
             <label for='{{field_name}}'>Name:</label>
-            <input class='edit' type="text" name="{{field_name}}" id="{{field_name}}" value="{{username}}">
+            <input class='edit' type="text" name="{{field_name}}" id="{{field_name}}" value="{{name}}">
         </div>
 
         <div>
@@ -41,7 +41,7 @@
                 Ignore this:
                 <input class='edit' type="email" name="{{field_honey1}}" id="{{field_honey1}}">
             </div>
-            <input class='edit' type="email" name="{{field_email}}" id="{{field_email}}" value="{{useremail}}">
+            <input class='edit' type="email" name="{{field_email}}" id="{{field_email}}" value="{{email}}">
             <div class="dn">
                 Leave this empty:
                 <input class='edit' type="email" name="{{field_honey2}}" id="{{field_honey2}}">
@@ -50,7 +50,7 @@
 
         <div>
             <label for='{{field_website}}'>Web site:</label>
-            <input class='edit' type="url" name="{{field_website}}" id="{{field_website}}" value="{{userpage}}">
+            <input class='edit' type="url" name="{{field_website}}" id="{{field_website}}" value="{{website}}">
         </div>
 
         <div class="notice">
@@ -85,7 +85,7 @@
             </label>&#160;&#160;
         </div>
         <div class="finish">
-            <input id="previewbtn" type="submit" name="{{field_previewcomment}}" value="Preview >>">
+            <input id="previewbtn" type="submit" name="{{field_previewbtn}}" value="Preview >>">
             <span class="dn">
                 <input type="submit" name="{{field_honeybtn}}" value="I'm a spambot">
             </span>
@@ -119,7 +119,7 @@
         <div class="finish">
             <p class='notice right'>
                 You can <a target='_new' href='https://gravatar.com'>change your icon</a>.&#160;&#160;
-                <input id="addbtn" type="submit" name="{{field_addcomment}}" value="Add it >>">
+                <input id="addbtn" type="submit" name="{{field_addbtn}}" value="Add it >>">
             </p>
         </div>
         {% endif %}
