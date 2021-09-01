@@ -2,7 +2,7 @@
 <h1>Comments</h1>
 
 {% for comment in comments %}
-    <div class='comment' id='comment_{{comment.id}}'>
+    <div class='comment published' id='comment_{{comment.id}}'>
         <img class='gravatar' src='{{comment.gravatar_url}}' width='40' height='40' alt='[gravatar]'>
         <div class='head'>
             <span class='who'><b>

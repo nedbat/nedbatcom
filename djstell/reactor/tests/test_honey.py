@@ -1,4 +1,5 @@
 import dataclasses
+import datetime
 import re
 import time
 
@@ -16,8 +17,35 @@ def errors(response):
     error_msgs = dom.cssselect("p.errormsg")
     return [msg.text for msg in error_msgs]
 
+def inner_html(node):
+    from lxml.etree import tostring
+    from itertools import chain
+    parts = ([node.text] +
+            list(chain(*([c.text, tostring(c), c.tail] for c in node.getchildren()))) +
+            [node.tail])
+    # filter removes possible Nones in texts and tails
+    return ''.join(filter(None, parts)).strip()
+
+def text_content(node):
+    return node.text_content().strip()
+
+def comments(response):
+    dom = lxml.html.fromstring(response.content)
+    comments = []
+    for comdiv in dom.cssselect("div.comment.published"):
+        comments.append({
+            "name": text_content(comdiv.cssselect(".who")[0]),
+            "when": squish_white(text_content(comdiv.cssselect(".when")[0])),
+            "body": inner_html(comdiv.cssselect(".commenttext")[0]),
+        })
+    return comments
+
+def squish_white(text):
+    text = re.sub(r"\s+", " ", text)
+    return text
+
 def content(response):
-    content = re.sub(r"\s+", " ", response.content.decode("utf8"))
+    content = squish_white(response.content.decode("utf8"))
     return content
 
 def save(response):
@@ -125,7 +153,9 @@ class TestPosting:
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
 class TestSaving:
-    def test_comment(self, client):
+    @pytest.mark.freeze_time
+    def test_commenting(self, client, freezer):
+        freezer.move_to('2020-09-01 07:34')
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
         assert Comment.objects.filter(entryid=ENTRYID).count() == 0
@@ -134,7 +164,11 @@ class TestSaving:
         inputs["email"] = "tom@edison.org"
         inputs["body"] = "This is a great blog post"
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        assert "Thomas Edison" in content(response)
+        assert "tom@edison.org" in content(response)
+        assert "This is a great blog post" in content(response)
         inputs = input_fields(response)
+
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert "Thomas Edison" in content(response)
         assert "tom@edison.org" in content(response)
@@ -142,22 +176,31 @@ class TestSaving:
 
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
-        assert "Thomas Edison" in content(response)
-        assert "tom@edison.org" in content(response)
-        assert "This is a great blog post" in content(response)
+        assert comments(response) == [
+            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
+            ]
         assert errors(response) == []
         assert Comment.objects.filter(entryid=ENTRYID).count() == 1
+        comment = Comment.objects.filter(entryid=ENTRYID)[0]
+        assert comment.name == "Thomas Edison"
+        assert comment.email == "tom@edison.org"
+        assert comment.body == "This is a great blog post"
+        assert comment.posted == datetime.datetime(2020, 9, 1, 7, 34, 0)
 
+        freezer.move_to('2021-06-16 17:34')
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
         inputs["name"] = "Nikola Tesla"
         inputs["email"] = "nik@tesla.com"
         inputs["body"] = "I agree"
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        assert errors(response) == []
         dom = lxml.html.fromstring(response.content)
         previews = dom.cssselect(".comment.preview")
         assert len(previews) == 1
-        assert "Thomas Edison" in content(response)
-        assert "tom@edison.org" not in content(response)
-        assert "This is a great blog post" in content(response)
+        assert comments(response) == [
+            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
+            ]
         assert "Nikola Tesla" in content(response)
         assert "nik@tesla.com" in content(response)
         assert "I agree" in content(response)
@@ -166,17 +209,17 @@ class TestSaving:
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert errors(response) == []
         assert Comment.objects.filter(entryid=ENTRYID).count() == 2
-        assert "Thomas Edison" in content(response)
-        assert "tom@edison.org" not in content(response)
-        assert "This is a great blog post" in content(response)
-        assert "Nikola Tesla" in content(response)
-        assert "nik@tesla.com" in content(response)
-        assert "I agree" in content(response)
+        assert comments(response) == [
+            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
+            {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
+            ]
 
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
-        assert "Thomas Edison" in content(response)
-        assert "tom@edison.org" not in content(response)
+        assert comments(response) == [
+            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
+            {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
+            ]
         assert "This is a great blog post" in content(response)
         assert "Nikola Tesla" in content(response)
         assert "nik@tesla.com" in content(response)
