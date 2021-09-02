@@ -1,6 +1,8 @@
 import datetime
+import functools
 import time
 
+import bleach
 from django.conf import settings
 
 from .models import Comment
@@ -67,6 +69,22 @@ class GetHoneypotter(Honeypotter):
             "spinner",
         )
 
+def clean_html(html):
+    linkifier = functools.partial(
+        bleach.linkifier.LinkifyFilter,
+        skip_tags=['pre'],
+    )
+    cleaner = bleach.sanitizer.Cleaner(
+        tags=["a", "b", "i", "p", "br", "pre"],
+        styles=[],
+        strip=True,
+        strip_comments=True,
+        filters=[linkifier],
+    )
+
+    return cleaner.clean(html)
+
+
 class PostHoneypotter(Honeypotter):
     def __init__(self, request, entryid):
         super().__init__(request, entryid)
@@ -105,7 +123,7 @@ class PostHoneypotter(Honeypotter):
         self.latest_name = self.field_value("name").strip()
         self.latest_email = self.field_value("email").strip()
         self.latest_website = self.field_value("website").strip()
-        self.latest_body = self.field_value("body").strip()
+        self.latest_body = clean_html(self.field_value("body"))
 
         self.request.session["name"] = self.latest_name
         self.request.session["email"] = self.latest_email

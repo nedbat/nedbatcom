@@ -7,7 +7,8 @@ import lxml.html
 import pytest
 
 from ..models import Comment
-
+from ..honey import clean_html
+from .. import honey
 
 def has_error(response, msg):
     assert f"<p class='errormsg'>{msg}</p>".encode("utf8") in response.content
@@ -220,7 +221,42 @@ class TestSaving:
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
             ]
-        assert "This is a great blog post" in content(response)
-        assert "Nikola Tesla" in content(response)
-        assert "nik@tesla.com" in content(response)
-        assert "I agree" in content(response)
+
+    @pytest.mark.freeze_time
+    def test_bleaching(self, client, freezer, monkeypatch):
+        freezer.move_to('2020-10-18 01:23')
+        # Check that clean_html is used on the body of the comment.
+        def fake_clean_html(html):
+            assert html == "<p>Hello</p>"
+            return "CLEANED"
+        monkeypatch.setattr(honey, "clean_html", fake_clean_html)
+
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs["name"] = "Bad Guy"
+        inputs["email"] = "bad@guy.org"
+        inputs["body"] = "<p>Hello</p>"
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        assert "CLEANED" in content(response)
+        inputs = input_fields(response)
+        inputs["body"] = "<p>Hello</p>"
+        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        assert "CLEANED" in content(response)
+
+        response = client.get(BLOG_POST)
+        assert comments(response) == [
+            {'body': 'CLEANED', 'name': 'Bad Guy', 'when': '1:23 AM on 18 Oct 2020'},
+        ]
+        comment = Comment.objects.filter(entryid=ENTRYID)[0]
+        assert comment.body == "CLEANED"
+
+
+@pytest.mark.parametrize("html, cleaned", [
+    ("<p>Hello</p>", "<p>Hello</p>"),
+    ("Hello <script>alert('pwned')</script>", "Hello alert('pwned')"),
+    ("go: ibm.com", 'go: <a href="http://ibm.com" rel="nofollow">ibm.com</a>'),
+    ("go: <a href='http://ibm.com'>ibm</a>", 'go: <a href="http://ibm.com" rel="nofollow">ibm</a>'),
+    ("<pre>ibm.com</pre>", "<pre>ibm.com</pre>"),
+])
+def test_cleaning_html(html, cleaned):
+    assert clean_html(html) == cleaned
