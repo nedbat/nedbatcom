@@ -69,10 +69,17 @@ class GetHoneypotter(Honeypotter):
             "spinner",
         )
 
+TLDS = bleach.linkifier.TLDS[:]
+TLDS.remove("py")
+TLDS.remove("rs")
+
+URL_RE = bleach.linkifier.build_url_re(tlds=TLDS)
+
 def clean_html(html):
     linkifier = functools.partial(
         bleach.linkifier.LinkifyFilter,
         skip_tags=['pre'],
+        url_re=URL_RE,
     )
     cleaner = bleach.sanitizer.Cleaner(
         tags=["a", "b", "i", "p", "br", "pre"],
@@ -156,6 +163,9 @@ class PostHoneypotter(Honeypotter):
 
         if not self.latest_body:
             self.add_error("You didn't write a comment!")
+
+        if self.latest_body.count("<a href=") > 4:
+            self.add_error("Too many links is suspicious")
 
         if not self.errormsgs:
             if self.is_previewing:
