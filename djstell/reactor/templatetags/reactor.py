@@ -30,7 +30,6 @@ def entry_comments(context, entryid, url):
 
     context.update({
         "comments": comments,
-        "entryid": entryid,
         "url": url,
     })
     context.update(hp.context_data())

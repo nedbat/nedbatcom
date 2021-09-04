@@ -28,7 +28,6 @@ class Honeypotter:
         self.entryid = entryid
 
         self.client_ip = get_client_ip(self.request)
-        self.errormsgs = []
 
     def field_name(self, field):
         assert field in self.FIELDS
@@ -37,14 +36,11 @@ class Honeypotter:
         else:
             return "f" + md5(field, self.spinner, "field")
 
-    def add_error(self, message):
-        self.errormsgs.append(message)
-
     def context_data(self):
         data = {
             "spinner": self.spinner,
             "timestamp": int(time.time()),
-            "errormsgs": self.errormsgs,
+            "entryid": self.entryid,
             "name": self.request.session.get("name", ""),
             "email": self.request.session.get("email", ""),
             "website": self.request.session.get("website", ""),
@@ -74,6 +70,7 @@ class PostHoneypotter(Honeypotter):
     def __init__(self, request, entryid):
         super().__init__(request, entryid)
         self.is_post = True
+        self.errormsgs = []
 
         self.spinner = self.field_value("spinner")
         if not self.spinner:
@@ -95,6 +92,16 @@ class PostHoneypotter(Honeypotter):
 
         self.is_previewing = self.pushed_button("previewbtn")
         self.is_adding = self.pushed_button("addbtn")
+
+    def add_error(self, message):
+        self.errormsgs.append(message)
+
+    def context_data(self):
+        data = super().context_data()
+        data.update({
+            "errormsgs": self.errormsgs,
+        })
+        return data
 
     def field_value(self, field):
         return self.request.POST.get(self.field_name(field), "")
