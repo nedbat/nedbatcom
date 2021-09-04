@@ -8,26 +8,21 @@ from .models import Comment
 from .tools import get_client_ip, md5
 from .valid import valid_email, valid_name, valid_website
 
-def make_honeypotter(request, entryid):
-    if request.method == "POST":
-        return PostHoneypotter(request, entryid)
-    else:
-        return GetHoneypotter(request, entryid)
-
-
 class Honeypotter:
-    FIELDS = [
-        "name", "email", "website", "body", "notify", "entryid", "timestamp",
-        "honey1", "honey2", "honey3", "honey4",
-        "previewbtn", "addbtn", "honeybtn",
-        "spinner",
-        ]
+    FIELDS = ["spinner", "entryid", "timestamp"]
 
     def __init__(self, request, entryid):
         self.request = request
         self.entryid = entryid
 
+        self.is_post = (request.method == "POST")
         self.client_ip = get_client_ip(self.request)
+        self.errormsgs = []
+
+        if self.is_post:
+            self._init_post()
+        else:
+            self._init_get()
 
     def field_name(self, field):
         assert field in self.FIELDS
@@ -41,21 +36,13 @@ class Honeypotter:
             "spinner": self.spinner,
             "timestamp": int(time.time()),
             "entryid": self.entryid,
-            "name": self.request.session.get("name", ""),
-            "email": self.request.session.get("email", ""),
-            "website": self.request.session.get("website", ""),
-            "notify": self.request.session.get("notify", False),
+            "errormsgs": self.errormsgs,
         }
         for field in self.FIELDS:
             data[f"field_{field}"] = self.field_name(field)
         return data
 
-
-class GetHoneypotter(Honeypotter):
-    def __init__(self, request, entryid):
-        super().__init__(request, entryid)
-        self.is_post = False
-
+    def _init_get(self):
         self.timestamp = int(time.time())
         self.spinner = md5(
             self.client_ip,
@@ -65,13 +52,7 @@ class GetHoneypotter(Honeypotter):
             "spinner",
         )
 
-
-class PostHoneypotter(Honeypotter):
-    def __init__(self, request, entryid):
-        super().__init__(request, entryid)
-        self.is_post = True
-        self.errormsgs = []
-
+    def _init_post(self):
         self.spinner = self.field_value("spinner")
         if not self.spinner:
             self.add_error("Something is wrong with the spinner")
@@ -90,18 +71,8 @@ class PostHoneypotter(Honeypotter):
             if age > 30*60:
                 self.add_error("You took a long time entering this post. Please preview it and submit it again.")
 
-        self.is_previewing = self.pushed_button("previewbtn")
-        self.is_adding = self.pushed_button("addbtn")
-
     def add_error(self, message):
         self.errormsgs.append(message)
-
-    def context_data(self):
-        data = super().context_data()
-        data.update({
-            "errormsgs": self.errormsgs,
-        })
-        return data
 
     def field_value(self, field):
         return self.request.POST.get(self.field_name(field), "")
@@ -112,6 +83,33 @@ class PostHoneypotter(Honeypotter):
 
     def handle_post(self, context):
         # print("\n".join(f"{k!r}: {v!r}" for k, v in self.request.POST.items()))
+        if self.field_value("entryid") != self.entryid:
+            self.add_error("Posting to the wrong entry")
+
+        if any(self.field_value(fname) for fname in self.FIELDS if fname.startswith("honey")):
+            self.add_error("Go away stupid bear")
+
+
+class CommentForm(Honeypotter):
+    FIELDS = Honeypotter.FIELDS + [
+        "name", "email", "website", "body", "notify",
+        "honey1", "honey2", "honey3", "honey4",
+        "previewbtn", "addbtn", "honeybtn",
+    ]
+
+    def context_data(self):
+        data = super().context_data()
+        data.update({
+            "name": self.request.session.get("name", ""),
+            "email": self.request.session.get("email", ""),
+            "website": self.request.session.get("website", ""),
+            "notify": self.request.session.get("notify", False),
+        })
+        return data
+
+    def handle_post(self, context):
+        super().handle_post(context)
+
         self.latest_name = self.field_value("name").strip()
         self.latest_email = self.field_value("email").strip()
         self.latest_website = self.field_value("website").strip()
@@ -123,14 +121,8 @@ class PostHoneypotter(Honeypotter):
         self.request.session["website"] = self.latest_website
         self.request.session["notify"] = self.latest_notify
 
-        if self.field_value("entryid") != self.entryid:
-            self.add_error("Posting to the wrong entry")
-
-        if any(self.field_value(f"honey{hnum}") for hnum in "1234"):
-            self.add_error("Go away stupid bear")
-
-        if self.field_value("honeybtn"):
-            self.add_error("Go away stupid bear")
+        self.is_previewing = self.pushed_button("previewbtn")
+        self.is_adding = self.pushed_button("addbtn")
 
         if not self.latest_name:
             self.add_error("You must provide a name.")
