@@ -80,7 +80,7 @@
         </div>
         <div>
             <label class='check' for="{{field_notify}}">
-                <input type="checkbox" name="{{field_notify}}" id="{{field_notify}}" {{usernotify}}>
+                <input type="checkbox" name="{{field_notify}}" id="{{field_notify}}"{% if notify %} checked{% endif %}>
                 Email me future comments on this page
             </label>&#160;&#160;
         </div>

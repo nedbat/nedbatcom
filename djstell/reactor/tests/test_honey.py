@@ -151,30 +151,47 @@ class TestPosting:
         response = client.post(BLOG_POST, inputs.post_data("honeybtn"))
         assert "Go away stupid bear" in errors(response)
 
+    def test_notify_but_no_email(self, client):
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs["name"] = "Joe No Email"
+        inputs["website"] = "https://noemail.com"
+        inputs["notify"] = "on"
+        inputs["body"] = "Please send me future comments!"
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        assert "You must provide an email to get notified" in errors(response)
+
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
 class TestSaving:
     @pytest.mark.freeze_time
     def test_commenting(self, client, freezer):
         freezer.move_to('2020-09-01 07:34')
+        # Tom reads.
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
         assert Comment.objects.filter(entryid=ENTRYID).count() == 0
+
+        # Tom writes.
         inputs = input_fields(response)
         inputs["name"] = "Thomas Edison"
         inputs["email"] = "tom@edison.org"
         inputs["body"] = "This is a great blog post"
-        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        assert "Thomas Edison" in content(response)
-        assert "tom@edison.org" in content(response)
-        assert "This is a great blog post" in content(response)
-        inputs = input_fields(response)
 
+        # Tom previews.
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        inputs = input_fields(response)
+        assert inputs["name"] == "Thomas Edison"
+        assert inputs["email"] == "tom@edison.org"
+        assert inputs["body"] == "This is a great blog post"
+
+        # Tom adds.
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert "Thomas Edison" in content(response)
         assert "tom@edison.org" in content(response)
         assert "This is a great blog post" in content(response)
 
+        # What does the world look like now?
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
         assert comments(response) == [
@@ -187,14 +204,26 @@ class TestSaving:
         assert comment.email == "tom@edison.org"
         assert comment.body == "This is a great blog post"
         assert comment.posted == datetime.datetime(2020, 9, 1, 7, 34, 0)
+        assert comment.notify is False
+        inputs = input_fields(response)
+        assert inputs["name"] == "Thomas Edison"
+        assert inputs["email"] == "tom@edison.org"
+        assert inputs["body"] == ""
 
         freezer.move_to('2021-06-16 17:34')
+        # Nikola reads.
         response = client.get(BLOG_POST)
+
+        # Nikola writes.
         inputs = input_fields(response)
         inputs["name"] = "Nikola Tesla"
         inputs["email"] = "nik@tesla.com"
         inputs["body"] = "I agree"
+        inputs["notify"] = "on"
+
+        # Nikola previews.
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        inputs = input_fields(response)
         assert errors(response) == []
         dom = lxml.html.fromstring(response.content)
         previews = dom.cssselect(".comment.preview")
@@ -205,16 +234,23 @@ class TestSaving:
         assert "Nikola Tesla" in content(response)
         assert "nik@tesla.com" in content(response)
         assert "I agree" in content(response)
-        inputs = input_fields(response)
 
+        # Nikola adds.
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert errors(response) == []
-        assert Comment.objects.filter(entryid=ENTRYID).count() == 2
         assert comments(response) == [
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
             ]
+        assert Comment.objects.filter(entryid=ENTRYID).count() == 2
+        comment = Comment.objects.filter(entryid=ENTRYID).order_by("posted")[1]
+        assert comment.name == "Nikola Tesla"
+        assert comment.email == "nik@tesla.com"
+        assert comment.body == "I agree"
+        assert comment.posted == datetime.datetime(2021, 6, 16, 17, 34, 0)
+        assert comment.notify is True
 
+        # What does the world look like now?
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
         assert comments(response) == [

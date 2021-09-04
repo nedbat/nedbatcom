@@ -49,6 +49,7 @@ class Honeypotter:
             "name": self.request.session.get("name", ""),
             "email": self.request.session.get("email", ""),
             "website": self.request.session.get("website", ""),
+            "notify": self.request.session.get("notify", False),
         }
         for field in self.FIELDS:
             data[f"field_{field}"] = self.field_name(field)
@@ -131,11 +132,12 @@ class PostHoneypotter(Honeypotter):
         self.latest_email = self.field_value("email").strip()
         self.latest_website = self.field_value("website").strip()
         self.latest_body = clean_html(self.field_value("body"))
+        self.latest_notify = (self.field_value("notify") == "on")
 
         self.request.session["name"] = self.latest_name
         self.request.session["email"] = self.latest_email
         self.request.session["website"] = self.latest_website
-        context["body"] = self.latest_body
+        self.request.session["notify"] = self.latest_notify
 
         if self.field_value("entryid") != self.entryid:
             self.add_error("Posting to the wrong entry")
@@ -167,6 +169,12 @@ class PostHoneypotter(Honeypotter):
         if self.latest_body.count("<a href=") > 4:
             self.add_error("Too many links is suspicious")
 
+        if self.latest_notify and not self.latest_email:
+            self.add_error("You must provide an email to get notified")
+
+        if self.is_previewing:
+            context["body"] = self.latest_body
+
         if not self.errormsgs:
             if self.is_previewing:
                 context["preview"] = {
@@ -183,7 +191,7 @@ class PostHoneypotter(Honeypotter):
                     website=self.latest_website,
                     posted=datetime.datetime.now(),
                     body=self.latest_body,
-                    notify=False,   # TODO: notify
+                    notify=self.latest_notify,
                 ).save()
             else:
                 raise Exception("Shouldn't something be happening?")
