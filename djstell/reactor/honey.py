@@ -146,7 +146,7 @@ class CommentForm(Honeypotter):
             self.add_error("Too many links is suspicious")
 
         if self.latest_notify and not self.latest_email:
-            self.add_error("You must provide an email to get notified")
+            self.add_error("You can't get future comments if you don't provide an email.")
 
         if self.is_previewing:
             context["body"] = self.latest_body

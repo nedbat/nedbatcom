@@ -158,7 +158,7 @@ class TestPosting:
         inputs["notify"] = "on"
         inputs["body"] = "Please send me future comments!"
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        assert "You must provide an email to get notified" in errors(response)
+        assert "You can't get future comments if you don't provide an email." in errors(response)
 
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
