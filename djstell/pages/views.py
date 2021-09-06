@@ -198,7 +198,7 @@ def article(request, path):
     if edits:
         c['min_date'] = edits[0].when
         c['max_date'] = edits[-1].when
-    c['body'] = a.to_html()
+    c['pagebody'] = a.to_html()
     c['description'] = a.description
     c['image'] = abs_url(a.image)
     c['image_alt'] = a.image_alt
@@ -229,7 +229,7 @@ def index(request):
     a = get_object_or_404(Article, path='index.px')
     c = {}
     c['title'] = a.title
-    c['body'] = a.to_html()
+    c['pagebody'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
     now = datetime.datetime.now()
     for recent in c['recent_entries']:
