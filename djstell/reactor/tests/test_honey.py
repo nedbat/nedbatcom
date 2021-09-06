@@ -15,8 +15,7 @@ def has_error(response, msg):
     assert f"<p class='errormsg'>{msg}</p>".encode("utf8") in response.content
 
 def errors(response):
-    dom = lxml.html.fromstring(response.content)
-    error_msgs = dom.cssselect("p.errormsg")
+    error_msgs = cssselect(response, "p.errormsg")
     return [msg.text for msg in error_msgs]
 
 def inner_html(node):
@@ -32,9 +31,8 @@ def text_content(node):
     return node.text_content().strip()
 
 def comments(response):
-    dom = lxml.html.fromstring(response.content)
     comments = []
-    for comdiv in dom.cssselect("div.comment.published"):
+    for comdiv in cssselect(response, "div.comment.published"):
         comments.append({
             "name": text_content(comdiv.cssselect(".who")[0]),
             "when": squish_white(text_content(comdiv.cssselect(".when")[0])),
@@ -102,9 +100,12 @@ class Inputs:
         return data
 
 def input_fields(response):
-    dom = lxml.html.fromstring(response.content)
-    inputs = dom.cssselect("#commentformform input, #commentformform textarea")
+    inputs = cssselect(response, "#commentformform input, #commentformform textarea")
     return Inputs(inputs)
+
+def cssselect(response, selector):
+    dom = lxml.html.fromstring(response.content)
+    return dom.cssselect(selector)
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
 class TestPosting:
@@ -235,8 +236,7 @@ class TestSaving:
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
         assert errors(response) == []
-        dom = lxml.html.fromstring(response.content)
-        previews = dom.cssselect(".comment.preview")
+        previews = cssselect(response, ".comment.preview")
         assert len(previews) == 1
         assert comments(response) == [
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
