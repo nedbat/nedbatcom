@@ -9,7 +9,7 @@
     ['su', 'per', 'cal', 'ifrag', 'ilis', 'tic', 'ex', 'pi', 'ali', 'do', 'cious']
     >>> hyphenate_word("project")
     ['project']
-    
+
     Ned Batchelder, July 2007.
     This Python code is in the public domain.
 """
@@ -32,7 +32,7 @@ class Hyphenator:
     def _insert_pattern(self, pattern):
         # Convert the a pattern like 'a1bc3d4' into a string of chars 'abcd'
         # and a list of points [ 0, 1, 0, 3, 4 ].
-        chars = re.sub('[0-9]', '', pattern)
+        chars = re.sub(r'[0-9]', '', pattern)
         points = [ int(d or 0) for d in re.split("[.a-z]", pattern) ]
 
         # Insert the pattern into the tree.  Each character finds a dict
