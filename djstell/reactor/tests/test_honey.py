@@ -3,6 +3,8 @@ import datetime
 import re
 import time
 
+from types import SimpleNamespace
+
 import lxml.html
 import pytest
 
@@ -54,6 +56,19 @@ def save(response):
 
 BLOG_POST = "/blog/200203/my_first_job_ever.html"
 ENTRYID = "e20020307T000000"
+
+ENTRIES = [
+    SimpleNamespace(
+        url="/blog/200203/my_first_job_ever.html",
+        id="e20020307T000000",
+        title="My first job ever",
+    ),
+    SimpleNamespace(
+        url="/text/names1.html",
+        id="text/names1.html",
+        title="Python Names and Values",
+    ),
+]
 
 # This is the order of field names in comments.html
 FIELD_NAMES = """\
@@ -109,17 +124,20 @@ def cssselect(response, selector):
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
 class TestPosting:
-    def test_get(self, client):
-        response = client.get(BLOG_POST)
+    @pytest.mark.parametrize("entry", ENTRIES)
+    def test_get(self, client, entry):
+        response = client.get(entry.url)
         inputs = input_fields(response)
         # Check that we got the fields right
         assert re.fullmatch(r"[0-9a-f]{32}", inputs["spinner"])
         t = int(inputs["timestamp"])
         now = time.time()
         assert (now - 5) < t < (now + 5)
-        assert inputs["entryid"] == ENTRYID
+        assert inputs["entryid"] == entry.id
         assert inputs["previewbtn"] == "Preview >>"
         assert inputs["honeybtn"] == "I'm a spambot"
+        title = cssselect(response, "h1.headslug")[0].text
+        assert title == entry.title
 
     def test_no_data(self, client):
         response = client.post(BLOG_POST, {})
@@ -166,13 +184,16 @@ class TestPosting:
 
 @pytest.mark.django_db(databases=['default', 'reactor'])
 class TestSaving:
+    @pytest.mark.parametrize("entry", ENTRIES)
     @pytest.mark.freeze_time
-    def test_commenting(self, client, freezer):
+    def test_commenting(self, client, freezer, entry):
         freezer.move_to('2020-09-01 07:34')
         # Tom reads.
-        response = client.get(BLOG_POST)
-        assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
-        assert Comment.objects.filter(entryid=ENTRYID).count() == 0
+        response = client.get(entry.url)
+        if "/blog/" in entry.url:
+            # TODO: why don't pages have this span?
+            assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
+        assert Comment.objects.filter(entryid=entry.id).count() == 0
 
         # Tom writes.
         inputs = input_fields(response)
@@ -181,14 +202,14 @@ class TestSaving:
         inputs["body"] = "This is a great blog post"
 
         # Tom previews.
-        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        response = client.post(entry.url, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
         assert inputs["name"] == "Thomas Edison"
         assert inputs["email"] == "tom@edison.org"
         assert inputs["body"] == "This is a great blog post"
 
         # Tom adds.
-        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        response = client.post(entry.url, inputs.post_data("addbtn"))
         assert "Thomas Edison" in content(response)
         assert "tom@edison.org" in content(response)
         assert "This is a great blog post" in content(response)
@@ -202,14 +223,15 @@ class TestSaving:
         assert email.body == "THE BODY"
 
         # What does the world look like now?
-        response = client.get(BLOG_POST)
-        assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
+        response = client.get(entry.url)
+        if "/blog/" in entry.url:
+            assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
         assert comments(response) == [
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             ]
         assert errors(response) == []
-        assert Comment.objects.filter(entryid=ENTRYID).count() == 1
-        comment = Comment.objects.filter(entryid=ENTRYID)[0]
+        assert Comment.objects.filter(entryid=entry.id).count() == 1
+        comment = Comment.objects.filter(entryid=entry.id)[0]
         assert comment.name == "Thomas Edison"
         assert comment.email == "tom@edison.org"
         assert comment.body == "This is a great blog post"
@@ -223,7 +245,7 @@ class TestSaving:
         mail.outbox = []
         freezer.move_to('2021-06-16 17:34')
         # Nikola reads.
-        response = client.get(BLOG_POST)
+        response = client.get(entry.url)
 
         # Nikola writes.
         inputs = input_fields(response)
@@ -233,7 +255,7 @@ class TestSaving:
         inputs["notify"] = "on"
 
         # Nikola previews.
-        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        response = client.post(entry.url, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
         assert errors(response) == []
         previews = cssselect(response, ".comment.preview")
@@ -246,14 +268,14 @@ class TestSaving:
         assert "I agree" in content(response)
 
         # Nikola adds.
-        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        response = client.post(entry.url, inputs.post_data("addbtn"))
         assert errors(response) == []
         assert comments(response) == [
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
             ]
-        assert Comment.objects.filter(entryid=ENTRYID).count() == 2
-        comment = Comment.objects.filter(entryid=ENTRYID).order_by("posted")[1]
+        assert Comment.objects.filter(entryid=entry.id).count() == 2
+        comment = Comment.objects.filter(entryid=entry.id).order_by("posted")[1]
         assert comment.name == "Nikola Tesla"
         assert comment.email == "nik@tesla.com"
         assert comment.body == "I agree"
@@ -261,8 +283,9 @@ class TestSaving:
         assert comment.notify is True
 
         # What does the world look like now?
-        response = client.get(BLOG_POST)
-        assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
+        response = client.get(entry.url)
+        if "/blog/" in entry.url:
+            assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
         assert comments(response) == [
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
@@ -272,18 +295,18 @@ class TestSaving:
         mail.outbox = []
         freezer.move_to('2021-10-18 11:22')
         # Tom writes again.
-        response = client.get(BLOG_POST)
+        response = client.get(entry.url)
         inputs = input_fields(response)
         inputs["name"] = "Thomas Edison"
         inputs["email"] = "tom@edison.org"
         inputs["body"] = "Thank you"
 
         # Tom previews.
-        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        response = client.post(entry.url, inputs.post_data("previewbtn"))
         inputs = input_fields(response)
 
         # Tom adds.
-        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        response = client.post(entry.url, inputs.post_data("addbtn"))
 
         # What email got sent?
         assert len(mail.outbox) == 2
