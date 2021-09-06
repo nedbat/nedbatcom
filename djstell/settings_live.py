@@ -26,8 +26,6 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ['djstell.reactor.models.ReactorRouter']
-
 STATIC_URL = "/"
 STATICFILES_DIRS = [
     (DJSTELL / "../live").resolve(),
