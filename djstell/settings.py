@@ -5,8 +5,9 @@ from pathlib import Path
 
 # Read .env
 # It should have:
+#   REACTOR_PASSWORD=xyzzy
 #   SECRET_KEY=xyzzy
-#   NEDNET_REACTOR_PASSWORD=xyzzy
+
 import dotenv
 dotenv.load_dotenv()
 

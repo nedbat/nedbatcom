@@ -20,7 +20,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'nednet_reactor',
         'USER': 'nednet_reactor',
-        'PASSWORD': os.environ.get('NEDNET_REACTOR_PASSWORD', 'xyz'),
+        'PASSWORD': os.environ.get('REACTOR_PASSWORD'),
         'HOST': 'mysql2.nedbatchelder.net',
         'OPTIONS': {
             'charset': 'utf8mb4',
@@ -28,8 +28,6 @@ DATABASES = {
         },
     },
 }
-
-DATABASE_ROUTERS = ['djstell.reactor.models.ReactorRouter']
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
