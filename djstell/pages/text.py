@@ -19,9 +19,9 @@ def just_text(value):
     """ Remove non-text HTML tags (really just img for now).
     """
     # Remove all img tags
-    noimg = re.sub("<img [^>]*>(</img>)?", "", value)
+    noimg = re.sub(r"<img [^>]*>(</img>)?", "", value)
     # Now we might have empty <a> tags. Remove them..
-    noemptya = re.sub("<a [^>]*></a>", "", noimg)
+    noemptya = re.sub(r"<a [^>]*></a>", "", noimg)
     return noemptya
 
 

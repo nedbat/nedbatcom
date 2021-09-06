@@ -14,9 +14,9 @@ def slug_from_text(txt):
     # Only ascii characters, _ for space, and lowercase.
     slug = txt.encode('ascii', 'ignore').decode('ascii').replace(' ', '_').lower()
     # Nothing other than word characters
-    slug = re.sub('[^\w _]', '', slug)
+    slug = re.sub(r'[^\w _]', r'', slug)
     # No double underscores.
-    slug = re.sub('_+', '_', slug)
+    slug = re.sub(r'_+', r'_', slug)
     # No underscores at the ends.
     slug = slug.strip(' _')
     # If nothing is left, do something really geeky.
