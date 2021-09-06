@@ -4,6 +4,7 @@ import time
 from django.conf import settings
 
 from .clean import clean_html
+from .mail import send_owner_email, send_watcher_emails
 from .models import Comment
 from .tools import get_client_ip, md5
 from .valid import valid_email, valid_name, valid_website
@@ -160,14 +161,20 @@ class CommentForm(Honeypotter):
                     "body": self.latest_body,
                 }
             elif self.is_adding:
-                Comment(
-                    entryid=self.entryid,
-                    name=self.latest_name,
-                    email=self.latest_email,
-                    website=self.latest_website,
-                    posted=datetime.datetime.now(),
-                    body=self.latest_body,
-                    notify=self.latest_notify,
-                ).save()
+                com = self.comment_object()
+                com.save()
+                send_owner_email(com)
+                send_watcher_emails(com)
             else:
                 raise Exception("Shouldn't something be happening?")
+
+    def comment_object(self):
+        return Comment(
+            entryid=self.entryid,
+            name=self.latest_name,
+            email=self.latest_email,
+            website=self.latest_website,
+            posted=datetime.datetime.now(),
+            body=self.latest_body,
+            notify=self.latest_notify,
+        )

@@ -6,6 +6,8 @@ import time
 import lxml.html
 import pytest
 
+from django.core import mail
+
 from ..models import Comment
 from .. import honey
 
@@ -190,6 +192,14 @@ class TestSaving:
         assert "tom@edison.org" in content(response)
         assert "This is a great blog post" in content(response)
 
+        # What email got sent?
+        assert len(mail.outbox) == 1
+        email = mail.outbox[0]
+        assert email.subject == "Someone commented"
+        assert email.recipients() == ["ned@nedbatchelder.com"]
+        assert email.from_email == "reactor@nedbatchelder.com"
+        assert email.body == "THE BODY"
+
         # What does the world look like now?
         response = client.get(BLOG_POST)
         assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
@@ -209,6 +219,7 @@ class TestSaving:
         assert inputs["email"] == "tom@edison.org"
         assert inputs["body"] == ""
 
+        mail.outbox = []
         freezer.move_to('2021-06-16 17:34')
         # Nikola reads.
         response = client.get(BLOG_POST)
@@ -256,6 +267,37 @@ class TestSaving:
             {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
             {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
             ]
+        assert len(mail.outbox) == 1
+
+        mail.outbox = []
+        freezer.move_to('2021-10-18 11:22')
+        # Tom writes again.
+        response = client.get(BLOG_POST)
+        inputs = input_fields(response)
+        inputs["name"] = "Thomas Edison"
+        inputs["email"] = "tom@edison.org"
+        inputs["body"] = "Thank you"
+
+        # Tom previews.
+        response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
+        inputs = input_fields(response)
+
+        # Tom adds.
+        response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+
+        # What email got sent?
+        assert len(mail.outbox) == 2
+        email = mail.outbox[0]
+        assert email.subject == "Someone commented"
+        assert email.recipients() == ["ned@nedbatchelder.com"]
+        assert email.from_email == "reactor@nedbatchelder.com"
+        assert email.body == "THE BODY"
+
+        email = mail.outbox[1]
+        assert email.subject == "A comment on BLAH"
+        assert email.recipients() == ["nik@tesla.com"]
+        assert email.from_email == "reactor@nedbatchelder.com"
+        assert email.body == "HERE IS THE BODY"
 
     @pytest.mark.freeze_time
     def test_bleaching(self, client, freezer, monkeypatch):

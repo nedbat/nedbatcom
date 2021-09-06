@@ -26,6 +26,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+REACTOR_FROM_EMAIL = "reactor@nedbatchelder.com"
+REACTOR_ADMIN_EMAIL = "ned@nedbatchelder.com"
+
 DJSTELL = Path(__file__).resolve().parent
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
