@@ -217,10 +217,10 @@ class TestSaving:
         # What email got sent?
         assert len(mail.outbox) == 1
         email = mail.outbox[0]
-        assert email.subject == "Someone commented"
+        assert email.subject == f'A comment on "{entry.title}" from Thomas Edison'
         assert email.recipients() == ["ned@nedbatchelder.com"]
         assert email.from_email == "reactor@nedbatchelder.com"
-        assert email.body == "THE BODY"
+        assert "This is a great blog post" in email.body
 
         # What does the world look like now?
         response = client.get(entry.url)
@@ -311,16 +311,20 @@ class TestSaving:
         # What email got sent?
         assert len(mail.outbox) == 2
         email = mail.outbox[0]
-        assert email.subject == "Someone commented"
+        assert email.subject == f'A comment on "{entry.title}" from Thomas Edison'
         assert email.recipients() == ["ned@nedbatchelder.com"]
         assert email.from_email == "reactor@nedbatchelder.com"
-        assert email.body == "THE BODY"
+        assert "email: tom@edison.org" in email.body
+        assert "Thank you" in email.body
+        assert "REMOTE_ADDR:" in email.body
 
         email = mail.outbox[1]
-        assert email.subject == "A comment on BLAH"
+        assert email.subject == f'A comment on "{entry.title}" from Thomas Edison'
         assert email.recipients() == ["nik@tesla.com"]
         assert email.from_email == "reactor@nedbatchelder.com"
-        assert email.body == "HERE IS THE BODY"
+        assert "email:" not in email.body
+        assert "Thank you" in email.body
+        assert "REMOTE_ADDR:" not in email.body
 
     @pytest.mark.freeze_time
     def test_bleaching(self, client, freezer, monkeypatch):

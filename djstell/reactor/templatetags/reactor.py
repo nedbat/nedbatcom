@@ -26,8 +26,8 @@ def entry_comments(context, entryid, url):
 
     if form.is_post:
         form.handle_post(context)
-    comments = Comment.objects.filter(entryid=entryid).order_by("posted")
 
+    comments = Comment.objects.filter(entryid=entryid).order_by("posted")
     context.update({
         "comments": comments,
         "url": url,

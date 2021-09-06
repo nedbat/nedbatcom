@@ -1,0 +1,15 @@
+A comment on "{{title}}":
+entry: {{url}}
+
+name: {{comment.name}}{% if for_admin %}
+email: {% firstof comment.email "---" %}{% endif %}
+website: {% firstof comment.website "---" %}
+
+{{comment.body}}
+
+{% if for_admin %}
+---- Admin stuff ----
+{% if watcher_emails %}notifications to: {{watcher_emails|join:", "}}{% endif %}
+REMOTE_ADDR: {{request.META.REMOTE_ADDR}}
+HTTP_USER_AGENT: {{request.META.HTTP_USER_AGENT}}
+{% endif %}
