@@ -110,10 +110,10 @@ class CmdLine(object):
         self.COPY_FILES = [
             ("deploy/nednet.htaccess", ".htaccess"),
             ("deploy/nednet_passenger_wsgi.py", "passenger_wsgi.py"),
-            ("requirements.txt", "requirements.txt"),
             ]
         self.COPY_TREES = [
             ("../../py/stellated", "stellated"),
+            ("requirements", "requirements"),
             ]
         self.PHP_INCLUDE = False
         self.RSYNC_DST = "dreamhost:nedbatchelder.net"

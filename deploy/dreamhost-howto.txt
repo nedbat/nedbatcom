@@ -19,7 +19,7 @@
 - deploy (from laptop)
     $ make nednet
 - update requirements
-    $ ~/venvs/nednet/bin/python3 -m pip install -r nedbatchelder.net/requirements.txt
+    $ ~/venvs/nednet/bin/python3 -m pip install -r ~/nedbatchelder.net/requirements/server.txt
 - deploy again
     $ make nednet
 
