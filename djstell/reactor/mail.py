@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core import mail as django_mail
 from django.template.loader import render_to_string
 
-
 from .models import Comment
 
 def send_owner_email(com, context):
@@ -23,7 +22,7 @@ def send_owner_email(com, context):
 def watcher_emails(com):
     watchers = Comment.objects.filter(entryid=com.entryid, notify=True)
     watch_emails = set(c.email for c in watchers if c.email != com.email)
-    return watch_emails
+    return sorted(watch_emails)
 
 def send_watcher_emails(com, context):
     watch_emails = watcher_emails(com)
