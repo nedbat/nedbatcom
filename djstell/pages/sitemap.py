@@ -34,7 +34,6 @@ class SiteMap:
     def top_areas(self):
         return self.top
 
-sitemap = SiteMap()
-
 if __name__ == '__main__':
+    sitemap = SiteMap()
     pprint.pprint(sitemap.top_areas())

@@ -1,4 +1,5 @@
 import datetime
+import functools
 import os.path
 import re
 
@@ -9,7 +10,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from djstell.pages.models import Entry, Tag, Link
-from djstell.pages.sitemap import sitemap
+from djstell.pages.sitemap import SiteMap
 
 register = Library()
 
@@ -212,8 +213,9 @@ class IfNotFirstNode(Node):
         return content
 
 @register.simple_tag
+@functools.cache
 def top_areas():
-    crumbs = sitemap.top_areas()
+    crumbs = SiteMap().top_areas()
     links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in crumbs ]
     return mark_safe(u" \N{MIDDLE DOT} ".join(links))
 
