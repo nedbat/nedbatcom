@@ -6,7 +6,7 @@ BASE = '//nedbatchelder.net'
 EXT_BASE = BASE
 
 PHP = False
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.net"]
