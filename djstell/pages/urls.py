@@ -51,6 +51,8 @@ urlpatterns = [
     re_path(r'^(?P<path>(text|code|site)/?.*)$', dpv.article),
     re_path(r'^(?P<path>err404.html)$', dpv.article),
 
+    path('crash', dpv.crash),
+
     path('0inc/sidebar_<slug:which>.inc', dpv.sidebar),
     path('0inc/navbar.inc', dpv.navbar),
     path('0inc/metatags.inc', dpv.metatags),

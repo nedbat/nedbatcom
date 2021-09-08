@@ -270,3 +270,6 @@ def index(request):
     ]
 
     return render(request, 'mainpage.html', c)
+
+def crash(request):
+    raise Exception("Crash requested")
