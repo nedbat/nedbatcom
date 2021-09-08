@@ -33,16 +33,14 @@ def sidebar(which, force=False):
     if inc:
         return c
 
-    global MORE_BLOG
-    if MORE_BLOG is None:
-        MORE_BLOG = list(combined_more_blog())
+    more_blog = combined_more_blog()
 
     if which == 'blog':
-        c['moreblog'] = MORE_BLOG
+        c['moreblog'] = more_blog
         c['morebloglabel'] = "More blog"
         c['staycurrent'] = True
     elif which == 'page':
-        c['moreblog'] = MORE_BLOG[:22]
+        c['moreblog'] = more_blog[:22]
         c['morebloglabel'] = "Blog"
 
     return c
@@ -66,9 +64,11 @@ def metatags(force=False):
     return {"include": inc}
 
 
-MORE_BLOG = None
-
+@functools.cache
 def combined_more_blog():
+    return list(_combined_more_blog())
+
+def _combined_more_blog():
     """Yield a sequence of shuffled-together tags and years."""
     avoid_tags = ('me', 'site', 'blogs')
     tags = Tag.objects.all().exclude(tag__in=avoid_tags)
