@@ -59,7 +59,7 @@ class CmdLine(object):
         self.use_processes = True
         self.messages = []
 
-    def do_local(self):
+    def do_wwwlocal(self):
         self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
         self.ROOT = '../www'
         self.COPY_FILES = [
@@ -81,6 +81,11 @@ class CmdLine(object):
     def do_live(self):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
+        self.PHP_INCLUDE = False
+
+    def do_local(self):
+        self.BASE = "http://127.0.0.1:8000"
+        self.ROOT = "local"
         self.PHP_INCLUDE = False
 
     def do_file(self):

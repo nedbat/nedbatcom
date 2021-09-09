@@ -1,4 +1,4 @@
-.PHONY: help publish html css js live test clean
+.PHONY: help publish html css js live local test clean
 
 .DEFAULT_GOAL := help
 
@@ -25,9 +25,13 @@ static/nedbatchelder.js:
 		echo "" >>$@; \
 	done
 
-live: ## run a local Django server
+live: ## run a live dev Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
 	python djstell/manage.py runserver --settings=djstell.settings_live
+
+local: ## run a local Django server
+	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
+	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
 
 nednet:
 	DJANGO_SETTINGS_MODULE=djstell.settings_nednet_base python djstell/bin/makehtml.py nednet all

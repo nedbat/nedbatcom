@@ -26,7 +26,7 @@ DATABASES = {
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
-    (DJSTELL / "../live").resolve(),
+    DJSTELL.parent,
 ]
 
 SENDFILE_BACKEND = "django_sendfile.backends.development"
