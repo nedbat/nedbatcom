@@ -10,10 +10,11 @@ from ..models import Comment
 def make_comment(
     name,
     email,
-    website="https://myweb.com",
+    website="",
     notify=False,
     entryid="123",
     posted=datetime.datetime(2021, 9, 1),
+    body="The Comment",
     ):
     return Comment(
         entryid=entryid,
@@ -22,6 +23,7 @@ def make_comment(
         notify=notify,
         website=website,
         posted=posted,
+        body=body,
     )
 
 
@@ -29,11 +31,45 @@ def make_comment(
 class TestEmail:
     def test_one_notification(self):
         make_comment(name="Tom", email="tom@tom.com", notify=True).save()
-        com = make_comment(name="Nik", email="nik@nik.com")
-        send_watcher_emails(com, {"title": "My Blog Post"})
+        com = make_comment(name="Nik", email="nik@nik.com", website="https://myweb.com", body="This is really great!")
+        send_watcher_emails(com, {"title": "My Blog Post", "url": "http://blog.com/123"})
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == f'A comment on "My Blog Post" from Nik'
-        assert mail.outbox[0].recipients() == ["tom@tom.com"]
+        email = mail.outbox[0]
+        assert email.subject == f'[nedlive.net] A comment on "My Blog Post" from Nik'
+        assert email.recipients() == ["tom@tom.com"]
+        assert "\nentry: http://blog.com/123\n" in email.body
+        assert "\nname: Nik\n" in email.body
+        assert "\nwebsite: https://myweb.com\n" in email.body
+        assert "\nThis is really great!\n" in email.body
+        assert "To unsubscribe" in email.body
+
+        assert len(email.alternatives) == 1
+        assert email.alternatives[0][1] == "text/html"
+        html = email.alternatives[0][0]
+        assert '<p>A comment on <a href="http://blog.com/123">My Blog Post</a> by' in html
+        assert '<a href="https://myweb.com">Nik</a>:' in html
+        assert 'This is really great!' in html
+
+    def test_notification_with_no_website(self):
+        make_comment(name="Tom", email="tom@tom.com", notify=True).save()
+        com = make_comment(name="Nik", email="nik@nik.com", body="This is really great!")
+        send_watcher_emails(com, {"title": "My Blog Post", "url": "http://blog.com/123"})
+        assert len(mail.outbox) == 1
+        email = mail.outbox[0]
+        assert email.subject == f'[nedlive.net] A comment on "My Blog Post" from Nik'
+        assert email.recipients() == ["tom@tom.com"]
+        assert "\nentry: http://blog.com/123\n" in email.body
+        assert "\nname: Nik\n" in email.body
+        assert "\nwebsite: ---" in email.body
+        assert "\nThis is really great!\n" in email.body
+        assert "To unsubscribe" in email.body
+
+        assert len(email.alternatives) == 1
+        assert email.alternatives[0][1] == "text/html"
+        html = email.alternatives[0][0]
+        assert '<p>A comment on <a href="http://blog.com/123">My Blog Post</a> by' in html
+        assert 'Nik:' in html
+        assert 'This is really great!' in html
 
     def test_two_notifications(self):
         # Two comments mean two emails get sent.
@@ -42,9 +78,9 @@ class TestEmail:
         com = make_comment(name="Jo", email="jo@anne.com")
         send_watcher_emails(com, {"title": "My Blog Post"})
         assert len(mail.outbox) == 2
-        assert mail.outbox[0].subject == f'A comment on "My Blog Post" from Jo'
+        assert mail.outbox[0].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["nik@nik.com"]
-        assert mail.outbox[1].subject == f'A comment on "My Blog Post" from Jo'
+        assert mail.outbox[1].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[1].recipients() == ["tom@tom.com"]
 
     def test_no_duplicates(self):
@@ -55,9 +91,9 @@ class TestEmail:
         com = make_comment(name="Jo", email="jo@anne.com")
         send_watcher_emails(com, {"title": "My Blog Post"})
         assert len(mail.outbox) == 2
-        assert mail.outbox[0].subject == f'A comment on "My Blog Post" from Jo'
+        assert mail.outbox[0].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["nik@nik.com"]
-        assert mail.outbox[1].subject == f'A comment on "My Blog Post" from Jo'
+        assert mail.outbox[1].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[1].recipients() == ["tom@tom.com"]
 
     def test_notifications_only_from_the_same_post(self):
@@ -68,5 +104,5 @@ class TestEmail:
         com = make_comment(entryid="456", name="Jo", email="jo@anne.com")
         send_watcher_emails(com, {"title": "Another Blog Post"})
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == f'A comment on "Another Blog Post" from Jo'
+        assert mail.outbox[0].subject == f'[nedlive.net] A comment on "Another Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["sue@sue.com"]

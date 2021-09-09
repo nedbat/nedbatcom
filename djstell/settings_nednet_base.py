@@ -5,6 +5,8 @@ from .settings import *
 BASE = '//nedbatchelder.net'
 EXT_BASE = f'https:{BASE}'
 
+SITE_NAME = "nedbatchelder.net"
+
 PHP = False
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG

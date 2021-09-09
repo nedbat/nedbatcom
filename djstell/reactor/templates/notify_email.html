@@ -1,0 +1,10 @@
+<p>A comment on <a href="{{url}}">{{title}}</a> by
+{% if comment.website %}
+<a href="{{comment.website}}">{{comment.name}}</a>:
+{% else %}
+{{comment.name}}:
+{% endif %}
+
+{{comment.body}}
+
+<p>(To unsubscribe, forward this email to me: <a href="mailto:ned@nedbatchelder.com">ned@nedbatchelder.com</a>)</p>

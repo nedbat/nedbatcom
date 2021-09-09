@@ -28,11 +28,15 @@ def send_watcher_emails(com, context):
     watch_emails = watcher_emails(com)
     context["comment"] = com
     context["for_admin"] = False
-    subject = f'A comment on "{context["title"]}" from {com.name}'
+    subject = f'[{settings.SITE_NAME}] A comment on "{context["title"]}" from {com.name}'
     body = render_to_string("notify_email.txt", context)
-    messages = [
-        (subject, body, settings.REACTOR_FROM_EMAIL, [wemail])
-        for wemail in watch_emails
-    ]
-    if messages:
-        django_mail.send_mass_mail(messages, fail_silently=False)
+    html = render_to_string("notify_email.html", context)
+    for wemail in watch_emails:
+        django_mail.send_mail(
+            subject=subject,
+            message=body,
+            html_message=html,
+            from_email=settings.REACTOR_FROM_EMAIL,
+            recipient_list=[wemail],
+            fail_silently=False,
+        )

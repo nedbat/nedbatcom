@@ -319,7 +319,7 @@ class TestSaving:
         assert "REMOTE_ADDR:" in email.body
 
         email = mail.outbox[1]
-        assert email.subject == f'A comment on "{entry.title}" from Thomas Edison'
+        assert email.subject == f'[nedlive.net] A comment on "{entry.title}" from Thomas Edison'
         assert email.recipients() == ["nik@tesla.com"]
         assert email.from_email == "reactor@nedbatchelder.com"
         assert "email:" not in email.body

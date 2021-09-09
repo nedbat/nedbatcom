@@ -6,9 +6,9 @@ Move to dreamhost
         + absolute url in email
         + unsubscribe in email
         - email addresses are stored in (at)(dot) format, unfix before notifying
-        - html format email for watchers
+        + html format email for watchers
         - admin pages
-        - favicon.ico can't be displayed because it zero bytes are served?
+        - favicon.ico can't be displayed because zero bytes are served?
     - before
         - write nedcom settings files
             - no sendfile at first
@@ -33,6 +33,10 @@ Move to dreamhost
         - dkim, spf, etc
         - consider performance
         - remove php code, but keep static generation, for testing
+    - much later
+        - badwords in comments
+        - banned ip in comments
+        - real unsubscribe links
 
 
 
