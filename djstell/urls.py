@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import re_path
+from django.views.static import serve as serve_static
 import debug_toolbar
 
 urlpatterns = [
@@ -13,4 +14,8 @@ urlpatterns = [
 ]
 
 if settings.STATIC_URL:
-    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += [
+        # NOTE: this is a hack, it's a copy of what staticfiles_urlpatterns
+        # would give me if it didn't examine settings.DEBUG.
+        re_path(r'^(?P<path>.*)$', serve_static, kwargs={'document_root': ''}),
+    ]

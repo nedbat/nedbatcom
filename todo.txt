@@ -1,11 +1,14 @@
 Move to dreamhost
     - native django
-        - fix static serving!?
+        + fix static serving
+            - todo: get staticfiles done right
         - better logging config
         + absolute url in email
         + unsubscribe in email
+        - email addresses are stored in (at)(dot) format, unfix before notifying
         - html format email for watchers
         - admin pages
+        - favicon.ico can't be displayed because it zero bytes are served?
     - before
         - write nedcom settings files
             - no sendfile at first
