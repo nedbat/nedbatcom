@@ -21,7 +21,7 @@ DATABASES = {
 }
 
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
-SENDFILE_BACKEND = "sendfile.backends.xsendfile"
+SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
 
 LOGGING = {
     'version': 1,

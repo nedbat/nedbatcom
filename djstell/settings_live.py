@@ -29,4 +29,4 @@ STATICFILES_DIRS = [
     (DJSTELL / "../live").resolve(),
 ]
 
-SENDFILE_BACKEND = "sendfile.backends.development"
+SENDFILE_BACKEND = "django_sendfile.backends.development"

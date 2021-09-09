@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sessions',
     #'django.contrib.sites',
+    'django_sendfile',
     'djstell.pages',
     'djstell.reactor',
     'debug_toolbar',
