@@ -12,4 +12,7 @@ website: {% firstof comment.website "---" %}
 {% if watcher_emails %}notifications to: {{watcher_emails|join:", "}}{% endif %}
 REMOTE_ADDR: {{request.META.REMOTE_ADDR}}
 HTTP_USER_AGENT: {{request.META.HTTP_USER_AGENT}}
+{% else %}
+
+(To unsubscribe, forward this email to me: ned@nedbatchelder.com)
 {% endif %}

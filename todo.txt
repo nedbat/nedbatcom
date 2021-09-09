@@ -1,3 +1,38 @@
+Move to dreamhost
+    - native django
+        - fix static serving!?
+        - better logging config
+        + absolute url in email
+        + unsubscribe in email
+        - html format email for watchers
+        - admin pages
+    - before
+        - write nedcom settings files
+            - no sendfile at first
+        - write nedcom make targets
+        - create nedcom .env file
+        - check access to webfaction webmail
+        - practice reactor download from webfaction
+    - day of
+        - switch dns to dreamhost
+        - request sendfile for nedcom
+        - install python3.9
+        - create virtualenv
+        - create reactor db on nedcom
+        - download reactor from webfaction if needed
+        - import reactor content
+        - write .env file
+        - deploy nedcom
+        - deploy tabblo to dreamhost
+        - update gmail settings to pull from dreamhost
+    - after
+        - switch to sendfile
+        - dkim, spf, etc
+        - consider performance
+        - remove php code, but keep static generation, for testing
+
+
+
 New design:
 - must
     + search button isn't square?
