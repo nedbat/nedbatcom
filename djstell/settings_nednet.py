@@ -1,15 +1,6 @@
 import os
 
-from .settings import *
-
-BASE = '//nedbatchelder.net'
-EXT_BASE = BASE
-
-PHP = False
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-
-ALLOWED_HOSTS = ["nedbatchelder.net"]
+from .settings_nednet_base import *
 
 DATABASES = {
     'default': {
@@ -29,10 +20,21 @@ DATABASES = {
     },
 }
 
-STATIC_URL = "/"
-STATICFILES_DIRS = [
-    DJSTELL.parent,
-]
-
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
 SENDFILE_BACKEND = "sendfile.backends.xsendfile"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/nedbat/djlog.txt',
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+    },
+}

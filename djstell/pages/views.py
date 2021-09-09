@@ -2,6 +2,7 @@
 
 import collections
 import datetime
+import logging
 import os.path
 
 from django.conf import settings
@@ -13,6 +14,8 @@ from sendfile import sendfile
 from djstell.pages.models import Entry, Article, Tag
 from djstell.pages.templatetags.tags import first_sentence, just_text
 from djstell.pages.text import description_safe
+
+logger = logging.getLogger(__name__)
 
 ## Blog stuff
 
@@ -272,4 +275,6 @@ def index(request):
     return render(request, 'mainpage.html', c)
 
 def crash(request):
+    logger.warning("About to crash")
+    print("stdout: about to crash")
     raise Exception("Crash requested")
