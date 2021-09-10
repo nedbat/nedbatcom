@@ -130,6 +130,7 @@ class CmdLine(object):
             text=self.text_ext,
             binary=self.binary_ext,
             md5file='deploy/nedbat.md5',
+            skip='password.py',
             )
 
     def generate(self, dst):
