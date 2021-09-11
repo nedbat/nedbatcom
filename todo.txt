@@ -10,14 +10,14 @@ Move to dreamhost
         - admin pages
         - favicon.ico can't be displayed because zero bytes are served?
     - before
-        - write nedcom settings files
+        + write nedcom settings files
             - no sendfile at first
             SENDFILE_BACKEND = "django_sendfile.backends.simple"
-        - write nedcom make targets
+        + write nedcom make targets
         - create nedcom .env file
-        - check access to webfaction webmail
+        + check access to webfaction webmail
             - https://webmail.webfaction.com/?_task=mail&_mbox=INBOX
-        - practice reactor download from webfaction
+        + practice reactor download from webfaction
     - day of
         - switch dns to dreamhost
         - request sendfile for nedcom

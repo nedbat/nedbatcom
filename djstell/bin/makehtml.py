@@ -110,26 +110,32 @@ class CmdLine(object):
             )
 
     def do_nednet(self):
-        self.BASE = '//nedbatchelder.net'
+        self.dreamhost("nedbatchelder.net", "nednet")
+
+    def do_nedcom(self):
+        self.dreamhost("nedbatchelder.com", "nedcom")
+
+    def dreamhost(self, domain, slug):
+        self.BASE = f'//{domain}'
         self.ROOT = "live"
         self.COPY_FILES = [
-            ("deploy/nednet.htaccess", ".htaccess"),
-            ("deploy/nednet_passenger_wsgi.py", "passenger_wsgi.py"),
+            (f"deploy/{slug}.htaccess", ".htaccess"),
+            (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
             ]
         self.COPY_TREES = [
             ("../../py/stellated", "stellated"),
             ("requirements", "requirements"),
             ]
         self.PHP_INCLUDE = False
-        self.RSYNC_DST = "dreamhost:nedbatchelder.net"
+        self.RSYNC_DST = f"dreamhost:{domain}"
         self.all_words = "clean load copy_verbatim copy_live support djstell upload rsyncdb"
         self.FTP = dict(
-            host='nedbatchelder.net', hostdir='nedbatchelder.net',
-            user='nedbat', password=password.NEDNET,
+            host="nedbatchelder.net", hostdir=domain,
+            user='nedbat', password=password.DREAMHOST,
             src='live',
             text=self.text_ext,
             binary=self.binary_ext,
-            md5file='deploy/nedbat.md5',
+            md5file=f'deploy/{slug}.md5',
             skip='password.py',
             )
 
