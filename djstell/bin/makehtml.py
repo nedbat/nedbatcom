@@ -50,6 +50,7 @@ class CmdLine(object):
             *.html *.css *.xslt *.js *.txt *.xml *.inc
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess *.ini
             *.svg *.ipynb
+            *.env
             '''
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
@@ -119,6 +120,7 @@ class CmdLine(object):
         self.BASE = f'//{domain}'
         self.ROOT = "live"
         self.COPY_FILES = [
+            (f"deploy/{slug}.env", ".env"),
             (f"deploy/{slug}.htaccess", ".htaccess"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
             ]

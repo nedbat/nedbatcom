@@ -14,12 +14,13 @@ Move to dreamhost
             - no sendfile at first
             SENDFILE_BACKEND = "django_sendfile.backends.simple"
         + write nedcom make targets
-        - create nedcom .env file
+        + create nedcom .env file
         + check access to webfaction webmail
             - https://webmail.webfaction.com/?_task=mail&_mbox=INBOX
         + practice reactor download from webfaction
     - day of
         - switch dns to dreamhost
+        - create nedcom hosting
         - request sendfile for nedcom
         - install python3.9
         - create virtualenv
