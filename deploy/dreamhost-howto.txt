@@ -2,19 +2,21 @@
     - https://help.dreamhost.com/hc/en-us/articles/115000702772-Installing-a-custom-version-of-Python-3
         $ mkdir ~/tmp
         $ cd ~/tmp
-        $ wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz
-        $ tar zxvf Python-3.9.*.tgz
-        $ cd Python-3.9.*
-        $ ./configure --prefix=$HOME/opt/python-3.9.6
+        $ export VER=3.9.7
+        $ wget https://www.python.org/ftp/python/$VER/Python-$VER.tgz
+        $ tar zxvf Python-$VER.tgz
+        $ cd Python-$VER
+        $ ./configure --prefix=$HOME/opt/python-$VER
         $ make
         $ make install
-        $ cd; rm -rf /tmp
+        $ cd; rm -rf tmp
 - make the virtualenv
     $ cd ~
-    $ opt/python-3.9.*/bin/python3 -m pip install -U pip
-    $ opt/python-3.9.*/bin/python3 -m pip install -U virtualenv
+    $ export VER=3.9.7
+    $ opt/python-$VER/bin/python3 -m pip install -U pip
+    $ opt/python-$VER/bin/python3 -m pip install -U virtualenv
     $ rm -rf venvs/nednet
-    $ opt/python-3.9.*/bin/python3 -m virtualenv -p opt/python-3.9.*/bin/python3 venvs/nednet
+    $ opt/python-$VER/bin/python3 -m virtualenv -p opt/python-$VER/bin/python3 venvs/nednet
     $ venvs/nednet/bin/python3 -VV
 - deploy (from laptop)
     $ make nednet

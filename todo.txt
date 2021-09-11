@@ -19,18 +19,23 @@ Move to dreamhost
             - https://webmail.webfaction.com/?_task=mail&_mbox=INBOX
         + practice reactor download from webfaction
     - day of
-        - switch dns to dreamhost
-        - create nedcom hosting
-        - request sendfile for nedcom
-        - install python3.9
-        - create virtualenv
-        - create reactor db on nedcom
-        - download reactor from webfaction if needed
-        - import reactor content
-        - deploy nedcom
-        - update gmail settings to pull from dreamhost
-        - deploy tabblo to dreamhost
+        + switch dns to dreamhost
+        + create nedcom hosting
+        + enable ssl for nedcom
+        + flush dns
+            sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
+        + install python3.9
+        + create virtualenv
+        + create reactor db on nedcom
+        + download reactor from webfaction if needed
+        + import reactor content
+        + deploy nedcom
+        + create ned@nedcom email
+            - nedcom dsjhdfsd69!email
+        + update gmail settings to pull from dreamhost
+        + deploy tabblo to dreamhost
     - after
+        + request sendfile for nedcom
         - switch to sendfile
             SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
         - tabblo index.html files aren't being served
