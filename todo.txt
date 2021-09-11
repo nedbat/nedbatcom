@@ -5,7 +5,7 @@ Move to dreamhost
         - better logging config
         + absolute url in email
         + unsubscribe in email
-        - email addresses are stored in (at)(dot) format, unfix before notifying
+        + email addresses are stored in (at)(dot) format, unfix before notifying
         + html format email for watchers
         - admin pages
         - favicon.ico can't be displayed because zero bytes are served?
@@ -16,6 +16,7 @@ Move to dreamhost
         - write nedcom make targets
         - create nedcom .env file
         - check access to webfaction webmail
+            - https://webmail.webfaction.com/?_task=mail&_mbox=INBOX
         - practice reactor download from webfaction
     - day of
         - switch dns to dreamhost
