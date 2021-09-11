@@ -2,7 +2,7 @@ Move to dreamhost
     - native django
         + fix static serving
             - todo: get staticfiles done right
-        - better logging config
+        + better logging config
         + absolute url in email
         + unsubscribe in email
         + email addresses are stored in (at)(dot) format, unfix before notifying
@@ -27,7 +27,6 @@ Move to dreamhost
         - create reactor db on nedcom
         - download reactor from webfaction if needed
         - import reactor content
-        - write .env file
         - deploy nedcom
         - update gmail settings to pull from dreamhost
         - deploy tabblo to dreamhost
