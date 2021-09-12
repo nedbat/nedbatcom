@@ -36,7 +36,7 @@ Move to dreamhost
         + deploy tabblo to dreamhost
     - after
         + request sendfile for nedcom
-        - switch to sendfile
+        + switch to sendfile
             SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
         - tabblo index.html files aren't being served
             - https://nedbatchelder.net/tabblo/238292

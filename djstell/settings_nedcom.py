@@ -21,7 +21,7 @@ DATABASES = {
 }
 
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
-SENDFILE_BACKEND = "django_sendfile.backends.simple"
+SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
 SENDFILE_ROOT = DJSTELL.parent
 
 LOGGING = {
