@@ -3,8 +3,8 @@
 <a href="{{comment.website}}">{{comment.name}}</a>:
 {% else %}
 {{comment.name}}:
-{% endif %}
+{% endif %}</p>
 
-{{comment.body}}
+{{comment.body|safe}}
 
 <p>(To unsubscribe, forward this email to me: <a href="mailto:ned@nedbatchelder.com">ned@nedbatchelder.com</a>)</p>
