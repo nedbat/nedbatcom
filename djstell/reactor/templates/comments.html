@@ -97,7 +97,7 @@
 
         {% if preview %}
         <div class='comment preview'>
-            <img class='gravatar' src='{{preview.gravatar_url}}' width='40' height='40' alt='[gravatar]'>
+            <img class='gravatar' src='{{preview.gravatar_url}}' width='40' height='40' alt='[gravatar{% if preview.email %} for {{preview.email}}{% endif %}]'>
             <div class='head'>
                 <span class='who'><b>
                     {% if preview.website %}

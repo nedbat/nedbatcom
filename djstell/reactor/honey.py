@@ -154,12 +154,14 @@ class CommentForm(Honeypotter):
 
         if not self.errormsgs:
             if self.is_previewing:
-                context["preview"] = {
-                    "website": self.latest_website,
-                    "name": self.latest_name,
-                    "posted": datetime.datetime.now(),
-                    "body": self.latest_body,
-                }
+                context["preview"] = Comment(
+                    entryid=self.entryid,
+                    name=self.latest_name,
+                    email=self.latest_email,
+                    website=self.latest_website,
+                    posted=datetime.datetime.now(),
+                    body=self.latest_body,
+                )
             elif self.is_adding:
                 com = self.comment_object()
                 com.save()

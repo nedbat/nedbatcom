@@ -266,6 +266,12 @@ class TestSaving:
         assert "Nikola Tesla" in content(response)
         assert "nik@tesla.com" in content(response)
         assert "I agree" in content(response)
+        assert (
+            "<img class='gravatar' " +
+            "src='//www.gravatar.com/avatar/0883069a79871f73bf1d844cb3291c32.jpg?default=https://nedbatchelder.com/pix/avatar/a205.jpg&amp;size=80' " +
+            "width='40' height='40' alt='[gravatar for nik@tesla.com]'>"
+            in content(response)
+        )
 
         # Nikola adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
