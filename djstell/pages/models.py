@@ -21,7 +21,7 @@ if 0:
         "quote", "blockquote", "quotep", "box",
         "table", "tr", "th", "td",
         "dl", "dt", "dd", "term",
-        "codeword", "tt",
+        "pre", "code", "tt",
         ]
     def save_plain_text(elt):
         f_plain_text.write("".join(elt.itertext(*text_tags)))

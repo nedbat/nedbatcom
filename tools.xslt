@@ -272,7 +272,7 @@
         <xsl:if test='@name'>
             <p class='name'><xsl:value-of select='@name'/></p>
         </xsl:if>
-        <code>
+        <pre>
             <xsl:choose>
             <xsl:when test='@lang'>
                 <xsl:attribute name='class'><xsl:value-of select='@lang' /></xsl:attribute>
@@ -291,16 +291,16 @@
                 </xsl:call-template>
             </xsl:otherwise>
             </xsl:choose>
-        </code>
+        </pre>
     </blockquote>
 </xsl:template>
 
 <xsl:template match='codeword'>
-    <span class='codeword'>
+    <code>
         <xsl:call-template name='code-replace'>
             <xsl:with-param name='code' select='translate(text(), " ", "&#160;")'/>
         </xsl:call-template>
-    </span>
+    </code>
 </xsl:template>
 
 <xsl:template name='code-replace'>

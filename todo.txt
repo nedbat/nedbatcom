@@ -7,8 +7,6 @@ Move to dreamhost
         + unsubscribe in email
         + email addresses are stored in (at)(dot) format, unfix before notifying
         + html format email for watchers
-        - admin pages
-        - favicon.ico can't be displayed because zero bytes are served?
     - before
         + write nedcom settings files
             - no sendfile at first
@@ -39,9 +37,12 @@ Move to dreamhost
             SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
         - tabblo index.html files aren't being served
             - https://nedbatchelder.net/tabblo/238292
+        - empty file: https://nedbatchelder.com/code/modules/rees-coverage.html
+        - favicon is empty
         - dkim, spf, etc
         - consider performance
         - remove php code, but keep static generation, for testing
+        - admin pages
     - much later
         - badwords in comments
         - banned ip in comments

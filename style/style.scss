@@ -803,14 +803,14 @@ blockquote {
 
 }
 
-code {
+pre {
+    margin: 0;
     font-size: 70%;
     line-height: 130%;
     font-family: $code-font;
-    display: block;
     // The code blocks weren't respecting widths, and making scroll bars.
     // Matt Rothenberg suggested width:1px, which fixed it.
-    width: 1px;
+    //   width: 1px;
 }
 
 blockquote.code {
@@ -971,7 +971,7 @@ div.linenodiv {
     }
 }
 
-.codeword, tt {
+code, tt {
     font-size: 80%;
     font-family: $code-font;
     @include colors(--blockquote-bg-color);
@@ -1188,6 +1188,7 @@ img {
             word-wrap: break-word;
         }
         pre {
+            margin: 1em;
             max-width: 100%;
             overflow-x: scroll;
         }
