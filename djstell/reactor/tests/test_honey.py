@@ -1,5 +1,6 @@
 import dataclasses
 import datetime
+import itertools
 import re
 import time
 
@@ -21,13 +22,11 @@ def errors(response):
     return [msg.text for msg in error_msgs]
 
 def inner_html(node):
-    from lxml.etree import tostring
-    from itertools import chain
-    parts = ([node.text] +
-            list(chain(*([c.text, tostring(c), c.tail] for c in node.getchildren()))) +
-            [node.tail])
-    # filter removes possible Nones in texts and tails
-    return ''.join(filter(None, parts)).strip()
+    parts = itertools.chain(
+        node.text or "",
+        (lxml.html.tostring(c, encoding="unicode") for c in node.getchildren())
+    )
+    return ''.join(parts).strip()
 
 def text_content(node):
     return node.text_content().strip()
@@ -216,7 +215,7 @@ class TestSaving:
             'name': 'Thomas Edison',
             'gravatar_url': TOM_GRAVATAR,
             'when': '7:34 AM on 1 Sep 2020',
-            'body': 'This is a great blog post',
+            'body': '<p>This is a great blog post</p>',
         }]
 
         # Tom adds.
@@ -241,14 +240,14 @@ class TestSaving:
             'name': 'Thomas Edison',
             'gravatar_url': TOM_GRAVATAR,
             'when': '7:34 AM on 1 Sep 2020',
-            'body': 'This is a great blog post',
+            'body': '<p>This is a great blog post</p>',
         }]
         assert errors(response) == []
         assert Comment.objects.filter(entryid=entry.id).count() == 1
         comment = Comment.objects.filter(entryid=entry.id)[0]
         assert comment.name == "Thomas Edison"
         assert comment.email == "tom@edison.org"
-        assert comment.body == "This is a great blog post"
+        assert comment.body == "<p>This is a great blog post</p>"
         assert comment.posted == datetime.datetime(2020, 9, 1, 7, 34, 0)
         assert comment.notify is False
         inputs = input_fields(response)
@@ -275,13 +274,13 @@ class TestSaving:
             'name': 'Thomas Edison',
             'gravatar_url': TOM_GRAVATAR,
             'when': '7:34 AM on 1 Sep 2020',
-            'body': 'This is a great blog post',
+            'body': '<p>This is a great blog post</p>',
         }]
         assert comments(response, klass="preview") == [{
             'name': 'Nikola Tesla',
             'gravatar_url': NIK_GRAVATAR,
             'when': '5:34 PM on 16 Jun 2021',
-            'body': 'I agree',
+            'body': '<p>I agree</p>',
         }]
         assert "width='40' height='40' alt='[gravatar for nik@tesla.com]'>" in content(response)
         inputs = input_fields(response)
@@ -294,20 +293,20 @@ class TestSaving:
                 'name': 'Thomas Edison',
                 'gravatar_url': TOM_GRAVATAR,
                 'when': '7:34 AM on 1 Sep 2020',
-                'body': 'This is a great blog post',
+                'body': '<p>This is a great blog post</p>',
             },
             {
                 'name': 'Nikola Tesla',
                 'gravatar_url': NIK_GRAVATAR,
                 'when': '5:34 PM on 16 Jun 2021',
-                'body': 'I agree',
+                'body': '<p>I agree</p>',
             },
         ]
         assert Comment.objects.filter(entryid=entry.id).count() == 2
         comment = Comment.objects.filter(entryid=entry.id).order_by("posted")[1]
         assert comment.name == "Nikola Tesla"
         assert comment.email == "nik@tesla.com"
-        assert comment.body == "I agree"
+        assert comment.body == "<p>I agree</p>"
         assert comment.posted == datetime.datetime(2021, 6, 16, 17, 34, 0)
         assert comment.notify is True
 
@@ -320,13 +319,13 @@ class TestSaving:
                 'name': 'Thomas Edison',
                 'gravatar_url': TOM_GRAVATAR,
                 'when': '7:34 AM on 1 Sep 2020',
-                'body': 'This is a great blog post',
+                'body': '<p>This is a great blog post</p>',
             },
             {
                 'name': 'Nikola Tesla',
                 'gravatar_url': NIK_GRAVATAR,
                 'when': '5:34 PM on 16 Jun 2021',
-                'body': 'I agree',
+                'body': '<p>I agree</p>',
             },
         ]
         assert len(mail.outbox) == 1
@@ -368,11 +367,11 @@ class TestSaving:
     @pytest.mark.freeze_time
     def test_bleaching(self, client, freezer, monkeypatch):
         freezer.move_to('2020-10-18 01:23')
-        # Check that clean_html is used on the body of the comment.
-        def fake_clean_html(html):
+        # Check that convert_body is used on the body of the comment.
+        def fake_convert_body(html):
             assert html == "<p>Hello</p>"
             return "CLEANED"
-        monkeypatch.setattr(honey, "clean_html", fake_clean_html)
+        monkeypatch.setattr(honey, "convert_body", fake_convert_body)
 
         response = client.get(BLOG_POST)
         inputs = input_fields(response)

@@ -3,7 +3,7 @@ import time
 
 from django.conf import settings
 
-from .clean import clean_html
+from .clean import convert_body
 from .mail import send_owner_email, send_watcher_emails
 from .models import Comment
 from .tools import get_client_ip, md5
@@ -114,7 +114,7 @@ class CommentForm(Honeypotter):
         self.latest_name = self.field_value("name").strip()
         self.latest_email = self.field_value("email").strip()
         self.latest_website = self.field_value("website").strip()
-        self.latest_body = clean_html(self.field_value("body"))
+        self.latest_body = convert_body(self.field_value("body"))
         self.latest_notify = (self.field_value("notify") == "on")
 
         self.request.session["name"] = self.latest_name
@@ -150,23 +150,16 @@ class CommentForm(Honeypotter):
             self.add_error("You can't get future comments if you don't provide an email.")
 
         if self.is_previewing:
-            context["body"] = self.latest_body
+            context["body"] = self.field_value("body")
 
         if not self.errormsgs:
+            com = self.comment_object()
             if self.is_previewing:
-                context["preview"] = Comment(
-                    entryid=self.entryid,
-                    name=self.latest_name,
-                    email=self.latest_email,
-                    website=self.latest_website,
-                    posted=datetime.datetime.now(),
-                    body=self.latest_body,
-                )
+                context["preview"] = com
             elif self.is_adding:
-                com = self.comment_object()
                 com.save()
-                send_owner_email(com, dict(context.flatten()))
-                send_watcher_emails(com, dict(context.flatten()))
+                send_owner_email(com, self.field_value("body"), dict(context.flatten()))
+                send_watcher_emails(com, self.field_value("body"), dict(context.flatten()))
             else:
                 raise Exception("Shouldn't something be happening?")
 

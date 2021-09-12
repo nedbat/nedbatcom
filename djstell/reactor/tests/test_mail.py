@@ -32,7 +32,7 @@ class TestEmail:
     def test_one_notification(self):
         make_comment(name="Tom", email="tom@tom.com", notify=True).save()
         com = make_comment(name="Nik", email="nik@nik.com", website="https://myweb.com", body="This is really great!")
-        send_watcher_emails(com, {"title": "My Blog Post", "url": "http://blog.com/123"})
+        send_watcher_emails(com, "This is really great!", {"title": "My Blog Post", "url": "http://blog.com/123"})
         assert len(mail.outbox) == 1
         email = mail.outbox[0]
         assert email.subject == f'[nedlive.net] A comment on "My Blog Post" from Nik'
@@ -53,7 +53,7 @@ class TestEmail:
     def test_notification_with_no_website(self):
         make_comment(name="Tom", email="tom@tom.com", notify=True).save()
         com = make_comment(name="Nik", email="nik@nik.com", body="This is really great!")
-        send_watcher_emails(com, {"title": "My Blog Post", "url": "http://blog.com/123"})
+        send_watcher_emails(com, "This is really great!", {"title": "My Blog Post", "url": "http://blog.com/123"})
         assert len(mail.outbox) == 1
         email = mail.outbox[0]
         assert email.subject == f'[nedlive.net] A comment on "My Blog Post" from Nik'
@@ -76,7 +76,7 @@ class TestEmail:
         make_comment(name="Tom", email="tom@tom.com", notify=True).save()
         make_comment(name="Nik", email="nik@nik.com", notify=True).save()
         com = make_comment(name="Jo", email="jo@anne.com")
-        send_watcher_emails(com, {"title": "My Blog Post"})
+        send_watcher_emails(com, "", {"title": "My Blog Post"})
         assert len(mail.outbox) == 2
         assert mail.outbox[0].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["nik@nik.com"]
@@ -89,7 +89,7 @@ class TestEmail:
         make_comment(name="Nik", email="nik@nik.com", notify=True).save()
         make_comment(name="Nik", email="nik@nik.com", notify=True).save()
         com = make_comment(name="Jo", email="jo@anne.com")
-        send_watcher_emails(com, {"title": "My Blog Post"})
+        send_watcher_emails(com, "", {"title": "My Blog Post"})
         assert len(mail.outbox) == 2
         assert mail.outbox[0].subject == f'[nedlive.net] A comment on "My Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["nik@nik.com"]
@@ -102,7 +102,7 @@ class TestEmail:
         make_comment(entryid="123", name="Nik", email="nik@nik.com", notify=True).save()
         make_comment(entryid="456", name="Sue", email="sue@sue.com", notify=True).save()
         com = make_comment(entryid="456", name="Jo", email="jo@anne.com")
-        send_watcher_emails(com, {"title": "Another Blog Post"})
+        send_watcher_emails(com, "", {"title": "Another Blog Post"})
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == f'[nedlive.net] A comment on "Another Blog Post" from Jo'
         assert mail.outbox[0].recipients() == ["sue@sue.com"]
