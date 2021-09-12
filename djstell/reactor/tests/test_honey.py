@@ -32,13 +32,14 @@ def inner_html(node):
 def text_content(node):
     return node.text_content().strip()
 
-def comments(response):
+def comments(response, klass="published"):
     comments = []
-    for comdiv in cssselect(response, "div.comment.published"):
+    for comdiv in cssselect(response, f"div.comment.{klass}"):
         comments.append({
             "name": text_content(comdiv.cssselect(".who")[0]),
             "when": squish_white(text_content(comdiv.cssselect(".when")[0])),
             "body": inner_html(comdiv.cssselect(".commenttext")[0]),
+            "gravatar_url": comdiv.cssselect(".gravatar")[0].get("src"),
         })
     return comments
 
@@ -69,6 +70,10 @@ ENTRIES = [
         title="Python Names and Values",
     ),
 ]
+
+TOM_GRAVATAR = '//www.gravatar.com/avatar/680f1218b5409f9d0ce02b056c5ba0fc.jpg?default=https://nedbatchelder.com/pix/avatar/a131.jpg&size=80'
+NIK_GRAVATAR = '//www.gravatar.com/avatar/0883069a79871f73bf1d844cb3291c32.jpg?default=https://nedbatchelder.com/pix/avatar/a205.jpg&size=80'
+BAD_GRAVATAR = '//www.gravatar.com/avatar/f62c87b83ddcf6ae98ac4526ca42c879.jpg?default=https://nedbatchelder.com/pix/avatar/a134.jpg&size=80'
 
 # This is the order of field names in comments.html
 FIELD_NAMES = """\
@@ -207,6 +212,12 @@ class TestSaving:
         assert inputs["name"] == "Thomas Edison"
         assert inputs["email"] == "tom@edison.org"
         assert inputs["body"] == "This is a great blog post"
+        assert comments(response, klass="preview") == [{
+            'name': 'Thomas Edison',
+            'gravatar_url': TOM_GRAVATAR,
+            'when': '7:34 AM on 1 Sep 2020',
+            'body': 'This is a great blog post',
+        }]
 
         # Tom adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
@@ -226,9 +237,12 @@ class TestSaving:
         response = client.get(entry.url)
         if "/blog/" in entry.url:
             assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
-        assert comments(response) == [
-            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
-            ]
+        assert comments(response) == [{
+            'name': 'Thomas Edison',
+            'gravatar_url': TOM_GRAVATAR,
+            'when': '7:34 AM on 1 Sep 2020',
+            'body': 'This is a great blog post',
+        }]
         assert errors(response) == []
         assert Comment.objects.filter(entryid=entry.id).count() == 1
         comment = Comment.objects.filter(entryid=entry.id)[0]
@@ -256,30 +270,39 @@ class TestSaving:
 
         # Nikola previews.
         response = client.post(entry.url, inputs.post_data("previewbtn"))
-        inputs = input_fields(response)
         assert errors(response) == []
-        previews = cssselect(response, ".comment.preview")
-        assert len(previews) == 1
-        assert comments(response) == [
-            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
-            ]
-        assert "Nikola Tesla" in content(response)
-        assert "nik@tesla.com" in content(response)
-        assert "I agree" in content(response)
-        assert (
-            "<img class='gravatar' " +
-            "src='//www.gravatar.com/avatar/0883069a79871f73bf1d844cb3291c32.jpg?default=https://nedbatchelder.com/pix/avatar/a205.jpg&amp;size=80' " +
-            "width='40' height='40' alt='[gravatar for nik@tesla.com]'>"
-            in content(response)
-        )
+        assert comments(response) == [{
+            'name': 'Thomas Edison',
+            'gravatar_url': TOM_GRAVATAR,
+            'when': '7:34 AM on 1 Sep 2020',
+            'body': 'This is a great blog post',
+        }]
+        assert comments(response, klass="preview") == [{
+            'name': 'Nikola Tesla',
+            'gravatar_url': NIK_GRAVATAR,
+            'when': '5:34 PM on 16 Jun 2021',
+            'body': 'I agree',
+        }]
+        assert "width='40' height='40' alt='[gravatar for nik@tesla.com]'>" in content(response)
+        inputs = input_fields(response)
 
         # Nikola adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
         assert errors(response) == []
         assert comments(response) == [
-            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
-            {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
-            ]
+            {
+                'name': 'Thomas Edison',
+                'gravatar_url': TOM_GRAVATAR,
+                'when': '7:34 AM on 1 Sep 2020',
+                'body': 'This is a great blog post',
+            },
+            {
+                'name': 'Nikola Tesla',
+                'gravatar_url': NIK_GRAVATAR,
+                'when': '5:34 PM on 16 Jun 2021',
+                'body': 'I agree',
+            },
+        ]
         assert Comment.objects.filter(entryid=entry.id).count() == 2
         comment = Comment.objects.filter(entryid=entry.id).order_by("posted")[1]
         assert comment.name == "Nikola Tesla"
@@ -293,9 +316,19 @@ class TestSaving:
         if "/blog/" in entry.url:
             assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
         assert comments(response) == [
-            {'body': 'This is a great blog post', 'name': 'Thomas Edison', 'when': '7:34 AM on 1 Sep 2020'},
-            {'body': 'I agree', 'name': 'Nikola Tesla', 'when': '5:34 PM on 16 Jun 2021'},
-            ]
+            {
+                'name': 'Thomas Edison',
+                'gravatar_url': TOM_GRAVATAR,
+                'when': '7:34 AM on 1 Sep 2020',
+                'body': 'This is a great blog post',
+            },
+            {
+                'name': 'Nikola Tesla',
+                'gravatar_url': NIK_GRAVATAR,
+                'when': '5:34 PM on 16 Jun 2021',
+                'body': 'I agree',
+            },
+        ]
         assert len(mail.outbox) == 1
 
         mail.outbox = []
@@ -354,9 +387,12 @@ class TestSaving:
         assert "CLEANED" in content(response)
 
         response = client.get(BLOG_POST)
-        assert comments(response) == [
-            {'body': 'CLEANED', 'name': 'Bad Guy', 'when': '1:23 AM on 18 Oct 2020'},
-        ]
+        assert comments(response) == [{
+            'name': 'Bad Guy',
+            'gravatar_url': BAD_GRAVATAR,
+            'when': '1:23 AM on 18 Oct 2020',
+            'body': 'CLEANED',
+        }]
         comment = Comment.objects.filter(entryid=ENTRYID)[0]
         assert comment.body == "CLEANED"
 
