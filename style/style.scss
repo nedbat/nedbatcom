@@ -819,6 +819,11 @@ blockquote.code {
     white-space: nowrap;
     overflow-x: auto;
     line-height: 1;
+    span.linenos {
+        display: inline-block;
+        width: 3em;
+        color: #888;
+    }
 }
 
 .code {
@@ -925,30 +930,6 @@ blockquote.code {
     }
     .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
         color: #a31515;
-    }
-}
-
-table.sourcetable {
-    /* Numbered code gets put in a .sourcetable table, inside a blockquote.code, so we
-     * need to cancel out the padding. */
-    margin: -0.3em;
-
-    td {
-        border: none;
-        &.linenos {
-            width: 3em;
-        }
-        &.code {
-            width: 100%;
-            padding: 0 0.5em;
-        }
-    }
-}
-
-div.linenodiv {
-    padding: 0 1em 0 0;
-    pre {
-        margin: .3em 0 0 0;
     }
 }
 
