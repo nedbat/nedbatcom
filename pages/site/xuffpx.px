@@ -4,7 +4,12 @@
 <history>
 <what when='20051128T201000'>Created.</what>
 <what when='20080116T183700'>Mostly obsolete.</what>
+<what when='20210913T065100'>Live django</what>
 </history>
+
+<box>As of September 2021, more of this page is out-of-date. The input files are
+still the same .bx and .px, but now they are served by Django.
+See <a pref="blog/real-django-site.bx"/> for details.</box>
 
 <box>As of January 2008, half of this page is out-of-date.  The input files are
 the same, but the process for turning them into HTML is completely different.
@@ -48,7 +53,7 @@ entry per page.</li>
 <p>My input files are all XML, in a handful of custom dialects.  Pages start life as .px files;
 they look like this:</p>
 
-<code><![CDATA[
+<code lang='xml'><![CDATA[
 <?xml version='1.0' encoding='utf-8'?>
 <page title='Xuff, px, bx, etc.'>
 
@@ -69,7 +74,7 @@ Each .px file eventually becomes a .html page on the site.</p>
 
 <p>Blog entries are created in .bx files.  Here's a complete file:</p>
 
-<code><![CDATA[
+<code lang='xml'><![CDATA[
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
 <entry when='20050726T083044'>
@@ -99,7 +104,7 @@ uploading files via FTP, and so on.</p>
 
 <p>For example, here is a shortened snippet of all.xuff:</p>
 
-<code><![CDATA[
+<code lang='xml'><![CDATA[
 <treefile out='temp/all-blog.xml'>
     <files src='blog' include='*.bx' />
 </treefile>
@@ -149,12 +154,12 @@ and
 <li>Unpack the snapshot (<a href='site/nedsite.zip'>nedsite.zip</a>) somewhere (let's call it c:\nedsite)</li>
 
 <li>Edit try.xuff to set the base param:
-<code><![CDATA[
+<code lang='xml'><![CDATA[
 <param name='base' value='file:///c:/nedsite/html/' />
 ]]></code></li>
 
 <li>In the nedsite directory, execute:
-<code><![CDATA[
+<code lang='xml'><![CDATA[
 python xuff.py try.xuff
 ]]></code>
 This creates a local staging copy of the site.

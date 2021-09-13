@@ -52,7 +52,7 @@ def thing_from_path(path):
                         return "/text/missing.html"
                 return Fake()
             else:
-                raise
+                raise Exception(f"Couldn't find thing_from_path({path=})")
     return thing
 
 def pathtitle(path):

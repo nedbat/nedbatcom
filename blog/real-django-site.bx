@@ -1,12 +1,38 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20210911T064023' draft='y'>
+<entry when='20210913T063723'>
 <title>Real Django site</title>
-<category></category>
+<category>site</category>
 <body>
 
-<p>This is new.
-</p>
+<p>Big changes behind the scenes here at nedbatchelder.com, but only a small
+change for you.</p>
+
+<p>My hosting provider was being acquired, and they said they would migrate my
+site to the new host.  Then they wrote last month to say they couldn't migrate
+it (no word why), and that I had six weeks to find a new home.</p>
+
+<p>I briefly tried to just move the site as it was, but PHP 5 was in the mix.
+Rather than learn how to move it to PHP 7, I bit the bullet and converted it to
+a real Django-served site.</p>
+
+<p>For <a pref="blog/permalinks-and-gravatars.bx">13 years this site has been
+built with Django</a>, but served as static HTML pages. The comments were
+handled by PHP code.  As part of this move, the site is now served directly by
+Django on the host, with Django-implemented comments.</p>
+
+<p>This should all be invisible to readers of the site, except for one thing:
+comments are now written as <b>Markdown</b> instead of as neutered HTML.  Having
+a Django foundation means I will be able to make changes more easily in the
+future.</p>
+
+<p>Behind the scenes, there is still plenty of strange tech:
+<a pref="site/xuffpx.px">content is in XML</a>, loaded into a SQLite database
+locally, then rsync'ed to the server.</p>
+
+<p>Some dormant areas of the site aren't serving properly yet, but the important
+stuff works. If you see a problem,
+<a pref="blog/please-report-bugs-in-this-site.bx">please let me know</a>.</p>
 
 </body>
 </entry>
