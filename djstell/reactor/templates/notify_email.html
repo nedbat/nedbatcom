@@ -1,11 +1,12 @@
 <p>A comment on <a href="{{url}}">{{title}}</a> by
 {% if comment.website %}
-<a href="{{comment.website}}">{{comment.name}}</a>:
+<a href="{{comment.website}}">{{comment.name}}</a>
 {% else %}
-{{comment.name}}:
+{{comment.name}}
 {% endif %}</p>
+<hr/>
 
 {{comment.body|safe}}
 
-<p></p>
+<hr/>
 <p>(To unsubscribe, forward this email to me: <a href="mailto:ned@nedbatchelder.com">ned@nedbatchelder.com</a>)</p>

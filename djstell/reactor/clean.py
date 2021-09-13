@@ -10,11 +10,13 @@ TLDS.remove("rs")
 
 URL_RE = bleach.linkifier.build_url_re(tlds=TLDS)
 
+MARKDOWN_EXTRAS = ["fenced-code-blocks", "cuddled-lists", "code-friendly", "smarty-pants"]
+
 def convert_body(body):
     """
     Convert the body of a submitted comment into clean HTML.
     """
-    html = markdown2.markdown(body)
+    html = markdown2.markdown(body, extras=MARKDOWN_EXTRAS)
     print(html)
     linkifier = functools.partial(
         bleach.linkifier.LinkifyFilter,

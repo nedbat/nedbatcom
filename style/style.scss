@@ -1167,6 +1167,12 @@ img {
         .commenttext {
             clear: right;
             word-wrap: break-word;
+
+            pre code {
+                font-size: 100%;
+                background: none;
+                padding: 0;
+            }
         }
         pre {
             margin: 1em;
