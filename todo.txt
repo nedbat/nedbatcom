@@ -35,12 +35,20 @@ Move to dreamhost
         + request sendfile for nedcom
         + switch to sendfile
             SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
+        - better djlog_nedcom, so it rolls over
+        - dmarc records
+            - dkim, spf, etc
+            - https://help.dreamhost.com/hc/en-us/articles/360022808632
+            - check with:
+                - https://mxtoolbox.com/SuperTool.aspx?action=mx%3anedbatchelder.com&run=toolpage
+        - switch from passenger to uwsgi?
+            - https://uwsgi-docs.readthedocs.io/en/latest/tutorials/dreamhost.html
         - tabblo index.html files aren't being served
             - https://nedbatchelder.net/tabblo/238292
         - empty file: https://nedbatchelder.com/code/modules/rees-coverage.html
         - favicon is empty
-        - dkim, spf, etc
         - consider performance
+        - file-based caching?
         - remove php code, but keep static generation, for testing
         - admin pages
     - much later

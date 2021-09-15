@@ -48,9 +48,9 @@ class CmdLine(object):
         self.all_words = "clean load make upload"
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
-            *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm *.php *.htaccess *.ini
+            *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
+            *.php *.htaccess *.ini *.fcgi *.env
             *.svg *.ipynb
-            *.env
             '''
         self.binary_ext='''
             *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
@@ -115,6 +115,15 @@ class CmdLine(object):
 
     def do_nedcom(self):
         self.dreamhost("nedbatchelder.com", "nedcom")
+
+    def do_nedwiz(self):
+        slug = "nedwiz"
+        self.dreamhost("uwsgi.nedbatchelder.net", "nedwiz")
+        self.COPY_FILES += [
+            (f"deploy/{slug}_uwsgi.fcgi", "uwsgi.fcgi"),
+            (f"deploy/{slug}_uwsgi.ini", "uwsgi.ini"),
+            (f"deploy/{slug}_djwsgi.py", "djwsgi.py"),
+            ]
 
     def dreamhost(self, domain, slug):
         self.BASE = f'//{domain}'

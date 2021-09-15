@@ -13,7 +13,7 @@ class AnnounceErrorsMiddleware(MiddlewareMixin):
         static pages.
     """
     def process_exception(self, request, exception):
-        print("Error: %s -> %s" % (request.path, exception))
+        print(ascii("Error: %s -> %s" % (request.path, exception)))
 
 wrapper = TextWrapper(subsequent_indent=' '*9, width=159)
 table_name_re = re.compile(r'FROM (?P<table_name>[^ ]+) *(WHERE|$)')

@@ -39,6 +39,9 @@ nednet:
 nedcom:
 	DJANGO_SETTINGS_MODULE=djstell.settings_nedcom_base python djstell/bin/makehtml.py nedcom all
 
+nedwiz:
+	DJANGO_SETTINGS_MODULE=djstell.settings_nedwiz_base python djstell/bin/makehtml.py nedwiz all
+
 test: ## run the few tests we have
 	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 djstell
 

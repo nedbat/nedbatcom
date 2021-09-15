@@ -13,11 +13,11 @@
 - make the virtualenv
     $ cd ~
     $ export VER=3.9.7
-    $ opt/python-$VER/bin/python3 -m pip install -U pip
-    $ opt/python-$VER/bin/python3 -m pip install -U virtualenv
-    $ rm -rf venvs/nednet
-    $ opt/python-$VER/bin/python3 -m virtualenv -p opt/python-$VER/bin/python3 venvs/nednet
-    $ venvs/nednet/bin/python3 -VV
+    $ ~/opt/python-$VER/bin/python3 -m pip install -U pip
+    $ ~/opt/python-$VER/bin/python3 -m pip install -U virtualenv
+    $ rm -rf ~/venvs/nednet
+    $ ~/opt/python-$VER/bin/python3 -m virtualenv ~/venvs/nednet
+    $ ~/venvs/nednet/bin/python3 -VV
 - deploy (from laptop)
     $ make nednet
 - update requirements
@@ -37,3 +37,14 @@
         source ~/venvs/nednet/bin/activate
         python3 djstell/manage.py migrate --database=reactor reactor
         python3 djstell/reactor/import.py ~/reactor_db_20210910.csv
+
+- uwsgi
+    - make virtualenv
+    ~/venvs/uwsgi/bin/python -m pip install uwsgi werkzeug
+    ~/uwsgi.nedbatchelder.net/uwsgi.fcgi
+        #!/bin/sh
+        /home/nedbat/venv/uwsgi/bin/uwsgi /home/nedbat/uwsgi.nedbatchelder.net/uwsgi.ini
+    chmod +x ~/uwsgi.nedbatchelder.net/uwsgi.fcgi
+
+- read complete apache configuration:
+    apache2ctl -t -D DUMP_INCLUDES 2>/dev/null | grep ')' | cut -f 2 -d ')' | xargs cat
