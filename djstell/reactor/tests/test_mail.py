@@ -47,7 +47,7 @@ class TestEmail:
         assert email.alternatives[0][1] == "text/html"
         html = email.alternatives[0][0]
         assert '<p>A comment on <a href="http://blog.com/123">My Blog Post</a> by' in html
-        assert '<a href="https://myweb.com">Nik</a>:' in html
+        assert '<a href="https://myweb.com">Nik</a>' in html
         assert 'This is really great!' in html
 
     def test_notification_with_no_website(self):
@@ -68,7 +68,7 @@ class TestEmail:
         assert email.alternatives[0][1] == "text/html"
         html = email.alternatives[0][0]
         assert '<p>A comment on <a href="http://blog.com/123">My Blog Post</a> by' in html
-        assert 'Nik:' in html
+        assert 'Nik' in html
         assert 'This is really great!' in html
 
     def test_two_notifications(self):

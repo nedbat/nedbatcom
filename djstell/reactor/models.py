@@ -21,6 +21,13 @@ class Comment(models.Model):
         url = f"//www.gravatar.com/avatar/{email_hash}.jpg?default={default_url}&size=80"
         return url
 
+    def fixed_website(self):
+        """Ancient comments might be missing http://, so add it."""
+        if self.website and "://" not in self.website:
+            return "http://" + self.website
+        else:
+            return self.website
+
 
 class ReactorRouter:
     def db_for_read(self, model, **hints):

@@ -7,7 +7,7 @@
         <div class='head'>
             <span class='who'><b>
                 {% if comment.website %}
-                    <a href="{{comment.website}}" rel="nofollow noopener" target="_blank">{{comment.name}}</a>
+                    <a href="{{comment.fixed_website}}" rel="nofollow noopener" target="_blank">{{comment.name}}</a>
                 {% else %}
                     {{comment.name}}
                 {% endif %}
