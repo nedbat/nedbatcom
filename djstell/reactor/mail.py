@@ -5,7 +5,6 @@ from django.template.loader import render_to_string
 from .models import Comment
 
 def send_owner_email(com, markdown_body, context):
-    request = context["request"]
     context["comment"] = com
     context["for_admin"] = True
     context["markdown_body"] = markdown_body

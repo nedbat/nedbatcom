@@ -1,5 +1,5 @@
 A comment on "{{title}}":
-entry: {{url}}
+{{url}}
 
 name: {{comment.name}}{% if for_admin %}
 email: {% firstof comment.email "---" %}{% endif %}
@@ -8,10 +8,13 @@ website: {% firstof comment.website "---" %}
 {{markdown_body|safe}}
 
 {% if for_admin %}
+
+
 ---- Admin stuff ----
-{% if watcher_emails %}notifications to: {{watcher_emails|join:", "}}{% endif %}
+entryid: {{comment.entryid}}
 REMOTE_ADDR: {{request.META.REMOTE_ADDR}}
 HTTP_USER_AGENT: {{request.META.HTTP_USER_AGENT}}
+{% if watcher_emails %}notifications to: {{watcher_emails|join:", "}}{% endif %}
 {% else %}
 
 (To unsubscribe, forward this email to me: ned@nedbatchelder.com)
