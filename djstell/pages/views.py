@@ -186,7 +186,7 @@ def article(request, path):
     if path.endswith(".html"):
         pxpath = path.replace('.html', '.px')
     else:
-        pxpath = path + "/index.px"
+        pxpath = path.rstrip("/") + "/index.px"
     a = get_object_or_404(Article, path=pxpath)
     c = {}
     c['title'] = a.title

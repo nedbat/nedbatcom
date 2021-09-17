@@ -44,7 +44,7 @@ urlpatterns = [
     path('blog/archive/all.html', dpv.archiveall),
     path('blog/drafts.html', dpv.drafts),
 
-    path('blog/rss.xml', dpv.blog_rss),
+    re_path(r'^blog/(?:rss|rssfull|atom).xml$', dpv.blog_rss),
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
     path('blog/moved.php', dpv.blog_moved_php),
 
