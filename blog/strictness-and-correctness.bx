@@ -33,7 +33,7 @@ missing angle brackets or mismatched tags.</p>
 strictness. The problem is that it's XML masquerading as HTML.  HTML has different lexical rules than
 XML.  Writing a single document that is both valid XHTML and an acceptable HTML document
 that will be understood by legacy browsers is very difficult, if not impossible.
-It's essentially a <a href='/blog/200209.html#e20020902T110606'>polyglot programming</a>
+It's essentially a <a href='blog/200209.html#e20020902T110606'>polyglot programming</a>
 exercise, where one file can be interpreted correctly according to two different sets
 of rules.  Except that we all kidded ourselves into thinking it wasn't, because
 HTML and XML both use tags.</p>
