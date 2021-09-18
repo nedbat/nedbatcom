@@ -53,7 +53,7 @@ class CmdLine(object):
             *.svg *.ipynb
             '''
         self.binary_ext='''
-            *.gif *.jpg *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
+            *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
             *.zip *.gz *.tgz
             *.ttf *.woff2
             '''
@@ -196,7 +196,7 @@ class CmdLine(object):
         # Dreamhost writes public/favicon.ico for me, so override it.
         self.xuff.copytree(src='pages', dst=dst+"/public", include="*.ico")
         self.xuff.copytree(src='pix', dst=dst+"/pix",
-            include='*.gif *.jpg *.png *.svg *.swf'
+            include='*.gif *.jpg *.JPG *.png *.svg *.swf'
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
 
