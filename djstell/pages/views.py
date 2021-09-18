@@ -3,12 +3,14 @@
 import collections
 import datetime
 import logging
+import os
 import os.path
 
 from django.conf import settings
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext, Template
+from django.views.static import serve as serve_static
 from django_sendfile import sendfile
 
 from djstell.pages.models import Entry, Article, Tag
@@ -278,3 +280,31 @@ def crash(request):
     logger.warning("About to crash")
     print("stdout: about to crash")
     raise Exception("Crash requested")
+
+
+DOCROOT = "public"
+
+def last_resort(request, path):
+    """Handle some things .htaccess used to do for us."""
+    # Serve index.html for directories in the document root.
+    fpath = os.path.join(DOCROOT, path)
+    if os.path.isdir(fpath):
+        index = os.path.join(fpath, "index.html")
+        if os.path.exists(index):
+            new = path + "/"
+            if not path.startswith("/"):
+                new = "/" + new
+            return redirect(new)
+
+    # Serve static files.
+    if settings.STATIC_URL:
+        return serve_static(request, path=path, document_root="")
+    else:
+        raise Http404(f"Couldn't find {path=}")
+
+
+def not_found(request, *args, **kwargs):
+    """The view function for 404's"""
+    resp = article(request, path="err404.html")
+    resp.status_code = 404
+    return resp
