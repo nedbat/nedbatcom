@@ -24,10 +24,10 @@ def my_partial_fn(x):       # line 1
     if x:                   #      2
         y = 10              #      3
     return y                #      4
-    
+
 my_partial_fn(1)
 ]]></code>
-    
+
 <p>In this code, the if on line 2 could branch to either line 3 or line 4.
 Statement coverage would show all lines of the function as executed.  But the
 if is always true, so line 2 never jumps to line 4.  Even though line 4 is
@@ -75,7 +75,7 @@ infinite loop will be marked as partially executed:</p>
 <code lang='python'><![CDATA[
 while True:                         # line 1
     if some_condition():            #      2
-        break                       
+        break
     body_of_loop()                  #      4
 
 keep_working()                      #      6
@@ -88,7 +88,7 @@ coverage.py thinks the branch is partially executed. </p>
 will still be considered executable, and may result in the branch being
 flagged.</p>
 
-<p>A few other unexpected cases are described in <a href='code/coverage/branches_html/branches.html'>branches.html</a>,
+<p>A few other unexpected cases are described in <a href='code/coverage/branches.html'>branches.html</a>,
 which also shows how partial branches are displayed in the HTML report.</p>
 
 <p>The only way currently to initiate branch coverage is with the command-line
@@ -123,9 +123,9 @@ all your RAM, this one will work much better.</p>
     marked as branches because of their structure in bytecode, but shouldn't
     have been because conceptually there is no branch.  Also, excluded source
     lines no longer count as branch targets.</li>
-    
+
     <li>The --omit command-line flag works much better.</li>
-    
+
     <li>The HTML report now has click-to-sort columns, thanks to <a href='http://improbable.org/chris/'>Chris Adams</a>.</li>
 </ul>
 
@@ -142,7 +142,7 @@ all your RAM, this one will work much better.</p>
 <p><a href='http://pypi.python.org/pypi/coverage'>Coverage.py v3.2</a> is done.
 Branch coverage works great, and the HTML report now has clickable columns
 (thanks to <a href='http://chris.improbable.org/'>Chris Adams</a>), as well as
-<a href='code/coverage/changes.html'>other improvements</a>. 
+<a href='code/coverage/changes.html'>other improvements</a>.
 </p>
 
 <p>Enjoy.</p>
