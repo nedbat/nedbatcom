@@ -88,7 +88,7 @@ coverage.py thinks the branch is partially executed. </p>
 will still be considered executable, and may result in the branch being
 flagged.</p>
 
-<p>A few other unexpected cases are described in <a href='code/coverage/branches.html'>branches.html</a>,
+<p>A few other unexpected cases are described in <a href='code/coverage_branches_html/branches.html'>branches.html</a>,
 which also shows how partial branches are displayed in the HTML report.</p>
 
 <p>The only way currently to initiate branch coverage is with the command-line
