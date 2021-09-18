@@ -49,7 +49,7 @@ urlpatterns = [
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
     path('blog/moved.php', dpv.blog_moved_php),
 
-    re_path(r'^code/coverage/?', redirect(url='https://coverage.readthedocs.org/en/stable/')),
+    re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.org/en/stable/')),
     path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.org/en/stable/%(path)s')),
     path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.org/en/stable/%(path)s')),
     path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.org')),
@@ -62,4 +62,6 @@ urlpatterns = [
     path('0inc/sidebar_<slug:which>.inc', dpv.sidebar),
     path('0inc/navbar.inc', dpv.navbar),
     path('0inc/metatags.inc', dpv.metatags),
+
+    re_path(r'^blueripple/?$', redirect(url='https://web.archive.org/web/20010401130155/http://blueripple.com/')),
 ]

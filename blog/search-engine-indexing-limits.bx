@@ -14,17 +14,17 @@ search results.</p>
 
 <p>He found that Yahoo only cares about the first 210Kb, Google gets bored
 after 520Kb, and MSN persists through 1.1Mb.  Read about the entire
-experiment: 
+experiment:
 <a href='http://www.sitepoint.com/article/indexing-limits-where-bots-stop'>Search Engine Indexing Limits: Where Do the Bots Stop?</a>
 </p>
 
 <p>When I read the results, I worried because my blog archives are organized
 into monthly pages.  I thought maybe they were long enough that some content
-wasn't getting indexed properly.  Turns out, no need to worry. 
-My longest archive page is 
-<a href='blog/200311.html'>November 2003</a>, at 119Kb.
+wasn't getting indexed properly.  Turns out, no need to worry.
+My longest archive page is
+<a href='https://web.archive.org/web/20060513174525/https://nedbatchelder.com/blog/200311.html'>November 2003</a>, at 119Kb.
 My <a href='blog/archive/all.html'>complete archive listing</a> is longer,
-just at Yahoo's limit of 210Kb, but that I prevent that page from being 
+just at Yahoo's limit of 210Kb, but that I prevent that page from being
 indexed anyway, since it is just a long list of post titles.
 </p>
 
