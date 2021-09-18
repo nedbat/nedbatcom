@@ -32,7 +32,7 @@ register_converter(digits(2), 'dd')
 
 urlpatterns = [
     re_path(r'^(?:index.html)?$', dpv.index),
-    re_path(r'^blog(?:/index.html)?$', dpv.blogmain),
+    re_path(r'^blog/?(?:index.html)?$', dpv.blogmain),
     path('blog/<yyyy:year><mm:month>/<slug:slug>.html', dpv.entry),
 
     path('blog/tags.html', dpv.tags),
