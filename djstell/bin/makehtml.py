@@ -116,15 +116,6 @@ class CmdLine(object):
     def do_nedcom(self):
         self.dreamhost("nedbatchelder.com", "nedcom")
 
-    def do_nedwiz(self):
-        slug = "nedwiz"
-        self.dreamhost("uwsgi.nedbatchelder.net", "nedwiz")
-        self.COPY_FILES += [
-            (f"deploy/{slug}_uwsgi.fcgi", "uwsgi.fcgi"),
-            (f"deploy/{slug}_uwsgi.ini", "uwsgi.ini"),
-            (f"deploy/{slug}_djwsgi.py", "djwsgi.py"),
-            ]
-
     def dreamhost(self, domain, slug):
         self.BASE = f'//{domain}'
         self.ROOT = "live"
