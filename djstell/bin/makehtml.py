@@ -130,7 +130,6 @@ class CmdLine(object):
         self.ROOT = "live"
         self.COPY_FILES = [
             (f"deploy/{slug}.env", ".env"),
-            (f"deploy/{slug}.htaccess", ".htaccess"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
             ]
         self.COPY_TREES = [
