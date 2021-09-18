@@ -1,5 +1,5 @@
 from django.urls import path, re_path, register_converter
-from django.views.generic.base import TemplateView
+from django.views.generic.base import RedirectView
 
 import djstell.pages.views as dpv
 
@@ -12,7 +12,7 @@ PLANET_PYTHON_TAGS = [
     'testing', 'webpage',
     'windows', 'mac', 'unix',
     'jupyter', 'opensource', 'presentations', 'linters', 'regex',
-    ]
+]
 
 def digits(n):
     class DigitConverter:
@@ -29,6 +29,7 @@ register_converter(digits(4), 'yyyy')
 register_converter(digits(2), 'mm')
 register_converter(digits(2), 'dd')
 
+redirect = RedirectView.as_view
 
 urlpatterns = [
     re_path(r'^(?:index.html)?$', dpv.index),
@@ -48,6 +49,11 @@ urlpatterns = [
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
     path('blog/moved.php', dpv.blog_moved_php),
 
+    re_path(r'^code/coverage/?', redirect(url='https://coverage.readthedocs.org/en/stable/')),
+    path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.org/en/stable/%(path)s')),
+    path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.org/en/stable/%(path)s')),
+    path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.org')),
+    path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
     re_path(r'^(?P<path>(text|code|site)/?.*)$', dpv.article),
     re_path(r'^(?P<path>err404.html)$', dpv.article),
 
@@ -56,4 +62,4 @@ urlpatterns = [
     path('0inc/sidebar_<slug:which>.inc', dpv.sidebar),
     path('0inc/navbar.inc', dpv.navbar),
     path('0inc/metatags.inc', dpv.metatags),
-    ]
+]
