@@ -180,8 +180,8 @@ def blog_moved_php(request):
 ## Article stuff
 
 def article(request, path):
-    if settings.STATICFILES_DIRS:
-        maybe_file = os.path.join(settings.STATICFILES_DIRS[0], path)
+    if settings.STATIC_ROOT:
+        maybe_file = os.path.join(settings.STATIC_ROOT, path)
         if os.path.exists(maybe_file) and not os.path.isdir(maybe_file):
             return sendfile(request, os.path.abspath(maybe_file))
 

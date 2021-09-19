@@ -21,6 +21,5 @@ DATABASES = {
 }
 
 STATIC_URL = "/"
-STATICFILES_DIRS = [
-    DJSTELL.parent,
-]
+STATICFILES_DIRS = []
+STATIC_ROOT = (DJSTELL / "../live/public").resolve()

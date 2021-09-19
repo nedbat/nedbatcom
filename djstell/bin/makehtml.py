@@ -125,6 +125,7 @@ class CmdLine(object):
         self.COPY_FILES = [
             (f"deploy/{slug}.env", ".env"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
+            ("deploy/dreamhost_public.htaccess", "public/.htaccess"),
             ]
         self.COPY_TREES = [
             ("../../py/stellated", "stellated"),
@@ -132,7 +133,7 @@ class CmdLine(object):
             ]
         self.PHP_INCLUDE = False
         self.RSYNC_DST = f"dreamhost:{domain}"
-        self.all_words = "clean load copy_verbatim copy_live support djstell upload rsyncdb"
+        self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell upload rsyncdb"
         self.FTP = dict(
             host="nedbatchelder.net", hostdir=domain,
             user='nedbat', password=password.DREAMHOST,
@@ -198,6 +199,9 @@ class CmdLine(object):
         os.makedirs(tmp, exist_ok=True)
         with open(os.path.join(tmp, "restart.txt"), "w") as f:
             print(str(datetime.datetime.now()), file=f)
+
+    def do_collectstatic(self):
+        call_command('collectstatic', interactive=False)
 
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""

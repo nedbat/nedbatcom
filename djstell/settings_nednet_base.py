@@ -8,7 +8,7 @@ EXT_BASE = f'https:{BASE}'
 SITE_NAME = "nedbatchelder.net"
 
 PHP = False
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.net"]
@@ -21,6 +21,5 @@ DATABASES = {
 }
 
 STATIC_URL = "/"
-STATICFILES_DIRS = [
-    DJSTELL.parent,
-]
+STATICFILES_DIRS = []
+STATIC_ROOT = (DJSTELL / "../live/public").resolve()
