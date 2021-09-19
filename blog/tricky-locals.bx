@@ -4,8 +4,8 @@
 <title>Tricky locals()</title>
 <category>python</category>
 <body>
-    
-    <p>One of the perks of maintaining <a href='http://nedbatchelder.com/code/coverage/'>coverage.py</a>
+
+    <p>One of the perks of maintaining <a href='/code/coverage/'>coverage.py</a>
         is that you get some really interesting bug reports.  Digging into them
         can be a good way to learn about some obscure corners of Python.</p>
 
@@ -31,7 +31,7 @@ def wacky(x, y):
         The code failed because the list was actually ['x', 'y', 'args'].  At
         the moment locals() is called, there are only two local names, x and y,
         and running under Python gives us the answer we expected.  How could
-        running the code under coverage.py cause this change in 
+        running the code under coverage.py cause this change in
         behavior?</p>
 
     <p>Playing around with it some more, it became clear that it was nothing
@@ -73,7 +73,7 @@ wacky()
         explained what's going on.</p>
 
     <p>The locals() function is trickier than it appears at first glance.
-        The returned value is a dictionary which is a copy of the local 
+        The returned value is a dictionary which is a copy of the local
         symbol table.  This is why changing the dict might not actually
         change the local variables.</p>
 
@@ -83,7 +83,7 @@ wacky()
         symbols.</p>
 
     <p>Here's the important (subtle) fact about how CPython works:</p>
-    
+
     <box>When a trace function is in effect, the local symbol table is copied
         into the locals() dictionary after every statement.</box>
 
@@ -105,7 +105,7 @@ wacky()
         updating is expensive, and without a trace function, unnecessary.  So
         it's only done when a trace function is registered.</p>
 
-    <p>Most Python programs have no trace function registered, but coverage of 
+    <p>Most Python programs have no trace function registered, but coverage of
         course uses one to collect data.  So the program behaves differently
         under coverage than without it.</p>
 
