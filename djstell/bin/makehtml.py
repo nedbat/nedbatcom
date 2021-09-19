@@ -82,6 +82,7 @@ class CmdLine(object):
     def do_live(self):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
+        self.VERB_ROOT = "live/public"
         self.PHP_INCLUDE = False
 
     def do_local(self):
@@ -97,6 +98,7 @@ class CmdLine(object):
 
     def do_wf(self):
         self.BASE = '//nedbatchelder.com'
+        self.VERB_ROOT = self.ROOT
         self.COPY_FILES = [
             ("deploy/webfaction.htaccess", ".htaccess"),
             ("deploy/webfaction.php.ini", "php.ini"),
@@ -119,6 +121,7 @@ class CmdLine(object):
     def dreamhost(self, domain, slug):
         self.BASE = f'//{domain}'
         self.ROOT = "live"
+        self.VERB_ROOT = "live/public"
         self.COPY_FILES = [
             (f"deploy/{slug}.env", ".env"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
@@ -174,7 +177,7 @@ class CmdLine(object):
 
     @timed
     def do_copy_verbatim(self):
-        dst = self.ROOT
+        dst = self.VERB_ROOT
         self.xuff.copytree(src='pages', dst=dst,
             include='''
                 *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf *.woff2
@@ -183,8 +186,6 @@ class CmdLine(object):
                 *.ipynb
                 '''
             )
-        # Dreamhost writes public/favicon.ico for me, so override it.
-        self.xuff.copytree(src='pages', dst=dst+"/public", include="*.ico")
         self.xuff.copytree(src='pix', dst=dst+"/pix",
             include='*.gif *.jpg *.JPG *.png *.svg *.swf'
             )
@@ -210,8 +211,10 @@ class CmdLine(object):
     def do_clean(self):
         if os.path.exists(settings.DATABASES['default']['NAME']):
             os.remove(settings.DATABASES['default']['NAME'])
-        if os.access(self.ROOT, os.F_OK):
+        if os.path.exists(self.ROOT):
             shutil.rmtree(self.ROOT)
+        if os.path.exists(self.VERB_ROOT):
+            shutil.rmtree(self.VERB_ROOT)
 
     @timed
     def do_load(self):
@@ -252,7 +255,7 @@ class CmdLine(object):
     @timed
     def do_support(self):
         for sassfile in glob.glob("style/[a-z]*.scss"):
-            self.run_sass(sassfile, self.ROOT)
+            self.run_sass(sassfile, self.VERB_ROOT)
         for here, there in self.COPY_FILES:
             self.xuff.copyfile(here, os.path.join(self.ROOT, there))
         for here, there in self.COPY_TREES:
@@ -261,7 +264,7 @@ class CmdLine(object):
         # Build the JS file as the concatenation of others.
         with open("js/ingredients.txt") as ingredients:
             js = ingredients.read().split()
-        with open(self.ROOT+"/nedbatchelder.js", "w") as outjs:
+        with open(self.VERB_ROOT+"/nedbatchelder.js", "w") as outjs:
             for f in js:
                 with open("js/"+f) as jsin:
                     outjs.write(jsin.read())

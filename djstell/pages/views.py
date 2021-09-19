@@ -298,7 +298,7 @@ def last_resort(request, path):
 
     # Serve static files.
     if settings.STATIC_URL:
-        return serve_static(request, path=path, document_root="")
+        return serve_static(request, path=path, document_root=settings.MY_BOGUS_STATIC_DIR)
     else:
         raise Http404(f"Couldn't find {path=}")
 

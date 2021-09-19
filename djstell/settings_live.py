@@ -29,8 +29,9 @@ DATABASES = {
 
 STATIC_URL = "/"
 STATICFILES_DIRS = [
-    (DJSTELL / "../live").resolve(),
+    (DJSTELL / "../live/public").resolve(),
 ]
+MY_BOGUS_STATIC_DIR = "live"
 
 SENDFILE_BACKEND = "django_sendfile.backends.development"
 SENDFILE_ROOT = DJSTELL.parent
