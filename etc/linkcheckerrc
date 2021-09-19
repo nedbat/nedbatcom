@@ -1,0 +1,14 @@
+[checking]
+threads = 2
+maxconnectionshttps = 5
+
+[filtering]
+ignore =
+    ; These are images referenced from a css file. The images are never needed.
+    text/starttest_stuff/.*\.png
+    ; Resources mentioned in invisible parts of presentations. The links work in
+    ; the .px files made from the presentation.
+    /text/test0/text/test0/test0.zip
+    /text/test0/text/test0/test0.html
+    /text/test3/text/test3/test3.zip
+    /text/names1/blog/201308/names_and_values_making_a_game_board.html

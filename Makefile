@@ -42,6 +42,9 @@ nedcom:
 test: ## run the few tests we have
 	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 djstell
 
+linkcheck: ## check the links on nedbatchelder.com
+	linkchecker -f etc/linkcheckerrc https://nedbatchelder.com
+
 clean: ## get rid of stuff we don't need
 	rm -rf html live
 
