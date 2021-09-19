@@ -68,19 +68,11 @@
     {% else %}
         {% if mode == 'brief' %}
             <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'>
-            {% if settings.AS_PHP %}
-                <?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>
-            {% else %}
-                {% comment_label entry.entryid %}
-            {% endif %}
+            {% comment_label entry.entryid %}
             </a></span>
         {% elif mode == 'full' %}
             <span class='react'>{% ch '>> ' %}
-            {% if settings.AS_PHP %}
-                <?php echo($ror->CommentLabel('{{entry.entryid|safe|addphpslashes}}')); ?>
-            {% else %}
-                {% comment_label entry.entryid %}
-            {% endif %}
+            {% comment_label entry.entryid %}
             </span>
         {% endif %}
     {% endif %}

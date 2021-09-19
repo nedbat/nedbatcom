@@ -464,31 +464,6 @@
 </xsl:template>
 
 <!--
-  - PHP code (to execute, not display).
-  -->
-
-<xsl:template match='php'>
-    <xsl:call-template name='php'>
-        <xsl:with-param name='code' select='text()'/>
-    </xsl:call-template>
-</xsl:template>
-
-<xsl:template name='php'>
-    <xsl:param name='code'/>
-    <xsl:choose>
-        <xsl:when test='$nophp'>
-            <xsl:comment>[PHP] <xsl:value-of select='$code'/></xsl:comment>
-            <xsl:value-of select='@ifnot'/>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:text disable-output-escaping='yes'>&lt;?php </xsl:text>
-            <xsl:value-of disable-output-escaping='yes' select='$code'/>
-            <xsl:text disable-output-escaping='yes'> ?&gt;</xsl:text>
-        </xsl:otherwise>
-    </xsl:choose>
-</xsl:template>
-
-<!--
   - Links.  Convert .lx to .px
   -->
 

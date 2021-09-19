@@ -19,19 +19,11 @@ def blog_entry(entry, mode):
     return {'entry':entry, 'mode':mode, 'settings': settings}
 
 @register.inclusion_tag('sidebar.html')
-def sidebar(which, force=False):
+def sidebar(which):
     """ Make the sidebar.
     """
-    inc = settings.PHP_INCLUDE
-    if force:
-        inc = False
-
     c = {}
     c['which'] = which
-    c['include'] = inc
-
-    if inc:
-        return c
 
     more_blog = combined_more_blog()
 
@@ -46,22 +38,16 @@ def sidebar(which, force=False):
     return c
 
 @register.inclusion_tag('navbar.html')
-def navbar(force=False):
+def navbar():
     """ Make the navbar.
     """
-    inc = settings.PHP_INCLUDE
-    if force:
-        inc = False
-    return {"include": inc}
+    return {}
 
 @register.inclusion_tag('metatags.html')
-def metatags(force=False):
+def metatags():
     """ Make the meta tags.
     """
-    inc = settings.PHP_INCLUDE
-    if force:
-        inc = False
-    return {"include": inc}
+    return {}
 
 
 @functools.cache
@@ -147,11 +133,7 @@ def static_link(filename):
     base = settings.BASE
     if settings.STATIC_URL:
         base += settings.STATIC_URL.rstrip("/")
-    if settings.PHP_INCLUDE:
-        time = f"<?php echo filemtime('{settings.WWWROOT}/{filename}') ?>"
-        url = f"{base}/{main}__{time}{ext}"
-    else:
-        url = f"{base}/{filename}"
+    url = f"{base}/{filename}"
     if ext == ".css":
         tag = f"<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
@@ -218,15 +200,6 @@ def top_areas():
     crumbs = SiteMap().top_areas()
     links = [ "<a href='%s'>%s</a>" % (href, title) for (title, href) in crumbs ]
     return mark_safe(u" \N{MIDDLE DOT} ".join(links))
-
-@register.filter()
-@stringfilter
-def addphpslashes(value):
-    """ Adds slashes for a PHP single-quoted string, in other words, only for single-quotes.
-    """
-    value = value.replace("'", "\\'")
-    return value
-addphpslashes.is_safe = True
 
 @register.filter()
 @stringfilter

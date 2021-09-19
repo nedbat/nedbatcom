@@ -44,7 +44,6 @@ class CmdLine(object):
         self.ROOT = "html"
         self.COPY_FILES = []
         self.COPY_TREES = []
-        self.PHP_INCLUDE = True
         self.all_words = "clean load make upload"
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml *.inc
@@ -74,7 +73,6 @@ class CmdLine(object):
         self.BASE = ""
         self.ROOT = "../www"
         self.WWWROOT = os.path.abspath(self.ROOT)
-        self.PHP_INCLUDE = False
         self.messages.append(
             f"Simple local server:\n  sudo -v; sudo python -m http.server -b 0.0.0.0 -d ../www {port} & open http://localhost:{port}"
         )
@@ -83,34 +81,15 @@ class CmdLine(object):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
         self.VERB_ROOT = "live/public"
-        self.PHP_INCLUDE = False
 
     def do_local(self):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "local"
-        self.PHP_INCLUDE = False
 
     def do_file(self):
         self.BASE = 'file:///Users/ned/web/stellated/html_local'
         self.ROOT = 'html_local'
         self.WWWROOT = os.path.abspath(self.ROOT)
-        self.PHP_INCLUDE = False
-
-    def do_wf(self):
-        self.BASE = '//nedbatchelder.com'
-        self.VERB_ROOT = self.ROOT
-        self.COPY_FILES = [
-            ("deploy/webfaction.htaccess", ".htaccess"),
-            ("deploy/webfaction.php.ini", "php.ini"),
-            ]
-        self.FTP = dict(
-            host='nedbat.webfactional.com', hostdir='webapps/main',
-            user='nedbat', password=password.WEBFACTION,
-            src='html',
-            text=self.text_ext,
-            binary=self.binary_ext,
-            md5file='deploy/webfaction.md5',
-            )
 
     def do_nednet(self):
         self.dreamhost("nedbatchelder.net", "nednet")
@@ -131,7 +110,6 @@ class CmdLine(object):
             ("../../py/stellated", "stellated"),
             ("requirements", "requirements"),
             ]
-        self.PHP_INCLUDE = False
         self.RSYNC_DST = f"dreamhost:{domain}"
         self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell upload rsyncdb"
         self.FTP = dict(
@@ -155,12 +133,7 @@ class CmdLine(object):
             '/blog/rss.xml',
             '/blog/planetpython.xml',
             '/blog/archive/all.html',
-            '/blog/moved.php',
             '/blog/drafts.html',
-            '/0inc/sidebar_blog.inc',
-            '/0inc/sidebar_page.inc',
-            '/0inc/navbar.inc',
-            '/0inc/metatags.inc',
             '/index.html',
             ]
 

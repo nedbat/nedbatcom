@@ -11,10 +11,6 @@ from pathlib import Path
 import dotenv
 dotenv.load_dotenv()
 
-PHP = True              # Should we execute PHP tags in the output?
-PHP_INCLUDE = False     # Should we use PHP includes, or pull the content in?
-AS_PHP = False
-
 BASE = 'http://localhost/'
 LOG_SQL = False
 
@@ -79,7 +75,6 @@ CONN_MAX_AGE = None
 
 MIDDLEWARE = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'djstell.middleware.phpware.PhpMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

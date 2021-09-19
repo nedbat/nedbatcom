@@ -1,8 +1,5 @@
 {# Meta tags to go on every page. #}
 {% load tags %}
-{% if include %}
-<?php include('0inc/metatags.inc'); ?>
-{% else %}
 {% spaceless %}
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,4 +7,3 @@
     <meta name="color-scheme" content="light dark">
     <meta name="og:site" content="Ned Batchelder">
 {% endspaceless %}
-{% endif %}

@@ -213,20 +213,6 @@ def article(request, path):
         }
     return render(request, 'article.html', c)
 
-def sidebar(request, which):
-    html = "{% load tags %}{% sidebar which 1 %}"
-    c = RequestContext(request)
-    c['which'] = which
-    return HttpResponse(Template(html).render(c))
-
-def navbar(request):
-    html = "{% load tags %}{% navbar 1 %}"
-    return HttpResponse(Template(html).render(RequestContext(request)))
-
-def metatags(request):
-    html = "{% load tags %}{% metatags 1 %}"
-    return HttpResponse(Template(html).render(RequestContext(request)))
-
 def index(request):
     a = get_object_or_404(Article, path='index.px')
     c = {}

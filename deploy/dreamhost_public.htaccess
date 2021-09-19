@@ -10,11 +10,6 @@ AddHandler text/plain .py
 # Error 404 should be served with /err404.html
 ErrorDocument 404 /err404.html
 
-## Serve Python files literally: http://community.webfaction.com/questions/5527/statically-serve-py-files
-#<FilesMatch "\.py$">
-#   SetHandler default-handler
-#</FilesMatch>
-
 ## Add headers
 # hmm, doesn't work: https://community.webfaction.com/questions/20710/custom-header-but-not-sure-if-apache-or-nginx
 #Header add Content-Security-Policy-Report-Only "default-src https: 'unsafe-inline' 'unsafe-eval'; report-uri https://nedbat.report-uri.io/r/default/csp/reportOnly"

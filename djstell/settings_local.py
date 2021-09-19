@@ -2,8 +2,6 @@ from .settings import *
 
 BASE = 'http://127.0.0.1:8000'
 EXT_BASE = BASE
-PHP = False
-AS_PHP = False
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

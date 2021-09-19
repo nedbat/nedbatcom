@@ -7,7 +7,6 @@ EXT_BASE = f'https:{BASE}'
 
 SITE_NAME = "nedbatchelder.com"
 
-PHP = False
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 

@@ -25,8 +25,4 @@
     <li><a href='text'>My longer writings</a>, including software and autism.</li>
 </ul>
 
-<!-- Put this back some day...
-<p>Your URL was: <tt><php>echo htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, "utf-8");</php></tt></p>
--->
-
 </page>

@@ -1,4 +1,4 @@
-{% if settings.AS_PHP %}<?php ob_start(); ?>{% endif %}<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 {% load tags reactor %}
 {# Basic structure of a page on the site. #}
 {% spaceless %}
@@ -85,40 +85,12 @@
             {% endif %}
             {% endblock %}
 
-            {% if comments %}
-                {% if settings.AS_PHP %}
-                <?php
-                    require_once('inc/reactor_class.php');
-                    $ror = new Reactor();
-                ?>
-                {% endif %}
-            {% endif %}
-
             {% block body %}
             {{pagebody|safe}}
             {% endblock body %}
 
             {% if comments %}
-                {% if settings.AS_PHP %}
-                <?php
-                    $entryinfo = array();
-                    $entryinfo["title"] = '{{comments.title|safe|addphpslashes}}';
-                    $entryinfo["url"] = '{{comments.url|safe|addphpslashes}}';
-                    {% if comments.lorem %}
-                        $ror->lorem = 1;
-                    {% endif %}
-                    {% if not comments.closed %}
-                        $ror->HandlePostedComment($entryinfo);
-                    {% endif %}
-                    echo $ror->RenderComments(
-                        '{{comments.entryid|safe|addphpslashes}}',
-                        'inc/inlinecomment{% if comments.closed %}closed{% endif %}.html',
-                        $entryinfo
-                    );
-                ?>
-                {% else %}
-                    {% entry_comments comments.entryid comments.url %}
-                {% endif %}
+                {% entry_comments comments.entryid comments.url %}
             {% endif %}
 
         </div>

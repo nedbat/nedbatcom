@@ -5,9 +5,6 @@ EXT_BASE = BASE
 
 SITE_NAME = "nedlive.net"
 
-PHP = False
-AS_PHP = False
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

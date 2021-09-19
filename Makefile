@@ -6,9 +6,6 @@ help: ## display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
 	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
-publish: ## publish to Webfaction
-	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf all
-
 html: ## make HTML for uploading
 	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
 
@@ -36,7 +33,7 @@ local: ## run a local Django server
 nednet:
 	DJANGO_SETTINGS_MODULE=djstell.settings_nednet_base python djstell/bin/makehtml.py nednet all
 
-nedcom:
+publish nedcom:
 	DJANGO_SETTINGS_MODULE=djstell.settings_nedcom_base python djstell/bin/makehtml.py nedcom all
 
 test: ## run the few tests we have
