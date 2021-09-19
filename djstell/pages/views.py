@@ -5,6 +5,7 @@ import datetime
 import logging
 import os
 import os.path
+import time
 
 from django.conf import settings
 from django.http import HttpResponse, Http404
@@ -61,6 +62,11 @@ def entry(request, year, month, slug):
             'closed': ent.comments_closed,
             }
     return render(request, 'oneentry.html', c)
+
+def entry_by_date(request, whenid):
+    when = datetime.datetime(*time.strptime(whenid, "%Y%m%dT%H%M%S")[:6])
+    ent = get_object_or_404(Entry.all_entries.select_related(), when=when)
+    return redirect(ent.permaurl())
 
 def blogmain(request):
     """ The main blog page. A dozen recent entries.
@@ -167,15 +173,6 @@ def tags_rss(request, tags):
     c = {}
     c['entries'] = Entry.objects.filter(tags__tag__in=tags).distinct().order_by('-when')[:10]
     return render(request, 'rss.xml', c)
-
-def blog_moved_php(request):
-    ents = Entry.objects.all()
-    # Only need to include entries with a <more> tag, and before the re-implementation.
-    ents = [ e for e in ents if ("<more" in e.text) and (e.when.year < 2008) ]
-
-    c = {}
-    c['entries'] = ents
-    return render(request, 'moved.php', c)
 
 ## Article stuff
 
