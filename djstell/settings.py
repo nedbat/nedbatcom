@@ -11,6 +11,11 @@ from pathlib import Path
 import dotenv
 dotenv.load_dotenv()
 
+try:
+    from .settings_timestamp import DEPLOY_TIME
+except:
+    DEPLOY_TIME = ''
+
 BASE = 'http://localhost/'
 
 DEBUG = True
@@ -73,13 +78,17 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "doesn't matter")
 CONN_MAX_AGE = None
 
 MIDDLEWARE = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+CACHE_MIDDLEWARE_SECONDS = 120
 
 ROOT_URLCONF = 'djstell.urls'
 

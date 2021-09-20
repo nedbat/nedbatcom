@@ -111,7 +111,7 @@ class CmdLine(object):
             ("requirements", "requirements"),
             ]
         self.RSYNC_DST = f"dreamhost:{domain}"
-        self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell upload rsyncdb"
+        self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell timestamps upload rsyncdb"
         self.FTP = dict(
             host="nedbatchelder.net", hostdir=domain,
             user='nedbat', password=password.DREAMHOST,
@@ -168,13 +168,17 @@ class CmdLine(object):
     def do_copy_live(self):
         for xslt_file in glob.glob("*.xslt"):
             self.xuff.copyfile(src=xslt_file, dst=os.path.join(self.ROOT, xslt_file))
+
+    def do_collectstatic(self):
+        call_command('collectstatic', interactive=False)
+
+    def do_timestamps(self):
+        with open(os.path.join(self.ROOT, "djstell/settings_timestamp.py"), "w") as f:
+            print(f"DEPLOY_TIME = '{int(time.time())}'", file=f)
         tmp = os.path.join(self.ROOT, "tmp")
         os.makedirs(tmp, exist_ok=True)
         with open(os.path.join(tmp, "restart.txt"), "w") as f:
             print(str(datetime.datetime.now()), file=f)
-
-    def do_collectstatic(self):
-        call_command('collectstatic', interactive=False)
 
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""

@@ -130,10 +130,12 @@ def twodigit(value):
 def static_link(filename):
     """Insert our best cache-busting static link."""
     main, ext = os.path.splitext(filename)
+    if settings.DEPLOY_TIME:
+        main = f"{main}__{settings.DEPLOY_TIME}"
     base = settings.BASE
     if settings.STATIC_URL:
         base += settings.STATIC_URL.rstrip("/")
-    url = f"{base}/{filename}"
+    url = f"{base}/{main}{ext}"
     if ext == ".css":
         tag = f"<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
