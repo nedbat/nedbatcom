@@ -48,3 +48,6 @@
 
 - read complete apache configuration:
     apache2ctl -t -D DUMP_INCLUDES 2>/dev/null | grep ')' | cut -f 2 -d ')' | xargs cat
+
+- security scan:
+    https://securityheaders.com/?q=https%3A%2F%2Fnedbatchelder.com%2F
