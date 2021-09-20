@@ -78,6 +78,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "doesn't matter")
 CONN_MAX_AGE = None
 
 MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,6 +91,10 @@ MIDDLEWARE = (
 )
 
 CACHE_MIDDLEWARE_SECONDS = 120
+
+SECURE_HSTS_SECONDS = 60 * 60 * 24 * 60     # 60 days
+# No reason to limit the referrer info sent.
+SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
 
 ROOT_URLCONF = 'djstell.urls'
 
