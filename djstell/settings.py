@@ -12,7 +12,6 @@ import dotenv
 dotenv.load_dotenv()
 
 BASE = 'http://localhost/'
-LOG_SQL = False
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -80,7 +79,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'djstell.middleware.standard.AnnounceErrorsMiddleware',
-    'djstell.middleware.standard.LogQueriesMiddleware',
 )
 
 ROOT_URLCONF = 'djstell.urls'
