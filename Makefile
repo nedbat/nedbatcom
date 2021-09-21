@@ -1,4 +1,4 @@
-.PHONY: help publish html css js live local test clean
+.PHONY: help publish html css js
 
 .DEFAULT_GOAL := help
 
@@ -6,7 +6,9 @@ help: ## display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
 	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
-html: ## make HTML for uploading
+publish: nedcom 	## (nedcom) publish to nedbatchelder.com
+
+html: ## make HTML for comparing and examining
 	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
 
 css: ## make css from .scss
@@ -22,6 +24,8 @@ static/nedbatchelder.js:
 		echo "" >>$@; \
 	done
 
+.PHONY: live local nednet nedcom
+
 live: ## run a live dev Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
 	python djstell/manage.py runserver --settings=djstell.settings_live
@@ -30,11 +34,13 @@ local: ## run a local Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
 	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
 
-nednet:
+nednet: ## deploy to nedbatchelder.net
 	DJANGO_SETTINGS_MODULE=djstell.settings_nednet_base python djstell/bin/makehtml.py nednet all
 
-publish nedcom:
+nedcom: ## deploy to nedbatchelder.com
 	DJANGO_SETTINGS_MODULE=djstell.settings_nedcom_base python djstell/bin/makehtml.py nedcom all
+
+.PHONY: test linkcheck clean sterile
 
 test: ## run the few tests we have
 	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 djstell
