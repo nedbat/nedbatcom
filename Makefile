@@ -40,6 +40,14 @@ nednet: ## deploy to nedbatchelder.net
 nedcom: ## deploy to nedbatchelder.com
 	DJANGO_SETTINGS_MODULE=djstell.settings_nedcom_base python djstell/bin/makehtml.py nedcom all
 
+dependnet: ## update dependencies on nedbatchelder.net
+	scp requirements/* dreamhost:nedbatchelder.net/requirements
+	ssh dreamhost venvs/nednet/bin/python -m pip install -r nedbatchelder.net/requirements/server.txt
+
+dependcom: ## update dependencies on nedbatchelder.com
+	scp requirements/* dreamhost:nedbatchelder.com/requirements
+	ssh dreamhost venvs/nedcom/bin/python -m pip install -r nedbatchelder.com/requirements/server.txt
+
 .PHONY: test linkcheck clean sterile
 
 test: ## run the few tests we have
