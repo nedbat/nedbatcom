@@ -13,7 +13,7 @@ ned.%: ## deploy to nedbatchelder.net or .com
 	DJANGO_SETTINGS_MODULE=djstell.settings_ned$*_base python djstell/bin/makehtml.py ned$* all
 
 dep.%: ## update dependencies for nedbatchelder.net or .com
-	scp requirements/* dreamhost:nedbatchelder.$*/requirements
+	scp -q requirements/server.txt dreamhost:nedbatchelder.$*/requirements
 	ssh dreamhost venvs/ned$*/bin/python -m pip install -r nedbatchelder.$*/requirements/server.txt
 
 live: ## run a live dev Django server
@@ -23,6 +23,17 @@ live: ## run a live dev Django server
 local: ## run a local Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
 	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
+
+PIPCOMPILE = pip-compile -v --upgrade --rebuild --annotation-style=line
+
+upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
+upgrade: ## update the pip requirements files to use the latest releases satisfying our constraints
+	pip install -qr requirements/pip-tools.txt
+	# Make sure to compile files after any other files they include!
+	$(PIPCOMPILE) -o requirements/pip-tools.txt requirements/pip-tools.in
+	$(PIPCOMPILE) -o requirements/base.txt requirements/base.in
+	$(PIPCOMPILE) -o requirements/dev.txt requirements/dev.in
+	$(PIPCOMPILE) -o requirements/server.txt requirements/server.in
 
 ##@ Testing
 
