@@ -1,12 +1,32 @@
-.PHONY: help publish html css js
+.PHONY: help publish stage html css js
 
 .DEFAULT_GOAL := help
 
-help: ## display this help message
-	@echo "Please use \`make <target>' where <target> is one of"
-	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
+##@ Deployment
 
-publish: nedcom 	## (nedcom) publish to nedbatchelder.com
+.PHONY: publish stage ned.% dep.% live local
+
+publish: ned.com 	## (ned.com) publish to nedbatchelder.com
+stage: ned.net		## (ned.net) publish to nedbatchelder.net
+
+ned.%: ## deploy to nedbatchelder.net or .com
+	DJANGO_SETTINGS_MODULE=djstell.settings_ned$*_base python djstell/bin/makehtml.py ned$* all
+
+dep.%: ## update dependencies for nedbatchelder.net or .com
+	scp requirements/* dreamhost:nedbatchelder.$*/requirements
+	ssh dreamhost venvs/ned$*/bin/python -m pip install -r nedbatchelder.$*/requirements/server.txt
+
+live: ## run a live dev Django server
+	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
+	python djstell/manage.py runserver --settings=djstell.settings_live
+
+local: ## run a local Django server
+	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
+	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
+
+##@ Testing
+
+.PHONY: html css js test linkcheck
 
 html: ## make HTML for comparing and examining
 	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
@@ -24,40 +44,27 @@ static/nedbatchelder.js:
 		echo "" >>$@; \
 	done
 
-.PHONY: live local nednet nedcom
-
-live: ## run a live dev Django server
-	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
-	python djstell/manage.py runserver --settings=djstell.settings_live
-
-local: ## run a local Django server
-	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
-	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
-
-nednet: ## deploy to nedbatchelder.net
-	DJANGO_SETTINGS_MODULE=djstell.settings_nednet_base python djstell/bin/makehtml.py nednet all
-
-nedcom: ## deploy to nedbatchelder.com
-	DJANGO_SETTINGS_MODULE=djstell.settings_nedcom_base python djstell/bin/makehtml.py nedcom all
-
-dependnet: ## update dependencies on nedbatchelder.net
-	scp requirements/* dreamhost:nedbatchelder.net/requirements
-	ssh dreamhost venvs/nednet/bin/python -m pip install -r nedbatchelder.net/requirements/server.txt
-
-dependcom: ## update dependencies on nedbatchelder.com
-	scp requirements/* dreamhost:nedbatchelder.com/requirements
-	ssh dreamhost venvs/nedcom/bin/python -m pip install -r nedbatchelder.com/requirements/server.txt
-
-.PHONY: test linkcheck clean sterile
-
 test: ## run the few tests we have
 	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 djstell
 
 linkcheck: ## check the links on nedbatchelder.com
 	linkchecker -f etc/linkcheckerrc https://nedbatchelder.com
 
+##@ Clean up
+
+.PHONY: clean sterile
+
 clean: ## get rid of stuff we don't need
 	rm -rf html live
 
 sterile: clean ## extra-clean
 	rm -rf html0
+
+##@ Helpful
+
+.PHONY: help
+
+help: ## display this help message
+	@# Adapted from https://www.thapaliya.com/en/writings/well-documented-makefiles/
+	@echo Available targets:
+	@awk 'BEGIN {FS = ":.*##";} /^[^: ]+:.*?##/ { printf "\033[1m  %-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n%s:\n", substr($$0, 5) }' $(MAKEFILE_LIST)
