@@ -1,5 +1,6 @@
 import datetime
 import functools
+import hashlib
 import os.path
 import re
 
@@ -126,12 +127,21 @@ def twodigit(value):
     """Show just the last two digits of a number (ex: a year)"""
     return str(value)[-2:]
 
+STATIC_PATH = [settings.STATIC_ROOT, "."]
+
 @register.simple_tag
 def static_link(filename):
     """Insert our best cache-busting static link."""
     main, ext = os.path.splitext(filename)
     if settings.DEPLOY_TIME:
-        main = f"{main}__{settings.DEPLOY_TIME}"
+        # On real servers, add a hash to the url, to bust caches.
+        for static_dir in STATIC_PATH:
+            static_file = os.path.join(static_dir, filename)
+            if os.path.exists(static_file):
+                with open(static_file, "rb") as fstatic:
+                    md5 = hashlib.md5(fstatic.read()).hexdigest()[:12]
+                main = f"{main}__{md5}"
+                break
     base = settings.BASE
     if settings.STATIC_URL:
         base += settings.STATIC_URL.rstrip("/")

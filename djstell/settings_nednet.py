@@ -24,6 +24,9 @@ DATABASES = {
 SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
 SENDFILE_ROOT = DJSTELL.parent
 
+# when serving, we find files here:
+STATIC_ROOT = (DJSTELL / "../public").resolve()
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

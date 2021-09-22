@@ -21,11 +21,10 @@ ExpiresByType image/jpg "access plus 3 month"
 ExpiresByType image/gif "access plus 3 month"
 ExpiresByType image/jpeg "access plus 3 month"
 ExpiresByType image/png "access plus 3 month"
-# We use cache-busting urls that change on deploy, so expires can be long.
-# But we deploy at least once a month, so why keep them longer than that?
-ExpiresByType text/css "access plus 1 month"
-ExpiresByType text/javascript "access plus 1 month"
-ExpiresByType application/javascript "access plus 1 month"
+# We use cache-busting urls that hash the file contents, so expires can be long.
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType text/javascript "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
 ExpiresByType text/html "access plus 10 minutes"
 ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
@@ -34,5 +33,5 @@ ExpiresByType font/woff2 "access plus 1 year"
 RewriteEngine on
 
 # CSS and JS cache busting.
-RewriteRule ^(.*)__[0-9]+\.css$ /$1.css [L]
-RewriteRule ^(.*)__[0-9]+\.js$ /$1.js [L]
+RewriteRule ^(.*)__[0-9a-f]+\.css$ /$1.css [L]
+RewriteRule ^(.*)__[0-9a-f]+\.js$ /$1.js [L]
