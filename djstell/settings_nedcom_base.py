@@ -6,6 +6,7 @@ BASE = '//nedbatchelder.com'
 EXT_BASE = f'https:{BASE}'
 
 SITE_NAME = "nedbatchelder.com"
+NOINDEX = False
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG

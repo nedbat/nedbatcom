@@ -31,6 +31,7 @@ REACTOR_FROM_EMAIL = "reactor@nedbatchelder.com"
 REACTOR_ADMIN_EMAIL = "ned@nedbatchelder.com"
 
 SITE_NAME = "nedbatchelder.com"
+NOINDEX = True
 
 DJSTELL = Path(__file__).resolve().parent
 
