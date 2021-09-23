@@ -116,7 +116,9 @@
 </xsl:template>
 
 <xsl:template match='img'>
-    <xsl:call-template name='do_img' />
+    <xsl:call-template name='do_img'>
+        <xsl:with-param name='src' select='@src' />
+    </xsl:call-template>
 </xsl:template>
 
 <xsl:template match='svg:*'>
@@ -375,7 +377,33 @@
 </xsl:template>
 
 <xsl:template name='do_img'>
-    <xsl:param name='src' select='@src' />
+    <xsl:param name='src' />
+    <!-- I don't understand why, but <picture><img src='http://...'/></picture> doesn't display the image. -->
+    <xsl:choose>
+        <xsl:when test='contains($src, ":")'>
+            <xsl:call-template name='img_element' />
+        </xsl:when>
+        <xsl:otherwise>
+            <picture>
+                <source type="image/webp">
+                    <xsl:attribute name='srcset'>
+                        <xsl:value-of select='xuff:imgvariant(string($src), "webp")' />
+                    </xsl:attribute>
+                </source>
+                <xsl:call-template name='img_element'>
+                    <xsl:with-param name='src' select='$src' />
+                </xsl:call-template>
+            </picture>
+        </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+
+<xsl:template name='img_element'>
+    <xsl:param name='src'>
+        <xsl:call-template name='makeuri'>
+            <xsl:with-param name='uri' select='@src' />
+        </xsl:call-template>
+    </xsl:param>
     <xsl:param name='alt' select='@alt' />
     <xsl:param name='scale' select='@scale' />
 
@@ -389,9 +417,7 @@
 
     <img>
         <xsl:attribute name='src'>
-            <xsl:call-template name='makeuri'>
-                <xsl:with-param name='uri' select='$src' />
-            </xsl:call-template>
+            <xsl:value-of select='$src' />
         </xsl:attribute>
         <xsl:attribute name='alt'>
             <xsl:value-of select='$alt' />

@@ -3,6 +3,7 @@
 
 AddType image/x-icon ico
 AddType font/woff2 .woff2
+AddType image/webp .webp
 
 # Treat .py as plain text
 AddHandler text/plain .py
@@ -21,6 +22,7 @@ ExpiresByType image/jpg "access plus 3 month"
 ExpiresByType image/gif "access plus 3 month"
 ExpiresByType image/jpeg "access plus 3 month"
 ExpiresByType image/png "access plus 3 month"
+ExpiresByType image/webp "access plus 3 month"
 # We use cache-busting urls that hash the file contents, so expires can be long.
 ExpiresByType text/css "access plus 1 year"
 ExpiresByType text/javascript "access plus 1 year"

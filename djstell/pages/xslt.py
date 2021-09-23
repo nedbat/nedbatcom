@@ -71,6 +71,12 @@ def permaurl(path):
 
 ns['permaurl'] = wrapit(permaurl)
 
+def imgvariant(path, var):
+    assert var == "webp"
+    return f"/iv/{var}/{path.lstrip('/')}.webp"
+
+ns['imgvariant'] = wrapit(imgvariant)
+
 # The transform from xml to html for content.
 XSLT_XFORM = None
 
