@@ -73,7 +73,18 @@ ns['permaurl'] = wrapit(permaurl)
 
 def imgvariant(path, var):
     assert var == "webp"
-    return f"/iv/{var}/{path.lstrip('/')}.webp"
+    if ":" in path:
+        return ""
+    elif path.endswith(".gif"):
+        # Animated gifs don't currently convert to webp, so don't try.
+        return ""
+    else:
+        if path.startswith(settings.BASE):
+            prefix = settings.BASE
+            path = path.removeprefix(settings.BASE)
+        else:
+            prefix = ""
+        return f"{prefix}/iv/{var}/{path.lstrip('/')}.webp"
 
 ns['imgvariant'] = wrapit(imgvariant)
 
@@ -96,7 +107,7 @@ def content_transform(name, xmltext, child=None, params={}):
         doc = doc.find(child)
     params = dict(params)
     params.update({
-        'base':     string_param(settings.BASE),
+        'base': string_param(settings.BASE),
         })
     html = str(XSLT_XFORM(doc, **params))
     # smartypants doesn't handle </a>' properly.

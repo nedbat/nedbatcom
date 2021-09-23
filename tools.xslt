@@ -117,7 +117,11 @@
 
 <xsl:template match='img'>
     <xsl:call-template name='do_img'>
-        <xsl:with-param name='src' select='@src' />
+        <xsl:with-param name='src'>
+            <xsl:call-template name='makeuri'>
+                <xsl:with-param name='uri' select='@src' />
+            </xsl:call-template>
+        </xsl:with-param>
     </xsl:call-template>
 </xsl:template>
 
@@ -381,15 +385,20 @@
     <!-- I don't understand why, but <picture><img src='http://...'/></picture> doesn't display the image. -->
     <xsl:choose>
         <xsl:when test='contains($src, ":")'>
-            <xsl:call-template name='img_element' />
+            <xsl:call-template name='img_element'>
+                <xsl:with-param name='src' select='$src' />
+            </xsl:call-template>
         </xsl:when>
         <xsl:otherwise>
+            <xsl:variable name='webp' select='xuff:imgvariant(string($src), "webp")' />
             <picture>
-                <source type="image/webp">
-                    <xsl:attribute name='srcset'>
-                        <xsl:value-of select='xuff:imgvariant(string($src), "webp")' />
-                    </xsl:attribute>
-                </source>
+                <xsl:if test='$webp'>
+                    <source type="image/webp">
+                        <xsl:attribute name='srcset' >
+                            <xsl:value-of select='$webp' />
+                        </xsl:attribute>
+                    </source>
+                </xsl:if>
                 <xsl:call-template name='img_element'>
                     <xsl:with-param name='src' select='$src' />
                 </xsl:call-template>
@@ -399,11 +408,7 @@
 </xsl:template>
 
 <xsl:template name='img_element'>
-    <xsl:param name='src'>
-        <xsl:call-template name='makeuri'>
-            <xsl:with-param name='uri' select='@src' />
-        </xsl:call-template>
-    </xsl:param>
+    <xsl:param name='src' />
     <xsl:param name='alt' select='@alt' />
     <xsl:param name='scale' select='@scale' />
 
@@ -523,9 +528,13 @@
 
         <xsl:call-template name='do_img'>
             <xsl:with-param name='src'>
-                <xsl:value-of select='substring-before(@href,".")' />
-                <xsl:text>_thumb.</xsl:text>
-                <xsl:value-of select='substring-after(@href,".")' />
+                <xsl:call-template name='makeuri'>
+                    <xsl:with-param name='uri'>
+                        <xsl:value-of select='substring-before(@href,".")' />
+                        <xsl:text>_thumb.</xsl:text>
+                        <xsl:value-of select='substring-after(@href,".")' />
+                    </xsl:with-param>
+                </xsl:call-template>
             </xsl:with-param>
         </xsl:call-template>
 
