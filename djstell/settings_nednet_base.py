@@ -22,4 +22,4 @@ DATABASES = {
 STATIC_URL = "/"
 STATICFILES_DIRS = []
 # collectstatic needs to put files here:
-STATIC_ROOT = (DJSTELL / "../live/public").resolve()
+STATIC_ROOT = (DJSTELL / "../to_dh/public").resolve()

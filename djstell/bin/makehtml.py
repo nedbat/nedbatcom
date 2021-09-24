@@ -99,8 +99,8 @@ class CmdLine(object):
 
     def dreamhost(self, domain, slug):
         self.BASE = f'//{domain}'
-        self.ROOT = "live"
-        self.VERB_ROOT = "live/public"
+        self.ROOT = "to_dh"
+        self.VERB_ROOT = "to_dh/public"
         self.COPY_FILES = [
             (f"deploy/{slug}.env", ".env"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
@@ -115,7 +115,7 @@ class CmdLine(object):
         self.FTP = dict(
             host="nedbatchelder.net", hostdir=domain,
             user='nedbat', password=password.DREAMHOST,
-            src='live',
+            src=self.ROOT,
             text=self.text_ext,
             binary=self.binary_ext,
             md5file=f'deploy/{slug}.md5',

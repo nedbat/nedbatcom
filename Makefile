@@ -66,7 +66,7 @@ linkcheck: ## check the links on nedbatchelder.com
 .PHONY: clean sterile
 
 clean: ## get rid of stuff we don't need
-	rm -rf html live local
+	rm -rf html live to_dh local
 
 sterile: clean ## extra-clean
 	rm -rf html0
