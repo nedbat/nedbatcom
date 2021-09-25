@@ -368,8 +368,8 @@ class TestSaving:
     def test_bleaching(self, client, freezer, monkeypatch):
         freezer.move_to('2020-10-18 01:23')
         # Check that convert_body is used on the body of the comment.
-        def fake_convert_body(html):
-            assert html == "<p>Hello</p>"
+        def fake_convert_body(body):
+            assert body == "Hello\r\n\r\nThere"
             return "CLEANED"
         monkeypatch.setattr(honey, "convert_body", fake_convert_body)
 
@@ -377,11 +377,12 @@ class TestSaving:
         inputs = input_fields(response)
         inputs["name"] = "Bad Guy"
         inputs["email"] = "bad@guy.org"
-        inputs["body"] = "<p>Hello</p>"
+        inputs["body"] = "Hello\r\n\r\nThere"
         response = client.post(BLOG_POST, inputs.post_data("previewbtn"))
-        assert "CLEANED" in content(response)
+        assert errors(response) == []
+        assert b">Hello\r\n\r\nThere</textarea>" in response.content
         inputs = input_fields(response)
-        inputs["body"] = "<p>Hello</p>"
+        inputs["body"] = "Hello\r\n\r\nThere"
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
         assert "CLEANED" in content(response)
 
