@@ -18,6 +18,8 @@ dep.%: ## update dependencies for nedbatchelder.net or .com
 
 live: ## run a live dev Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
+	mkdir live/public/tabblo
+	cp -R ../tabblo/[1-9]* live/public/tabblo
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
 local: ## run a local Django server
