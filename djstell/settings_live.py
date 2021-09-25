@@ -38,3 +38,6 @@ MY_BOGUS_STATIC_DIR = "live/public"
 
 SENDFILE_BACKEND = "django_sendfile.backends.development"
 SENDFILE_ROOT = DJSTELL.parent
+
+# For tests and development, no site caching.
+CACHE_MIDDLEWARE_SECONDS = 0

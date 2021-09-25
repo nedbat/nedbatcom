@@ -93,6 +93,8 @@ MIDDLEWARE = (
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
+# Cache all pages for two minutes. This lets the timestamp on comment forms
+# still work, but will clip spikes if they ever come.
 CACHE_MIDDLEWARE_SECONDS = 120
 
 SECURE_HSTS_SECONDS = 60 * 60 * 24 * 60     # 60 days
