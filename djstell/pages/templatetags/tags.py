@@ -156,8 +156,6 @@ def static_link(filename):
 def static_url_link(url, type, defer=False):
     """Reference third-party static stuff in the best way."""
     if type == 'css':
-        # Firefox can't do rel=preload: https://caniuse.com/#feat=link-rel-preload
-        defer = False
         if defer:
             # https://web.dev/defer-non-critical-css/
             tag = (
