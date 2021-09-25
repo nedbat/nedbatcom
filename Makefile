@@ -4,7 +4,7 @@
 
 ##@ Deployment
 
-.PHONY: publish stage ned.% dep.% live local
+.PHONY: publish stage ned.% dep.% live
 
 publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
@@ -21,10 +21,6 @@ live: ## run a live dev Django server
 	mkdir live/public/tabblo
 	cp -R ../tabblo/[1-9]* live/public/tabblo
 	python djstell/manage.py runserver --settings=djstell.settings_live
-
-local: ## run a local Django server
-	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
-	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
 
 ##@ Maintenance
 
@@ -46,7 +42,7 @@ backupcomments: ## get a backup of the live comments on nedbatchelder.com
 
 ##@ Testing
 
-.PHONY: install loadlivecomments html css js test linkcheck
+.PHONY: install loadlivecomments html css js test linkcheck livelinkcheck
 
 install: ## install the local dev requirements
 	python -m pip install -r requirements/dev.txt
@@ -57,9 +53,6 @@ loadlivecomments: ## load latest comments into live server
 	django-admin loaddata --settings=djstell.settings_live --database=reactor $$(ls -1 data/*.json | tail -1)
 
 html: ## make HTML for comparing and examining
-	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
-
-spider:
 	wget \
 		--no-verbose \
 		--directory-prefix=html \

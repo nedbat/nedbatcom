@@ -6,7 +6,6 @@ import logging
 import os
 import os.path
 import shutil
-import socket
 import subprocess
 import sys
 import time
@@ -19,12 +18,9 @@ from django.core.management import call_command
 
 from stellated import XuffApp
 
-import generator
 import loadpages
 import password
 import sass
-
-from djstell.pages.models import Entry, Article, Tag
 
 
 def timed(fn):
@@ -46,50 +42,22 @@ class CmdLine(object):
         self.COPY_TREES = []
         self.all_words = "clean load make upload"
         self.text_ext='''
-            *.html *.css *.xslt *.js *.txt *.xml *.inc
+            *.html *.css *.xslt *.js *.txt *.xml
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
-            *.php *.htaccess *.ini *.fcgi *.env
+            *.htaccess *.ini *.env
             *.svg *.ipynb
             '''
         self.binary_ext='''
-            *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.swf *.doc *.nef *.pdf *.ai *.dmg
+            *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.doc *.pdf *.ai
             *.zip *.gz *.tgz
             *.ttf *.woff2
             '''
-        self.use_processes = True
         self.messages = []
-
-    def do_wwwlocal(self):
-        self.BASE = '//%s' % (socket.gethostbyname(socket.gethostname()))
-        self.ROOT = '../www'
-        self.COPY_FILES = [
-            ("deploy/local.htaccess", ".htaccess"),
-            ]
-        self.WWWROOT = os.path.abspath(self.ROOT)
-        self.all_words = "load make"    # Don't clean: it clobbers reactor.
-
-    def do_pylocal(self):
-        port = 8123
-        self.BASE = ""
-        self.ROOT = "../www"
-        self.WWWROOT = os.path.abspath(self.ROOT)
-        self.messages.append(
-            f"Simple local server:\n  sudo -v; sudo python -m http.server -b 0.0.0.0 -d ../www {port} & open http://localhost:{port}"
-        )
 
     def do_live(self):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
         self.VERB_ROOT = "live/public"
-
-    def do_local(self):
-        self.BASE = "http://127.0.0.1:8000"
-        self.ROOT = "local"
-
-    def do_file(self):
-        self.BASE = 'file:///Users/ned/web/stellated/html_local'
-        self.ROOT = 'html_local'
-        self.WWWROOT = os.path.abspath(self.ROOT)
 
     def do_nednet(self):
         self.dreamhost("nedbatchelder.net", "nednet")
@@ -121,33 +89,6 @@ class CmdLine(object):
             md5file=f'deploy/{slug}.md5',
             skip='password.py',
             )
-
-    def generate(self, dst):
-        resources = [
-            Entry.all_entries,
-            Article,
-            Tag,
-            '/blog/index.html',
-            '/blog/tags.html',
-            '/blog/tag/none.html',
-            '/blog/rss.xml',
-            '/blog/planetpython.xml',
-            '/blog/archive/all.html',
-            '/blog/drafts.html',
-            '/index.html',
-            ]
-
-        resources += ['/blog/archive/year%4d.html' % d.year for d in Entry.objects.dates('when', 'year')]
-
-        dates = []
-        date = datetime.datetime(2004, 1, 1)        # Use a leap year
-        while date.year == 2004:
-            dates.append((date.month, date.day))
-            date += datetime.timedelta(days=1)
-
-        resources += ['/blog/archive/date%02d%02d.html' % date for date in dates]
-
-        generator.quick_publish(resources, use_processes=self.use_processes)
 
     @timed
     def do_copy_verbatim(self):
@@ -210,11 +151,6 @@ class CmdLine(object):
         # Change this pattern if you want to fiddle with another one.
         loadpages.blog_pattern = "*github*.bx"
 
-    def do_smallupload(self):
-        """Total hack expedient to only upload some files."""
-        # Change this pattern if you want to fiddle with another one.
-        self.FTP["only"] = "*mock*"
-
     def only_some(self, word):
         loadpages.blog_pattern = "*{}*.bx".format(word)
         loadpages.page_pattern = "*{}*.px".format(word)
@@ -223,9 +159,6 @@ class CmdLine(object):
         """Total hack expedient to only process some pages."""
         # Change this pattern if you want to fiddle with another one.
         loadpages.page_pattern = "*xx*.px"
-
-    def do_slow(self):
-        self.use_processes = False
 
     @timed
     def do_make(self):
@@ -268,17 +201,6 @@ class CmdLine(object):
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in process.stdout:
             sys.stdout.buffer.write(line)
-
-    def do_ping(self):
-        self.xuff.xmlrpc(
-            url='http://rpc.pingomatic.com/RPC2',
-            object='weblogUpdates',
-            method='ping',
-            args=[
-                'Ned Batchelder',
-                'https://nedbatchelder.com/blog'
-                ]
-            )
 
     def do_all(self):
         self.exec_words(self.all_words.split())
