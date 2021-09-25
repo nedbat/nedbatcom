@@ -41,15 +41,16 @@ Move to dreamhost
             - https://help.dreamhost.com/hc/en-us/articles/360022808632
             - check with:
                 - https://mxtoolbox.com/SuperTool.aspx?action=mx%3anedbatchelder.com&run=toolpage
-        - switch from passenger to uwsgi?
+        x switch from passenger to uwsgi?
             - https://uwsgi-docs.readthedocs.io/en/latest/tutorials/dreamhost.html
-        - tabblo index.html files aren't being served
+        + tabblo index.html files aren't being served
             - https://nedbatchelder.net/tabblo/238292
-        - empty file: https://nedbatchelder.com/code/modules/rees-coverage.html
-        - favicon is empty
+        + empty file: https://nedbatchelder.com/code/modules/rees-coverage.html
+        + favicon is empty
         - consider performance
-        - file-based caching?
-        - remove php code, but keep static generation, for testing
+        + file-based caching?
+        + remove php code
+            - but keep static generation, for testing
         - admin pages
         - aron's .htaccess: https://github.com/agriffis/arongriffis.com/blob/master/site/.htaccess
     - much later
