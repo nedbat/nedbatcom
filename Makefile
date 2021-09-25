@@ -28,6 +28,8 @@ local: ## run a local Django server
 
 ##@ Maintenance
 
+.PHONY: upgrade backupcomments
+
 PIPCOMPILE = pip-compile -v --upgrade --rebuild --annotation-style=line
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
@@ -44,7 +46,11 @@ backupcomments: ## get a backup of the live comments on nedbatchelder.com
 
 ##@ Testing
 
-.PHONY: html css js test linkcheck
+.PHONY: install loadlivecomments html css js test linkcheck
+
+install: ## install the local dev requirements
+	python -m pip install -r requirements/dev.txt
+	playwright install
 
 loadlivecomments: ## load latest comments into live server
 	sqlite3 djstell/reactor.db 'delete from reactor_comment'
@@ -52,6 +58,19 @@ loadlivecomments: ## load latest comments into live server
 
 html: ## make HTML for comparing and examining
 	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
+
+spider:
+	wget \
+		--no-verbose \
+		--directory-prefix=html \
+		--no-host-directories \
+		--adjust-extension \
+		--retry-connrefused \
+		--max-redirect=3 \
+		--recursive \
+		--level=inf \
+		--execute robots=off \
+		http://127.0.0.1:8000
 
 css: ## make css from .scss
 	for f in style/[a-z]*.scss; do \

@@ -1,4 +1,5 @@
 import datetime
+import os
 import time
 
 from django.conf import settings
@@ -11,19 +12,29 @@ from .valid import valid_email, valid_name, valid_website
 
 class Honeypotter:
     FIELDS = ["spinner", "entryid", "timestamp"]
+    REPEATABLE = bool(os.environ.get("REPEATABLE", ""))
 
     def __init__(self, request, entryid):
         self.request = request
         self.entryid = entryid
 
         self.is_post = (request.method == "POST")
-        self.client_ip = get_client_ip(self.request)
+        if self.REPEATABLE:
+            self.client_ip = "1.1.1.1"
+        else:
+            self.client_ip = get_client_ip(self.request)
         self.errormsgs = []
 
         if self.is_post:
             self._init_post()
         else:
             self._init_get()
+
+    def current_time(self):
+        if self.REPEATABLE:
+            return 1234567
+        else:
+            return int(time.time())
 
     def field_name(self, field):
         assert field in self.FIELDS
@@ -35,7 +46,7 @@ class Honeypotter:
     def context_data(self):
         data = {
             "spinner": self.spinner,
-            "timestamp": int(time.time()),
+            "timestamp": self.current_time(),
             "entryid": self.entryid,
             "errormsgs": self.errormsgs,
         }
@@ -44,7 +55,7 @@ class Honeypotter:
         return data
 
     def _init_get(self):
-        self.timestamp = int(time.time())
+        self.timestamp = self.current_time()
         self.spinner = md5(
             self.client_ip,
             self.timestamp,
@@ -58,14 +69,13 @@ class Honeypotter:
         if not self.spinner:
             self.add_error("Something is wrong with the spinner")
 
-        now = int(time.time())
         try:
             self.timestamp = int(self.field_value("timestamp"))
         except ValueError:
             self.add_error("Something is wrong with the timestamp")
             self.timestamp = 0
         else:
-            now = time.time()
+            now = self.current_time()
             age = now - self.timestamp
             if age < 0:
                 self.add_error("A post from the future!")
