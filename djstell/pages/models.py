@@ -40,6 +40,11 @@ def nice_text(s):
     return smartypants.smartypants(s, smartypants.Attr.q | smartypants.Attr.u)
 
 
+def xml_text(e):
+    """Get the text of an XML element"""
+    return etree.tostring(e, encoding="unicode")
+
+
 def one_line(s):
     """Make one nice line of text."""
     return nice_text(re.sub(r"\s+", " ", s).strip())
@@ -115,7 +120,7 @@ class Article(ModelMixin, models.Model):
         art = Article()
         art.title = nice_text(p.get('title'))
         art.path = pxfile[len(root)+1:].replace('\\', '/')
-        art.text = etree.tostring(p).decode('utf8')
+        art.text = xml_text(p)
         art.sitemap = (p.get('sitemap', 'yes') != 'no')
         art.lang = p.get('lang', 'en')
         art.sort = int(p.get('order', '500'))
@@ -217,7 +222,7 @@ class Tag(ModelMixin, models.Model):
             tag.about = cat.find('about').text
             description = cat.find('description')
             if description is not None:
-                tag.description = etree.tostring(description).decode('utf8')
+                tag.description = xml_text(description)
             short = cat.find('short')
             if short is not None:
                 tag.short = short.text
@@ -318,7 +323,7 @@ class Entry(ModelMixin, models.Model):
             assert bxfile.startswith("./")
             ent.path = bxfile[2:].replace('\\', '/')
             ent.title = nice_text(e.find('title').text)
-            ent.text = etree.tostring(e).decode('utf8')
+            ent.text = xml_text(e)
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
             ent.when = datetime_from_8601(e.get('when'))
             ent.draft = (e.get('draft', 'n') == 'y') or ent.when > datetime.datetime.now()
