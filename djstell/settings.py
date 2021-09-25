@@ -20,6 +20,7 @@ BASE = 'http://localhost/'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+LOCAL_LIVE = False
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -79,6 +80,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "doesn't matter")
 CONN_MAX_AGE = None
 
 MIDDLEWARE = (
+    'djstell.middleware.standard.StaticOverlayMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
