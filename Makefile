@@ -24,6 +24,8 @@ local: ## run a local Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_local python djstell/bin/makehtml.py local clean load copy_verbatim support djstell copy_live
 	cd local; PYTHONPATH=/Users/nedbatchelder/py:. python djstell/manage.py runserver --settings=djstell.settings_local
 
+##@ Maintenance
+
 PIPCOMPILE = pip-compile -v --upgrade --rebuild --annotation-style=line
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
@@ -35,9 +37,16 @@ upgrade: ## update the pip requirements files to use the latest releases satisfy
 	$(PIPCOMPILE) -o requirements/dev.txt requirements/dev.in
 	$(PIPCOMPILE) -o requirements/server.txt requirements/server.in
 
+backupcomments: ## get a backup of the live comments on nedbatchelder.com
+	django-admin dumpdata --settings=djstell.settings_nedcom_db -o data/reactor_$$(date +%Y%m%d).json --database=reactor reactor.Comment
+
 ##@ Testing
 
 .PHONY: html css js test linkcheck
+
+loadlivecomments: ## load latest comments into live server
+	sqlite3 djstell/reactor.db 'delete from reactor_comment'
+	django-admin loaddata --settings=djstell.settings_live --database=reactor $$(ls -1 data/*.json | tail -1)
 
 html: ## make HTML for comparing and examining
 	DJANGO_SETTINGS_MODULE=djstell.settings_webfaction python djstell/bin/makehtml.py wf clean load make
@@ -60,6 +69,9 @@ test: ## run the few tests we have
 
 linkcheck: ## check the links on nedbatchelder.com
 	linkchecker -f etc/linkcheckerrc https://nedbatchelder.com
+
+livelinkcheck: ## check the links on the live local server
+	linkchecker -t 12 -f etc/linkcheckerrc http://127.0.0.1:8000
 
 ##@ Clean up
 
