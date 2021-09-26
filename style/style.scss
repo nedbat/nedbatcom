@@ -1153,6 +1153,10 @@ img {
                 @include inside-link;
                 color: var(--info-text-color);
             }
+            .adminlink {
+                display: inline-block;
+                margin-right: .5em;
+            }
         }
         .head {
             margin-top: 0;

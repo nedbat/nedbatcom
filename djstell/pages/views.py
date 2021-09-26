@@ -11,6 +11,7 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext, Template
+from django.views.decorators.cache import patch_cache_control
 from django.views.static import serve as serve_static
 from django_sendfile import sendfile
 
@@ -48,6 +49,10 @@ def render_or_redirect(request, template, c, obj):
     resp = render(request, template, c)
     if c['should_redirect'][0]:
         resp = redirect(obj.permaurl())
+    else:
+        # There's only one logged-in user, so we can just switch the cache based
+        # on is_anonymous or not.
+        patch_cache_control(resp, public=request.user.is_anonymous)
     return resp
 
 def entry(request, year, month, slug):

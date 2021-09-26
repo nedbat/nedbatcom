@@ -1,3 +1,5 @@
+{% load tags %}
+{% spaceless %}
 <div id='comments'>
 <h1>Comments</h1>
 
@@ -12,7 +14,10 @@
                     {{comment.name}}
                 {% endif %}
             </b></span>
-            <span class='when'>{# <span class='adminlink'>!admin</span> #}
+            <span class='when'>
+                {% if user.is_superuser %}
+                    <span class='adminlink'>[<a href="{{comment.admin_url}}">admin</a>]</span>
+                {% endif %}
                 <a href="#comment_{{comment.id}}">
                     {{comment.posted|time:"g:i A"}} on
                     {{comment.posted|date:"j M Y"}}
@@ -129,3 +134,4 @@
 </div>
 
 </div>
+{% endspaceless %}
