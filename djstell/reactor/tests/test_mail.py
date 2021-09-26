@@ -32,6 +32,7 @@ class TestEmail:
     def test_one_notification(self):
         make_comment(name="Tom", email="tom@tom.com", notify=True).save()
         com = make_comment(name="Nik", email="nik@nik.com", website="https://myweb.com", body="This is really great!")
+        com.save()
         send_args = dict(
             com=com,
             markdown_body="This is really great!",
@@ -48,7 +49,8 @@ class TestEmail:
         assert owner_email.subject == 'A comment on "My Blog Post" from Nik'
         assert owner_email.recipients() == ["ned@nedbatchelder.com"]
         assert "\nhttp://blog.com/123\n" in owner_email.body
-        assert "\nentryid: entry123\n" in owner_email.body
+        print(owner_email.body)
+        assert f"admin: http://127.0.0.1:8000/power/reactor/comment/{com.id}/change/" in owner_email.body
         assert "\nnotifications to: tom@tom.com\n" in owner_email.body
 
         email = mail.outbox[1]
@@ -59,6 +61,7 @@ class TestEmail:
         assert "\nwebsite: https://myweb.com\n" in email.body
         assert "\nThis is really great!\n" in email.body
         assert "To unsubscribe" in email.body
+        assert "\nentry123\n" in email.body
 
         assert len(email.alternatives) == 1
         assert email.alternatives[0][1] == "text/html"

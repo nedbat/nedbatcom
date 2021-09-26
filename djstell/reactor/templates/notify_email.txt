@@ -11,11 +11,12 @@ website: {% firstof comment.website "---" %}
 
 
 ---- Admin stuff ----
-entryid: {{comment.entryid}}
+admin: {{comment.admin_url}}
 REMOTE_ADDR: {{request.META.REMOTE_ADDR}}
 HTTP_USER_AGENT: {{request.META.HTTP_USER_AGENT}}
 {% if watcher_emails %}notifications to: {{watcher_emails|join:", "}}{% endif %}
 {% else %}
 
 (To unsubscribe, forward this email to me: ned@nedbatchelder.com)
+{{comment.entryid}}
 {% endif %}
