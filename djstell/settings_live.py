@@ -41,3 +41,6 @@ SENDFILE_ROOT = DJSTELL.parent
 
 # For tests and development, no site caching.
 CACHE_MIDDLEWARE_SECONDS = 0
+
+# Don't send email during development.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
