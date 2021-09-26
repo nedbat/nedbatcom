@@ -9,7 +9,7 @@ urlpatterns = [
     path('', include('djstell.pages.urls')),
     path('iv/', include('djstell.imgvar.urls')),
 
-    path('admin/', admin.site.urls),
+    path('power/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
 
     path('<path:path>', dpv.last_resort),

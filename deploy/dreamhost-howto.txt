@@ -38,6 +38,17 @@
         python3 djstell/manage.py migrate --database=reactor reactor
         python3 djstell/reactor/import.py ~/reactor_db_20210910.csv
 
+- use.sh
+    cd ~/nedbatchelder.$1
+    export PYTHONPATH=~/nedbatchelder.$1/
+    export DJANGO_SETTINGS_MODULE=djstell.settings_ned$1
+    source ~/venvs/ned$1/bin/activate
+
+- running django admin
+    . use.sh net
+    python djstell/manage.py createsuperuser
+    django-admin dumpdata --indent=4 auth.User
+
 - uwsgi
     - make virtualenv
     ~/venvs/uwsgi/bin/python -m pip install uwsgi werkzeug

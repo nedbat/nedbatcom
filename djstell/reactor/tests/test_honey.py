@@ -71,9 +71,9 @@ ENTRIES = [
     ),
 ]
 
-TOM_GRAVATAR = '//www.gravatar.com/avatar/680f1218b5409f9d0ce02b056c5ba0fc.jpg?default=https://nedbatchelder.com/pix/avatar/a131.jpg&size=80'
-NIK_GRAVATAR = '//www.gravatar.com/avatar/0883069a79871f73bf1d844cb3291c32.jpg?default=https://nedbatchelder.com/pix/avatar/a205.jpg&size=80'
-BAD_GRAVATAR = '//www.gravatar.com/avatar/f62c87b83ddcf6ae98ac4526ca42c879.jpg?default=https://nedbatchelder.com/pix/avatar/a134.jpg&size=80'
+TOM_GRAVATAR = 'https://www.gravatar.com/avatar/680f1218b5409f9d0ce02b056c5ba0fc.jpg?default=https://nedbatchelder.com/pix/avatar/a131.jpg&size=80'
+NIK_GRAVATAR = 'https://www.gravatar.com/avatar/0883069a79871f73bf1d844cb3291c32.jpg?default=https://nedbatchelder.com/pix/avatar/a205.jpg&size=80'
+BAD_GRAVATAR = 'https://www.gravatar.com/avatar/f62c87b83ddcf6ae98ac4526ca42c879.jpg?default=https://nedbatchelder.com/pix/avatar/a134.jpg&size=80'
 
 # This is the order of field names in comments.html
 FIELD_NAMES = """\

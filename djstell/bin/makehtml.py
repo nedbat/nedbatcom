@@ -40,6 +40,7 @@ class CmdLine(object):
         self.ROOT = "html"
         self.COPY_FILES = []
         self.COPY_TREES = []
+        self.user_data = None
         self.all_words = "clean load make upload"
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml
@@ -58,6 +59,7 @@ class CmdLine(object):
         self.BASE = "http://127.0.0.1:8000"
         self.ROOT = "live"
         self.VERB_ROOT = "live/public"
+        self.user_data = "deploy/live_users.json"
 
     def do_nednet(self):
         self.dreamhost("nedbatchelder.net", "nednet")
@@ -78,6 +80,7 @@ class CmdLine(object):
             ("../../py/stellated", "stellated"),
             ("requirements", "requirements"),
             ]
+        self.user_data = f"deploy/{slug}_users.json"
         self.RSYNC_DST = f"dreamhost:{domain}"
         self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell timestamps upload rsyncdb"
         self.FTP = dict(
@@ -142,6 +145,8 @@ class CmdLine(object):
     def do_load(self):
         call_command('migrate', verbosity=False, interactive=False)
         loadpages.load_all()
+        if self.user_data:
+            call_command('loaddata', self.user_data)
 
     def do_1blog(self):
         loadpages.blog_sources = ['1blog']

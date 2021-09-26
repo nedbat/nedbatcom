@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 from .tools import md5
 
@@ -13,12 +14,19 @@ class Comment(models.Model):
     body = models.TextField()
     notify = models.BooleanField()
 
+    def __str__(self):
+        return f"Comment from {self.name} on {self.entryid}"
+
+    def admin_url(self):
+        aurl = reverse(f'admin:{self._meta.app_label}_{self._meta.model_name}_change', args=(self.pk,))
+        return settings.EXT_BASE + aurl
+
     def gravatar_url(self):
         anum = int(md5(self.email, self.website)[:4], 16) % 282
         email_hash = md5(self.email)
         avhost = "https://nedbatchelder.com"
         default_url = f"{avhost}/pix/avatar/a{anum}.jpg"
-        url = f"//www.gravatar.com/avatar/{email_hash}.jpg?default={default_url}&size=80"
+        url = f"https://www.gravatar.com/avatar/{email_hash}.jpg?default={default_url}&size=80"
         return url
 
     def fixed_website(self):
