@@ -30,6 +30,9 @@ class Honeypotter:
         else:
             self._init_get()
 
+    def is_ok(self):
+        return not self.errormsgs
+
     def current_time(self):
         if self.REPEATABLE:
             return 1234567
@@ -162,7 +165,7 @@ class CommentForm(Honeypotter):
         if self.is_previewing:
             context["body"] = self.field_value("body")
 
-        if not self.errormsgs:
+        if self.is_ok():
             com = self.comment_object()
             if self.is_previewing:
                 context["preview"] = com

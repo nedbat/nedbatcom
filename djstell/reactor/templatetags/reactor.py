@@ -26,6 +26,9 @@ def entry_comments(context, entryid, url):
 
     if form.is_post:
         form.handle_post(context)
+        if form.is_adding and form.is_ok():
+            # We finished a successful post, the view function should redirect.
+            context["should_redirect"][0] = True
 
     comments = Comment.objects.filter(entryid=entryid).order_by("posted")
     context.update({

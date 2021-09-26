@@ -10,6 +10,7 @@ import lxml.html
 import pytest
 
 from django.core import mail
+from pytest_django.asserts import assertRedirects
 
 from ..models import Comment
 from .. import honey
@@ -220,6 +221,8 @@ class TestSaving:
 
         # Tom adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
+        assertRedirects(response, entry.url)
+        response = client.get(entry.url)
         assert "Thomas Edison" in content(response)
         assert "tom@edison.org" in content(response)
         assert "This is a great blog post" in content(response)
@@ -287,6 +290,8 @@ class TestSaving:
 
         # Nikola adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
+        assertRedirects(response, entry.url)
+        response = client.get(entry.url)
         assert errors(response) == []
         assert comments(response) == [
             {
@@ -345,6 +350,8 @@ class TestSaving:
 
         # Tom adds.
         response = client.post(entry.url, inputs.post_data("addbtn"))
+        assertRedirects(response, entry.url)
+        response = client.get(entry.url)
 
         # What email got sent?
         assert len(mail.outbox) == 2
@@ -384,6 +391,8 @@ class TestSaving:
         inputs = input_fields(response)
         inputs["body"] = "Hello\r\n\r\nThere"
         response = client.post(BLOG_POST, inputs.post_data("addbtn"))
+        assertRedirects(response, BLOG_POST)
+        response = client.get(BLOG_POST)
         assert "CLEANED" in content(response)
 
         response = client.get(BLOG_POST)

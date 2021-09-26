@@ -38,6 +38,18 @@ def abs_url(url):
     absurl += url
     return absurl
 
+def render_or_redirect(request, template, c, obj):
+    """For views which might post comments: render or redirect."""
+    # Kind of a gross hack: processing the post is done deep in the
+    # honey templatetag.  We put a mutable list in the context so
+    # that the templatetag can send data back about whether to redirect
+    # (if the post was finished) or not (if the post was not).
+    c['should_redirect'] = [False]
+    resp = render(request, template, c)
+    if c['should_redirect'][0]:
+        resp = redirect(obj.permaurl())
+    return resp
+
 def entry(request, year, month, slug):
     """ Single entry.
     """
@@ -61,7 +73,7 @@ def entry(request, year, month, slug):
             'title': ent.title,
             'closed': ent.comments_closed,
             }
-    return render(request, 'oneentry.html', c)
+    return render_or_redirect(request, 'oneentry.html', c, ent)
 
 def entry_by_date(request, whenid):
     when = datetime.datetime(*time.strptime(whenid, "%Y%m%dT%H%M%S")[:6])
@@ -211,7 +223,7 @@ def article(request, path):
             'title': a.title,
             'lorem': path == "text/lorem.html",
         }
-    return render(request, 'article.html', c)
+    return render_or_redirect(request, 'article.html', c, a)
 
 def index(request):
     a = get_object_or_404(Article, path='index.px')
