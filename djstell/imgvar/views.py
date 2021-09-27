@@ -30,5 +30,11 @@ def imgvar(request, var, path):
         raise Http404(f"Couldn't find {path=}")
 
     outpath.parent.mkdir(parents=True, exist_ok=True)
-    im.save(outpath, saveas)
+    if inpath.endswith(".jpg"):
+        options = dict(lossless=False, quality=50)
+    elif path.endswith(".png"):
+        options = dict(lossless=False, quality=80)
+    else:
+        options = {}
+    im.save(outpath, saveas, **options)
     return sendfile(request, outpath)
