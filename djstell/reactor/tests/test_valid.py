@@ -26,6 +26,7 @@ def test_bad_emails(email):
     "http://geocities.com/~ned/homepage.htm",
     "https://foo.123.bar.com",
     "https://123.bar.com",
+    "https://thomas-guettler.de",
 ])
 def test_good_websites(website):
     assert valid_website(website)

@@ -19,4 +19,4 @@ def valid_name(name):
     )
 
 def valid_website(website):
-    return bool(re.fullmatch(r"https?://\w+\.\w+.*", website))
+    return bool(re.fullmatch(r"https?://[-\w]+\.[-\w]+.*", website))
