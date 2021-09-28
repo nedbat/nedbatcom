@@ -3,6 +3,8 @@ import os
 from .settings_nedcom_base import *
 from .settings_nedcom_db import *
 
+ANALYTICS = True
+
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
 SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
 SENDFILE_ROOT = DJSTELL.parent
