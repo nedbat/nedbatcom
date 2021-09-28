@@ -53,6 +53,8 @@ loadlivecomments: ## load latest comments into live server
 	django-admin loaddata --settings=djstell.settings_live --database=reactor $$(ls -1 data/*.json | tail -1)
 
 html: ## make HTML for comparing and examining
+	LIVE_NODJTB=1 REPEATABLE=1 make live &
+	sleep 20
 	wget \
 		--no-verbose \
 		--directory-prefix=html \
