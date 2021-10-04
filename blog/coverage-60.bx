@@ -43,4 +43,29 @@ August 2</a>.</p>
 
 </body>
 </entry>
+
+
+<entry when='20211004T091500'>
+<title>Coverage 6.0</title>
+<category>coverage</category>
+<body>
+
+<p><a href="https://pypi.org/project/coverage/6.0/">Coverage.py 6.0 is now
+available</a>.  It's a major version bump for two reasons:</p>
+
+<ul>
+<li>Python 2 is no longer supported.</li>
+<li>Third-party packages are automatically ignored, which could be a big
+change for some people.</li>
+</ul>
+
+<p>There are other smaller improvements,
+<a href="https://coverage.readthedocs.io/en/6.0/changes.html#changes-60">described
+in the change history.</a></p>
+
+<p>Give it a try, and let me know what you think.</p>
+
+</body>
+</entry>
+
 </blog>
