@@ -47,6 +47,7 @@ urlpatterns = [
 
     re_path(r'^blog/(?:rss|rssfull|atom).xml$', dpv.blog_rss),
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
+    path('summary.json', dpv.summary),
     re_path(r'^blog/(?P<whenid>\d{8}T\d{6}).html$', dpv.entry_by_date),
 
     re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.org/en/stable/')),

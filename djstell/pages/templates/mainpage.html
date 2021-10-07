@@ -41,12 +41,12 @@
 
 <main>
 <section>
-    {# -- Latest four entries: first two sentences. -- #}
-    {% for entry in recent_entries|slice:":4" %}
+    {# -- Latest entries: first two sentences. -- #}
+    {% for entry in recent_entries %}
         <div class='blog-entry'>
             <h2><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h2>
             <p class='date'> {{entry.when|date:"j"}}{% ch " " %}{{entry.when|date:"F"}}{% if entry.show_year %}{% ch " " %}{{entry.when|date:"Y"}}{% endif %}</p>
-            <p class='first'>{{entry.to_html|just_text|first_sentence:"2"|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
+            <p class='first'>{{entry.ogdescription|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
         </div>
     {% endfor %}
 </section>

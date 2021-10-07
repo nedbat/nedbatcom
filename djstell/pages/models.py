@@ -389,6 +389,11 @@ class Entry(ModelMixin, models.Model):
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")
 
+    def ogdescription(self):
+        from djstell.pages.templatetags.tags import just_text
+        from djstell.pages.text import description_safe, first_sentence
+        return description_safe(self.description or first_sentence(just_text(self.to_html()), 2))
+
 
 class Via(models.Model):
     """ A source for a blog entry, either a link_id or an href and text.

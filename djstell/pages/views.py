@@ -7,8 +7,9 @@ import os
 import os.path
 import time
 
+import bleach
 from django.conf import settings
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext, Template
 from django.views.decorators.cache import patch_cache_control
@@ -16,8 +17,6 @@ from django.views.static import serve as serve_static
 from django_sendfile import sendfile
 
 from djstell.pages.models import Entry, Article, Tag
-from djstell.pages.templatetags.tags import first_sentence, just_text
-from djstell.pages.text import description_safe
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +65,7 @@ def entry(request, year, month, slug):
     c['features'] = ent.features.split(';')
     c['bodyclass'] = 'blog oneentry'
     c['min_date'] = c['max_date'] = ent.when
-    c['description'] = description_safe(ent.description or first_sentence(just_text(ent.to_html()), 2))
+    c['description'] = ent.ogdescription()
     c['image'] = abs_url(ent.image)
     c['image_alt'] = ent.image_alt
     if ent.draft:
@@ -235,7 +234,7 @@ def index(request):
     c = {}
     c['title'] = a.title
     c['pagebody'] = a.to_html()
-    c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:6])
+    c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:4])
     now = datetime.datetime.now()
     for recent in c['recent_entries']:
         recent.show_year = (now - recent.when).days > 60
@@ -275,6 +274,30 @@ def index(request):
     ]
 
     return render(request, 'mainpage.html', c)
+
+
+def summary(request):
+    entries = list(Entry.objects.all().order_by('-when')[:10])
+    cleaner = bleach.sanitizer.Cleaner(
+        tags=[],
+        styles=[],
+        strip=True,
+        strip_comments=True,
+    )
+    resp = {}
+    resp["entries"] = [
+        {
+            "title": e.title,
+            "when_iso": e.when.strftime("%Y%m%d"),
+            "when_human": e.when.strftime("%d %b"),
+            "description": e.ogdescription(),
+            "description_text": cleaner.clean(e.ogdescription()).strip(),
+            "url": settings.EXT_BASE + e.permaurl(),
+        }
+        for e in entries
+    ]
+    return JsonResponse(resp)
+
 
 def crash(request):
     logger.warning("About to crash")
