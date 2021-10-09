@@ -289,7 +289,6 @@ def summary(request):
         {
             "title": e.title,
             "when_iso": e.when.strftime("%Y%m%d"),
-            "when_human": e.when.strftime("%d %b"),
             "description": e.ogdescription(),
             "description_text": cleaner.clean(e.ogdescription()).strip(),
             "url": settings.EXT_BASE + e.permaurl(),
