@@ -8,27 +8,27 @@ asgiref==3.4.1            # via django
 attrs==21.2.0             # via pytest
 beautifulsoup4==4.10.0    # via linkchecker
 bleach==4.1.0             # via -r requirements/base.in
-certifi==2021.5.30        # via requests
-charset-normalizer==2.0.6  # via requests
+certifi==2021.10.8        # via requests
+charset-normalizer==2.0.7  # via requests
 cssselect==1.1.0          # via -r requirements/dev.in
-django==3.2.8             # via -r requirements/base.in, django-debug-toolbar, django-sendfile2
+django==3.2.9             # via -r requirements/base.in, django-debug-toolbar, django-sendfile2
 django-debug-toolbar==3.2.2  # via -r requirements/base.in
 django-sendfile2==0.6.0   # via -r requirements/base.in
 dnspython==2.1.0          # via linkchecker
 freezegun==1.1.0          # via -r requirements/dev.in, pytest-freezegun
 ftfy==6.0.3               # via -r requirements/base.in
 greenlet==1.1.2           # via playwright
-idna==3.2                 # via requests
+idna==3.3                 # via requests
 iniconfig==1.1.1          # via pytest
 libsass==0.21.0           # via -r requirements/base.in
 linkchecker==10.0.1       # via -r requirements/dev.in
 lxml==4.6.3               # via -r requirements/base.in, -r requirements/dev.in
 markdown2==2.4.1          # via -r requirements/base.in
-packaging==21.0           # via bleach, pytest
+packaging==21.2           # via bleach, pytest
 path==16.2.0              # via path.py
 path.py==12.5.0           # via -r requirements/base.in
-pillow==8.3.2             # via -r requirements/base.in
-playwright==1.15.2        # via -r requirements/dev.in, pytest-playwright
+pillow==8.4.0             # via -r requirements/base.in
+playwright==1.16.1        # via -r requirements/dev.in, pytest-playwright
 pluggy==1.0.0             # via pytest
 py==1.10.0                # via pytest
 pyee==8.2.2               # via playwright
@@ -38,9 +38,9 @@ pytest==6.2.5             # via -r requirements/dev.in, pytest-base-url, pytest-
 pytest-base-url==1.4.2    # via pytest-playwright
 pytest-django==4.4.0      # via -r requirements/dev.in
 pytest-freezegun==0.4.2   # via -r requirements/dev.in
-pytest-playwright==0.2.0  # via -r requirements/dev.in
+pytest-playwright==0.2.2  # via -r requirements/dev.in
 python-dateutil==2.8.2    # via freezegun
-python-dotenv==0.19.0     # via -r requirements/base.in
+python-dotenv==0.19.1     # via -r requirements/base.in
 python-slugify==5.0.2     # via pytest-playwright
 pytz==2021.3              # via django
 pyxdg==0.27               # via linkchecker

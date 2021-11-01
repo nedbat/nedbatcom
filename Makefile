@@ -9,10 +9,10 @@
 publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
 
-ned.%: ## deploy to nedbatchelder.net or .com
+ned.%: ## deploy to .net or .com
 	DJANGO_SETTINGS_MODULE=djstell.settings_ned$*_base python djstell/bin/makehtml.py ned$* all
 
-dep.%: ## update dependencies for nedbatchelder.net or .com
+dep.%: ## update dependencies for .net or .com
 	scp -q requirements/server.txt dreamhost:nedbatchelder.$*/requirements
 	ssh dreamhost venvs/ned$*/bin/python -m pip install -r nedbatchelder.$*/requirements/server.txt
 
