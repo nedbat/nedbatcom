@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20211101T190645'>
+<title>Coverage goals</title>
+<category>mycode</category>
+<category>coverage</category>
+<body>
+
+<p>There's a feature request to add a
+<a href="https://github.com/nedbat/coveragepy/issues/691">per-file
+threshold</a> to coverage.py. I didn't add the feature, I wrote a
+proof-of-concept:
+<a href="https://github.com/nedbat/coveragepy/blob/master/lab/goals.py">goals.py</a>.</p>
+
+<p>Coverage.py has a --fail-under option that will check the total coverage
+percentage, and exit with a failing status if it is too low.  This lets people
+set a goal, and then check that they are meeting it in their CI systems.</p>
+
+<p>The feature request is to check each file individually, rather than the
+project as a whole, to exert tighter control over the goal.  That sounds fine,
+but I could see that it would actually be more complicated than that, because
+people sometimes have more complicated goals: 100% coverage in tests and 85% in
+product code, or whatever.</p>
+
+<p>I
+<a href="https://github.com/nedbat/coveragepy/issues/691#issuecomment-945166307">suggested</a>
+implementing it as a separate tool that used data from a JSON report.  Then, I
+did just that.</p>
+
+<p>The goals.py tool is flexible: you give it a percentage number, and then a
+list of glob patterns.  It collects up the files that match the patterns, and
+checks the coverage of that set of files.  You can choose to measure the group
+as a whole, or each file individually. Patterns can be negated to remove files
+from consideration.</p>
+
+<p>For example:</p>
+
+<code lang="shell"><![CDATA[
+# Check all Python files collectively, except in the tests/ directory.
+$ python goals.py --group 85 '**/*.py' '!tests/*.py'
+
+# We definitely want complete coverage of anything related to html.
+$ python goals.py --group 100 '**/*html*.py'
+
+# No Python file should be below 90% covered.
+$ python goals.py --file 90 '**/*.py'
+]]></code>
+
+<p>Each run of goals.py checks one set of files against one goal, but you can
+run it multiple times if you want to check multiple goals.</p>
+
+<p>If you want to have more control over your coverage goals, give
+<a href="https://github.com/nedbat/coveragepy/blob/master/lab/goals.py">goals.py</a>
+a try.  It might turn into a full-fledged coverage.py feature, or maybe it's
+enough as it is.</p>
+
+<p>Feedback is welcome, either here or on the
+<a href="https://github.com/nedbat/coveragepy/issues/691">original feature
+request</a>.</p>
+
+</body>
+</entry>
+</blog>
