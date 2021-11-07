@@ -3,6 +3,7 @@
 <entry when='20180624T161124'>
 <title>Coverage.py is on GitHub</title>
 <category>coverage</category>
+<category>github</category>
 <body>
 
 <p>After many years on Bitbucket, today I moved
@@ -11,17 +12,17 @@ I've long wanted to use Git instead of Mercurial, but I didn't want to lose
 the issues that were on Bitbucket.</p>
 
 <p>I thought GitHub issues were the simplest possible bug tracker.  But I
-realized that Bitbucket's were even simpler: they have no labels.  So I bit the 
+realized that Bitbucket's were even simpler: they have no labels.  So I bit the
 bullet, added some features to the <a href='https://github.com/jeffwidman/bitbucket-issue-migration'>Bitbucket issue migration tool</a>,
 and switched over.</p>
 
-<p>There had been a GitHub mirror of the code, but I started a new repo so that 
+<p>There had been a GitHub mirror of the code, but I started a new repo so that
 the issues transferred from Bitbucket could keep their old numbers. The
 <a href='https://github.com/nedbat/coveragepy-bbmirror'>old mirror</a> is
 still around, because there's a handful of issues and pull requests there
 that I didn't want to lose.</p>
 
-<p>This move is also a kind of way to declare some pull request bankruptcy. 
+<p>This move is also a kind of way to declare some pull request bankruptcy.
 I've embodied the bad habit of letting pull requests languish, sometimes for
 years.  I shouldn't let that happen, but I can't promise that I will do better.
 I'll try.  At least Git will give me a more familiar environment in which to
@@ -29,7 +30,7 @@ work with them, which I hope will help.</p>
 
 <p>Another side-effect of making a new repo is that I have
 <a href='https://github.com/nedbat/coveragepy/stargazers'>hardly any stars yet</a>...</p>
-    
+
 </body>
 </entry>
 </blog>
