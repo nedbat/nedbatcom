@@ -859,23 +859,6 @@ blockquote.code {
     color: #000;
 
     /* Code styling.  There are a lot of different styles! */
-    .c_commentline, .c_comment, .p_commentline, .h_comment, .css_comment, .hphp_comment, .hphp_commentline, .ps_comment, .ps_dsc_comment, .ps_dsc_value {
-        color: #080;
-    }
-    .c_word, .c_preprocessor, .p_word, .h_tag, .h_tagunknown, .css_identifier, .css_unknown_identifier, .hphp_word, .ps_keyword {
-        font-weight: bold;
-        color: #008;
-    }
-    .h_attribute, .h_attributeunknown {
-        color: #008;
-    }
-    .c_string, .c_character, .p_string, .p_character, .p_triple, .p_tripledouble, .h_doublestring, .h_singlestring, .css_doublestring, .css_singlestring, .hphp_hstring, .hphp_simplestring, .ps_text {
-        color: #808;
-    }
-    .p_classname, .p_defname, .css_class, .css_pseudoclass, .css_unknown_pseudoclass, .css_tag, .ps_literal {
-        font-weight: bold;
-        color: #088;
-    }
     .hll {
         background-color: #ffffcc;
     }
