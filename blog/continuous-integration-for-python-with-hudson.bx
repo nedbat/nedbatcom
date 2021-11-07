@@ -4,6 +4,7 @@
 <title>Continuous integration for Python with Hudson</title>
 <category>python</category>
 <category>howto</category>
+<category>ci</category>
 <body>
 <p>Continuous integration is a great idea: you configure a server to periodically
 pull your source code, build it, run the tests, run lint, measure coverage, and

@@ -3,6 +3,7 @@
 <entry when='20150914T063906'>
 <title>Appveyor</title>
 <category>development</category>
+<category>ci</category>
 <body>
 
 <p>I've just done a bunch of work on continuous integration for coverage.py.
@@ -92,7 +93,7 @@ install:
     </li>
 </ul>
 
-<p>These services are incredibly useful, but keeping them configured and 
+<p>These services are incredibly useful, but keeping them configured and
     running smoothly is an art and an adventure in and of itself.</p>
 
 </body>
