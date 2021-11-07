@@ -14,6 +14,10 @@ blogfmt = """\
 <entry when='%(now)s' draft='y'>
 <title>%(title)s</title>
 <category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
 <body>
 
 <p>
