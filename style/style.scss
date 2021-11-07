@@ -905,7 +905,7 @@ blockquote.code {
     .s {
         color: #a31515;
     }
-    .nc {
+    .nc, .nt {  // Name.Class, Name.Tag
         color: #2b91af;
     }
     .ow {

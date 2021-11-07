@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20211107T081100' slug='github_action_matrix_with_cog'>
+<title>Computing a GitHub Action matrix with cog</title>
+<category>cog</category>
+<category>github</category>
+<category>ci</category>
+<body>
+
+<p>I had a complex three-axis GitHub Action matrix, but needed to skip some
+combinations.  I couldn't get what I needed with the direct YAML syntax, so I
+used <a pref="code/cog/index.px">Cog</a> to generate the matrix with
+Python.</p>
+
+<p>The matrix made Python wheels with
+<a href="https://cibuildwheel.readthedocs.io">cibuildwheel</a>, and it worked.
+It had 15 jobs, but they built different numbers of architectures (ubuntu made
+three, windows made two, macos made only one).  This made the overall run take
+longer, and made it harder to dig through logs to see if everything went OK.
+Conceptually, the matrix was three-axis, but expressed as two-axis, with a list
+of architectures for each job:</p>
+
+<code lang="yaml"><![CDATA[
+strategy:
+  matrix:
+    os:
+      - ubuntu-latest
+      - macos-latest
+      - windows-latest
+    cibw_build:
+      - cp36
+      - cp37
+      - cp38
+      - cp39
+      - cp310
+    include:
+      - os: ubuntu-latest
+        cibw_arch: x86_64 i686 aarch64
+      - os: windows-latest
+        cibw_arch: x86 AMD64
+      - os: macos-latest
+        cibw_arch: x86_64
+]]></code>
+
+<p>I wanted to make the architectures a third axis, but couldn't figure out how
+to use the YAML syntax to limit the choices for each OS.  It seemed like the
+only way to get a ragged three-axis matrix was to list the combinations
+explicitly.  <b>If you know how,</b> I'm still interested to know.</p>
+
+<p>What I wanted was a way to compute the matrix with a bit more power. There
+are examples out there of
+<a href="https://www.google.com/search?q=dynamic+github+action+matrix+fromJSON">using
+fromJSON to build a matrix</a>, but I didn't need it to be recomputed every run.
+I just wanted a way to not have to type out 30 combinations by hand.</p>
+
+<p>I've often needed this sort of thing: a static file with just a bit of
+computed content.  This is what <a pref="code/cog/index.px">Cog</a> was meant
+for, and it worked great here too.  This is what
+<a href="https://github.com/nedbat/coveragepy/blob/master/.github/workflows/kit.yml">my
+computed matrix</a> looks like now:</p>
+
+<code lang="yaml"><![CDATA[
+strategy:
+  matrix:
+    include:
+      # To change the matrix, edit the choices, then process this file with cog:
+      #
+      # $ python -m pip install cogapp
+      # $ python -m cogapp -rP .github/workflows/kit.yml
+      #
+      #
+      # [[[cog
+      #   #----- vvv Choices for the matrix vvv -----
+      #   oss = ["ubuntu", "macos", "windows"]
+      #   pys = ["cp36", "cp37", "cp38", "cp39", "cp310"]
+      #   archs = {
+      #       "ubuntu": ["x86_64", "i686", "aarch64"],
+      #       "macos": ["x86_64"],
+      #       "windows": ["x86", "AMD64"],
+      #   }
+      #   #----- ^^^ ---------------------- ^^^ -----
+      #
+      #   import json
+      #   for the_os in oss:
+      #       for the_py in pys:
+      #           for the_arch in archs[the_os]:
+      #               them = {
+      #                   "os": the_os,
+      #                   "py": the_py,
+      #                   "arch": the_arch,
+      #               }
+      #               print(f"- {json.dumps(them)}")
+      # ]]]
+      - {"os": "ubuntu", "py": "cp36", "arch": "x86_64"}
+      - {"os": "ubuntu", "py": "cp36", "arch": "i686"}
+      - {"os": "ubuntu", "py": "cp36", "arch": "aarch64"}
+      - {"os": "ubuntu", "py": "cp37", "arch": "x86_64"}
+      - {"os": "ubuntu", "py": "cp37", "arch": "i686"}
+      - {"os": "ubuntu", "py": "cp37", "arch": "aarch64"}
+      - {"os": "ubuntu", "py": "cp38", "arch": "x86_64"}
+      - {"os": "ubuntu", "py": "cp38", "arch": "i686"}
+      - {"os": "ubuntu", "py": "cp38", "arch": "aarch64"}
+      - {"os": "ubuntu", "py": "cp39", "arch": "x86_64"}
+      - {"os": "ubuntu", "py": "cp39", "arch": "i686"}
+      - {"os": "ubuntu", "py": "cp39", "arch": "aarch64"}
+      - {"os": "ubuntu", "py": "cp310", "arch": "x86_64"}
+      - {"os": "ubuntu", "py": "cp310", "arch": "i686"}
+      - {"os": "ubuntu", "py": "cp310", "arch": "aarch64"}
+      - {"os": "macos", "py": "cp36", "arch": "x86_64"}
+      - {"os": "macos", "py": "cp37", "arch": "x86_64"}
+      - {"os": "macos", "py": "cp38", "arch": "x86_64"}
+      - {"os": "macos", "py": "cp39", "arch": "x86_64"}
+      - {"os": "macos", "py": "cp310", "arch": "x86_64"}
+      - {"os": "windows", "py": "cp36", "arch": "x86"}
+      - {"os": "windows", "py": "cp36", "arch": "AMD64"}
+      - {"os": "windows", "py": "cp37", "arch": "x86"}
+      - {"os": "windows", "py": "cp37", "arch": "AMD64"}
+      - {"os": "windows", "py": "cp38", "arch": "x86"}
+      - {"os": "windows", "py": "cp38", "arch": "AMD64"}
+      - {"os": "windows", "py": "cp39", "arch": "x86"}
+      - {"os": "windows", "py": "cp39", "arch": "AMD64"}
+      - {"os": "windows", "py": "cp310", "arch": "x86"}
+      - {"os": "windows", "py": "cp310", "arch": "AMD64"}
+    # [[[end]]]
+]]></code>
+
+<p>If you haven't seen cog before, this is how it works: it finds chunks of
+Python code between <codeword>[[[cog</codeword> and <codeword>]]]</codeword>
+markers, executes them, and inserts the output into the file up to the
+<codeword>[[[end]]]</codeword> marker.  Existing output is replaced.</p>
+
+<p>Here, the 30 lines of combinations are the output.  They weren't in the file
+originally; they were created when I ran cog and it re-wrote the whole file.  If
+I change the lists of choices, or the Python code, and re-run cog, it will
+remove those 30 lines and replace them with the new output.</p>
+
+<p>This is perfect for this use: the choices for the matrix are only going to
+change very infrequently, and manually.  When the choices need to change, I can
+edit the lists in the Python code, and run cog again to update the generated
+matrix.</p>
+
+</body>
+</entry>
+</blog>

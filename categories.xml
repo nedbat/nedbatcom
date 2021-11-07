@@ -293,6 +293,19 @@
 <category id='git'>
     <name>Git</name>
     <about>the distributed version control system</about>
+    <related>github</related>
+</category>
+
+<category id='github'>
+    <name>GitHub</name>
+    <about>the social git-based development site</about>
+    <related>git</related>
+</category>
+
+<category id='ci'>
+    <name>Continuous Integration</name>
+    <about>automating testing and deployment</about>
+    <short>ci</short>
 </category>
 
 <category id='google'>
