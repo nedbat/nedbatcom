@@ -40,6 +40,9 @@ upgrade: ## update the pip requirements files to use the latest releases satisfy
 backupcomments: ## get a backup of the live comments on nedbatchelder.com
 	django-admin dumpdata --settings=djstell.settings_nedcom_db -o data/reactor_$$(date +%Y%m%d).json --database=reactor reactor.Comment
 
+db.%: ## connect to the database for .net or .com
+	set -o allexport; . ./deploy/ned$*.env; set +o allexport; mycli -h mysql2.nedbatchelder.net -u ned$*_reactor -p "$$REACTOR_PASSWORD" ned$*_reactor
+
 ##@ Testing
 
 .PHONY: install loadlivecomments html css js test linkcheck livelinkcheck
