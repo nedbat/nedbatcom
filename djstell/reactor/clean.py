@@ -11,6 +11,11 @@ TLDS.remove("rs")
 URL_RE = bleach.linkifier.build_url_re(tlds=TLDS)
 
 MARKDOWN_EXTRAS = ["fenced-code-blocks", "cuddled-lists", "code-friendly", "smarty-pants"]
+ALLOWED_HTML_TAGS = [
+    "a", "b", "i", "em", "strong",
+    "ul", "ol", "li",
+    "p", "br", "pre", "code", "blockquote",
+]
 
 def convert_body(body):
     """
@@ -27,7 +32,7 @@ def convert_body(body):
         url_re=URL_RE,
     )
     cleaner = bleach.sanitizer.Cleaner(
-        tags=["a", "b", "i", "em", "strong", "ul", "ol", "li", "p", "br", "pre", "code"],
+        tags=ALLOWED_HTML_TAGS,
         styles=[],
         strip=True,
         strip_comments=True,
