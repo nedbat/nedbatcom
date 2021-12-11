@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20211211T090228'>
+<title>Load-balanced xdist</title>
+<category>testing</category>
+<category>mycode</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I wrote a pytest plugin to evenly balance tests across xdist workers.</p>
+
+<p>Back story: the coverage.py test suite seemed to be running oddly: it would
+run to near-completion, and then stall before actually finishing. To understand
+why, I
+<a href="https://github.com/nedbat/coveragepy/commit/40131f076c0784b331c6e0a5d8f88ff7b84b7296">added
+some debug output</a> to see what tests were running on which workers.</p>
+
+<p>I have some very slow tests (they create a virtualenv and install packages).
+It turned out those tests were being run near the end of the test suite, after
+their worker had already run a bunch of other tests.  So that one worker was
+taking 10 seconds longer to finish than all the others. This is what made the
+test suite seem to stall at the end.</p>
+
+<p>I figured it would be easy to schedule tests more optimally. We could record
+the time each test takes, then use those times in the next test run to schedule
+the longer tests first, and to balance the total time across workers.</p>
+
+<p>The result is
+<a href="https://github.com/nedbat/coveragepy/blob/master/tests/balance_xdist_plugin.py">balance_xdist_plugin.py</a>
+(<a href="https://github.com/nedbat/coveragepy/blob/dff1ff4751e8b272457e5aba7934f69394c3382b/tests/balance_xdist_plugin.py">commit</a>).
+It's written to be a pytest plugin, though it's still in the coverage.py repo,
+so it's not usable by others yet.  And there are two things that aren't fully
+general:</p>
+
+<ul>
+
+<li>The data is written to a "tmp" directory, when it should use the
+<a href="https://docs.pytest.org/en/latest/how-to/cache.html">pytest
+caching</a> feature.</li>
+
+<li>The number of workers is assumed to be 8, because I couldn't figure out how
+to get the true number.</li>
+
+</ul>
+
+<p>You can
+<a href="https://github.com/nedbat/coveragepy/commit/dff1ff4751e8b272457e5aba7934f69394c3382b#diff-cd7cbfd90bcb940ea941e3c88b7c6ab0a191be00e26fdef2000421598a253f47R16-R23">indicate</a>
+that certain tests should all be assigned to the same worker.  This helps with
+slow session-scoped fixtures, like my virtualenv-creating tests. It's also an
+escape hatch if you have tests that aren't truly isolated from each other. (Full
+disclosure: coverage.py has a few of these and I can't figure out what's
+wrong...)</p>
+
+<p>The plugin worked: the test suite runs slightly faster than before, but as is
+typical, not as much faster as I thought it would.  A side-benefit is that the
+fastest tests are now run at the end, so there's a satisfying acceleration
+toward the finish line.</p>
+
+<p>Maybe this plugin will be useful to others? Maybe people have
+improvements?</p>
+
+</body>
+</entry>
+</blog>
