@@ -3,6 +3,7 @@
 <entry when='20071211T054956'>
 <title>Human sorting</title>
 <category>python</category>
+<category>gem</category>
 <body>
 <p>Kate Rhodes wrote a post about simplistic vs. useful sorting:
 <a href='http://weblog.masukomi.org/2007/12/10/alphabetical-asciibetical'>Alphabetical != ASCIIbetical</a>
@@ -28,7 +29,7 @@ def tryint(s):
         return int(s)
     except ValueError:
         return s
-    
+
 def alphanum_key(s):
     """ Turn a string into a list of string and number chunks.
         "z23a" -> ["z", 23, "a"]
