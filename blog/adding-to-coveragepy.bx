@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20211212T120014' draft='y'>
+<title>Adding to coverage.py</title>
+<category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>People want to add things to coverage.py. Should I do it?</p>
+
+<p>Examples:
+- more fail-under logic
+- lcov report
+- coverage for a pull request
+</p>
+
+<p>Pros:
+- easy for people to discover
+- tested with the rest of the code, so it stays working
+</p>
+
+<p>Cons:
+- more code to maintain
+- coverage.py avoids dependencies, so harder to implement
+</p>
+
+<p>Here are some options:</p>
+
+<ul>
+
+<li>Add the feature to coverage.py</li>
+<li>Add the feature as an optional extra.</li>
+<li>Build it as a plugin.</li>
+<li>Build the feature as a separate project, but mention the project in the docs and help.</li>
+<li>Build the feature as a separate project.</li>
+<li>Do nothing</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
