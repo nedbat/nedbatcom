@@ -546,7 +546,7 @@
   -->
 
 <xsl:template match='download'>
-    <i><xsl:text>Download:&#160;</xsl:text></i>
+    <p><i><xsl:text>Download:&#160;</xsl:text></i>
     <a>
         <xsl:attribute name='href'>
             <xsl:call-template name='makeuri'>
@@ -567,7 +567,7 @@
             <xsl:otherwise>???</xsl:otherwise>
         </xsl:choose>
     </a>
-    <br/>
+    </p>
 </xsl:template>
 
 <!--
