@@ -9,6 +9,7 @@ import time
 
 import bleach
 from django.conf import settings
+from django.db.models.functions import Lower
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext, Template
@@ -134,7 +135,7 @@ def archiveall(request):
     return render(request, 'blogarchive.html', c)
 
 def tags(request):
-    tags = Tag.objects.all().order_by('name')
+    tags = Tag.objects.all().order_by(Lower('name'))
     c = {}
     c['tags'] = tags
     c['min_date'] = Entry.objects.all().order_by('when')[0].when
@@ -230,29 +231,30 @@ def article(request, path):
     return render_or_redirect(request, 'article.html', c, a)
 
 def index(request):
+    num_entries = 4
+    num_tags = 25
+    tag_years = 3
+    bad_tags = {"me", "site", "mycode"}
+
     a = get_object_or_404(Article, path='index.px')
     c = {}
     c['title'] = a.title
     c['pagebody'] = a.to_html()
-    c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:4])
+    c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:num_entries])
     now = datetime.datetime.now()
     for recent in c['recent_entries']:
         recent.show_year = (now - recent.when).days > 60
 
-    # Tags to display: the most populated ones, but not "me", "site", etc.
-    # Only include tags from the last few years.
-    num_to_display = 28
-    years = 5
-    bad_tags = {'me', 'site', 'mycode'}
-    sunset = datetime.datetime.now() - datetime.timedelta(days=years*365)
-    entries = list(Entry.objects.filter(when__gt=sunset))
+    # Tags to display: the most populated ones, but not "me", "site", etc, and
+    # only include tags from the last few years.
+    sunset = datetime.datetime.now() - datetime.timedelta(days=tag_years*365)
     census = collections.Counter()
-    for entry in entries:
+    for entry in Entry.objects.filter(when__gt=sunset):
         for tag in entry.tags.all():
             if tag.tag not in bad_tags:
                 census[tag] += 1
-    tags = [t[0] for t in census.most_common(num_to_display)]
-    tags = sorted(tags, key=lambda t: t.name)
+    tags = [t[0] for t in census.most_common(num_tags)]
+    tags = sorted(tags, key=lambda t: t.hashtag)
     c['tags'] = tags
 
     # Blog info
