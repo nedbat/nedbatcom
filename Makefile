@@ -109,4 +109,4 @@ sterile: clean ## extra-clean
 help: ## display this help message
 	@# Adapted from https://www.thapaliya.com/en/writings/well-documented-makefiles/
 	@echo Available targets:
-	@awk 'BEGIN {FS = ":.*##";} /^[^: ]+:.*?##/ { printf "\033[1m  %-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n%s:\n", substr($$0, 5) }' $(MAKEFILE_LIST)
+	@awk 'BEGIN{FS=":.*##";} /^[^: ]+:.*##/{printf "\033[1m %-15s\033[m %s\n",$$1,$$2} /^##@/{printf "\n%s:\n",substr($$0,5)}' $(MAKEFILE_LIST)
