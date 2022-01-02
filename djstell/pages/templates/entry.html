@@ -67,13 +67,9 @@
         <span class='react'>{% ch '>> ' %}just a draft, no comments yet.</span>
     {% else %}
         {% if mode == 'brief' %}
-            <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'>
-            {% comment_label entry.entryid %}
-            </a></span>
+            <span class='react'>{% ch '>> ' %}<a href='{{entry.permaurl}}#comments'>{% comment_label entry.entryid %}</a></span>
         {% elif mode == 'full' %}
-            <span class='react'>{% ch '>> ' %}
-            {% comment_label entry.entryid %}
-            </span>
+            <span class='react'>{% ch '>> ' %}{% comment_label entry.entryid %}</span>
         {% endif %}
     {% endif %}
     {% endreallyspaceless %}

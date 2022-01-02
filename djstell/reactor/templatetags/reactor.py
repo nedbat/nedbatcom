@@ -14,9 +14,9 @@ def comment_label(entryid):
     if num == 0:
         return "react"
     elif num == 1:
-        return "1 reaction"
+        return "1\xa0reaction"
     else:
-        return f"{num} reactions"
+        return f"{num}\xa0reactions"
 
 
 @register.inclusion_tag("comments.html", takes_context=True)

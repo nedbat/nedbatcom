@@ -703,17 +703,11 @@ a.s {
         clear: both;
     }
     .via {
-        display: block;
-        @media (min-width: $tiny-break) {
-            display: inline;
-            float: right;
-        }
+        display: inline;
+        float: right;
     }
     .react {
-        display: block;
-        @media (min-width: $tiny-break) {
-            display: inline;
-        }
+        display: inline;
     }
 }
 
