@@ -154,10 +154,12 @@ h2 {
     color: var(--info-text-color);
 }
 
-.huh {
+p.huh {
     display: inline;
-    margin: 0 0 0 1em;
     color: var(--info-text-color);
+    &:before {
+        content: " ·· ";
+    }
 }
 
 .oneline {
