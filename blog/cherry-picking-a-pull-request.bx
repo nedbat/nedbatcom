@@ -120,7 +120,7 @@ cherry-pick lead me into some Git and GitHub complexities.</p>
 <p>Git has three different ways to finish up a pull request, which complicates
 the process of figuring out what to cherry-pick.  Before getting into
 cherry-picking, let's look at the three finishes to pull requests.  Suppose we
-have four commits on the main branch (A-B-C-D), and a pull request for a feature
+have five commits on the main branch (A-B-C-D-E), and a pull request for a feature
 branch started from B with two commits (F-G) on it:</p>
 
 <figurep>
