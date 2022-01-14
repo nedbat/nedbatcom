@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220114T060507'>
+<title>Cog resurgence</title>
+<category>cog</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<!-- [[[cog from get_tweet import get_tweet ]]] -->
+<!-- [[[end]]] -->
+
+<p>My <a href="/code/cog">cog</a> tool has been having a resurgence of late: a
+number of people are discovering it's useful to run a little bit of Python code
+inside otherwise static files.</p>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1462885205497290752") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">It took cog 17 years to become an overnight success :) <br/>(first posted Feb 2004: <a href="https://t.co/Zmtrdy0by9">https://t.co/Zmtrdy0by9</a>) <a href="https://t.co/DON9THZ5wh">https://t.co/DON9THZ5wh</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1462885205497290752?ref_src=twsrc%5Etfw">November 22, 2021</a></blockquote>
+<!-- [[[end]]] -->
+
+<p>Hynek Schlawack used it to de-duplicate his pyproject.toml:</p>
+
+<!-- [[[cog get_tweet("https://twitter.com/hynek/status/1460897764338974725") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">As a test balloon, I’ve switched structlog from <a href="https://t.co/PihDrIF58S">https://t.co/PihDrIF58S</a> to flit w/ pyproject.toml in combination with <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a>’s cog to maintain some deduplication. I think I like it! Sharp tools that do one thing well FTW.<a href="https://t.co/w2RM4Ckyke">https://t.co/w2RM4Ckyke</a></p>— Hynek Schlawack (@hynek) <a href="https://twitter.com/hynek/status/1460897764338974725?ref_src=twsrc%5Etfw">November 17, 2021</a></blockquote>
+<!-- [[[end]]] -->
+
+<p>Automator extraordinaire Simon Willison started using it to
+<a href="https://til.simonwillison.net/python/cog-to-update-help-in-readme">keep
+docs up to date</a>:</p>
+
+<!-- [[[cog get_tweet("https://twitter.com/simonw/status/1481020195074293761") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I've been solving so many documentation problems with <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a>'s cog tool recently - it's fantastic for keeping documentation automatically up-to-date, in Markdown or rST)<br/><br/>Here's a new page of sqlite-utils docs showing --help for every CLI command! <a href="https://t.co/Dwef9p2h8P">https://t.co/Dwef9p2h8P</a> <a href="https://t.co/8tyfyfe7AT">pic.twitter.com/8tyfyfe7AT</a></p>— Simon Willison (@simonw) <a href="https://twitter.com/simonw/status/1481020195074293761?ref_src=twsrc%5Etfw">January 11, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<p>Brett Cannon even called it trendy!</p>
+
+<!-- [[[cog get_tweet("https://twitter.com/brettsky/status/1477043913349373957") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A quick, public thanks to <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a> for creating Cog; I did the "trendy" thing and used Cog to automate the README for the Python Launcher for Unix (instead of using my home-grown solution). Makes editing the README simple again!<a href="https://t.co/F5jnqgW7cG">https://t.co/F5jnqgW7cG</a></p>— Brett Cannon (@brettsky) <a href="https://twitter.com/brettsky/status/1477043913349373957?ref_src=twsrc%5Etfw">December 31, 2021</a></blockquote>
+<!-- [[[end]]] -->
+
+<p>Of course, <a href="https://twitter.com/search?q=cog%20nedbat%20until%3A2020-01-01&amp;src=typed_query">some people were using it before it was cool</a>.</p>
+
+<p>With all this buzz(!), Tobias Macey invited me on podcast.__init__ to talk
+about it:
+<a href="https://www.pythonpodcast.com/cog-python-text-generation-episode-347/">Episode
+347: Generate Your Text Files With Python Using Cog</a>.  It was fun to talk
+about this little tool I wrote nearly 18 years ago that has been plugging away
+all this time, and is now being re-discovered.</p>
+
+<p>Even I am finding new uses for cog.  I started using it to keep
+<a href="https://github.com/nedbat/coveragepy/blob/master/doc/cmd.rst?plain=1">coverage.py docs</a>
+up to date, I built my crazy over-engineered <a href="https://github.com/nedbat/">GitHub profile</a>
+(<a href="https://github.com/nedbat/nedbat/blob/main/README.md?plain=1">source</a>)
+with it, and I even used it on the source file of this blog post to pull in
+the tweets!</p>
+
+</body>
+</entry>
+</blog>
