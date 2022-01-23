@@ -9,7 +9,13 @@
 -->
 <body>
 
-<p>People want to add things to coverage.py. Should I do it?</p>
+<p>One of the challenges in maintaining an open source package is being the
+product manager: deciding what features go in, and when.  People have ideas for
+features. Not all of them will get added.  How to decide what's in and what's
+not?</p>
+
+<p>Coverage.py is widely used, so there are frequent requests for new features
+or behavior.</p>
 
 <p>Examples:
 - more fail-under logic
