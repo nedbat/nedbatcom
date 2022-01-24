@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220123T150016'>
+<title>Refactoring Boston</title>
+<category>boston</category>
+<category>maps</category>
+<description>Boston has undergone many changes. Where did Broadway go?</description>
+<img src="pix/refactor_boston/card.png" alt="Boston, before and after"/>
+
+<body>
+
+<p>There's a street in Boston called Broadway, but it doesn't look like what
+you'd expect. It's a quiet side street, about 200 feet long. This is the view
+down the length of it:</p>
+
+<figurep>
+    <img src="pix/refactor_boston/broadway_photo.jpg" width="500" alt="Broadway in Boston" />
+</figurep>
+
+<p>What is going on? How did such a tiny thing get named Broadway? It turns out,
+the better question is, how did Broadway become such a tiny thing?</p>
+
+<p>Like many cities, and probably more than most cities, Boston has undergone
+enormous change.  When first settled in 1630, it was nearly an island, connected
+to the mainland by a narrow isthmus.</p>
+
+<p>This <a href="https://iiif.lib.harvard.edu/manifests/view/ids:3043940">1826
+map of Boston</a> shows two streets relevant to our mystery, highlighted in
+yellow: Pleasant Street at the top heading up to Boston Common, and Broadway,
+part of South Boston at the bottom:</p>
+
+<figurep href="https://iiif.lib.harvard.edu/manifests/view/ids:3043940">
+    <img src="pix/refactor_boston/1826.jpg" width="500" alt="Boston in 1826" />
+</figurep>
+
+<p>By 1917, much of the surrounding water has been landfilled (the 1826 map
+shows some planned streets), and Broadway from South Boston now runs into
+Pleasant Street, continuing up to Boston Common:</p>
+
+<figurep href="https://www.flickr.com/photos/mastatelibrary/9460217682/in/album-72157634967613191/">
+    <img src="pix/refactor_boston/1917.jpg" width="500" alt="Boston in 1917" />
+</figurep>
+
+<p>By
+<a href="https://www.flickr.com/photos/mastatelibrary/9458259601/in/album-72157634969569499/">1938</a>,
+Pleasant Street had been renamed, so the entire street from South Boston to
+Boston Common is now a major street named Broadway.</p>
+
+<p>Some time in the 1970's, after the extension of the Mass Pike to I-93, this
+part of Boston had a massive restructuring.  Today it looks like this:</p>
+
+<figurep>
+    <img src="pix/refactor_boston/today.jpg" width="500" alt="Boston today" />
+</figurep>
+
+<p>Broadway is still a major street in South Boston at the bottom, but all that
+remains of the street in Boston proper is a small piece now called Park Place
+near Boston Common at the top, and our 200-foot street still named Broadway just
+below that. Refactoring a city can leave you with some strange little
+remnants.</p>
+
+<p>Just to make it more confusing, of the three(!) street signs on the street,
+two say "Broadway", and one says "Broadway St," which doesn't even make
+sense...</p>
+
+<p>BTW, sorry for the changing scale and orientation in these maps. If you want
+to explore maps over time in a less disorienting way,
+<a href="https://www.mapjunction.com/?lat=42.3479960&amp;lng=-71.0675330&amp;clipperX=0.5178692&amp;clipperY=0.5159386&amp;map1=link.mapwarpermap36453&amp;map2=mj.1917BostonProperandBackBayCombin&amp;zoom=15.0699356&amp;mode=overlay&amp;b=0.000&amp;p=0.000">mapjunction.com</a>
+is fabulous.</p>
+
+</body>
+</entry>
+</blog>
