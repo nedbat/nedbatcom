@@ -9,7 +9,13 @@
 -->
 <body>
 
-<!-- [[[cog from get_tweet import get_tweet ]]] -->
+<!-- This post is cogged. Re-cog it with:
+
+    $ cog -rP blog/cog-resurgence.bx
+
+-->
+
+<!-- [[[cog from cog_helpers import get_tweet ]]] -->
 <!-- [[[end]]] -->
 
 <p>My <a href="/code/cog">cog</a> tool has been having a resurgence of late: a
