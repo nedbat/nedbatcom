@@ -115,7 +115,7 @@ get the effect of a pull request on another branch?</description>
 get merged to the main branch. We also have twice-yearly community release
 branches, and a small fraction of the main-branch changes need to be copied onto
 the current release branch.  Trying to automate choosing the commits to
-cherry-pick lead me into some Git and GitHub complexities.</p>
+cherry-pick led me into some git and GitHub complexities.</p>
 
 <p>Git has three different ways to finish up a pull request, which complicates
 the process of figuring out what to cherry-pick.  Before getting into
