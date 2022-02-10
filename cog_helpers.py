@@ -20,6 +20,29 @@ def get_tweet(url):
     h = h.strip()
     print(h)
 
+def include_section(filename, start, end, prelude="", postlude=""):
+    """
+    Grab a part of a file, and print it for inclusion with cog.
+
+    Args:
+        start (str): The text marking the start of the section. This line is not
+            included in the output.
+        end (str): The text marking the end of the section. This line is not
+            included in the output.
+        prelude (str): Line(s) to be output before the section.
+        postlude (str): Line(s) to be output after the section.
+
+    """
+    with open(filename) as f:
+        lines = list(f)
+    start_num = next(line_num for line_num, line in enumerate(lines) if line.strip() == start)
+    end_num = next(line_num for line_num, line in enumerate(lines[start_num:], start=start_num) if line.strip() == end)
+    if prelude:
+        print(prelude)
+    print("".join(lines[start_num+1: end_num]), end="")
+    if postlude:
+        print(postlude)
+
 if __name__ == "__main__":
     url = sys.argv[1]
     print(f"<!-- fetched and bx-tweaked by get-tweet.py from {url} -->")

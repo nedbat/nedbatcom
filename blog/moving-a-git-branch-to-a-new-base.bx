@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220210T083233'>
+<title>Moving a git branch to a new base</title>
+<category>git</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<!-- This post is cogged. Re-cog it with:
+
+    $ sed -n -e '/^##start/,/^##end/p' < blog/moving-a-git-branch-to-a-new-base.bx | bash | tee /tmp/git-rebase.txt
+    $ cog -rP blog/moving-a-git-branch-to-a-new-base.bx
+
+-->
+
+<!-- [[[cog
+from cog_helpers import include_section
+def include_chunk(start):
+    include_section(
+        filename="/tmp/git-rebase.txt",
+        start=start,
+        end="::end",
+        prelude="<code><![CDATA[", postlude="]]></code>",
+    )
+]]]-->
+<!-- [[[end]]] -->
+
+<p>Suppose you have some work on a git branch that you started from one branch,
+and you want to move that work to be based on a different branch, as if you had
+started from there originally.  The git rebase command gives you the tools to do
+it, but it's complicated, and I can never remember the details, so I finally
+figured it out and made an alias to do it.</p>
+
+<p>In this post I'll use an example where I'm working on branch "my-work", which
+I started from "old-home" and I want to move it to "new-home". My initial state
+looks like this:</p>
+
+<!-- [[[cog include_chunk("::start") ]]] -->
+<code><![CDATA[
+% git log --oneline --decorate --graph --all
+* a8ab80e (HEAD -> my-work) my work edit 2
+* 5f66562 my work edit 1
+| * 9682932 (old-home) old-home edit 3
+|/
+* 98d09e4 old-home edit 2
+* a6fa334 old-home edit 1
+| * e409e95 (new-home) new-home edit 2
+| * 7d3ca09 new-home edit 1
+|/
+* 1b008d5 (main) main edit 2
+* e9152aa main edit 1
+]]></code>
+<!-- [[[end]]] -->
+
+<p>The git tool to perform a move like this is "git rebase --onto".  The general
+form of the command needs three pieces of information, but the third is the
+branch to move, which defaults to the current branch, so we can just omit that.
+The other two items are: where you want to snip the current branch from, and
+where you want to graft it onto. The command looks like this:</p>
+
+<code><![CDATA[
+git rebase --onto=<graft-onto> <snip-from> [<branch-to-move>]
+]]></code>
+
+<p>In our example, we want to snip the branch from the point where it started on
+old-home.  The "git merge-base" command can tell us the commit where two
+branches diverge, so it's perfect for this:</p>
+
+<!-- [[[cog include_chunk("::merge-base") ]]] -->
+<code><![CDATA[
+% git merge-base old-home @
+98d09e4b4d3ca45e3e03cf27386f7dd01f0662a8
+]]></code>
+<!-- [[[end]]] -->
+
+<p>Putting this together in one command looks like this:</p>
+
+<!-- [[[cog include_chunk("::rebase") ]]] -->
+<code><![CDATA[
+% git rebase --onto new-home $(git merge-base old-home @)
+Successfully rebased and updated refs/heads/my-work.
+]]></code>
+<!-- [[[end]]] -->
+
+<p>The result is just what we wanted:</p>
+
+<!-- [[[cog include_chunk("::done") ]]] -->
+<code><![CDATA[
+% git log --oneline --decorate --graph --all
+* df22106 (HEAD -> my-work) my work edit 2
+* 9ac8707 my work edit 1
+* e409e95 (new-home) new-home edit 2
+* 7d3ca09 new-home edit 1
+| * 9682932 (old-home) old-home edit 3
+| * 98d09e4 old-home edit 2
+| * a6fa334 old-home edit 1
+|/
+* 1b008d5 (main) main edit 2
+* e9152aa main edit 1
+]]></code>
+<!-- [[[end]]] -->
+
+<p>But that command is complicated to type, so I made an alias in my
+.gitconfig:</p>
+
+<code><![CDATA[
+[alias]
+movebranch = "!f() { \
+    : git checkout \
+    git rebase --onto $2 $(git merge-base $1 @) \
+}; f"
+]]></code>
+
+<p>Now our branch move command would look like this:</p>
+
+<code><![CDATA[
+% git movebranch old-home new-home
+Successfully rebased and updated refs/heads/my-work.
+]]></code>
+
+<p>And the result is the same:</p>
+
+<!-- [[[cog include_chunk("::done") ]]] -->
+<code><![CDATA[
+% git log --oneline --decorate --graph --all
+* df22106 (HEAD -> my-work) my work edit 2
+* 9ac8707 my work edit 1
+* e409e95 (new-home) new-home edit 2
+* 7d3ca09 new-home edit 1
+| * 9682932 (old-home) old-home edit 3
+| * 98d09e4 old-home edit 2
+| * a6fa334 old-home edit 1
+|/
+* 1b008d5 (main) main edit 2
+* e9152aa main edit 1
+]]></code>
+<!-- [[[end]]] -->
+
+<!-- End of blog post, only automation below here... -->
+
+
+
+
+
+
+<comment><![CDATA[
+This code does the git stuff. Run it using the commands at the top of this file.
+
+
+##start
+rm -rf tmp.repo
+mkdir tmp.repo
+cd tmp.repo
+git init
+git branch -m main
+echo "more" > main.txt
+git add main.txt
+git commit -m "main edit 1" --no-edit
+echo "more" >> main.txt
+git commit -am "main edit 2" --no-edit
+
+git switch -c old-home
+echo "feat1" > feat1.txt
+git add feat1.txt
+git commit -m "old-home edit 1" --no-edit
+echo "feat1" >> feat1.txt
+git commit -am "old-home edit 2" --no-edit
+git switch -c new-home main
+echo "feat2" > feat2.txt
+git add feat2.txt
+git commit -m "new-home edit 1" --no-edit
+echo "feat2" >> feat2.txt
+git commit -am "new-home edit 2" --no-edit
+
+git switch -c my-work old-home
+echo "me" > mywork.txt
+git add mywork.txt
+git commit -m "my work edit 1" --no-edit
+echo "me" >> mywork.txt
+git commit -am "my work edit 2" --no-edit
+
+git switch old-home
+echo "feat2" >> feat1.txt
+git commit -am "old-home edit 3" --no-edit
+
+git switch my-work
+
+echo ::start
+echo % git log --oneline --decorate --graph --all
+git log --oneline --decorate --graph my-work main old-home new-home
+echo ::end
+
+echo ::merge-base
+echo % git merge-base old-home @
+git merge-base old-home @
+echo ::end
+
+# There's much craziness on this one: rebase tries to print progress, and then
+# rewrite it with the result. It uses ansi escape sequences to do this, which
+# bork everything.  TERM=dumb turns off the escape sequences, the tr is to adapt
+# to how TERM=dumb rewrites lines, and tail-1 just keeps the last line.
+echo ::rebase
+echo % 'git rebase --onto new-home $(git merge-base old-home @)'
+TERM=dumb git rebase --onto new-home $(git merge-base old-home @) 2>&1 | tr '\r' '\n' | tail -1
+echo ::end
+
+#echo
+#echo % 'git rebase --onto new-home $(git merge-base old-home @) $(git branch --show-current)'
+#git rebase --onto new-home $(git merge-base old-home @) $(git branch --show-current)
+
+#echo
+#echo % 'git movebranch old-home new-home'
+#git movebranch old-home new-home
+
+echo ::done
+echo % git log --oneline --decorate --graph --all
+git log --oneline --decorate --graph my-work main old-home new-home
+echo ::end
+
+cd ..
+rm -rf tmp.repo
+##end
+]]></comment>
+
+</body>
+</entry>
+</blog>
