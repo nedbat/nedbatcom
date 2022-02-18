@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220218T075447'>
+<title>Why your mock still doesn't work</title>
+<category>python</category>
+<category>testing</category>
+
+<description>If your mocks aren't working, it might be because mocks are
+slippery. Make them strict.</description>
+
+<img src="pix/cards/mock-still-doesnt-work.png" alt="Code showing autospec=True"/>
+
+<body>
+
+<p>In <a pref="blog/why-your-mock-doesnt-work.bx"/>, I explained that you have
+to mock objects where they are used, not where they are defined.  There are
+other reasons your mock may be mysteriously failing to capture activity.</p>
+
+<p>At work a test like this was failing:</p>
+
+<code lang="python"><![CDATA[
+# -- cool_feature.py ------------
+import logging
+
+logger = logging.getLogger(__name__)
+
+def expensive_prep():
+    ...
+
+def do_cool_thing(text):
+    expensive_prep()
+    logger.info(f"Cool feature is doing {text!r}")
+
+# -- test_cool_feature.py ------------
+from unittest.mock import patch
+from cool_feature import do_cool_thing
+
+@patch("cool_feature.expensive_prep")
+@patch("cool_feature.logger")
+def test_cool_feature_announcement(mock_prep, mock_logger):
+    do_cool_thing("hello")
+    mock_logger.info.assert_called_once_with(
+        "Cool feature is doing 'hello'"
+    )
+]]></code>
+
+<p>We couldn't see why the log mock wasn't getting called at all.  The code was
+straightforward, the test was simple, how come the mock wasn't catching the log
+call?</p>
+
+<p>Mocks are slippery.  That's their strength and their weakness.  They will
+happily let you call any method on them, or access any attribute, and when you
+do, they will give you another slippery mock that will let you do whatever you
+want.  This can be very powerful, but also very misleading.</p>
+
+<p>The problem with our test was the order of the mocks in the function
+signature. The first decorator corresponds to the last argument, because the
+first decorator is the last one applied. That's the inside-out nature of
+decorators. It should be:</p>
+
+<code lang="python"><![CDATA[
+@patch("cool_feature.expensive_prep")
+@patch("cool_feature.logger")
+def test_cool_feature_announcement(mock_logger, mock_prep):
+]]></code>
+
+<p>When the order was wrong, we called the logger, and then were asserting that
+"cool_feature.expensive_prep" had its "info" method called.  That (non-existent)
+method hadn't been called, so our assert failed.</p>
+
+<p>We were using the mocks completely incorrectly, but mocks don't mind: you can
+do whatever you want, and they let you, with no notification.</p>
+
+<p>Once the order of the mocks in the signature was fixed, the test passed.</p>
+
+<p>But there's a way we could write this to be more fool-proof.  Mocks can be
+made strict with their "spec=True" option.  When set, the mock will raise an
+error if you use a method or attribute on it that didn't exist on the object it
+was mocking.</p>
+
+<p>Even better is the
+<a href="https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch">autospec=True</a>
+option to mock.patch.  This makes the mock strict with spec=True, and also
+recursively auto-applies spec=True to any new mock you get from the mock:</p>
+
+<code lang="python"><![CDATA[
+@patch("cool_feature.expensive_prep", autospec=True)
+@patch("cool_feature.logger", autospec=True)
+def test_cool_feature_announcement(mock_logger, mock_prep):
+]]></code>
+
+<p>If we had been using autospec from the start, the incorrect test would have
+raised a helpful error right away:</p>
+
+<code><![CDATA[
+AttributeError: 'function' object has no attribute 'info'
+]]></code>
+
+<p>I wish autospec=True was the default.  I can see why there are occasional
+needs for truly permissive mocks, but mostly we intend to use them in strict
+ways, and want to know  when we don't.</p>
+
+<p>BTW, the usual advice to avoid mocking applies if you can, since even when
+you get your mocks working properly, there are still dangerous pitfalls. I'll
+re-recommend these two resources about how to test differently:</p>
+
+<ul>
+
+<li>Augie Fackler and Nathaniel Manista's PyCon talk
+<a pref='blog/tldw-stop-mocking-start-testing.bx'>Stop Mocking and Start
+Testing</a>.</li>
+
+<li>Itamar Turner-Trauring's article
+<a href='https://pythonspeed.com/articles/verified-fakes/'>Fast tests for slow
+services: why you should use verified fakes</a>.</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
