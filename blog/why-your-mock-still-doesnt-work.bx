@@ -13,8 +13,9 @@ slippery. Make them strict.</description>
 <body>
 
 <p>In <a pref="blog/why-your-mock-doesnt-work.bx"/>, I explained that you have
-to mock objects where they are used, not where they are defined.  There are
-other reasons your mock may be mysteriously failing to capture activity.</p>
+to mock objects where they are used, not where they are defined.  Now we'll talk
+about another reason your mock may be mysteriously failing to capture
+activity.</p>
 
 <p>At work a test like this was failing:</p>
 
