@@ -3,6 +3,7 @@
 <entry when='20091024T083323'>
 <title>The scalability of programming languages</title>
 <category>proglang</category>
+<category>hp</category>
 <body>
 <p><a href='http://tabblo.com'>Tabblo</a> is written on the Django framework,
 and therefore, in Python.  Ever since we were acquired by Hewlett-Packard two
@@ -11,7 +12,7 @@ in Java, a far more common implementation language within HP.  These debates
 come and go, with varying degrees of seriousness.
 </p>
 
-<p>The latest wave of "Java?" debating is upon us, and Mike Vanier's 
+<p>The latest wave of "Java?" debating is upon us, and Mike Vanier's
 <a href='http://www.cs.caltech.edu/~mvanier/hacking/rants/scalable_computer_programming_languages.html'>The Scalability of Programming Languages</a>
 has been entered into evidence.  I found it a very interesting read, especially
 about static vs. dynamic typing. At one point, Mike says,
