@@ -607,6 +607,10 @@ input {
     }
 }
 
+button {
+    margin-right: 1em;
+}
+
 a.s {
     @include inside-link;
 }

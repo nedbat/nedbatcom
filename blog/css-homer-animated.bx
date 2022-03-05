@@ -4,9 +4,9 @@
 <title>CSS Homer, animated</title>
 <category>css</category>
 <body>
-<p>Here's Rom&#225;n Cort&#233;s'
+<p>Here's Román Cortés'
 <a href='http://www.romancortes.com/blog/homer-css/'>Homer</a>, animated to show the structure.
-I haven't done anything to Rom&#225;n's amazing work other than to annotate the divs with
+I haven't done anything to Román's amazing work other than to annotate the divs with
 ids and add a bit of jQuery to show them in sequence so that you can see the characters
 being added one at a time.
 </p>
@@ -41,9 +41,23 @@ function animate_slow() {
     resetall();
     shownext();
 }
+
+function animate_manual() {
+    if (i == -1) {
+        resetall();
+    }
+    i += 1;
+    var it = jQuery("#x"+i);
+    if (it.length > 0) {
+        it.show();
+    }
+    else {
+        i = -1;
+    }
+}
 </script>
 
-    
+
 <div style="width: 100%; height: 466px; text-align: center; margin: 0 auto">
 <div style="border: 2px solid rgb(0, 0, 0); float: left; line-height: normal; background-color: rgb(255, 255, 255);">
 <div style="overflow: hidden; width: 6.23em; height: 7.7em; font-family: Verdana; font-size: 60px;">
@@ -449,9 +463,13 @@ function animate_slow() {
 
 <p></p><p></p>
 
-<p>Click your choice of fast or slow animation:</p>
+<p>Click your choice of fast or slow animation, or manual control:</p>
 
-<p><button id="gofast" onclick='animate_fast();'>Animate fast</button><button id="goslow" onclick='animate_slow();'>Animate slow</button></p>
+<p>
+<button id="gofast" onclick='animate_fast();'>Animate fast</button>
+<button id="goslow" onclick='animate_slow();'>Animate slow</button>
+<button id="gomanual" onclick='animate_manual();'>Single step</button>
+</p>
 
 <p>Rom&#225;n also made a <a href='http://www.romancortes.com/blog/bush-css/'>George Bush</a>.</p>
 
@@ -459,7 +477,7 @@ function animate_slow() {
 You can install it from the <a href="http://corefonts.sourceforge.net/">msttcorefonts</a> package.</p>
 
 </more>
-    
+
 </body>
 </entry>
 </blog>
