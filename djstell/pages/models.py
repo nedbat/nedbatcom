@@ -6,6 +6,7 @@ import time
 
 from .util import *
 from .xslt import content_transform, string_param
+from .text import description_safe, first_sentence
 
 from django.db import models
 from lxml import etree
@@ -391,7 +392,6 @@ class Entry(ModelMixin, models.Model):
 
     def ogdescription(self):
         from djstell.pages.templatetags.tags import just_text
-        from djstell.pages.text import description_safe, first_sentence
         return description_safe(self.description or first_sentence(just_text(self.to_html()), 2))
 
 

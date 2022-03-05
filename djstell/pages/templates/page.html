@@ -73,6 +73,29 @@
     </header>
 
     <main id='content'>
+        {% if user.is_superuser %}
+            {% if description or image %}
+                <div class='ogmetadata'>
+                    <details>
+                    <summary>og:metadata</summary>
+                        <div>
+                        {% if description %}
+                            <p>{% if entry and not entry.description %}<i>(auto):</i> {% endif %}{{description}}</p>
+                        {% endif %}
+                        {% if image %}
+                            <figure>
+                            <img src='{{image}}'{% if image_alt %} alt='{{image_alt}}'{% endif %}/>
+                            {% if image_alt %}
+                                <figcaption>{{image_alt}}</figcaption>
+                            {% endif %}
+                            </figure>
+                        {% endif %}
+                        </div>
+                    </details>
+                </div>
+            {% endif %}
+        {% endif %}
+
         {# The title #}
         {% if not hide_h1 %}
         <h1 class='headslug'>{{title}}</h1>

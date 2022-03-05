@@ -513,6 +513,28 @@ a.headerlink {
     color: var(--info-text-color);
 }
 
+.ogmetadata {
+    summary {
+        direction: rtl;
+        text-align: right;
+        font-style: italic;
+        font-size: 75%;
+    }
+    p {
+        border-left: 2px solid black;
+        background: #e8e8e8;
+        padding: .5em 1em;
+        border-radius: .5em;
+    }
+    img {
+        border: 1px solid #888;
+        border-radius: .5em;
+    }
+    figcaption {
+        font-style: italic;
+    }
+}
+
 ul {
     margin-top: .5em;
     margin-bottom: .5em;
