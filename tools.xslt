@@ -230,6 +230,9 @@
 <!-- Google ads, gone for good, but easier to not have to edit .px files to remove them. -->
 <xsl:template match='googleads' />
 
+<!-- Sometimes we need to comment out a chunk of text that contains double-hyphen. -->
+<xsl:template match='comment' />
+
 <!-- Default: print a message. -->
 <xsl:template match='*'>
     <xsl:message>Strange tag: <xsl:value-of select='name()'/></xsl:message>
