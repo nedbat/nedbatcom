@@ -1,0 +1,23 @@
+# Ping nedbat/nedbat to update the GitHub profile.
+#
+# https://docs.github.com/en/rest/reference/repos#create-a-repository-dispatch-event
+# https://github.community/t/triggering-by-other-repository/16163/12
+
+on:
+  - push
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/github-script@v6
+      with:
+        # Needs: repo:public_repo
+        github-token: ${{ secrets.NEDBAT_PING_TOKEN }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: 'nedbat',
+            repo: 'nedbat',
+            workflow_id: 'build.yml',
+            ref: 'main'
+          })
