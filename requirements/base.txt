@@ -9,18 +9,19 @@ bleach==4.1.0             # via -r requirements/base.in
 django==3.2.12            # via -r requirements/base.in, django-debug-toolbar, django-sendfile2
 django-debug-toolbar==3.2.4  # via -r requirements/base.in
 django-sendfile2==0.6.1   # via -r requirements/base.in
-ftfy==6.0.3               # via -r requirements/base.in
+ftfy==6.1.1               # via -r requirements/base.in
 libsass==0.21.0           # via -r requirements/base.in
-lxml==4.7.1               # via -r requirements/base.in
+lxml==4.8.0               # via -r requirements/base.in
 markdown2==2.4.2          # via -r requirements/base.in
 packaging==21.3           # via bleach
-path==16.3.0              # via path.py
+path==16.4.0              # via path.py
 path.py==12.5.0           # via -r requirements/base.in
-pillow==9.0.0             # via -r requirements/base.in
+pillow==9.0.1             # via -r requirements/base.in
 pygments==2.11.2          # via -r requirements/base.in
 pyparsing==3.0.7          # via packaging
 python-dotenv==0.19.2     # via -r requirements/base.in
 pytz==2021.3              # via django
+secure==0.3.0             # via -r requirements/base.in
 six==1.16.0               # via bleach, libsass
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes  # via -r requirements/base.in
 sqlparse==0.4.2           # via django, django-debug-toolbar
