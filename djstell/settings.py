@@ -82,7 +82,7 @@ CONN_MAX_AGE = None
 
 MIDDLEWARE = (
     'djstell.middleware.standard.StaticOverlayMiddleware',
-    'djstell.middleware.secure_headers.set_secure_headers',
+    #'djstell.middleware.secure_headers.set_secure_headers',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
