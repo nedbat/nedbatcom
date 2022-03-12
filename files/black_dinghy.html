@@ -171,169 +171,9 @@
       </p>
       
         <ul class="entries">
-          <li class="open">
-
-              <p><a href="https://github.com/psf/black/issues/2188"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Enable `--experimental-string-processing` to be default</b> #2188</a>
-              [cooperlees]
-
-              <span class="label" style="--label-r:162; --label-g:238; --label-b:239; --label-h:180; --label-l:78; --label-s:70;">T: enhancement</span>
-                <span class="label" style="--label-r:0; --label-g:82; --label-b:204; --label-h:215; --label-l:40; --label-s:100;">T: design</span>
-                <span class="label" style="--label-r:194; --label-g:224; --label-b:198; --label-h:128; --label-l:81; --label-s:32;">S: accepted</span>
-                <span class="label" style="--label-r:251; --label-g:170; --label-b:0; --label-h:40; --label-l:49; --label-s:100;">F: strings / docstrings</span>
-                
-              </p><p>Lets move CI + then the default of black to use the --experimental-string-processing behavior.
-Today, if enabled on...</p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2188#issuecomment-1061634247" title="03-08 15:25">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>ajoino</b>: Hi, new to using Black and have an observation.
-When I tried the --preview feature I found it...</a></p>
-                      
-                    </li>
-                  </ul>
-              </li>
           <li class="closed">
 
-              <p><a href="https://github.com/psf/black/issues/2569"><span class="octicons" title="closed issue, newly closed"><span class="octicon dash"></span><span class="octicon check"></span><span class="octicon closed issue"></span></span><b>error on windows directory junctions</b> #2569</a>
-              [pmolodo]
-
-              <span class="label" style="--label-r:215; --label-g:58; --label-b:74; --label-h:353; --label-l:53; --label-s:66;">T: bug</span>
-                <span class="label" style="--label-r:233; --label-g:150; --label-b:149; --label-h:0; --label-l:74; --label-s:65;">C: crash</span>
-                <span class="label" style="--label-r:22; --label-g:188; --label-b:132; --label-h:159; --label-l:41; --label-s:79;">C: file collection</span>
-                
-              </p><p>Describe the bug
-If a windows directory junction is found while crawling a source root, and it points outside of the...</p></li>
-          <li class="">
-
-              <p><a href="https://github.com/psf/black/pull/2904"><span class="octicons" title="merged pull request, newly merged"><span class="octicon dash"></span><span class="octicon check"></span><span class="octicon merged pull"></span></span><b>Fix handling of Windows junctions in normalize_path_maybe_ignore (#2569)</b> #2904</a>
-              [yoerg]
-
-              
-              </p><p>Description
-Fixes #2569: error on windows directory junctions
-Thanks @pmolodo for the excellent analysis.
-Checklist...</p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/pull/2904#issuecomment-1061461544" title="03-08 06:45">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>yoerg</b>: Thanks, that did it!
-The PR is ready.</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/pull/2904#pullrequestreview-903179237" title="03-08 15:27">
-                        <span class="octicon checkcircle" title="reviewed, approved"></span>
-                          
-                        
-                        <b>JelleZijlstra</b>: Thanks for your contribution!</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/pull/2904#issuecomment-1061903360" title="03-08 15:30">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>ichard26</b>: Thank you so much for your contribution! This project is only possible by contributions like...</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/pull/2904#issuecomment-1061908903" title="03-08 15:35">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>pmolodo</b>: Huzzah! Thanks @yoerg!</a></p>
-                      
-                    </li>
-                  </ul>
-              </li>
-          <li class="">
-
-              <p><a href="https://github.com/psf/black/pull/2903"><span class="octicons" title="merged pull request, newly merged"><span class="octicon dash"></span><span class="octicon check"></span><span class="octicon merged pull"></span></span><b>Use tomllib on Python 3.11</b> #2903</a>
-              [hauntsaninja]
-
-              
-              </p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/pull/2903#pullrequestreview-903253411" title="03-08 16:19">
-                        <span class="octicon checkcircle" title="reviewed, approved"></span>
-                          
-                        
-                        <b>ichard26</b>: Is CPython 3.11-dev available on GHA? if so we should add that (in a separate PR) ... although...</a></p>
-                      
-                    </li>
-                  </ul>
-              </li>
-          <li class="open">
-
-              <p><a href="https://github.com/psf/black/issues/2238"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Improving the contributing experience</b> #2238</a>
-              [ichard26]
-
-              <span class="label" style="--label-r:0; --label-g:134; --label-b:114; --label-h:171; --label-l:26; --label-s:100;">help wanted</span>
-                <span class="label" style="--label-r:251; --label-g:205; --label-b:0; --label-h:49; --label-l:49; --label-s:100;">T: documentation</span>
-                <span class="label" style="--label-r:80; --label-g:86; --label-b:120; --label-h:230; --label-l:39; --label-s:20;">C: maintenance</span>
-                
-              </p><p>If you came here because you were asked to provide feedback:
-Hi there! First of all I'd like to personally thank you...</p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2238#issuecomment-1062136557" title="03-08 19:41">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>yoerg</b>: Fixing #2904 was actually quite pleasant, so good job! I had to work on Windows for this, but...</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2238#issuecomment-1062291676" title="03-08 22:37">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>ichard26</b>: Ah that's unfortunate to hear, will try to remember to tack on that kind of information in our...</a></p>
-                      
-                    </li>
-                  </ul>
-              </li>
-          <li class="open">
-
-              <p><a href="https://github.com/psf/black/issues/2692"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Needless line breaks in `k in f(long literal).method()`</b> #2692</a>
-              [rdaysky]
-
-              <span class="label" style="--label-r:0; --label-g:82; --label-b:204; --label-h:215; --label-l:40; --label-s:100;">T: design</span>
-                <span class="label" style="--label-r:191; --label-g:212; --label-b:242; --label-h:215; --label-l:84; --label-s:66;">F: linebreak</span>
-                
-              </p><p>Given code like
-assert "errors" in graphql_query(
-    """
-    ...long literal...
-    """,
-).json()
-
-Black insists on...</p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2692#issuecomment-1063122742" title="03-09 16:39">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>rdaysky</b>: Here’s a simpler real-life example along the same lines:
-assert d == dateutil.parser.parse(long...</a></p>
-                      
-                    </li>
-                  </ul>
-              </li>
-          <li class="open">
-
-              <p><a href="https://github.com/psf/black/issues/2914"><span class="octicons" title="issue, newly created"><span class="octicon star"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>pylint checks seem to no longer exist?</b> #2914</a>
-              [alkatar21]
-
-              <span class="label" style="--label-r:251; --label-g:205; --label-b:0; --label-h:49; --label-l:49; --label-s:100;">T: documentation</span>
-                
-              </p><p>Using black with other tools says for pylint, that one should switch off disable = C0330, C0326, however I find the...</p></li>
-          <li class="closed">
-
-              <p><a href="https://github.com/psf/black/issues/2913"><span class="octicons" title="closed issue, newly created, newly closed"><span class="octicon star"></span><span class="octicon check"></span><span class="octicon closed issue"></span></span><b>FEAT: Add `-> None` to any typed `__init__()`</b> #2913</a>
+              <p><a href="https://github.com/psf/black/issues/2913"><span class="octicons" title="closed issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon closed issue"></span></span><b>FEAT: Add `-> None` to any typed `__init__()`</b> #2913</a>
               [NickCrews]
 
               <span class="label" style="--label-r:162; --label-g:238; --label-b:239; --label-h:180; --label-l:78; --label-s:70;">T: enhancement</span>
@@ -341,38 +181,6 @@ assert d == dateutil.parser.parse(long...</a></p>
                 
               </p><p>Is your feature request related to a problem? Please describe.
 In pandas-dev/pandas#46279 someone wants to make the...</p><ul class="comments">
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2913#issuecomment-1062300444" title="03-08 22:44">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>JelleZijlstra</b>: I don't think this is within Black's scope. I do have another project that can help here:...</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2913#issuecomment-1062439534" title="03-09 00:50">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>NickCrews</b>: Thank you @JelleZijlstra! Would you consider autotyping mature enough to be relied upon by pandas?</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2913#issuecomment-1062440451" title="03-09 00:52">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>JelleZijlstra</b>: Sure, but it doesn't fit your description above perfectly—for example, it will apply annotations...</a></p>
-                      
-                    </li>
-                  <li>
-                      <p><a href="https://github.com/psf/black/issues/2913#issuecomment-1062606438" title="03-09 06:50">
-                        
-                          <span class="octicon comment" title="comment"></span>
-                        
-                        <b>felix-hilden</b>: Agreed on the scope restriction, although the idea in itself is solid!</a></p>
-                      
-                    </li>
                   <li>
                       <p><a href="https://github.com/psf/black/issues/2913#issuecomment-1063621721" title="03-10 03:39">
                         
@@ -448,6 +256,157 @@ When passing dict as a function parameter I often prefer than the dict is split 
                     </li>
                   </ul>
               </li>
+          <li class="open">
+
+              <p><a href="https://github.com/psf/black/issues/2188"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Enable `--experimental-string-processing` to be default</b> #2188</a>
+              [cooperlees]
+
+              <span class="label" style="--label-r:162; --label-g:238; --label-b:239; --label-h:180; --label-l:78; --label-s:70;">T: enhancement</span>
+                <span class="label" style="--label-r:0; --label-g:82; --label-b:204; --label-h:215; --label-l:40; --label-s:100;">T: design</span>
+                <span class="label" style="--label-r:194; --label-g:224; --label-b:198; --label-h:128; --label-l:81; --label-s:32;">S: accepted</span>
+                <span class="label" style="--label-r:251; --label-g:170; --label-b:0; --label-h:40; --label-l:49; --label-s:100;">F: strings / docstrings</span>
+                
+              </p><p>Lets move CI + then the default of black to use the --experimental-string-processing behavior.
+Today, if enabled on...</p><ul class="comments">
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2188#issuecomment-1065090548" title="03-11 12:58">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>bbugyi200</b>: @ajoino See #1132 (comment) and surrounding comments for a previous discussion on this. As I...</a></p>
+                      
+                    </li>
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2188#issuecomment-1065112445" title="03-11 13:27">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>ajoino</b>: @bbugyi200 Thank you for the link and your impressive work. I agree that this is a minor...</a></p>
+                      
+                    </li>
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2188#issuecomment-1065119465" title="03-11 13:35">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>bbugyi200</b>: @ajoino Ahh, I see. I agree with you on this point: Aligning the quotation marks seems desirable...</a></p>
+                      
+                    </li>
+                  </ul>
+              </li>
+          <li class="">
+
+              <p><a href="https://github.com/psf/black/pull/2525"><span class="octicons" title="pull request"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon pull"></span></span><b>feat(config): Support `--config` in pyproject.toml</b> #2525</a>
+              [Shivansh-007]
+
+              <span class="label" style="--label-r:242; --label-g:179; --label-b:219; --label-h:321; --label-l:82; --label-s:70;">C: command line / config</span>
+                
+              </p><p>Description
+You can now specify config key in pyproject.toml which does the same job as the CLI option --config. The...</p></li>
+          <li class="open">
+
+              <p><a href="https://github.com/psf/black/issues/1713"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Line too long: Comments</b> #1713</a>
+              [anirudnits]
+
+              <span class="label" style="--label-r:0; --label-g:82; --label-b:204; --label-h:215; --label-l:40; --label-s:100;">T: design</span>
+                <span class="label" style="--label-r:255; --label-g:0; --label-b:170; --label-h:320; --label-l:50; --label-s:100;">F: comments</span>
+                <span class="label" style="--label-r:121; --label-g:71; --label-b:19; --label-h:30; --label-l:27; --label-s:72;">F: linetoolong</span>
+                
+              </p><p>Problem
+Consider the below comment:
+# this comment is longer than what is specified in line length arguments passed...</p><ul class="comments">
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/1713#issuecomment-1065355952" title="03-11 18:07">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>earonesty</b>: i agree, black behaves very oddly with comments
+while small_cond:  # long comment here...
+   ...</a></p>
+                      
+                    </li>
+                  </ul>
+              </li>
+          <li class="open">
+
+              <p><a href="https://github.com/psf/black/issues/2907"><span class="octicons" title="issue"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>When detecting Python versions, `f"{x=}"` should imply 3.8+</b> #2907</a>
+              [Zac-HD]
+
+              <span class="label" style="--label-r:162; --label-g:238; --label-b:239; --label-h:180; --label-l:78; --label-s:70;">T: enhancement</span>
+                <span class="label" style="--label-r:194; --label-g:224; --label-b:198; --label-h:128; --label-l:81; --label-s:32;">S: accepted</span>
+                <span class="label" style="--label-r:14; --label-g:138; --label-b:22; --label-h:123; --label-l:29; --label-s:81;">C: parser</span>
+                <span class="label" style="--label-r:29; --label-g:118; --label-b:219; --label-h:211; --label-l:48; --label-s:76;">C: target version</span>
+                
+              </p><p>Describe the bug
+The = specifier was added to f-strings in Python 3.8, but Black does not yet distinguish it from...</p><ul class="comments">
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2907#issuecomment-1065379986" title="03-11 18:36">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>ichard26</b>: I'm tentatively accepting this assuming it's technically feasible with iter_fexpr_spans. Hopefully it is.</a></p>
+                      
+                    </li>
+                  </ul>
+              </li>
+          <li class="open">
+
+              <p><a href="https://github.com/psf/black/issues/2915"><span class="octicons" title="issue, newly created"><span class="octicon star"></span><span class="octicon dash"></span><span class="octicon issue"></span></span><b>Horizontally align quotes in multi-line f-string breaks</b> #2915</a>
+              [ajoino]
+
+              <span class="label" style="--label-r:0; --label-g:82; --label-b:204; --label-h:215; --label-l:40; --label-s:100;">T: design</span>
+                <span class="label" style="--label-r:251; --label-g:170; --label-b:0; --label-h:40; --label-l:49; --label-s:100;">F: strings / docstrings</span>
+                <span class="label" style="--label-r:191; --label-g:212; --label-b:242; --label-h:215; --label-l:84; --label-s:66;">F: linebreak</span>
+                
+              </p><p>Describe the style change
+
+Align quotation marks for multi-line string breaks (using --preview) if the resulting...</p><ul class="comments">
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2915#issuecomment-1065356450" title="03-11 18:06">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>JelleZijlstra</b>: I don't think we should do this, it creates inconsistent indentation. I have never seen this...</a></p>
+                      
+                    </li>
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2915#issuecomment-1065366638" title="03-11 18:19">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>ajoino</b>: The argument for aligning the quotes stems from how you split f-strings. I usually keep all...</a></p>
+                      
+                    </li>
+                  <li>
+                      <p><a href="https://github.com/psf/black/issues/2915#issuecomment-1065402082" title="03-11 19:00">
+                        
+                          <span class="octicon comment" title="comment"></span>
+                        
+                        <b>TylerYep</b>: There are currently popular open-source linters that have rules against inconsistent indentation...</a></p>
+                      
+                    </li>
+                  </ul>
+              </li>
+          <li class="">
+
+              <p><a href="https://github.com/psf/black/pull/2885"><span class="octicons" title="pull request"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon pull"></span></span><b>Add improved docstring processing</b> #2885</a>
+              [TomFryers]
+
+              
+              </p><p>Description
+One of the things discussed in issue #144 was quote placement. Reading through the discussion, there...</p></li>
+          <li class="">
+
+              <p><a href="https://github.com/psf/black/pull/2770"><span class="octicons" title="pull request"><span class="octicon dash"></span><span class="octicon dash"></span><span class="octicon pull"></span></span><b>Use parentheses with equality check in walrus/assignment statements</b> #2770</a>
+              [Shivansh-007]
+
+              
+              </p><p>Closes #449
+Checklist - did you ...
+
+ Add a CHANGELOG entry if necessary?
+ Add / update tests if necessary?
+ Add new...</p></li>
           </ul>
       
     </li>
@@ -455,6 +414,6 @@ When passing dict as a function parameter I often prefer than the dict is split 
 
 <p class="footer">
   created at
-  2022-03-10 21:31
-  by <a href="https://pypi.org/project/dinghy/0.6.0">dinghy 0.6.0</a>.
+  2022-03-12 09:22
+  by <a href="https://pypi.org/project/dinghy/0.7.0">dinghy 0.7.0</a>.
 </p>
