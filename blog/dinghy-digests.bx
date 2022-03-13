@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220313T072940'>
+<title>Dinghy digests</title>
+<category>mycode</category>
+<category>github</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p><a href="https://pypi.org/project/dinghy/">Dinghy</a> is a tool I wrote to
+summarize activity on GitHub issues and pull requests.  You configure it to
+look at certain GitHub resources over a recent time period, and it produces a
+compact digest of what's been happening:</p>
+
+<figurep href="https://nedbat.github.io/dinghy/black_digest.html">
+    <img src="pix/black_dinghy.png" class="thinline" alt="A sample Dinghy digest"/>
+</figurep>
+
+<p>I started dinghy because I needed a way to see disparate activity in repos at
+work, and it's been useful for that.  So far it has the features I've needed.
+Maybe others will find it useful too.</p>
+
+<p>It was also a chance to dig into the GitHub GraphQL API. GraphQL syntax is
+oddly strict (why can't I define a fragment that isn't used?), and GitHub's
+implementation has quirks (sometimes requesting data with the wrong token scope
+is an error, other times it returns None).  I can see the advantage of being
+able to request a graph of data with one request rather than a REST API that
+forces me to walk the graph myself, but paginating along multiple axes is still
+a pain (listing issues, and also comments on issues).</p>
+
+<p>The code is still a mess in some places, and I haven't figured out how to
+test most of it.  But it was interesting to reverse engineer how GitHub decides
+on the text color for labels (they
+<a href="https://github.com/nedbat/dinghy/blob/cb677658235abfa2ed1ab2005344b8bb58b51350/src/dinghy/templates/digest.html.j2#L93-L102">compute
+it in CSS</a>!)</p>
+
+</body>
+</entry>
+</blog>
