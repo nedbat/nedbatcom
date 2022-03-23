@@ -670,6 +670,22 @@ a.s {
             }
             border-radius: 2px;
         }
+
+        .ukraine {
+            display: inline-block;
+            width: 2.5em;
+            height: 1.9em;
+            padding: .25em 0;
+            margin-left: .25em;
+            @media (min-width: $narrow-break) {
+                margin-left: .75em;
+                margin-right: -.5em;
+            }
+            background-image: linear-gradient(180deg, #005BBB 0, #005BBB 50%, #FFD500 50%, #FFD500 100%);
+            border: .5px solid #880;
+            border-radius: 2px;
+            text-decoration: none;
+        }
     }
 
     .home {
