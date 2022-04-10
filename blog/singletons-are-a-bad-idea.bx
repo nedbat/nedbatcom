@@ -1,20 +1,115 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20210130T062546' draft='y'>
-<title>Singletons are a bad idea</title>
-<category></category>
+<entry when='20220410T062546'>
+<title>Singleton is a bad idea</title>
+<category>python</category>
+<category>development</category>
 <body>
 
-<p>
-</p>
+<p>Design patterns are a great way to think about interactions among classes.
+But the classic Singleton pattern is bad: you shouldn't use it and there are
+better options.</p>
 
-<ul>
-<li>If you only want one, only make one</li>
-<li>Globals are bad no matter what</li>
-<li>Why lie to your users?</li>
-<li>Few things are truly singletons</li>
-<li></li>
-</ul>
+<p>The classic Singleton pattern is a class which always gives you the same
+object when you create an instance of the class. It's used to ensure that all
+users of a class are using the same object.</p>
+
+<p>The first problem with Singleton is that it encourages you to mix together
+two different ideas into one class.  The first idea is whatever your class is
+about.  Let's say you are writing a chess game. Your ChessBoard class should
+only be concerned with chess-board-ness.  A separate second idea is that your
+program only needs one board.  That's not a fact intrinsic to chess boards, so
+it shouldn't be coded into your ChessBoard class.</p>
+
+<p>If your program only needs one of a certain object, you can just make one:</p>
+
+<code lang="python"><![CDATA[
+class ChessBoard:
+    def __init__(self):
+        ...
+
+the_chess_board = ChessBoard()
+]]></code>
+
+<p>If you want centralized management of the instance, use a function to manage
+a global:</p>
+
+<code lang="python"><![CDATA[
+_the_chess_board = None
+
+def the_chess_board():
+    global _the_chess_board
+    if _the_chess_board is None:
+        _the_chess_board = ChessBoard()
+    return _the_chess_board
+]]></code>
+
+<p>Or let functools do it for you:</p>
+
+<code lang="python"><![CDATA[
+@functools.cache        # new in 3.9
+def the_chess_board():
+    return ChessBoard()
+]]></code>
+
+<p>If you still really want the class to manage a single instance, you can shift
+that function to be a classmethod:</p>
+
+<code lang="python"><![CDATA[
+class ChessBoard:
+    def __init__(self):
+        ...
+
+    @classmethod
+    @functools.cache
+    def the_board(cls):
+        return cls()
+]]></code>
+
+<p>These ways are simpler than the
+<a href="https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python">usual gymnastics</a>
+to implement singletons.  They have the additional benefit that the users of the
+class clearly understand that they are accessing a global instance.  This is
+another problem with Singleton: it gives you a class that lies. Calling the
+class looks like you are making new objects, but you are not.</p>
+
+<p>These ways also let you still make new instances when you need to. Your
+ChessBoard tests will need to create many instances to keep your tests isolated
+from each other.  The Singleton pattern makes this difficult and requires even
+more tricky machinations.</p>
+
+
+<h3>But I just need one!</h3> <p>So just make one. There's no reason to
+complicate the class by adding Singleton enforcement to it.</p>
+
+<h3>But I need it everywhere in my code!</h3> <p>OK, use
+<codeword>the_chess_board()</codeword> wherever you were using
+<codeword>ChessBoard()</codeword>.</p>
+
+<h3>But I still want a way to enforce "just one!"</h3> <p>The function manages
+the global instance.  Why does it have to happen inside the class?  You should
+separate the concept of what the class is from the idea that there should be
+only one.</p>
+
+<h3>But someone might make more instances!</h3> <p>Who? Document the right way
+to use the class. Make it clear and easy to do it the right way, and then let it
+be. You can't defend against every bug, and it's their program anyway.</p>
+
+<h3>But I thought globals were bad?</h3> <p>They are bad, but your Singleton was
+also a global: there was only one for the whole process, and it could be changed
+from anywhere.  It wasn't literally a Python global variable, but it had all the
+same bad qualities, just hidden behind some tricky meta-programming.  If you're
+going to have a global, be up-front about it.</p>
+
+<h3>But what about None and things like it?</h3> <p>True, some immutable value
+types can be singletons, but that's not how people use the Singleton
+pattern, and how often are you writing a class like None?</p>
+
+<h3>But Singleton is in the Design Patterns book!</h3> <p>That doesn't mean it's
+a good idea. None of the examples in the book are true Singletons, they are all
+examples of programs that just happen to need only one instance.  And the Design
+Patterns book was never meant to be prescriptive: it's not telling you what to
+do, it's describing what people have done.</p>
 
 </body>
 </entry>
