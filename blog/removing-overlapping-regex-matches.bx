@@ -3,22 +3,23 @@
 <entry when='20120908T154112'>
 <title>Removing overlapping regex matches</title>
 <category>python</category>
+<category>gem</category>
 <body>
 
-    <p>In a Stack Overflow question a few months ago, a petitioner wanted to 
+    <p>In a Stack Overflow question a few months ago, a petitioner wanted to
         <a href='http://stackoverflow.com/q/11442470/14343'>remove all the
         matches of a number of regexes</a>.  The complication was that the
         regexes could overlap.</p>
 
     <p>Simply using re.sub() on each pattern in turn wouldn't work, because
-        the overlapping matches wouldn't be fully matched once the first 
+        the overlapping matches wouldn't be fully matched once the first
         patterns were removed from the string.</p>
 
     <p>The solution is to match the regexes, and note the locations of the
         matches, and then in a second pass, delete all those parts of the
         string.  Here's an updated version of my answer:</p>
 
-<code><![CDATA[
+<code lang='python'><![CDATA[
 def remove_regexes(text, patterns):
     """Remove all the matches of any pattern in patterns from text."""
     bytes = bytearray(text)
@@ -33,7 +34,7 @@ def remove_regexes(text, patterns):
     <p>There are a few rarely-used features of Python at work here.  First,
         I use a bytearray, which is kind of like a mutable string.  Like
         strings, it is a sequence of bytes.  Unlike strings, you can change
-        the bytes in place.  This is handy for us to mark which portions 
+        the bytes in place.  This is handy for us to mark which portions
         of the string are being removed.</p>
 
     <p>I initialize the bytearray to have the same contents as the text string,
@@ -44,7 +45,7 @@ def remove_regexes(text, patterns):
         a match object for each one.  Match objects are usually just tested and then
         examined for the matched string, but they have other methods on them too.
         Here I use m.span(), which returns a two-tuple containing the starting and ending
-        indexes of the match, suitable for use as a slice.  I unpack them into 
+        indexes of the match, suitable for use as a slice.  I unpack them into
         start and end, and then use those indexes to write zero bytes into my bytearray
         using slice assignment.</p>
 
