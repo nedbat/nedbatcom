@@ -15,7 +15,11 @@ def get_tweet(url):
     oembed = requests.get(f"https://publish.twitter.com/oembed?url={url}").json()
     h = oembed["html"]
     h = h.replace("<br>", "<br/>")
+    # Seems like there ought to be a better way to convert &mdash; to —, but
+    # also keep &amp; as-is. Oh well.
+    h = h.replace("&amp;", "@@@@AMP@@@@")
     h = html.unescape(h)
+    h = h.replace("@@@@AMP@@@@", "&amp;")
     h = h.partition("<script async")[0]
     h = h.strip()
     print(h)

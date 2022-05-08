@@ -33,11 +33,28 @@ jQuery(function($){
     $(".thisdate").attr("href", "/blog/archive/date" + thisdate + ".html");
 });
 
+
+function set_mode(light, dark) {
+    var mode = light;
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = dark;
+    }
+    $("meta[name='twitter:widgets:theme']").attr("content", mode);
+}
+
+function toggle_mode() {
+    $("html").toggleClass("othermode");
+}
+
 jQuery(function ($) {
     var storage = window.localStorage;
 
     if (storage.getItem("othermode") == "true") {
-        $("html").toggleClass("othermode");
+        toggle_mode();
+        set_mode("dark", "light");
+    }
+    else {
+        set_mode("light", "dark");
     }
 
     $(".othermode-switch").click(function () {
@@ -45,6 +62,6 @@ jQuery(function ($) {
             "othermode",
             (storage.getItem("othermode") == "true") ? "false" : "true"
         );
-        $("html").toggleClass("othermode");
+        toggle_mode();
     });
 });
