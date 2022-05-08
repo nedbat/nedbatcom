@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<page title='Twitter tidbits'>
+<history>
+<what when='20220507T095400'>Created.</what>
+</history>
+
+<!-- This post is cogged. Re-cog it with:
+
+    $ cog -rP pages/text/tidbits.px
+
+-->
+
+<!-- [[[cog from cog_helpers import get_tweet ]]] -->
+<!-- [[[end]]] -->
+
+<p>These are tidbits I've <a href="https://twitter.com/nedbat">tweeted</a>.
+The tweets include code as images, both so they will fit, and to be more
+visually appealing.  I've included the text here inline to make it easier to
+find things.</p>
+
+
+<!-- =============================================== -->
+
+<h1>dict.get</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1522928485689348096") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">With data in a <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> dict, you can use d.get as a function providing the same mapping: <a href="https://t.co/fOs6waf5Cl">pic.twitter.com/fOs6waf5Cl</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1522928485689348096?ref_src=twsrc%5Etfw">May 7, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<code lang="pycon"><![CDATA[
+>>> # How did each student do on the test?
+>>> scores = {
+...     'joe': 85,
+...     'jane': 90,
+...     'alex': 80,
+...     'beth': 82,
+... }
+
+>>> students = ['beth', 'alex', 'jane', 'joe']
+
+>>> # Sort students by their scores, highest first:
+>>> sorted(students, key=scores.get, reverse=True)
+['jane', 'joe', 'beth', 'alex']
+]]></code>
+
+
+<!-- =============================================== -->
+
+<h1>Tuples as dict keys</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1522543448376623104") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python dicts can have tuples as keys. Consider a dict with (x,y) keys instead of nested lists for a grid.  It simplifies sparse grids, "resizes" are automatic, it doesn't matter where (0,0) is, and you can use negative positions: <a href="https://t.co/6IcJSUHBvl">pic.twitter.com/6IcJSUHBvl</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1522543448376623104?ref_src=twsrc%5Etfw">May 6, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+
+<code lang="pycon"><![CDATA[
+>>> board = {}
+>>> for x, y in [(1,0), (2,1), (0,2), (1,2), (2,2)]:
+...     board[x, y] = "#"
+
+>>> def min_max(nums):
+...     return min(nums), max(nums)
+
+>>> def print_board(board):
+...     minx, maxx = min_max([x for x, _ in board])
+...     miny, maxy = min_max([y for _, y in board])
+...     for y in range(miny - 1, maxy + 2):
+...         for x in range(minx - 1, maxx + 2):
+...             print(board.get((x, y), "·"), end="")
+...         print()
+
+>>> print_board(board)
+·····
+··#··
+···#·
+·###·
+·····
+]]></code>
+
+<code lang="pycon"><![CDATA[
+>>> # Let's add more to the board..
+>>> board[20, 3] = "$"
+>>> print_board(board)
+·······················
+··#····················
+···#···················
+·###···················
+·····················$·
+·······················
+
+>>> # And even more:
+>>> for x, c in enumerate("@nedbat", start=20):
+...     board[x, 3] = c
+>>> print_board(board)
+·····························
+··#··························
+···#·························
+·###·························
+·····················@nedbat·
+·····························
+
+>>> # Negative coordinates are ok:
+>>> board[-10, -3] = "X"
+>>> print_board(board)
+·······································
+·X·····································
+·······································
+·······································
+············#··························
+·············#·························
+···········###·························
+·······························@nedbat·
+·······································
+]]></code>
+
+
+<!-- =============================================== -->
+
+<h1>Mutable default values</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1522184975818371072") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A classic <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> speed-bump: default values for function arguments are computed once, and shared for all calls. If you mutate them, the effect persists!  Use None instead: <a href="https://t.co/o7wIbUPKer">pic.twitter.com/o7wIbUPKer</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1522184975818371072?ref_src=twsrc%5Etfw">May 5, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<code lang="pycon"><![CDATA[
+>>> # Default values are shared between calls:
+>>> def make_list(v, the_list=[]):
+...     the_list.append(v)
+...     return the_list
+
+>>> make_list(12)
+[12]                    # nice...
+>>> make_list(47)
+[12, 47]                # what!?  😭
+>>> make_list("oh no")
+[12, 47, 'oh no']       # WTF???  😡 🤬
+
+>>> # Use None as the default instead:
+>>> def make_list(v, the_list=None):
+...     if the_list is None:
+...         the_list = []
+...     the_list.append(v)
+...     return the_list
+
+>>> make_list(12)
+[12]    # ok...
+>>> make_list(47)
+[47]    # YES!  😎 🥳 😍
+]]></code>
+
+
+
+
+
+
+
+
+<!--
+
+may:
+gen comp: https://twitter.com/nedbat/status/1521820685844180993
+context mgrs: https://twitter.com/nedbat/status/1521469119240933376
+max key: https://twitter.com/nedbat/status/1521110506211139584
+
+april:
+unlimited ints: https://twitter.com/nedbat/status/1520013025029369856
+rf strings: https://twitter.com/nedbat/status/1519232884359397377
+double list comp: https://twitter.com/nedbat/status/1518955211582099456
+re.sub fn: https://twitter.com/nedbat/status/1518571274817187842
+import antigravity: https://twitter.com/nedbat/status/1517898340473528320
+split once: https://twitter.com/nedbat/status/1517506005474570240
+split on whitespace: https://twitter.com/nedbat/status/1517097564105064449
+is this an int: https://twitter.com/nedbat/status/1516755560296706051
+unpack star: https://twitter.com/nedbat/status/1516391411184189441
+break out of double loop: https://twitter.com/nedbat/status/1515345787563220996
+custom formatting: https://twitter.com/nedbat/status/1514945634490494981
+vars in format: https://twitter.com/nedbat/status/1514200977829629955
+left-right format: https://twitter.com/nedbat/status/1513866020686995459
+open far from with: https://twitter.com/nedbat/status/1512404137794711554
+lambda in loop: https://twitter.com/nedbat/status/1512050306439282699
+abstract iteration: https://twitter.com/nedbat/status/1511694713350332424
+greedy dot-star: https://twitter.com/nedbat/status/1511328802814713861
+print emoji: https://twitter.com/nedbat/status/1510987050261966854
+
+march:
+exception attributes: https://twitter.com/nedbat/status/1509495053072359425
+two-arg iter: https://twitter.com/nedbat/status/1509144912054398986
+bound methods: https://twitter.com/nedbat/status/1508793848876744705
+truth in tuple: https://twitter.com/nedbat/status/1508426679818997762
+removesuffix: https://twitter.com/nedbat/status/1507337250975199238
+verbose regex: https://twitter.com/nedbat/status/1506959008854388736
+_ in repl: https://twitter.com/nedbat/status/1506619018299396097
+commas in formatting: https://twitter.com/nedbat/status/1506265186717552644
+combine dicts: https://twitter.com/nedbat/status/1505883421289201667
+regex named brackets: https://twitter.com/nedbat/status/1505594265803452417
+regex square brackets: https://twitter.com/nedbat/status/1504790469972168705
+spaces around f=: https://twitter.com/nedbat/status/1504473665336799236
+f=: https://twitter.com/nedbat/status/1504460797359140866
+circular list: https://twitter.com/nedbat/status/1504062673809338370
+generator name scoping: https://twitter.com/nedbat/status/1503735148378001410
+underscores in number: https://twitter.com/nedbat/status/1503419936932343815
+bang-r: https://twitter.com/nedbat/status/1503352242748870657
+no private methods: https://twitter.com/nedbat/status/1502289365862600704
+pip install: https://twitter.com/nedbat/status/1501564714442280967
+pprint.pp: https://twitter.com/nedbat/status/1501206353251119117
+for-else: https://twitter.com/nedbat/status/1499383535886548998
+
+feb:
+set number ordering: https://twitter.com/nedbat/status/1498654538315694081
+loop assign to non-name: https://twitter.com/nedbat/status/1498310018218676229
+list/set ordering: https://twitter.com/nedbat/status/1497998213495750656
+integer methods: https://twitter.com/nedbat/status/1497207503410511873
+interleave sequences: https://twitter.com/nedbat/status/1495019059620069383
+convert css color: https://twitter.com/nedbat/status/1493297104806195203
+numbered strings: https://twitter.com/nedbat/status/1492889262466949125
+aa000 -> zz999: https://twitter.com/nedbat/status/1492505752090595330
+human sorting: https://twitter.com/nedbat/status/1491439999933292545
+zsh globs: https://twitter.com/nedbat/status/1491032300800421892
+don't change list len while looping: https://twitter.com/nedbat/status/1489955004018577419
+zip transpose: https://twitter.com/nedbat/status/1489582258793156612
+
+jan:
+subset dict: https://twitter.com/nedbat/status/1487084661163626506
+
+
+
+
+
+
+
+
+
+
+-->
+
+</page>

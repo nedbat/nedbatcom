@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220508T083411'>
+<title>Twitter tidbits</title>
+<category>python</category>
+<category>twitter</category>
+<description>Lately I've been posting Python tidbits on Twitter. Here's a bit about how I make them.</description>
+<img src="pix/cards/twitter-tidbit.png" alt="How code looks in my tweets"/>
+<body>
+
+<p>Lately I've been posting Python tidbits on
+<a href="https://twitter.com/nedbat">Twitter</a>.  It's been fun finding
+things that people might not yet know, fitting them into a tweet, and giving
+them some energy.</p>
+
+<p>People ask how I make them.  I tried a few "make a code screenshot" sites at
+first, but wanted more control over how the images looked.  Now I create the
+code shots in vim with a tweaked color scheme
+(<a href="https://github.com/Rigellute/shades-of-purple.vim">shades-of-purple</a>).
+This lets me do things like highlight specific words I want to draw attention
+to.  Then I use the Mac screenshot tool to grab an image:</p>
+
+<figurep href="https://twitter.com/nedbat/status/1522928485689348096">
+    <img src="pix/twitter-tidbit-code.jpg" alt="An example of purpled code"/>
+</figurep>
+
+<p>The font is Recursive Mono SemiCasual.
+<a href="https://www.recursive.design/">Recursive</a> is a lovely and lively
+variable font with a number of axes to play with, especially the Casual axis,
+which I've set to halfway between Linear and Casual.
+You can get it now on
+<a href="https://fonts.google.com/specimen/Recursive">Google Fonts</a>.  I'd
+like to try using Semi-Mono, but vim only understands monospaced fonts.</p>
+
+<figurep href="https://www.recursive.design/">
+    <img src="pix/recursive_mono.png" alt="A sample of Recursive Mono, in Linear, SemiCasual, and Casual"/>
+</figurep>
+
+<p>Some people have asked about publishing these tidbits here on
+nedbatchelder.com also, but I'm not sure it's worth the effort.  Would it be
+helpful to have a <a href="/text/tidbits.html">page like this</a> that
+collected them per-month or something? Or one tweet per page? Or just let them
+live on Twitter?</p>
+
+</body>
+</entry>
+</blog>
