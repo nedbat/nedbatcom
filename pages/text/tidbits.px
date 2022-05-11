@@ -150,14 +150,94 @@ find things.</p>
 
 
 
+<!-- =============================================== -->
+
+<h1>itertools.product</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1524008099375427584") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Multiple loops can sometimes be replaced by one itertools.product() from the <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> stdlib. <a href="https://t.co/50b7F4Z7UV">pic.twitter.com/50b7F4Z7UV</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1524008099375427584?ref_src=twsrc%5Etfw">May 10, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<code><![CDATA[
+>>> import itertools, collections
+
+>>> for x, y in itertools.product([-1, 1], [-1, 1]):
+...     print(x, y)
+-1 -1
+-1 1
+1 -1
+1 1
+
+>>> # All possible rolls of three dice.
+>>> rolls = itertools.product(range(1, 7), repeat=3)
+>>> tally = collections.Counter(sum(t) for t in rolls)
+>>> for total in sorted(tally):
+...     occurs = tally[total]
+...     print(f"{total:3d}: {occurs:3d} {'░'*occurs}▌")
+
+  3:   1 ░▌
+  4:   3 ░░░▌
+  5:   6 ░░░░░░▌
+  6:  10 ░░░░░░░░░░▌
+  7:  15 ░░░░░░░░░░░░░░░▌
+  8:  21 ░░░░░░░░░░░░░░░░░░░░░▌
+  9:  25 ░░░░░░░░░░░░░░░░░░░░░░░░░▌
+ 10:  27 ░░░░░░░░░░░░░░░░░░░░░░░░░░░▌
+ 11:  27 ░░░░░░░░░░░░░░░░░░░░░░░░░░░▌
+ 12:  25 ░░░░░░░░░░░░░░░░░░░░░░░░░▌
+ 13:  21 ░░░░░░░░░░░░░░░░░░░░░▌
+ 14:  15 ░░░░░░░░░░░░░░░▌
+ 15:  10 ░░░░░░░░░░▌
+ 16:   6 ░░░░░░▌
+ 17:   3 ░░░▌
+ 18:   1 ░▌
+]]></code>
+
+
+<h1>fileinput</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1524355521314238466") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python's fileinput module makes it easy to write CLI tools that operate on files or as a filter. <a href="https://t.co/XAgcp3EeaR">https://t.co/XAgcp3EeaR</a><br/>(BTW, bat: <a href="https://t.co/X5GldLbF0e">https://t.co/X5GldLbF0e</a>) <a href="https://t.co/6pChvWlFrr">pic.twitter.com/6pChvWlFrr</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1524355521314238466?ref_src=twsrc%5Etfw">May 11, 2022</a></blockquote>
+<!-- [[[end]]] -->
 
 
 
+<!-- https://gist.github.com/nedbat/e4c71261089929291968967ea72b1f4f -->
+<code><![CDATA[
+% bat upper.py
+ ─────┬─────────────────────────────────────────────────────────────────────────────────────────────────────
+    1 │ # Convert text to upper case.
+    2 │
+    3 │ import fileinput
+    4 │
+    5 │ for line in fileinput.input(inplace=True):
+    6 │     line = line.upper()
+    7 │     print(line, end="")
+ ─────┴─────────────────────────────────────────────────────────────────────────────────────────────────────
 
+% echo "Hello there" | python upper.py
+HELLO THERE
+
+% echo "Four score and seven years" > getty.txt
+
+% echo "Lorem ipsum dolor sit amet" > lorem.txt
+
+% python upper.py *.txt
+
+% bat *.txt
+ ─────┬─────────────────────────────────────────────────────────────────────────────────────────────────────
+    1 │ FOUR SCORE AND SEVEN YEARS
+ ─────┴─────────────────────────────────────────────────────────────────────────────────────────────────────
+ ─────┬─────────────────────────────────────────────────────────────────────────────────────────────────────
+    1 │ LOREM IPSUM DOLOR SIT AMET
+ ─────┴─────────────────────────────────────────────────────────────────────────────────────────────────────
+]]></code>
 
 <!--
 
 may:
+print_eventually: https://twitter.com/nedbat/status/1523362897761824773
+((above))
 gen comp: https://twitter.com/nedbat/status/1521820685844180993
 context mgrs: https://twitter.com/nedbat/status/1521469119240933376
 max key: https://twitter.com/nedbat/status/1521110506211139584
