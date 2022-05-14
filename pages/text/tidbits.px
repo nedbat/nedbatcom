@@ -255,6 +255,41 @@ squash = "!f() { \
 }; f"
 ]]></code>
 
+
+<h1>*map()</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1525476718160527362") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">To make squashing in <a href="https://twitter.com/hashtag/git?src=hash&amp;ref_src=twsrc%5Etfw">#git</a> easier: make "git rebase -i" automatically stash changes and squash marked commits.  Then a "squash" alias that skips the editor completely: <a href="https://t.co/JIQ6FRV5Ob">pic.twitter.com/JIQ6FRV5Ob</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1525082030186405890?ref_src=twsrc%5Etfw">May 13, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/03adf71663a1eee526b777a09ec2479b -->
+
+<code><![CDATA[
+>>> from pprint import pprint
+
+>>> def twitter(nick): return f"https://twitter.com/@{nick}"
+
+>>> def github(user): return f"https://github.com/{user}"
+
+>>> def pypi(proj): return f"https://pypi.org/project/{proj}"
+
+>>> links = [
+...    *map(twitter, ["nedbat", "coveragepy"]),
+...    github("nedbat"),
+...    *map(pypi, ["coverage", "dinghy", "scriv", "cog"]),
+... ]
+
+>>> pprint(links)
+['https://twitter.com/@nedbat',
+ 'https://twitter.com/@coveragepy',
+ 'https://github.com/nedbat',
+ 'https://pypi.org/project/coverage',
+ 'https://pypi.org/project/dinghy',
+ 'https://pypi.org/project/scriv',
+ 'https://pypi.org/project/cog']
+]]></code>
+
+
 <!--
 
 may:
