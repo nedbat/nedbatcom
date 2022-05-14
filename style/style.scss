@@ -854,6 +854,7 @@ blockquote.code {
     border: none;
     white-space: nowrap;
     overflow-x: auto;
+    resize: horizontal;
     line-height: 1;
     span.linenos {
         display: inline-block;
