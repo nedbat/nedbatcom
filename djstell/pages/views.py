@@ -8,6 +8,7 @@ import os.path
 import time
 
 import bleach
+import bleach.css_sanitizer
 from django.conf import settings
 from django.db.models.functions import Lower
 from django.http import HttpResponse, Http404, JsonResponse
@@ -282,9 +283,9 @@ def summary(request):
     entries = list(Entry.objects.all().order_by('-when')[:10])
     cleaner = bleach.sanitizer.Cleaner(
         tags=[],
-        styles=[],
         strip=True,
         strip_comments=True,
+        css_sanitizer=bleach.css_sanitizer.CSSSanitizer(allowed_css_properties=[])
     )
     resp = {}
     resp["entries"] = [

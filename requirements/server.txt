@@ -5,7 +5,7 @@
 #    make upgrade
 #
 asgiref==3.5.1            # via django
-bleach==5.0.0             # via -r requirements/base.in
+bleach[css]==5.0.0        # via -r requirements/base.in
 django==3.2.13            # via -r requirements/base.in, django-debug-toolbar, django-sendfile2
 django-debug-toolbar==3.4.0  # via -r requirements/base.in
 django-sendfile2==0.6.1   # via -r requirements/base.in
@@ -24,5 +24,6 @@ secure==0.3.0             # via -r requirements/base.in
 six==1.16.0               # via bleach, libsass
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes  # via -r requirements/base.in
 sqlparse==0.4.2           # via django, django-debug-toolbar
+tinycss2==1.1.1           # via bleach
 wcwidth==0.2.5            # via ftfy
-webencodings==0.5.1       # via bleach
+webencodings==0.5.1       # via bleach, tinycss2
