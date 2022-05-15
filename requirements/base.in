@@ -1,5 +1,6 @@
 Django<4.0
-Pygments
+# Pygments 2.12.0 broke our wrapping of HTML formatter
+Pygments<2.12
 lxml
 pillow
 #smartypants
