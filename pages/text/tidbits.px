@@ -259,7 +259,7 @@ squash = "!f() { \
 <h1>*map()</h1>
 
 <!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1525476718160527362") ]]] -->
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">To make squashing in <a href="https://twitter.com/hashtag/git?src=hash&amp;ref_src=twsrc%5Etfw">#git</a> easier: make "git rebase -i" automatically stash changes and squash marked commits.  Then a "squash" alias that skips the editor completely: <a href="https://t.co/JIQ6FRV5Ob">pic.twitter.com/JIQ6FRV5Ob</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1525082030186405890?ref_src=twsrc%5Etfw">May 13, 2022</a></blockquote>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Iterable unpacking (star in a <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> list) makes a list from multiple iterables.  map() is a handy way to call functions (or classes!) on a set of values. Together they are powerful: <a href="https://t.co/gUXFHSzBgN">pic.twitter.com/gUXFHSzBgN</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1525476718160527362?ref_src=twsrc%5Etfw">May 14, 2022</a></blockquote>
 <!-- [[[end]]] -->
 
 <!-- https://gist.github.com/03adf71663a1eee526b777a09ec2479b -->
@@ -287,6 +287,45 @@ squash = "!f() { \
  'https://pypi.org/project/dinghy',
  'https://pypi.org/project/scriv',
  'https://pypi.org/project/cog']
+]]></code>
+
+<h1>"or" can be misleading</h1>
+
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1526170483821092867") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python's English-like syntax can be misleading. "or" doesn't work as many expect.<br/>BTW: there's a proposal to make this mistake a syntax error: <a href="https://t.co/A9AFORC49H">https://t.co/A9AFORC49H</a> <a href="https://t.co/1AKXnVQ6F1">pic.twitter.com/1AKXnVQ6F1</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1526170483821092867?ref_src=twsrc%5Etfw">May 16, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/64635f5fc945ede8959e508fd5213167 -->
+<code><![CDATA[
+# This seems like it would work..
+answer = input("Should I?")
+if answer == "y" or "yes":
+    print("OK, I will")
+
+# But it doesn't!
+>>> for answer in ["y", "no 😭", "please stop 😡", "HECK NO! 🤬"]:
+...     if answer == "y" or "yes":
+...         print(f"OK, since you said: {answer}")
+OK, since you said: y
+OK, since you said: no 😭
+OK, since you said: please stop 😡
+OK, since you said: HECK NO! 🤬
+
+# If the left arg is false, "or" returns its right arg:
+>>> for answer in ["y", "no", "please stop", "HECK NO!"]:
+...     print(f"{answer = :15}:", (answer == "y" or "yes"))
+answer = y              : True
+answer = no             : yes
+answer = please stop    : yes
+answer = HECK NO!       : yes
+
+# This does what you want:
+>>> for answer in ["y", "no", "please stop", "HECK NO!"]:
+...     # another way: answer in ["y", "yes"]:
+...     if answer == "y" or answer == "yes":
+...         print(f"OK, since you said: {answer}")
+OK, since you said: y
 ]]></code>
 
 
