@@ -12,6 +12,9 @@ import sys
 import requests
 
 def get_tweet(url):
+    if url in ["", "xxx"]:
+        # So that we can have placeholders
+        return
     oembed = requests.get(f"https://publish.twitter.com/oembed?url={url}").json()
     h = oembed["html"]
     h = h.replace("<br>", "<br/>")

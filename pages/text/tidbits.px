@@ -18,6 +18,7 @@ The tweets include code as images, both so they will fit, and to be more
 visually appealing.  I've included the text here inline to make it easier to
 find things.</p>
 
+<h1links/>
 
 <!-- =============================================== -->
 
@@ -158,7 +159,7 @@ find things.</p>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Multiple loops can sometimes be replaced by one itertools.product() from the <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> stdlib. <a href="https://t.co/50b7F4Z7UV">pic.twitter.com/50b7F4Z7UV</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1524008099375427584?ref_src=twsrc%5Etfw">May 10, 2022</a></blockquote>
 <!-- [[[end]]] -->
 
-<code><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> import itertools, collections
 
 >>> for x, y in itertools.product([-1, 1], [-1, 1]):
@@ -241,7 +242,7 @@ HELLO THERE
 
 <!-- https://gist.github.com/nedbat/e7611b1d6842df971a44b75fecd08816 -->
 
-<code><![CDATA[
+<code lang="ini"><![CDATA[
 # ~/.gitconfig
 [rebase]
 autostash = true    # stash/unstash work in progress
@@ -264,7 +265,7 @@ squash = "!f() { \
 
 <!-- https://gist.github.com/03adf71663a1eee526b777a09ec2479b -->
 
-<code><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> from pprint import pprint
 
 >>> def twitter(nick): return f"https://twitter.com/@{nick}"
@@ -297,7 +298,7 @@ squash = "!f() { \
 <!-- [[[end]]] -->
 
 <!-- https://gist.github.com/64635f5fc945ede8959e508fd5213167 -->
-<code><![CDATA[
+<code lang="pycon"><![CDATA[
 # This seems like it would work..
 answer = input("Should I?")
 if answer == "y" or "yes":
@@ -328,6 +329,50 @@ answer = HECK NO!       : yes
 OK, since you said: y
 ]]></code>
 
+
+<h1>"in" checks identity first</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1526869055314984965") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Classes in <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> can define their own equality.  But containment checks with "in" use object identity first: <a href="https://t.co/zp04Hg4gqk">pic.twitter.com/zp04Hg4gqk</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1526869055314984965?ref_src=twsrc%5Etfw">May 18, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/7a23372b196f7921534c420d4e55db92 -->
+
+<code lang="pycon"><![CDATA[
+>>> class Grumpy:
+...     # I'm not equal to anything, even myself!
+...     def __eq__(self, other):
+...         return False
+
+>>> g = Grumpy()
+>>> g is g      # Identity: same object?
+True
+>>> g == g      # Equality: the object decides.
+False
+
+>>> # "in" checks identity before equality:
+>>> g in [g]
+True
+>>> g in ["Doc", "Happy", g, "Sleepy", "Sneezy"]
+True
+]]></code>
+
+
+<!-- ============================================================ -->
+
+<comment>
+
+    <h1>xxx</h1>
+
+    <!-- [[[cog get_tweet("xxx") ]]] -->
+    <!-- [[[end]]] -->
+
+    <!-- https://gist.github.com/xxx -->
+
+    <code><![CDATA[
+    ]]></code>
+
+</comment>
 
 <!--
 
@@ -397,16 +442,6 @@ zip transpose: https://twitter.com/nedbat/status/1489582258793156612
 
 jan:
 subset dict: https://twitter.com/nedbat/status/1487084661163626506
-
-
-
-
-
-
-
-
-
-
 -->
 
 </page>
