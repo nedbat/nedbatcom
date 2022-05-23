@@ -17,6 +17,7 @@ Items with a star were introduced with a __future__ import.</p>
         Self (<a href="https://peps.python.org/pep-0673/">PEP 673</a>),
         LiteralString (<a href="https://peps.python.org/pep-0675/">PEP 675</a>),
         variadic generics (<a href="https://peps.python.org/pep-0646/">PEP 646</a>)</li>
+    <li>new module: <a href="https://docs.python.org/3.11/library/tomllib.html#module-tomllib">tomllib</a></li>
 </ul>
 
 <p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes so far</a>.</p>
@@ -39,6 +40,8 @@ Items with a star were introduced with a __future__ import.</p>
     <li>type hinting generics in standard collections</li>
     <li>relaxed decorator syntax</li>
     <li>str.removeprefix and str.removesuffix</li>
+    <li>new modules: <a href="https://docs.python.org/3/library/graphlib.html#module-graphlib">graphlib</a>,
+        <a href="https://docs.python.org/3/library/zoneinfo.html#module-zoneinfo">zoneinfo</a></li>
 </ul>
 
 <p><a href='http://docs.python.org/3/whatsnew/3.9.html'>Full list of 3.9 changes</a>.</p>
@@ -49,6 +52,7 @@ Items with a star were introduced with a __future__ import.</p>
     <li>assignment expressions (walrus operator := )</li>
     <li>f-string "=" specifier</li>
     <li>positional-only parameters</li>
+    <li>new module: <a href="https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata">importlib.metadata</a></li>
 </ul>
 
 <p><a href='https://docs.python.org/3/whatsnew/3.8.html'>Full list of 3.8 changes</a>.</p>
@@ -58,8 +62,10 @@ Items with a star were introduced with a __future__ import.</p>
 <ul>
     <li>postponed evaluation of type annotations (PEP 563)</li>
     <li>async and await are keywords</li>
-    <li>dataclasses</li>
+    <li><a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses</a></li>
     <li>dict order is guaranteed</li>
+    <li>new modules: <a href="https://docs.python.org/3/library/contextvars.html#module-contextvars">contextvars</a>,
+        <a href="https://docs.python.org/3/library/importlib.html#module-importlib.resources">importlib.resources</a></li>
 </ul>
 
 <p><a href='https://docs.python.org/3/whatsnew/3.7.html'>Full list of 3.7 changes</a>.</p>
@@ -72,7 +78,7 @@ Items with a star were introduced with a __future__ import.</p>
     <li>dicts happen to be (but are not guaranteed to be) ordered</li>
     <li>underscores in numeric literals</li>
     <li>variable annotations</li>
-    <li>secrets module in stdlib</li>
+    <li>new module: <a href="https://docs.python.org/3/library/secrets.html#module-secrets">secrets</a></li>
 </ul>
 
 <p><a href='http://docs.python.org/3/whatsnew/3.6.html'>Full list of 3.6 changes</a>.</p>
