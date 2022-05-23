@@ -401,6 +401,49 @@ True
 ]]></code>
 
 
+<h1>Lists can hold any (and different) types</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1528712346742366214") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Usually <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> lists hold objects of all the same type, but they don't have to, and they can hold any type: <a href="https://t.co/oFhZrDKH0J">pic.twitter.com/oFhZrDKH0J</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1528712346742366214?ref_src=twsrc%5Etfw">May 23, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/03ed086605c555b75290f216e6ce3351 -->
+
+<code lang="pycon"><![CDATA[
+>>> import math
+>>> nums = [1, 2, 3]
+
+>>> things = [
+...     math,               # a module
+...     math.factorial,     # a function
+...     int,                # a type
+...     nums.append,        # a method
+...     nums,               # a list
+...     KeyError("Ugh!"),   # an exception
+...     KeyError,           # an exception class
+... ]
+
+>>> things[0].log10(20)     # math.log10(20)
+1.3010299956639813
+
+>>> things[1](6)            # math.factorial(6)
+720
+
+>>> things[2](3.14159)      # int(3.14159)
+3
+
+>>> things[3](99)           # nums.append(99)
+>>> things[4]               # nums
+[1, 2, 3, 99]
+
+>>> try:
+...     raise things[5]     # KeyError("Ugh!")
+... except things[6] as e:  # KeyError
+...     print(e)
+...
+'Ugh!'
+]]></code>
+
 <!-- ============================================================ -->
 
 <comment>
