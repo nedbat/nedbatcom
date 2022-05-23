@@ -10,10 +10,13 @@ Items with a star were introduced with a __future__ import.</p>
 
 <h1>3.11 (beta): due October 3, 2022</h1>
 <ul>
-    <li>10—60% faster than 3.10</li>
+    <li>10–60% faster than 3.10</li>
     <li>exact expression error locations</li>
     <li>exception groups and notes</li>
-    <li>typing: Self, LiteralString</li>
+    <li>typing:
+        Self (<a href="https://peps.python.org/pep-0673/">PEP 673</a>),
+        LiteralString (<a href="https://peps.python.org/pep-0675/">PEP 675</a>),
+        variadic generics (<a href="https://peps.python.org/pep-0646/">PEP 646</a>)</li>
 </ul>
 
 <p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes so far</a>.</p>
