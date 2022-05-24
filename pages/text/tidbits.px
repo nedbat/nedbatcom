@@ -444,6 +444,43 @@ True
 'Ugh!'
 ]]></code>
 
+
+<h1>defaultdict</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1529098138837037057") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> defaultdict takes a function that can make new values as needed. You don't have to check if a key exists before you add to its value! 😍🤓😎 <a href="https://t.co/SpHLLMKf13">pic.twitter.com/SpHLLMKf13</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1529098138837037057?ref_src=twsrc%5Etfw">May 24, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/372adc1c0720141bf8ad4677b87e4c45 -->
+
+<code lang="pycon"><![CDATA[
+>>> # https://en.wikipedia.org/wiki/Gettysburg_Address
+>>> speech = """
+...     Four score and seven years ago our fathers brought forth
+...     on this continent, a new nation, ...
+...                     (... 17 lines snipped ...)
+...     ... that government of the people, by the people, for the
+...     people, shall not perish from the earth.
+... """
+
+>>> import collections
+
+>>> initials = collections.defaultdict(set)
+>>> for word in speech.split():
+...     word = word.lower().strip(".,")
+...     initials[word[0]].add(word)
+
+>>> print(initials["n"])
+{'nation', 'never', 'new', 'nobly', 'nor', 'not', 'note', 'now'}
+
+>>> print(initials["p"])
+{'people', 'perish', 'place', 'poor', 'portion', 'power', 'proper', 'proposition'}
+
+>>> print(initials["d"])
+{'dead', 'dedicate', 'dedicated', 'detract', 'devotion', 'did', 'died', 'do'}
+]]></code>
+
+
 <!-- ============================================================ -->
 
 <comment>
