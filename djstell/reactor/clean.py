@@ -1,6 +1,7 @@
 import functools
 
 import bleach
+import bleach.css_sanitizer
 import markdown2
 
 
@@ -33,7 +34,7 @@ def convert_body(body):
     )
     cleaner = bleach.sanitizer.Cleaner(
         tags=ALLOWED_HTML_TAGS,
-        styles=[],
+        css_sanitizer=bleach.css_sanitizer.CSSSanitizer(allowed_css_properties=[]),
         strip=True,
         strip_comments=True,
         filters=[linkifier],
