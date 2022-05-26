@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220526T072547'>
+<title>Custom search keywords</title>
+<category>browsers</category>
+<description>Define custom browser search keywords to super-charge your common searches.</description>
+<img src="pix/cards/browser-shortcut.png" alt="Showing a shortcut of 'pep 636' jumping to PEP 636"/>
+
+<body>
+
+<p>You can define custom search keywords in your browser to make common searches
+easier.  How to do it isn't well documented, so I'm showing you how here.
+</p>
+
+<p>As an example, I have a custom keyword "pypi", so I can search PyPI for a
+package name by typing "pypi some name" in my browser's address bar, and it
+takes me directly to <a href="https://pypi.org/search/?q=some
+name">https://pypi.org/search/?q=some name</a>.</p>
+
+<p>You can create your own custom keywords to have shortcuts to all kinds of
+searches.  You provide a URL with a placeholder <b>%s</b> in it.  When you type
+the keyword in the address bar, the rest of the entry is plugged into the
+placeholder, and you jump to the resulting URL.</p>
+
+
+<h1>Handy keywords</h1>
+
+<p>These are some of the custom search keywords I use.  You can use them as-is,
+adapt them as you need, or create your own. Instructions for creating keywords
+are further down the page.</p>
+
+<dl>
+
+<dt><b>py</b>: Search Python docs</dt>
+<dd>https://www.google.com/search?q=site%3Adocs.python.org%20%s</dd>
+
+<dt><b>pep</b>: Find a PEP by number</dt>
+<dd>https://peps.python.org/pep-0%s</dd>
+
+<dt><b>pypi</b>: Find a PyPI package</dt>
+<dd>https://pypi.org/search/?q=%s</dd>
+
+<dt><b>gh</b>: GitHub code search</dt>
+<dd>https://github.com/search?type=Code&amp;q=%s</dd>
+
+<dt><b>gpy</b>: Google search for Python things, but not Monty Python</dt>
+<dd>http://www.google.com/search?q=%s+python+-monty</dd>
+
+<dt><b>xlate</b>: Translate text, auto-detecting the language</dt>
+<dd>https://translate.google.com/?sl=auto&amp;tl=en&amp;op=translate&amp;q=%s</dd>
+
+</dl>
+
+
+<h1>How to define a keyword in Firefox</h1>
+
+<p>Firefox defines custom keywords as bookmarks:</p>
+
+<ol>
+<li>Select <b>Bookmarks - Manage Bookmarks</b> from the menu to open the Library dialog.</li>
+<li>In the left-hand sidebar, select <b>Quick Searches</b>. You'll see a handful of pre-defined searches.</li>
+<li>Using the gear drop-down at the top of the dialog, select <b>Add Bookmark...</b></li>
+<li>Enter the URL of the search in the <b>URL</b> field.  Use <b>%s</b> as the placeholder.</li>
+<li>Put the keyword you want to use in the <b>Keyword</b> field.</li>
+<li>You can give the bookmark a name to make it easier to find it later if you need to.</li>
+<li><b>Save</b> the bookmark, and close the Library.</li>
+<li>Now you can use your keyword in the address bar.</li>
+</ol>
+
+
+<h1>How to define a keyword in Chrome</h1>
+
+<p>Chrome defines custom keywords as search engines in Settings:</p>
+
+<ol>
+<li>Select <b>Preferences</b> or type <b>chrome://settings</b> in the address bar.</li>
+<li>In the left-hand sidebar, select <b>Search engine</b> and then <b>Manage search engines and site search</b>.</li>
+<li>Scroll down to <b>Site search</b>.</li>
+<li>Click <b>Add</b>.</li>
+<li>Put a description in the <b>Search engine</b> field.</li>
+<li>Enter the URL in the <b>URL</b> field, with %s as a placeholder.</li>
+<li>Put the keyword in the <b>Shortcut</b> field.</li>
+<li>Click <b>Add</b>, then close the Settings tab.</li>
+<li>Now you can use your keyword in the address bar.</li>
+</ol>
+
+</body>
+</entry>
+</blog>
