@@ -98,7 +98,7 @@
                     </xsl:attribute>
                 </xsl:if>
                 <xsl:apply-templates select='@*|text()' />
-                <a class='headerlink'>
+                <a class='headerlink' aria-label='Link to this header'>
                     <xsl:attribute name='href'>
                         <xsl:text>#</xsl:text>
                         <xsl:value-of select='$h_id'/>
