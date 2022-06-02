@@ -366,7 +366,7 @@ True
 
 <!-- https://gist.github.com/nedbat/778e92b9c509b66e0c0d15edf749ec24 -->
 
-<code><![CDATA[
+<code lang="pycon"><![CDATA[
 >>> def rolling_bytes(bits):
 ...     """Bytes from a rolling window over bits."""
 ...     byte = 0
@@ -478,6 +478,79 @@ True
 
 >>> print(initials["d"])
 {'dead', 'dedicate', 'dedicated', 'detract', 'devotion', 'did', 'died', 'do'}
+]]></code>
+
+
+
+<h1>strings are iterable</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1530556246671216641") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python strings are iterable, giving you their characters.  This is sometimes inconvenient, but here it's used three different ways to check if a string has properly balanced parentheses and brackets.<br/>Can you spot them all? 🧐🔎 <a href="https://t.co/HpsT7TwP3P">pic.twitter.com/HpsT7TwP3P</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1530556246671216641?ref_src=twsrc%5Etfw">May 28, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/90e548c632d1e1b2a11aa686674bcdbe -->
+
+<code lang="python"><![CDATA[
+# Map closing bracket to the opening bracket:
+openers = dict([")(", "][", "}{"])          # 1
+
+def are_parens_balanced(text: str) -> bool:
+    """Determine if paired brackets nest properly."""
+    stack = []
+    for char in text:                       # 2
+        if char in "([{":                   # 3a
+            stack.append(char)
+        elif char in ")]}":                 # 3b
+            if not stack:
+                return False
+            if stack[-1] != openers[char]:
+                return False
+            stack.pop()
+    return not stack
+
+
+import pytest
+
+@pytest.mark.parametrize("text, res", [
+    ("abcde", True),
+    ("()()()", True),
+    ("([{}])[()]()[]{{{look}}}", True),
+    ("()()(]", False),
+    ("]", False),
+    ("[", False),
+])
+def test_it(text, res):
+    assert are_parens_balanced(text) == res
+]]></code>
+
+
+<h1>__missing__</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1531610946413666306") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python dict subclasses can define __missing__: it's called when a key is missing.  Instead of hiding a dict in a function as a cache, how about hiding a function in a dict!? A Fibonacci dictionary: <a href="https://t.co/N2hE8p76lO">pic.twitter.com/N2hE8p76lO</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1531610946413666306?ref_src=twsrc%5Etfw">May 31, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<code lang="pycon"><![CDATA[
+>>> class FibDict(dict):
+...     def __init__(self):
+...         self[0] = self[1] = 1
+...
+...     def __missing__(self, k):
+...         fibk = self[k] = self[k-1] + self[k-2]
+...         return fibk
+
+>>> fibd = FibDict()
+>>> fibd[10]
+89
+
+>>> fibd[100]
+573147844013817084101
+
+>>> fibd[200]
+453973694165307953197296969697410619233826
+
+>>> len(fibd)
+201
 ]]></code>
 
 
