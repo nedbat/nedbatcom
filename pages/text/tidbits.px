@@ -554,6 +554,27 @@ def test_it(text, res):
 ]]></code>
 
 
+<h1>__innit__</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1532345553538977803") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">In the UK, local slang lets you define more enthusiastic <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> constructors: 🇬🇧 🤣 <a href="https://t.co/hnavanWDvy">pic.twitter.com/hnavanWDvy</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1532345553538977803?ref_src=twsrc%5Etfw">June 2, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/3e8d5081e7635ab885aa6bee15819d2c -->
+
+<code lang="python"><![CDATA[
+# Tired:
+class MyBoringClass:
+    def __init__(self):     # 🥱
+        ...
+
+# Wired:
+class MyExcitedClass:
+    def __innit__(self):    # 🤣
+        ...
+]]></code>
+
+
 <!-- ============================================================ -->
 
 <comment>
