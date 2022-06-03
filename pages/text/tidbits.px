@@ -575,6 +575,53 @@ class MyExcitedClass:
 ]]></code>
 
 
+<h1>Callable things</h1>
+
+<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1532699139263315968") ]]] -->
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Lots of <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> things are callable, and you don't need to know what they are to call them: <a href="https://t.co/WcTThT7TXK">pic.twitter.com/WcTThT7TXK</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1532699139263315968?ref_src=twsrc%5Etfw">June 3, 2022</a></blockquote>
+<!-- [[[end]]] -->
+
+<!-- https://gist.github.com/b1d6c6fb35c45cd404c333b3ed062bda -->
+
+<code lang="pycon"><![CDATA[
+>>> def function():
+...     return "A function"
+
+>>> class Klass:
+...     def __init__(self):
+...         print("A constructor")
+...
+...     def method(self):
+...         return "A method"
+...
+...     def __call__(self):
+...         return "An object"
+
+>>> obj = Klass()
+A constructor
+
+>>> a_type = list
+
+>>> for callable_thing in [
+...     function,
+...     lambda: "Another function",
+...     Klass,
+...     obj.method,
+...     obj,
+...     a_type,
+... ]:
+...     print(callable_thing())
+
+A function
+Another function
+A constructor
+<__main__.Klass object at 0x1031f7bb0>
+A method
+An object
+[]
+]]></code>
+
+
 <!-- ============================================================ -->
 
 <comment>
