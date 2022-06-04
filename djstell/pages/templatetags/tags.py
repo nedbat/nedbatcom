@@ -149,7 +149,7 @@ def static_link(filename):
     if ext == ".css":
         tag = f"<link rel='stylesheet' href='{url}' type='text/css'>"
     elif ext == ".js":
-        tag = f"<script type='text/javascript' src='{url}'></script>"
+        tag = f"<script src='{url}'></script>"
     return mark_safe(tag)
 
 @register.simple_tag
