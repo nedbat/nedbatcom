@@ -113,6 +113,9 @@ def content_transform(name, xmltext, child=None, params={}):
     # smartypants doesn't handle </a>' properly.
     html = re.sub(r"(</\w+>)'", r"\1&#8217;", html)
     html = smartypants.smartypants(html, smartypants.Attr.q | smartypants.Attr.n)
+    # <source> tags should be self-closing, but I don't know how to make XSLT
+    # do that for me.
+    html = html.replace("></source>", "/>")
     #print("Transformed {!r} into {!r}".format(xmltext[:80], html[:80]))
     for entry in XSLT_XFORM.error_log:
         if entry.filename == '<string>':
