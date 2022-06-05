@@ -8,10 +8,10 @@
 <p>We had a tricky debugging need at work: we wanted to track how an attribute
 on an object was changing.  Here's the unusual solution we used.</p>
 
-<p>The __setattr__ special method is called when an attribute is changed on an
-object.  But like all special methods, it's not found on the object, only on the
-class.  We didn't want to track changes to all objects of the class because it
-would produce too much noise in the logs.</p>
+<p>The __setattr__ special method (dunder) is called when an attribute is
+changed on an object.  But like all special methods, it's not found on the
+object, only on the class.  We didn't want to track changes to all objects of
+the class because it would produce too much noise in the logs.</p>
 
 <p>So we wanted a per-object special method.  The way we came up with was to
 define a new class with the special method.  The class is derived from the
