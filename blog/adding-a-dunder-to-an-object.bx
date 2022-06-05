@@ -1,32 +1,70 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20210324T110228' draft='y'>
+<entry when='20220605T102900'>
 <title>Adding a dunder to an object</title>
-<category></category>
+<category>python</category>
 <body>
 
-<code><![CDATA[
-class SomeObject:
-    def __init__(self):
-        self.attr = "first"
+<p>We had a tricky debugging need at work: we wanted to track how an attribute
+on an object was changing.  Here's the unusual solution we used.</p>
 
-obj = SomeObject()
-print(f"attr is {obj.attr}")
-obj.attr = "second"
-print(f"attr is {obj.attr}")
+<p>The __setattr__ special method is called when an attribute is changed on an
+object.  But like all special methods, it's not found on the object, only on the
+class.  We didn't want to track changes to all objects of the class because it
+would produce too much noise in the logs.</p>
 
-def patch_it(obj):
-    class Wrapper(obj.__class__):
-        def __setattr__(self, name, value):
-            print(f"setting {name} to {value!r}")
-            return super().__setattr__(name, value)
-    obj.__class__ = Wrapper
+<p>So we wanted a per-object special method.  The way we came up with was to
+define a new class with the special method.  The class is derived from the
+object's existing class, so that everything would work the way it should.  Then
+we changed the object's class.</p>
 
-patch_it(obj)
-print(f"attr is {obj.attr}")
-obj.attr = "third"
-print(f"attr is {obj.attr}")
+<p>Changing an object's class sounds kind of impossible, but since in Python
+everything happens at run-time, you can just assign a new class to
+obj.__class__, and now that is the object's class.</p>
+
+<p>Here's the code, simplified:</p>
+
+<code lang="pycon"><![CDATA[
+>>> class SomeObject:
+...     ...
+
+>>> class Nothing:
+...     """Just to get a nice repr for Nothing."""
+...     def __repr__(self):
+...         return "<Nothing>"
+
+>>> obj = SomeObject()
+>>> obj.attr = "first"
+>>> obj.attr
+'first'
+
+>>> def spy_on_changes(obj):
+...     """Tweak an object to show attributes changing."""
+...     class Wrapper(obj.__class__):
+...         def __setattr__(self, name, value):
+...             old = getattr(self, name, Nothing())
+...             print(f"Spy: {name}: {old!r} -> {value!r}")
+...             return super().__setattr__(name, value)
+...     obj.__class__ = Wrapper
+
+>>> spy_on_changes(obj)
+>>> obj.attr = "second"
+Spy: attr: 'first' -> 'second'
+
+>>> obj.attr
+'second'
+
+>>> obj.another = 'foo'
+Spy: another: <Nothing> -> 'foo'
 ]]></code>
+
+<p>One more detail: the Nothing class lets us use repr() to show an object but
+also get a nice message if there wasn't a value before.</p>
+
+<p>The real code was more involved, and showed what code was changing the
+attribute.  This is extreme, but helped us debug a problem. As I said in
+<a pref='text/machete.px'/>, Python's dynamic nature can get us into trouble,
+so we might as well use it to get us out of trouble.</p>
 
 </body>
 </entry>
