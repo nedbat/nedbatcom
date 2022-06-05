@@ -298,7 +298,7 @@ def summary(request):
         }
         for e in entries
     ]
-    return JsonResponse(resp)
+    return JsonResponse(resp, json_dumps_params=dict(indent=4))
 
 
 def crash(request):

@@ -6,6 +6,8 @@
 
 .PHONY: publish stage ned.% dep.% live
 
+LIVEPORT = 8000
+
 publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
 
@@ -23,7 +25,7 @@ live: ## run a live dev Django server
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
 stoplive: ## stop the live dev Django server
-	kill $$(lsof -i tcp:8000 | grep LISTEN | cut -f 2 -d ' ')
+	kill $$(lsof -i tcp:$(LIVEPORT) | grep LISTEN | cut -f 2 -d ' ')
 
 ##@ Maintenance
 
@@ -69,9 +71,11 @@ WGET_OPTS = \
 	--level=inf \
 	--execute robots=off
 
+LIVEHOST = http://127.0.0.1:$(LIVEPORT)
 HTML_URLS = \
-	http://127.0.0.1:8000 \
-	http://127.0.0.1:8000/blog/drafts.html
+	$(LIVEHOST) \
+	$(LIVEHOST)/blog/drafts.html \
+	$(LIVEHOST)/summary.json
 
 html: ## make HTML for comparing and examining
 	LIVE_NODJTB=1 REPEATABLE=1 make live &
