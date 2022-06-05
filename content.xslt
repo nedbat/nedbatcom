@@ -8,8 +8,6 @@
 	exclude-result-prefixes='xuff'
 	>
 
-<xsl:param name='nophp' />
-
 <xsl:include href='tools.xslt' />
 
 <xsl:output
