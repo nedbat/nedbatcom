@@ -353,28 +353,40 @@ td {
     display: none !important;
 }
 
-p {
-    &.figure {
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
+div.figurep {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 
-        > .aspect {
-            flex: 1 100%;
-        }
+    > .aspect {
+        flex: 1 100%;
     }
 
-    &.figure, &.bulletsep {
-        text-align: center;
-        max-width: 32em;    // about 560px
-        margin: 1em auto;
-    }
+    text-align: center;
+    max-width: 32em;    // about 560px
+    margin: 1em auto;
 
-    &.figure img {
+    img {
         margin: 0;
         @media (min-width: $tiny-break) {
             margin: .1em .25em;
         }
+    }
+}
+
+figure {
+    margin: 0;
+}
+
+figcaption {
+    font-style: italic;
+}
+
+p {
+    &.bulletsep {
+        text-align: center;
+        max-width: 32em;    // about 560px
+        margin: 1em auto;
     }
 
     &.youtube {

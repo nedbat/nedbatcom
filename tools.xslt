@@ -347,9 +347,9 @@
 
 <xsl:template match='figurep'>
     <xsl:call-template name='checkblock'/>
-    <p class='figure'>
+    <div class='figurep'>
         <xsl:call-template name='figurep_maybe_a'/>
-    </p>
+    </div>
 </xsl:template>
 
 <xsl:template name='figurep_maybe_a'>
@@ -386,28 +386,35 @@
 <xsl:template name='do_img'>
     <xsl:param name='src' />
     <!-- I don't understand why, but <picture><img src='http://...'/></picture> doesn't display the image. -->
-    <xsl:choose>
-        <xsl:when test='contains($src, ":")'>
-            <xsl:call-template name='img_element'>
-                <xsl:with-param name='src' select='$src' />
-            </xsl:call-template>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:variable name='webp' select='xuff:imgvariant(string($src), "webp")' />
-            <picture>
-                <xsl:if test='$webp'>
-                    <source type="image/webp">
-                        <xsl:attribute name='srcset' >
-                            <xsl:value-of select='$webp' />
-                        </xsl:attribute>
-                    </source>
-                </xsl:if>
+    <figure>
+        <xsl:choose>
+            <xsl:when test='contains($src, ":")'>
                 <xsl:call-template name='img_element'>
                     <xsl:with-param name='src' select='$src' />
                 </xsl:call-template>
-            </picture>
-        </xsl:otherwise>
-    </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name='webp' select='xuff:imgvariant(string($src), "webp")' />
+                <picture>
+                    <xsl:if test='$webp'>
+                        <source type="image/webp">
+                            <xsl:attribute name='srcset' >
+                                <xsl:value-of select='$webp' />
+                            </xsl:attribute>
+                        </source>
+                    </xsl:if>
+                    <xsl:call-template name='img_element'>
+                        <xsl:with-param name='src' select='$src' />
+                    </xsl:call-template>
+                </picture>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test='@caption'>
+            <figcaption>
+                <xsl:value-of select='@caption'/>
+            </figcaption>
+        </xsl:if>
+    </figure>
 </xsl:template>
 
 <xsl:template name='img_element'>
