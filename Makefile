@@ -22,6 +22,9 @@ live: ## run a live dev Django server
 	cp -R ../tabblo/[1-9]* live/public/tabblo
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
+stoplive: ## stop the live dev Django server
+	kill $$(lsof -i tcp:8000 | grep LISTEN | cut -f 2 -d ' ')
+
 ##@ Maintenance
 
 .PHONY: upgrade backupcomments
@@ -55,20 +58,25 @@ loadlivecomments: ## load latest comments into live server
 	sqlite3 djstell/reactor.db 'delete from reactor_comment'
 	django-admin loaddata --settings=djstell.settings_live --database=reactor $$(ls -1 data/*.json | tail -1)
 
+WGET_OPTS = \
+	--no-verbose \
+	--directory-prefix=html \
+	--no-host-directories \
+	--adjust-extension \
+	--retry-connrefused \
+	--max-redirect=3 \
+	--recursive \
+	--level=inf \
+	--execute robots=off
+
+HTML_URLS = \
+	http://127.0.0.1:8000 \
+	http://127.0.0.1:8000/blog/drafts.html
+
 html: ## make HTML for comparing and examining
 	LIVE_NODJTB=1 REPEATABLE=1 make live &
 	sleep 20
-	wget \
-		--no-verbose \
-		--directory-prefix=html \
-		--no-host-directories \
-		--adjust-extension \
-		--retry-connrefused \
-		--max-redirect=3 \
-		--recursive \
-		--level=inf \
-		--execute robots=off \
-		http://127.0.0.1:8000
+	wget $(WGET_OPTS) $(HTML_URLS)
 
 css: ## make css from .scss
 	for f in style/[a-z]*.scss; do \
