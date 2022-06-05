@@ -125,6 +125,17 @@
     </xsl:call-template>
 </xsl:template>
 
+<!-- <img> now becomes <figure> etc.  <rawimg> is for a simple img. -->
+<xsl:template match='rawimg'>
+    <xsl:call-template name='img_element'>
+        <xsl:with-param name='src'>
+            <xsl:call-template name='makeuri'>
+                <xsl:with-param name='uri' select='@src' />
+            </xsl:call-template>
+        </xsl:with-param>
+    </xsl:call-template>
+</xsl:template>
+
 <xsl:template match='svg:*'>
     <xsl:copy-of select='.' />
 </xsl:template>

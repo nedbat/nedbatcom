@@ -75,6 +75,7 @@ LIVEHOST = http://127.0.0.1:$(LIVEPORT)
 HTML_URLS = \
 	$(LIVEHOST) \
 	$(LIVEHOST)/blog/drafts.html \
+	$(LIVEHOST)/err404.html \
 	$(LIVEHOST)/summary.json
 
 html: ## make HTML for comparing and examining
