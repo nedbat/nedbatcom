@@ -15,7 +15,7 @@
 
 <code lang='python'>
 new_songs = [s for s in songs if s.is_new()]
-old_songs = [s for s in songs if not s.is_new()] 
+old_songs = [s for s in songs if not s.is_new()]
 </code>
 
 <p>but without iterating the list twice and calling the predicate twice for
@@ -29,15 +29,15 @@ for s in songs:
     if s.is_new():
         new_songs.append(s)
     else:
-        old_songs.append(s) 
+        old_songs.append(s)
 </code>
 
 <p>which got shortened to:</p>
 
 <code lang='python'>
 new_songs, old_songs = [], []
-for s in songs: 
-    (new_songs if s.is_new() else old_songs).append(s) 
+for s in songs:
+    (new_songs if s.is_new() else old_songs).append(s)
 </code>
 
 <p>This works just fine for a simple list, but suppose the original sequence
@@ -61,29 +61,29 @@ def iterpartition(pred, it):
     it = iter(it)
     def get_false():
         while True:
-            if falses: 
+            if falses:
                 yield falses.popleft()
             else:
                 while True:
                     val = next(it)
-                    if pred(val): 
+                    if pred(val):
                         trues.append(val)
-                    else: 
+                    else:
                         break
                 yield val
     def get_true():
         while True:
-            if trues: 
+            if trues:
                 yield trues.popleft()
             else:
                 while True:
                     val = next(it)
-                    if not pred(val): 
+                    if not pred(val):
                         falses.append(val)
-                    else: 
+                    else:
                         break
                 yield val
-    return get_false(), get_true() 
+    return get_false(), get_true()
 </code>
 
 <p>Here two generators are created as closures, and returned as the result of
@@ -92,7 +92,7 @@ def iterpartition(pred, it):
     values to find the next one you want.</p>
 
 <p>Peter Otten contributed this gem:</p>
-    
+
 <code lang='python'>
 def partition(items, predicate=bool):
     a, b = itertools.tee((predicate(item), item) for item in items)
