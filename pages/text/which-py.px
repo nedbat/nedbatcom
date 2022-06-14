@@ -3,6 +3,7 @@
 <history>
 <what when='20220517T213300'>Created.</what>
 <what when='20220519T120700'>Added 3.11.</what>
+<what when='20220614T191200'>Added links to release schedule PEPs</what>
 </history>
 
 <p>This is a summary of what features appeared in which versions of Python.
@@ -20,7 +21,9 @@ Items with a star were introduced with a __future__ import.</p>
     <li>new module: <a href="https://docs.python.org/3.11/library/tomllib.html#module-tomllib">tomllib</a></li>
 </ul>
 
-<p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes so far</a>.</p>
+<p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes so far</a>.
+Release schedule: <a href="https://peps.python.org/pep-0664/">PEP 664</a>.
+</p>
 
 
 <h1>3.10: October 4, 2021</h1>
@@ -31,7 +34,9 @@ Items with a star were introduced with a __future__ import.</p>
     <li>union types as X|Y</li>
 </ul>
 
-<p><a href='https://docs.python.org/3/whatsnew/3.10.html'>Full list of 3.10 changes</a>.</p>
+<p><a href='https://docs.python.org/3/whatsnew/3.10.html'>Full list of 3.10 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0619/">PEP 619</a>.
+</p>
 
 
 <h1>3.9: October 5, 2020</h1>
@@ -44,7 +49,9 @@ Items with a star were introduced with a __future__ import.</p>
         <a href="https://docs.python.org/3/library/zoneinfo.html#module-zoneinfo">zoneinfo</a></li>
 </ul>
 
-<p><a href='http://docs.python.org/3/whatsnew/3.9.html'>Full list of 3.9 changes</a>.</p>
+<p><a href='http://docs.python.org/3/whatsnew/3.9.html'>Full list of 3.9 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0596/">PEP 596</a>.
+</p>
 
 
 <h1>3.8: October 14, 2019</h1>
@@ -55,7 +62,9 @@ Items with a star were introduced with a __future__ import.</p>
     <li>new module: <a href="https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata">importlib.metadata</a></li>
 </ul>
 
-<p><a href='https://docs.python.org/3/whatsnew/3.8.html'>Full list of 3.8 changes</a>.</p>
+<p><a href='https://docs.python.org/3/whatsnew/3.8.html'>Full list of 3.8 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0569/">PEP 569</a>.
+</p>
 
 
 <h1>3.7: June 27, 2018</h1>
@@ -68,7 +77,9 @@ Items with a star were introduced with a __future__ import.</p>
         <a href="https://docs.python.org/3/library/importlib.html#module-importlib.resources">importlib.resources</a></li>
 </ul>
 
-<p><a href='https://docs.python.org/3/whatsnew/3.7.html'>Full list of 3.7 changes</a>.</p>
+<p><a href='https://docs.python.org/3/whatsnew/3.7.html'>Full list of 3.7 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0537/">PEP 537</a>.
+</p>
 
 
 <h1>3.6: December 23, 2016</h1>
@@ -81,7 +92,9 @@ Items with a star were introduced with a __future__ import.</p>
     <li>new module: <a href="https://docs.python.org/3/library/secrets.html#module-secrets">secrets</a></li>
 </ul>
 
-<p><a href='http://docs.python.org/3/whatsnew/3.6.html'>Full list of 3.6 changes</a>.</p>
+<p><a href='http://docs.python.org/3/whatsnew/3.6.html'>Full list of 3.6 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0494/">PEP 494</a>.
+</p>
 
 
 <h1>3.5: September 13, 2015</h1>
