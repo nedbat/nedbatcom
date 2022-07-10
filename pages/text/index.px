@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<page title='Text' description='These are longer pieces of writing, sometimes text only, sometimes on video.'>
+<page title='Text'>
 <pagemenu/> <!-- Don't display the contents again. -->
 <section title='Text' order='600'/>
 
@@ -56,6 +56,12 @@
 <what when='20211013T172500'>Django Chat podcast</what>
 <what when='20220114T060500'>Cog podcast</what>
 </history>
+
+<meta>
+
+<description>These are longer pieces of writing, sometimes text only, sometimes on video.</description>
+
+</meta>
 
 <p>These are longer pieces of writing, sometimes text only, sometimes on video.</p>
 
