@@ -6,6 +6,7 @@
 <what when='20150103T062800'>Added adventofcode and a few others</what>
 <what when='20170420T104500'>Added donnemartin/interactive-coding-challenges</what>
 <what when='20200903T165700'>Added poker and username generator</what>
+<what when='20220716T192100'>Programming Koans is gone</what>
 </history>
 <meta>
 
@@ -64,12 +65,22 @@ tackle.</description>
     techniques, including programming.</li>
 
 <!-- Suggested by Blake Winton <bwinton@latte.ca> -->
-<li><a href="http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans">Programming Koans</a>:
+<li>Programming Koans:
     "Clone a GitHub repository that has 200 or so failing test cases. Then, you
     work your way through the test cases, writing functions and filling in the
     blanks, getting the tests to pass one by one. The first few tests are very
     basic and assume no prior knowledge of the language, and then they build on
-    each other, moving to more advanced topics."</li>
+    each other, moving to more advanced topics."
+    <ul>
+    <li>The <a href="http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans">original site</a>
+         is gone, but an <a href="https://web.archive.org/web/20210816194117/http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans">archive exists</a></li>
+    <li><a href="https://github.com/gregmalcolm/python_koans">Python Koans</a></li>
+    <li><a href="https://github.com/liammclennan/JavaScript-Koans">JavaScript Koans</a></li>
+    <li><a href="https://github.com/marcinbunsch/bash_koans">Bash Koans</a></li>
+    <li><a href="https://stevelosh.com/blog/2013/04/git-koans/">Git Koans</a></li>
+    <li><a href="https://blog.sanctum.geek.nz/vim-koans/">Vim Koans</a></li>
+    </ul>
+    </li>
 
 <li><a href="http://programmingpraxis.com/">Programming Praxis</a>: "This blog
     publishes new programming exercises weekly, at least, so that savvy
