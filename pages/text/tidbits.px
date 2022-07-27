@@ -622,7 +622,10 @@ An object
 ]]></code>
 
 
-<!-- spy_on_changes: https://twitter.com/nedbat/status/1533454622450503680 -->
+<!-- spy_on_changes:
+https://twitter.com/nedbat/status/1533454622450503680
+
+-->
 
 
 <!-- never use is:
@@ -631,7 +634,8 @@ then quoted: https://twitter.com/nedbat/status/1534148551957151744
 gist: https://gist.github.com/359916809322ac9667b224a63e1c33d3 -->
 
 
-<!-- positional-only parameters: https://twitter.com/nedbat/status/1534491626348871681
+<!-- positional-only parameters:
+https://twitter.com/nedbat/status/1534491626348871681
 https://gist.github.com/nedbat/96637ed1d132958291a1f56d074ff7e8
 -->
 
@@ -754,6 +758,30 @@ https://gist.github.com/ba9cf2ea70a5b10646d130ec3897dd20
 chained comparisons
 https://twitter.com/nedbat/status/1548671110199140353
 https://gist.github.com/1f9183198ad5ceb212e93094bda4d5eb
+
+mutating while iterating
+https://twitter.com/nedbat/status/1549371223829712896
+https://gist.github.com/f0cc3cbed9edb5adeb78a94edba4522d
+
+iterable things (walrus & carpenter)
+https://twitter.com/nedbat/status/1549731346519445505
+https://gist.github.com/415c77921b4937a05f23a7fbae7a5741
+
+module __getattr__
+https://twitter.com/nedbat/status/1550094740833480705
+https://gist.github.com/300cf196ecf42928dadf4329fa95e84c
+
+multi-variable assignment, including one
+https://twitter.com/nedbat/status/1550461155230883841
+https://gist.github.com/2cbc1e9f573acd97b0288fb9622fa776
+
+sys.modules
+https://twitter.com/nedbat/status/1550832351361372160
+https://gist.github.com/d858d877e766fc62a8459861e6962137
+
+re.flags or re.count?
+https://twitter.com/nedbat/status/1551544292228730880
+https://gist.github.com/71658934f492a351a878e4f86da67978
 
 -->
 
