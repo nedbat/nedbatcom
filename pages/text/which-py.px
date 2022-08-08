@@ -12,6 +12,7 @@ Items with a star were introduced with a __future__ import.</p>
 <h1>3.11 (beta): due October 3, 2022</h1>
 <ul>
     <li>10–60% faster than 3.10</li>
+    <li>data class transforms (<a href="https://peps.python.org/pep-0681/">PEP 681</a>)</li>
     <li>exact expression error locations</li>
     <li>exception groups and notes</li>
     <li>typing:
