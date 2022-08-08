@@ -2,6 +2,7 @@
 <blog>
 <entry when='20090103T184721'>
 <title>Oldest files meme: PSCom</title>
+<category>postscript</category>
 <body>
 <p><a href='http://www.b-list.org/weblog/2009/jan/03/meme/'>James shows his oldest files</a>,
 a meme he <a href='http://blog.doughellmann.com/2009/01/new-year-meme-what-are-oldest-files-in.html'>picked up from Doug</a>
@@ -31,12 +32,12 @@ for granted now in the Python world, and in any modern programming environment.
 <p><a href='files/avl.c'>avl.c</a> starts like this:</p>
 
 <code lang='c'><![CDATA[
-/***	
+/***
  ***	avl.c --
- ***	
+ ***
  ***	The AVL height-balanced tree abstraction.
  ***	Six functions are defined:
- ***	
+ ***
  ***		newavl()
  ***			returns an empty avl tree.
  ***		addnode(tree, key, data, compare)
@@ -53,7 +54,7 @@ for granted now in the Python world, and in any modern programming environment.
  ***			node.
  ***		size = avlsize(tree)
  ***			Returns the number of nodes in the tree.
- ***	
+ ***
  ***	N.Batchelder, 5/7/85.
  ***	Adapted 1/13/85.
  ***/

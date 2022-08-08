@@ -374,6 +374,13 @@
     <short>prog lang</short>
 </category>
 
+<category id='postscript'>
+    <name>PostScript</name>
+    <about>Adobe's page description programming language</about>
+    <related>proglang</related>
+    <related>printing</related>
+</category>
+
 <category id='exceptions'>
     <name>Exceptions</name>
     <about>exceptions and error handling in code</about>
@@ -642,6 +649,7 @@
     <name>Printing</name>
     <about>mechanically creating images on paper</about>
     <related>type</related>
+    <related>postscript</related>
 </category>
 
 <category id='reviews'>
@@ -662,6 +670,7 @@
 <category id='ruby'>
     <name>Ruby</name>
     <about>the Ruby programming language</about>
+    <related>proglang</related>
 </category>
 
 <category id='gatherings'>
@@ -693,6 +702,7 @@
 <category id='pdf'>
     <name>PDF</name>
     <about>Adobe's Portable Document Format</about>
+    <related>postscript</related>
 </category>
 
 <category id='regex'>
