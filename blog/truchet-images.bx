@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220817T180827'>
+<title>Truchet images</title>
+<category>art</category>
+<description>Hacking around with Truchet tiles to display images</description>
+<img src="pix/truchet/card.png" alt="Young Marilyn, photo and Truchet-tiled"/>
+<body>
+
+<p>I got interested in
+<a href="https://en.wikipedia.org/wiki/Truchet_tiles">Truchet tiles</a>, and
+did some hacking around to understand them better, and then display some images
+using them.  The code is not clean or documented, and it's inefficient in dumb
+ways, but it made some nice pictures. The code is at
+<a href="https://github.com/nedbat/truchet">nedbat/truchet</a> if you want to
+experiment.</p>
+
+<p>A simple example of Truchet is Smith tiles. The tiles are designed to fit
+together seamlessly even when placed randomly:</p>
+
+<figurep>
+    <img src="pix/truchet/smith.png" alt="Random orientations of black/white tiles"/>
+</figurep>
+
+<p><a href="https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/">Christopher Carlson</a>
+came up with a way to generalize the tiles so they could be placed on top of each
+other at different sizes.  A square can be covered by four half-sized tiles with
+inverted colors and extra wings, and the pattern will remain seamless.</p>
+
+<p>Here are his tiles:</p>
+
+<figurep>
+    <img src="pix/truchet/carlson_set.png" alt="The 15 Carlson Truchet tiles"/>
+</figurep>
+
+<p>It can be hard to see how they overlap, but this is a start.  This is three
+different sizes of tile overlaid randomly, with the grid displayed to help see
+the edges:</p>
+
+<figurep>
+    <img src="pix/truchet/carlson_sample2.png" alt="A Carlson tiling at three different sizes"/>
+</figurep>
+
+<p>I love the randomness of these images, how shapes emerge that were not in the
+tiles themselves. I've been using them as Zoom backgrounds and desktop
+wallpapers.  But I wondered if they could be used to create images.</p>
+
+<p>The set of gray values in the Carlson set is somewhat limited, so I
+created a new set of tiles with more opportunities for variation:</p>
+
+<figurep>
+    <img src="pix/truchet/n6_set.png" alt="A larger set of new multi-scale Truchet tiles"/>
+</figurep>
+
+<p>These produced even more chaos and serendipity when used randomly:</p>
+
+<figurep>
+    <img src="pix/truchet/n6_sample.png" alt="Randomly placed N6 Truchet tiles"/>
+</figurep>
+
+<p>To make images, I used a photo as source and fit tiles onto it to match the
+gray levels.  Larger squares would be subdivided when their sub-squares'
+intensities differed more than some threshold:</p>
+
+<figurep>
+    <img src="pix/truchet/marilyn.jpg" alt="Young Marilyn Monroe, photo" width="150" height="150" />
+    <img src="pix/truchet/marilyn_truchet.png" alt="Young Marilyn Monroe, with Truchet tiles" width="375" height="375" />
+</figurep>
+
+<figurep>
+    <img src="pix/truchet/ned.jpg" alt="Me, photo" width="150" height="150" />
+    <img src="pix/truchet/ned_truchet.png" alt="Me, with Truchet tiles" width="375" height="375" />
+</figurep>
+
+<p>The algorithm to pick a tile will try to choose a good orientation, to match
+the colors within the square.  Notice the tiles used for my shoulders. Though,
+on the flip side, both these images clearly exhibit "the forehead problem"
+because there's little color variation there.</p>
+
+<p>Looking around for other high-contrast images, I tried a
+<a href="https://blog.codinghorror.com/">well-known blogger</a>'s avatar:</p>
+
+<figurep>
+    <img src="pix/truchet/codinghorror_truchet.png" alt="Coding Horror, in Truchet" width="375" height="375" />
+</figurep>
+
+<p>The subdivision algorithm uses a threshold to decide when a square has
+enough variation within it to deserve subdivision.  What happens if we start
+that threshold very large, and slide it down to very small, animating the
+result?</p>
+
+<figurep>
+    <img src="pix/truchet/marilyn_movie.gif" alt="Marilyn, emerging from coarse-grained to fine-grained detail" width="450" height="450" />
+</figurep>
+
+</body>
+</entry>
+</blog>
