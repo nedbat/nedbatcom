@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220827T075301'>
+<title>Stilted</title>
+<category>mycode</category>
+<category>postscript</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>For fun this summer, I implemented part of the PostScript language, using
+PyCairo for rendering. I call it
+<a href="https://github.com/nedbat/stilted">Stilted</a>.  Implementing a
+language is an interesting exercise. You always learn some things along the
+way.</p>
+
+
+<p><b>Executable bit:</b> All objects in PostScript have a literal/executable
+bit that can be changed with the <b>cvx</b> (convert to executable) and
+<b>cvlit</b> (convert to literal) operators.  Literal arrays are delimited by
+square brackets, executable arrays (procedures) are in curly braces.  Like in
+Python and JavaScript, multiple references share storage.  But oddly, in
+PostScript, you can duplicate an object on the stack, and change its executable
+bit, and now you have two references to the same storage, but with different
+attributes.</p>
+
+<p>Here's an example using
+<a href="https://www.ghostscript.com/">GhostScript</a> (a third-party
+conforming implementation):</p>
+
+<code lang="ps"><![CDATA[
+GS>      [1 2 3] dup         % make an an array and duplicate it
+GS<2>    cvx                 % make the top one executable
+GS<2>    pstack              % print the stack
+{1 2 3}
+[1 2 3]
+GS<2>    dup 1 99 put        % change the second element
+GS<2>    pstack              % both objects share the storage
+{1 99 3}
+[1 99 3]
+GS<2>
+]]></code>
+
+<p>The executable attribute is part of the reference, not part of the object!?
+This doesn't seem like a planned and desired outcome: it seems like a
+side-effect of a common C technique: using low bits of a pointer to store
+flags.</p>
+
+<p>While writing Stilted, I didn't realize this behavior until I already had
+made executability part of the object itself, so Stilted produces a different
+(wrong) result:</p>
+
+<code lang="ps"><![CDATA[
+|-0>     [1 2 3] dup        % make an array and duplicate it
+|-2>     cvx                % make the top one executable
+|-2>     pstack             % oops: both are changed!
+{1 2 3}
+{1 2 3}
+|-2>     dup 1 99 put
+|-2>     pstack
+{1 99 3}
+{1 99 3}
+|-2>
+]]></code>
+
+<p>Since I don't think anyone actually depends on having two objects that share
+storage, but with different executability, I didn't bother changing it.  An
+advantage of pure-fun side projects: you can do whatever you want!</p>
+
+<p>BTW: the numbers in the prompts are the current depth of the operand
+stack.</p>
+
+
+<p><b>Cutesy string syntax:</b> PostScript strings are made with parentheses,
+and they nest, so this is one string:</p>
+
+<code lang="ps"><![CDATA[
+GS> (Hello (there) 1 2 3) pstack
+(Hello \(there\) 1 2 3)
+GS<1>
+]]></code>
+
+<p>Stilted doesn't nest the parens in strings, because it uses regexes for
+lexing tokens, and nesting is hard with regexes.  This is a syntax error in
+Stilted:</p>
+
+<code lang="ps"><![CDATA[
+|-0> (Hello (there) 1 2 3) pstack
+Error: syntaxerror in 3
+Operand stack (4):
+3
+2
+1
+(Hello \(there)
+|-4>
+]]></code>
+
+<p>Also, who depends on nested parens in strings? Just escape the closing parens
+in your strings.</p>
+
+
+<p><b>Flexible scope:</b> PostScript is a stack-oriented language. There's an
+operand stack that operators pop and push to, and also a dictionary stack where
+names are defined and looked up.  The dictionary stack is explicitly manipulated
+with the <b>begin</b> and <b>end</b> operators.  Instead of procedures starting
+new scopes implicitly, the programmer decides when to begin and end scopes.
+This means they don't have to correspond to procedure invocations at all.</p>
+
+<p>We're so used to scoping being tied to function calls in our programming
+languages, it was strange to realize that the two concepts can be completely
+unrelated.</p>
+
+
+<p><b>Surprising gaps:</b> Re-acquainting myself with PostScript, I was
+surprised at what it didn't have: no way to sort arrays, no string formatting,
+and so on.  PostScript pre-dated languages like Python, JavaScript, and even
+Perl. Its model is much more like C than the higher-level languages that we're
+used to now.  Though C has string formatting, and you'd think that would be a
+useful thing in a printing programming language.</p>
+
+
+<p><b>More:</b> If you aren't familiar with PostScript, I've got more
+description of its <a pref="0blog/postscript-control-structures.bx">unusual
+control structure approach</a>, and also other blog posts
+<a href="https://nedbatchelder.com/blog/tag/postscript.html">tagged
+#postscript</a>.</p>
+
+<p>Stilted has been a lot of fun.  Extra fun: I used the
+<a pref="0blog/obfuscated-code.bx">Obfuscated PostScript</a> winners as test
+cases!</p>
+
+</body>
+</entry>
+</blog>
