@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20220919T072316'>
+<title>Making a coverage badge</title>
+<category>ci</category>
+<category>coverage</category>
+<category>github</category>
+<category>howto</category>
+
+<description>This is a sketch of how to use GitHub actions to get a total
+combined coverage number, and create a badge for your README.</description>
+<img src="pix/covbadges.png" alt="A spectrum of coverage badges"/>
+
+<body>
+
+<p>This is a sketch of how to use GitHub actions to get a total combined
+coverage number, and create a badge for your README. There are other approaches
+too, but this uses some commonly used tools to get the job done.</p>
+
+<p>We'll use tox to run tests, and GitHub actions to run tox.  A GitHub gist
+will be used as a scratch file to store parameters for the badge, which will be
+rendered by shields.io.</p>
+
+<p>Start with the tox.ini that runs your test suite, and also includes a
+"coverage" environment that combines, reports, and produces a JSON data
+file:</p>
+
+<code name="tox.ini" lang="ini"><![CDATA[
+[tox]
+envlist = py37,py38,py39,py310,coverage
+
+[testenv]
+commands =
+    python -m coverage run -p -m pytest
+
+[testenv:coverage]
+basepython = python3.10
+commands =
+    python -m coverage combine
+    python -m coverage report -m --skip-covered
+    python -m coverage json
+
+[gh-actions]
+python =
+    3.7: py37
+    3.8: py38
+    3.9: py39
+    3.10: py310
+]]></code>
+
+<p>We'll use a GitHub action to run tox, but before we get to that, we need two
+bits of infrastructure.  Go to https://gist.github.com and make an empty secret
+gist.  Copy the id of the gist.  Here we'll call it 123abc456def789.</p>
+
+<p>Next we'll create a personal access token for updating the gist.  Go to your
+<a href="https://github.com/settings/tokens">GitHub personal access tokens
+page</a> and click "Generate new token."  Select the "gist" scope, and click
+"Generate token." Copy the value displayed, it will look like
+"ghp_FSfkCeFblahblahblah". You can't get the value again, so be careful with
+it.</p>
+
+<p>In your repo on GitHub, go to Settings - Secrets - Actions, click "New
+repository secret." Use "GIST_TOKEN" as the Name, and paste the ghp_etc token as
+the Secret, then "Add secret."</p>
+
+<p>Now we're ready to create the GitHub action.  It will run the test suite on
+many versions of Python, then run the coverage step to combine all the data
+files.  It uses the JSON report to extract a displayable percentage, then uses a
+third-party GitHub action to create the JSON data in the Gist so that shields.io
+can display the badge.</p>
+
+<p>The badge is automatically colored: 50% or lower is red, 90% or higher is
+green, with a gradient between the two,
+<a href="https://github.com/nedbat/badge-samples">like this</a>:</p>
+
+<figurep href="https://github.com/nedbat/badge-samples">
+    <img src="pix/covbadges.png" alt="The spectrum of badge colors." title="Funny how 70% has black text while all the rest have white."/>
+</figurep>
+
+<p>As a bonus, there's an action job summary with the coverage total. Here's the
+workflow file:</p>
+
+<code name=".github/workflows/tests.yaml" lang="yaml"><![CDATA[
+# Run tests
+
+name: "Test Suite"
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tests:
+    name: "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install tox tox-gh-actions
+
+      - name: "Run tox for ${{ matrix.python-version }}"
+        run: |
+          python -m tox
+
+      - name: "Upload coverage data"
+        uses: actions/upload-artifact@v3
+        with:
+          name: covdata
+          path: .coverage.*
+
+  coverage:
+    name: Coverage
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.10"
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install tox tox-gh-actions
+
+      - name: "Download coverage data"
+        uses: actions/download-artifact@v3
+        with:
+          name: covdata
+
+      - name: "Combine"
+        run: |
+          python -m tox -e coverage
+          export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
+          echo "total=$TOTAL" >> $GITHUB_ENV
+          echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: "Make badge"
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        with:
+          # GIST_TOKEN is a GitHub personal access token with scope "gist".
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: 123abc456def789   # replace with your real Gist id.
+          filename: covbadge.json
+          label: Coverage
+          message: ${{ env.total }}%
+          minColorRange: 50
+          maxColorRange: 90
+          valColorRange: ${{ env.total }}
+]]></code>
+
+<p>Now the badge can be displayed with a URL like this, but replace
+YOUR_GITHUB_NAME with your GitHub name, and 123abc456def789 with your real Gist
+id:</p>
+
+<code><![CDATA[
+https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/YOUR_GITHUB_NAME/123abc456def789/raw/covbadge.json
+
+]]></code>
+
+<p>Consult the docs for your markup language of choice for how to use the image
+URL to display the badge.</p>
+
+<p>BTW: the files here are simplified versions of the action and tox.ini from
+<a href="https://github.com/nedbat/scriv">scriv</a>, if you are interested.</p>
+
+</body>
+</entry>
+</blog>

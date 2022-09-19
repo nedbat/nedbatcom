@@ -2,9 +2,10 @@
 <blog>
 <entry when='20211107T081100' slug='github_action_matrix_with_cog'>
 <title>Computing a GitHub Action matrix with cog</title>
+<category>ci</category>
 <category>cog</category>
 <category>github</category>
-<category>ci</category>
+<category>howto</category>
 
 <description>Here's how I used embedded Python code to generate a complex GitHub Action matrix.</description>
 <img src="pix/cards/cogaction.png" alt="Some Python code to generate an action matrix"/>
