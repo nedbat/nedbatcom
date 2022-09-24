@@ -28,6 +28,11 @@ live: ## run a live dev Django server
 stoplive: ## stop the live dev Django server
 	kill $$(lsof -i tcp:$(LIVEPORT) | grep LISTEN | cut -f 2 -d ' ')
 
+
+clean_cache: ## how to clean auto-made webp images
+	@echo "To remove auto-made .webp images:"
+	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/etc"
+
 ##@ Maintenance
 
 .PHONY: upgrade backupcomments
