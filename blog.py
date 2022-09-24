@@ -29,6 +29,7 @@ blogfmt = """\
 """
 
 editor = r'/Applications/MacVim.app/Contents/MacOS/vim --servername VIM --remote-silent'
+editor = r'/usr/local/bin/mvim --servername VIM --remote-silent'
 
 def keep_chars(s, keep):
     return ''.join(c for c in s if c in keep)
