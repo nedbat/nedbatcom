@@ -16,6 +16,7 @@ ned.%: ## deploy to .net or .com
 
 dep.%: ## update dependencies for .net or .com
 	scp -q requirements/server.txt dreamhost:nedbatchelder.$*/requirements
+	ssh dreamhost venvs/ned$*/bin/python -m pip install -U pip
 	ssh dreamhost venvs/ned$*/bin/python -m pip install -r nedbatchelder.$*/requirements/server.txt
 
 live: ## run a live dev Django server
