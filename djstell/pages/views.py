@@ -264,9 +264,9 @@ def index(request):
     title, url, description = 'title', 'url', 'description'
     # Code
     c['code'] = [
-        { title: 'Flourish', url: 'blog/202101/flourish.html', description: 'a harmonograph explorer' },
-        { title: 'coverage.py', url: 'code/coverage', description: 'for measuring Python code coverage' },
+        { title: 'Dinghy', url: 'blog/202203/dinghy_digests.html', description: 'for digesting GitHub activity' },
         { title: 'Scriv', url: 'blog/202009/scriv.html', description: 'for managing changelogs' },
+        { title: 'coverage.py', url: 'code/coverage', description: 'for measuring Python code coverage' },
     ]
 
     # Text
