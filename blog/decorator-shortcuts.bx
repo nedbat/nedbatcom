@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221008T134238'>
+<title>Decorator shortcuts</title>
+<category>python</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>When using many decorators in code, there's a shortcut you can use if you
+find yourself repeating them.  They can be assigned to a variable just like
+any other Python expression.</p>
+
+<p>Don't worry if you don't understand how decorators work under the hood.
+A decorator is a line like this in your code, usually modifying how a function
+behaves:</p>
+
+<code lang="python"><![CDATA[
+@something(option1, option2)
+def my_function(arg1, arg2):
+    ... # etc
+]]></code>
+
+<p>For this example, it doesn't really matter what the "something" decorator
+does.  The important thing to know is that everything after the @ sign is a
+Python expression that is evaluated to get an object that will be applied to the
+function.</p>
+
+<p>As with other Python expressions, you can give that object a name, and use it
+later.  This produces the same effect:</p>
+
+<code lang="python"><![CDATA[
+modifier = something(option1, option2)
+
+@modifier
+def my_function(arg1, arg2):
+    ... # etc
+]]></code>
+
+<p>In this case we haven't gained much.  But let me show you a real example. In
+the coverage.py test suite, there are unusual conditions that cause tests to
+fail, and I want to tell pytest that I expect them to fail in those situations.
+Pytest has a decorator called "pytest.mark.xfail" that can be used to do
+this.</p>
+
+<p>Here's a real example:</p>
+
+<code lang="python"><![CDATA[
+@pytest.mark.xfail(
+    env.PYVERSION[:2] == (3, 8) and env.PYPY and env.PYPYVERSION >= (7, 3, 10),
+    reason="Avoid a PyPy bug: https://foss.heptapod.net/pypy/pypy/-/issues/3749",
+)
+def test_something():
+    ...
+]]></code>
+
+<p>(Yes, it's a bit crazy, but a bug in PyPy 3.8 version 7.3.10 or greater
+causes some of my tests to fail.  Coverage.py tries to closely follow small
+differences between implementations, so it's not unusual to have to excuse a
+test that doesn't work in very specific circumstances.)</p>
+
+<p>The real problem though was that eleven tests failed in this situation.  I
+didn't want to copy those four lines into three different test files and
+explicitly decorate eleven tests.  So I defined a shortcut in a helper file:</p>
+
+<code lang="python"><![CDATA[
+xfail_pypy_3749 = pytest.mark.xfail(
+    env.PYVERSION[:2] == (3, 8) and env.PYPY and env.PYPYVERSION >= (7, 3, 10),
+    reason="Avoid a PyPy bug: https://foss.heptapod.net/pypy/pypy/-/issues/3749",
+)
+]]></code>
+
+<p>Then in the test files, I can do this:</p>
+
+<code lang="python"><![CDATA[
+from tests.helpers import xfail_pypy_3749
+
+@xfail_pypy_3749
+def test_something():
+    ...
+
+@xfail_pypy_3749
+def test_something_else():
+    ...
+]]></code>
+
+<p>Now I have a compact notation to apply to affected tests, and I can add as
+much detail to the definition because it's only in one place instead of being
+copied everywhere.</p>
+
+<p>There could be advanced cases where the decorator function needs to be
+explicitly called for each function, and a shortcut wouldn't work right, but to
+be honest I'm not sure what those would be!</p>
+
+</body>
+</entry>
+</blog>
