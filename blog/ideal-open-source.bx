@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221029T073717'>
+<title>Ideal open source</title>
+<category>opensource</category>
+
+<description>DHH says we can choose our purpose in open source. I don't feel all
+the freedom he describes.</description>
+
+<body>
+
+<p>A friend asked my opinion about DHH's essay from last year:
+<a href="https://world.hey.com/dhh/i-won-t-let-you-pay-me-for-my-open-source-d7cf4568">I won't let you pay me for my open source</a>.
+</p>
+
+<p>He makes some interesting points about how Bill Gates and Richard Stallman,
+the poster children for capitalism and open source, normally considered polar
+opposites, are actually driven by the same economic fears of scarcity.  Gates'
+fear is that people will use software without paying, Stallman's fear is that
+they won't contribute.</p>
+
+<p>But then he moves into his ideal view of open source, which is that it can be
+completely removed from these economic fears and constraints, because there is
+no scarcity.  If I write software, and you use it without paying or
+contributing, I am not harmed.  And your actions also don't harm other users who
+might pay or contribute. So there's no scarcity!</p>
+
+<p>He goes on to celebrate writing software as a form of self-actualization.
+Creating something for the pure joy of creation, with no expectation of anything
+in return. He touches on autonomy, mastery, and purpose as three pillars of
+motivation to act.</p>
+
+<p>I totally understand this view. I write side projects. I like that I can
+choose what to write and how to write it (autonomy).  I learn while writing, and
+enjoy learning (mastery).  And I can decide for each project why I'm writing it
+(purpose).</p>
+
+<p>DHH eventually gets to the core of his philosophical outlook:</p>
+
+<quote><p>There is no universal meaning to life. You’ve been thrown into the
+world without a preordained purpose, which is both a terrible burden to bear and
+the ultimate freedom to embrace. You get to decide.</p></quote>
+
+<p>Do I get to decide? In some sense, yes, but actually, I can only choose among
+the options available to me.</p>
+
+<ul>
+
+<li><b><i>I want to work on a side-project full-time!</i></b><br/>
+Oops, no, that's not a choice, because I have to pay for food and shelter.</li>
+
+<li><b><i>I have a day job, but want to have time and energy to maintain a project!</i></b>
+<br/> Reality: I'm tired after a full day of work, and my family
+needs me, and there are other chores to do.</li>
+
+</ul>
+
+<p>To get back to purpose: my ideal for open source is that I write something
+useful, and other people like it and use it. The more people the better.</p>
+
+<p>I'm lucky, because I've managed that:
+<a href="https://coverage.readthedocs.io">coverage.py</a> is widely used, and
+I am known because of it.  But there's a downside:
+<a href="https://github.com/nedbat/coveragepy/issues/">221 open issues</a>,
+many of which are complex, or vague, or require difficult decisions.</p>
+
+<p>This idea that I can decide my purpose feels a bit like a genie granting me a
+wish, and then I have to deal with the unanticipated plot twists that
+result.</p>
+
+<p>A project like coverage.py can eventually become a lot of difficult
+time-consuming not-fun work.  It's true, I am not obligated to continue working
+on it, or to answer those issues. But that wouldn't fulfill the purpose I was
+aiming for.  I didn't start a project so that I could abandon it when lots of
+people are using it.  I didn't start a project so that I could ignore the
+problems people are having.  I don't get to decide my purpose. I can only choose
+among the options that reality offers to me.</p>
+
+<p>Nadia Eghbal Asparouhova studied open source and understood that there is
+scarcity: a scarcity of maintainer attention. (If you want to read more, she
+wrote a book: <a href="https://www.amazon.com/dp/0578675862/">Working in
+Public: The Making and Maintenance of Open Source Software</a>, and also a Ford
+Foundation research report:
+<a href="https://www.fordfoundation.org/work/learning/research-reports/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure/">Roads
+and Bridges: The Unseen Labor Behind Our Digital Infrastructure</a>.)</p>
+
+<p>When open source maintainers complain that big companies use their software
+without providing support, DHH is right: there was no transaction promised. He's
+right that there's a kind of freedom to avoiding those transactions.</p>
+
+<p>I think what drives that negative tension between maintainers and
+"freeloading" users is that missing possibility: there's a conceivable reality
+where the maintainers' open source ideal situations are achievable.  Support
+commensurate with use would let maintainers focus on their projects.  Not only
+would this make maintainers' realities better match their desires, it would make
+for better software, which would help everyone.</p>
+
+<p>I've written before about corporations and open source:
+<a pref="blog/corporations-and-open-source-why-and-how.bx"/>.  I understand
+how companies work: they won't pay for something if they don't have to.  Why are
+we as a society OK with this?  Suppose someone said, "I never tip waiters, why
+should I? I don't get anything extra by doing it, and my kids should have that
+money."  Where I am from, people would be horrified by this attitude.</p>
+
+<p>But companies' standard operating style is exactly that: "I can get that
+software free, nothing is requiring me to pay for it, so why should I?" We all
+shrug and expect nothing different.  But why not expect something different?
+Companies are just large collections of people. Why is it acceptable for a
+company to act so differently than each of its component people
+individually?</p>
+
+<p>As an open source maintainer, it feels like my ideal situation is just on the
+other side of a locked fence, and I can't get it.  Corporate support could make
+that a reality, but no one expects it, so it doesn't happen.</p>
+
+<p>BTW: if you want to help with coverage.py, get in touch!</p>
+
+</body>
+</entry>
+</blog>
