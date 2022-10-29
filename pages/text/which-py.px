@@ -9,11 +9,22 @@
 <p>This is a summary of what features appeared in which versions of Python.
 Items with a star were introduced with a __future__ import.</p>
 
-<h1>3.11 (rc2): due October 24, 2022</h1>
+<h1>3.12: due October 2, 2023 (currently pre-release: alpha 1)</h1>
+<ul>
+    <li>...</li>
+</ul>
+
+<p><a href='https://docs.python.org/3.12/whatsnew/3.12.html'>Full list of 3.12 changes so far</a>.
+Release schedule: <a href="https://peps.python.org/pep-0693/">PEP 693</a>.
+End-of-life expected October 2028.
+</p>
+
+
+<h1>3.11: October 24, 2022</h1>
 <ul>
     <li>10–60% faster than 3.10</li>
-    <li>data class transforms (<a href="https://peps.python.org/pep-0681/">PEP 681</a>)</li>
     <li>exact expression error locations</li>
+    <li>data class transforms (<a href="https://peps.python.org/pep-0681/">PEP 681</a>)</li>
     <li>exception groups and notes</li>
     <li>typing:
         Self (<a href="https://peps.python.org/pep-0673/">PEP 673</a>),
@@ -22,7 +33,7 @@ Items with a star were introduced with a __future__ import.</p>
     <li>new module: <a href="https://docs.python.org/3.11/library/tomllib.html#module-tomllib">tomllib</a></li>
 </ul>
 
-<p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes so far</a>.
+<p><a href='https://docs.python.org/3.11/whatsnew/3.11.html'>Full list of 3.11 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0664/">PEP 664</a>.
 End-of-life expected October 2027.
 </p>
