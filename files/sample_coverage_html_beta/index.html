@@ -2,69 +2,68 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Coverage report</title>
+    <title>Cog coverage</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
-    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
-    <script type="text/javascript" src="jquery.hotkeys.js"></script>
-    <script type="text/javascript" src="coverage_html.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(coverage.index_ready);
-    </script>
+    <script type="text/javascript" src="coverage_html.js" defer></script>
 </head>
 <body class="indexfile">
-<div id="header">
+<header>
     <div class="content">
-        <h1>Coverage report:
-            <span class="pc_cov">39.98%</span>
+        <h1>Cog coverage:
+            <span class="pc_cov">39.11%</span>
         </h1>
-        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <aside id="help_panel_wrapper">
+            <input id="help_panel_state" type="checkbox">
+            <label for="help_panel_state">
+                <img id="keyboard_icon" src="keybd_closed.png" alt="Show/hide keyboard shortcuts" />
+            </label>
+            <div id="help_panel">
+                <p class="legend">Shortcuts on this page</p>
+                <div class="keyhelp">
+                    <p>
+                        <kbd>n</kbd>
+                        <kbd>s</kbd>
+                        <kbd>m</kbd>
+                        <kbd>x</kbd>
+                        <kbd>b</kbd>
+                        <kbd>p</kbd>
+                        <kbd>c</kbd>
+                        &nbsp; change column sorting
+                    </p>
+                    <p>
+                        <kbd>[</kbd>
+                        <kbd>]</kbd>
+                        &nbsp; prev/next file
+                    </p>
+                    <p>
+                        <kbd>?</kbd> &nbsp; show/hide this help
+                    </p>
+                </div>
+            </div>
+        </aside>
         <form id="filter_container">
             <input id="filter" type="text" value="" placeholder="filter..." />
         </form>
+        <p class="text">
+            <a class="nav" href="https://coverage.readthedocs.io/en/6.6.0b1">coverage.py v6.6.0b1</a>,
+            created at 2022-10-31 05:51 -0400
+        </p>
     </div>
-</div>
-<div class="help_panel">
-    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
-    <p class="legend">Hot-keys on this page</p>
-    <div>
-    <p class="keyhelp">
-        <span class="key">n</span>
-        <span class="key">s</span>
-        <span class="key">m</span>
-        <span class="key">x</span>
-        <span class="key">b</span>
-        <span class="key">p</span>
-        <span class="key">c</span> &nbsp; change column sorting
-    </p>
-    </div>
-</div>
-<div id="index">
-    <table class="index">
+</header>
+<main id="index">
+    <table class="index" data-sortable>
         <thead>
             <tr class="tablehead" title="Click to sort">
-                <th class="name left headerSortDown shortkey_n">Module</th>
-                <th class="shortkey_s">statements</th>
-                <th class="shortkey_m">missing</th>
-                <th class="shortkey_x">excluded</th>
-                <th class="shortkey_b">branches</th>
-                <th class="shortkey_p">partial</th>
-                <th class="right shortkey_c">coverage</th>
+                <th class="name left" aria-sort="none" data-shortcut="n">Module</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="s">statements</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="m">missing</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="x">excluded</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="b">branches</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="p">partial</th>
+                <th class="right" aria-sort="none" data-shortcut="c">coverage</th>
             </tr>
         </thead>
-        <tfoot>
-            <tr class="total">
-                <td class="name left">Total</td>
-                <td>1513</td>
-                <td>899</td>
-                <td>9</td>
-                <td>278</td>
-                <td>34</td>
-                <td class="right" data-ratio="716 1791">39.98%</td>
-            </tr>
-        </tfoot>
         <tbody>
             <tr class="file">
                 <td class="name left"><a href="d_7b071bdc2a35fa80___init___py.html">cogapp/__init__.py</a></td>
@@ -95,12 +94,12 @@
             </tr>
             <tr class="file">
                 <td class="name left"><a href="d_7b071bdc2a35fa80_cogapp_py.html">cogapp/cogapp.py</a></td>
-                <td>486</td>
-                <td>215</td>
+                <td>510</td>
+                <td>230</td>
                 <td>1</td>
-                <td>200</td>
-                <td>28</td>
-                <td class="right" data-ratio="339 686">49.42%</td>
+                <td>216</td>
+                <td>30</td>
+                <td class="right" data-ratio="352 726">48.48%</td>
             </tr>
             <tr class="file">
                 <td class="name left"><a href="d_7b071bdc2a35fa80_makefiles_py.html">cogapp/makefiles.py</a></td>
@@ -113,12 +112,12 @@
             </tr>
             <tr class="file">
                 <td class="name left"><a href="d_7b071bdc2a35fa80_test_cogapp_py.html">cogapp/test_cogapp.py</a></td>
-                <td>788</td>
-                <td>547</td>
-                <td>8</td>
-                <td>20</td>
-                <td>0</td>
-                <td class="right" data-ratio="243 808">30.07%</td>
+                <td>849</td>
+                <td>595</td>
+                <td>2</td>
+                <td>28</td>
+                <td>1</td>
+                <td class="right" data-ratio="257 877">29.30%</td>
             </tr>
             <tr class="file">
                 <td class="name left"><a href="d_7b071bdc2a35fa80_test_makefiles_py.html">cogapp/test_makefiles.py</a></td>
@@ -148,18 +147,36 @@
                 <td class="right" data-ratio="70 79">88.61%</td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1598</td>
+                <td>962</td>
+                <td>3</td>
+                <td>302</td>
+                <td>37</td>
+                <td class="right" data-ratio="743 1900">39.11%</td>
+            </tr>
+        </tfoot>
     </table>
     <p id="no_rows">
         No items found using the specified filter.
     </p>
-</div>
-<div id="footer">
+</main>
+<footer>
     <div class="content">
         <p>
-            <a class="nav" href="https://coverage.readthedocs.io/en/6.0b1">coverage.py v6.0b1</a>,
-            created at 2021-07-18 14:09 -0400
+            <a class="nav" href="https://coverage.readthedocs.io/en/6.6.0b1">coverage.py v6.6.0b1</a>,
+            created at 2022-10-31 05:51 -0400
         </p>
     </div>
-</div>
+    <aside class="hidden">
+        <a id="prevFileLink" class="nav" href="d_7b071bdc2a35fa80_whiteutils_py.html"/>
+        <a id="nextFileLink" class="nav" href="d_7b071bdc2a35fa80___init___py.html"/>
+        <button type="button" class="button_prev_file" data-shortcut="["/>
+        <button type="button" class="button_next_file" data-shortcut="]"/>
+        <button type="button" class="button_show_hide_help" data-shortcut="?"/>
+    </aside>
+</footer>
 </body>
 </html>
