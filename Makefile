@@ -37,7 +37,7 @@ clean_cache: ## how to clean auto-made webp images
 
 .PHONY: upgrade backupcomments
 
-PIPCOMPILE = pip-compile -v --upgrade --rebuild --annotation-style=line
+PIPCOMPILE = pip-compile --upgrade --rebuild
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: ## update the pip requirements files to use the latest releases satisfying our constraints
