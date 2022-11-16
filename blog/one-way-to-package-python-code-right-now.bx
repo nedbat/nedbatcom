@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221115T163649' draft='y'>
+<title>One way to package Python code right now</title>
+<category>python</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I couldn't find a step-by-step guide to packaging a Python project that
+didn't get bogged down in confusing options and choices, so I wrote my own:
+<a href="https://github.com/nedbat/pkgsample">pkgsample</a>.</p>
+
+<p>The Python packaging world is confusing.  There are decades of history and
+change.  There are competing tools, with new ones arriving frequently.  I don't
+want to criticize anyone, let's just take it as a fact of life right now.</p>
+
+<p>But I frequently see questions from people who have written some Python code,
+and would like to get it packaged. They have a goal in mind, and it is not to
+learn about competing tools, intricate standards, or historical artifacts.
+They are fundamentally uninterested in the mechanics of packaging.  They just
+want to get their code packaged.</p>
+
+<p>There are lots of pages out there that try to explain things, but they all
+seem to get distracted by the options, asking our poor developer to choose
+between alternatives they don't understand, with no clear implications.</p>
+
+<p>I'm also not criticzing the uninterested developer.  I am that developer!  I
+don't know what all these things are, or how they compete and overlap: build,
+twine, hatch, poetry, flit, wheel, pdm, setuptools, distutils, pep517, shiv,
+<a href="https://packaging.python.org/en/latest/key_projects/">etc</a>,
+<a href="https://chadsmith.dev/python-packaging/">etc</a>.</p>
+
+<p>I just want someone to tell me what to do so my code will install on users'
+machines.  Once that works, I can go back to fixing bugs, adding features,
+writing docs, and so on.</p>
+
+<p>So I wrote <a href="https://github.com/nedbat/pkgsample">pkgsample</a>
+to be the instructions I couldn't find.  It's simple and stripped down, and does
+not ask you to make choices you don't care about. It tells you what to do. It
+gives you one way to make a simple Python package that works right now.</p>
+
+
+<!--
+i'm looking for feedback on a blog post https://nedbatchelder.com/blog/202211/one_way_to_package_python_code_right_now.html and associated project (https://github.com/nedbat/pkgsample) that demonstrates how to make a Python project installable.  What is unclear/wrong/confusing?
+
+mention the tooling chosen
+
+an overview of the steps
+
+next steps
+    - data files
+    - other resources
+
+-->
+
+</body>
+</entry>
+</blog>
