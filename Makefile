@@ -26,7 +26,7 @@ live: ## run a live dev Django server
 	python djstell/manage.py runserver --settings=djstell.settings_live
 
 stoplive: ## stop the live dev Django server
-	kill $$(lsof -i tcp:$(LIVEPORT) | grep LISTEN | cut -f 2 -d ' ')
+	-kill $$(lsof -i tcp:$(LIVEPORT) | grep LISTEN | cut -f 2 -d ' ')
 
 
 clean_cache: ## how to clean auto-made webp images
@@ -84,7 +84,7 @@ HTML_URLS = \
 	$(LIVEHOST)/err404.html \
 	$(LIVEHOST)/summary.json
 
-html: ## make HTML for comparing and examining
+html: stoplive	 ## make HTML for comparing and examining
 	LIVE_NODJTB=1 REPEATABLE=1 make live &
 	sleep 20
 	wget $(WGET_OPTS) $(HTML_URLS)
