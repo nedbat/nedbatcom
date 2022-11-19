@@ -165,6 +165,15 @@
                 </xsl:choose>
             </xsl:when>
 
+            <xsl:when test='@urlid'>
+                <xsl:attribute name='href'>
+                    <xsl:variable name='urlid' select='@urlid' />
+                    <xsl:value-of select='//url[@id=$urlid]/@href'/>
+                </xsl:attribute>
+                <xsl:attribute name='rel'>external noopener</xsl:attribute>
+                <xsl:apply-templates select='*|text()'/>
+            </xsl:when>
+
             <xsl:otherwise>
                 <xsl:message>
                     <xsl:text>&lt;a&gt; tag with no known link at </xsl:text>
@@ -201,7 +210,9 @@
         </xsl:when>
 
         <xsl:when test='contains(@href, "://")'>
-            <xsl:attribute name='href'><xsl:value-of select='@href'/></xsl:attribute>
+            <xsl:attribute name='href'>
+                <xsl:value-of select='@href'/>
+            </xsl:attribute>
             <xsl:attribute name='rel'>external noopener</xsl:attribute>
         </xsl:when>
 
@@ -228,6 +239,9 @@
 
 <!-- Structural stuff: no-ops at this stage. -->
 <xsl:template match='section|pagemenu'/>
+
+<!-- Information for other tags to use. -->
+<xsl:template match='url'/>
 
 <!-- Meta and pagelink tags should have been copied to the top. -->
 <xsl:template match='meta|pagelink'/>
@@ -500,6 +514,7 @@
     </blockquote>
 </xsl:template>
 
+<!-- a mini-header in a list bullet. -->
 <xsl:template match='li/h'>
     <b><xsl:apply-templates/></b>
 </xsl:template>
