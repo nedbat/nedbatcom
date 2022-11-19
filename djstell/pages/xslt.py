@@ -122,7 +122,7 @@ def content_transform(name, xmltext, child=None, params={}):
             fname = name
         else:
             fname = entry.filename
-        print("Message, %s @ %d: %s" % (fname, entry.line, entry.message))
+        print(f"XSLT Message: {fname} @ {entry.line}: {entry.message}")
     return html
 
 def string_param(s):
