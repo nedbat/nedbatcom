@@ -30,7 +30,7 @@ if 0:
 
 else:
     def save_plain_text(elt):
-        return
+        """Do nothing usually."""
 
 
 def nice_text(s):
@@ -46,6 +46,13 @@ def xml_text(e):
     return etree.tostring(e, encoding="unicode")
 
 
+def parse_xml(xmlfile):
+    try:
+        return etree.parse(xmlfile).getroot()
+    except Exception as e:
+        raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
+
+
 def one_line(s):
     """Make one nice line of text."""
     return nice_text(re.sub(r"\s+", " ", s).strip())
@@ -57,13 +64,6 @@ class ModelMixin:
         if not purl.startswith('/'):
             purl = '/' + purl
         return purl
-
-    @staticmethod
-    def parse_xml(xmlfile):
-        try:
-            return etree.parse(xmlfile).getroot()
-        except Exception as e:
-            raise Exception("Couldn't parse %r: %s" % (xmlfile, e))
 
     def add_feature(self, feature):
         if feature not in self.features:
@@ -103,7 +103,10 @@ class Article(ModelMixin, models.Model):
     def to_html(self):
         dpath = self.path
         dpath = dpath[:dpath.rfind('.')] + ".html"
-        return content_transform(self.path, fix_blog_links(self.text), params={'dpath':string_param(dpath)})
+        params = {
+            "dpath": string_param(dpath),
+        }
+        return content_transform(self.path, fix_blog_links(self.text), params=params)
 
     def permaurl(self, short=False):
         purl = self.path.replace('.px', '.html')
@@ -115,10 +118,10 @@ class Article(ModelMixin, models.Model):
                 purl = ''
         return '/' + purl
 
-    @staticmethod
-    def create_from_px(pxfile, root):
-        p = ModelMixin.parse_xml(pxfile)
-        art = Article()
+    @classmethod
+    def create_from_px(cls, pxfile, root):
+        p = parse_xml(pxfile)
+        art = cls()
         art.title = nice_text(p.get('title'))
         art.path = pxfile[len(root)+1:].replace('\\', '/')
         art.text = xml_text(p)
@@ -213,11 +216,11 @@ class Tag(ModelMixin, models.Model):
     def __repr__(self):
         return "<Tag: %s>" % self.tag
 
-    @staticmethod
-    def create_from_xml(xmlfile):
-        root = ModelMixin.parse_xml(xmlfile)
+    @classmethod
+    def create_from_xml(cls, xmlfile):
+        root = parse_xml(xmlfile)
         for cat in root.findall('category'):
-            tag = Tag()
+            tag = cls()
             tag.tag = cat.get('id')
             tag.name = cat.find('name').text
             tag.about = cat.find('about').text
@@ -232,9 +235,9 @@ class Tag(ModelMixin, models.Model):
         for cat in root.findall('category'):
             related = cat.findall('related')
             if len(related) > 0:
-                tag = Tag.objects.get(tag=cat.get('id'))
+                tag = cls.objects.get(tag=cat.get('id'))
                 for rel in related:
-                    rel_tag = Tag.objects.get(tag=rel.text)
+                    rel_tag = cls.objects.get(tag=rel.text)
                     tag.related.add(rel_tag)
 
     def permaurl(self):
@@ -263,11 +266,11 @@ class Link(ModelMixin, models.Model):
     def __repr__(self):
         return "<Link %s>" % self.slug
 
-    @staticmethod
-    def create_from_lx(lxfile):
-        root = ModelMixin.parse_xml(lxfile)
+    @classmethod
+    def create_from_lx(cls, lxfile):
+        root = parse_xml(lxfile)
         for l in root.findall('.//link'):
-            link = Link()
+            link = cls()
             link.slug = l.get('id')
             link.href = l.get('href')
             link.text = l.find('title').text
@@ -276,7 +279,7 @@ class Link(ModelMixin, models.Model):
         for cat in root.findall('.//category'):
             if cat.get('name') == 'Blogs':
                 for l in cat.findall('link'):
-                    link = Link.objects.get(slug=l.get('id'))
+                    link = cls.objects.get(slug=l.get('id'))
                     link.sidebar = True
                     link.save()
 
@@ -316,11 +319,11 @@ class Entry(ModelMixin, models.Model):
     def __repr__(self):
         return "<Entry %s: %r>" % (self.when, self.title)
 
-    @staticmethod
-    def create_from_bx(bxfile):
-        root = ModelMixin.parse_xml(bxfile)
+    @classmethod
+    def create_from_bx(cls, bxfile):
+        root = parse_xml(bxfile)
         for e in root.findall('entry'):
-            ent = Entry()
+            ent = cls()
             assert bxfile.startswith("./")
             ent.path = bxfile[2:].replace('\\', '/')
             ent.title = nice_text(e.find('title').text)
