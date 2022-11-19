@@ -56,8 +56,8 @@ to programs that shouldn't have them.</p>
 start with a base image with many versions of Python:
 <a href="https://github.com/nedbat/dot/blob/master/docker/base.dockerfile">base.dockerfile</a>.
 In the container, there are no credentials, so I don't have to worry about
-malice.  For involved debugging, I might write another Dockerfile FROM this one,
-to reduce the re-work that has to happen when starting over.</p>
+malice or accidents.  For involved debugging, I might write another Dockerfile
+FROM this one, to reduce the re-work that has to happen when starting over.</p>
 
 <p>What else can I be doing to keep safe?</p>
 
