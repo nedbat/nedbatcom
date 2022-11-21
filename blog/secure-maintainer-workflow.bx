@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20221112T135620' draft='y'>
+<entry when='20221121T060606'>
 <title>Secure maintainer workflow</title>
-<category></category>
+<category>security</category>
 <!--
 <description></description>
 <img src="pix/cards/xxx.png" alt=""/>
@@ -12,41 +12,43 @@
 <p>I'm trying to establish a more secure workflow for maintaining public
 packages.</p>
 
-<p>Like most people, I have terminal sessions with implicit access to
+<p>Like most developers, I have terminal sessions with implicit access to
 credentials.  For example, I can make git commits and push to GitHub without
 having to type a password.</p>
 
 <p>There are two ways this might be a problem. The first is unlikely: a bad guy
 gets onto my computer and uses the credentials to cause havoc.  This is unlikely
-first because a bad guy won't get my computer, but also, if it does fall into
+mostly because a bad guy won't get my computer, but also, if it does fall into
 the wrong hands, it will probably be someone looking to resell the laptop, not
 use my coverage.py credentials maliciously.</p>
 
-<p>The second way is a more serious concern: I could unknowingly run malicious
-or buggy code that uses my credentials in bad ways.  People write
-<a href="https://github.com/nedbat/coveragepy/issues/">bug reports for
-coverage.py</a>, and if I am lucky, they include steps to reproduce the problem.
-Sometimes the instructions involve
-<a href="https://github.com/nedbat/coveragepy/issues/1421">small
-self-contained examples</a>, and I can just run them without fear.  But
-sometimes the steps are
-<a href="https://github.com/nedbat/coveragepy/issues/1443">clone this repo,
-and run this large test suite</a>. It's not possible to review all of that code.
-I don't know what the code will do, but if I want to see and diagnose the
-problem, I have to run it.</p>
+<p>The second way is a more serious concern: I could unknowingly run evil or
+buggy code that uses my credentials in bad ways.  People write
+<a urlid="bugs">bug reports for coverage.py</a>, and if I am lucky, they
+include steps to reproduce the problem.  Sometimes the instructions involve
+<a urlid="small">small self-contained examples</a>, and I can just run them
+without fear.  But sometimes the steps are <a urlid="big">clone this repo, and
+run this large test suite</a>. It's impossible to review all of that code.  I
+don't know what the code will do, but if I want to see and diagnose the problem,
+I have to run it.</p>
+
+<url id="bugs" href="https://github.com/nedbat/coveragepy/issues/"/>
+<url id="small" href="https://github.com/nedbat/coveragepy/issues/1421"/>
+<url id="big" href="https://github.com/nedbat/coveragepy/issues/1443"/>
 
 <p>I'm trying to reduce the possibilities for bad outcomes, in a few ways:</p>
 
 <p><b>1Password:</b> where possible, I store credentials in
 <a href="https://1password.com/">1Password</a>, and use tooling to get them
 into environment variables.  I have two shell functions
-(<a href="https://github.com/nedbat/dot/blob/master/.config/shellrc/opvars.sh">opvars
-/ unopvars</a>) that find values in a vault based on the current directory, and
-can set and unset them in the environment.</p>
+(<a urlid="opvars">opvars / unopvars</a>) that find values in a vault based on
+the current directory, and can set and unset them in the environment.</p>
+
+<url id="opvars" href="https://github.com/nedbat/dot/blob/master/.config/shellrc/opvars.sh"/>
 
 <p>With this, I can have the credentials in the environment for just long enough
 to use them.  This works well for things like PyPI credentials, which are used
-rarely (once a week?) and could cause significant damage.</p>
+rarely and could cause significant damage.</p>
 
 <p>But I still also have implicit credentials in my ~/.ssh directory and
 ~/.netrc file.  I'm not sure the best approach to keep them from being available
@@ -54,10 +56,14 @@ to programs that shouldn't have them.</p>
 
 <p><b>Docker:</b> To really isolate unknown code, I use a Docker container.  I
 start with a base image with many versions of Python:
-<a href="https://github.com/nedbat/dot/blob/master/docker/base.dockerfile">base.dockerfile</a>.
-In the container, there are no credentials, so I don't have to worry about
-malice or accidents.  For involved debugging, I might write another Dockerfile
-FROM this one, to reduce the re-work that has to happen when starting over.</p>
+<a urlid="base">base.dockerfile</a>, and then build on it to create a
+<a urlid="main">main image</a> that doesn't even have sudo.  In the container,
+there are no credentials, so I don't have to worry about malice or accidents.
+For involved debugging, I might write another Dockerfile FROM these to reduce
+the re-work that has to happen when starting over.</p>
+
+<url id="base" href="https://github.com/nedbat/dot/blob/master/docker/base.dockerfile"/>
+<url id="main" href="https://github.com/nedbat/dot/blob/master/docker/main.dockerfile"/>
 
 <p>What else can I be doing to keep safe?</p>
 
