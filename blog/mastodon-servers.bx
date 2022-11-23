@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221121T065254' draft='y'>
+<title>Mastodon: servers, good and bad</title>
+<category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Like many tweeters these days, I'm looking around at alternatives to Twitter,
+and Mastodon is a clear alternative.  Comparing the two, the big differences,
+both good and bad, come down to servers.  </p>
+
+<p>There are <a urlid="instances">tens of thousands of separate servers</a>,
+each run by a different person (or team), each with their own idea of what the
+server is for, and how it should be run.</p>
+
+<url id="instances" href="https://instances.social/list/old"/>
+
+<p>
+Good: independence, can't be bought.
+Bad: initial hurdle choosing a server.
+Bad: harder to follow people, like toots, etc
+Bad: server can go away.
+Choice of community.
+
+
+Mixed: different servers can run different versions or forks of the software.
+
+Bad:
+Moderation can be unexpected.  https://octodon.social/about
+Initial hurdle: choosing a server.
+Everyone joins mastodon.social, it gets too large
+</p>
+
+<p>No ads, so: financial support</p>
+
+
+<url id="moderation" href="https://docs.joinmastodon.org/admin/moderation/"/>
+
+</body>
+</entry>
+</blog>
