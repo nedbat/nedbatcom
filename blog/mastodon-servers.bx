@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20221121T065254' draft='y'>
+<entry when='20221127T065254' draft='y'>
 <title>Mastodon: servers, good and bad</title>
 <category></category>
 <!--
@@ -9,36 +9,165 @@
 -->
 <body>
 
-<p>Like many tweeters these days, I'm looking around at alternatives to Twitter,
-and Mastodon is a clear alternative.  Comparing the two, the big differences,
-both good and bad, come down to servers.  </p>
+<p>Like many people these days, I'm looking around at alternatives to Twitter,
+and <a urlid="joinmastodon">Mastodon</a> is a clear favorite.  Comparing the
+two, the big differences, both good and bad, come down to servers.</p>
 
-<p>There are <a urlid="instances">tens of thousands of separate servers</a>,
-each run by a different person (or team), each with their own idea of what the
-server is for, and how it should be run.</p>
+<p>Twitter is one web site, run by one corporation.  This is easy to understand,
+and makes it easy to find lots of people, but has the disadvantage that a
+deranged over-leveraged misanthropic moron can buy it and make it terrible.</p>
+
+<p>Mastodon is both a web application and a galaxy of
+<a urlid="instances">tens of thousands of separate servers</a> running that
+software.  Each server is run by a different person (or team), each with their
+own idea of what the server is for, and how it should be run.  The servers are
+not isolated islands, they are federated together: they communicate with each
+other so that people on one server can see the posts from other servers.</p>
 
 <url id="instances" href="https://instances.social/list/old"/>
+<url id="joinmastodon" href="https://joinmastodon.org"/>
 
-<p>
-Good: independence, can't be bought.
-Bad: initial hurdle choosing a server.
-Bad: harder to follow people, like toots, etc
-Bad: server can go away.
-Choice of community.
+<p>This is the big difference between Twitter (centralized) and Mastodon
+(distributed and federated), and it plays out in both good and bad ways.  I'm
+new to Mastodon, so take all this with a grain of salt.  Some of what I label as
+bad is due to growing pains and can be improved over time.  Some is essential:
+distributed grass-roots organization is messy and requires work.  But it doesn't
+suffer from Twitter's current problem, so it's worth working at.</p>
 
+<p>Here are my impressions of the pros and cons of distributed federation:</p>
 
-Mixed: different servers can run different versions or forks of the software.
+<p><h>Initial hurdles (Bad)</h> When you try to <a urlid="joinmastodon">join
+Mastodon</a>, you are immediately asked to choose a server.  This is not an easy
+decision. Coming from a centralized service like Twitter (or Facebook, YouTube,
+Reddit, etc, etc), the question makes no sense.  The list of servers to choose
+from is a tiny fraction of all the ones out there, and they seem to be very
+strange niche communities.  The implications of the choice are not obvious
+either: how will it affect my Mastodon experience, and can I change my mind
+later?  The choice cannot be avoided, you need to pick a server to be on.  But
+over time, Mastodon can make the choice easier.</p>
 
-Bad:
-Moderation can be unexpected.  https://octodon.social/about
-Initial hurdle: choosing a server.
-Everyone joins mastodon.social, it gets too large
-</p>
+<p><h>Independence (Good)</h> Because there are many servers, Mastodon can't be
+bought by a crazed billionaire.  There is no company, no centralized thing that
+can suddenly change hands.  If part of the galaxy goes in a bad direction, the
+rest of the servers are unaffected.</p>
 
-<p>No ads, so: financial support</p>
+<p><h>Moderation (Mixed)</h> Moderation is handled on each server by the server
+admins. This is good: you can join a server with a moderation policy you approve
+of.  But it also means that server operators have to handle this delicate and
+complicated job. It might become a chore they don't want to do, or can't do
+because of volume or shifting interests.  A well-moderated server could slide
+into disrepair.</p>
 
+<p><h>Server as community (Mixed)</h> One philosophy of server choice is that a
+server will be for a certain community.  There are knitting servers and
+pet-lover servers, liberal servers and conservative servers, and so on.  This
+can be a good way to cluster together with people you have an especially tight
+bond with.  But most people are not members of a single community.  I live in
+Boston, make software, like math, and am a parent.  Which of those community
+identities should I use to choose a server?  I don't have to use any of them.
+Not all servers are organized around a topic at all. No matter what server you
+choose, you are not limited to just one topic.  On the other hand, some servers
+are so topic-focused that they might consider some posts offensive that other
+servers see as perfectly normal.  Some aspects of Mastodon's design and
+culture grew from this idea of "server as community," like the Local Timeline,
+which is posts by anyone on your server.  As Mastodon attracts more people, the
+value and feasibility of those aspects are weakening.</p>
+
+<p><h>Re-centralization (Bad)</h> As people join Mastodon, there's a natural
+tendency to avoid the question of choosing a server by joining what appear to be
+the "default servers."  This leads to over-sized servers that don't fit well
+with the original design of Mastodon and can lead to problems. Right now,
+the largest servers are closed to new accounts, pushing people to spread out
+more, which is good.</p>
+
+<p><h>Defederation (Mixed)</h> A server can decide to never communicate with
+some other specific server.  Your vegan community server could decide not to
+federate with the safari hunter community server, because of the clash of
+interests.  That's good, it helps focus you on what you want to see and keeps
+communities cohesive.  It gives server admins a giant kill switch to keep their
+servers safe. The downside is that one malicious user on a large server could
+cause other admins to defederate that entire server, and now all of that
+servers' users are invisible to you.  Wholesale defederation is frowned upon and
+a last resort, but as small-server moderators try to handle the growth of
+Mastodon, it could happen more, and you have little say over it.</p>
+
+<p><h>Incomplete visibility (Bad)</h> Federation is not total: there will always
+be posts that you cannot see.  Roughly speaking, you can see posts by anyone on
+your server, and by anyone on the home server of any person followed by people
+on your server. This will be a lot of posts, but it will never be complete.</p>
+
+<p><h>Server turnover (Bad)</h> Your server could go away. Many servers are run
+by people because it seemed like an interesting thing to do.  Maybe their
+interests shift. Maybe their server attracted more people than they were willing
+to support, either in infrastructure costs and effort, or in moderation effort.
+The server could stop operating, or could just silently wither. It could even be
+purchased by an egomaniacal tyrant. But it would only be one server, and you can
+choose a new server and move to it, bringing along your followers.</p>
+
+<p><h>Open source (Mostly Good)</h> Mastodon software is open source, which
+means it is safe from takeover, because anyone can take a copy of the software
+and extend it if they need to.  It also means that many people can help improve
+it, although open source can sometimes be weak on the processes for how to
+decide what changes to make.  A downside is that different servers can be
+running different versions of the same software, or can be running different
+forks of the software, so there can be differences between them in what they
+support and how they work.</p>
+
+<p><h>Funding (Mixed)</h> Because there is no central company, every server
+admin has to fund their own server, both the technical infrastructure, and the
+time they put into it.  This can be difficult, and given the recent surge of
+interest, unpredictable.  Some servers ask for donations, some even charge money
+to join.  The good news is there are no ads (yet?), but you might need to chip
+in a few dollars to keep your server going.  The good news is that you can
+choose who to give your money to.</p>
+
+<p><h>Following and liking (Bad)</h> When you see a post in Mastodon, it is easy
+to follow the author: there's a Follow button just like on Twitter.  You can
+also favorite (like) their post easily.  But if someone sends you a link to a
+Mastodon post, you will be visiting that post's server instead of your own.  You
+won't be logged in there, because you have an account on your own server, but
+not on any others.  Then following the author or liking the post is more
+difficult: you have to copy a URL and paste it into the search box on your own
+Mastodon.  This makes off-Mastodon discovery of new people harder.</p>
+
+<p><h>User names (Bad)</h> Your handle on Mastodon is more complicated than on
+Twitter, because you need to name your server also.  I am
+<a urlid="nedhach">@nedbat@hachyderm.io</a>.  It's more to remember than just
+<a urlid="nedtwit">@nedbat</a> on Twitter, and it doesn't fit as well in
+places like the footer of presentations. Also, someone else can take
+@nedbat@somewhere.else.xyz, and there's nothing I can do about it.</p>
+
+<p><h>ActivityPub (Good)</h> The rabbit-hole goes deeper: Mastodon is just one
+application built on a standard protocol called
+<a urlid="activitypub">ActivityPub</a>.  Other services can also implement it,
+and be part of the universe of federated applications known as the Fediverse.
+<a urlid="tumblr">Tumblr has announced they will support it</a>, so you could
+see many services all mingling together.</p>
+
+<bulletsep/>
+
+<p>So, what to make of all this?  Twitter seems on a bad track, and it's hard to
+imagine any new centralized social network gaining Twitter-scale adoption.
+Mastodon is harder than Twitter, but has its advantages.  Decentralization is
+messy, and while authoritarian centralized services are simpler to understand,
+they offer little freedom, and bring great risk.</p>
+
+<p>But as <a urlid="dansinker">Dan Sinker said</a>:</p>
+
+    <quote><p>*whispers* Most people don't care about decentralization and
+    governance models, they just want someplace to hang out that's not a
+    hassle.</p></quote>
+
+<p>Twitter was never going to last forever. I don't know if Mastodon will grow
+to anything close to its size, or what else might. But it's interesting to watch
+the evolution and <a urlid="nedhach">try it out</a>.</p>
 
 <url id="moderation" href="https://docs.joinmastodon.org/admin/moderation/"/>
+<url id="nedhach" href="https://hachyderm.io/@nedbat"/>
+<url id="nedtwit" href="https://twitter.com/nedbat"/>
+<url id="dansinker" href="https://omfg.town/@dansinker/109411849664571485"/>
+<url id="activitypub" href="https://www.w3.org/TR/activitypub/"/>
+<url id="tumblr" href="https://techcrunch.com/2022/11/21/tumblr-to-add-support-for-activitypub-the-social-protocol-powering-mastodon-and-other-apps/"/>
 
 </body>
 </entry>

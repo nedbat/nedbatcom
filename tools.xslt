@@ -524,7 +524,7 @@
 </xsl:template>
 
 <!-- a mini-header in a list bullet. -->
-<xsl:template match='li/h'>
+<xsl:template match='li/h|p/h'>
     <b><xsl:apply-templates/></b>
 </xsl:template>
 
