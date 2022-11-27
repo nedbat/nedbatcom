@@ -166,11 +166,20 @@
             </xsl:when>
 
             <xsl:when test='@urlid'>
-                <xsl:attribute name='href'>
-                    <xsl:variable name='urlid' select='@urlid' />
-                    <xsl:value-of select='//url[@id=$urlid]/@href'/>
-                </xsl:attribute>
+                <xsl:variable name='urlid' select='@urlid' />
                 <xsl:attribute name='rel'>external noopener</xsl:attribute>
+                <xsl:choose>
+                    <xsl:when test='//url[@id=$urlid]'>
+                        <xsl:attribute name='href'>
+                            <xsl:value-of select='//url[@id=$urlid]/@href'/>
+                        </xsl:attribute>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>BAD URLID=</xsl:text>
+                        <xsl:value-of select='$urlid'/>
+                        <xsl:text>: </xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
                 <xsl:apply-templates select='*|text()'/>
             </xsl:when>
 
