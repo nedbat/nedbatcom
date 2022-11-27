@@ -1,0 +1,23 @@
+{
+    "subject": "acct:nedbat@hachyderm.io",
+    "aliases": [
+        "https://hachyderm.io/@nedbat",
+        "https://hachyderm.io/users/nedbat"
+    ],
+    "links": [
+        {
+            "rel": "http://webfinger.net/rel/profile-page",
+            "href": "https://hachyderm.io/@nedbat",
+            "type": "text/html"
+        },
+        {
+            "rel": "self",
+            "href": "https://hachyderm.io/users/nedbat",
+            "type": "application/activity+json"
+        },
+        {
+            "rel": "http://ostatus.org/schema/1.0/subscribe",
+            "template": "https://hachyderm.io/authorize_interaction?uri={uri}"
+        }
+    ]
+}

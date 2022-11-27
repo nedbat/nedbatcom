@@ -47,6 +47,7 @@ class CmdLine(object):
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
             *.htaccess *.ini *.env
             *.svg *.ipynb
+            webfinger
             '''
         self.binary_ext='''
             *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.doc *.pdf *.ai
@@ -108,6 +109,7 @@ class CmdLine(object):
             include='*.gif *.jpg *.JPG *.png *.svg *.swf'
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
+        self.xuff.copytree(src="pages/.well-known", dst=dst+"/.well-known", include="*")
 
     def do_copy_live(self):
         for xslt_file in glob.glob("*.xslt"):
