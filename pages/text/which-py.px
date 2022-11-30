@@ -201,13 +201,11 @@ End-of-life December 23, 2021.
 
 <h1>2.6: October 1st, 2008</h1>
 <ul>
-    <li>The multiprocessing package</li>
     <li>str.format()</li>
     <li>3.0 compatibility: print function *, byte literals, io library</li>
     <li>"except" with "as" keyword</li>
-    <li>Abstract base classes</li>
+    <li>Stdlib additions: multiprocessing, json, abc, fractions</li>
     <li>Class decorators</li>
-    <li>The fractions module</li>
 </ul>
 
 <p><a href='http://docs.python.org/whatsnew/2.6.html'>Full list of 2.6 changes</a>.</p>
