@@ -12,14 +12,14 @@
     "same" point might be computed in two different ways, giving
     <i>slightly</i> different values, but I want them to match each other in
     this dictionary.</p>
-    
+
 <p>I found a solution, though I'm surprised I didn't find it described
     elsewhere.</p>
 
 
 <p>The challenges have nothing to do with the two-dimensional aspect, and
     everything to do with using floats, so for the purposes of explaining, I'll
-    simplify the problem to one-dimensional points.  I'll have a class with a 
+    simplify the problem to one-dimensional points.  I'll have a class with a
     single float in it to represent my points.</p>
 
 <p>First let's look at what happens with a simple dict:</p>
@@ -47,7 +47,7 @@ KeyError: Pt(x=1.000000000001)
     knew would work: a list of key/value pairs.  By defining __eq__ on my Pt
     class to compare with some fuzz, I could find matches that were slightly
     unequal:</p>
-    
+
 
 <code lang="pycon"><![CDATA[
 >>> class Pt(namedtuple("Pt", "x")):
@@ -115,18 +115,19 @@ KeyError: Pt(x=1.000000500001)
     rounding will give the wrong answer.</p>
 
 <p>I thought about other data structures: bisection in a sorted list sounded
-    good (O(log n)), but that requires testing for less-than, and I wasn't sure
-    how the fuzziness would affect it.  Reading about other geometric
-    algorithms lead to things like <a href="https://en.wikipedia.org/wiki/K-d_tree">k-d trees</a>,
-    which seem exotic and powerful, but I didn't see how to put them to use
-    here.</p>
+    good (O(log<nbsp/>n)), but that requires testing for less-than, and I wasn't
+    sure how the fuzziness would affect it.  Reading about other geometric
+    algorithms lead to things like <a urlid="kd">k-d trees</a>, which seem
+    exotic and powerful, but I didn't see how to put them to use here.</p>
+
+<url id="kd" href="https://en.wikipedia.org/wiki/K-d_tree"/>
 
 <p>Then early one morning when I wasn't even trying to solve the problem, I had
     an idea: round the values two different ways. The problem with rounding was
-    that it failed for values that straddled the rounding boundary. We can round
-    twice, the second time with half the rounding window added, so the two are
-    half out of phase.  That way, if the first rounding separates the values,
-    the second rounding won't.</p>
+    that it failed for values that straddled the rounding boundary. To avoid
+    that problem we can round twice, the second time with half the rounding
+    window added, so the two are half out of phase.  That way if the first
+    rounding separates the values, the second rounding won't.</p>
 
 <p>We can't use double-rounding to produce a canonical value for comparisons
     and hashes, so instead we make a new data structure.  We'll use a dict to
