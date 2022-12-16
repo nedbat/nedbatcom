@@ -7,7 +7,7 @@
 <category>edu</category>
 <via />
 <body>
-    
+
     <p>I spent the afternoon on Thanksgiving teaching my 14-year-old niece Kim
         about programming in Python.  She hadn't done any programming before, but was
         very interested, so I figured we could just give it a shot.  I didn't
@@ -49,7 +49,7 @@
 22
 ]]></code>
 
-    <p>"x = 1" in Python is not like "x = 1" in algebra. You can't say, 
+    <p>"x = 1" in Python is not like "x = 1" in algebra. You can't say,
         "x + 1 = 2" in Python, and you can't say "x = x + 1" in algebra.</p>
 
     <p>Create and run a simple program:</p>
@@ -137,7 +137,7 @@ print "total is", total
 
     <p>Now let's add a twist: let's only include the number in the sum if the
         number is divisible by 3 or by 5.  To see if a number is divisible by
-        3, you can test if N % 3 == 0.  "%" gives you the remainder after 
+        3, you can test if N % 3 == 0.  "%" gives you the remainder after
         dividing, and "==" is how you test for equality.</p>
 
     <p>This program is where we start to get opportunities for real logic
@@ -301,7 +301,7 @@ madlib = [
 
     <p>The madlib program will scan the madlib.  Each 'text' piece will be added to the
         story we're building.  For each 'slot' piece, we'll prompt the user to give us
-        someething to go in the slot, and we'll add their answer to the story.
+        something to go in the slot, and we'll add their answer to the story.
         When it's all done, we'll print the story.</p>
 
 <code lang="py"><![CDATA[
@@ -326,7 +326,7 @@ print story
 
     <p>At this point, the student has a program they can actually enjoy.  If all has gone well,
         they've probably wanted to show off each program to nearby admirers (typically parents),
-        but the madlibs program is the crowning acheivement.</p>
+        but the madlibs program is the crowning achievement.</p>
 
     <p>By the way, the madlibs exercise is one I first did with my son Max when he was 13, and
         <a href='text/madlibs.html'>wrote about then</a>, with more code and other ideas about how to expand it.</p>
