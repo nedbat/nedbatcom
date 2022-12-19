@@ -5,9 +5,9 @@
 <category>python</category>
 <category>gem</category>
 <body>
-<p>Kate Rhodes wrote a post about simplistic vs. useful sorting:
+<p>Kay Rhodes wrote a post about simplistic vs. useful sorting:
 <a href='http://weblog.masukomi.org/2007/12/10/alphabetical-asciibetical'>Alphabetical != ASCIIbetical</a>
-(cute name).  In it, she points to Dave Koelle's
+(cute name).  In it, he points to Dave Koelle's
 <a href='http://www.davekoelle.com/alphanum.html'>Alphanum algorithm</a>, which
 says to split the string to be sorted into numeric and non-numeric chunks,
 then sort so that the numeric chunks are treated as numbers.  This makes "z2" sort after "z100",
