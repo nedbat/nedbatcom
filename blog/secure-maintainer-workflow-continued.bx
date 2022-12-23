@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221222T070356'>
+<title>Secure maintainer workflow, continued</title>
+<category>security</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Picking up from <a pref="blog/secure-maintainer-workflow.bx"/>, especially
+the comments there (thanks!), here are some more things I'm doing to keep my
+maintainer workflow safe.</p>
+
+<p><b>1Password ssh:</b> I'm using 1Password as my SSH agent.  It works really
+well, and uses the Mac Touch ID for authorization.  Now I have no private keys
+in my ~/.ssh directory. I've been very impressed with 1Password's helpful and
+comprehensive approach to configuration and settings.</p>
+
+<p><b>Improved environment variables:</b> I've updated my
+<a urlid="opvars">opvars and unopvars</a> shell functions that set environment
+variables from 1Password.  Now I can name sets of credentials (defaulting to the
+current directory name), and apply multiple sets.  Then unopvars knows all that
+have been set, and clears all of them.</p>
+
+<url id="opvars" href="https://github.com/nedbat/dot/blob/master/.config/shellrc/opvars.sh"/>
+
+<p><b>Public/private GitHub hosts:</b> There's a problem with using a
+fingerprint-gated SSH agent: some common operations want an SSH key but aren't
+actually security sensitive.  When pulling from a public repo, you don't want to
+be interrupted to touch the sensor.  Reading public information doesn't need
+authentication, and you don't want to become desensitized to the importance of
+the sensor.  Pulling changes from a git repo with a "git@" address always
+requires SSH, even if the repo is public.  It shouldn't require an alarming
+interruption.</p>
+
+<p>Git lets you define "insteadOf" aliases so that you can pull using "https:"
+and push using "git@". The syntax seems odd and backwards to me, partly
+because I can define pushInsteadOf, but there's no pullInsteadOf:</p>
+
+<code lang="ini"><![CDATA[
+[url "git@github.com:"]
+    # Git remotes of "git@github.com" should really be pushed using ssh.
+    pushInsteadOf = git@github.com:
+
+[url "https://github.com/"]
+    # Git remotes of "git@github.com" should be pulled over https.
+    insteadOf = git@github.com:
+]]></code>
+
+<p>This works great, except that private repos still need to be pulled using
+SSH. To deal with this, I have a baroque contraption arrangement using a fake
+URL scheme "github_private:" like this:</p>
+
+<code lang="ini"><![CDATA[
+[url "git@github.com:"]
+    pushInsteadOf = git@github.com:
+    # Private repos need ssh in both directions.
+    insteadOf = github_private:
+
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+]]></code>
+
+<p>Now if I set the remote URL to "github_private:nedbat/secret.git", then
+activity will use "git@github.com:nedbat/secret.git" instead, for both pushing
+and pulling. (BTW: if you start fiddling with this, "git remote -v" will show
+you the URLs after these remappings, and "git config --get-regex 'remote.*.url'"
+will show you the actual settings before remapping.)</p>
+
+<p>But how to set the remote to "github_private:nedbat/secret.git"?  I can set
+it manually for specific repos with "git remote", but I also clone entire
+organizations and don't want to have to know which repos are private. I automate
+the remote-setting with an <a urlid="fix-private">aliased git command</a> I
+can run in a repo directory that sets the remote correctly if the repo is
+private:</p>
+
+<url id="fix-private" href="https://github.com/nedbat/dot/blob/master/.config/git/config#L139-L156" />
+
+<code lang="ini"><![CDATA[
+[alias]
+    # If this is a private repo, change the remote from "git@github.com:" to
+    # "github_private:".  You can remap "github_private:" to "git@" like this:
+    #
+    #   [url "git@github.com:"]
+    #       insteadOf = github_private:
+    #
+    # This requires the gh command: https://cli.github.com/
+    #
+    fix-private-remotes = "!f() { \
+        vis=$(gh api 'repos/{owner}/{repo}' --template '{{.visibility}}'); \
+        if [[ $vis == private ]]; then \
+            for rem in $(git remote); do \
+                echo Updating remote $rem; \
+                git config remote.$rem.url $(git config remote.$rem.url | \
+                    sed -e 's/git@github.com:/github_private:/'); \
+            done \
+        fi; \
+    }; f"
+]]></code>
+
+<p>This uses GitHub's <a href="https://cli.github.com/">gh command-line
+tool</a>, which is quite powerful. I'm using it more and more.</p>
+
+<p>This is getting kind of complex, and is still a work in progress, but it's
+working.  I'm always interested in ideas for improvements.</p>
+
+</body>
+</entry>
+</blog>
