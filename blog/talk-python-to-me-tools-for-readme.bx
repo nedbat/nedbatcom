@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20221226T085223'>
+<title>Talk Python to Me: Tools for README</title>
+<category>audio</category>
+<category>me</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Michael Kennedy invited me on his podcast to chat about a round-up of tools
+for README maintenance and other similar project automation:
+<a urlid="episode">Talk Python to Me #395: Tools for README.md Creation and
+Maintenance</a>.</p>
+
+<url id="episode" href="https://talkpython.fm/episodes/show/395/tools-for-readme.md-creation-and-maintenance"/>
+
+<p>We talked about almost 20 different tools, intermixed with philosophical
+discussion about the problems maintainers face and the solutions they use.
+Project maintainers need to write about their work, and present it to their
+users.  How to do that in a way that is convenient for both the maintainer and
+the user?  What to automate, and how?</p>
+
+<p>Of course, I have opinions about this, which come out in the course of the
+episode. Here are some of my top principles:</p>
+
+<ul>
+
+<li>Writing about your work helps you understand your work.</li>
+
+<li>You need to write with your audience in mind, and "the same thing" may need
+to be said multiple times, in different ways, for different audiences.</li>
+
+<li>As much as possible, have a single source of truth, published to multiple
+places as needed.</li>
+
+<li>It's good to automate collecting information together for publishing,
+but a human editing pass makes the result much better.</li>
+
+</ul>
+
+<p>It was a fun discussion.  Because we are both nerds caught up in the energy
+of the moment, along the way we also touched on other topics like Twitter vs
+Mastodon, ChatGPT and so on.  Give it a listen. I'm always interested to
+hear about other approaches and tools.</p>
+
+</body>
+</entry>
+</blog>
