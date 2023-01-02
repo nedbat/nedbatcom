@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230102T073023' draft='y'>
+<title>Late initialization with mypy</title>
+<category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Let's say you have a complex class that needs multi-stage initialization. It
+has a number of interrelated attributes that take a few steps to fully create.
+This means that some code will need to run while other attributes aren't ready
+yet.</p>
+
+<code lang="python"><![CDATA[
+class MultiStage:
+    def __init__(self):
+        self.log = None
+        self.options = None
+
+    def _finish_init(self):
+        self.options = read_options(self.log)
+        self.log = make_log(self.options.log_options)
+
+    def method1(self):
+        self.do_something(
+            self.options.opt1,
+            self.log,
+        )
+]]></code>
+
+</body>
+</entry>
+</blog>
