@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230110T181925'>
+<title>Same words, different meanings</title>
+<category>proglang</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>One of the difficulties when comparing programming languages is that they
+sometimes use the same words to describe similar things, but always with
+differences.  Sometimes the differences are large enough that we want to use
+different words, but often they are not.</p>
+
+<p>This came up the other day when someone said, "__init__() is not a
+constructor." I understand this idea, I've heard it before. I just don't think
+it's a good way to help people understand Python.</p>
+
+<p>The reason he said it is because in C++ (and maybe other languages), an
+object is not truly a usable object of its class until the constructor returns.
+The function is called the "constructor" because it is the code that constructs
+the object.</p>
+
+<p>In Python, an object called self is passed into __init__, and it is already a
+usable object of its class before __init__ is called.  So a C++ expert will say,
+"__init__() is not a constructor."</p>
+
+<p>I look at it differently: a constructor is the code a class author writes
+to fully get the object ready for use.  That's what __init__() does in Python.
+To deal with the difference between Python and C++, I'd say, "constructors in
+Python and C++ are different: in Python, the object is ready to use before the
+constructor is called, but in C++, it isn't until the constructor finishes."</p>
+
+<p>If you haven't used C++, you might not even see what the big deal is.  There
+are aspects of C++ behavior where this dividing line between "isn't of the
+class" and "is of the class" makes a difference (non-virtual methods, for
+example).  Python doesn't have those behaviors, so drawing a strict line isn't
+as necessary.</p>
+
+<p>So let's use "constructor" for the user's view of the code, rather than the
+internal implementation's view.  Part of Python's construction of an object is
+handled by __new__, but you almost never need to deal with __new__, so let's
+keep it simple.</p>
+
+<p>Constructor is just one example of two languages using the same word for
+similar but slightly different things:</p>
+
+<ul>
+
+<li>A classic example is "variable." Some people say, "Python has no variables,"
+when what they mean is, "Python variables work differently than C variables."
+They work exactly the same as JavaScript variables.  (For more on this, see my
+talk <a pref="text/names1.px"/>.)</li>
+
+<li>Python lists (which are just like JavaScript arrays) are different than Lisp
+lists (which are linked lists).</li>
+
+<li>Java classes have many differences from Python classes: access modifiers on
+the Java side, multiple inheritance and special methods on the Python side.</li>
+
+<li>Python functions (which can have side-effects) are not like Haskell
+functions (which cannot).</li>
+
+<li>And let's not even get started on strings!</li>
+
+</ul>
+
+<p>Different programming languages are different, but with similarities.  We
+have to re-use words to talk about them.  Then we can explore where the
+constructs are the same, and where they are different.</p>
+
+</body>
+</entry>
+</blog>
