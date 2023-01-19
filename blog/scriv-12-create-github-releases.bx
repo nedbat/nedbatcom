@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230118T191800'>
+<title>Scriv 1.2: create GitHub releases</title>
+<category>scriv</category>
+<category>mycode</category>
+
+<body>
+
+<p>I've been adding to <a urlid="scriv">scriv</a>, my changelog management tool.
+The latest release is 1.2.0, with improvements to creating GitHub releases.</p>
+
+<url id="scriv" href="https://pypi.org/project/scriv/" />
+
+<p>As I mentioned on <a pref="blog/talk-python-to-me-tools-for-readme.bx">last
+month's podcast</a>, I think it's important to have one source of truth for
+information, and then build tooling to publish it wherever you want it to be
+read.</p>
+
+<p>I think GitHub Releases are a fine way to publicize new versions of software
+and summarize the changes.  But I don't like them as the one place to store that
+information.  The CHANGELOG file is an ideal source of truth: it's a text file
+in your repo, so it's version-controlled, can be modified in pull requests, can
+work with other tools, is portable beyond GitHub, and so on.  The change
+information should be authored in the CHANGELOG.</p>
+
+<p>Once the CHANGELOG has the information, a GitHub Release is a fine place to
+publish it.</p>
+
+<p>To help support this approach, scriv has a "github-release" command which
+parses your CHANGELOG file and creates a corresponding GitHub Release. Scriv
+also has commands for building the CHANGELOG file, but this github-release
+command will work even if your CHANGELOG wasn't created by scriv.</p>
+
+<p>In fact, once scriv 1.2 was ready, I was able to <a urlid="remove">remove
+some custom tooling</a> from the coverage.py repo that did the same job, a clear
+sign that things are moving in the right direction.  The coverage.py CHANGES.rst
+file is hand-edited, but is published to GitHub releases by scriv.</p>
+
+<url id="remove" href="https://github.com/nedbat/coveragepy/commit/be1e1ae8ca619c92ed84ab0a01c95f71a48e5284" />
+
+<p>Scriv started small, and has been slowing gaining features and users.  I'd be
+interested to know what you think of it.</p>
+
+</body>
+</entry>
+</blog>
