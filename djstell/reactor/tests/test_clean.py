@@ -18,7 +18,7 @@ from ..clean import convert_body
     ("Line1\n\nLine2", "<p>Line1</p>\n\n<p>Line2</p>"),
     ("a [link](https://edx.org) to edx", '<p>a <a href="https://edx.org" rel="nofollow">link</a> to edx</p>'),
     ("code:\n\n```\nLine 1\nLine 2\n```\nMore commentary", "<p>code:</p>\n\n<pre><code>Line 1\nLine 2\n</code></pre>\n\n<p>More commentary</p>"),
-    ("code:\n\n```python\nLine 1\nLine 2\n```\nMore commentary", "<p>code:</p>\n\n<pre><code>Line&#xA0;1\nLine&#xA0;2\n</code></pre>\n\n<p>More commentary</p>"),
+    ("code:\n\n```python\nLine 1\nLine 2\n```\nMore commentary", "<p>code:</p>\n\n\n\n<pre><code>Line 1\nLine 2\n</code></pre>\n\n\n<p>More commentary</p>"),
     ("They said:\n> Hello", "<p>They said:</p>\n\n<blockquote>\n  <p>Hello</p>\n</blockquote>"),
 ])
 def test_convert_body(html, cleaned):
