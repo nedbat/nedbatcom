@@ -37,7 +37,7 @@ clean_cache: ## how to clean auto-made webp images
 
 .PHONY: upgrade backupcomments
 
-PIPCOMPILE = pip-compile --upgrade --rebuild
+PIPCOMPILE = pip-compile --upgrade --rebuild --resolver=backtracking
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: ## update the pip requirements files to use the latest releases satisfying our constraints
@@ -103,6 +103,7 @@ static/nedbatchelder.js:
 	done
 
 test: ## run the few tests we have
+	@echo 'run `make live` first to run the server to test against'
 	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 djstell
 
 linkcheck: ## check the links on nedbatchelder.com
