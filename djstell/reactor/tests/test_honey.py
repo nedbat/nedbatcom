@@ -197,7 +197,7 @@ class TestSaving:
         response = client.get(entry.url)
         if "/blog/" in entry.url:
             # TODO: why don't pages have this span?
-            assert "<span class='react'>&#xbb;&#xa0; react </span>" in content(response)
+            assert "<span class='react'>&#xbb;&#xa0;react</span>" in content(response)
         assert Comment.objects.filter(entryid=entry.id).count() == 0
 
         # Tom writes.
@@ -238,7 +238,7 @@ class TestSaving:
         # What does the world look like now?
         response = client.get(entry.url)
         if "/blog/" in entry.url:
-            assert "<span class='react'>&#xbb;&#xa0; 1 reaction </span>" in content(response)
+            assert "<span class='react'>&#xbb;&#xa0;1 reaction</span>" in content(response)
         assert comments(response) == [{
             'name': 'Thomas Edison',
             'gravatar_url': TOM_GRAVATAR,
@@ -318,7 +318,7 @@ class TestSaving:
         # What does the world look like now?
         response = client.get(entry.url)
         if "/blog/" in entry.url:
-            assert "<span class='react'>&#xbb;&#xa0; 2 reactions </span>" in content(response)
+            assert "<span class='react'>&#xbb;&#xa0;2 reactions</span>" in content(response)
         assert comments(response) == [
             {
                 'name': 'Thomas Edison',
