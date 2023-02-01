@@ -282,7 +282,7 @@ def index(request):
 def summary(request):
     entries = list(Entry.objects.all().order_by('-when')[:10])
     cleaner = bleach.sanitizer.Cleaner(
-        tags=[],
+        tags=set(),
         strip=True,
         strip_comments=True,
         css_sanitizer=bleach.css_sanitizer.CSSSanitizer(allowed_css_properties=[])
