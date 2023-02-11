@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20230102T073023' draft='y'>
+<entry when='20230210T073023' draft='y'>
 <title>Late initialization with mypy</title>
 <category></category>
 <!--
@@ -9,26 +9,159 @@
 -->
 <body>
 
-<p>Let's say you have a complex class that needs multi-stage initialization. It
-has a number of interrelated attributes that take a few steps to fully create.
-This means that some code will need to run while other attributes aren't ready
-yet.</p>
+<p>Let's say you have a complex class with a number of attributes.  The class is
+used in a few different ways, so sometimes the attributes are available, but
+sometimes they haven't been initialized yet. Because of global knowledge about
+how the class is used, we know which paths are certain to have the attributes,
+and which might not have them.</p>
+
+<p>(If you are interested, the real code I'm thinking about is from
+<a href="https://github.com/nedbat/coveragepy/blob/151d3a74857b174ee4d852b98a0e1a7ef4f73427/coverage/control.py#L244-L250">coverage.py</a>,
+but this post has toy examples for clarity.)</p>
+
+<p>Before static type checking, I'd initialize the attribute to None. In the
+certain-to-exist code paths, I'd just use the attributes.  In the uncertain code
+paths, I'd check if the attribute was None before using it:</p>
 
 <code lang="python"><![CDATA[
-class MultiStage:
+# Original untyped code.
+class Complicated:
     def __init__(self):
-        self.log = None
-        self.options = None
+        self.other = None
 
-    def _finish_init(self):
-        self.options = read_options(self.log)
-        self.log = make_log(self.options.log_options)
+    def make_other(self):
+        self.other = OtherThing()
 
-    def method1(self):
-        self.do_something(
-            self.options.opt1,
-            self.log,
-        )
+    def certain_path(self):
+        self.other.do_something()
+
+    def uncertain_path(self):
+        if self.other is not None:
+            self.other.do_something()
+]]></code>
+
+<p>What to do when adding type annotations for this class?  The most obvious
+approach is to declare the attribute as Optional. But that means adding asserts
+to the certain paths. Without them, the type checker will warn us that the
+attribute might be None.  Type checkers don't have the global understanding that
+makes us certain about them being available on those paths.  Now we need extra
+code for both certain and uncertain paths: asserts for one and run-time checks
+for the other:</p>
+
+<code lang="python"><![CDATA[
+# Simple Optional typing.
+class Complicated:
+    def __init__(self):
+        # Or in 3.10:  self.other: OtherThing | None = None
+        self.other: Optional[OtherThing] = None
+
+    def make_other(self):
+        self.other = OtherThing()
+
+    def certain_path(self):
+        assert self.other is not None
+        self.other.do_something()
+
+    def uncertain_path(self):
+        if self.other is not None:
+            self.other.do_something()
+]]></code>
+
+<p>This is a pain if there are many certain paths, or many of these attributes
+to deal with.</p>
+
+<p>A second option is to have the attribute be exist or not exist rather than be
+None or not None. We can type the attribute as definitely not None, but then we
+have to check if it exists in the uncertain paths:</p>
+
+<code lang="python"><![CDATA[
+# Attribute exists or doesn't exist.
+class Complicated:
+    def __init__(self):
+        # declared but not defined:
+        self.other: OtherThing
+
+    def make_other(self):
+        self.other = OtherThing()
+
+    def certain_path(self):
+        self.other.do_something()
+
+    def uncertain_path(self):
+        if hasatter(self, "other"):
+            self.other.do_something()
+]]></code>
+
+<p>A third option is to use two attributes for the same value: one is typed
+Optional and one is not.  This lets us avoid asserts on the certain paths, but
+is really weird and confusing:</p>
+
+<code lang="python"><![CDATA[
+# Two attributes for the same value.
+class Complicated:
+    def __init__(self):
+        self.other: OtherThing
+        self.other_maybe: Optional[OtherThing] = None
+
+    def make_other(self):
+        self.other = self.other_maybe = OtherThing()
+
+    def certain_path(self):
+        self.other.do_something()
+
+    def uncertain_path(self):
+        if self.other_maybe is not None:
+            self.other_maybe.do_something()
+]]></code>
+
+<p>But if we're going to use two attributes in the place of one, why not make it
+the value and a boolean?</p>
+
+<code lang="python"><![CDATA[
+# Value and boolean.
+class Complicated:
+    def __init__(self):
+        self.other: OtherThing
+        self.other_exists: bool = False
+
+    def make_other(self):
+        self.other = OtherThing()
+        self.other_exists = True
+
+    def certain_path(self):
+        self.other.do_something()
+
+    def uncertain_path(self):
+        if self.other_exists:
+            self.other.do_something()
+]]></code>
+
+<p>This is about the same as "exists or doesn't exist', but with a second
+nearly-useless attribute...</p>
+
+<p>Another option: the attribute always exists, and is never None, but is
+sometimes a placebo implementation that does nothing for those times when we
+don't want it:</p>
+
+<code lang="python"><![CDATA[
+# Placebo
+
+class OtherPlacebo(OtherThing):
+    def do_something(self):
+        pass
+
+class Complicated:
+    def __init__(self):
+        self.other: OtherThing = OtherPlacebo()
+
+    def make_other(self):
+        self.other = OtherThing()
+
+    def certain_path(self):
+        self.other.do_something()
+
+    def uncertain_path(self):
+        self.other.do_something()
 ]]></code>
 
 </body>
