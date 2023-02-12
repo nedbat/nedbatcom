@@ -13,12 +13,12 @@ how the class is used, we know which paths are certain to have the attributes,
 and which might not have them.</p>
 
 <p>(If you are interested, the real code I'm thinking about is from
-<a href="https://github.com/nedbat/coveragepy/blob/151d3a74857b174ee4d852b98a0e1a7ef4f73427/coverage/control.py#L244-L250">coverage.py</a>,
+<a href="https://github.com/nedbat/coveragepy/blob/master/coverage/control.py">coverage.py</a>,
 but this post has toy examples for clarity.)</p>
 
-<p>Before static type checking, I'd initialize the attribute to None. In the
+<p>Before static type checking, I'd initialize these attributes to None. In the
 certain-to-exist code paths, I'd just use the attributes.  In the uncertain code
-paths, I'd check if the attribute was None before using it:</p>
+paths, I'd check if an attribute was None before using it:</p>
 
 <code lang="python"><![CDATA[
 # Original untyped code.
@@ -37,7 +37,7 @@ class Complicated:
             self.other.do_something()
 ]]></code>
 
-<p>What to do when adding type annotations for this class?  The most obvious
+<p>How should I add type annotations to a situation like this?  The most obvious
 approach is to declare the attribute as Optional. But that means adding asserts
 to the certain paths. Without them, the type checker will warn us that the
 attribute might be None.  Type checkers don't have the global understanding that
@@ -49,7 +49,6 @@ for the other:</p>
 # Simple Optional typing.
 class Complicated:
     def __init__(self):
-        # Or in 3.10:  self.other: OtherThing | None = None
         self.other: Optional[OtherThing] = None
 
     def make_other(self):
@@ -65,14 +64,14 @@ class Complicated:
 ]]></code>
 
 <p>This is a pain if there are many certain paths, or many of these attributes
-to deal with.</p>
+to deal with. It just adds clutter.</p>
 
-<p>A second option is to have the attribute be exist or not exist rather than be
-None or not None. We can type the attribute as definitely not None, but then we
-have to check if it exists in the uncertain paths:</p>
+<p>A second option is to have the attribute exist or not exist rather than be
+None or not None. We can type these ghostly attributes as definitely not None,
+but then we have to check if it exists in the uncertain paths:</p>
 
 <code lang="python"><![CDATA[
-# Attribute exists or doesn't exist.
+# Ghost: attribute exists or doesn't exist.
 class Complicated:
     def __init__(self):
         # declared but not defined:
@@ -85,9 +84,15 @@ class Complicated:
         self.other.do_something()
 
     def uncertain_path(self):
-        if hasatter(self, "other"):
+        if hasattr(self, "other"):
             self.other.do_something()
 ]]></code>
+
+<p>This is strange: you don't often see a class that doesn't know in its own
+code whether attributes exist or not.  This is how I first adjusted the
+coverage.py code with type annotations:
+<a href="https://github.com/nedbat/coveragepy/blob/151d3a74857b174ee4d852b98a0e1a7ef4f73427/coverage/control.py#L244-L250">six attributes declared but not defined</a>.
+But it didn't sit right with me, so I kept experimenting.</p>
 
 <p>A third option is to use two attributes for the same value: one is typed
 Optional and one is not.  This lets us avoid asserts on the certain paths, but
@@ -168,9 +173,10 @@ only the subset.</p>
 
 <p>In the end, I liked the placebo strategy best: it removes the need for any
 checking or asserts.  I implemented the placebos as bare-bones with only the
-needed methods.  It can make the logic a bit harder, but I think I mostly don't
-need to know whether it's a placebo or not in any given spot.  Maybe six months
-from now I'll be confused by the switcheroo happening here, but it
+needed methods.  It can make the logic a bit harder to understand at a glance,
+but I think I mostly don't need to know whether it's a placebo or not in any
+given spot.  Maybe six months from now I'll be confused by the switcheroos
+happening, but it
 <a href="https://github.com/nedbat/coveragepy/commit/6bc043981f6548852844ea6b16d5ef7d37c0417d">looks
 good right now</a>.</p>
 
