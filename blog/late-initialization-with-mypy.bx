@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20230210T073023' draft='y'>
+<entry when='20230212T073023'>
 <title>Late initialization with mypy</title>
-<category></category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+<category>python</category>
+<category>coding</category>
 <body>
 
 <p>Let's say you have a complex class with a number of attributes.  The class is
@@ -137,7 +134,7 @@ class Complicated:
 ]]></code>
 
 <p>This is about the same as "exists or doesn't exist', but with a second
-nearly-useless attribute...</p>
+nearly-useless attribute, so what's the point?</p>
 
 <p>Another option: the attribute always exists, and is never None, but is
 sometimes a placebo implementation that does nothing for those times when we
@@ -163,6 +160,19 @@ class Complicated:
     def uncertain_path(self):
         self.other.do_something()
 ]]></code>
+
+<p>A philosophical quandary about placebos: should they implement all the base
+class methods, or only those that we know will be invoked in the uncertain code
+paths?  Type checkers are fine with either, and run-time is of course fine with
+only the subset.</p>
+
+<p>In the end, I liked the placebo strategy best: it removes the need for any
+checking or asserts.  I implemented the placebos as bare-bones with only the
+needed methods.  It can make the logic a bit harder, but I think I mostly don't
+need to know whether it's a placebo or not in any given spot.  Maybe six months
+from now I'll be confused by the switcheroo happening here, but it
+<a href="https://github.com/nedbat/coveragepy/commit/6bc043981f6548852844ea6b16d5ef7d37c0417d">looks
+good right now</a>.</p>
 
 </body>
 </entry>
