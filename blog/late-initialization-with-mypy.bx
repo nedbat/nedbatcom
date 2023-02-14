@@ -12,6 +12,9 @@ sometimes they haven't been initialized yet. Because of global knowledge about
 how the class is used, we know which paths are certain to have the attributes,
 and which might not have them.</p>
 
+<p>[<b>UPDATE:</b> I've changed my mind:
+<a pref="blog/late-initialization-reconsidered.bx"/>]</p>
+
 <p>(If you are interested, the real code I'm thinking about is from
 <a href="https://github.com/nedbat/coveragepy/blob/master/coverage/control.py">coverage.py</a>,
 but this post has toy examples for clarity.)</p>

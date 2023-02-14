@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230214T072050'>
+<title>Late initialization, reconsidered</title>
+<category>python</category>
+<category>coding</category>
+<body>
+
+<p>A few days ago I posted <a pref="blog/late-initialization-with-mypy.bx"/>,
+and people gave me feedback, and I realized they were right.  The placebo
+solution described there is clever, but too clever. It circumvents the value of
+static type checking.</p>
+
+<url id="thread" href="https://hachyderm.io/@nedbat/109853323667411813"/>
+<url id="glyph" href="https://mastodon.social/@glyph/109854675697816009"/>
+
+<p>The comments on the blog post were telling me this, but what helped most was
+a <a urlid="thread">Mastodon thread with Glyph</a>, especially when
+<a urlid="glyph">he said</a>:</p>
+
+<quote><p>I am using "correct" to say "type-time semantics consistently matching
+runtime semantics."</p></quote>
+
+<p>The placebo works to say "there's always a thing," but it's not a real thing.
+A more useful and clearer solution is to admit that sometimes there isn't a
+thing, and to be explicit about that.</p>
+
+<url id="latest" href="https://github.com/nedbat/coveragepy/commit/026d924e6d9449c632b1fec0c1f82f4f867e9724"/>
+
+<p>I actually took a slightly middle-ground approach.  Some of the "sometimes"
+attributes already had null implementations I could use, but I
+<a urlid="latest">removed all of the explicit "Placebo" classes</a>.</p>
+
+</body>
+</entry>
+</blog>
