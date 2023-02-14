@@ -18,7 +18,7 @@ charset-normalizer==3.0.1
     # via requests
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==3.2.17
+django==3.2.18
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -51,7 +51,7 @@ lxml==4.9.2
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
-markdown2==2.4.7
+markdown2==2.4.8
     # via -r requirements/base.in
 packaging==23.0
     # via pytest
