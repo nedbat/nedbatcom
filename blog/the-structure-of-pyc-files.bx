@@ -66,7 +66,7 @@ def show_file(fname):
     print "moddate %s (%s)" % (moddate.encode('hex'), modtime)
     code = marshal.load(f)
     show_code(code)
-    
+
 def show_code(code, indent=''):
     print "%scode" % indent
     indent += '   '
@@ -90,7 +90,7 @@ def show_code(code, indent=''):
     print "%sname %r" % (indent, code.co_name)
     print "%sfirstlineno %d" % (indent, code.co_firstlineno)
     show_hex("lnotab", code.co_lnotab, indent=indent)
-    
+
 def show_hex(label, h, indent):
     h = h.encode('hex')
     if len(h) < 60:
@@ -164,7 +164,7 @@ code
 <p>A lot of this stuff I don't understand, but the byte codes are nicely disassembled
 and presented symbolically.  The Python virtual machine is a stack-oriented interpreter,
 so a lot of the operations are loads and pops, and of course jumps and conditionals.
-For the adventurous: the byte-code interpreter is in 
+For the adventurous: the byte-code interpreter is in
 <a href='http://svn.python.org/view/python/trunk/Python/ceval.c?view=markup'>ceval.c</a>.
 The exact details of the byte codes change with each major version of Python.  For
 example, the PRINT_ITEM and PRINT_NEWLINE opcodes we see here are
@@ -187,16 +187,16 @@ function code objects, and so on.</p>
 <p>Once you start digging around at this level, there are all sorts of facilities
 for working with code objects.  In the standard library, there's the
 <a href='http://docs.python.org/lib/built-in-funcs.html#l2h-18'>compile</a> built-in function,
-and the 
-<a href='http://docs.python.org/lib/module-compiler.html'>compiler</a>, 
+and the
+<a href='http://docs.python.org/lib/module-compiler.html'>compiler</a>,
 <a href='http://docs.python.org/lib/module-codeop.html'>codeop</a>
 and <a href='http://docs.python.org/lib/bytecodes.html'>opcode</a> modules.
 For the truly adventurous, there are third-party packages like
 <a href='http://www.aminus.org/rbre/python/index.html'>codewalk</a>,
-<a href='http://wiki.python.org/moin/ByteplayDoc'>byteplay</a> and 
+<a href='http://wiki.python.org/moin/ByteplayDoc'>byteplay</a> and
 <a href='http://bytecodehacks.sourceforge.net/bch-docs/bch/index.html'>bytecodehacks</a>.
 <a href='http://www.python.org/dev/peps/pep-0339/'>PEP 339</a> gives more detail about compilation
-and opcodes.  Finally, Ananth Shrinivas had another take on 
+and opcodes.  Finally, Ananth Shrinivas had another take on
 <a href='http://thermalnoise.wordpress.com/2007/12/30/exploring-python-bytecode/'>exploring Python bytecode</a>.
 </p>
 
