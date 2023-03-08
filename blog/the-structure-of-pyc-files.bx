@@ -23,9 +23,9 @@ with each change to the marshalling code, and then two bytes of 0d0a.
 The 0d0a bytes are a carriage return and line feed, so that if a .pyc file is
 processed as text, it will change, and the magic number will be corrupted.  This
 will keep the file from executing after a copy corruption.
-The marshalling code is tweaked in every major release of Python, so in practice
+The marshalling code is tweaked often, at least in every minor release of Python (2.5, 2.6, ...), so in practice
 the magic number is unique in each version of the Python interpreter.
-For Python 2.5, it's b3f20d0a. (the gory details are in <a href='http://svn.python.org/view/python/trunk/Python/import.c?view=markup'>import.c</a>)</p>
+For Python 2.5, it's b3f20d0a. (the gory details are in <a href='https://github.com/nedbat/cpython/blob/main/Lib/importlib/_bootstrap_external.py#L222'>the source code</a>)</p>
 
 <p>The four-byte modification timestamp is the Unix modification timestamp of the
 source file that generated the .pyc, so that it can be recompiled if the source
@@ -103,6 +103,8 @@ def show_hex(label, h, indent):
 show_file(sys.argv[1])
 ]]></code>
 
+<p>(The latest updated version of this code is <a href="https://github.com/nedbat/coveragepy/blob/master/lab/show_pyc.py">show_pyc.py</a>.)</p>
+
 <p>Running this on the .pyc from an ultra-simple Python file:</p>
 
 <code lang='python'><![CDATA[
@@ -165,7 +167,7 @@ code
 and presented symbolically.  The Python virtual machine is a stack-oriented interpreter,
 so a lot of the operations are loads and pops, and of course jumps and conditionals.
 For the adventurous: the byte-code interpreter is in
-<a href='http://svn.python.org/view/python/trunk/Python/ceval.c?view=markup'>ceval.c</a>.
+<a href='https://github.com/nedbat/cpython/blob/main/Python/ceval.c'>ceval.c</a>.
 The exact details of the byte codes change with each major version of Python.  For
 example, the PRINT_ITEM and PRINT_NEWLINE opcodes we see here are
 <a href='http://mail.python.org/pipermail/python-dev/2005-September/056154.html'>gone in Python 3.0</a>.
@@ -197,7 +199,7 @@ For the truly adventurous, there are third-party packages like
 <a href='http://bytecodehacks.sourceforge.net/bch-docs/bch/index.html'>bytecodehacks</a>.
 <a href='http://www.python.org/dev/peps/pep-0339/'>PEP 339</a> gives more detail about compilation
 and opcodes.  Finally, Ananth Shrinivas had another take on
-<a href='http://thermalnoise.wordpress.com/2007/12/30/exploring-python-bytecode/'>exploring Python bytecode</a>.
+<a href='https://web.archive.org/web/20080220011614/https://thermalnoise.wordpress.com/2007/12/30/exploring-python-bytecode/'>exploring Python bytecode</a>.
 </p>
 
 <!-- reddit thread: http://reddit.com/r/programming/info/6f56t/comments/ -->
