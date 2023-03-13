@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230313T184321'>
+<title>Watchgha</title>
+<category>mycode</category>
+<category>github</category>
+
+<description>Watch GitHub actions until they finish</description>
+<img src="pix/watchgha.png" alt=""/>
+
+<body>
+
+<p>I wrote a simple thing to watch the progress of GitHub Actions:
+<a href="https://github.com/nedbat/watchgha">watchgha</a>.
+</p>
+
+<p>I started by using <a href="https://cli.github.com/manual/gh_run_list">gh
+run list</a>, and tailoring the output, but that required running the command
+obsessively to see the changes.  Then I tried
+<a href="https://cli.github.com/manual/gh_run_watch">gh run watch</a>, but I
+didn't like the way it worked.  You had to pick one action to watch, but my
+branch has two actions that run automatically, and I need to know when both are
+done.  Plus, it lists all of the steps, which makes my complex action matrix
+fill more than a screen, so I can't even see the progress.</p>
+
+<p>So I wrote my own.  It buckets together the start times of the runs to
+present them as a coherent run triggered by a single event.  It keeps showing
+runs as long as they have a new action to show.  It presents the steps in a
+compact form, and collapses jobs and runs once they succeed.</p>
+
+<p><a href="https://github.com/nedbat/watchgha">Give it a try</a> and let me
+know if it works for you.</p>
+
+<figurep href="https://github.com/nedbat/watchgha">
+    <img src="pix/watchgha.png" alt="Screen shot of watching the progress of GitHub Actions"/>
+</figurep>
+
+</body>
+</entry>
+</blog>
