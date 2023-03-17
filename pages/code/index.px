@@ -15,32 +15,29 @@
 <what when='20120105T232200'>Belatedly added Caveman.</what>
 <what when='20170226T072700'>Change where coverage is.</what>
 <what when='20220515T164700'>Added scriv, dinghy and gefilte</what>
+<what when='20230317T124100'>Added watchgha</what>
 </history>
 
-
-<p>This is code I've written that you can use.</p>
-
-<p>I don't have a formal license for most of this code.
-I post it here in the spirit of sharing.
-Use it for what you will.
-If you find it valuable, think of a way to express that to me
-(I have an <a href='http://amazon.com/o/redirect?tag=nedbatchelder20&amp;path=registry/C01QW9SE4ODG'>Amazon wishlist</a>,
-for example).
-Don't make me regret having done this.
-Thanks.
-</p>
+<p>This is code I've written that you can use.  Use it for what you will.
+If you find it valuable, think of a way to express that to me.</p>
 
 <p>My main side project is <a href='https://pypi.python.org/pypi/coverage'>coverage.py</a>,
     with <a href='https://coverage.readthedocs.io'>documentation here</a>.</p>
 
-<p>Here you will find:</p>
+<p>Other current projects:</p>
 
 <ul>
+<li><a pref='blog/watchgha.bx'>Watchgha</a>, for watching the progress of GitHub action runs.</li>
 <li><a pref='blog/scriv.bx'>Scriv</a>, for managing changelogs.</li>
 <li><a pref='blog/dinghy-digests.bx'>Dinghy</a>, for summarizing GitHub activity.</li>
 <li><a pref='blog/gefilte-fish-gmail-filter-creation.bx'>Gefilte Fish</a>, for creating Gmail filters.</li>
 <li><a href='code/aptus'>Aptus</a>, a Mandelbrot set explorer.</li>
 <li><a href='code/cog/index.html'>Cog</a>, a code generation tool.</li>
+</ul>
+
+<p>Older or obsolete things:</p>
+
+<ul>
 <li><a href='code/caveman/index.html'>Caveman</a>, a utility for testing HTML5 cache manifests.</li>
 <li><a href='code/save_tabblos.html'>Tabblo Lifeboat</a>, to download your tabblos.</li>
 <li><a href='code/utilities/index.html'>Shell utilities</a> in Python.</li>
