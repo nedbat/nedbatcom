@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230321T185809'>
+<title>Beginner sprint on coverage.py</title>
+<category>development</category>
+<category>coverage</category>
+<body>
+
+<p>I participated in the <a urlid="pycascades_sprint">PyCascades sprint
+day</a> yesterday, offering up <a urlid="coveragepy">coverage.py</a> as a
+project.  I was pretty sure it wasn't beginner-friendly, but the sprint was
+useful because it pointed out specific ways that it was not, and we fixed some
+of them.</p>
+
+<url id="pycascades_sprint" href="https://2023.pycascades.com/program/sprints/"/>
+<url id="coveragepy" href="https://github.com/nedbat/coveragepy"/>
+
+<p>The sprint was all-remote, and we had about a half-dozen people online. They
+dug in energetically, trying to set up a development environment.  The first
+thing we realized together was that the
+<a urlid="contributing">Contributing</a> page needed updating: it didn't
+mention making a GitHub fork, it over-emphasized virtualenvs without explaining
+them, and it was too focused on specific versions of Python.</p>
+
+<url id="contributing" href="https://coverage.readthedocs.io/en/latest/contributing.html"/>
+
+<p>Phebe Polk fixed that with one of the merged pull requests for the day:
+<a urlid="1591">#1591 Update contribution instructions</a>.</p>
+
+<url id="1591" href="https://github.com/nedbat/coveragepy/pull/1591"/>
+
+<p>Another confusing point was that people might come to the coverage.py README
+page with two different goals: people wanting to use the tool, and people
+wanting to contribute to the tool.  This may seem like a small point, but any
+friction is worth eliminating, and it was done with a <a urlid="1590">small
+pull request</a> by Kassandra Keeton.</p>
+
+<url id="1590" href="https://github.com/nedbat/coveragepy/pull/1590"/>
+
+<p>Separately, Neil Pilgrim saw I had both a setup.cfg and pyproject.toml, so he
+moved my pytest settings from the old-style file to the new:
+<a urlid="1588">build: Migrate pytest configuration to pyproject.toml</a>.</p>
+
+<url id="1588" href="https://github.com/nedbat/coveragepy/pull/1588"/>
+
+<p>One other problem people encountered was due to my docs build including
+<a urlid="spelling">sphinxcontrib.spelling</a>.  That's there for spell
+checking, but it relies on an OS-native installation of enchant that most new
+contributors won't have.  It was a <a urlid="ef40735a">simple matter</a> to
+use the extension only when spell checking, unblocking the default execution of
+tox environments, and removing one more speed bump.</p>
+
+<url id="spelling" href="https://pypi.org/project/sphinxcontrib-spelling/"/>
+<url id="ef40735a" href="https://github.com/nedbat/coveragepy/commit/ef40735a819df29be7a2cdd39c4d2c2d480283fd"/>
+
+<p>My biggest learning through this process was about hashed pins in my
+dependency files.  They are a security feature, but get in the way when people
+install on different operating systems or versions of Python.  I'm convinced now
+they are a bad idea for coverage.py. I haven't made any changes, but I
+<a urlid="1592">ranted in an issue</a> about it. There are more details there
+if you are interested.</p>
+
+<url id="1592" href="https://github.com/nedbat/coveragepy/issues/1592"/>
+
+<p>I'm still eager to hear about people's experience with starting to use
+coverage.py or contribute to it.  It's not an easy project to make changes to,
+but at least we can make it easier to get to the point of looking at the
+code.</p>
+
+<p>The sprint didn't go exactly in the direction I thought it would, but I
+enjoyed talking over these issues with people, hanging out with them, and fixing
+some friction points along the way.</p>
+
+</body>
+</entry>
+</blog>
