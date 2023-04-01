@@ -301,6 +301,7 @@ class Entry(ModelMixin, models.Model):
     path = models.CharField(max_length=200, db_index=True)
     title = models.CharField(max_length=200)
     when = models.DateTimeField(db_index=True)
+    evergreen = models.BooleanField(default=False)
     draft = models.BooleanField()
     text = models.TextField()
     tags = models.ManyToManyField(Tag)
@@ -329,6 +330,7 @@ class Entry(ModelMixin, models.Model):
             ent.title = nice_text(e.find('title').text)
             ent.text = xml_text(e)
             ent.comments_closed = (e.get('comments_closed', 'n') == 'y')
+            ent.evergreen = (e.get("evergreen", "n") == "y")
             ent.when = datetime_from_8601(e.get('when'))
             ent.draft = (e.get('draft', 'n') == 'y') or ent.when > datetime.datetime.now()
             ent.slug = e.get('slug', slug_from_text(ent.title))
@@ -396,6 +398,13 @@ class Entry(ModelMixin, models.Model):
     def ogdescription(self):
         from djstell.pages.templatetags.tags import just_text
         return description_safe(self.description or first_sentence(just_text(self.to_html()), 2))
+
+    def age_warning(self):
+        if not self.evergreen:
+            age = datetime.datetime.now() - self.when
+            if age.days > 5 * 365:
+                return years_age(age)
+
 
 
 class Via(models.Model):

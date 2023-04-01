@@ -29,3 +29,32 @@ def slug_from_text(txt):
         if clip > 0:
             slug = slug[:clip]
     return slug
+
+
+NUMBER_NAMES = dict(enumerate(
+    "zero one two three four five six seven eight nine ten".split()
+))
+
+def years_age(age):
+    years, frac = divmod(age.days / 365.25, 1)
+    years = int(years)
+    if frac < 2/12:
+        modifier = ""
+    elif frac < 4/12:
+        modifier = "more than "
+    elif frac < 8/12:
+        modifier = "over "
+    elif frac < 9/12:
+        modifier = "close to "
+        years += 1
+    elif frac < 10/12:
+        modifier = "almost "
+        years += 1
+    elif frac < 11/12:
+        modifier = "nearly "
+        years += 1
+    else:
+        modifier = ""
+        years += 1
+    years = NUMBER_NAMES.get(years, years)
+    return f"{modifier}{years} years"

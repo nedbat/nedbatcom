@@ -18,6 +18,10 @@
     <p class='date'>
         <a class='s' href='{{entry.dateurl}}'>{{entry.when|date:"l j"}}</a>
         <a class='s' href='{{entry.monthurl}}'>{{entry.when|date:"F Y"}}</a>
+
+        {% if entry.age_warning %}
+            &mdash; <span class="agewarning">This is {{ entry.age_warning }} old. Be careful.</span>
+        {% endif %}
     </p>
 </header>
 {# End Head #}
