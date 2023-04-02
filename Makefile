@@ -1,10 +1,10 @@
-.PHONY: help publish stage html css js
+# Do everything for nedbatchelder.com
 
 .DEFAULT_GOAL := help
 
 ##@ Deployment
 
-.PHONY: publish stage ned.% dep.% live
+.PHONY: publish stage ned.% dep.% live stoplive clean_cache
 
 LIVEPORT = 8000
 
@@ -34,7 +34,7 @@ clean_cache: ## how to clean auto-made webp images
 
 ##@ Maintenance
 
-.PHONY: upgrade backupcomments
+.PHONY: upgrade backupcomments db.%
 
 PIPCOMPILE = pip-compile --upgrade --rebuild --resolver=backtracking
 
@@ -55,7 +55,7 @@ db.%: ## connect to the database for .net or .com
 
 ##@ Testing
 
-.PHONY: install loadlivecomments html css js test linkcheck livelinkcheck
+.PHONY: install loadlivecomments html test linkcheck livelinkcheck
 
 install: ## install the local dev requirements
 	python -m pip install -r requirements/dev.txt
@@ -87,19 +87,6 @@ html: stoplive	 ## make HTML for comparing and examining
 	LIVE_NODJTB=1 REPEATABLE=1 make live &
 	sleep 20
 	wget $(WGET_OPTS) $(HTML_URLS)
-
-css: ## make css from .scss
-	for f in style/[a-z]*.scss; do \
-		pysassc --style=compressed $$f static/$$(basename $${f%.scss}.css); \
-	done
-
-js: static/nedbatchelder.js
-static/nedbatchelder.js:
-	echo "" >$@
-	for f in $$(<js/ingredients.txt); do \
-		cat js/$$f >>$@; \
-		echo "" >>$@; \
-	done
 
 test: ## run the few tests we have
 	@echo 'run `make live` first to run the server to test against'
