@@ -20,7 +20,11 @@
         <a class='s' href='{{entry.monthurl}}'>{{entry.when|date:"F Y"}}</a>
 
         {% if entry.age_warning %}
-            &mdash; <span class="agewarning">This is {{ entry.age_warning }} old. Be careful.</span>
+            {% if entry.evergreen %}
+                &mdash; <span class="agewarning">This is {{ entry.age_warning }} old, but it's still good.</span>
+            {% else %}
+                &mdash; <span class="agewarning">This is {{ entry.age_warning }} old. Be careful.</span>
+            {% endif %}
         {% endif %}
     </p>
 </header>

@@ -400,10 +400,9 @@ class Entry(ModelMixin, models.Model):
         return description_safe(self.description or first_sentence(just_text(self.to_html()), 2))
 
     def age_warning(self):
-        if not self.evergreen:
-            age = datetime.datetime.now() - self.when
-            if age.days > 5 * 365:
-                return years_age(age)
+        age = datetime.datetime.now() - self.when
+        if age.days > 5 * 365:
+            return years_age(age)
 
 
 
