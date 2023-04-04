@@ -184,13 +184,13 @@ def blog_rss(request):
     ents = Entry.objects.all().order_by('-when')[:10]
     c = {}
     c['entries'] = ents
-    return render(request, 'rss.xml', c)
+    return render(request, 'rss.xml', c, content_type="application/rss+xml")
 
 def tags_rss(request, tags):
     """An RSS feed for just the tags mentioned in `tags`."""
     c = {}
     c['entries'] = Entry.objects.filter(tags__tag__in=tags).distinct().order_by('-when')[:10]
-    return render(request, 'rss.xml', c)
+    return render(request, 'rss.xml', c, content_type="application/rss+xml")
 
 ## Article stuff
 
