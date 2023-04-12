@@ -84,7 +84,8 @@ def imgvariant(path, var):
             path = path.removeprefix(settings.BASE)
         else:
             prefix = ""
-        return f"{prefix}/iv/{var}/{path.lstrip('/')}.webp"
+        path, quest, query = path.partition("?")
+        return f"{prefix}/iv/{var}/{path.lstrip('/')}.webp{quest}{query}"
 
 ns['imgvariant'] = wrapit(imgvariant)
 
