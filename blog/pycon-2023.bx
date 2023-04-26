@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230426T070200'>
+<title>PyCon 2023</title>
+<category>pycon</category>
+<description>Disjointed reflections on PyCon 2023</description>
+<body>
+
+<p>I'm on the plane home from PyCon 2023 in Salt Lake City, thinking about the
+last week.  PyCon recaps often say the same things, and this is no exception,
+but PyCon is an intense experience that should be noted.  My notes here feel
+a bit disjointed, but I'm trying to just relate some impressions, not craft a
+narrative.</p>
+
+<p>In some ways, this was the expected PyCon experience: lots of friends old and
+new, lots of good conversations, both technical and personal.</p>
+
+<p>But this year was also different because I delivered the opening keynote.  I
+talked about How to Talk to People, which may seem like an odd keynote topic for
+a technical conference, but that's the way PyCon is: there's a lot of discussion
+of people and the interactions among them. (The video of the keynote isn't
+available yet, I'll post it when it is.)</p>
+
+<p>The Python community is not perfect.  As with any large community, there is
+conflict and drama, and not everyone stays.  But the Python community is famous
+for being more welcoming and inclusive than you'd expect for a technical
+community.</p>
+
+<p>PyCon is the kind of technical conference that welcomes things like a keynote
+about How To Talk To People.  I had a lot of positive feedback, it was extremely
+gratifying.</p>
+
+<p>But even beside being a keynote speaker, there are dozens of unexpected but
+authentic connections happening.  A woman approached me and told me that in
+2018, I saw her at PyCon and she seemed at loose ends, so I invited her to come
+to dinner with our group.  She said that now at every PyCon she remembers that
+moment, because it was a tangible action that pulled her in and visibly welcomed
+her as a specific individual.</p>
+
+<p>Similarly, I had a chat with a well-known member of the community, a person
+with a broad and visible presence in the Python world beyond the conference.
+They said that they remember the time at a previous PyCon they were walking down
+the hall, and I was sitting on a bench, and I called out to them by name, "as if
+we were best friends," as they put it.  Again, that was a moment they felt they
+moved from an outer ring more toward the center.</p>
+
+<p>Of course, the only reason I knew who this person was back then was because
+they had already been gaining visibility, but it's easy for people to
+underestimate the effect they are having on others.  People don't realize that
+writing blog posts, or making podcasts, or publishing libraries is a way to be
+known in the community.  It may seem like a small activity when you are by
+yourself making it or writing it, but people see it, and people start to know
+you.</p>
+
+<p>In an open source world like Python, you don't need a corporate marketing
+department megaphone to make a difference.  You don't need to work at one of the
+big sponsors to be "big." If you do good work, people will start to know
+you.</p>
+
+<p>This year Mariatta was the chair of the conference, and she brought an
+intense authenticity to the plenaries.  Each keynote was introduced with a
+personal story about why she wanted to give that person the stage.  She said I
+wouldn't remember, and I didn't, that she and I first talked in the PyLadies
+Slack workspace when she was anxious before her first presentation, and I told
+her it was a good talk.</p>
+
+<p>I'm telling these stories about reaching out to people not to pat myself on
+the back, but to show that a small kindness to someone, even a "nobody," can
+have unexpected ripples across years.  I said a small thing once to Mariatta and
+it helped her take a first step that eventually led to her being a Python core
+contributor and the chair of PyCon.  You never know where things will lead.</p>
+
+<p>For me that first interaction with Mariatta led to a keynote speech, and an
+ice cream selfie:</p>
+
+<figurep>
+    <img src="pix/mariatta-ice-cream.jpg" alt="Me and Mariatta with ice cream"/>
+</figurep>
+
+<p>I haven't been to a PyCon since 2018.  The vibe is the same: people working
+together and collaborating.  I talked to some attendees who contrasted it to
+other tech conferences which felt more like a gathering of competitors.  They
+commented that even the big sponsors of PyCon (Meta, Google, Microsoft, etc.)
+didn't seem at odds with each other.</p>
+
+<p>One thing that I kept noticing all weekend was people who were missing. I
+kept remembering someone that I thought of as a fixture at PyCon who wasn't
+there.  I don't know if it's because I haven't been in five years, or if
+lingering pandemic caution is keeping people home, or if it's just the usual
+conflicts with the rest of life.</p>
+
+<p>I had chances to hang out with specific people I wanted to meet, and also
+conversations with people I didn't know until we started talking.  Some
+non-technical topics included the war in Ukraine, Christianity, cancer, as well
+as less intense topics like comparative cuisine.  It turns out people from
+Brazil have never seen a tater tot ("is this made of rice?").</p>
+
+<p>One off-topic tradition continued:
+<a href="https://mastodon.social/@hugovk/110264701292980462">juggling open
+spaces</a>.  We had one official one (posted on the board) Saturday, and another
+impromptu one during the sprints on Monday.  It's a good ice-breaker to meet
+people, and it's fun to see both hidden talents and brave newbs trying it
+out.</p>
+
+<p>I definitely should have had some <a pref="blog/sleepy-snake.bx">Sleepy
+Snake</a> merch, because people asked me about my t-shirt a number of times.  A
+missed marketing opportunity!</p>
+
+<p>One dynamic unique to our tail-of-the-pandemic times: I met two of my Boston
+Python co-organizers in person for the first time in Salt Lake.  Emily Charles
+and Glenn Lehman both joined Boston Python during the pandemic and became
+organizers, and I had never met them face-to-face before.  We've had plenty of
+good interaction over Zoom, so it was like meeting old friends for the first
+time.  But again, in our online open source world, that happens a lot.  At least
+one person said to me, "good to meet you; have we met before?"</p>
+
+<p>One sprint day on Monday had a recurring dynamic that I always forget.  I
+think of <a href="https://github.com/nedbat/coveragepy">coverage.py</a> as
+hard to get started with.  But people show up willing to at least consider the
+rock face with me, and we make a dent in some things.  Even if the contributions
+are small, at the very least it's a chance to meet some new people and have some
+nerd discussions along the way.  Small contributions are helpful! Sitting with
+people interested in the project gives me a chance to see it through new eyes,
+and have some energy reflected back to me, recharging me to do some work on it
+myself.  Thanks to
+<a href="https://hachyderm.io/@nedbat/110257499799774367">the people who
+joined me</a> even when I disappeared for a few hours for ice cream and
+juggling!</p>
+
+<p>A challenging aspect of PyCon is to make the most of your time there.
+Another challenge is to somehow keep the energy going as you re-enter your
+regular world, filled with other concerns and activities.  If I come up with any
+clever approaches, I'll let you know.</p>
+
+</body>
+</entry>
+</blog>
