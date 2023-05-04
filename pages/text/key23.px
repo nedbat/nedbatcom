@@ -1,0 +1,686 @@
+<page title="People: The API User's Guide">
+<history>
+<what when="20230226T171300">Created</what>
+<what when="20230503T183900">For publication</what>
+</history>
+
+<meta>
+<description>A keynote for PyCon 2023, about engineers' interactions with people.</description>
+<img src="text/key23/card3.png" alt="A cartoon of a surprising interaction"/>
+</meta>
+
+<p>A keynote I gave at PyCon 2023.</p>
+
+<p>This is the overall gist: the stereotype of engineers is that we are bad at
+people interactions because we are engineers, but my claim is that we can use
+our engineering skills to be improve. We can be <i>good</i> at people
+interactions <i>because</i> we are engineers.</p>
+
+<p>This text here is not literally what I said on stage.  It's what I had typed
+out ahead of time while writing the talk.  During the talk I ad-libbed and
+riffed, but the ideas here are the same, just a bit more succinct.</p>
+
+<p>Many slides have transitions that aren't apparent from the images here, but
+you can click into an image to see the actual presentation from that point.</p>
+
+<p>The video isn't available yet, but I'll update this page when it is.</p>
+
+<p>The cartoons are by my freelance illustrator son
+<a href="https://artofbatch.com">Ben Batchelder</a>: hire him!</p>
+
+<p>BTW, I have a blog post about the process and experience of preparing and
+delivering the keynote: <a pref="blog/pycon-2023-keynote.bx"/>.</p>
+
+<bulletsep/>
+
+<figurep href="text/key23/key23.html#1"><img class="hairline" src="text/key23_pix/000.png?20230504161727598892" alt="Ned Batchelder" scale="0.5" width="1920" height="1080"/></figurep><figurep href="text/key23/key23.html#2"><img class="hairline" src="text/key23_pix/001.png?20230504161727598892" alt="What to talk about?" scale="0.5" width="1920" height="1080"/></figurep><p>I wondered what I should talk about today.</p><figurep href="text/key23/key23.html#3"><img class="hairline" src="text/key23_pix/002.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>I work at edX, a 2U company, on the Open edX project. It's a large Python
+    and Django project powering edx.org and thousands of other online learning
+    sites around the world.  I could talk about online education, or
+    million-line monoliths, or producing open source inside a for-profit
+    company.</p><figurep href="text/key23/key23.html#4"><img class="hairline" src="text/key23_pix/003.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>I've been maintaining coverage.py for a long time. This is Sleepy Snake,
+    the project's mascot.  I could talk about working on a large widely used
+    open source side project.</p><figurep href="text/key23/key23.html#5"><img class="hairline" src="text/key23_pix/004.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>I'm an organizer of Boston Python. I could talk about running community
+    groups, or what we did to keep it going though the pandemic.</p><figurep href="text/key23/key23.html#6"><img class="hairline" src="text/key23_pix/005.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>I've been blogging for more than 20 years, since before the first PyCon.
+    I could talk about what it's like to put my hot takes out on the internet
+    for abuse.</p><figurep href="text/key23/key23.html#7"><img class="hairline" src="text/key23_pix/006.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>I'm often in online communities like IRC, Slack, or Discord, pictured
+    here.</p><p>I could talk about teaching Python basics, or how these communities are
+    the same and different.  For example, on the public Python Discord server,
+    it means being in a space with people one-third my age who constantly ask me
+    if that's really me in my profile picture.</p><p>But instead of any of those specific topics, I wanted to step back and
+    discuss something that underpins all of these things.</p><figurep href="text/key23/key23.html#8"><img class="hairline" src="text/key23_pix/007.png?20230504161727598892" alt="High-uncertainty componentsin complex systems" scale="0.5" width="1920" height="1080"/></figurep><p>High-uncertainty components in complex systems.</p><p>OK, that's not the real title. It's fake high-tech jargon designed to
+    appeal to all you techies.  I do want to talk about high-uncertainty
+    components and how they interact, but there's a simpler word for the ones I
+    want to talk about: People.</p><p>I want to talk about how we interact with each other. As engineers, we
+    can fall into the trap of approaching people the way we approach inanimate
+    components we use.  It can go badly, because people don't work like
+    electronics or software.</p><p>We can tend to do this for a few reasons: either, we expect everything to
+    work like engineering components, or we don't think we're good at dealing
+    with people, or we don't think it's important to deal well with people.</p><figurep href="text/key23/key23.html#9"><img class="hairline" src="text/key23_pix/008.png?20230504161727598892" alt="Soft skills" scale="0.5" width="1920" height="1080"/></figurep><p>Sometimes we call these "soft" skills.  Some people frown on this term,
+    because it makes them seem lesser, simple things that anyone can do, or not
+    as important somehow.</p><p>I don't think of soft skills as lesser. The only reason some people think
+    of them as lesser is because as a field, we value the hard edges of hard
+    skills.  Rigid rules and quantitative measures.  Your Python syntax is
+    either right or it's wrong.</p><p>Soft skills have none of those rules and guardrails. They're all squishy
+    and vague and subjective. There's no linter for Slack conversations. That's
+    exactly what makes them difficult, especially for quantitative people like
+    us.</p><p>If it helps, you can think of this as emotional intelligence, which has
+    that hard-sounding word "intelligence" in it.</p><figurep href="text/key23/key23.html#10"><img class="hairline" src="text/key23_pix/009.png?20230504161727598892" alt="People are terrible" scale="0.5" width="1920" height="1080"/></figurep><p>Let's face it: people are terrible.  But only if you think they are going
+    to work like technical components. They don't work that way.</p><p>Let's consider people through the lens of some engineering qualities.
+    What are the characteristics we value about components in systems, and how
+    do people stack up?</p><figurep href="text/key23/key23.html#11"><img class="hairline" src="text/key23_pix/010.png?20230504161727598892" alt="Non-standard" scale="0.5" width="1920" height="1080"/></figurep><p>First off, people are not standardized.  Everyone is different, sometimes
+    in small ways, sometimes in big ways.  What they know, how they speak, how
+    they work, what they like, what they don't like, and so on.</p><p>You can't treat people as interchangeable components. What works for one
+    person can be really bad for another.  You have to adjust for their
+    differences.</p><figurep href="text/key23/key23.html#12"><img class="hairline" src="text/key23_pix/011.png?20230504161727598892" alt="No docs" scale="0.5" width="1920" height="1080"/></figurep><p>To make matters worse, people don't come with documentation.  When you
+    meet someone new, they don't hand you a manual explaining how they are
+    different than someone else.  Sometimes there's a bio, or a LinkedIn
+    profile, but that rarely tells you the really important things to work
+    smoothly with someone.</p><figurep href="text/key23/key23.html#13"><img class="hairline" src="text/key23_pix/012.png?20230504161727598892" alt="Unpredictable" scale="0.5" width="1920" height="1080"/></figurep><p>Because everyone is different, and they don't come with instructions,
+    people are unpredictable. Just because they know one thing, you might not be
+    able to guess that they know another thing.  If they have an opinion on a
+    particular topic, it doesn't mean you can predict how they will feel about
+    another topic.  And they may change from day to day.</p><figurep href="text/key23/key23.html#14"><img class="hairline" src="text/key23_pix/013.png?20230504161727598892" alt="Hidden state" scale="0.5" width="1920" height="1080"/></figurep><p>One of the things that makes people unpredictable is that they have a lot
+    going on inside, very little of which you can see.  In software design we
+    talk about avoiding mutable global data because it can have far-reaching
+    effects that are hard to reason about.</p><p>People are full of mutable globals, and you can't see them.  Maybe they
+    didn't like their breakfast, or they're worried about a sick child.  Maybe
+    they just had great news from a friend.  None of that is apparent, but it
+    can change how they behave.</p><p>This guy has a lot on his mind.  Notice Sleepy Snake is in there: he's
+    thinking about coverage.py, so I can relate.</p><figurep href="text/key23/key23.html#15"><img class="hairline" src="text/key23_pix/014.png?20230504161727598892" alt="Non-linear" scale="0.5" width="1920" height="1080"/></figurep><p>Because of that hidden state, responses can be non-linear.  You might ask
+    a question and get a good response.  But ask a little more, and you've
+    pushed them past their stress threshold, and a situation can blow up.  The
+    response is disproportionate because it involved hidden state you can't see.
+    Maybe your question reminded them of a bad person they dealt with years ago.
+    You can't know that. All you see is that you did something small and got
+    back something huge.</p><figurep href="text/key23/key23.html#16"><img class="hairline" src="text/key23_pix/015.png?20230504161727598892" alt="Unclear error messages" scale="0.5" width="1920" height="1080"/></figurep><p>Finally, when something does go wrong, you don't always get good
+    information about why.  People don't want to talk about all of their hidden
+    state.  It's considered unprofessional. We can think of it as baggage.
+    Maybe they don't like that they reacted badly, and they want to move past
+    it.</p><p>You know the situation: someone is upset, and you ask them what's wrong,
+    and they reply, "Nothing." That's a terrible error message!  We want our
+    systems to tell us specifically what is wrong when something is wrong.
+    People don't do that.</p><p>So you don't always get an understanding about what happened, or how to
+    avoid it in the future.</p><figurep href="text/key23/key23.html#17"><img class="hairline" src="text/key23_pix/016.png?20230504161727598892" alt="Why bother?" scale="0.5" width="1920" height="1080"/></figurep><p>OK, if people are so terrible, why should we bother with them?</p><p>First of all, you have no choice.  No matter how introverted you are,
+    how much you work on your own, you are going to be dealing with people.
+    You'll have collaborators, a boss, your software will have users, and so on.
+    People are all around you, and you will be talking to them.</p><figurep href="text/key23/key23.html#18"><img class="hairline" src="text/key23_pix/017.png?20230504161727598892" alt="People are fantastic" scale="0.5" width="1920" height="1080"/></figurep><p>More importantly, people are fantastic.</p><p>They are flexible, and creative. They can reflect your energy back to
+    you.  For most of our work, they are the very reason we do the work.</p><p>Maybe this is the wrong place to be making this point. After all, you
+    have travelled here to be with people.  You understand the power of those
+    interactions.</p><p>As I said, you don't have a choice whether to deal with people. But
+    you can choose how well you do it. As engineers, we can think about our
+    interactions and improve.</p><p>It all starts with talking to people.</p><figurep href="text/key23/key23.html#19"><img class="hairline" src="text/key23_pix/018.png?20230504161727598892" alt="How to talk to people" scale="0.5" width="1920" height="1080"/></figurep><p>Let's get into how to talk to people.</p><p>Except since you are engineers, you might not naturally want to talk to
+    people, so let's think of it differently: People, the API User's Guide.</p><p>We can look at how talking to people works and what happens in those
+    interactions.</p><p>BTW, when I say talking, I mean any method of communicating with
+    someone. It could be talking, it could be typing in Slack, it could be an
+    email.  The same basics apply.</p><p>And just to be clear: I am not a psychologist.  I'm an engineer who has
+    spent years reverse-engineering people and debugging interactions. I've read
+    the tracebacks of lots of discussions.</p><p>I've learned things the hard way.  And I still don't always get it right!
+    There are definitely people here today that I have had conflicts with.  I am
+    sorry for that.  And there will be conflicts and miscommunications in the
+    future.  It happens.  The important thing is to learn and try to do
+    better.</p><p>None of this is easy. But it is important.</p><figurep href="text/key23/key23.html#20"><img class="hairline" src="text/key23_pix/019.png?20230504161727598892" alt="Information + Sentiment" scale="0.5" width="1920" height="1080"/></figurep><p>Here's an important central idea: every message you send to a person will
+    be heard as having two parts: information and sentiment.</p><p>For a lot of what we say to each other, the information is the important
+    part. I'm trying to tell you something, or you are asking me for something,
+    or whatever.  This is the part engineers find it easy to focus on: what are
+    the facts, the request, and so on.</p><p>But every message also carries a sentiment, whether you want it to or
+    not.  Sentiment might not be the right word: maybe emotion is better, or
+    mood or the energy of a message.  Underestimating this is where we can get
+    into trouble.</p><p>Usually, information is the explicit part of the message: most of the
+    words are the hard-edged facts we want to convey. They are easy to see.  The
+    sentiment is usually much more subtle.</p><figurep href="text/key23/key23.html#21"><img class="hairline" src="text/key23_pix/020.png?20230504161727598892" alt="&#10;        Yes&#10;                       &#10;        No&#10;    " scale="0.5" width="1920" height="1080"/></figurep><p>Sentiment and emotion are complex topics, of course, so let's simplify
+    them for our purposes.  At a really really basic level, I think of
+    every message as being either a Yes or a No, of varying intensity.</p><p>Words can welcome us in, or they can push us away. They can give us a
+    good feeling or a bad feeling.</p><p>People are social emotional creatures.  They need to understand how you
+    feel about them.  You've heard of "sentiment analysis" tools that read
+    tweets, and try to figure out how people are feeling about Nike sneakers?
+    People around you are doing that all the time, but they're doing it to your
+    messages, to figure out how you feel about them.</p><figurep href="text/key23/key23.html#22"><img class="hairline" src="text/key23_pix/021.png?20230504161727598892" alt="Defaulted sentiment" scale="0.5" width="1920" height="1080"/></figurep><p>The problem is, sentiment can be subtle enough that the recipient infers
+    or defaults it. If the sentiment in your message isn't clear enough, the
+    recipient will fill it in for you, and not always in the way you want.</p><p>How is missing sentiment filled in?</p><p>First, your history together will be the biggest source of fill-in
+    material.  If you're friends with someone, and have a long history of
+    positive interactions, then messages will be mostly assumed to be
+    positive. Or, if you have a long history of conflict, that history will
+    negatively color every interaction.</p><p>If your history is short or non-existent, then the sentiment might depend
+    on perceived similarity.  The recipient will judge how similar you two seem
+    to be.  The more similar, the more likely your message will be considered
+    positive.</p><p>What do I mean by similar? Who knows!? It could be age, gender, haircut,
+    clothing style, taste in music, laptop stickers, it could be anything at
+    all.  As an example, we are all here at PyCon, and that makes us all similar
+    in a certain way.  We are members of a community.  The more you have in
+    common, the more likely your ambiguous message will be welcomed.</p><p>If you have no history, and you don't seem that similar, then
+    you might as well assume that the defaulted sentiment will be "Bad."  Maybe
+    it won't be, but you are at the mercy of all of that hidden state we talked
+    about.</p><p>Finally, that hidden state we talked about will come into play. It will
+    color how your message is received, without you even knowing it.</p><p>Keep in mind: this is not conscious on the listener's part.  They aren't
+    trying to assume the worst about you. They are getting words from you and
+    trying to piece together both the information and the sentiment.  They want
+    to hear you, but they are also trying to understand their place in a chaotic
+    world.  They're doing what people do.</p><figurep href="text/key23/key23.html#23"><img class="hairline" src="text/key23_pix/022.png?20230504161727598892" alt="Defense" scale="0.5" width="1920" height="1080"/></figurep><p>Maybe this is obvious, but: if your recipient feels negative energy in
+    your message, they are not going to listen to you.</p><p>This is why the sentiment is important: it determines how the receiver will
+    handle the information in your message.</p><figurep href="text/key23/key23.html#24"><img class="hairline" src="text/key23_pix/023.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>Just to make this concrete for you technical people: here is some
+    pseudo-code.  It's not the real code!</p><figurep href="text/key23/key23.html#25"><img class="hairline" src="text/key23_pix/024.png?20230504161727598892" alt="Can't we all just..." scale="0.5" width="1920" height="1080"/></figurep><p>At this point, the engineer in you might be saying, can't we all just
+    stick to the facts? Why do we have to mix emotion into it? Why can't we stay
+    at the nice objective information level?</p><p>Yeah, sorry, you can't.  As flexible and amazing as people are, there are
+    things we can't change about them. They need to know how they are doing.
+    Without clear signals, they will fill in the gaps, and not necssarily in the
+    way that you want them to.</p><p>We aren't going to replace people with robots, so you need to work on the
+    sentiment parts of your messages just as much as the information parts.</p><figurep href="text/key23/key23.html#26"><img class="hairline" src="text/key23_pix/025.png?20230504161727598892" alt="You" scale="0.5" width="1920" height="1080"/></figurep><p>Oh, and by the way...</p><p>I don't want to shock anyone, but each and every one of you is also a
+    person.  That means at the same time you are struggling to get your messages
+    through to other people, dealing with all of their weirdnesses and hidden
+    state, they are also trying to talk to you, and your complexity is getting
+    in the way of you hearing their messages.</p><figurep href="text/key23/key23.html#27"><img class="hairline" src="text/key23_pix/026.png?20230504161727598892" alt="Improve your chances" scale="0.5" width="1920" height="1080"/></figurep><p>So, what can we do to improve our chances?  We're saying something to get
+    a message across, but there's this sentiment minefield that can get in the
+    way.</p><p>I'll talk about five things to do: say yes; use more words; choose your
+    words carefully; be humble; and be explicit.</p><p>I'll demonstrate with some chats.  These are short and stylized but will
+    demonstrate the basics.</p><p>First tip: say yes.  I don't mean literally, "yes."  I mean that you
+    should try to word your messages so that they fall on the yes side of the
+    spectrum instead of the no side. Make them welcoming.</p><figurep href="text/key23/key23.html#28"><img class="hairline" src="text/key23_pix/027.png?20230504161727598892" alt="Don't say no" scale="0.5" width="1920" height="1080"/></figurep><p>Here's an extreme example.</p><p>The speaker on the right is correct: that is not an array, it's a list.
+    On a factual level, they are even half-providing some useful information:
+    calling that an array will get in the way of learning about lists in Python.
+    But it's not helpful, because it's pushing the asker away.</p><figurep href="text/key23/key23.html#29"><img class="hairline" src="text/key23_pix/028.png?20230504161727598892" alt="Say yes" scale="0.5" width="1920" height="1080"/></figurep><p>Instead, they could have answered the question, providing the answer the
+    asker is looking for, and sneaking in the correct term along the way.</p><p>BTW, a lot of my examples are people asking for help, but the principles
+    are the same for any interactions.</p><figurep href="text/key23/key23.html#30"><img class="hairline" src="text/key23_pix/029.png?20230504161727598892" alt="Not enough words" scale="0.5" width="1920" height="1080"/></figurep><p>This is a classic example of an ambiguous message.  The speaker on the
+    right might be genuinely interested in the reasons for using THING. They
+    might be open to a deep and helpful conversation.</p><p>But they've started with an ambiguous message that can sound like
+    criticism.</p><p>I'm very familiar with this one, because I like to ask why, and I can see
+    how it comes off sounding like "You shouldn't use THING."</p><figurep href="text/key23/key23.html#31"><img class="hairline" src="text/key23_pix/030.png?20230504161727598892" alt="Good: Use more words" scale="0.5" width="1920" height="1080"/></figurep><p>Here the right speaker uses more words, including explicit agreement with
+    the left speakers's experience.  These are Yeses that put them on the same
+    side of the problem.  The asker feels a shared experience with the helper
+    that helps them build a bond and then work together on the problem.</p><figurep href="text/key23/key23.html#32"><img class="hairline" src="text/key23_pix/031.png?20230504161727598892" alt="Choose your words" scale="0.5" width="1920" height="1080"/></figurep><p>Here the left hand is telling us something that is clearly wrong.  But
+    "that's wrong" is too blunt and doesn't welcome further discussion.  Saying,
+    "that doesn't sound right" instead opens up a possibility for
+    investigating.</p><p>There are lots of reasons why their program might be producing that
+    result.  "Doesn't sound right" includes some doubt on the helper's part.
+    This is a small example of being humble.  They are less certain, open to
+    discovering something unexpected. It puts them both on a more level
+    field.</p><figurep href="text/key23/key23.html#33"><img class="hairline" src="text/key23_pix/032.png?20230504161727598892" alt="Be humble" scale="0.5" width="1920" height="1080"/></figurep><p>Here the asker is to be honest, talking nonsense.  They don't know what
+    they are saying.  But "you aren't being clear" is an accusation, and puts
+    all the blame on the asker.  "I don't understand" carries the same
+    information, that the situation is unclear, but the helper is taking some of
+    the fault.  They are lowering themself, which again levels the field and
+    helps put the asker at ease.</p><p>In general, it can help to make yourself the subject of the sentence.
+    "You" sentences can seem aggressive. "I" sentences are more humble, and more
+    honest. You can't know another person's state of mind, but you can know
+    yours.</p><p>Being humble and letting go of some hard-earned status can be difficult.
+    But it's good to be less certain, and to open yourself to possibilities you
+    haven't anticipated.  It allows in others, and makes you more similar to
+    them, which makes it easier to communicate well with them.</p><p>Ask questions instead of making absolute statements.  I don't want to get
+    into stereotypical gender roles, but here's a simple rule of thumb: whatever
+    the opposite of mansplaining is, do that.</p><figurep href="text/key23/key23.html#34"><img class="hairline" src="text/key23_pix/033.png?20230504161727598892" alt="Be explicit" scale="0.5" width="1920" height="1080"/></figurep><p>One obvious way to be sure your sentiment is understood is to be very
+    direct with it.  When you use more words, you can say things that are just
+    sentiment.</p><p>One strategy is to always start and end with a Yes, even if you need to
+    have more difficult messages in the middle. Think of it as a Yes
+    Sandwich.</p><figurep href="text/key23/key23.html#35"><img class="hairline" src="text/key23_pix/034.png?20230504161727598892" alt="Kindergarten" scale="0.5" width="1920" height="1080"/></figurep><p>I'm sure all of this seems hopelessly simple.  You might think, all
+    you're saying is be nice, and think of the other person.  Yes, that's what
+    I'm saying: be nice, and think of the other person.  It's the kind of thing
+    they teach in kindergarten. I'm standing here telling you this, but maybe
+    this little guy could have done it instead.  That's me at about 10% of my
+    current age. When we were young, we were taught to be nice and think of the
+    other person.</p><p>Earlier I mentioned soft skills as something anyone could do.  They're
+    something anyone can do, and everyone should do.  We all were taught these
+    things at a young age.</p><p>Then over time we start to believe that we don't have to do that anymore,
+    or that other people can somehow take care of themselves no matter what we
+    say. But we're all just people trying to make sense of the chaotic world
+    around us.</p><p>The better you can deliver your messages, the better it's going to go.
+    Be nice.  Think of the other person.</p><figurep href="text/key23/key23.html#36"><img class="hairline" src="text/key23_pix/035.png?20230504161727598892" alt="Technology" scale="0.5" width="1920" height="1080"/></figurep><p>We've talked a lot about sentiment, let's talk about information.  We'll
+    get into some technology.</p><figurep href="text/key23/key23.html#37"><img class="hairline" src="text/key23_pix/036.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>In the mid 1400's, Gutenberg developed a process for producing printed
+    pages using movable type.</p><p>I know this is not the technology you thought I was going to talk about.
+    But it's an interest of mine, and there's a point at the end.  It won't take
+    long, stick with me.</p><figurep href="text/key23/key23.html#38"><img class="hairline" src="text/key23_pix/037.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>To produce printed pages, small chunks of metal called type are arranged
+    in a form, placed in a press, inked, and pressed to a piece of paper.</p><figurep href="text/key23/key23.html#39"><img class="hairline" src="text/key23_pix/038.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>Gutenberg's big advance was how to produce the type.  Printers need many
+    uniform pieces of type to produce pages with consistent designs.</p><p>The process started by carving a reverse-image letter at actual size into
+    the end of steel bar called a punch.</p><p>The punch is then driven into a bronze plate called a matrix. The matrix
+    is put into the bottom of the mold, molten metal is poured repeatedly into
+    the mold, and the result is many pieces of uniform type.</p><figurep href="text/key23/key23.html#40"><img class="hairline" src="text/key23_pix/039.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>Punchcutting was a difficult job.  The punchcutter worked in metal
+    at tiny sizes, carving reversed letters in steel.</p><p>How would a punchcutter assess their progress?  It's too hard to use the
+    punch to make a matrix, use the matrix in a mold to make some type, put the
+    type in a press, ink it, and make a page.  Even then, it was an ordeal to
+    get your work into production!</p><p>The punchcutter had a simpler way: use a candle flame to coat the punch
+    with soot, then press the punch onto a piece of paper.  The resulting image
+    reads correctly with a good black impression, and cleans up quickly.</p><p>We use the same term they did for our quick checks of progress: a smoke
+    test.  I know: there are other etymologies for smoke test, but I think this
+    is the right one.  Fight me!</p><figurep href="text/key23/key23.html#41"><img class="hairline" src="text/key23_pix/040.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>OK, now we have lots of type, how do we make pages?  A person called a
+    typesetter picks pieces of type and places them in order, building columns
+    of text line by line.</p><p>They stand at a work station that looked like this: two wooden trays hold
+    type in specific compartments.</p><figurep href="text/key23/key23.html#42"><img class="hairline" src="text/key23_pix/041.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>The trays were arranged like this. The common small letters are in the
+    bottom tray, and the less-needed capital letters are in the top tray.</p><p>They aren't called bottom tray and top tray though.  The trays are
+    called cases.  This is the lower case, and this is the upper case, words
+    that to this day everyone uses to describe these letters.  Remember: a
+    case-insensitive regex is one that doesn't care whether the chunks of metal
+    come from the bottom wooden tray, or the top wooden tray.</p><p>Let's look at the layout of the lower case: the most common letters are
+    in larger compartments near the center of the case, with less common
+    letters in progressively smaller compartments farther out.  It's an
+    ergonomic layout that takes letter frequency into account.</p><p>The upper case is different: the compartments are all the same size,
+    laid out alphabetically A to Z, except J and U are at the end.</p><p>Wait, what!?</p><p>How are you feeling about this? Curious? Confused? Annoyed? Angry?
+
+    </p><p>I wanted to talk about Gutenberg because I figured it would be new to
+    most of you.  I wanted you to be the newcomer, to have a bunch of new things
+    thrown at you, then to encounter something so odd that it seems almost
+    intentionally perverse.  It's so easy to see how it could have been better.
+    Why are J and U at the end? Why did they do this to us?</p><p>In our technical conversations, there are moments like this all the time.
+    It's hard to take in new information.  It's not clear which parts will be
+    important later. Maybe that smoke test thing was just a nerd going on too
+    long about something that fascinates him!</p><p>Details get intricate.  Reasons can be obscure, or obscured.  When they
+    are new to us, we have to accept them and deal with them, regardless of why
+    they are the way they are.</p><p>Just to close the loop on this: the reason J and U are at the end is that
+    J and U weren't considered distinct letters in English until the mid-1600's.
+    Until then they were just stylistic variants of I and V.  The layout of the
+    upper case had been established and in use for 200 years by the time J and U
+    were added to it.  So rather than disturb centuries of tradition, J and U
+    were added at the end.</p><p>And J and U remain at the end to this day, more than 300 years later!  If
+    you visit a letterpress print shop today, you will see cases laid out like
+    this.  Next time you want to whine about backward compatibility or legacy
+    systems, these printers want to have a word with you!</p><figurep href="text/key23/key23.html#43"><img class="hairline" src="text/key23_pix/042.png?20230504161727598892" alt="Python is also strange" scale="0.5" width="1920" height="1080"/></figurep><p>As experts, it's easy for us to get accustomed to our familiar
+    strangenesses.  We forget how odd they are.  I'm not saying we should get
+    rid of the strangenesses; for the most part, we can't.  But we can be
+    understanding when others have difficulty with them.</p><p>Technology starts weird and gets weirder, we just have to live with
+    that.</p><p>Last year, during his PyCon keynote, Łukasz Langa said, "if you don't say
+    controversial things in a keynote, are you really living your best life?" I
+    don't know, is this controversial?: lambda is a terrible keyword.  It has no
+    mnemonic value. Yes, there's a reason and history behind it, but like J and
+    U, the reason doesn't help people understand it.</p><figurep href="text/key23/key23.html#44"><img class="hairline" src="text/key23_pix/043.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>We love showing people this xkcd comic. Python is great, Python is
+    amazing, people love it!</p><figurep href="text/key23/key23.html#45"><img class="hairline" src="text/key23_pix/044.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>This one we don't show off so much.</p><p>I'm not talking about packaging and installation, or even Python, in
+    particular.  I'm showing it as just one example of the kinds of
+    complications and weirdnesses that we get used to.  Some of you might look
+    at this and say, "well sure, if you're going to list every possibility of
+    course it looks absurd."  But this is what people experience.</p><p>I'm not saying that Python is bad. It's just that Python is technology,
+    and technology starts weird and gets weirder.  When we talk to each other,
+    we are often talking about technology.  Everything we do is weird and hard
+    to get started with.</p><figurep href="text/key23/key23.html#46"><img class="hairline" src="text/key23_pix/045.png?20230504161727598892" alt="Python is easy!" scale="0.5" width="1920" height="1080"/></figurep><p>Python is praised for being easy to start with, and it is, but only when
+    you compare it to other programming languages.  No programming language is
+    actually easy. None of them is intuitive, all of them have traps.</p><figurep href="text/key23/key23.html#47"><img class="hairline" src="text/key23_pix/046.png?20230504161727598892" alt="generatormetaclassdescriptorannotationclosurecoroutine" scale="0.5" width="1920" height="1080"/></figurep><p>I'm not just talking about beginners. We all have these problems.  No
+    matter how well you know Python, or your domain, you run into new things all
+    the time.  Python is used so widely across so many specialties, that two
+    Python "experts" can have little in common.</p><p>You might know this first column of words.  Do you know the second
+    column?  Do you know this third column? I don't.</p><p>Experienced developers will face the same hurdles as beginners when they
+    take a new job with a million-line monolith, or have to dive into an area
+    they've never used before.</p><p>This boils down to missing context.  You've got something that I don't.
+    That's why you're talking to me in the first place: to get a thought from
+    your head into my head.  That means I'm trying to learn something from you,
+    and that can be hard.</p><p>When you talk to me, it's hard to know what parts of your context I am
+    missing.  It's hard even to realize what your own full context is.  You've
+    been so focused on your world, it's easy to forget where the gaps are.</p><p>Take your time. Use more words.  Be forgiving when it doesn't work at
+    first.  Take some of the responsibility for those hiccups.</p><figurep href="text/key23/key23.html#48"><img class="hairline" src="text/key23_pix/047.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>And I don't mean to single out Python at all.  All of software is full of
+    oddities that have to be dealt with.</p><p>Again, I'm not talking about getting rid of these speed bumps, though the
+    more we can clean up the better.  I'm saying we need to empathize with
+    people struggling with them. We have to provide more context. We have to
+    know that when we are talking with each other, we are all struggling with
+    knowledge gaps in some way.</p><figurep href="text/key23/key23.html#49"><img class="hairline" src="text/key23_pix/048.png?20230504161727598892" alt="Don't Contradict" scale="0.5" width="1920" height="1080"/></figurep><p>If someone says Python is hard, it's really easy for us to jump to
+    Python's defense, and also try to be encouraging and optimistic by saying
+    "No, it's easy."  But this sentence literally has the word "No" in it, and
+    contradicts the user's experience.</p><p>Saying "it's one of the easier languages" is a positive statement, but
+    still contradicts the user's experience, and so can sound like a push
+    back.</p><figurep href="text/key23/key23.html#50"><img class="hairline" src="text/key23_pix/049.png?20230504161727598892" alt="Listen" scale="0.5" width="1920" height="1080"/></figurep><p>Here the asker said something about Python, but if you listen carefully,
+    you can see that they are really talking about themself.</p><p>Better to use a truly welcoming answer.</p><p>And this isn't just about beginners. I know a lot about Python, but if I
+    take a new job at a big company, I'll be the newb, dealing with an enormous
+    unfamiliar codebase.  My imposter syndrome will kick in, and I'll be saying
+    things equivalent to "Python is hard," but with bigger words and longer
+    sentences.</p><figurep href="text/key23/key23.html#51"><img class="hairline" src="text/key23_pix/050.png?20230504161727598892" alt="Experts" scale="0.5" width="1920" height="1080"/></figurep><p>Most of my examples have been new learners asking questions, but the fact
+    is that the weirdnesses never end.  No matter how experienced someone is,
+    they will continue to find themself in mystifying situations.  You might be
+    creating one of those mystifying situations.  Listen to them. Hear how they
+    are feeling.</p><p>As we like to say at Boston Python, "we are all beginners, some of us
+    just have more practice."</p><p>We are always encountering new technologies and unfamiliar situations.
+    When you talk to someone, you often are bringing them into a new context.
+    They will be overcoming their own confusion, trying to orient
+    themselves.</p><p>Lifelong learning is a feature of our profession. It means that we are
+    constantly off-balance and adjusting.  It requires good communication, and
+    can also make that communication difficult.</p><figurep href="text/key23/key23.html#52"><img class="hairline" src="text/key23_pix/051.png?20230504161727598892" alt="Now" scale="0.5" width="1920" height="1080"/></figurep><p>Layered on top of the inherent difficulties of talking to people are the
+    realities of our current world: more and more of us are working remotely,
+    interacting through screens instead of face-to-face. Or we're online more
+    and more with other communities.</p><p>Online channels like Slack or Discord encourage brevity: type a quick
+    message, then switch to another window.  But that's the exact opposite of my
+    advice to Use More Words.  Sitting at our screens, it's too easy to feel
+    like an air-traffic controller trying to track multiple conversations at
+    once, afraid that we're missing something important.</p><p>In these online-centered interactions, often we've never met the other
+    person face-to-face at all. That means we have little history with them, and
+    we haven't had much chance to find common ground.</p><p>We toss off quick messages, forgetting that we're not interacting with
+    a message, we're talking to a person.  Every one of those Slack channels is
+    filled with people, and they're all trying to figure out what you mean and
+    how you feel about them.</p><figurep href="text/key23/key23.html#53"><img class="hairline" src="text/key23_pix/052.png?20230504161727598892" alt="Reflection" scale="0.5" width="1920" height="1080"/></figurep><p>An important step that is easy to overlook in our rush to deal with
+    everything: why are we saying what we're saying? What's the goal of the
+    message?</p><p>Are you trying to educate, or direct?  At our worst moments, we can be
+    trying to prove that we are right, at the expense of the actual goal.  It's
+    fun to be an expert, but we shouldn't wield it like a weapon.</p><p>Use those engineering skills: what was your goal? After you've said your
+    piece, do a micro-retrospective: did it work?  Did the message accomplish
+    what you wanted? What could you have done better?</p><figurep href="text/key23/key23.html#54"><img class="hairline" src="text/key23_pix/053.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>And on top of all of the technical difficulties, it comes back to
+    interacting with people.  The soft skills (that is, the difficult skills)
+    are really important.</p><p>We engineers are good at many things, and we are good at learning new
+    things.  One of the things we can be good at is talking to each other. It's
+    a skill that can be improved. It requires focus and thought, but it is worth
+    it.</p><figurep href="text/key23/key23.html#55"><img class="hairline" src="text/key23_pix/054.png?20230504161727598892" alt="People 101" scale="0.5" width="1920" height="1080"/></figurep><p>I've only scratched the surface here.  Like any complex topic, it gets
+    very deep. Group dynamics, style differences, power balance, and lots of
+    other factors will come into play. How do you decide who to talk to? What
+    should you do if it just isn't working? How do you stop talking to someone?
+    What about malicious people?  These are not easy questions. I don't have all
+    the answers.</p><p>What I hope I've done is convinced you that it's important to do well,
+    and that it's a skill you can work on like any other.</p><p>But doing it well is something to keep working at.</p><figurep href="text/key23/key23.html#56"><img class="hairline" src="text/key23_pix/055.png?20230504161727598892" alt="untitled" scale="0.5" width="1920" height="1080"/></figurep><p>Here's something advice for the next few days.</p><p>After my first PyCon in 2007, I wrote a blog post summarizing the trip.
+    It included this piece of advice: talk to people.  Everyone here is
+    friendly, and they are here to meet you.  Don't be shy.  Talk to them!</p><figurep href="text/key23/key23.html#57"><img class="hairline" src="text/key23_pix/056.png?20230504161727598892" alt="What are we here for?" scale="0.5" width="1920" height="1080"/></figurep><p>The writer Kurt Vonnegut asked his son Mark, who is also a writer, what
+    are we here for, what's our purpose?  You know, the big question.  Mark
+    neatly answered and side-stepped the question by saying, "We are here to
+    help each other get through this thing, whatever it is."</p><p>I think that's a great call to action: be good to each other. Listen to
+    each other. Help each other.</p><figurep href="text/key23/key23.html#58"><img class="hairline" src="text/key23_pix/057.png?20230504161727598892" alt="Thanks" scale="0.5" width="1920" height="1080"/></figurep><p>Thank you for listening.  Enjoy PyCon!
+    Thank you very much. And thanks to my illustrators!</p><ul>
+        <li>Cartoons and Sleepy Snake by <a href="https://artofbatch.com">Ben Batchelder</a>.</li>
+        <li>Type illustrations by <a href="https://joemckendry.com">Joe McKendry</a>.</li>
+        <li>Emoji by <a href="https://openmoji.org">OpenMoji</a>.</li>
+    </ul>
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+
+
+
+
+    
+
+
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<pagecomments/>
+-->
+
+</page>

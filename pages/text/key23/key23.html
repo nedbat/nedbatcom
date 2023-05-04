@@ -1,0 +1,1970 @@
+<!DOCTYPE html> <!-- vim: set foldmethod=marker cc=60 :-->
+<html>
+
+<!-- *** Head stuff {{{ -->
+<head>
+<title>Key23</title>
+<meta charset="utf-8" />
+
+<!--
+Process this file with cog:
+
+    $ pip install -r requirements.txt
+    $ python -m cogapp -rP key23.html
+
+
+
+
+
+more words: not details
+add 101 slide
+    boredom
+    how to stop if it isn't working
+say more about why gutenberg
+emojis add sentiment
+gauge the other listener's interest?
+emotional intelligence
+
+-->
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <script type="text/javascript" src="typogr.min.js"></script>
+
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+    <!-- Our styles -->
+    <link type="text/css" rel="stylesheet" href="slides.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap" rel="stylesheet">
+
+    <script type="text/javascript" src="slides.js"></script>
+    <!-- }}} -->
+
+    <!-- *** Custom style for this deck {{{ -->
+    <style type="text/css">
+    .people {
+        font-family: Recursive;
+        font-variation-settings: 'slnt' -5, 'MONO' 0, 'CASL' .75, 'CRSV' 0;
+        color: #551a5c;
+    }
+    .harsh {
+        font-family: Recursive;
+        font-weight: 950;
+        font-variation-settings: 'slnt' 0, 'MONO' .75, 'CASL' 0, 'CRSV' 0, 'wght' 950;
+        word-spacing: -.25em;
+        color: black;
+    }
+    .slide tt {
+        font-family: Recursive;
+        font-variation-settings: 'slnt' 0, 'MONO' 1, 'CASL' 0, 'CRSV' 0;
+        background: black; color: lime;
+        padding: 0 .5em;
+        border-radius: .15em;
+    }
+    .crossed {
+        text-decoration: line-through red 8%;
+    }
+    .slide.image {
+        background: black;
+        text-align: center;
+        border: none;
+    }
+    .slide.image .slideContent {
+        padding: 0;
+    }
+    .slide .overlay-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .abs {
+        position: absolute;
+    }
+    .abs.center {
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    img.fullwidth {
+        width: 100%;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    img.fullheight {
+        height: 100%;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .slide.hero h1 {
+        font-weight: 800;
+        padding-top: 2em;
+        font-size: 200%;
+        text-align: center;
+    }
+    span.hangl {
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+        text-align: right;
+    }
+    span.hangr {
+        display: inline-block;
+        width: 0;
+        position: absolute;
+    }
+    .absleft {
+        position: absolute;
+        top: 0;
+        left: 5%;
+        width: 45%;
+        padding-right: 5%;
+        box-sizing: border-box;
+    }
+    .absright {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        padding-right: 5%;
+        box-sizing: border-box;
+    }
+    /* for highlighting lines of code */
+    .cell_highlight {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        opacity: .5;
+        padding: .35em .5em;
+        box-sizing: border-box;
+    }
+    svg text {
+        font-size: 20px;
+    }
+    .popup {
+        background: white;
+        position: absolute;
+        border: .3em solid #f66;
+        border-radius: 1em;
+        box-shadow: .35em .35em .2em rgba(0, 0, 0, 0.4);
+    }
+    div.popup {
+        padding: .6em 1em;
+    }
+    .shadow {
+        box-shadow: .35em .35em .2em rgba(0, 0, 0, 0.4);
+    }
+    </style>
+    <!-- }}} -->
+
+    <!-- *** Speech bubbles {{{ -->
+    <style type="text/css">
+    .chatpanel {
+        position: relative;
+        height: 65%;
+        overflow: hidden;
+    }
+    .chatscroll {
+        position: absolute;
+        bottom: 0; left: 15%;
+        width: 70%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 4.34fr;
+        align-items: end;
+    }
+    .chatscroll h1 {
+        grid-row: 1; padding: 0; margin: 0;
+    }
+    .chatscroll .chat {
+        grid-row: 2;
+    }
+    .facepanel {
+        position: relative;
+        height: 30%;
+        width: 90%;
+        left: 5%;
+        overflow: hidden;
+    }
+    .facepanel img {
+        position: absolute;
+        bottom: -15%;
+        height: 130%;
+    }
+    .facepanel img.left {
+        left: -4%;
+    }
+    .facepanel img.right {
+        right: -4%;
+    }
+    .facepanel .later {
+        display: none;
+    }
+    p.says, p.thinks {
+        border: 1px solid black;
+        line-height: 1.3;
+        font-size: 125%;
+        position: relative;
+        margin: .35em 0;
+    }
+    p.says {
+        font-family: Recursive;
+        font-variation-settings: 'slnt' 0, 'MONO' 0, 'CASL' .75, 'CRSV' 0;
+    }
+    p.thinks {
+        font-family: Recursive;
+        font-variation-settings: 'slnt' -15, 'MONO' 0, 'CASL' 1, 'CRSV' 1;
+        font-style: italic;
+        background: #eee;
+        border-radius: 1em;
+    }
+    p.persona {
+        padding: .25em .5em .25em 1em;
+        margin-right: 45%;
+    }
+    p.personb {
+        padding: .25em 1em .25em .5em;
+        margin-left: 45%;
+        text-align: right;
+    }
+
+    /*
+    [[[cog {{{
+        # The w65 styles originally were percentage widths,
+        # but then I increased the font size, so adjust them.
+        for w in range(20, 81, 5):
+            margin = 100 - min(100, int(w * 1.25))
+            print(f"p.persona.w{w} {{ margin-right: {margin}%; }}")
+            print(f"p.personb.w{w} {{ margin-left:  {margin}%; }}")
+    ]]] */
+    p.persona.w20 { margin-right: 75%; }
+    p.personb.w20 { margin-left:  75%; }
+    p.persona.w25 { margin-right: 69%; }
+    p.personb.w25 { margin-left:  69%; }
+    p.persona.w30 { margin-right: 63%; }
+    p.personb.w30 { margin-left:  63%; }
+    p.persona.w35 { margin-right: 57%; }
+    p.personb.w35 { margin-left:  57%; }
+    p.persona.w40 { margin-right: 50%; }
+    p.personb.w40 { margin-left:  50%; }
+    p.persona.w45 { margin-right: 44%; }
+    p.personb.w45 { margin-left:  44%; }
+    p.persona.w50 { margin-right: 38%; }
+    p.personb.w50 { margin-left:  38%; }
+    p.persona.w55 { margin-right: 32%; }
+    p.personb.w55 { margin-left:  32%; }
+    p.persona.w60 { margin-right: 25%; }
+    p.personb.w60 { margin-left:  25%; }
+    p.persona.w65 { margin-right: 19%; }
+    p.personb.w65 { margin-left:  19%; }
+    p.persona.w70 { margin-right: 13%; }
+    p.personb.w70 { margin-left:  13%; }
+    p.persona.w75 { margin-right: 7%; }
+    p.personb.w75 { margin-left:  7%; }
+    p.persona.w80 { margin-right: 0%; }
+    p.personb.w80 { margin-left:  0%; }
+    /* [[[end]]]
+    }}}
+    */
+
+    p.says.persona {
+        background: #ACEB69;
+        border-radius: 1em 1em 1em 0;
+    }
+    p.thinks.persona::before {
+        content: "";
+        position: absolute;
+        bottom: -.33em;
+        left: .15em;
+        width: .65em;
+        height: .65em;
+        background: #eee;
+        border-radius: 1em;
+        border: 1px solid black;
+    }
+    p.thinks.persona::after {
+        content: "";
+        position: absolute;
+        bottom: -.4em;
+        left: 0em;
+        width: .3em;
+        height: .3em;
+        background: #eee;
+        border-radius: 1em;
+        border: 1px solid black;
+    }
+    p.says.personb {
+        background: #84E6FF;
+        border-radius: 1em 1em 0 1em;
+    }
+    </style>
+    <!-- }}} -->
+</head>
+<!-- }}} -->
+
+<body class="slides">
+
+<div class="slide title">
+    <h1 style="font-size: 225%" class="people">Ned Batchelder</h1>
+    <h1 style="padding-top: 0"><span class="punct">@</span>nedbat</h1>
+    <h1 style="padding-top: 0; margin-top: .5em"><span class="punct">hachyderm.io<span class="litepunct">/</span>@</span>nedbat</h1>
+</div>
+
+<div class="comment-out-text"><!-- {{{ -->
+
+    <p>Hi, thanks.  I'm Ned Batchelder.  I want to thank Mariatta and the rest
+    of the PyCon organizers for inviting me.</p>
+
+    <p>As Mariatta said, this is the 20th anniversary of PyCon, so I'm sure
+    there will be lots of reminiscing.  I wasn't at the first PyCon in 2003, but
+    my friend Antonio was. He sent me a photo from back then.</p>
+
+</div><!-- }}} -->
+
+<div class="comment-out-slide image">
+    <img class="fullheight" src="img/antonio_guido.jpg">
+    <img class="fullheight incremental" src="img/its_guido.png">
+    <img class="fullheight incremental" src="img/blush.png">
+</div>
+
+<div class="comment-out-text"><!-- {{{ -->
+
+    <p>Here is Antonio on the right with another conference attendee.</p>
+
+    <p>Some things haven't changed.</p>
+
+    <p>I promise the art will get better...</p>
+
+</div><!-- }}} -->
+
+
+<div class="comment-out-slide image">
+    <img class="fullheight" src="img/guido_2007.jpg">
+</div>
+
+<div class="comment-out-text"><!-- {{{ -->
+
+    <p>My first PyCon was 2007 in Dallas.</p>
+
+</div><!-- }}} -->
+
+
+<div class="comment-out-slide image">
+    <img style="position: absolute; top: 0; left: 0; height: 140%" src="img/keynote_2007.jpg">
+</div>
+
+
+<div class="comment-out-text"><!-- {{{ -->
+
+    <p>Guido gave a keynote about the work underway on Python 3.  During the
+    keynote he forgot the word "annotations" and said, "you know, the things
+    that aren't type declarations." So I guess some things <b>have</b>
+    changed!</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide title">
+    <h1>What to talk about?</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I wondered what I should talk about today.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <img style="width:20%; position:absolute; top: 10%; left: 25%" src="img/edX_Logo_R_Elm.png">
+    <img style="width:18%; position:absolute; top: 10%; right: 25%" src="img/2u-logo.png">
+    <img style="width:50%; position:absolute; top: 50%; left: 25%" src="img/Open-edX-horz-GARNETELM_650.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I work at edX, a 2U company, on the Open edX project. It's a large Python
+    and Django project powering edx.org and thousands of other online learning
+    sites around the world.  I could talk about online education, or
+    million-line monoliths, or producing open source inside a for-profit
+    company.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <img style="height:90%; margin-top: 2em" src="img/sleepy-snake-600.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I've been maintaining coverage.py for a long time. This is Sleepy Snake,
+    the project's mascot.  I could talk about working on a large widely used
+    open source side project.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <img style="height:90%; margin-top: 3%" src="img/boston_python.jpg">
+    <div style="background: white; border: 1px solid black; position: absolute; top: 6%; right: 10%">
+        <img style="width: 35vh; height: 35vh" src="img/bospy-logo.svg">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I'm an organizer of Boston Python. I could talk about running community
+    groups, or what we did to keep it going though the pandemic.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <img style="width:100%; border: 1px solid #888; margin-top: 2em" src="img/blog/blog.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I've been blogging for more than 20 years, since before the first PyCon.
+    I could talk about what it's like to put my hot takes out on the internet
+    for abuse.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <img class="abs center" style="width: 85%; top: 5%; border: 1px solid #ccc" src="img/discord.png">
+    <img class="incremental" style="position: absolute; border: 1px solid #888; border-radius: .25em; width: 25%; bottom: 15%; left: 20%; box-shadow: 0 0 2em #000" src="img/discord-pfp.jpg">
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>I'm often in online communities like IRC, Slack, or Discord, pictured
+    here.</p>
+
+    <p>I could talk about teaching Python basics, or how these communities are
+    the same and different.  For example, on the public Python Discord server,
+    it means being in a space with people one-third my age who constantly ask me
+    if that's really me in my profile picture.</p>
+
+    <p>But instead of any of those specific topics, I wanted to step back and
+    discuss something that underpins all of these things.</p>
+
+</div><!-- }}} -->
+
+<div class="slide title">
+    <div class="overlay-container">
+        <div class="overlay">
+        <h1>High-uncertainty components<br>in complex systems</h1>
+        </div>
+        <div class="overlay incremental">
+        <h1 class="crossed">High-uncertainty components<br>in complex systems</h1>
+        <h1 class="people" style="font-size: 300%; margin-top: 0; padding-top: 0;">People</h1>
+        </div>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>High-uncertainty components in complex systems.</p>
+
+    <p>OK, that's not the real title. It's fake high-tech jargon designed to
+    appeal to all you techies.  I do want to talk about high-uncertainty
+    components and how they interact, but there's a simpler word for the ones I
+    want to talk about: People.</p>
+
+    <p>I want to talk about how we interact with each other. As engineers, we
+    can fall into the trap of approaching people the way we approach inanimate
+    components we use.  It can go badly, because people don't work like
+    electronics or software.</p>
+
+    <p>We can tend to do this for a few reasons: either, we expect everything to
+    work like engineering components, or we don't think we're good at dealing
+    with people, or we don't think it's important to deal well with people.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Soft skills</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Sometimes we call these "soft" skills.  Some people frown on this term,
+    because it makes them seem lesser, simple things that anyone can do, or not
+    as important somehow.</p>
+
+    <p>I don't think of soft skills as lesser. The only reason some people think
+    of them as lesser is because as a field, we value the hard edges of hard
+    skills.  Rigid rules and quantitative measures.  Your Python syntax is
+    either right or it's wrong.</p>
+
+    <p>Soft skills have none of those rules and guardrails. They're all squishy
+    and vague and subjective. There's no linter for Slack conversations. That's
+    exactly what makes them difficult, especially for quantitative people like
+    us.</p>
+
+    <p>If it helps, you can think of this as emotional intelligence, which has
+    that hard-sounding word "intelligence" in it.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>People are terrible</h1>
+    <h1 class="incremental people">.&#x200b;.&#x200b;. if you treat them like components</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Let's face it: people are terrible.  But only if you think they are going
+    to work like technical components. They don't work that way.</p>
+
+    <p>Let's consider people through the lens of some engineering qualities.
+    What are the characteristics we value about components in systems, and how
+    do people stack up?</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Non-standard</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/no-standards.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>First off, people are not standardized.  Everyone is different, sometimes
+    in small ways, sometimes in big ways.  What they know, how they speak, how
+    they work, what they like, what they don't like, and so on.</p>
+
+    <p>You can't treat people as interchangeable components. What works for one
+    person can be really bad for another.  You have to adjust for their
+    differences.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>No docs</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/no-docs.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>To make matters worse, people don't come with documentation.  When you
+    meet someone new, they don't hand you a manual explaining how they are
+    different than someone else.  Sometimes there's a bio, or a LinkedIn
+    profile, but that rarely tells you the really important things to work
+    smoothly with someone.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Unpredictable</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/unpredictable-1.png">
+    <img class="incremental fullheight" style="height:70%" src="img/ben/unpredictable-2.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Because everyone is different, and they don't come with instructions,
+    people are unpredictable. Just because they know one thing, you might not be
+    able to guess that they know another thing.  If they have an opinion on a
+    particular topic, it doesn't mean you can predict how they will feel about
+    another topic.  And they may change from day to day.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Hidden state</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/hidden-state-1.png">
+    <img class="incremental fullheight" style="height:70%" src="img/ben/hidden-state-2.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>One of the things that makes people unpredictable is that they have a lot
+    going on inside, very little of which you can see.  In software design we
+    talk about avoiding mutable global data because it can have far-reaching
+    effects that are hard to reason about.</p>
+
+    <p>People are full of mutable globals, and you can't see them.  Maybe they
+    didn't like their breakfast, or they're worried about a sick child.  Maybe
+    they just had great news from a friend.  None of that is apparent, but it
+    can change how they behave.</p>
+
+    <p>This guy has a lot on his mind.  Notice Sleepy Snake is in there: he's
+    thinking about coverage.py, so I can relate.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Non-linear</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/non-linear-1.png">
+    <img class="incremental fullheight" style="height:70%" src="img/ben/non-linear-2.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Because of that hidden state, responses can be non-linear.  You might ask
+    a question and get a good response.  But ask a little more, and you've
+    pushed them past their stress threshold, and a situation can blow up.  The
+    response is disproportionate because it involved hidden state you can't see.
+    Maybe your question reminded them of a bad person they dealt with years ago.
+    You can't know that. All you see is that you did something small and got
+    back something huge.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Unclear error messages</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/unclear-errors-1.png">
+    <img class="incremental fullheight" style="height:70%" src="img/ben/unclear-errors-2.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Finally, when something does go wrong, you don't always get good
+    information about why.  People don't want to talk about all of their hidden
+    state.  It's considered unprofessional. We can think of it as baggage.
+    Maybe they don't like that they reacted badly, and they want to move past
+    it.</p>
+
+    <p>You know the situation: someone is upset, and you ask them what's wrong,
+    and they reply, "Nothing." That's a terrible error message!  We want our
+    systems to tell us specifically what is wrong when something is wrong.
+    People don't do that.</p>
+
+    <p>So you don't always get an understanding about what happened, or how to
+    avoid it in the future.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Why bother?</h1>
+    <h1 class="incremental people">You have no choice</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>OK, if people are so terrible, why should we bother with them?</p>
+
+    <p>First of all, you have no choice.  No matter how introverted you are,
+    how much you work on your own, you are going to be dealing with people.
+    You'll have collaborators, a boss, your software will have users, and so on.
+    People are all around you, and you will be talking to them.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>People are fantastic</h1>
+    <ul class="people">
+        <li class="incremental">Flexible</li>
+        <li class="incremental">Creative</li>
+        <li class="incremental">Energy</li>
+        <li class="incremental">They are why</li>
+    </ul>
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>More importantly, people are fantastic.</p>
+
+    <p>They are flexible, and creative. They can reflect your energy back to
+    you.  For most of our work, they are the very reason we do the work.</p>
+
+    <p>Maybe this is the wrong place to be making this point. After all, you
+    have travelled here to be with people.  You understand the power of those
+    interactions.</p>
+
+    <p>As I said, you don't have a choice whether to deal with people. But
+    you can choose how well you do it. As engineers, we can think about our
+    interactions and improve.</p>
+
+    <p>It all starts with talking to people.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide title">
+    <div class="overlay-container">
+        <div class="overlay">
+        <h1 class="people">How to talk to people</h1>
+        </div>
+        <div class="overlay incremental">
+        <h1 class="people crossed">How to talk to people</h1>
+        <h1 style="margin-top: 0; padding-top: 0">People: the API User's Guide</h1>
+        </div>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Let's get into how to talk to people.</p>
+
+    <p>Except since you are engineers, you might not naturally want to talk to
+    people, so let's think of it differently: People, the API User's Guide.</p>
+
+    <p>We can look at how talking to people works and what happens in those
+    interactions.</p>
+
+    <p>BTW, when I say talking, I mean any method of communicating with
+    someone. It could be talking, it could be typing in Slack, it could be an
+    email.  The same basics apply.</p>
+
+    <p>And just to be clear: I am not a psychologist.  I'm an engineer who has
+    spent years reverse-engineering people and debugging interactions. I've read
+    the tracebacks of lots of discussions.</p>
+
+    <p>I've learned things the hard way.  And I still don't always get it right!
+    There are definitely people here today that I have had conflicts with.  I am
+    sorry for that.  And there will be conflicts and miscommunications in the
+    future.  It happens.  The important thing is to learn and try to do
+    better.</p>
+
+    <p>None of this is easy. But it is important.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Information + Sentiment</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here's an important central idea: every message you send to a person will
+    be heard as having two parts: information and sentiment.</p>
+
+    <p>For a lot of what we say to each other, the information is the important
+    part. I'm trying to tell you something, or you are asking me for something,
+    or whatever.  This is the part engineers find it easy to focus on: what are
+    the facts, the request, and so on.</p>
+
+    <p>But every message also carries a sentiment, whether you want it to or
+    not.  Sentiment might not be the right word: maybe emotion is better, or
+    mood or the energy of a message.  Underestimating this is where we can get
+    into trouble.</p>
+
+    <p>Usually, information is the explicit part of the message: most of the
+    words are the hard-edged facts we want to convey. They are easy to see.  The
+    sentiment is usually much more subtle.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1 style="margin-top: 20%; font-size: 600%">
+        <span style="color: green">Yes</span>
+                     &nbsp;&nbsp;
+        <span style="color: red">No</span>
+    </h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Sentiment and emotion are complex topics, of course, so let's simplify
+    them for our purposes.  At a really really basic level, I think of
+    every message as being either a Yes or a No, of varying intensity.</p>
+
+    <p>Words can welcome us in, or they can push us away. They can give us a
+    good feeling or a bad feeling.</p>
+
+    <p>People are social emotional creatures.  They need to understand how you
+    feel about them.  You've heard of "sentiment analysis" tools that read
+    tweets, and try to figure out how people are feeling about Nike sneakers?
+    People around you are doing that all the time, but they're doing it to your
+    messages, to figure out how you feel about them.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Defaulted sentiment</h1>
+    <ul style="text-align: left; margin-left: 38%">
+    <li class="incremental">1: &nbsp;History</li>
+    <li class="incremental">2: &nbsp;Similarity</li>
+    <li class="incremental">3: &nbsp;"Bad"</li>
+    <li class="incremental">4: &nbsp;Hidden State</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>The problem is, sentiment can be subtle enough that the recipient infers
+    or defaults it. If the sentiment in your message isn't clear enough, the
+    recipient will fill it in for you, and not always in the way you want.</p>
+
+    <p>How is missing sentiment filled in?</p>
+
+    <p>First, your history together will be the biggest source of fill-in
+    material.  If you're friends with someone, and have a long history of
+    positive interactions, then messages will be mostly assumed to be
+    positive. Or, if you have a long history of conflict, that history will
+    negatively color every interaction.</p>
+
+    <p>If your history is short or non-existent, then the sentiment might depend
+    on perceived similarity.  The recipient will judge how similar you two seem
+    to be.  The more similar, the more likely your message will be considered
+    positive.</p>
+
+    <p>What do I mean by similar? Who knows!? It could be age, gender, haircut,
+    clothing style, taste in music, laptop stickers, it could be anything at
+    all.  As an example, we are all here at PyCon, and that makes us all similar
+    in a certain way.  We are members of a community.  The more you have in
+    common, the more likely your ambiguous message will be welcomed.</p>
+
+    <p>If you have no history, and you don't seem that similar, then
+    you might as well assume that the defaulted sentiment will be "Bad."  Maybe
+    it won't be, but you are at the mercy of all of that hidden state we talked
+    about.</p>
+
+    <p>Finally, that hidden state we talked about will come into play. It will
+    color how your message is received, without you even knowing it.</p>
+
+    <p>Keep in mind: this is not conscious on the listener's part.  They aren't
+    trying to assume the worst about you. They are getting words from you and
+    trying to piece together both the information and the sentiment.  They want
+    to hear you, but they are also trying to understand their place in a chaotic
+    world.  They're doing what people do.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Defense</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Maybe this is obvious, but: if your recipient feels negative energy in
+    your message, they are not going to listen to you.</p>
+
+    <p>This is why the sentiment is important: it determines how the receiver will
+    handle the information in your message.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <pre style="position: absolute; left: 15%; top: 0%; font-size: 110%" class="python">
+    # Pseudocode!
+    def receive(self, sender, info, sentiment=None):
+        if sentiment is None:
+            sentiment = self.find_history(sender)
+
+        if sentiment is None:
+            sentiment = self.calculate_similarity(sender)
+
+        if sentiment is None:
+            sentiment = "BAD"
+
+        sentiment = self.apply_hidden_state(sentiment)
+
+        self.add_to_history(sender, sentiment)
+
+        if is_negative(sentiment):
+            self.discard(info)
+        else:
+            self.use(info)
+    </pre>
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>Just to make this concrete for you technical people: here is some
+    pseudo-code.  It's not the real code!</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Can't we all just...</h1>
+    <img class="fullheight" style="height:70%" src="img/ben/robot-talk.png">
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>At this point, the engineer in you might be saying, can't we all just
+    stick to the facts? Why do we have to mix emotion into it? Why can't we stay
+    at the nice objective information level?</p>
+
+    <p>Yeah, sorry, you can't.  As flexible and amazing as people are, there are
+    things we can't change about them. They need to know how they are doing.
+    Without clear signals, they will fill in the gaps, and not necssarily in the
+    way that you want them to.</p>
+
+    <p>We aren't going to replace people with robots, so you need to work on the
+    sentiment parts of your messages just as much as the information parts.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>You</h1>
+    <img class="incremental fullheight" style="height:70%" src="img/ben/you-are-a-person.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Oh, and by the way...</p>
+
+    <p>I don't want to shock anyone, but each and every one of you is also a
+    person.  That means at the same time you are struggling to get your messages
+    through to other people, dealing with all of their weirdnesses and hidden
+    state, they are also trying to talk to you, and your complexity is getting
+    in the way of you hearing their messages.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Improve your chances</h1>
+    <ul>
+        <li class="incremental">Say yes</li>
+        <li class="incremental">Use more words</li>
+        <li class="incremental">Choose words carefully</li>
+        <li class="incremental">Be humble</li>
+        <li class="incremental">Be explicit</li>
+    </ul>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>So, what can we do to improve our chances?  We're saying something to get
+    a message across, but there's this sentiment minefield that can get in the
+    way.</p>
+
+    <p>I'll talk about five things to do: say yes; use more words; choose your
+    words carefully; be humble; and be explicit.</p>
+
+    <p>I'll demonstrate with some chats.  These are short and stylized but will
+    demonstrate the basics.</p>
+
+    <p>First tip: say yes.  I don't mean literally, "yes."  I mean that you
+    should try to word your messages so that they fall on the yes side of the
+    spectrum instead of the no side. Make them welcoming.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Don't say no</h1>
+            <div class="chat">
+            <p class="persona says w70 incremental disp-none">How do I get the length of this array?<br>
+                <tt>arr = [1, 2, 3]</tt></p>
+            <p class="personb says w40 incremental disp-none" data-show=".angry">That's not an array.</p>
+            <p class="persona thinks w30 incremental disp-none" data-show=".anguished">I am stupid!</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/angry-face.svg" class="right angry later">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here's an extreme example.</p>
+
+    <p>The speaker on the right is correct: that is not an array, it's a list.
+    On a factual level, they are even half-providing some useful information:
+    calling that an array will get in the way of learning about lists in Python.
+    But it's not helpful, because it's pushing the asker away.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Say yes</h1>
+            <div class="chat">
+            <p class="persona says w70 disp-none">How do I get the length of this array?<br>
+                <tt>arr = [1, 2, 3]</tt></p>
+            <p class="personb says w50 incremental disp-none">The length of that list is: <tt>len(arr)</tt></p>
+            <p class="persona says w45 incremental disp-none" data-show=".heart">Oh, it's a list. Thanks!</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/smiling-face-with-heart-eyes.svg" class="left heart later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Instead, they could have answered the question, providing the answer the
+    asker is looking for, and sneaking in the correct term along the way.</p>
+
+    <p>BTW, a lot of my examples are people asking for help, but the principles
+    are the same for any interactions.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Not enough words</h1>
+            <div class="chat">
+            <p class="persona says w45 incremental disp-none">I need help with THING</p>
+            <p class="personb says w50 incremental disp-none">Why are you using THING?</p>
+            <p class="persona thinks w40 incremental disp-none" data-show=".anguished">I knew I was doing it wrong!</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>This is a classic example of an ambiguous message.  The speaker on the
+    right might be genuinely interested in the reasons for using THING. They
+    might be open to a deep and helpful conversation.</p>
+
+    <p>But they've started with an ambiguous message that can sound like
+    criticism.</p>
+
+    <p>I'm very familiar with this one, because I like to ask why, and I can see
+    how it comes off sounding like "You shouldn't use THING."</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Good: Use more words</h1>
+            <div class="chat">
+            <p class="persona says w45 incremental disp-none">I need help with THING</p>
+            <p class="personb says w40 incremental disp-none">THING can be tricky.</p>
+            <p class="persona thinks w45 incremental disp-none" data-show=".grin">Good, it's not just me.</p>
+            <p class="personb says w45 incremental disp-none">I had trouble with it when I started using it.</p>
+            <p class="persona thinks w55 incremental disp-none">We are similar. I'm not weird.</p>
+            <p class="personb says w70 incremental disp-none">If you tell us more about how you are using THING, we can make it work.</p>
+            <p class="persona thinks w40 incremental disp-none" data-show=".heart">They will help me!</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/grinning-face.svg" class="left later grin">
+        <img src="img/openmoji/smiling-face-with-heart-eyes.svg" class="left heart later">
+    </div>
+</div>
+
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here the right speaker uses more words, including explicit agreement with
+    the left speakers's experience.  These are Yeses that put them on the same
+    side of the problem.  The asker feels a shared experience with the helper
+    that helps them build a bond and then work together on the problem.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Choose your words</h1>
+            <div class="chat">
+            <p class="persona says w50 incremental disp-none">My program says 1 + 2 is 4</p>
+            <p class="personb says w30 incremental disp-none" data-show=".angry,.anguished">That's wrong.</p>
+            <p class="personb says w60 incremental disp-none" data-show=".smile">Hmm, that doesn't sound right.</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/angry-face.svg" class="right angry later">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left later smile">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right later smile">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here the left hand is telling us something that is clearly wrong.  But
+    "that's wrong" is too blunt and doesn't welcome further discussion.  Saying,
+    "that doesn't sound right" instead opens up a possibility for
+    investigating.</p>
+
+    <p>There are lots of reasons why their program might be producing that
+    result.  "Doesn't sound right" includes some doubt on the helper's part.
+    This is a small example of being humble.  They are less certain, open to
+    discovering something unexpected. It puts them both on a more level
+    field.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Be humble</h1>
+            <div class="chat">
+            <p class="persona says w55 incremental disp-none">My if loop only returns once.</p>
+            <p class="personb says w45 incremental disp-none" data-show=".angry,.anguished">You aren't being clear.</p>
+            <p class="personb says w45 incremental disp-none" data-show=".smile,.grin">I don't understand yet.</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/angry-face.svg" class="right angry later">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left later smile">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right later smile">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here the asker is to be honest, talking nonsense.  They don't know what
+    they are saying.  But "you aren't being clear" is an accusation, and puts
+    all the blame on the asker.  "I don't understand" carries the same
+    information, that the situation is unclear, but the helper is taking some of
+    the fault.  They are lowering themself, which again levels the field and
+    helps put the asker at ease.</p>
+
+    <p>In general, it can help to make yourself the subject of the sentence.
+    "You" sentences can seem aggressive. "I" sentences are more humble, and more
+    honest. You can't know another person's state of mind, but you can know
+    yours.</p>
+
+    <p>Being humble and letting go of some hard-earned status can be difficult.
+    But it's good to be less certain, and to open yourself to possibilities you
+    haven't anticipated.  It allows in others, and makes you more similar to
+    them, which makes it easier to communicate well with them.</p>
+
+    <p>Ask questions instead of making absolute statements.  I don't want to get
+    into stereotypical gender roles, but here's a simple rule of thumb: whatever
+    the opposite of mansplaining is, do that.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Be explicit</h1>
+            <div class="chat">
+            <p class="persona says w60 incremental disp-none">What do you think of my project?</p>
+            <p class="personb says w40 incremental disp-none" data-show=".grin">It's really good work.</p>
+            <p class="personb says w55 incremental disp-none" data-show=".anguished">There are some things to fix.</p>
+            <p class="personb says w30 incremental disp-none" data-show=".grin2">I can help you.</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/grinning-face.svg" class="left later grin">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+        <img src="img/openmoji/grinning-face.svg" class="left later grin2">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>One obvious way to be sure your sentiment is understood is to be very
+    direct with it.  When you use more words, you can say things that are just
+    sentiment.</p>
+
+    <p>One strategy is to always start and end with a Yes, even if you need to
+    have more difficult messages in the middle. Think of it as a Yes
+    Sandwich.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Kindergarten</h1>
+    <img class="incremental" style="width:40%" src="img/20230402_ned.jpg">
+    &nbsp;&nbsp;&nbsp;
+    <img class="incremental" style="width:40%" src="img/19680608_kindergarten.jpg">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I'm sure all of this seems hopelessly simple.  You might think, all
+    you're saying is be nice, and think of the other person.  Yes, that's what
+    I'm saying: be nice, and think of the other person.  It's the kind of thing
+    they teach in kindergarten. I'm standing here telling you this, but maybe
+    this little guy could have done it instead.  That's me at about 10% of my
+    current age. When we were young, we were taught to be nice and think of the
+    other person.</p>
+
+    <p>Earlier I mentioned soft skills as something anyone could do.  They're
+    something anyone can do, and everyone should do.  We all were taught these
+    things at a young age.</p>
+
+    <p>Then over time we start to believe that we don't have to do that anymore,
+    or that other people can somehow take care of themselves no matter what we
+    say. But we're all just people trying to make sense of the chaotic world
+    around us.</p>
+
+    <p>The better you can deliver your messages, the better it's going to go.
+    Be nice.  Think of the other person.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide title">
+    <h1>Technology</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>We've talked a lot about sentiment, let's talk about information.  We'll
+    get into some technology.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide title">
+    <img style="height:90%; margin-top: 3%" src="img/gutenberg.jpg">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>In the mid 1400's, Gutenberg developed a process for producing printed
+    pages using movable type.</p>
+
+    <p>I know this is not the technology you thought I was going to talk about.
+    But it's an interest of mine, and there's a point at the end.  It won't take
+    long, stick with me.</p>
+
+</div><!-- }}} -->
+
+<div class="slide title">
+    <div style="position:relative; width: 100%; height: 100%">
+        <img style="position:absolute; top: 3%; left: 0; height:90%;" src="img/printed_almanac.jpg">
+        <img class="incremental" style="position:absolute; top: 6%; right: 0; height:80%;" src="img/type_almanac.jpg">
+        <img class="incremental" style="position:absolute; bottom: 6%; right: 4%; height:60%; border: 1px solid black" src="img/type-diagram.png">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>To produce printed pages, small chunks of metal called type are arranged
+    in a form, placed in a press, inked, and pressed to a piece of paper.</p>
+
+</div><!-- }}} -->
+
+<div class="slide title">
+    <div style="position:relative; width: 100%; height: 100%">
+        <img style="position:absolute; top: 5%; left: 10%; height:30%;" src="img/ccjournal/ccjournal-punch.png">
+        <img class="incremental" style="position:absolute; top: 15%; left: 25%; height:40%;" src="img/ccjournal/ccjournal-punch-driven.png">
+        <img class="incremental" style="position:absolute; bottom: 25%; right: 30%; height:40%;" src="img/ccjournal/ccjournal-matrix.png">
+        <img class="incremental" style="position:absolute; bottom: 10%; right: 5%; height:30%;" src="img/ccjournal/ccjournal-type.png">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Gutenberg's big advance was how to produce the type.  Printers need many
+    uniform pieces of type to produce pages with consistent designs.</p>
+
+    <p>The process started by carving a reverse-image letter at actual size into
+    the end of steel bar called a punch.</p>
+
+    <p>The punch is then driven into a bronze plate called a matrix. The matrix
+    is put into the bottom of the mold, molten metal is poured repeatedly into
+    the mold, and the result is many pieces of uniform type.</p>
+
+</div><!-- }}} -->
+
+<div class="slide image">
+    <img class="fullheight" src="img/punchcutter.jpg">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Punchcutting was a difficult job.  The punchcutter worked in metal
+    at tiny sizes, carving reversed letters in steel.</p>
+
+    <p>How would a punchcutter assess their progress?  It's too hard to use the
+    punch to make a matrix, use the matrix in a mold to make some type, put the
+    type in a press, ink it, and make a page.  Even then, it was an ordeal to
+    get your work into production!</p>
+
+    <p>The punchcutter had a simpler way: use a candle flame to coat the punch
+    with soot, then press the punch onto a piece of paper.  The resulting image
+    reads correctly with a good black impression, and cleans up quickly.</p>
+
+    <p>We use the same term they did for our quick checks of progress: a smoke
+    test.  I know: there are other etymologies for smoke test, but I think this
+    is the right one.  Fight me!</p>
+
+</div><!-- }}} -->
+
+<div class="slide title">
+    <div style="position:relative; width: 100%; height: 100%">
+        <img style="position:absolute; top: 5%; left: 0; height:70%;" src="img/composing-stick.jpg">
+        <img class="incremental" style="position:absolute; border: 1px solid black; bottom: 5%; right: 0; height:70%;" src="img/divided-upper-lower-case.jpg">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>OK, now we have lots of type, how do we make pages?  A person called a
+    typesetter picks pieces of type and places them in order, building columns
+    of text line by line.</p>
+
+    <p>They stand at a work station that looked like this: two wooden trays hold
+    type in specific compartments.</p>
+
+</div><!-- }}} -->
+
+<div class="slide title" style="background: white">
+    <img class="fullheight" style="height:90%" src="img/cases/cases.png">
+    <img class="fullheight incremental" style="height:90%" src="img/cases/labelled.png">
+    <img class="fullheight incremental" style="height:90%" src="img/cases/dim-upper.png">
+    <img class="fullheight incremental" style="height:90%" src="img/cases/labelled.png">
+    <img class="fullheight incremental" style="height:90%" src="img/cases/azju-overlay.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>The trays were arranged like this. The common small letters are in the
+    bottom tray, and the less-needed capital letters are in the top tray.</p>
+
+    <p>They aren't called bottom tray and top tray though.  The trays are
+    called cases.  This is the lower case, and this is the upper case, words
+    that to this day everyone uses to describe these letters.  Remember: a
+    case-insensitive regex is one that doesn't care whether the chunks of metal
+    come from the bottom wooden tray, or the top wooden tray.</p>
+
+    <p>Let's look at the layout of the lower case: the most common letters are
+    in larger compartments near the center of the case, with less common
+    letters in progressively smaller compartments farther out.  It's an
+    ergonomic layout that takes letter frequency into account.</p>
+
+    <p>The upper case is different: the compartments are all the same size,
+    laid out alphabetically A to Z, except J and U are at the end.</p>
+
+    <p>Wait, what!?</p>
+
+    <p>How are you feeling about this? Curious? Confused? Annoyed? Angry?
+
+    <p>I wanted to talk about Gutenberg because I figured it would be new to
+    most of you.  I wanted you to be the newcomer, to have a bunch of new things
+    thrown at you, then to encounter something so odd that it seems almost
+    intentionally perverse.  It's so easy to see how it could have been better.
+    Why are J and U at the end? Why did they do this to us?</p>
+
+    <p>In our technical conversations, there are moments like this all the time.
+    It's hard to take in new information.  It's not clear which parts will be
+    important later. Maybe that smoke test thing was just a nerd going on too
+    long about something that fascinates him!</p>
+
+    <p>Details get intricate.  Reasons can be obscure, or obscured.  When they
+    are new to us, we have to accept them and deal with them, regardless of why
+    they are the way they are.</p>
+
+    <p>Just to close the loop on this: the reason J and U are at the end is that
+    J and U weren't considered distinct letters in English until the mid-1600's.
+    Until then they were just stylistic variants of I and V.  The layout of the
+    upper case had been established and in use for 200 years by the time J and U
+    were added to it.  So rather than disturb centuries of tradition, J and U
+    were added at the end.</p>
+
+    <p>And J and U remain at the end to this day, more than 300 years later!  If
+    you visit a letterpress print shop today, you will see cases laid out like
+    this.  Next time you want to whine about backward compatibility or legacy
+    systems, these printers want to have a word with you!</p>
+
+</div><!-- }}} -->
+
+<div class="slide" style="background:white">
+    <h1>Python is also strange</h1>
+    <img class="fullheight thendim" style="height:70%" src="img/cases/cases.png">
+
+    <div class="incremental">
+    <div style="border: 4px solid #000; background: white; position: absolute; left: 55%; top: 42%">
+        <pre style="margin-top: 0">lambda</pre>
+    </div>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>As experts, it's easy for us to get accustomed to our familiar
+    strangenesses.  We forget how odd they are.  I'm not saying we should get
+    rid of the strangenesses; for the most part, we can't.  But we can be
+    understanding when others have difficulty with them.</p>
+
+    <p>Technology starts weird and gets weirder, we just have to live with
+    that.</p>
+
+    <p>Last year, during his PyCon keynote, Łukasz Langa said, "if you don't say
+    controversial things in a keynote, are you really living your best life?" I
+    don't know, is this controversial?: lambda is a terrible keyword.  It has no
+    mnemonic value. Yes, there's a reason and history behind it, but like J and
+    U, the reason doesn't help people understand it.</p>
+
+</div><!-- }}} -->
+
+<div class="slide" style="background: white">
+    <img style="height:85%; margin-top: 5%" src="img/xkcd_353.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>We love showing people this xkcd comic. Python is great, Python is
+    amazing, people love it!</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide" style="background: white">
+    <img style="height:85%; margin-top: 5%" src="img/xkcd_1987.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>This one we don't show off so much.</p>
+
+    <p>I'm not talking about packaging and installation, or even Python, in
+    particular.  I'm showing it as just one example of the kinds of
+    complications and weirdnesses that we get used to.  Some of you might look
+    at this and say, "well sure, if you're going to list every possibility of
+    course it looks absurd."  But this is what people experience.</p>
+
+    <p>I'm not saying that Python is bad. It's just that Python is technology,
+    and technology starts weird and gets weirder.  When we talk to each other,
+    we are often talking about technology.  Everything we do is weird and hard
+    to get started with.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Python is easy!</h1>
+    <pre style="position: absolute; left: 15%; font-size: 170%" class="pycon">
+    >>> answer = "NO!"
+    >>> if answer is "yes" or "ok":
+    ...     print("YES!")
+    ...
+    YES!
+
+    >>> 0.1 + 0.2 == 0.3
+    False
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Python is praised for being easy to start with, and it is, but only when
+    you compare it to other programming languages.  No programming language is
+    actually easy. None of them is intuitive, all of them have traps.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div style="position:absolute; left: 10%; top: 10%">
+        <h1>generator<br>metaclass<br>descriptor<br>annotation<br>closure<br>coroutine<br></h1>
+    </div>
+    <div class="incremental" style="position:absolute; left: 45%; top: 10%">
+        <h1>WSGI<br>ASGI<br>ORM<br>CSRF<br>XSS<br>JWT</h1>
+    </div>
+    <div class="incremental" style="position:absolute; left: 70%; top: 10%">
+        <h1>recall<br>precision<br>d′<br>f1 score<br>AUC<br>ROC curve</h1>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I'm not just talking about beginners. We all have these problems.  No
+    matter how well you know Python, or your domain, you run into new things all
+    the time.  Python is used so widely across so many specialties, that two
+    Python "experts" can have little in common.</p>
+
+    <p>You might know this first column of words.  Do you know the second
+    column?  Do you know this third column? I don't.</p>
+
+    <p>Experienced developers will face the same hurdles as beginners when they
+    take a new job with a million-line monolith, or have to dive into an area
+    they've never used before.</p>
+
+    <p>This boils down to missing context.  You've got something that I don't.
+    That's why you're talking to me in the first place: to get a thought from
+    your head into my head.  That means I'm trying to learn something from you,
+    and that can be hard.</p>
+
+    <p>When you talk to me, it's hard to know what parts of your context I am
+    missing.  It's hard even to realize what your own full context is.  You've
+    been so focused on your world, it's easy to forget where the gaps are.</p>
+
+    <p>Take your time. Use more words.  Be forgiving when it doesn't work at
+    first.  Take some of the responsibility for those hiccups.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <img style="height: 90%; border: 1px solid black; margin-top: 5%" src="img/yaml_norway.png" >
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>And I don't mean to single out Python at all.  All of software is full of
+    oddities that have to be dealt with.</p>
+
+    <p>Again, I'm not talking about getting rid of these speed bumps, though the
+    more we can clean up the better.  I'm saying we need to empathize with
+    people struggling with them. We have to provide more context. We have to
+    know that when we are talking with each other, we are all struggling with
+    knowledge gaps in some way.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Don't Contradict</h1>
+            <div class="chat">
+            <p class="persona says w35 incremental disp-none">Python is hard!</p>
+            <p class="personb says w30 incremental disp-none">No, it's easy.</p>
+            <p class="persona thinks w25 incremental disp-none" data-show=".anguished">I am stupid!</p>
+            <p class="personb says w60 incremental disp-none">It's one of the easier languages.</p>
+            <p class="persona thinks w25 incremental disp-none">I am stupid!</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>If someone says Python is hard, it's really easy for us to jump to
+    Python's defense, and also try to be encouraging and optimistic by saying
+    "No, it's easy."  But this sentence literally has the word "No" in it, and
+    contradicts the user's experience.</p>
+
+    <p>Saying "it's one of the easier languages" is a positive statement, but
+    still contradicts the user's experience, and so can sound like a push
+    back.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Listen</h1>
+            <div class="chat">
+            <p class="persona says w35 incremental disp-none">Python is hard!</p>
+            <p class="persona thinks w35 incremental disp-none" data-show=".anguished">I am struggling!</p>
+            <p class="personb says w70 incremental disp-none">It can be hard at first, but we can help.</p>
+            <p class="persona says w25 incremental disp-none" data-show=".heart">Thanks! :D</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+        <img src="img/openmoji/smiling-face-with-heart-eyes.svg" class="left heart later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here the asker said something about Python, but if you listen carefully,
+    you can see that they are really talking about themself.</p>
+
+    <p>Better to use a truly welcoming answer.</p>
+
+    <p>And this isn't just about beginners. I know a lot about Python, but if I
+    take a new job at a big company, I'll be the newb, dealing with an enormous
+    unfamiliar codebase.  My imposter syndrome will kick in, and I'll be saying
+    things equivalent to "Python is hard," but with bigger words and longer
+    sentences.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Experts</h1>
+    <h1 class="people incremental">We are all beginners<span class="hangr">,</span><br>some of us just<br>have more practice.</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Most of my examples have been new learners asking questions, but the fact
+    is that the weirdnesses never end.  No matter how experienced someone is,
+    they will continue to find themself in mystifying situations.  You might be
+    creating one of those mystifying situations.  Listen to them. Hear how they
+    are feeling.</p>
+
+    <p>As we like to say at Boston Python, "we are all beginners, some of us
+    just have more practice."</p>
+
+    <p>We are always encountering new technologies and unfamiliar situations.
+    When you talk to someone, you often are bringing them into a new context.
+    They will be overcoming their own confusion, trying to orient
+    themselves.</p>
+
+    <p>Lifelong learning is a feature of our profession. It means that we are
+    constantly off-balance and adjusting.  It requires good communication, and
+    can also make that communication difficult.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <h1>Now</h1>
+    <img class="incremental fullheight" style="height:85%; top: 43%" src="img/ben/airtraffic.png">
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Layered on top of the inherent difficulties of talking to people are the
+    realities of our current world: more and more of us are working remotely,
+    interacting through screens instead of face-to-face. Or we're online more
+    and more with other communities.</p>
+
+    <p>Online channels like Slack or Discord encourage brevity: type a quick
+    message, then switch to another window.  But that's the exact opposite of my
+    advice to Use More Words.  Sitting at our screens, it's too easy to feel
+    like an air-traffic controller trying to track multiple conversations at
+    once, afraid that we're missing something important.</p>
+
+    <p>In these online-centered interactions, often we've never met the other
+    person face-to-face at all. That means we have little history with them, and
+    we haven't had much chance to find common ground.</p>
+
+    <p>We toss off quick messages, forgetting that we're not interacting with
+    a message, we're talking to a person.  Every one of those Slack channels is
+    filled with people, and they're all trying to figure out what you mean and
+    how you feel about them.</p>
+
+</div><!-- }}} -->
+
+<div class="slide">
+    <div class="chatpanel">
+        <div class="chatscroll">
+            <h1>Reflection</h1>
+            <div class="chat">
+            <p class="persona says w55 incremental disp-none">My singleton is hard to test.</p>
+            <p class="personb says w40 incremental disp-none" data-show=".rage">UR DOIN' IT WRONG!!</p>
+            <p class="persona thinks w45 incremental disp-none" data-show=".anguished">I'll ask someone else...</p>
+            </div>
+        </div>
+    </div>
+    <div class="facepanel">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="left">
+        <img src="img/openmoji/slightly-smiling-face.svg" class="right">
+        <img src="img/openmoji/face-with-symbols-on-mouth.svg" class="right rage later">
+        <img src="img/openmoji/anguished-face.svg" class="left anguished later">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>An important step that is easy to overlook in our rush to deal with
+    everything: why are we saying what we're saying? What's the goal of the
+    message?</p>
+
+    <p>Are you trying to educate, or direct?  At our worst moments, we can be
+    trying to prove that we are right, at the expense of the actual goal.  It's
+    fun to be an expert, but we shouldn't wield it like a weapon.</p>
+
+    <p>Use those engineering skills: what was your goal? After you've said your
+    piece, do a micro-retrospective: did it work?  Did the message accomplish
+    what you wanted? What could you have done better?</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <!-- https://hachyderm.io/@inthehands/110040888687644329 -->
+    <img style="width: 70%; border: 1px solid black; margin-top: 5%" src="img/two-hardest.png" >
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>And on top of all of the technical difficulties, it comes back to
+    interacting with people.  The soft skills (that is, the difficult skills)
+    are really important.</p>
+
+    <p>We engineers are good at many things, and we are good at learning new
+    things.  One of the things we can be good at is talking to each other. It's
+    a skill that can be improved. It requires focus and thought, but it is worth
+    it.</p>
+
+</div><!-- }}} -->
+
+<div class="slide hero people">
+    <h1>People 101</h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>I've only scratched the surface here.  Like any complex topic, it gets
+    very deep. Group dynamics, style differences, power balance, and lots of
+    other factors will come into play. How do you decide who to talk to? What
+    should you do if it just isn't working? How do you stop talking to someone?
+    What about malicious people?  These are not easy questions. I don't have all
+    the answers.</p>
+
+    <p>What I hope I've done is convinced you that it's important to do well,
+    and that it's a skill you can work on like any other.</p>
+
+    <p>But doing it well is something to keep working at.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <div style="position:relative; width: 100%; height: 100%">
+        <img class="abs center" style="height:100%;top:5%" src="img/blog/pycon-blog-1.png">
+        <img class="abs center incremental" style="top: 5%; height:80%; border: 1px solid #666; border-radius: .25em; box-shadow: 0 0 2em #333;" src="img/blog/pycon-blog-3.png">
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Here's something advice for the next few days.</p>
+
+    <p>After my first PyCon in 2007, I wrote a blog post summarizing the trip.
+    It included this piece of advice: talk to people.  Everyone here is
+    friendly, and they are here to meet you.  Don't be shy.  Talk to them!</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>What are we here for?</h1>
+    <h1 class="incremental people">
+        <span class="hangl">"</span>We are here to<br>
+        help each other<br>
+        get through this thing<span class="hangr">,</span><br>
+        whatever it is.<span class="hangr">"</span>
+    </h1>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>The writer Kurt Vonnegut asked his son Mark, who is also a writer, what
+    are we here for, what's our purpose?  You know, the big question.  Mark
+    neatly answered and side-stepped the question by saying, "We are here to
+    help each other get through this thing, whatever it is."</p>
+
+    <p>I think that's a great call to action: be good to each other. Listen to
+    each other. Help each other.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide title">
+    <div style="display: grid; grid-template-columns: 1fr 2fr">
+        <h1 style="grid-column: 1; padding-top: .25em; margin-bottom: .25em">Thanks</h1>
+        <h2 style="grid-column: 2; text-align: left; margin-top: 1em; margin-bottom: .25em; color: black">
+            Ned Batchelder
+            <br>
+            <span class="punct">@</span>nedbat
+            <br>
+            <span class="punct">hachyderm.io<span class="litepunct">/</span>@</span>nedbat
+        </h2>
+    </div>
+    <div class="incremental" style="border-top: 1px solid #ccc; margin-top: 1.5em; padding-top: 1.5em">
+        <div style="display: grid; grid-template-columns: 1fr 1fr">
+            <div style="grid-column: 1; line-height: 1.3">
+                Ben Batchelder &mdash; artofbatch.com<br><br>
+                <img style="height: 6em" src="img/sleepy-snake-600.png">
+                &nbsp;
+                <img style="height: 6em" src="img/ben/robot-talk.png">
+                &nbsp;
+                <img style="height: 6em" src="img/ben/hidden-state-2.png">
+                &nbsp;
+                <img style="height: 6em" src="img/ben/unpredictable.png">
+                &nbsp;
+                <img style="height: 6em" src="img/ben/airtraffic.png">
+            </div>
+            <div style="grid-column: 2; line-height: 1.3">
+                Joe McKendry &mdash; joemckendry.com<br><br>
+                <img style="height: 4em" src="img/ccjournal/ccjournal-punch.png">
+                <img style="height: 4em" src="img/ccjournal/ccjournal-matrix.png">
+                <br>
+                <br>
+                OpenMoji &mdash; openmoji.org<br>
+                <img style="height: 4em" src="img/openmoji/slightly-smiling-face.svg">
+                <img style="height: 4em" src="img/openmoji/angry-face.svg">
+                <img style="height: 4em" src="img/openmoji/smiling-face-with-heart-eyes.svg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+    <p>Thank you for listening.  Enjoy PyCon!
+    Thank you very much. And thanks to my illustrators!</p>
+
+    <ul>
+        <li>Cartoons and Sleepy Snake by <a href="https://artofbatch.com">Ben Batchelder</a>.</li>
+        <li>Type illustrations by <a href="https://joemckendry.com">Joe McKendry</a>.</li>
+        <li>Emoji by <a href="https://openmoji.org">OpenMoji</a>.</li>
+    </ul>
+
+</div><!-- }}} -->
+
+
+<!-- ** Layouts {{{ -->
+<div class="layout fadein fadeout" data-name="default">
+    <content></content>
+</div>
+
+<div class="layout nofooter" data-name="clean">
+    <content></content>
+</div>
+<!-- }}} -->
+
+<!--
+random notes {{{
+
+https://capitalizemytitle.com/speech-length/40-minutes : 5000 words
+
+
+- how to help people
+- the walrus and the carpenter
+- say yes
+- beginners / experts
+- group dynamics:
+    - if a proposal is tossed to everyone, who will do it?
+        - no central coordination
+- karma is a long game
+- type history
+    - inessential weirdness
+        - https://cdn.oreillystatic.com/en/assets/1/event/154/Inessential%20weirdnesses%20in%20open%20source%20Presentation.htm
+    - https://www.youtube.com/watch?v=vdP_sTMOWYo type case keyboard
+    - lambda
+        - empathize
+    - happy to learn about new technology
+        - but why do parts of it have to be weird and surprising?
+- small words matter
+    - link us to your code
+    - full error report vs traceback
+    - "you aren't being clear" vs "i don't understand"
+- connect to people
+- documentation
+    - diataxis
+    - talking to people through words
+    - different words for different people
+- empathy
+- say more
+    - but not too much!
+- be strict in what you produce, lenient in what you accept
+- ask questions
+- be on the same side
+- different styles for different media
+    - irc
+    - face-to-face
+    - personal settings vs work settings
+- "soft skills"
+- help vampires
+- how you talk to a person matters because other people are watching
+- rise of the machines: whose side are you on?
+- can't avoid emotions
+    - can't avoid "politics"
+- if only beginners could ask better questions
+- "can you remind me what part of this talk is about Python?"
+- different settings
+    - personal
+    - work
+    - formal
+- https://cmustrudel.github.io/papers/osstoxicity22.pdf
+- beginners will use the wrong words
+    - "how do i call a variable?"
+    - "how do i parse html with a regex?"
+- cynicism
+- coding is easier than coordination & collaboration -> tool proliferation
+- why is python weird?  it was made by people over years
+- complex vs complicated
+- no shaming
+    - no feigned incredulity
+- if things seem strange: pause. take a deep breath. (how to make this a technical idea?)
+- "i hear you"
+- repeat back what you heard.
+- "who doesn't know what a generator is?"
+- "we're all beginners, but some of us have more practice" - jon kiparsky
+    - "an expert is just someone who has gotten really good at being a beginner"
+    - "expertise is a measure of how many times you've been a beginner"
+- remote work turns us into air-traffic controllers
+    - every message is really a person
+    - road-rage: fighting with cars but there are people inside
+- tech stumbling blocks:
+    - python syntax surprises:
+        - or-gotcha
+        - class syntax doesn't parallel class construction
+        - xkcd cartoon about anti-gravity, but also about installation methods
+    - "full error report" vs "traceback"
+    - packaging!
+    - software weirdnesses
+        - is yaml good? yes, norway
+            - https://mastodon.social/@lorddimwit/109678262554815239
+        - https://suricrasia.online/iceberg/
+- why are you saying what you are saying?
+    - romainl in #vim: do you want to be helpful, or just superior?
+- prompt engineering
+    - let's get better at talking to people before talking to stochastic parrots
+- this is all just kindergarten
+- positive messages in public, negative in private
+    - the larger the audience, the more careful
+- lifelong learners, but also lifelong teachers
+- you are also a person!
+    - check in with yourself
+    - give people a break
+- pacman rule at the conference
+- listen to people. hear them. believe them.
+- i'm a data-science newb: i don't know what these words mean: recall, precision, "d'" (d-prime), "f1 score", "AUC", "ROC curve"
+- we're here to help each other through this thing, whatever it is.
+- text encoding properly has never been anyone’s fortÃ©
+    - https://tech.lgbt/@luna/109858608330225988
+- "we are similar": hallway track can help with this
+- working remotely, we deal with pixels all day instead of people.
+}}}
+-->
+
+</body>
+</html>
