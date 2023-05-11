@@ -53,6 +53,10 @@ backupcomments: ## get a backup of the live comments on nedbatchelder.com
 db.%: ## connect to the database for .net or .com
 	set -o allexport; . ./deploy/ned$*.env; set +o allexport; mycli -h mysql2.nedbatchelder.net -u ned$*_reactor -p "$$REACTOR_PASSWORD" ned$*_reactor
 
+livedb: ## open phpMyAdmin for nedbatchelder.com
+	@echo https://panel.dreamhost.com/index.cgi?tree=advanced.mysql
+	@echo https://east1-phpmyadmin.dreamhost.com/signon.php?pma_servername=guelff.iad1-mysql-e2-15a.dreamhost.com
+
 ##@ Testing
 
 .PHONY: install loadlivecomments html test linkcheck livelinkcheck
