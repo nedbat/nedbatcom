@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230525T091349'>
+<title>Scriv on Test &amp; Code</title>
+<category>audio</category>
+<category>me</category>
+
+<description>Brian Okken and I recorded a podcast about my scriv project and
+other adjacent topics: Avoid merge conflicts on your CHANGELOG with
+"scriv".</description>
+
+<body>
+
+<p>Brian Okken and I recorded a podcast some time ago (September 2022) about my
+<a href="https://github.com/nedbat/scriv">scriv</a> project and other adjacent
+topics: <a href="https://testandcode.com/201">Avoid merge conflicts on your
+CHANGELOG with "scriv"</a>.</p>
+
+<p>We talked about:</p>
+
+<ul>
+<li>How scriv works</li>
+<li>The importance of keeping information in git (not just GitHub)</li>
+<li>The difference between commits and a changelog</li>
+<li>The value of hand-written changelogs</li>
+<li>Other projects of mine:
+    <a href="https://github.com/nedbat/dinghy">dinghy</a>,
+    <a href="https://github.com/nedbat/cog">cog</a>,
+    <a href="https://github.com/nedbat/coveragepy">coverage</a>
+</li>
+<li>Boston Python</li>
+<li>Versioning schemes: semver, calver, randver(!?)</li>
+</ul>
+
+<p>Because this was recorded in September, a few things are slightly out of
+date.  I mention that Python 3.11 is coming out in October, but that meant last
+October, not this year's.  When Brian asks me what else is going on, I don't
+mention the <a href="/blog/202305/pycon_2023_keynote.html">PyCon 2023
+keynote</a>, because I hadn't even gotten the invitation back then.</p>
+
+<p>It's always a good time chatting with Brian.
+<a href="https://testandcode.com/201">Give it a listen</a>.</p>
+
+</body>
+</entry>
+</blog>
