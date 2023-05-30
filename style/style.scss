@@ -55,7 +55,7 @@ body {
     flex-flow: row wrap;
 
     > * {
-        padding: .5rem;
+        padding: .75rem;
         flex: 1 100%;
         border: 0 solid var(--thick-border-color);
     }
@@ -1054,7 +1054,7 @@ img {
 
     font-family: $them-font;
     font-size: 90%;
-    line-height: 1.5em;
+    line-height: 1.4em;
     h1 {
         border: none;
         border-radius: 3px;
@@ -1159,7 +1159,6 @@ img {
     }
 
     .comment {
-        font-family: $them-font;
         border-top: solid 1px var(--border-color);
         padding: .5em 10pt 0 50px;
         margin-top: .5em;
@@ -1171,14 +1170,12 @@ img {
             padding: .5em 10pt 0 60px;
         }
         .who {
-            font-family: $them-font;
             float: left;
             a {
                 color: var(--fg-color);
             }
         }
         .when {
-            font-family: $them-font;
             float: right;
             font-size: 85%;
             color: var(--info-text-color);
