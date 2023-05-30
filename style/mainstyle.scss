@@ -12,11 +12,11 @@ body {
         font-size: 110%;
     }
     @media (min-width: 28em) {
-        font-size: 120%;
+        font-size: 130%;
     }
     @include colors(--bg-color);
     padding: 1em;
-    line-height: 1.5em;
+    line-height: 1.4em;
 }
 
 #star {
@@ -87,7 +87,7 @@ body {
         width: $left-width;
         padding: 0 1em 0 2em;
         font-size: 85%;
-        line-height: 1.5em;
+        line-height: 1.4em;
     }
 }
 

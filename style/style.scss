@@ -71,7 +71,7 @@ body {
         @include colors(--bg-color);
     }
 
-    font-size: 110%;
+    font-size: 130%;
     text-align: left;
     max-width: 100%;
     hyphens: manual;
@@ -445,7 +445,7 @@ a.headerlink {
 }
 
 .body {
-    line-height: 1.4em;
+    line-height: $text-line-height;
 
     // H1's have a line underneath them.
     h1 {
@@ -461,9 +461,9 @@ a.headerlink {
     h3 {
         font-size: 100%;
         display: inline;
-        line-height: 1.4em;
+        line-height: $text-line-height;
         float: left;
-        margin: 0 1.4em 0 0;
+        margin: 0 $text-line-height 0 0;
     }
 
     table {
@@ -675,7 +675,7 @@ a.s {
             background: black;
             color: yellow;
             font-weight: bold;
-            padding: .25em .5em;
+            padding: .4em .5em;
             margin-left: .25em;
             @media (min-width: $narrow-break) {
                 margin-right: -.5em;
@@ -777,12 +777,12 @@ a.s {
     p {
         font-size: 100%;
         margin: 0 0 0 5.5em;
-        line-height: 1.4em;
+        line-height: $text-line-height;
         &.date {
             width: 5em;
             text-align: right;
             padding: 0;
-            margin: 0 0 -1.4em 0;
+            margin: 0 0 $minus-text-line-height 0;
             color: var(--info-text-color);
         }
     }
@@ -797,12 +797,12 @@ a.s {
     p {
     font-size: 100%;
         margin: 0 0 0 8.5em;
-        line-height: 1.4em;
+        line-height: $text-line-height;
         &.date {
             width: 8em;
             text-align: right;
             padding: 0;
-            margin: 0 0 -1.4em 0;
+            margin: 0 0 $minus-text-line-height 0;
             color: var(--info-text-color);
         }
     }
@@ -814,10 +814,10 @@ a.s {
     }
     p {
         margin: 0 0 0 10.5em;
-        line-height: 1.4em;
+        line-height: $text-line-height;
         &.catname {
             padding: 0;
-            margin: 0 0 -1.4em 0;
+            margin: 0 0 $minus-text-line-height 0;
             width: 10em;
             text-align: right;
             font-weight: bold;
