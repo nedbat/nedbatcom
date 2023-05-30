@@ -11,6 +11,8 @@ def id_from_text(s):
     return s.replace('%', '_')
 
 def slug_from_text(txt):
+    # Normalize spaces.
+    txt = re.sub(r"\s+", " ", txt)
     # Only ascii characters, _ for space, and lowercase.
     slug = txt.encode('ascii', 'ignore').decode('ascii').replace(' ', '_').lower()
     # Nothing other than word characters
