@@ -200,6 +200,7 @@ body {
     @else {
         @include colors(--sidebar-bg-color);
     }
+    padding-top: .5rem;
     border-bottom-width: $thick-border-small-horz;
     text-align: left;
     font-size: 85%;
@@ -671,13 +672,16 @@ a.s {
         .plaindot {
             display: none;
         }
+
         .blm {
+            display: none;
             background: black;
             color: yellow;
             font-weight: bold;
             padding: .4em .5em;
             margin-left: .25em;
             @media (min-width: $narrow-break) {
+                display: inline;
                 margin-right: -.5em;
             }
             border-radius: 2px;
@@ -691,12 +695,18 @@ a.s {
             margin-left: .25em;
             @media (min-width: $narrow-break) {
                 margin-left: .75em;
-                margin-right: -.5em;
             }
             background-image: linear-gradient(180deg, #005BBB 0, #005BBB 50%, #FFD500 50%, #FFD500 100%);
             border: .5px solid #880;
-            border-radius: 2px;
             text-decoration: none;
+        }
+
+        .pride {
+            height: 1.9em;
+            vertical-align: bottom;
+            margin-left: .65em;
+            margin-right: -.5em;
+            border: .5px solid #888;
         }
     }
 
