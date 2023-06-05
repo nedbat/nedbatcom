@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230605T191617'>
+<title>Multi-syntax configuration examples</title>
+<category>cog</category>
+<category>coverage</category>
+
+<description>How I used cog to let Coverage.py docs show configuration file
+example in all their different syntaxes.</description>
+
+<body>
+
+<p>Coverage.py reads settings from a number of different files, in either
+INI-file or TOML syntax, with different section headings depending on the
+file.  This could be confusing: the docs showed the syntax needed for
+.coveragerc, but if you were using one of the other files, you had to mentally
+convert from one syntax to another.</p>
+
+<p>To make it easier, I updated the documentation to show all the syntax
+possibilities when showing examples of configuration files.</p>
+
+<p>The result
+<a href="https://coverage.readthedocs.io/en/latest/config.html#sample-file">looks
+like this</a>: a three-tabbed code box. The tabs have the names of configuration
+files.  Selecting a tab shows the syntax you need for that particular file:</p>
+
+<figurep href="https://coverage.readthedocs.io/en/latest/config.html#sample-file">
+    <img src="/pix/multi-config-rc.png" alt="Tab .coveragerc selected"/>
+</figurep>
+
+<figurep href="https://coverage.readthedocs.io/en/latest/config.html#sample-file">
+    <img src="/pix/multi-config-toml.png" alt="Tab pyproject.toml selected"/>
+</figurep>
+
+<figurep href="https://coverage.readthedocs.io/en/latest/config.html#sample-file">
+    <img src="/pix/multi-config-ini.png" alt="Tab setup.cfg selected"/>
+</figurep>
+
+<p>Originally I wanted to write the settings just once, and use
+<a href="/code/cog">cog</a> to run Python code to convert from INI syntax to
+TOML.</p>
+
+<p>If you haven't seen <a href="/code/cog">cog</a> before, it lets you insert
+small chunks of Python into static files.  The Python code is executed to
+generate more static content that appears alongside the Python code.  It's a
+simple tool that works well when you have a mostly static file, but you want
+part of it to be computed.</p>
+
+<p>But I sensed that converting between syntaxes be difficult, especially since
+some of my examples (as the ones above) have comments in them.</p>
+
+<p>So I went with a simpler approach: the Python snippets in the doc files have
+both INI and TOML chunks.  The INI chunk is lightly massaged to make two of the
+tabs, since they only differ in the section names.  To ensure the two input
+chunks are in sync, the code reads the configuration examples, and checks that
+the INI and TOML chunks create the same settings values.</p>
+
+<p>This guarantees that the different syntaxes are all valid, both as generic
+INI or TOML, but also as coverage.py settings.  And it guarantees that the two
+chunks show the same settings, differing only in syntax.</p>
+
+<p>It's a little bulky in the resulting .rst files, but it provides the reader
+with the information they need, and it keeps me from making mistakes.</p>
+
+<p>If you want to see the code, the cog code is in
+<a href="https://github.com/nedbat/coveragepy/blob/e46f2c8af70a6ff2f437022b9ecfe8441f1f5749/doc/cog_helpers.py#L44-L97">cog_helpers.py</a>,
+and a small example of how it's used in the documentation is in
+<a href="https://github.com/nedbat/coveragepy/blob/e46f2c8af70a6ff2f437022b9ecfe8441f1f5749/doc/contexts.rst#L78-L111">context.rst</a>.</p>
+
+</body>
+</entry>
+</blog>
