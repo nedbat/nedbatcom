@@ -17,7 +17,9 @@ file.  This could be confusing: the docs showed the syntax needed for
 convert from one syntax to another.</p>
 
 <p>To make it easier, I updated the documentation to show all the syntax
-possibilities when showing examples of configuration files.</p>
+possibilities when showing examples of configuration files. I used
+<a href="https://pypi.org/project/sphinx-code-tabs/">sphinx-code-tabs</a> to
+create tabbed code sections.</p>
 
 <p>The result
 <a href="https://coverage.readthedocs.io/en/latest/config.html#sample-file">looks
