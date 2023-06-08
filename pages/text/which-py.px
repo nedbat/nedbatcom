@@ -5,12 +5,13 @@
 <what when='20220519T120700'>Added 3.11.</what>
 <what when='20220614T191200'>Added links to release schedule PEPs</what>
 <what when='20230523T101000'>3.12.0b1</what>
+<what when='20230608T134900'>3.12.0b2</what>
 </history>
 
 <p>This is a summary of what features appeared in which versions of Python.
 Items with a star were introduced with a __future__ import.</p>
 
-<h1>3.12: due October 2, 2023 (currently pre-release: beta 1)</h1>
+<h1>3.12: due October 2, 2023 (currently pre-release: beta 2)</h1>
 <ul>
     <li>New type annotation syntax for generic classes (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
