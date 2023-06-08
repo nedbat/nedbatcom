@@ -505,6 +505,10 @@ a.headerlink {
         &.thinline {
             border: 1px solid #888;
         }
+        &.touching {
+            margin-left: 0;
+            margin-right: 0;
+        }
     }
 }
 
