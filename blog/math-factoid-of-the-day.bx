@@ -184,6 +184,10 @@ figurate.py: up to 200,593,100,000,000,000,000 in 14h20m
  75,409,500,001,710,966,427;  Δ=3.7e+15;  ns = 6140419367 5013631419 3883542198
 273,117,600,009,200,816,251;  Δ=5.7e+15;  ns = 11685837582 9541446431 7390772626
 350,390,600,001,167,141,011;  Δ=9.5e+15;  ns = 13236136143 10807259905 8371267527
+550,208,300,024,494,445,461;  Δ=1.0e+16;  ns = 16586263895 13542627761 10490074357
+600,696,100,014,495,815,005;  Δ=8.7e+15;  ns = 17330552502 14150336863 10960803803
+1,204,104,000,072,665,655,871;  Δ=1.5e+16;  ns = 24536747951 20034170810 15518401980
+1,388,420,800,009,434,111,241;  Δ=1.3e+16;  ns = 26347872780 21512948039 16663857897
 -->
 
 <p>Here are diagrams of 61 dots, arranged as centered square, hexagonal and
@@ -228,7 +232,8 @@ intersect_sequences(
 )
 ]]></code>
 
-<p>This program confirmed that 1 and 61 are the only numbers less than 10<sup>21</sup> in all three sequences.</p>
+<p>This program confirmed that 1 and 61 are the only numbers less than
+10<sup>21</sup> in all three sequences.</p>
 
 <p>As a test, it found these numbers are both square and hexagonal:</p>
 
