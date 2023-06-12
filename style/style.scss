@@ -707,11 +707,15 @@ a.s {
         }
 
         .pride {
+            display: inline-block;
+            width: 3em;
             height: 1.9em;
             vertical-align: bottom;
-            margin-left: .65em;
+            margin-left: .35em;
             margin-right: -.5em;
             border: .5px solid #888;
+            background-image: url(/pix/progressprideflag.png);
+            background-size: contain;
         }
     }
 
