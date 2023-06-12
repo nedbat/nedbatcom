@@ -247,7 +247,7 @@ body {
                 content: "\00A0\00B7\0020";  // nbsp mid-dot space
             }
             .btn {
-                padding: .1em .5em;
+                padding: .3em .5em .2em;
                 border-radius: .33em;
                 cursor: pointer;
                 @include colors(--fg-color, --bg-color);
