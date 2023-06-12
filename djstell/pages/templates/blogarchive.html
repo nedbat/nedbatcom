@@ -19,6 +19,12 @@
             {% else %}
                 These are the {{entries|length}} blog posts for {{year}}.
             {% endif %}
+            {% if prev_year %}
+                Older is <a href='/blog/archive/year{{ prev_year }}.html'>{{ prev_year }}</a>.
+            {% endif %}
+            {% if next_year %}
+                Newer is <a href='/blog/archive/year{{ next_year }}.html'>{{ next_year }}</a>.
+            {% endif %}
             There is also a <a href='/blog/archive/all.html' rel='up'>complete archive</a>.
         {% elif type == 'date' %}
             {% if entries|length == 0 %}

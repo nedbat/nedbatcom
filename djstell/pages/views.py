@@ -111,6 +111,11 @@ def archiveyear(request, year):
     c['year'] = year
     c['title'] = 'Blog: %s' % year
     c['bodyclass'] = 'blog archive year'
+    first_entry = Entry.objects.order_by
+    if Entry.objects.filter(when__year=int(year)-1)[:1].count() > 0:
+        c['prev_year'] = year - 1
+    if Entry.objects.filter(when__year=int(year)+1)[:1].count() > 0:
+        c['next_year'] = year + 1
     return render(request, 'blogarchive.html', c)
 
 def archivedate(request, month, day):
