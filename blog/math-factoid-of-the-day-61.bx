@@ -4,7 +4,10 @@
 <title>Math factoid of the day: 61</title>
 <category>me</category>
 <category>math</category>
+
 <description>What's interesting about 61?</description>
+<img src="pix/cards/61.png" alt="61 dots, arranged in a square, a hexagon, and a decagon"/>
+
 <body>
 
 <p>A <a href="https://en.wikipedia.org/wiki/Figurate_number">figurate
@@ -61,6 +64,31 @@ empirically:</p>
 <code lang='python'><![CDATA[
 import itertools
 
+def intersect_monotonic_sequences(*seqs):
+    """Find numbers that appear in all sequences.
+
+    `seqs` must be monotonic integer sequences.
+    """
+    # A list of lists.  First element is the latest number
+    # from the sequence, third element is the sequence.
+    # Second element is a tie-breaker so we don't try to
+    # compare the sequences themselves when sorting.
+    work = [[next(seq), i, seq] for i, seq in enumerate(seqs)]
+    work.sort()
+    # v0 is the smallest value we've gotten from any sequence.
+    v0 = work[0][0]
+    while True:
+        # If all of the sequences produced the same number,
+        # we found what we're looking for.
+        if all(item[0] == v0 for item in work):
+            print(f"{v0:,}")
+        # Sort the work so we look at the smallest number next.
+        work.sort()
+        v0 = work[0][0] = next(work[0][2])
+
+
+# Centered number formulas
+
 def centered_4(n):
     return n**2 + (n - 1)**2
 
@@ -70,39 +98,46 @@ def centered_6(n):
 def centered_10(n):
     return 5 * n**2 - 5 * n + 1
 
-def intersect_sequences(*seqs):
-    them = [[next(seq), i, seq] for i, seq in enumerate(seqs)]
-    them.sort()
-    v0 = them[0][0]
-    while True:
-        if all(it[0] == v0 for it in them):
-            print(f"{v0:,}")
-        them.sort()
-        v0 = them[0][0] = next(them[0][2])
-
-intersect_sequences(
+intersect_monotonic_sequences(
     map(centered_4, itertools.count(1)),
     map(centered_6, itertools.count(1)),
     map(centered_10, itertools.count(1)),
 )
 ]]></code>
 
+<p>The program keeps a list of all of the sequences and their latest result. At
+each iteration, it chooses the smallest result so far, and moves that sequence
+ahead one step.  If all of the current results are equal, we've found a number
+that occurs in all of the sequences.  This code was the first version of the
+program.  The
+<a href="https://github.com/nedbat/odds/blob/master/figurate/figurate.py">final
+program</a> was more elaborate, with progress reports and restartability.</p>
+
 <p>This program confirmed that 1 and 61 are the only numbers less than
 10<sup>22</sup> in all three sequences.</p>
 
-<p>As a test, it found these numbers are both square and hexagonal:</p>
+<p>To make sure the program was working, I used it to confirm that these numbers
+are <a href="https://oeis.org/A219113">both centered square and centered
+hexagonal</a>: 1, 61, 5941, 582121, 57041881, 5589522181, 547716131821,
+53670591396241, 5259170240699761.</p>
 
-<p>
-1
-61
-5,941
-582,121
-57,041,881
-5,589,522,181
-547,716,131,821
-53,670,591,396,241
-5,259,170,240,699,761
-</p>
+<!--
+<tr><td align="right">1</td></tr>
+<tr><td align="right">61</td></tr>
+<tr><td align="right">5,941</td></tr>
+<tr><td align="right">582,121</td></tr>
+<tr><td align="right">57,041,881</td></tr>
+<tr><td align="right">5,589,522,181</td></tr>
+<tr><td align="right">547,716,131,821</td></tr>
+<tr><td align="right">53,670,591,396,241</td></tr>
+<tr><td align="right">5,259,170,240,699,761</td></tr>
+-->
+
+<p>Another fun part of this exploration was drawing the figures.  I wrote a
+PostScript program
+(<a href="https://github.com/nedbat/odds/blob/master/figurate/figurate.ps">figurate.ps</a>),
+and rendered it with my <a pref="blog/stilted.bx">Stilted</a>, my janky PostScript
+knock-off from last summer.</p>
 
 </body>
 </entry>
