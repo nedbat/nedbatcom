@@ -57,6 +57,7 @@
 {% for tag in tags %}
 <a href='{{tag.permaurl}}'>#{{tag.hashtag}}</a>{% ch " ." %}&#32;
 {% endfor %}
+<a href='#' class='thisdate'>this date</a>{% ch " ." %}&#32;
 {% endreallyspaceless %}
 {% for y in archive_years %}
 <a href='/blog/archive/year{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
