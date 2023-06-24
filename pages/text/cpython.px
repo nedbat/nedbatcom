@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<page title='CPython contributions'>
+<history>
+<what when='20230624T110300'>Created.</what>
+</history>
+
+<p>I am not a Python core developer, and have made only small changes to the
+Python implementation.  These are notable contributions I've made to CPython:</p>
+
+<ul>
+
+<li><a href="https://github.com/python/cpython/commit/7d24b1698a5590df066f829fb4eeef93186d7150">fix
+tokenize to ignore whitespace at the end of the code when no newline is
+found,</a> to fix <a href="https://bugs.python.org/issue16152">bpo 16152</a>.
+Discovered by trying to tokenize thousands of student Python submissions in an edX course.</li>
+
+<li><a href="https://github.com/python/cpython/pull/26849">docs: add the word 'official'</a>,
+because someone on IRC wouldn't believe
+<a href="https://docs.python.org">docs.python.org</a> was official unless it
+said "official."</li>
+
+<li><a href="https://github.com/python/cpython/commit/b1a751b5c25b1969430197a6f5a58f49c1947eff">Make webbrowser support Chrome on Mac OS X</a>.
+(attributed in <a href="https://github.com/python/cpython/commit/0c633985d754d55f0635a2a5bf39e63ab50c5f91">0c633985d75</a>), bug report:
+<a href="https://bugs.python.org/issue24452">bpo 24452</a>.</li>
+
+<li><a href="https://github.com/python/cpython/pull/100175">clarify the 4300-digit limit on int-str conversion</a>.</li>
+
+<li><a href="https://github.com/python/cpython/pull/94551">docs: remove unneeded hyphens from compound modifiers</a>,
+a possibly pedantic change that touched 71 files.</li>
+
+<li>Plus <a href="https://github.com/python/cpython/pulls?q=is%3Apr+author%3Anedbat">other changes</a>, mostly small docs fixes.</li>
+
+</ul>
+
+</page>
