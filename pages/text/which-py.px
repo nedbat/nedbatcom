@@ -7,7 +7,12 @@
 <what when='20230523T101000'>3.12.0b1</what>
 <what when='20230608T134900'>3.12.0b2</what>
 <what when='20230609T113800'>Added links to PEPs governing releases</what>
+<what when='20230629T072800'>end of 3.7, and 3.12.0b3</what>
 </history>
+
+<meta>
+<description>A concise summary of Python's versions, and what's in each.</description>
+</meta>
 
 <p>This is a summary of what features appeared in which versions of Python.
 Items with a star were introduced with a __future__ import.</p>
@@ -18,7 +23,7 @@ own PEP with specific dates,
 <a href="https://peps.python.org/topic/release/">they are all listed here</a>.</p>
 
 
-<h1>3.12: due October 2, 2023 (currently pre-release: beta 2)</h1>
+<h1>3.12: due October 2, 2023 (currently pre-release: beta 3)</h1>
 <ul>
     <li>New type annotation syntax for generic classes (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
@@ -96,7 +101,7 @@ End-of-life expected October 2024.
 </p>
 
 
-<h1>3.7: June 27, 2018</h1>
+<h1>3.7: June 27, 2018 (EOL June 2023)</h1>
 <ul>
     <li>postponed evaluation of type annotations (PEP 563)</li>
     <li>async and await are keywords</li>
@@ -109,7 +114,7 @@ End-of-life expected October 2024.
 
 <p><a href='https://docs.python.org/3/whatsnew/3.7.html'>Full list of 3.7 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0537/">PEP 537</a>.
-End-of-life expected June 2023.
+End-of-life June 27, 2023.
 </p>
 
 
