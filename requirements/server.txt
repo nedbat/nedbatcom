@@ -4,16 +4,16 @@
 #
 #    make upgrade
 #
-asgiref==3.6.0
+asgiref==3.7.2
     # via django
 bleach[css]==6.0.0
     # via -r requirements/base.in
-django==3.2.18
+django==3.2.20
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==3.8.1
+django-debug-toolbar==4.1.0
     # via -r requirements/base.in
 django-sendfile2==0.7.0
     # via -r requirements/base.in
@@ -23,21 +23,21 @@ libsass==0.22.0
     # via -r requirements/base.in
 lxml==4.9.2
     # via -r requirements/base.in
-markdown2==2.4.8
+markdown2==2.4.9
     # via -r requirements/base.in
-mysqlclient==2.1.1
+mysqlclient==2.2.0
     # via -r requirements/server.in
 path==16.6.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==9.4.0
+pillow==10.0.0
     # via -r requirements/base.in
 pygments==2.11.2
     # via -r requirements/base.in
-python-dotenv==0.21.1
+python-dotenv==1.0.0
     # via -r requirements/base.in
-pytz==2022.7.1
+pytz==2023.3
     # via django
 secure==0.3.0
     # via -r requirements/base.in
@@ -45,12 +45,14 @@ six==1.16.0
     # via bleach
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes
     # via -r requirements/base.in
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via
     #   django
     #   django-debug-toolbar
 tinycss2==1.1.1
     # via bleach
+typing-extensions==4.7.1
+    # via asgiref
 wcwidth==0.2.6
     # via ftfy
 webencodings==0.5.1

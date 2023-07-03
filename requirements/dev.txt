@@ -4,32 +4,30 @@
 #
 #    make upgrade
 #
-asgiref==3.6.0
+asgiref==3.7.2
     # via django
-attrs==22.2.0
-    # via pytest
-beautifulsoup4==4.11.2
+beautifulsoup4==4.12.2
     # via linkchecker
 bleach[css]==6.0.0
     # via -r requirements/base.in
-certifi==2022.12.7
+certifi==2023.5.7
     # via requests
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via requests
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==3.2.18
+django==3.2.20
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==3.8.1
+django-debug-toolbar==4.1.0
     # via -r requirements/base.in
 django-sendfile2==0.7.0
     # via -r requirements/base.in
 dnspython==2.3.0
     # via linkchecker
-exceptiongroup==1.1.0
+exceptiongroup==1.1.2
     # via pytest
 freezegun==1.2.2
     # via
@@ -37,7 +35,7 @@ freezegun==1.2.2
     #   pytest-freezegun
 ftfy==6.1.1
     # via -r requirements/base.in
-greenlet==2.0.1
+greenlet==2.0.2
     # via playwright
 idna==3.4
     # via requests
@@ -51,27 +49,27 @@ lxml==4.9.2
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
-markdown2==2.4.8
+markdown2==2.4.9
     # via -r requirements/base.in
-packaging==23.0
+packaging==23.1
     # via pytest
 path==16.6.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==9.4.0
+pillow==10.0.0
     # via -r requirements/base.in
-playwright==1.30.0
+playwright==1.35.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
-pluggy==1.0.0
+pluggy==1.2.0
     # via pytest
 pyee==9.0.4
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==7.2.1
+pytest==7.4.0
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -84,17 +82,17 @@ pytest-django==4.5.2
     # via -r requirements/dev.in
 pytest-freezegun==0.4.2
     # via -r requirements/dev.in
-pytest-playwright==0.3.0
+pytest-playwright==0.3.3
     # via -r requirements/dev.in
 python-dateutil==2.8.2
     # via freezegun
-python-dotenv==0.21.1
+python-dotenv==1.0.0
     # via -r requirements/base.in
-python-slugify==8.0.0
+python-slugify==8.0.1
     # via pytest-playwright
-pytz==2022.7.1
+pytz==2023.3
     # via django
-requests==2.28.2
+requests==2.31.0
     # via
     #   linkchecker
     #   pytest-base-url
@@ -106,9 +104,9 @@ six==1.16.0
     #   python-dateutil
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes
     # via -r requirements/base.in
-soupsieve==2.3.2.post1
+soupsieve==2.4.1
     # via beautifulsoup4
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via
     #   django
     #   django-debug-toolbar
@@ -118,9 +116,11 @@ tinycss2==1.1.1
     # via bleach
 tomli==2.0.1
     # via pytest
-typing-extensions==4.4.0
-    # via pyee
-urllib3==1.26.14
+typing-extensions==4.7.1
+    # via
+    #   asgiref
+    #   pyee
+urllib3==2.0.3
     # via requests
 wcwidth==0.2.6
     # via ftfy
