@@ -28,7 +28,7 @@ class MultiDBModelAdmin(admin.ModelAdmin):
         # on the 'other' database.
         return super().formfield_for_manytomany(db_field, request, using=self.using, **kwargs)
 
+@admin.register(Comment)
 class ReactorAdmin(MultiDBModelAdmin):
     using = 'reactor'
 
-admin.site.register(Comment, ReactorAdmin)
