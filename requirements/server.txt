@@ -8,7 +8,7 @@ asgiref==3.7.2
     # via django
 bleach[css]==6.0.0
     # via -r requirements/base.in
-django==3.2.20
+django==4.2.3
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -37,8 +37,6 @@ pygments==2.11.2
     # via -r requirements/base.in
 python-dotenv==1.0.0
     # via -r requirements/base.in
-pytz==2023.3
-    # via django
 secure==0.3.0
     # via -r requirements/base.in
 six==1.16.0

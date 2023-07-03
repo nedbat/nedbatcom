@@ -16,7 +16,7 @@ charset-normalizer==3.1.0
     # via requests
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==3.2.20
+django==4.2.3
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -90,8 +90,6 @@ python-dotenv==1.0.0
     # via -r requirements/base.in
 python-slugify==8.0.1
     # via pytest-playwright
-pytz==2023.3
-    # via django
 requests==2.31.0
     # via
     #   linkchecker
