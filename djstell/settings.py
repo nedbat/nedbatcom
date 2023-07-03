@@ -124,6 +124,11 @@ TEMPLATES = [
                     'django.template.loaders.filesystem.Loader',
                     'django.template.loaders.app_directories.Loader',
                 ]),
+                # I don't think this next line is needed, but without it, I get:
+                # WARNINGS:
+                # ?: (debug_toolbar.W006) At least one DjangoTemplates TEMPLATES configuration needs to use django.template.loaders.app_directories.Loader or have APP_DIRS set to True.
+                #     HINT: Include django.template.loaders.app_directories.Loader in ["OPTIONS"]["loaders"]. Alternatively use APP_DIRS=True for at least one django.template.backends.django.DjangoTemplates backend configuration.
+                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
