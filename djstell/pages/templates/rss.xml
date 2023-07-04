@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="https://nedbatchelder.com/rssfull2html.xslt" media="screen" ?>
+{% load tags %}
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://purl.org/rss/1.0/">
 	<channel rdf:about="https://nedbatchelder.com/blog">
 		<title>Ned Batchelder's blog</title>
@@ -25,7 +26,7 @@
 		{# RSS wants a very specific date format that the date filter doesn't do. #}
 		<dc:date>{{entry.when|date:"Y-m-d\TH:i:sO"|slice:":22"}}:00</dc:date>
 		<dc:creator>Ned Batchelder</dc:creator>
-		<description><![CDATA[{{entry.to_html|safe}}]]></description>
+		<description><![CDATA[{{entry.to_html|schemed|safe}}]]></description>
 	</item>
 	{% endfor %}
 </rdf:RDF>

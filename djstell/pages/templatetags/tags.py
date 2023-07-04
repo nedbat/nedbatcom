@@ -248,6 +248,12 @@ def just_text(value):
     from djstell.pages.text import just_text
     return just_text(value)
 
+@register.filter()
+@stringfilter
+def schemed(value):
+    """Make sure URLs have a scheme on them."""
+    return value.replace('="//', '="https://')
+
 from django.template.defaulttags import SpacelessNode as ReallySpacelessNode
 
 @register.tag
