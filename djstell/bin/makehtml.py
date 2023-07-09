@@ -19,7 +19,6 @@ from django.core.management import call_command
 from stellated import XuffApp
 
 import loadpages
-import password
 import sass
 
 
@@ -69,6 +68,7 @@ class CmdLine(object):
         self.dreamhost("nedbatchelder.com", "nedcom")
 
     def dreamhost(self, domain, slug):
+        import password
         self.BASE = f'//{domain}'
         self.ROOT = "to_dh"
         self.VERB_ROOT = "to_dh/public"
