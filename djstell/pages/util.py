@@ -40,7 +40,9 @@ NUMBER_NAMES = dict(enumerate(
 def years_age(age):
     years, frac = divmod(age.days / 365.25, 1)
     years = int(years)
-    if frac < 2/12:
+    if frac < 1/365:
+        modifier = "exactly "
+    elif frac < 2/12:
         modifier = ""
     elif frac < 4/12:
         modifier = "more than "
@@ -55,8 +57,11 @@ def years_age(age):
     elif frac < 11/12:
         modifier = "nearly "
         years += 1
-    else:
+    elif frac < 364/365:
         modifier = ""
+        years += 1
+    else:
+        modifier = "exactly "
         years += 1
     years = NUMBER_NAMES.get(years, years)
     return f"{modifier}{years} years"
