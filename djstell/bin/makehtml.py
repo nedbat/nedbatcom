@@ -68,7 +68,6 @@ class CmdLine(object):
         self.dreamhost("nedbatchelder.com", "nedcom")
 
     def dreamhost(self, domain, slug):
-        import password
         self.BASE = f'//{domain}'
         self.ROOT = "to_dh"
         self.VERB_ROOT = "to_dh/public"
@@ -86,12 +85,11 @@ class CmdLine(object):
         self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell timestamps upload rsyncdb"
         self.FTP = dict(
             host="nedbatchelder.net", hostdir=domain,
-            user='nedbat', password=password.DREAMHOST,
+            user='nedbat', password=os.environ["DREAMHOST_PASSWORD"],
             src=self.ROOT,
             text=self.text_ext,
             binary=self.binary_ext,
             md5file=f'deploy/{slug}.md5',
-            skip='password.py',
             )
 
     @timed
