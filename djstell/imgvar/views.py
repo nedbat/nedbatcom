@@ -31,9 +31,9 @@ def imgvar(request, var, path):
 
     outpath.parent.mkdir(parents=True, exist_ok=True)
     if inpath.endswith(".jpg"):
-        options = dict(lossless=False, quality=50)
+        options = dict(lossless=False, quality=50, method=6)
     elif path.endswith(".png"):
-        options = dict(lossless=False, quality=80)
+        options = dict(lossless=True, quality=80, method=6)
     else:
         options = {}
     im.save(outpath, saveas, **options)
