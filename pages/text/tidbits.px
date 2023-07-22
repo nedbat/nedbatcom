@@ -624,6 +624,7 @@ An object
 
 <!-- spy_on_changes:
 https://twitter.com/nedbat/status/1533454622450503680
+https://gist.github.com/f75a031755fe12b3671506a711bf5a2c
 
 -->
 
@@ -885,8 +886,44 @@ https://gist.github.com/nedbat/4e58091687f1a25c33e4a4902929dbfa
 https://twitter.com/nedbat/status/1573289493947449344
 https://gist.github.com/ad8cef4f71f3398ddc94577abdd7cfa8
 
+assigning to multiple left-hand destinations
+https://twitter.com/nedbat/status/1574163838315864064
+https://gist.github.com/4a310779dd58a361c665b89f9bc868c9
+
+making recursive dicts
+https://twitter.com/nedbat/status/1574743155576020994
+https://gist.github.com/94b74dfced04208921ca65592a163e51
+
+compact syntax collides in surprising ways
+https://twitter.com/nedbat/status/1575829564386934787
+https://gist.github.com/795fabb21f0f82114b70b201a48aacdc
+
+Overload @ to peek at values
+https://twitter.com/nedbat/status/1577279870735945728
+https://gist.github.com/558ddc19c972b32ab4d971291d4319a9
+
+Decorators in #Python can be assigned to names and reused
+https://twitter.com/nedbat/status/1579132578790985728
+https://gist.github.com/a322bf6700ad89dea5f02b2bebb6c225
+
+fnmatch module checks file names against shell-like patterns.  But only the name of the file, not the path!
+https://twitter.com/nedbat/status/1580177211780481025
+https://gist.github.com/5467906103105fc272452c1acd172d92
+
+docstrings can be updated programmatically,
+https://twitter.com/nedbat/status/1580586156521099265
+https://gist.github.com/5b238fc8efcc33762cb8849f378db35c
+
+split a string into clumps of same letters, two different ways!
+https://twitter.com/nedbat/status/1583853435757252608
+https://gist.github.com/81a79d77b8b56f950abb99315821d9e6
+
+Default values for #Python functions are stored once, and shared by all the function calls.  You can (but don't!) change the object and future calls will see the changes.
+https://twitter.com/nedbat/status/1587886978993094657
+https://gist.github.com/b11269e21369c1119f83cc98842930f3
 
 @@@@
+
 -->
 
 
