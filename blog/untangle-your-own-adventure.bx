@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230723T073401'>
+<title>Untangle your own adventure</title>
+<category>python</category>
+<category>edu</category>
+
+<description>Is there any way to self-guide people through complicated Python set-up?</description>
+<img src="pix/cards/untangle.png" alt="A small snip of a complicated decision diagram: xkcd 1987"/>
+
+<body>
+
+<p>Boston Python runs
+<a href="https://about.bostonpython.com/officehour">weekly office hours</a>,
+and I noticed the discussions there often start from a familiar point: how do I
+get my Python environment to work?</p>
+
+<p>This is a question that recurs in any Python support arena.  Python has
+<a href="https://xkcd.com/1987/">gotten a lot of heat for environment
+complexity</a>, but that complexity is due to a number of factors, none of them
+bad on their own: Python has been around for a long time, it's used in many
+different ways, it lends itself to experimentation with tooling, and so on.</p>
+
+<p>I don't want to gripe about the complexity, and I don't have a proposal for
+how to reduce the complexity.  What I would like is a resource that people can
+use to find their way through the complexity.</p>
+
+<p>I'm imagining a self-guided tour that would ask questions about what the user
+needs, and would bring them to pages with solutions.  It would be similar to a
+Choose Your Own Adventure, but for Python environments.  I've even started
+toying with <a href="https://github.com/nedbat/cyclorama">tooling that could
+produce pages like that</a>.</p>
+
+<p>But there are a number of possible questions that people could be starting
+with:</p>
+
+<ul>
+<li>How do I install Python?</li>
+<li>How do I install modules to use?</li>
+<li>How do I package my code for distribution?</li>
+</ul>
+
+<p>Answering any of these well requires finding out details from the user:</p>
+
+<ul>
+<li>What domain are you working in?</li>
+<li>What kind of expertise do you already have?</li>
+<li>How deeply do you want to be involved in the decisions?</li>
+</ul>
+
+<p>And then more technical details:</p>
+
+<ul>
+<li>What operating system?</li>
+<li>What shell do you use, if any?</li>
+<li>What editor/IDE do you use?</li>
+<li>What version of Python?</li>
+</ul>
+
+<p>and most of these might be answered with, "I don't know, can you tell me
+which to use?" which just leads to more attempts to educate and explain
+complexities that to the user feel like distracting confusing trivia.</p>
+
+<p>Even harder is the question, "I tried to do it myself, but it's not working,
+how do I fix it?" Untangling that requires forensics and details, then education
+about the inner workings of things and how they got mis-configured.</p>
+
+<p>As tempting as it is to try to capture all of the possibilities and solutions
+in a flow chart or adventure game, it's almost certainly impossible to solve
+most peoples' problems.</p>
+
+<p>Has anyone seen examples of instructional materials organized in a decision
+tree like this?  Not even about Python, but about anything?  I feel like this is
+impossible, but if it could make a dent in the difficulties people are having,
+it could be very valuable.  I can't quite get the idea out of my head, and I
+can't make a serious start on it.</p>
+
+<p>What can I look at to learn from? Not learn about Python environments, but
+learn how to construct self-guided decision tree materials?</p>
+
+</body>
+</entry>
+</blog>
