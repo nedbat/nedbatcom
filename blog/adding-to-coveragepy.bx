@@ -14,12 +14,19 @@ product manager: deciding what features go in, and when.  People have ideas for
 features. Not all of them will get added.  How to decide what's in and what's
 not?</p>
 
-<p>Coverage.py is widely used, so there are frequent requests for new features
-or behavior.</p>
+<p>Coverage.py is widely used, so there are
+<a urlid="enhancements">frequent requests for new features or behavior</a>. Some
+are outside what coverage should be doing
+(<a href="https://github.com/nedbat/coveragepy/issues/1654">How to use coverage to get the test execution report?</a>),
+or I think are bad ideas
+(<a href="https://github.com/nedbat/coveragepy/issues/1627">Reducing the need for multiple coverage commands</a>),
+but many of them are interesting and need consideration.</p>
+
+<url id="enhancements" href="https://github.com/nedbat/coveragepy/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement"/>
 
 <p>Examples:
-- more fail-under logic
-- lcov report
+- more fail-under logic: https://github.com/nedbat/coveragepy/labels/target
+- lcov report: https://github.com/nedbat/coveragepy/pull/1289
 - coverage for a pull request
 </p>
 
