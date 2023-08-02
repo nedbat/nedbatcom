@@ -8,7 +8,7 @@ asgiref==3.7.2
     # via django
 bleach[css]==6.0.0
     # via -r requirements/base.in
-django==4.2.3
+django==4.2.4
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -21,11 +21,11 @@ ftfy==6.1.1
     # via -r requirements/base.in
 libsass==0.22.0
     # via -r requirements/base.in
-lxml==4.9.2
+lxml==4.9.3
     # via -r requirements/base.in
-markdown2==2.4.9
+markdown2==2.4.10
     # via -r requirements/base.in
-path==16.6.0
+path==16.7.1
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in

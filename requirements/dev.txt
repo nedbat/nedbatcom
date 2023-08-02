@@ -10,13 +10,13 @@ beautifulsoup4==4.12.2
     # via linkchecker
 bleach[css]==6.0.0
     # via -r requirements/base.in
-certifi==2023.5.7
+certifi==2023.7.22
     # via requests
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via requests
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.3
+django==4.2.4
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -25,7 +25,7 @@ django-debug-toolbar==4.1.0
     # via -r requirements/base.in
 django-sendfile2==0.7.0
     # via -r requirements/base.in
-dnspython==2.3.0
+dnspython==2.4.1
     # via linkchecker
 exceptiongroup==1.1.2
     # via pytest
@@ -45,21 +45,21 @@ libsass==0.22.0
     # via -r requirements/base.in
 linkchecker==10.2.1
     # via -r requirements/dev.in
-lxml==4.9.2
+lxml==4.9.3
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
-markdown2==2.4.9
+markdown2==2.4.10
     # via -r requirements/base.in
 packaging==23.1
     # via pytest
-path==16.6.0
+path==16.7.1
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.0.0
     # via -r requirements/base.in
-playwright==1.35.0
+playwright==1.36.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -118,7 +118,7 @@ typing-extensions==4.7.1
     # via
     #   asgiref
     #   pyee
-urllib3==2.0.3
+urllib3==2.0.4
     # via requests
 wcwidth==0.2.6
     # via ftfy
