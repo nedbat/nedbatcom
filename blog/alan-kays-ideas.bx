@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230806T145230'>
+<title>Alan Kay's objects and arts</title>
+<category>edu</category>
+<category>history</category>
+<category>proglang</category>
+<body>
+
+<p>In 1993 (30 years ago!), Alan Kay wrote
+<a href="https://dl.acm.org/doi/10.1145/155360.155364">The early history of
+Smalltalk</a>, explaining the origins of the language's ideas, its development,
+and an assessment of its successes and failures.  It's a thought-provoking
+piece for a few reasons.</p>
+
+<p>First, his description of the central idea of object-oriented programming:</p>
+
+<quote><p>Everything can be represented by the recursive composition of a single
+kind of behavioral building block that hides its combination of process and
+state inside itself.</p></quote>
+
+<p>(All his quotes here are slightly edited.)</p>
+
+<p>He is of course describing objects.  But notice his emphasis on the
+composition of objects.  Many people these days offer the advice to favor
+composition over inheritance, which seems counter-intuitive to people raised on
+C++ or Java.  Yet here is Kay, who coined the term "object-oriented," literally
+using the word composition to describe the key idea.</p>
+
+<p>He goes on to disparage object orientation being taught as a way to
+encapsulate data structures.  He sees methods not as actions, but as goals,
+something I haven't wrapped my head around.  His original insight for objects
+was that each should be thought of as a complete computer, and complex systems
+could be recursively subdivided into smaller and smaller machines exchanging
+messages.  It's interesting to hear this idea in today's world of networked
+micro-services.</p>
+
+<p>Second, the piece is a real mix, moving from historical details about
+long-forgotten machines to philosophical asides (he references Plato, Leibniz,
+and Hobbes), to other computer luminaries of the time (Minksy, Papert, Perlis,
+Lamport, and so on).</p>
+
+<p>Along the way are details about the difficulty of being advanced researchers
+inside a company like Xerox, finagling budgets and adjusting projects to get
+things done despite the environment.</p>
+
+<p>Lastly, what motivated Kay was the idea that computing could become a
+personal activity.  When he started, computers had rooms devoted to them.  He
+struggled to build machines that could be carried. He wanted computing to be
+something that everyone could do, not just consuming content, but creating
+programs for computers to pursue individual ideas.  In the '70s when the main
+work on Smalltalk was happening, computers weren't used for content at all.
+When he said "computing" he meant programming and running programs.  He saw
+computing as a liberal art: a way to see the world and a way to develop deeper
+understandings.</p>
+
+<p>Because of this, his thinking about computing was intertwined with thinking
+about learning and teaching:</p>
+
+<quote>
+
+<p>Knowledge is least interesting when it is first being learned. The
+representations—whether markings, allusions, or physical controls—get in the way
+and must be laboriously and painfully interpreted.  From here there are two
+useful paths which are important and intertwined.</p>
+
+<p>The first is <em>fluency</em>, which is building mental structures that
+disappear the interpretations of the representations. The letters and words of a
+sentence are experiences as meaning rather than markings.</p>
+
+<p>The second is taking the knowledge as <em>metaphor</em> that can illuminate
+other areas.</p>
+
+<p>The "trick", and I think this is what liberal arts education is supposed to
+be about, is to get fluent <em>and</em> deep while building relationships with
+other fluent deep knowledge.</p>
+
+</quote>
+
+<p>He calls this fluency with deep ideas "literacy," and goes on to give a
+prescient example, including his dream of the ways people might use
+computers:</p>
+
+<quote>
+
+<p>Another kind of 20th century literacy is being able to hear about a
+new fatal contagious incurable disease and instantly know that a disastrous
+exponential relationship holds and early action is of the highest priority.
+Another kind of literacy would take citizens to their personal computers where
+they can fluently and without pain build a systems simulation of the disease to
+use as a comparison against further information.</p>
+
+<p>At the liberal arts level we would expect that connections between each of
+the fluencies would form truly powerful metaphors for considering ideas in the
+light of others.</p>
+
+<p>The reason, therefore, that many  of  us want children to understand
+computing deeply and fluently is that like literature, mathematics, science,
+music, and art, it carries special ways of thinking about situations that in
+contrast with other knowledge and other ways of thinking <em>critically</em>
+boost our ability to understand the world.</p>
+
+</quote>
+
+<p>Now 30 years later, we have not achieved Kay's ideal.  Everyone has a
+powerful computer, not just on their desk but in their pocket, but they are used
+for consumption and socialization, not computing.  I won't wring my hands about
+this: Kay's ideal of liberal arts as a way to build deep fluency isn't
+happening to the extent he would like outside of computing either.</p>
+
+<p>I am interested in how to help more people learn computing in Kay's sense.
+Highlighting fluency and metaphor is insightful. They are good north
+stars for education of all sorts.</p>
+
+
+</body>
+</entry>
+</blog>
