@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20230827T120101'>
+<title>Hammerspoon</title>
+<category>mac</category>
+<body>
+
+<p>For <a pref="blog/text-mode-menu-bar-indicators.bx">a long time now</a>
+I've displayed a small textual info box in the otherwise unused upper-left
+corner of my mac screen.  It was originally based on GeekTool, but a new laptop
+got me to re-think it, and now it's implemented with
+<a href="http://www.hammerspoon.org/">Hammerspoon</a>.</p>
+
+<p>Hammerspoon is a Mac automation tool driven by Lua programs. It has an
+extensive API for integration with Mac facilities, so it can automate many
+aspects of the OS, potentially replacing a number of Mac utilities.</p>
+
+<p><a href="https://www.tynsoe.org/geektool/">GeekTool</a> was always a little
+odd and configured much of its behavior in fiddly property panels.  Hammerspoon
+is fully driven by .lua files, so it fits my programmers' world view better.
+GeekTool also seems unmaintained these days.</p>
+
+<p>On my Mac, I hide the menu bar and move the dock to the left side. This
+maximizes the vertical space available to my own windows.  But it leaves a small
+corner unused in the upper left.  I have a <a urlid="textstatuses.py">small
+Python program</a> that collects information often displayed in the menu bar
+(date, time, battery level, sound volume, etc).  With Hammerspoon I can create a
+small canvas and display the program's output text.</p>
+
+<url id="textstatuses.py" href="https://github.com/nedbat/dot/blob/master/bin/textstatuses.py"/>
+
+<p>It looks like this:</p>
+
+<figurep>
+    <img src="pix/infopanel.png" alt="A cramped info panel on my Mac"/>
+</figurep>
+
+
+<p>Here's the Lua code that runs the Python from Hammerspoon and draws the
+canvas:</p>
+
+<code lang="lua"><![CDATA[
+-- ~/.hammerspoon/init.lua
+
+-- Text-mode "menu bar indicator" replacement
+canvas = nil
+function createCanvas()
+    if canvas then
+        canvas:hide()
+    end
+    local screen = hs.screen.primaryScreen()
+    local frame = screen:frame()
+    local fullFrame = screen:fullFrame()
+    canvas = hs.canvas.new({
+        x = fullFrame.x,
+        y = frame.y,
+        w = frame.x - fullFrame.x,
+        h = 175,
+    })
+    canvas[1] = {
+        type = "rectangle",
+        action = "fill",
+        fillColor = {hex="#D0D0D0"},
+    }
+    canvas[2] = {
+        type = "text",
+        frame = {x=2, y=0, h="100%", w="100%"},
+        textFont = "SF Pro Text",
+        textSize = 14,
+        textColor = {hex="#000000"},
+    }
+    canvas:show()
+    canvas:sendToBack()
+    drawInfo()
+end
+
+function drawInfo()
+    local openPop = io.popen("/usr/local/bin/python3.10 ~/bin/textstatuses.py")
+    canvas[2].text = openPop:read("*a")
+    openPop:close()
+end
+
+-- Start over when any screen geometry changes.
+watcher = hs.screen.watcher.newWithActiveScreen(createCanvas):start()
+-- Redraw every 10 seconds.
+timer = hs.timer.doEvery(10, drawInfo)
+-- Redraw when any audio setting changes.
+for i, dev in ipairs(hs.audiodevice.allOutputDevices()) do
+    dev:watcherCallback(drawInfo):watcherStart()
+end
+
+]]></code>
+
+<p>This has a few advantages over GeekTool: it's entirely self-contained in a
+text file I can commit to git, it can listen for events to be more reactive, it
+can compute its location to take the menubar into account, and so on.</p>
+
+<p>Theoretically, Hammerspoon can also replace other Mac widgets like Caffeine,
+Rectangle Pro, and so on.  I haven't tried replacing them all, but it's probably
+in my future.</p>
+
+<p>One interesting side-effect: learning Lua!</p>
+
+</body>
+</entry>
+</blog>
