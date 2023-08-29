@@ -36,6 +36,8 @@
         <meta property='article:published_time' content='{{max_date|date:"Y-m-d\TH:i:s"}}'>
     {% endif %}
 
+    <link rel="webmention" href="https://webmention.io/nedbatchelder.com/webmention">
+
     {% block meta %}
     {% if settings.NOINDEX %}<meta name="robots" content="noindex">{% endif %}
     {{meta|safe}}
