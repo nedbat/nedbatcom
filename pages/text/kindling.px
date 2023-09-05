@@ -11,6 +11,7 @@
 <what when='20220829T145800'>Removed pythonpracticeprojects.com</what>
 <what when='20230527T150100'>Added two sites</what>
 <what when='20230817T194000'>Added algorithmic art</what>
+<what when='20230905T111100'>Added algorithmic art examples, tweaked IRC bot</what>
 </history>
 <meta>
 
@@ -137,7 +138,13 @@ tackle.</description>
     could keep you busy for a long time.</li>
 
 <li>Look at some <a href="https://www.google.com/search?q=algorithmic+art&amp;tbm=isch">algorithmic art</a>
-    and get inspired to make your own computer-generated images.</li>
+    and get inspired to make your own computer-generated images. Some possibilities:
+    <ul>
+    <li><a href="https://www.codingame.com/playgrounds/2358/how-to-plot-the-mandelbrot-set/mandelbrot-set">Mandelbrot set</a>,
+    the world's most famous fractal.</li>
+    <li><a href="https://aperiodical.com/2021/12/the-mathematics-of-spirograph/">Spirograph</a>, the classic kids toy.</li>
+    </ul>
+</li>
 
 <!-- Suggested by Julia Hansbrough -->
 <li>It's a bit of a cliche, but: implement a blog.  The good news is, you
@@ -152,10 +159,11 @@ tackle.</description>
         of them written in many languages</a>.</li>
 
 <!-- Suggested by Eric Hanchrow, eric.hanchrow@gmail.com -->
-<li>An IRC bot: who doesn't want to write their own IRC bot?  You have a choice
-    here: low-level direct with sockets (difficult to get exactly right), or
-    higher-level with a framework like Twisted (harder to get started, but lots
-    of details handled for you).</li>
+<li>A chat bot: who doesn't want to write their own bot?  Pick a chat app you
+    like and use their API if they have one.  For older technologies like IRC,
+    you have a choice: low-level direct with sockets (difficult to get exactly
+    right), or higher-level with a framework like Twisted (harder to get
+    started, but lots of details handled for you).</li>
 
 <!-- Suggested by Julia Hansbrough -->
 <li>Twitter bot: watch a Twitter stream, make new tweets.  Watch for certain
@@ -188,7 +196,7 @@ tackle.</description>
 
 <li><a href="http://adventofcode.com/">Advent of Code</a>: 25 fun
     Christmas-themed challenges every year during December. Previous years are
-    all available year-round.Each has two parts, often requiring refactoring.</li>
+    all available year-round. Each has two parts, often requiring refactoring.</li>
 
 <!-- Suggested by Jeremy Beker, gothmog@confusticate.com -->
 <li><a href="http://cryptopals.com/">Matasano Crypto Challenges</a>: learn
