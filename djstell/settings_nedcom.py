@@ -41,10 +41,11 @@ LOGGING = {
 #   https://docs.djangoproject.com/en/3.2/topics/email/#smtp-backend
 #   https://www.dreamhost.com/blog/how-to-fix-wordpress-not-sending-email/
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.dreamhost.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ned@nedbatchelder.com'
+EMAIL_TIMEOUT = 30
+EMAIL_HOST_USER = 'nedbat@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 CACHES = {
