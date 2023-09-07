@@ -15,7 +15,7 @@ class Comment(models.Model):
     notify = models.BooleanField()
 
     def __str__(self):
-        return f"Comment from {self.name} on {self.entryid}"
+        return f"Comment from {self.name} on {self.entryid} at {self.posted:%Y-%m-%d %H:%M:%S}"
 
     def admin_url(self):
         aurl = reverse(f'admin:{self._meta.app_label}_{self._meta.model_name}_change', args=(self.pk,))
