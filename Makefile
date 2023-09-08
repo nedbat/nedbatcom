@@ -12,7 +12,10 @@ publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
 
 ned.%: ## deploy to .net or .com
+	op item get ned$*.env --fields label=text --format json | jq -r ".value" > deploy/.env
 	DJANGO_SETTINGS_MODULE=djstell.settings_ned$*_base python djstell/bin/makehtml.py ned$* all
+	rm deploy/.env
+	rm to_dh/.env
 
 dep.%: ## update dependencies for .net or .com
 	scp -q requirements/server.txt dreamhost:nedbatchelder.$*/requirements

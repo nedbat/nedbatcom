@@ -72,7 +72,7 @@ class CmdLine(object):
         self.ROOT = "to_dh"
         self.VERB_ROOT = "to_dh/public"
         self.COPY_FILES = [
-            (f"deploy/{slug}.env", ".env"),
+            (f"deploy/.env", ".env"),
             (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
             ("deploy/dreamhost_public.htaccess", "public/.htaccess"),
             ]
