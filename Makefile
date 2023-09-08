@@ -4,7 +4,7 @@
 
 ##@ Deployment
 
-.PHONY: publish stage ned.% dep.% live stoplive clean_cache
+.PHONY: publish stage ned.% dep.% acc.% err.% live stoplive clean_cache
 
 LIVEPORT = 8000
 
@@ -21,6 +21,12 @@ dep.%: ## update dependencies for .net or .com
 	scp -q requirements/server.txt dreamhost:nedbatchelder.$*/requirements
 	ssh dreamhost venvs/ned$*/bin/python -m pip install -U pip
 	ssh dreamhost venvs/ned$*/bin/python -m pip install -r nedbatchelder.$*/requirements/server.txt
+
+acc.%: ## tail access logs for .net or .com
+	ssh dreamhost tail -n100 -F logs/nedbatchelder.$*/https/access.log
+
+err.%: ## show error logs for .net or .com
+	ssh dreamhost tail -n100 -F djlog_ned$*.txt
 
 live: ## run a live dev Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
