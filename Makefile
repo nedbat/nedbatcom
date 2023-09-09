@@ -4,7 +4,8 @@
 
 ##@ Deployment
 
-.PHONY: publish stage ned.% dep.% acc.% err.% live stoplive clean_cache
+.PHONY: publish stage live stoplive clean_cache
+.PHONY: ned.% dep.% acc.% err.% ver.%
 
 LIVEPORT = 8000
 
@@ -27,6 +28,10 @@ acc.%: ## tail access logs for .net or .com
 
 err.%: ## show error logs for .net or .com
 	ssh dreamhost tail -n100 -F djlog_ned$*.txt
+
+ver.%: ## show versions running on .net or .com
+	ssh dreamhost venvs/ned$*/bin/python -V
+	ssh dreamhost venvs/ned$*/bin/python -m pip list | grep -i django
 
 live: ## run a live dev Django server
 	DJANGO_SETTINGS_MODULE=djstell.settings_live python djstell/bin/makehtml.py live clean load copy_verbatim support
