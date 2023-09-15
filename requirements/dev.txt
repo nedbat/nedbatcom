@@ -57,7 +57,7 @@ path==16.7.1
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==10.0.0
+pillow==10.0.1
     # via -r requirements/base.in
 playwright==1.37.0
     # via
@@ -69,7 +69,7 @@ pyee==9.0.4
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==7.4.1
+pytest==7.4.2
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
