@@ -1,24 +1,56 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20230829T142618' draft='y'>
+<entry when='20230917T163600'>
 <title>Advice to beginners</title>
-<category></category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+<category>edu</category>
+<category>beginners</category>
 <body>
 
-<p>
-- Learn how you learn
-- deliberate practice
-- Don't measure your progress in number of languages
-- Don't measure your progress against others
-- Think about what you've done, and what you like or don't like about it
-- Be willing to change your mind
-- Try alternatives
-- Projects don't have to be useful or new
-</p>
+<p>I often see questions like, "I'm just starting to learn Python, any advice?"
+The expected answer is something like "watch this video," or, "here's an awesome
+tutorial," but more important are some tips about how to learn technology in
+general. Here are mine:</p>
+
+<p><b>Learn how you learn:</b> Some people like videos, some like books.  Some
+like bite-sized tips, some like hour-long tutorials.  Figure out how you like to
+learn and do that. There's no wrong answer, there are just different answers for
+different people.</p>
+
+<p><b>Do things:</b> If you aren't sure if something will work, try it.
+<a href="/text/kindling.html">Choose a project</a> and start writing it. Lots
+of learning tools can be too passive. Write code. Write more code. Get your
+hands in there, do things and find out what happens. You'll learn best by
+doing.</p>
+
+<p><b>It doesn't have to be new:</b> Writing a project is a great way to learn,
+but your project doesn't have to be innovative, or profitable, or new, or even
+useful.  Sure, it would be great to have an idea like that, but you will learn
+even if you are building something that has been done many times before.  Keep
+in mind why you are building it. You're a learner, not an entrepreneur.</p>
+
+<p><b>Be introspective:</b> Think about what you've done, and what you like or
+don't like about it.  When you're done with a project (or in the middle of
+one!), think about what you might do differently.  Being self-aware about your
+choices and their results will teach you more than any tutorial.</p>
+
+<p><b>Do it more than once:</b> If you have questions about which path to take,
+try a few and compare the results.</p>
+
+<p><b>Don't measure yourself against others:</b> "How long did it take you to
+learn Python?" It doesn't matter. Everyone is on a different path, with
+different needs, different starting points, and so on.  Learn at your best pace.
+It's not a competition. For more of my thoughts on this:
+<a pref="blog/how-long-did-it-take-you-to-learn-python.bx"/>.</p>
+
+<p><b>More languages isn't better:</b> Beginners will say, "I've learned Python,
+what language should I learn next?"  Don't measure your progress in number of
+languages.  More important is to learn new techniques (database, web, testing,
+concurrency, etc.) in the same-old language.  Rushing from language to language
+will probably make you a beginner in all of them.</p>
+
+<p><b>Be open to change:</b> Once you've made a choice, you can change your
+mind.  Requirements change, technologies change, interests change. Nothing is
+written in stone. Explore where your interests take you.</p>
 
 </body>
 </entry>
