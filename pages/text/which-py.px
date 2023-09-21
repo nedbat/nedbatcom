@@ -11,6 +11,7 @@
 <what when='20230712T071500'>3.12.0b4</what>
 <what when='20230810T160300'>3.12.0rc1</what>
 <what when='20230914T113200'>3.12.0rc2</what>
+<what when='20230921T150200'>3.12.0rc3</what>
 </history>
 
 <meta>
@@ -26,7 +27,7 @@ own PEP with specific dates,
 <a href="https://peps.python.org/topic/release/">they are all listed here</a>.</p>
 
 
-<h1>3.12: due October 2, 2023 (currently pre-release: rc2)</h1>
+<h1>3.12: due October 2, 2023 (currently pre-release: rc3)</h1>
 <ul>
     <li>New type annotation syntax for generic classes (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
