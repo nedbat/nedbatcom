@@ -12,8 +12,11 @@ LIVEPORT = 8000
 publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
 
-ned.%: ## deploy to .net or .com
+
+env.%:
 	op item get ned$*.env --fields label=text --format json | jq -r ".value" > deploy/.env
+
+ned.%: env.% ## deploy to .net or .com
 	DJANGO_SETTINGS_MODULE=djstell.settings_ned$*_base python djstell/bin/makehtml.py ned$* all
 	rm deploy/.env
 	rm to_dh/.env
@@ -64,8 +67,9 @@ upgrade: ## update the pip requirements files to use the latest releases satisfy
 backupcomments: ## get a backup of the live comments on nedbatchelder.com
 	django-admin dumpdata --settings=djstell.settings_nedcom_db -o data/reactor_$$(date +%Y%m%d).json --database=reactor reactor.Comment
 
-db.%: ## connect to the database for .net or .com
-	set -o allexport; . ./deploy/ned$*.env; set +o allexport; mycli -h mysql2.nedbatchelder.net -u ned$*_reactor -p "$$REACTOR_PASSWORD" ned$*_reactor
+db.%: env.% ## connect to the database for .net or .com
+	set -o allexport; . deploy/.env; set +o allexport; mycli -h mysql2.nedbatchelder.net -u ned$*_reactor -p "$$REACTOR_PASSWORD" ned$*_reactor
+	rm deploy/.env
 
 livedb: ## open phpMyAdmin for nedbatchelder.com
 	@echo https://panel.dreamhost.com/index.cgi?tree=advanced.mysql
@@ -122,6 +126,7 @@ livelinkcheck: ## check the links on the live local server
 
 clean: ## get rid of stuff we don't need
 	rm -rf html live to_dh local
+	rm -f deploy/.env
 
 sterile: clean ## extra-clean
 	rm -rf html0
