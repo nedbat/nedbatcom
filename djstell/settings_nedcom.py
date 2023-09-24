@@ -48,6 +48,8 @@ EMAIL_TIMEOUT = 30
 EMAIL_HOST_USER = 'nedbat@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
+SESSION_FILE_PATH = "/home/nedbat/var/session_nedcom"
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -56,6 +58,6 @@ CACHES = {
         'TIMEOUT': 300,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
-        }
-    }
+        },
+    },
 }

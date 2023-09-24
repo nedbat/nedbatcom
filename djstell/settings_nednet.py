@@ -45,6 +45,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ned@nedbatchelder.net'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
+SESSION_FILE_PATH = "/home/nedbat/var/session_nednet"
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -53,6 +55,6 @@ CACHES = {
         'TIMEOUT': 300,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
-        }
-    }
+        },
+    },
 }
