@@ -3,10 +3,13 @@
 
 from __future__ import print_function
 
-import sys, os
+import os
+import sys
 
-VENV = "/home/nedbat/venvs/nedcom"
-LOG = "/home/nedbat/passlog_nedcom.txt"
+COMNET = "com"
+
+VENV = "/home/nedbat/venvs/ned" + COMNET
+LOG = "/home/nedbat/passlog_ned" + COMNET + ".txt"
 
 INTERP = VENV + "/bin/python3"
 
@@ -15,7 +18,8 @@ if sys.executable != INTERP:
 
 try:
     sys.path.append(os.getcwd())
-    os.environ['DJANGO_SETTINGS_MODULE'] = "djstell.settings_nedcom"
+    os.environ["NEDCOMNET"] = COMNET
+    os.environ["DJANGO_SETTINGS_MODULE"] = "djstell.settings_ned" + COMNET
 
     from django.core.wsgi import get_wsgi_application
     application = get_wsgi_application()
