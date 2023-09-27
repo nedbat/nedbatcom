@@ -33,6 +33,7 @@ own PEP with specific dates,
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
     <li>The distutils module has been removed (see <a href="https://peps.python.org/pep-0594 /">PEP 594</a> and <a href="https://peps.python.org/pep-0632/">PEP 632</a>).</li>
     <li>Invalid backslash escape sequences in strings now warn with SyntaxWarning.</li>
+    <li>Per-interpreter GIL, but only in the C API (<a href="https://peps.python.org/pep-0684/">PEP 684</a>).</li>
 </ul>
 
 <p><a href='https://docs.python.org/3.12/whatsnew/3.12.html'>Full list of 3.12 changes so far</a>.
