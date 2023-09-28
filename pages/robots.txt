@@ -1,3 +1,20 @@
 # /tabblo gets dinged for mobile violations, etc. Stop that.
 User-agent: *
 Disallow: /tabblo/
+
+# https://neil-clarke.com/block-the-bots-that-feed-ai-models-by-scraping-your-website/
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
