@@ -12,6 +12,7 @@
 <what when='20230810T160300'>3.12.0rc1</what>
 <what when='20230914T113200'>3.12.0rc2</what>
 <what when='20230921T150200'>3.12.0rc3</what>
+<what when='20231002T112800'>3.12.0</what>
 </history>
 
 <meta>
@@ -30,16 +31,16 @@ The Python Developer's Guide has a
 cycles</a> of Python versions.</p>
 
 
-<h1>3.12: due October 2, 2023 (currently pre-release: rc3)</h1>
+<h1>3.12: October 2, 2023</h1>
 <ul>
-    <li>New type annotation syntax for generic classes (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
+    <li>New type annotation syntax for generic classes and <b>type</b> aliases (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
     <li>The distutils module has been removed (see <a href="https://peps.python.org/pep-0594 /">PEP 594</a> and <a href="https://peps.python.org/pep-0632/">PEP 632</a>).</li>
     <li>Invalid backslash escape sequences in strings now warn with SyntaxWarning.</li>
     <li>Per-interpreter GIL, but only in the C API (<a href="https://peps.python.org/pep-0684/">PEP 684</a>).</li>
 </ul>
 
-<p><a href='https://docs.python.org/3.12/whatsnew/3.12.html'>Full list of 3.12 changes so far</a>.
+<p><a href='https://docs.python.org/3.12/whatsnew/3.12.html'>Full list of 3.12 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0693/">PEP 693</a>.
 End-of-life expected October 2028.
 </p>
