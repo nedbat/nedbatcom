@@ -10,6 +10,8 @@ class SiteMap:
         for section in Section.objects.all().order_by('sort', 'title'):
             p, f = os.path.split(section.article.path)
             if f == 'index.px' and p and '/' not in p:
+                if section.title == "Site":
+                    continue
                 self.top.append((section.title, section.article.permaurl(short=True)))
 
     def top_areas(self):
