@@ -8,7 +8,7 @@ asgiref==3.7.2
     # via django
 bleach[css]==6.0.0
     # via -r requirements/base.in
-django==4.2.5
+django==4.2.6
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -47,9 +47,9 @@ sqlparse==0.4.4
     #   django-debug-toolbar
 tinycss2==1.1.1
     # via bleach
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via asgiref
-wcwidth==0.2.6
+wcwidth==0.2.8
     # via ftfy
 webencodings==0.5.1
     # via

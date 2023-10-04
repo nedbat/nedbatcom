@@ -12,11 +12,11 @@ bleach[css]==6.0.0
     # via -r requirements/base.in
 certifi==2023.7.22
     # via requests
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via requests
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.5
+django==4.2.6
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -43,7 +43,7 @@ iniconfig==2.0.0
     # via pytest
 libsass==0.22.0
     # via -r requirements/base.in
-linkchecker==10.2.1
+linkchecker==10.3.0
     # via -r requirements/dev.in
 lxml==4.9.3
     # via
@@ -51,7 +51,7 @@ lxml==4.9.3
     #   -r requirements/dev.in
 markdown2==2.4.10
     # via -r requirements/base.in
-packaging==23.1
+packaging==23.2
     # via pytest
 path==16.7.1
     # via path-py
@@ -59,7 +59,7 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.0.1
     # via -r requirements/base.in
-playwright==1.37.0
+playwright==1.38.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -114,13 +114,13 @@ tinycss2==1.1.1
     # via bleach
 tomli==2.0.1
     # via pytest
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via
     #   asgiref
     #   pyee
-urllib3==2.0.4
+urllib3==2.0.6
     # via requests
-wcwidth==0.2.6
+wcwidth==0.2.8
     # via ftfy
 webencodings==0.5.1
     # via
