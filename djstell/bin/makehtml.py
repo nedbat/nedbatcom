@@ -46,7 +46,7 @@ class CmdLine(object):
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
             *.htaccess *.ini *.env
             *.svg *.ipynb
-            webfinger
+            webfinger atproto-did
             '''
         self.binary_ext='''
             *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.doc *.pdf *.ai
