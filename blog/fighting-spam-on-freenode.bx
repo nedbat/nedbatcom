@@ -3,6 +3,7 @@
 <entry when='20180805T104324'>
 <title>Fighting spam on freenode</title>
 <category>malware</category>
+<category>irc</category>
 <body>
 
 <p>The Freenode IRC network (and I guess others) are under an aggressive spam
@@ -11,7 +12,7 @@
     and techniques.  Corrections welcomed!</p>
 
 <p>IRC is a great way to connect with other people, but it is arcane and poorly
-    documented.  How IRC networks are configured and maintained is not standardized. 
+    documented.  How IRC networks are configured and maintained is not standardized.
     The details here are for Freenode. I have no idea how much of this applies
     to other networks.</p>
 
@@ -58,7 +59,7 @@
 # See the list of quieted user patterns
 /mode #your_channel +q
 ]]></code>
-    
+
     <li>If you use +q, but have unregistered bots that you want to be able to talk in your
     channel, you can exempt them with +e:</li>
 <code><![CDATA[
