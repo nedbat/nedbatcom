@@ -2,6 +2,8 @@
 <blog>
 <entry when='20131208T075426'>
 <title>Why ask why?</title>
+<category>people</category>
+
 <body>
 
     <p>I help people with Python questions, and often those people are only
@@ -9,7 +11,7 @@
         or complete strangers (in the <a href='irc://irc.freenode.net/#python'>#python</a> IRC channel).
         There's a common misunderstanding that can crop up in these situations.
         It has to do with asking why.</p>
-        
+
     <p>While helping, I often ask the asker, "why?"  For example, someone will
         need help with the two Python installations on their laptop.  I'll ask,
         "Why did you install a second Python?" When I did this the other night,
@@ -24,11 +26,11 @@
     <p>English can be difficult that way, especially over a purely textual,
         cue-less medium like IRC.  One way to soften the apparent bluntness is
         to add more words.  For example, instead of:</p>
-    
+
     <box>Why did you install another Python?</box>
 
     <p>this might go over better:</p>
-    
+
     <box>Do you mind if I ask you why you installed another Python?
         Understanding the reason might provide an important clue.</box>
 
@@ -51,7 +53,7 @@
     <p>Asking why can help find those earlier choices, and lay out the entire
         problem.  Having all the information means we can work together to find
         the best solution.</p>
-    
+
     <p>If I ask you to explain the larger problem, don't take it personally.
         Solving complex problems is hard, and it's easy to choose a first step
         that makes the second step more difficult than it needs to be.  When a
