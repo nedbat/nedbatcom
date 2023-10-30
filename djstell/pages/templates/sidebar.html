@@ -84,6 +84,7 @@
         <li class='inline'><label>{{morebloglabel}}: </label>
             <nav>
                 <ul class='tight'>
+                    <li><a href='/blog/top.html'><i>popular</i></a></li>
                     {% for link in moreblog %}
                     <li>
                         <a href='{{link.link}}'>{{link.text|lower|safe}}</a>

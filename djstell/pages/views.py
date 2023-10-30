@@ -28,8 +28,8 @@ def add_entries(c, ents):
     ents = list(ents)
     c['entries'] = ents
     if ents:
-        c['min_date'] = ents[-1].when
-        c['max_date'] = ents[0].when
+        c['min_date'] = min(e.when for e in ents)
+        c['max_date'] = max(e.when for e in ents)
 
 def abs_url(url):
     if not url:
@@ -183,6 +183,14 @@ def drafts(request):
     c['title'] = 'Blog: Drafts'
     c['bodyclass'] = 'blog archive all'
     return render(request, 'blogarchive.html', c)
+
+def top(request):
+    ents = list(Entry.objects.filter(evergreen=True).order_by('-when'))
+    c = {}
+    add_entries(c, ents)
+    c['title'] = 'Blog: Top'
+    c['bodyclass'] = 'blog top'
+    return render(request, 'blogtop.html', c)
 
 def blog_rss(request):
     """The RSS feed for the whole blog."""

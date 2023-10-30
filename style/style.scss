@@ -787,6 +787,33 @@ a.s {
     }
 }
 
+#content .blog-blurb {
+    h2 {
+        font-size: 100%;
+        display: inline;
+        margin: 1em 1em 0 0;
+    }
+    p.date {
+        display: inline;
+        color: var(--info-text-color);
+    }
+    a {
+        @include inside-link;
+    }
+    .readmore {
+        color: var(--info-text-color);
+        font-style: italic;
+        a {
+            @include inside-link;
+        }
+    }
+    span.readmore {
+        &:before {
+            content: "\2002";   // EN SPACE
+        }
+    }
+}
+
 /* Archive page: make the dates hang left to align all the titles. */
 
 #content div.archive {          // can't be just ".archive" because of body.archive

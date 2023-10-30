@@ -1,0 +1,39 @@
+{% extends "blogbase.html" %}
+{% load tags %}
+
+{% block meta %}
+{{ block.super }}
+<meta name='ROBOTS' content='NOINDEX' />
+{% endblock %}
+
+{# No page dateline for blog posts #}
+{% block dateline %}{% endblock %}
+
+{% block body %}
+    <p class='first'>
+        These are popular blog posts.
+    </p>
+
+    <section>
+        {% for entry in entries %}
+            <div class='blog-blurb'>
+                <h2><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h2>
+                <p class='date'> {{entry.when|date:"F"}}{% ch " " %}{{entry.when|date:"Y"}}</p>
+                <p class='first'>{{entry.ogdescription|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>read..</a></span>
+                {% if entry.tags.all %}
+                    {# The anonymous spans here are to force spacelessness so that we can control the nbsp stuff... #}
+                    {# reallyspaceless doesn't mean what I thought, and maybe that should be fixed some day! #}
+                    <span class='also'>{% ch ' _' %}<span>
+                        {% for tag in entry.tags.all %}
+                            <span>{% ifnotfirst %}{% ch '_' %}{% endifnotfirst %}
+                                <a href='{{tag.permaurl}}'>#{{tag.hashtag}}</a>
+                            </span>
+                        {% endfor %}
+                    </span></span>
+                {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </section>
+
+{% endblock %}
