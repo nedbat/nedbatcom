@@ -14,6 +14,8 @@ certifi==2023.7.22
     # via requests
 charset-normalizer==3.3.2
     # via requests
+cogapp==3.3.0
+    # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
 django==4.2.7
