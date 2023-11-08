@@ -44,7 +44,8 @@ urlpatterns = [
     path('blog/archive/date<mm:month><dd:day>.html', dpv.archivedate),
     path('blog/archive/all.html', dpv.archiveall),
     path('blog/drafts.html', dpv.drafts),
-    path('blog/top.html', dpv.top),
+    path('blog/classics.html', dpv.classics_home),
+    path('blog/classics/<slug:slug>.html', dpv.classics),
 
     re_path(r'^blog/(?:rss|rssfull|atom).xml$', dpv.blog_rss),
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),

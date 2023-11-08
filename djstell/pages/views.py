@@ -1,6 +1,7 @@
 # Make a site!
 
 import collections
+import dataclasses
 import datetime
 import logging
 import os
@@ -184,13 +185,39 @@ def drafts(request):
     c['bodyclass'] = 'blog archive all'
     return render(request, 'blogarchive.html', c)
 
-def top(request):
-    ents = list(Entry.objects.filter(evergreen=True).order_by('-when'))
+@dataclasses.dataclass
+class ClassicSection:
+    head: str
+    description: str
+
+CLASSICS = {
+    "tech": ClassicSection(
+        head="Technical",
+        description="Technical stuff, mostly Python",
+    ),
+    "autism": ClassicSection(
+        head="Autism parenting",
+        description="My experiences with my autistic son",
+    ),
+    "me": ClassicSection(
+        head="About me",
+        description="Miscellaneous stuff about me",
+    ),
+}
+
+def classics_home(request):
+    c = {}
+    c['title'] = 'Blog: classics'
+    c['bodyclass'] = 'blog classics'
+    return render(request, 'allclassics.html', c)
+
+def classics(request, slug):
+    ents = list(Entry.objects.filter(classic=slug).order_by("-when"))
     c = {}
     add_entries(c, ents)
-    c['title'] = 'Blog: Top'
-    c['bodyclass'] = 'blog top'
-    return render(request, 'blogtop.html', c)
+    c["title"] = f"Blog: {CLASSICS[slug].head.lower()} classics"
+    c["bodyclass"] = "blog classics"
+    return render(request, "classics.html", c)
 
 def blog_rss(request):
     """The RSS feed for the whole blog."""
