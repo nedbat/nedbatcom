@@ -19,9 +19,9 @@ other day with Python mutable argument default values.
 function argument, but it will only be evaluated once:</p>
 
 <code lang="pycon"><![CDATA[
->>> def doubled(val, the_list=[]):
-...     the_list.append(val)
-...     the_list.append(val)
+>>> def doubled(item, the_list=[]):
+...     the_list.append(item)
+...     the_list.append(item)
 ...     return the_list
 ...
 >>> print(doubled(10))
@@ -35,12 +35,12 @@ And countless times I've said, "Yup, the value is only calculated once, and
 stored on the function."</p>
 
 <p>But recently I heard someone answer with, "it's a value, not an expression,"
-which is a good succinct way to say it.  And when a co-worker brought up again
-the other day, I realized, it's right in the name: people ask about "default
-values" not "default expressions." Of course it's calculated only once, it's a
-default value, not a default expression. Somehow answering the question for the
-thousandth time made those words click into place and make a connection I hadn't
-realized before.</p>
+which is a good succinct way to say it.  And when a co-worker brought it up
+again the other day, I realized, it's right in the name: people ask about
+"default values" not "default expressions." Of course it's calculated only once,
+it's a default value, not a default expression. Somehow answering the question
+for the thousandth time made those words click into place and make a connection
+I hadn't realized before.</p>
 
 <p>Maybe this seems obvious to others who have been fielding this question, but
 to me it was a satisfying alignment of the terminology and the semantics. I'd
