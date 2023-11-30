@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20231129T183046'>
+<title>Say it again: values not expressions</title>
+<category>python</category>
+<category>beginners</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Sometimes you can explain a simple thing for the thousandth time,
+and come away with a deeper understanding yourself.  It happened to me the
+other day with Python mutable argument default values.
+</p>
+
+<p>This is a classic Python "gotcha": you can provide a default value for a
+function argument, but it will only be evaluated once:</p>
+
+<code lang="pycon"><![CDATA[
+>>> def doubled(val, the_list=[]):
+...     the_list.append(val)
+...     the_list.append(val)
+...     return the_list
+...
+>>> print(doubled(10))
+[10, 10]
+>>> print(doubled(99))
+[10, 10, 99, 99]    # WHAT!?
+]]></code>
+
+<p>I've seen people be surprised by this and ask about it countless times.
+And countless times I've said, "Yup, the value is only calculated once, and
+stored on the function."</p>
+
+<p>But recently I heard someone answer with, "it's a value, not an expression,"
+which is a good succinct way to say it.  And when a co-worker brought up again
+the other day, I realized, it's right in the name: people ask about "default
+values" not "default expressions." Of course it's calculated only once, it's a
+default value, not a default expression. Somehow answering the question for the
+thousandth time made those words click into place and make a connection I hadn't
+realized before.</p>
+
+<p>Maybe this seems obvious to others who have been fielding this question, but
+to me it was a satisfying alignment of the terminology and the semantics. I'd
+been using the words for years, but hadn't seen them as so right before.</p>
+
+<p>This is one of the reasons I'm always interested to help new learners: even
+well-trodden paths can reveal new insights.</p>
+
+</body>
+</entry>
+</blog>
