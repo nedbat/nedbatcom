@@ -109,8 +109,8 @@ Successfully rebased and updated refs/heads/my-work.
 <code><![CDATA[
 [alias]
 movebranch = "!f() { \
-    : git checkout \
-    git rebase --onto $2 $(git merge-base $1 @) \
+    : git checkout ; \
+    git rebase --onto $2 $(git merge-base $1 @); \
 }; f"
 ]]></code>
 
