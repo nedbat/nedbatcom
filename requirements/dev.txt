@@ -34,7 +34,7 @@ exceptiongroup==1.2.0
 freezegun==1.2.2
     # via
     #   -r requirements/dev.in
-    #   pytest-freezegun
+    #   pytest-freezer
 ftfy==6.1.3
     # via -r requirements/base.in
 greenlet==3.0.1
@@ -76,13 +76,13 @@ pytest==7.4.3
     #   -r requirements/dev.in
     #   pytest-base-url
     #   pytest-django
-    #   pytest-freezegun
+    #   pytest-freezer
     #   pytest-playwright
 pytest-base-url==2.0.0
     # via pytest-playwright
 pytest-django==4.7.0
     # via -r requirements/dev.in
-pytest-freezegun==0.4.2
+pytest-freezer==0.4.8
     # via -r requirements/dev.in
 pytest-playwright==0.4.3
     # via -r requirements/dev.in
