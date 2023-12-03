@@ -172,7 +172,7 @@ class CommentForm(Honeypotter):
             elif self.is_adding:
                 com.save()
                 send_owner_email(com, self.field_value("body"), dict(context.flatten()))
-                send_watcher_emails(com, self.field_value("body"), dict(context.flatten()))
+                #send_watcher_emails(com, self.field_value("body"), dict(context.flatten()))
             else:
                 raise Exception("Shouldn't something be happening?")
 
