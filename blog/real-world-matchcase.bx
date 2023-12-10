@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20231210T132100'>
+<title>Real-world match/case</title>
+<category>python</category>
+
+<description>A real-world example where Python's match/case shows its power.</description>
+<img src="pix/cards/match-case.png" alt="An example of Python's match/case in use."/>
+
+<body>
+
+<p>Python 3.10 brought us structural pattern matching, better known as
+<b>match/case</b>.  At first glance, it looks like a switch statement from C or
+JavaScript, but it's very different.</p>
+
+<p>You can use match/case to match specific literals, similar to how switch
+statements work, but their point is to match patterns in the structure of data,
+not just values. <a href="https://peps.python.org/pep-0636/">PEP 636:
+Structural Pattern Matching: Tutorial</a> does a good job explaining the
+mechanics, but feels like a toy example.</p>
+
+<p>Here's a real-world use: at work we have a GitHub bot installed as a
+webhook.  When something happens in one of our repos, GitHub sends a payload of
+JSON data to our bot.  The bot has to examine the decoded payload to decide what
+to do.</p>
+
+<p>These payloads are complex: they are dictionaries with only 6 or 8 keys, but
+they are deeply nested, eventually containing a few hundred pieces of data.
+Originally we were picking them apart to see what keys and values they had, but
+match/case made the job much simpler.</p>
+
+<p>Here's some of the code for determining what to do when we get a "comment
+created" event:</p>
+
+<code lang="py"><![CDATA[
+# Check the structure of the payload:
+match event:
+    case {
+        "issue": {"closed_at": closed},
+        "comment": {"created_at": commented},
+        } if closed == commented:
+        # This is a "Close with comment" comment. Don't do anything for the
+        # comment, because we'll also get a "pull request closed" event at
+        # the same time, and it will do whatever we need.
+        pass
+
+    case {"sender": {"login": who}} if who == get_bot_username():
+        # When the bot comments on a pull request, it causes an event, which
+        # gets sent to webhooks, including us.  We don't have to do anything
+        # for our own comment events.
+        pass
+
+    case {"issue": {"pull_request": _}}:
+        # The comment is on a pull request. Process it.
+        return process_pull_request_comment(event)
+]]></code>
+
+<p>The first case matches if the dict has an "issue" key containing a dict with
+a "closed_at" key and also a "comment" key containing a dict with a "created_at"
+key, and if those two leaves in the dict are equal.  Writing out that condition
+without match/case would be more verbose and confusing.</p>
+
+<p>The second case examines the event to see if the bot was the originator of
+the event.  This one wouldn't have been so hard to write in a different way, but
+match/case makes it nicer.</p>
+
+<p>This is just what match/case is good at: checking patterns in the structure
+of data.</p>
+
+<p>It's also interesting to see the bytecode generated.  For that first case, it
+looks like this:</p>
+
+<code><![CDATA[
+  2           0 LOAD_GLOBAL              0 (event)
+
+  3           2 MATCH_MAPPING
+              4 POP_JUMP_IF_FALSE       67 (to 134)
+              6 GET_LEN
+              8 LOAD_CONST               1 (2)
+             10 COMPARE_OP               5 (>=)
+             12 POP_JUMP_IF_FALSE       67 (to 134)
+
+  4          14 NOP
+
+  5          16 NOP
+
+  3          18 LOAD_CONST               8 (('issue', 'comment'))
+             20 MATCH_KEYS
+             22 POP_JUMP_IF_FALSE       65 (to 130)
+             24 DUP_TOP
+             26 LOAD_CONST               4 (0)
+             28 BINARY_SUBSCR
+
+  4          30 MATCH_MAPPING
+             32 POP_JUMP_IF_FALSE       64 (to 128)
+             34 GET_LEN
+             36 LOAD_CONST               5 (1)
+             38 COMPARE_OP               5 (>=)
+             40 POP_JUMP_IF_FALSE       64 (to 128)
+             42 LOAD_CONST               9 (('closed_at',))
+             44 MATCH_KEYS
+             46 POP_JUMP_IF_FALSE       62 (to 124)
+             48 DUP_TOP
+             50 LOAD_CONST               4 (0)
+             52 BINARY_SUBSCR
+             54 ROT_N                    7
+             56 POP_TOP
+             58 POP_TOP
+             60 POP_TOP
+             62 DUP_TOP
+             64 LOAD_CONST               5 (1)
+             66 BINARY_SUBSCR
+
+  5          68 MATCH_MAPPING
+             70 POP_JUMP_IF_FALSE       63 (to 126)
+             72 GET_LEN
+             74 LOAD_CONST               5 (1)
+             76 COMPARE_OP               5 (>=)
+             78 POP_JUMP_IF_FALSE       63 (to 126)
+             80 LOAD_CONST              10 (('created_at',))
+             82 MATCH_KEYS
+             84 POP_JUMP_IF_FALSE       61 (to 122)
+             86 DUP_TOP
+             88 LOAD_CONST               4 (0)
+             90 BINARY_SUBSCR
+             92 ROT_N                    8
+             94 POP_TOP
+             96 POP_TOP
+             98 POP_TOP
+            100 POP_TOP
+            102 POP_TOP
+            104 POP_TOP
+            106 STORE_FAST               0 (closed)
+            108 STORE_FAST               1 (commented)
+
+  6         110 LOAD_FAST                0 (closed)
+            112 LOAD_FAST                1 (commented)
+            114 COMPARE_OP               2 (==)
+            116 POP_JUMP_IF_FALSE       70 (to 140)
+
+ 10         118 LOAD_CONST               0 (None)
+            120 RETURN_VALUE
+
+  3     >>  122 POP_TOP
+        >>  124 POP_TOP
+        >>  126 POP_TOP
+        >>  128 POP_TOP
+        >>  130 POP_TOP
+            132 POP_TOP
+        >>  134 POP_TOP
+            136 LOAD_CONST               0 (None)
+            138 RETURN_VALUE
+
+  6     >>  140 LOAD_CONST               0 (None)
+            142 RETURN_VALUE
+]]></code>
+
+<p>That's a lot, but you can see roughly what it's doing: check if the value is
+a mapping (dict) with at least two keys (bytecodes 2&#x2013;12), then check if
+it has the two specific keys we'll be examining (18&#x2013;22).  Look at the
+value of the first key, check if it's a dict with at least one key
+(24&#x2013;40), etc, and so on.</p>
+
+<p>Hand-writing these sorts of checks might result in shorter bytecode. For
+example, I already know the event value is a dict, since that is what the GitHub
+API promise me, so there's no need to check it explicitly each time.  But the
+Python code would be twistier and harder to get right. I was initially a skeptic
+about match/case, but this example shows a clear benefit.</p>
+
+</body>
+</entry>
+</blog>
