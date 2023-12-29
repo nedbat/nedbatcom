@@ -5,10 +5,10 @@
 <category>jupyter</category>
 <body>
 
-<p>I'm working on figuring out retirement scenarios. I wasn't satified with the
+<p>I'm working on figuring out retirement scenarios. I wasn't satisfied with the
     usual online calculators. I made a spreadsheet, but it was hard to see how
     the different variables affected the outcome. Aha! This sounds like a good
-    use for a Jupyter Notebok!</p>
+    use for a Jupyter Notebook!</p>
 
 <p>Using <a href='https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Basics.html'>widgets</a>,
     I could make a cool graph with sliders for controlling the variables, and
@@ -45,7 +45,7 @@ class Param(namedtuple('Param', "default, range")):
         wtype = FloatSlider if is_float else IntSlider
         return wtype(
             value=self.default,
-            min=self.range[0], max=self.range[1], step=self.range[2], 
+            min=self.range[0], max=self.range[1], step=self.range[2],
             continuous_update=True,
         )
 
@@ -56,7 +56,7 @@ class Model:
 
     output_limit = None
     num_auto = 7
-    
+
     def _show_it(self, auto_param, **kw):
         if auto_param == 'None':
             plt.plot(self.inputs, self.run(self.inputs, **kw))
@@ -121,7 +121,7 @@ output_limit = (0, 10000000)
     each parameter you defined:</p>
 
 <code lang="python"><![CDATA[
-def run(self, inputs, 
+def run(self, inputs,
     invest_return, p401k, retire_age, live_on,
     inflation, inherit, inherit_age
 ):
@@ -129,7 +129,7 @@ def run(self, inputs,
         if year == 0:
             yearly_money = [self.start_savings]
             continue
-        
+
         inflation_factor = (1 + inflation/100)**year
         money = yearly_money[-1]
         money = money*(1+(invest_return/100))
@@ -167,7 +167,7 @@ Retirement().interact()
 </ul>
 
 <p>I thought about fixing a few of these things, but I likely won't get to them.
-    The code is here in this blog post or in 
+    The code is here in this blog post or in
     <a href='code/misc/retirement.ipynb'>the notebook file</a> if you want it.
     Ideas welcome about how to make improvements.</p>
 
