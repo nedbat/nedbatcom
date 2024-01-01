@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20231227T180333'>
+<title>Coverage.py with sys.monitoring</title>
+<category>coverage</category>
+
+<description>Coverage.py now has experimental support for faster Python
+execution monitoring in Python 3.12.  Please try it out!</description>
+
+<!--
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+
+<body>
+
+<p>New in Python 3.12 is <a urlid="sysmon">sys.monitoring</a>, a
+lighter-weight way to monitor the execution of Python programs.
+<a href="https://pypi.org/project/coverage/7.4.0">Coverage.py 7.4.0</a> now
+can optionally use sys.monitoring instead of
+<a urlid="settrace">sys.settrace</a>, the facility that has underpinned
+coverage.py for nearly two decades.  This is a big change, both in Python and in
+coverage.py.  It would be great if you could try it out and provide some
+feedback.</p>
+
+<p>Using sys.monitoring should reduce the overhead of coverage measurement,
+often lower than 5%, but of course your timings might be different.  One of the
+things I would like to know is what your real-world speed improvements are
+like.</p>
+
+<p>Because the support is still a bit experimental, you need to define an
+environment variable to use it: <codeword>COVERAGE_CORE=sysmon</codeword>.
+Eventually, sys.monitoring will be automatically used where possible, but for
+now you need to explicitly request it.</p>
+
+<p>Some things won't work with sys.monitoring: plugins and dynamic contexts
+aren't yet supported, though eventually they will be.  Execution will be faster
+for line coverage, but not yet for branch coverage.  Let me know how it works
+for you.</p>
+
+<p>This has been in the works since at least March.  I hope I haven't forgotten
+something silly in getting it out the door.</p>
+
+<url id="sysmon" href="https://docs.python.org/3/library/sys.monitoring.html" />
+<url id="settrace" href="https://docs.python.org/3/library/sys.html#sys.settrace" />
+
+</body>
+</entry>
+</blog>
