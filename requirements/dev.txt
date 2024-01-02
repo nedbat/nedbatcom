@@ -18,7 +18,7 @@ cogapp==3.3.0
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.8
+django==4.2.9
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -31,7 +31,7 @@ dnspython==2.4.2
     # via linkchecker
 exceptiongroup==1.2.0
     # via pytest
-freezegun==1.3.0
+freezegun==1.4.0
     # via
     #   -r requirements/dev.in
     #   pytest-freezer
@@ -45,21 +45,21 @@ iniconfig==2.0.0
     # via pytest
 libsass==0.22.0
     # via -r requirements/base.in
-linkchecker==10.3.0
+linkchecker==10.4.0
     # via -r requirements/dev.in
-lxml==4.9.3
+lxml==5.0.0
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
-markdown2==2.4.11
+markdown2==2.4.12
     # via -r requirements/base.in
 packaging==23.2
     # via pytest
-path==16.7.1
+path==16.9.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==10.1.0
+pillow==10.2.0
     # via -r requirements/base.in
 playwright==1.40.0
     # via
@@ -71,7 +71,7 @@ pyee==11.0.1
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==7.4.3
+pytest==7.4.4
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -116,7 +116,7 @@ tinycss2==1.2.1
     # via bleach
 tomli==2.0.1
     # via pytest
-typing-extensions==4.8.0
+typing-extensions==4.9.0
     # via
     #   asgiref
     #   pyee
