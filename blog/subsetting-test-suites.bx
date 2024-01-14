@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240114T093932'>
+<title>Randomly sub-setting test suites</title>
+<category>testing</category>
+<category>mycode</category>
+
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+
+<body>
+
+<p>I needed to run random subsets of my test suite to narrow down the cause of
+some mysterious behavior.  I didn't find an existing tool that worked the way I
+wanted to, so I cobbled something together.</p>
+
+<p>I wanted to run 10 random tests (out of 1368), and keep choosing randomly
+until I saw the bad behavior.  Once I had a selection of 10, I wanted to be able
+to whittle it down to try to reduce it further.</p>
+
+<p>I tried a few different approaches, and here's what I came up with, two tools
+in the coverage.py repo that combine to do what I want:</p>
+
+<ul> <li>A pytest plugin (<a urlid="select_plugin">select_plugin.py</a>) that
+lets me run a command to output the names of the exact tests I want to
+run,</li>
+
+<li>A command-line tool (<a urlid="pick.py">pick.py</a>) to select random
+lines of text from a file.  For convenience, blank or commented-out lines are
+ignored.</li>
+
+</ul>
+
+<p>More details are in the comment at the top of
+<a urlid="pick.py">pick.py</a>, but here's a quick example:</p>
+
+<ol>
+
+<li>Get all the test names in tests.txt.  These are pytest "node" specifications:
+
+<code><![CDATA[
+pytest --collect-only | grep :: > tests.txt
+]]></code>
+</li>
+
+<li>Now tests.txt has a line per test node.  Some are straightforward:
+
+<code><![CDATA[
+tests/test_cmdline.py::CmdLineStdoutTest::test_version
+tests/test_html.py::HtmlDeltaTest::test_file_becomes_100
+tests/test_report_common.py::ReportMapsPathsTest::test_map_paths_during_html_report
+]]></code>
+
+but with parameterization they can be complicated:
+
+<code><![CDATA[
+tests/test_files.py::test_invalid_globs[bar/***/foo.py-***]
+tests/test_files.py::FilesTest::test_source_exists[a/b/c/foo.py-a/b/c/bar.py-False]
+tests/test_config.py::ConfigTest::test_toml_parse_errors[[tool.coverage.run]\nconcurrency="foo"-not a list]
+]]></code>
+
+</li>
+
+<li>Run a random bunch of 10 tests:
+
+<code><![CDATA[
+pytest --select-cmd="python pick.py sample 10 < tests.txt"
+]]></code>
+
+We're using <codeword>--select-cmd</codeword> to specify the shell command that
+will output the names of tests.  Our command uses <codeword>pick.py</codeword>
+to select 10 random lines from tests.txt.
+
+</li>
+
+<li>Run many random bunches of 10, announcing the seed each time:
+
+<code><![CDATA[
+for seed in $(seq 1 100); do
+    echo seed=$seed
+    pytest --select-cmd="python pick.py sample 10 $seed < tests.txt"
+done
+]]></code>
+
+</li>
+
+<li>Once you find a seed that produces the small batch you want, save that batch:
+
+<code><![CDATA[
+python pick.py sample 10 17 < tests.txt > bad.txt
+]]></code>
+
+</li>
+
+<li>Now you can run that bad batch repeatedly:
+
+<code><![CDATA[
+pytest --select-cmd="cat bad.txt"
+]]></code>
+
+</li>
+
+<li>To reduce the bad batch, comment out lines in bad.txt with a hash character,
+and the tests will be excluded. Keep editing until you find the small set of
+tests you want.</li>
+
+</ol>
+
+<p>I like that this works and I understand it. I like that it's based on the
+bedrock of text files and shell commands.  I like that there's room for
+different behavior in the future by adding to how pick.py works.  For example,
+it doesn't do any bisecting now, but it could be adapted to it.</p>
+
+<p>As usual, there might be a better way to do this, but this works for me.</p>
+
+<url id="select_plugin" href="https://github.com/nedbat/coveragepy/blob/master/tests/select_plugin.py" />
+<url id="pick.py" href="https://github.com/nedbat/coveragepy/blob/master/lab/pick.py" />
+
+</body>
+</entry>
+</blog>
