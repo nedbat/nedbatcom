@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240124T063849'>
+<title>You (probably) don't need to learn C</title>
+<category>devmindset</category>
+
+<description>I'm tired of this: "You have to learn C so you can understand how a
+computer really works."</description>
+
+<body>
+
+<p>On <a href="https://hachyderm.io/@nedbat/111789013210403320">Mastodon I
+wrote</a> that I was tired of people saying, "you should learn C so you can
+understand how a computer really works." I got a lot of replies which did not
+change my mind, but helped me understand more how abstractions are inescapable
+in computers.</p>
+
+<p>People made a number of claims. C was important because syscalls are defined
+in terms of C semantics (they are not).  They said it was good for exploring
+limited-resource computers like Arduinos, but most people don't program for
+those. They said it was important because C is more performant, but Python
+programs often offload the compute-intensive work to libraries other people have
+written, and these days that work is often on a GPU. Someone said you need it to
+debug with strace, then someone said they use strace all the time and don't know
+C.  Someone even said C was good because it explains why NUL isn't allowed in
+filenames, but who tries to do that, and why learn a language just for that
+trivia?</p>
+
+<p>I'm all for learning C if it will be useful for the job at hand, but you can
+write lots of great software without knowing C.</p>
+
+<p>A few people repeated the idea that C teaches you how code "really"
+executes. But C is an abstract model of a computer, and modern CPUs do all kinds
+of things that C doesn't show you or explain.  Pipelining, cache misses, branch
+prediction, multiple cores, even virtual memory are all completely invisible to
+C programs.</p>
+
+<p>C is an abstraction of how a computer works, and chip makers work hard to
+implement that abstraction, but they do it on top of much more complicated
+machinery.</p>
+
+<p>C is far removed from modern computer architectures: there have been 50 years
+of innovation since it was created in the 1970's.  The gap between C's model and
+modern hardware is the root cause of famous vulnerabilities like Meltdown and
+Spectre, as explained in
+<a href="https://dl.acm.org/doi/pdf/10.1145/3212477.3212479">C is <i>Not</i> a
+Low-level Language</a>.</p>
+
+<p>C can teach you useful things, like how memory is a huge array of bytes, but
+you can also learn that without writing C programs.  People say, C teaches you
+about memory allocation.  Yes it does, but you can learn what that means as a
+concept without learning a programming language.  And besides, what will Python
+or Ruby developers do with that knowledge other than appreciate that their
+languages do that work for them and they no longer have to think about it?</p>
+
+<p>Pointers came up a lot in the Mastodon replies. Pointers underpin concepts in
+higher-level languages, but you can
+<a href="https://nedbatchelder.com/text/names1.html">explain those concepts as
+references</a> instead, and skip pointer arithmetic, aliasing, and null pointers
+completely.</p>
+
+<p>A question I asked a number of people: what mistakes are
+JavaScript/Ruby/Python developers making if they don't know these things (C,
+syscalls, pointers)?".  I didn't get strong answers.</p>
+
+<p>We work in an enormous tower of abstractions.  I write programs in Python,
+which provides me abstractions that C (its underlying implementation language)
+does not.  C provides an abstract model of memory and CPU execution which the
+computer implements on top of other mechanisms (microcode and virtual memory).
+When I made a wire-wrapped computer, I could pretend the signal travelled
+through wires instantaneously.  For other hardware designers, that abstraction
+breaks down and they need to consider the speed electricity travels.  Sometimes
+you need to go one level deeper in the abstraction stack to understand what's
+going on. Everyone has to find the right layer to work at.</p>
+
+<p><a href="https://hachyderm.io/@agocke/111791030850237121">Andy Gocke said
+it well</a>:</p>
+
+<quote><p>When you no longer have problems at that layer, that's when you can
+stop caring about that layer. I don't think there's a universal level of
+knowledge that people need or is sufficient.</p></quote>
+
+<p><a href="https://toot.cat/@idlestate/111793957024682587">"like jam or
+bootlaces" made another excellent point</a>:</p>
+
+<quote><p>There's a big difference between "everyone should know this" and
+"someone should know this" that seems to get glossed over in these kinds of
+discussions.</p></quote>
+
+<p>C can teach you many useful and interesting things.  It will make you a
+better programmer, just as learning any new-to-you language will because it
+broadens your perspective.  Some kinds of programming need C, though other
+languages like Rust are ably filling that role now too.  C doesn't teach you how
+a computer really works. It teaches you a common abstraction of how computers
+work.</p>
+
+<p>Find a level of abstraction that works for what you need to do.  When you
+have trouble there, look beneath that abstraction. You won't be seeing how
+things really work, you'll be seeing a lower-level abstraction that could be
+helpful.  Sometimes what you need will be an abstraction one level up.  Is your
+Python loop too slow? Perhaps you need a C loop. Or perhaps you need numpy array
+operations.</p>
+
+<p>You (probably) don't need to learn C.</p>
+
+</body>
+</entry>
+</blog>
