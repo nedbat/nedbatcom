@@ -29,11 +29,11 @@ trivia?</p>
 <p>I'm all for learning C if it will be useful for the job at hand, but you can
 write lots of great software without knowing C.</p>
 
-<p>A few people repeated the idea that C teaches you how code "really"
-executes. But C is an abstract model of a computer, and modern CPUs do all kinds
-of things that C doesn't show you or explain.  Pipelining, cache misses, branch
-prediction, multiple cores, even virtual memory are all completely invisible to
-C programs.</p>
+<p>A few people repeated the idea that C teaches you how code "really" executes.
+But C is an abstract model of a computer, and modern CPUs do all kinds of things
+that C doesn't show you or explain.  Pipelining, cache misses, branch
+prediction, speculative execution, multiple cores, even virtual memory are all
+completely invisible to C programs.</p>
 
 <p>C is an abstraction of how a computer works, and chip makers work hard to
 implement that abstraction, but they do it on top of much more complicated
