@@ -429,21 +429,33 @@
 <category id='kubi'>
     <name>Kubi</name>
     <about>my ex-employer Kubi Software</about>
+    <related>tabblo</related>
+    <related>hp</related>
+    <related>edx</related>
 </category>
 
 <category id='tabblo'>
     <name>Tabblo</name>
     <about>my ex-employer Tabblo</about>
+    <related>kubi</related>
+    <related>hp</related>
+    <related>edx</related>
 </category>
 
 <category id='hp'>
     <name>HP</name>
     <about>my ex-employer Hewlett-Packard</about>
+    <related>kubi</related>
+    <related>tabblo</related>
+    <related>edx</related>
 </category>
 
 <category id='edx'>
     <name>edX</name>
-    <about>my employer edX</about>
+    <about>my ex-employer edX</about>
+    <related>kubi</related>
+    <related>tabblo</related>
+    <related>hp</related>
 </category>
 
 <category id='security'>
