@@ -93,7 +93,7 @@ End-of-life expected October 2026.
 <h1>3.9: October 5, 2020</h1>
 <ul>
     <li>dict union operators</li>
-    <li>type hinting generics in standard collections</li>
+    <li>type hinting generics in standard collections (list[int] instead of List[int])</li>
     <li>relaxed decorator syntax</li>
     <li>str.removeprefix and str.removesuffix</li>
     <li>new modules: <a href="https://docs.python.org/3/library/graphlib.html#module-graphlib">graphlib</a>,
