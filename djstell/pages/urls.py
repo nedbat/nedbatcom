@@ -57,6 +57,9 @@ urlpatterns = [
     path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.org/en/latest/%(path)s')),
     path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.org')),
     path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
+
+    path('NedBatchelder.pdf', redirect(url='Ned-Batchelder-Resume.pdf')),
+
     re_path(r'^(?P<path>(text|code|site))$', dpv.article),
     re_path(r'^(?P<path>(text|code|site)/.*)$', dpv.article),
     re_path(r'^(?P<path>err404.html)$', dpv.article),
