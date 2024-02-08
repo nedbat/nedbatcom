@@ -1,19 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20221115T163649' draft='y'>
+<entry when='20240210T065000'>
 <title>One way to package Python code right now</title>
 <category>python</category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+
+<description>A simple example of how to package a Python project when you don't
+want to get overwhelmed by confusing options.</description>
+
 <body>
 
-<p>I couldn't find a step-by-step guide to packaging a Python project that
-didn't get bogged down in confusing options and choices, so I wrote my own:
-<a urlid="pkgsample">pkgsample</a>.</p>
+<p>A year or so ago, I couldn't find a step-by-step guide to packaging a Python
+project that didn't get bogged down in confusing options and choices, so I wrote
+my own: <a urlid="pkgsample">pkgsample</a>.  After I wrote it, I found the
+<a urlid="pypa-tutorial">PyPA Packaging Python Projects tutorial</a>, which is
+very good, so I never made a post here about my sample.</p>
 
 <url id="pkgsample" href="https://github.com/nedbat/pkgsample"/>
+<url id="pypa-tutorial" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/"/>
+
+<p>Since then, I've shown my sample to people a number of times, and they liked
+it, so I guess it's helpful.  Here's what I wrote about it back when I first created it:</p>
+
+<bulletsep/>
 
 <p>The Python packaging world is confusing.  There are decades of history and
 change.  There are competing tools, with new ones arriving frequently.  I don't
@@ -44,21 +52,8 @@ writing docs, and so on.</p>
 <p>So I wrote <a urlid="pkgsample">pkgsample</a> to be the instructions I
 couldn't find.  It's simple and stripped down, and does not ask you to make
 choices you don't care about. It tells you what to do. It gives you one way to
-make a simple Python package that works right now.</p>
-
-
-<!--
-i'm looking for feedback on a blog post https://nedbatchelder.com/blog/202211/one_way_to_package_python_code_right_now.html and associated project (https://github.com/nedbat/pkgsample) that demonstrates how to make a Python project installable.  What is unclear/wrong/confusing?
-
-mention the tooling chosen
-
-an overview of the steps
-
-next steps
-    - data files
-    - other resources
-
--->
+make a simple Python package that works right now. It isn't THE way. It's A way.
+It will probably work for you.</p>
 
 </body>
 </entry>
