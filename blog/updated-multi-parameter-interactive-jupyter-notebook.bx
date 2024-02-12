@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240212T142111'>
+<title>Updated multi-parameter interactive Jupyter notebook</title>
+<category>jupyter</category>
+
+<description>A Jupyter notebook with interactive sliders and auto-plotting to run financial simulations</description>
+<img src="pix/cards/retirement_ipynb.png" alt="Sliders for variable and resulting plot"/>
+
+<body>
+
+<p>A few years ago I wrote
+<a pref="blog/multi-parameter-jupyter-notebook-interaction.bx" />  about a
+Jupyter notebook. It worked at the time, but when I dusted it off recently, it
+didn't.  I've renovated it and cleaned it up a little, and now it works
+again.</p>
+
+<p>It's a <a urlid="notebook">Jupyter notebook</a> with a simulation of
+late-career money flows to figure out possibilities for retirement.  It uses
+widgets to give you sliders to adjust parameters to see how the outcome changes.
+It also lets you pick one of the parameters to auto-plot with multiple values,
+which gives a more visceral way to understand the effect different variables
+have.</p>
+
+<figurep href="/code/misc/retirement_sample2.ipynb">
+    <img src="pix/retirement_sliders2.png" alt="Screenshot of the sliders and resulting plot of outcomes" />
+</figurep>
+
+<p>You can <a urlid="notebook">get the notebook itself</a> if you like.</p>
+
+<url id="notebook" href="/code/misc/retirement_sample2.ipynb" />
+
+</body>
+</entry>
+</blog>
