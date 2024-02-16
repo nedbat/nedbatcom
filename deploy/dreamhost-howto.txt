@@ -6,17 +6,15 @@
         $ wget https://www.python.org/ftp/python/$VER/Python-$VER.tgz
         $ tar zxvf Python-$VER.tgz
         $ cd Python-$VER
-        $ ./configure --prefix=$HOME/opt/python-$VER
+        $ ./configure --prefix=$HOME/opt/python-$VER --enable-optimizations
         $ make
         $ make install
         $ cd; rm -rf tmp
 - make the virtualenv
     $ cd ~
     $ export VER=3.9.7
-    $ ~/opt/python-$VER/bin/python3 -m pip install -U pip
-    $ ~/opt/python-$VER/bin/python3 -m pip install -U virtualenv
     $ rm -rf ~/venvs/nednet
-    $ ~/opt/python-$VER/bin/python3 -m virtualenv ~/venvs/nednet
+    $ ~/opt/python-$VER/bin/python3 -m venv ~/venvs/nednet
     $ ~/venvs/nednet/bin/python3 -VV
 - deploy (from laptop)
     $ make nednet
