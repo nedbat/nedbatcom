@@ -61,7 +61,7 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.2.0
     # via -r requirements/base.in
-playwright==1.41.1
+playwright==1.41.2
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -90,7 +90,7 @@ python-dateutil==2.8.2
     # via freezegun
 python-dotenv==1.0.1
     # via -r requirements/base.in
-python-slugify==8.0.3
+python-slugify==8.0.4
     # via pytest-playwright
 requests==2.31.0
     # via

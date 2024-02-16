@@ -25,7 +25,7 @@ lxml==5.1.0
     # via -r requirements/base.in
 markdown2==2.4.12
     # via -r requirements/base.in
-mysqlclient==2.2.3
+mysqlclient==2.2.4
     # via -r requirements/server.in
 path==16.10.0
     # via path-py
