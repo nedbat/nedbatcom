@@ -9,11 +9,27 @@
 -->
 <body>
 
-<p>
+<!-- From https://indiehackers.social/@simeon/111104070914276120 -->
 
-From https://indiehackers.social/@simeon/111104070914276120
+<p>Let's say you have these files:</p>
 
-</p>
+<code><![CDATA[
+# one.py
+
+import two
+
+def one_func(text):
+
+]]></code>
+
+<code><![CDATA[
+# two.py
+
+import one
+
+one.one_func("Hello")
+]]></code>
+
 
 </body>
 </entry>
