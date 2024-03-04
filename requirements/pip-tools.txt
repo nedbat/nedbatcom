@@ -4,16 +4,18 @@
 #
 #    make upgrade
 #
-build==1.0.3
+build==1.1.1
     # via pip-tools
 click==8.1.7
     # via pip-tools
 packaging==23.2
     # via build
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements/pip-tools.in
 pyproject-hooks==1.0.0
-    # via build
+    # via
+    #   build
+    #   pip-tools
 wheel==0.42.0
     # via pip-tools
 
