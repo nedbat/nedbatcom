@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240311T072722'>
+<title>Does Python have pointers?</title>
+<category>python</category>
+<category>proglang</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>People sometimes ask, "Does Python have pointers?"  I hate to be the typical
+senior engineer, but this is one of those questions where the answer is, it
+depends what you mean by pointer.</p>
+
+<p>The classic definition of a pointer is: a variable that holds the address
+of something else and that you can use to work with that something else.
+In very broad pseudo-code, it would be something like this:
+</p>
+
+<code><![CDATA[
+myvar = SOMETHING;
+mypointer = get_address_of(myvar);
+print(get_value_via_pointer(mypointer));
+## output is SOMETHING
+]]></code>
+
+<p>This is useful because we can use a pointer to refer to data, setting the
+pointer in one part of the code with whatever logic we need to decide what data
+it should point to. Then elsewhere we can use the pointer without having to know
+what it's referring to or how the decision was made.  The pointer gives us an
+indirection that lets us separate concerns and write more modular code.</p>
+
+<p>Many programming languages provide a pointer facility like this.  For
+example, in C, the get_address_of() operation is ampersand, and the
+get_value_via_pointer() operation is star, and our code snippet would be:</p>
+
+<code lang="c"><![CDATA[
+int myvar = 17;
+int *mypointer = &myvar;
+print_int(*mypointer);      // outputs 17
+]]></code>
+
+<p>Other languages like C++, C#, Go, Rust, Pascal, and even Fortran have similar
+capabilities.</p>
+
+<p>OK, so what about Python?  In one sense, Python doesn't have a pointer
+concept like this.  You could say that get_address_of() is provided by Python's
+id() function, since (in CPython at least) it returns the memory address of the
+data:</p>
+
+<code lang="python"><![CDATA[
+myvar = 17
+mypointer = id(myvar)   # ** not useful
+]]></code>
+
+<p>But Python has no inverse operation: there's no get_value_via_pointer()
+that can get you myvar given mypointer.</p>
+
+<p>So Python doesn't have the classic pair of operations to be able to work with
+pointers explicitly.  But on the other hand, <em>every</em> variable in Python
+is a pointer, because variables in Python are <a pref="text/names1.px">names
+that refer to objects</a>.</p>
+
+<p>In Python, our simple example looks like this:</p>
+
+<code><![CDATA[
+myvar = 17
+mypointer = myvar
+print(mypointer)    # outputs 17
+]]></code>
+
+<p>When someone asks, does Python have pointers, perhaps the best answer is: it
+doesn't have explicit pointers like some other languages, but everything is
+implicitly a pointer. So you have the power of pointers to use when you need
+them: you can have multiple data structures, then assign a variable to one you
+choose, and use the variable later.  You've achieved the separation of "which
+data" from "work with the data" that pointers provide.</p>
+
+<p>Maybe this is yet another case of
+<a pref="blog/same-words-different-meanings.bx"/>.</p>
+
+<p>Note:</p>
+
+<ul>
+
+<li>Some languages like C also allow pointer arithmetic to adjust a pointer from
+one item in an array to another. Python's references don't allow for that.</li>
+
+<li>Python's standard library provides <a urlid="ctypes">ctypes</a>, which
+is great for interfacing with native C code, exposing details there including C
+pointers.  This does not count as Python having explicit pointers.</li>
+
+</ul>
+
+<url id="ctypes" href="https://docs.python.org/3/library/ctypes.html" />
+
+</body>
+</entry>
+</blog>
