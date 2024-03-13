@@ -19,7 +19,7 @@ of something else and that you can use to work with that something else.
 In very broad pseudo-code, it would be something like this:
 </p>
 
-<code><![CDATA[
+<code lang="text"><![CDATA[
 myvar = SOMETHING;
 mypointer = get_address_of(myvar);
 print(get_value_via_pointer(mypointer));
@@ -65,7 +65,7 @@ that refer to objects</a>.</p>
 
 <p>In Python, our simple example looks like this:</p>
 
-<code><![CDATA[
+<code lang="python"><![CDATA[
 myvar = 17
 mypointer = myvar
 print(mypointer)    # outputs 17
