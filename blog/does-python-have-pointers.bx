@@ -19,7 +19,7 @@ of something else and that you can use to work with that something else.
 In very broad pseudo-code, it would be something like this:
 </p>
 
-<code lang="text"><![CDATA[
+<code><![CDATA[
 myvar = SOMETHING;
 mypointer = get_address_of(myvar);
 print(get_value_via_pointer(mypointer));
