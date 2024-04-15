@@ -6,6 +6,7 @@ $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
+$alert-height-large: 0; // maybe someday. undo the display:none below.
 $footer-height: 3rem;
 $thick-border-small-horz: 3px;
 $thick-border-small-vert: 1px;
@@ -204,7 +205,19 @@ body {
     border-bottom-width: $thick-border-small-horz;
     text-align: left;
     font-size: 85%;
-    vertical-align: middle;
+}
+
+#alert {
+    display: none;
+    @if $color-scheme == gaudy {
+        background: lighten(red, 30%);
+    }
+    @else {
+        @include colors(--sidebar-bg-color);
+    }
+    border-bottom-width: $thick-border-small-horz;
+    text-align: left;
+    font-size: 85%;
 }
 
 #footer {
@@ -312,17 +325,25 @@ body {
         border-bottom-width: $thick-border-large-horz;
     }
 
-    #sidebar {
+    #alert {
         order: 3;
+        margin-left: $logo-size-large;
+        padding: .5rem 1.5rem;
+        font-size: 100%;
+        border-bottom-width: $thick-border-large-horz;
+    }
+
+    #sidebar {
+        order: 4;
         width: $logo-size-large;
-        margin-top: $logo-size-large - $banner-height-large;
+        margin-top: $logo-size-large - $banner-height-large - $alert-height-large;
         margin-bottom: -$footer-height;
         flex: 0 $logo-size-large;
         border-width: 0 $thick-border-large-vert 0 0;
     }
 
     #content {
-        order: 4;
+        order: 5;
         flex: 1 0;
         border-width: 0;
         padding: 1.5rem;
@@ -330,7 +351,7 @@ body {
     }
 
     #footer {
-        order: 5;
+        order: 6;
         margin-left: $logo-size-large;
         padding: 0 1rem;
         border-top-width: $thick-border-large-horz;
