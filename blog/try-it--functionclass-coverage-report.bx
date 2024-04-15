@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240415T160200'>
+<title>Try it: function/class coverage report</title>
+<category>coverage</category>
+
+<description>I've added experimental function and class coverage reports to
+coverage.py.  I'd like feedback about whether they behave the way you want them
+to.</description>
+
+<body>
+
+<p>I've added experimental function and class coverage reports to coverage.py.
+I'd like <a href="https://github.com/nedbat/coveragepy/issues/780">feedback</a>
+about whether they behave the way you want them to.</p>
+
+<p>I haven't made a PyPI release.  To try the new reports, install coverage from
+GitHub. Be sure to include the hash:</p>
+
+<code><![CDATA[
+$ python3 -m pip install git+https://github.com/nedbat/coveragepy@f10c455b7c8fd26352de#egg=coverage==0.0
+]]></code>
+
+<p>Then run coverage and make an HTML report as you usually do.  You should
+have two new pages, not linked from the index page (yet).
+"htmlcov/function_index.html" is the function coverage report, and the classes
+are in "htmlcov/class_index.html".</p>
+
+<p>I had to decide how to categorize nested functions and classes. Inner
+functions are not counted as part of their outer functions.  Classes consist of
+the executable lines in their methods, but not lines outside of methods, because
+those lines run on import.  Each file has an entry in the function report for
+all of the lines outside of any function, called "(no function)".  The class
+report has "(no class)" entries for lines outside of any classes.</p>
+
+<p>The result should be that every line is part of one function, or the "(no
+function)" entry, and every line is part of one class, or the "(no class)"
+entry.  This is what made sense to me, but maybe there's a compelling reason to
+do it differently.</p>
+
+<p>The reports have a sortable column for the file name, and a sortable column
+for the function or class.  Where functions or classes are nested, the name is a
+dotted sequence, but is sorted by only the last component.  Just like the
+original file listing page, the new pages can be filtered to focus on areas of
+interest.</p>
+
+<p>You can look at some sample reports:</p>
+
+<ul>
+<li><a href="/files/sample_coverage_html_beta/index.html">Usual file report</a></li>
+<li><a href="/files/sample_coverage_html_beta/function_index.html">Function report</a></li>
+<li><a href="/files/sample_coverage_html_beta/class_index.html">Class report</a></li>
+</ul>
+
+<p>It would be helpful if you could give me
+<a href="https://github.com/nedbat/coveragepy/issues/780">feedback on the
+original issue</a> about some questions:</p>
+
+<ul>
+
+<li>Is it useful to have "(no function)" and "(no class)" entries or is it just
+distracting pedantry?  With the entries, the total is the same as the file
+report, but they don't seem useful by themselves.</li>
+
+<li>Does the handling of nested functions and classes make sense?</li>
+
+<li>Should these reports be optional (requested with a switch) or always
+produced?</li>
+
+<li>Is it reasonable to produce one page with every function? How large does a
+project have to get before that's not feasible or useful?</li>
+
+<li>And most importantly: do these reports help you understand how to improve
+your code?</li>
+
+</ul>
+
+<p>Other <a href="https://github.com/nedbat/coveragepy/issues/780">ideas
+about improvements</a> are of course welcome.  Thanks!</p>
+
+</body>
+</entry>
+</blog>

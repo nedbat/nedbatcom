@@ -34,13 +34,14 @@ function on_click(sel, fn) {
 
 // Helpers for table sorting
 function getCellValue(row, column = 0) {
-    const cell = row.cells[column]
+    const cell = row.cells[column]  // nosemgrep: eslint.detect-object-injection
     if (cell.childElementCount == 1) {
-        const child = cell.firstElementChild
-        if (child instanceof HTMLTimeElement && child.dateTime) {
-            return child.dateTime
-        } else if (child instanceof HTMLDataElement && child.value) {
-            return child.value
+        var child = cell.firstElementChild;
+        if (child.tagName === "A") {
+            child = child.firstElementChild;
+        }
+        if (child instanceof HTMLDataElement && child.value) {
+            return child.value;
         }
     }
     return cell.innerText || cell.textContent;
@@ -50,7 +51,7 @@ function rowComparator(rowA, rowB, column = 0) {
     let valueA = getCellValue(rowA, column);
     let valueB = getCellValue(rowB, column);
     if (!isNaN(valueA) && !isNaN(valueB)) {
-        return valueA - valueB
+        return valueA - valueB;
     }
     return valueA.localeCompare(valueB, undefined, {numeric: true});
 }
@@ -100,11 +101,27 @@ coverage.wire_up_filter = function () {
         // Keep running total of each metric, first index contains number of shown rows
         const totals = new Array(table.rows[0].cells.length).fill(0);
         // Accumulate the percentage as fraction
-        totals[totals.length - 1] = { "numer": 0, "denom": 0 };
+        totals[totals.length - 1] = { "numer": 0, "denom": 0 };  // nosemgrep: eslint.detect-object-injection
 
         // Hide / show elements.
         table_body_rows.forEach(row => {
-            if (!row.cells[0].textContent.includes(event.target.value)) {
+            var show = false;
+            var target = event.target.value;
+            var casefold = (target === target.toLowerCase());
+            for (let column = 0; column < totals.length; column++) {
+                cell = row.cells[column];
+                if (cell.classList.contains("name")) {
+                    var celltext = cell.textContent;
+                    if (casefold) {
+                        celltext = celltext.toLowerCase();
+                    }
+                    if (celltext.includes(target)) {
+                        show = true;
+                    }
+                }
+            }
+
+            if (!show) {
                 // hide
                 row.classList.add("hidden");
                 return;
@@ -114,16 +131,19 @@ coverage.wire_up_filter = function () {
             row.classList.remove("hidden");
             totals[0]++;
 
-            for (let column = 1; column < totals.length; column++) {
+            for (let column = 0; column < totals.length; column++) {
                 // Accumulate dynamic totals
-                cell = row.cells[column]
+                cell = row.cells[column]  // nosemgrep: eslint.detect-object-injection
+                if (cell.classList.contains("name")) {
+                    continue;
+                }
                 if (column === totals.length - 1) {
                     // Last column contains percentage
                     const [numer, denom] = cell.dataset.ratio.split(" ");
-                    totals[column]["numer"] += parseInt(numer, 10);
-                    totals[column]["denom"] += parseInt(denom, 10);
+                    totals[column]["numer"] += parseInt(numer, 10);  // nosemgrep: eslint.detect-object-injection
+                    totals[column]["denom"] += parseInt(denom, 10);  // nosemgrep: eslint.detect-object-injection
                 } else {
-                    totals[column] += parseInt(cell.textContent, 10);
+                    totals[column] += parseInt(cell.textContent, 10);  // nosemgrep: eslint.detect-object-injection
                 }
             }
         });
@@ -142,9 +162,12 @@ coverage.wire_up_filter = function () {
 
         const footer = table.tFoot.rows[0];
         // Calculate new dynamic sum values based on visible rows.
-        for (let column = 1; column < totals.length; column++) {
+        for (let column = 0; column < totals.length; column++) {
             // Get footer cell element.
-            const cell = footer.cells[column];
+            const cell = footer.cells[column];  // nosemgrep: eslint.detect-object-injection
+            if (cell.classList.contains("name")) {
+                continue;
+            }
 
             // Set value into dynamic footer cell element.
             if (column === totals.length - 1) {
@@ -152,14 +175,14 @@ coverage.wire_up_filter = function () {
                 // and adapts to the number of decimal places.
                 const match = /\.([0-9]+)/.exec(cell.textContent);
                 const places = match ? match[1].length : 0;
-                const { numer, denom } = totals[column];
+                const { numer, denom } = totals[column];  // nosemgrep: eslint.detect-object-injection
                 cell.dataset.ratio = `${numer} ${denom}`;
                 // Check denom to prevent NaN if filtered files contain no statements
                 cell.textContent = denom
                     ? `${(numer * 100 / denom).toFixed(places)}%`
                     : `${(100).toFixed(places)}%`;
             } else {
-                cell.textContent = totals[column];
+                cell.textContent = totals[column];  // nosemgrep: eslint.detect-object-injection
             }
         }
     }));
@@ -184,7 +207,7 @@ coverage.index_ready = function () {
 
     if (stored_list) {
         const {column, direction} = JSON.parse(stored_list);
-        const th = document.querySelector("[data-sortable]").tHead.rows[0].cells[column];
+        const th = document.querySelector("[data-sortable]").tHead.rows[0].cells[column];  // nosemgrep: eslint.detect-object-injection
         th.setAttribute("aria-sort", direction === "ascending" ? "descending" : "ascending");
         th.click()
     }
@@ -214,7 +237,7 @@ coverage.LINE_FILTERS_STORAGE = "COVERAGE_LINE_FILTERS";
 coverage.pyfile_ready = function () {
     // If we're directed to a particular line number, highlight the line.
     var frag = location.hash;
-    if (frag.length > 2 && frag[1] === 't') {
+    if (frag.length > 2 && frag[1] === "t") {
         document.querySelector(frag).closest(".n").classList.add("highlight");
         coverage.set_sel(parseInt(frag.substr(2), 10));
     } else {
@@ -250,12 +273,16 @@ coverage.pyfile_ready = function () {
     }
 
     for (cls in coverage.filters) {
-        coverage.set_line_visibilty(cls, coverage.filters[cls]);
+        coverage.set_line_visibilty(cls, coverage.filters[cls]);  // nosemgrep: eslint.detect-object-injection
     }
 
     coverage.assign_shortkeys();
     coverage.init_scroll_markers();
     coverage.wire_up_sticky_header();
+
+    document.querySelectorAll("[id^=ctxs]").forEach(
+        cbox => cbox.addEventListener("click", coverage.expand_contexts)
+    );
 
     // Rebuild scroll markers when the window height changes.
     window.addEventListener("resize", coverage.build_scroll_markers);
@@ -528,14 +555,14 @@ coverage.scroll_window = function (to_pos) {
 
 coverage.init_scroll_markers = function () {
     // Init some variables
-    coverage.lines_len = document.querySelectorAll('#source > p').length;
+    coverage.lines_len = document.querySelectorAll("#source > p").length;
 
     // Build html
     coverage.build_scroll_markers();
 };
 
 coverage.build_scroll_markers = function () {
-    const temp_scroll_marker = document.getElementById('scroll_marker')
+    const temp_scroll_marker = document.getElementById("scroll_marker")
     if (temp_scroll_marker) temp_scroll_marker.remove();
     // Don't build markers if the window has no scroll bar.
     if (document.body.scrollHeight <= window.innerHeight) {
@@ -549,8 +576,8 @@ coverage.build_scroll_markers = function () {
 
     const scroll_marker = document.createElement("div");
     scroll_marker.id = "scroll_marker";
-    document.getElementById('source').querySelectorAll(
-        'p.show_run, p.show_mis, p.show_exc, p.show_exc, p.show_par'
+    document.getElementById("source").querySelectorAll(
+        "p.show_run, p.show_mis, p.show_exc, p.show_exc, p.show_par"
     ).forEach(element => {
         const line_top = Math.floor(element.offsetTop * marker_scale);
         const line_number = parseInt(element.querySelector(".n a").id.substr(1));
@@ -577,22 +604,38 @@ coverage.build_scroll_markers = function () {
 };
 
 coverage.wire_up_sticky_header = function () {
-    const header = document.querySelector('header');
+    const header = document.querySelector("header");
     const header_bottom = (
-        header.querySelector('.content h2').getBoundingClientRect().top -
+        header.querySelector(".content h2").getBoundingClientRect().top -
         header.getBoundingClientRect().top
     );
 
     function updateHeader() {
         if (window.scrollY > header_bottom) {
-            header.classList.add('sticky');
+            header.classList.add("sticky");
         } else {
-            header.classList.remove('sticky');
+            header.classList.remove("sticky");
         }
     }
 
-    window.addEventListener('scroll', updateHeader);
+    window.addEventListener("scroll", updateHeader);
     updateHeader();
+};
+
+coverage.expand_contexts = function (e) {
+    var ctxs = e.target.parentNode.querySelector(".ctxs");
+
+    if (!ctxs.classList.contains("expanded")) {
+        var ctxs_text = ctxs.textContent;
+        var width = Number(ctxs_text[0]);
+        ctxs.textContent = "";
+        for (var i = 1; i < ctxs_text.length; i += width) {
+            key = ctxs_text.substring(i, i + width).trim();
+            ctxs.appendChild(document.createTextNode(contexts[key]));
+            ctxs.appendChild(document.createElement("br"));
+        }
+        ctxs.classList.add("expanded");
+    }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
