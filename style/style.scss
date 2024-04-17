@@ -1,12 +1,13 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // white, or gaudy for debugging.
+$show-alert: no;        // yes or no.
 
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
 $banner-height-small: $logo-size-small;
 $banner-height-large: 4rem;
-$alert-height-large: 0; // maybe someday. undo the display:none below.
+$alert-height-large: 2.5rem;
 $footer-height: 3rem;
 $thick-border-small-horz: 3px;
 $thick-border-small-vert: 1px;
@@ -208,16 +209,22 @@ body {
 }
 
 #alert {
-    display: none;
+    @if $show-alert == no {
+        display: none;
+    }
     @if $color-scheme == gaudy {
         background: lighten(red, 30%);
     }
     @else {
-        @include colors(--sidebar-bg-color);
+        @include colors(--alert-bg, --footer-fg-color);
     }
     border-bottom-width: $thick-border-small-horz;
-    text-align: left;
+    text-align: right;
     font-size: 85%;
+
+    a {
+        @include inside-link;
+    }
 }
 
 #footer {
@@ -305,6 +312,7 @@ body {
     }
 
     #logo {
+        /* position: absolute, so not a flex item */
         @include lightmode {
             background-image: url(/pix/dodeca3_light_200.jpg);
         }
@@ -336,7 +344,12 @@ body {
     #sidebar {
         order: 4;
         width: $logo-size-large;
-        margin-top: $logo-size-large - $banner-height-large - $alert-height-large;
+        @if $show-alert == yes {
+            margin-top: $logo-size-large - $banner-height-large - $alert-height-large;
+        }
+        @else {
+            margin-top: $logo-size-large - $banner-height-large;
+        }
         margin-bottom: -$footer-height;
         flex: 0 $logo-size-large;
         border-width: 0 $thick-border-large-vert 0 0;
