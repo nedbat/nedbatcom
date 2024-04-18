@@ -1,7 +1,7 @@
 /*! Style sheet for nedbatchelder.com !*/
 
 $color-scheme: white;   // white, or gaudy for debugging.
-$show-alert: no;        // yes or no.
+$show-alert: yes;       // yes or no.
 
 $logo-size-small: 2.75rem;
 $logo-size-large: 10rem;
@@ -224,6 +224,9 @@ body {
 
     a {
         @include inside-link;
+        .link {
+            text-decoration: underline;
+        }
     }
 }
 

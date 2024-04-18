@@ -4,35 +4,50 @@
 <history>
 <what when='20120528T201800'>Created.</what>
 <what when='20130501T070200'>No longer freelancing.</what>
+<what when='20240418T162700'>2024 job search.</what>
 </history>
 
-<img class="floatimg right" src='pix/face-jr-square.jpg' alt='Ned Batchelder'/>
+<img class="floatimg right thinline" src='pix/face_20221102.jpg' width='200' scale='0.5' alt='Ned Batchelder'/>
 
-<p>I used to freelance but am now a full-time employee of <a href='http://edx.org'>edX</a>.</p>
+<p>I'm a software developer with a long career, specializing in Python.
+Whatever challenge you are facing, I can probably help you with it.  I have
+decades of experience with many technologies, and what I don't know, I can
+learn.  I'm an excellent communicator, able to bridge domains and bring people
+together.</p>
 
-<p>I'm a software developer with a long career, specializing in Python.  Whatever challenge you are facing,
-    I can probably help you with it.  I have decades of experience with many technologies, and what
-    I don't know, I can learn.  I'm an excellent communicator, able to bridge domains and bring
-    people together.</p>
+<p>Although my deepest skills are in Python, I am also well-versed in
+Javascript, C, C++, SQL, HTML, and CSS.</p>
 
-<p>Although my deepest skills are in Python, I am also fluent in Javascript, C, C++, SQL, HTML, and CSS.</p>
+<p>The best way to reach me is by <a urlid='mail'>email</a>.  I'm also on
+<a href="https://hachyderm.io/@nedbat">Mastodon</a> and
+<a href="https://bsky.app/profile/nedbat.com">Bluesky</a>.</p>
 
-<p>The best way to reach me is by <a href='mailto:ned@nedbatchelder.com'>email</a>. I'm on <a href='http://twitter.com/nedbat'>Twitter</a>,
-    and I'm also nedbat in the <a href='irc://irc.libera.chat/#python'>#python</a> IRC channel on Libera.</p>
-
-<p><a href='Ned-Batchelder-Resume.pdf'>My resume</a> has all the details, but here's a quick summary of my work:</p>
+<p><a href='Ned-Batchelder-Resume.pdf'>My resume</a> has all the details, but
+here are some highlights of things I've done and can do:</p>
 
 <ul>
-    <li>2010&#x2013;2012: Stellated Software, freelance. A dozen different projects ranging from HTML 5 ebook readers to
-        Django web sites to medical cyclotron automation.  Full-day Python classes taught on-site.</li>
-    <li>2007&#x2013;2010: Hewlett-Packard, acquired Tabblo.  Architect and engineering manager for web sites and
-        services supporting HP's printing business and web-connected printers.  All built in Python and Django.</li>
-    <li>2006&#x2013;2010: Tabblo.  Architect and engineering manager for the consumer photo-sharing story-telling site
-        <a href='http://tabblo.com'>Tabblo.com</a>, built in Python and Django.</li>
-    <li>1984&#x2013;2006: Robotics lab; Digital Equipment; Lotus; two other startups.</li>
+
+<li>coverage.py: I've maintained the canonical Python coverage testing tool for
+almost 20 years. I have lots of experience with Python internals and code
+analysis, and with writing tests and well-tested code.</li>
+
+<li>edX.org: I worked at the online MOOC provider in an open-source Python and
+Django codebase.  I was the primary contact between the open source community
+and edX, and did a lot of the process design for how they could work together.
+I've maintained large code bases and built developer tooling such as linters to
+keep quality up.</li>
+
+<li>PyCon US talks: I've done many well-liked <a href='/text'>PyCon talks</a>
+over the years, including the opening keynote in 2023,
+<a pref='text/key23.px'>People, the API User's Guide</a>.  I can present or
+teach on these topics or others of your choosing.</li>
+
 </ul>
 
-<p>If you have any questions about whether I can help you, please <a href='mailto:ned@nedbatchelder.com'>get in touch</a>,
-    I'd be glad to talk to you about your project.</p>
+<p>If you have any questions about whether I can help you, please
+<a urlid='mail'>get in touch</a>, I'd be glad to talk to you about your
+project.</p>
+
+<url id='mail' href='mailto:ned@nedbatchelder.com?subject=Working together' />
 
 </page>
