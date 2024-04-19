@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240419T065932'>
+<title>My flexbox layout</title>
+<category>css</category>
+<category>site</category>
+
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I recently had to reverse engineer the layout of this site.  I created it
+once upon a time, but had forgotten the details, and to save myself the work
+five years from now when I have to do it again, I'm noting down what I learned
+about how it works.</p>
+
+<p>For pedagogical purposes, I made a simplified example of the layout:
+<a href='files/toystell.html'>toystell.html</a>.  The layout depends on CSS's
+<a urlid='flexbox'>flexbox</a> capabilities.  The full implementation on this
+site includes a responsive layout that changes as the width of the browser
+shrinks, but the simple example doesn't include that.</p>
+
+<p>There are five components to the layout: logo, banner, sidebar, content, and
+footer.  The skeleton of the HTML is:</p>
+
+<code lang='html'><![CDATA[
+<body>
+    <header id="banner">Top Banner</header>
+    <main id="content">Content</main>
+    <aside id="sidebar">Sidebar</aside>
+    <footer id="footer">Footer</footer>
+    <header id="logo"></header>
+</body>
+]]></code>
+
+<p>Notice that the order of the elements in the HTML isn't the same as the order
+they appear on the page.  Flexbox makes this possible. We start by making the
+body element a centered flex container:</p>
+
+<code lang='css'><![CDATA[
+body {
+    max-width: 55rem;
+    margin: 0 auto 1rem;
+    display: flex;
+    flex-flow: row wrap;
+}
+body > * {
+    flex: 1 100%;
+}
+]]></code>
+
+<p>The container is set to hold flex items in rows that wrap.  We're going to
+end up with three rows: the banner, the sidebar and content, and the footer. The
+default flex spec for elements in the body is to take the full width of the
+container, though this will only apply to the banner and footer.</p>
+
+<p>First the logo is positioned absolutely with a specific height and width.
+It's not participating in the flex layout at all, but the other elements will be
+adjusted to fit neatly around it.  It's square, so its height and width are the
+width of the sidebar:</p>
+
+<code lang='css'><![CDATA[
+:root {
+    --side-width: 10rem;
+}
+#logo {
+    position: absolute;
+    width: var(--side-width);
+    height: var(--side-width);
+    background-image: url(https://placehold.co/400/orange/white?text=Logo);
+    background-size: contain;
+}
+]]></code>
+
+<p>Then the banner is added as a fixed-height flexbox item.  But if we simply do
+that, its left edge will be in the same position as the logo's left edge, and
+they will overlap.  To prevent this and make them abut nicely, we give the
+banner a left margin equal to the logo's width:</p>
+
+<code lang='css'><![CDATA[
+:root {
+    --banner-height: 4rem;
+}
+#banner {
+    order: 1;
+    height: var(--banner-height);
+    margin-left: var(--side-width);
+}
+]]></code>
+
+<p>Next comes the fixed-width sidebar.  The banner took the full width of the
+container, so the natural place for the sidebar is just under the banner at the
+left edge.  But we need it lower than that, just under the logo's bottom edge.
+To make that work, we give it a top margin of enough to push it down:</p>
+
+<code lang='css'><![CDATA[
+#sidebar {
+    order: 2;
+    flex: 0 var(--side-width);
+    margin-top: calc(var(--side-width) - var(--banner-height));
+}
+]]></code>
+
+<p>All of the flex items were told to take the full width, but the sidebar is
+our one element that has a fixed width.  The top margin is the difference
+between the height of the logo and the height of the banner.</p>
+
+<p>The content will fit next to the sidebar under the banner just where we want
+it.  "flex: 1 0" means it starts with zero width, but gets all of the remaining
+space in the flex row, so it's width grows to take the remaining space:</p>
+
+<code lang='css'><![CDATA[
+#content {
+    order: 3;
+    flex: 1 0;
+}
+]]></code>
+
+<p>Last comes the footer.  It needs a left margin like the banner did so that it
+won't overlap the sidebar, and we give the sidebar a negative bottom margin to
+scooch it up to avoid the height of the footer:</p>
+
+<code lang='css'><![CDATA[
+:root {
+    --footer-height: 3rem;
+}
+#sidebar {
+    margin-bottom: calc(0rem - var(--footer-height));
+}
+#footer {
+    order: 4;
+    margin-left: var(--side-width);
+    height: var(--footer-height);
+}
+]]></code>
+
+<p>I've skipped other parts that are in the toy sample, like how each item has
+carefully chosen borders to form the narrow gutters in the layout.  These are
+just the broad strokes of how the five big boxes negotiate the space in their
+unusual way.  The full site includes responsiveness, and uses
+<a urlid='scss'>Sass</a> compiled to CSS to do some of the heavy lifting.</p>
+
+<p>Better CSS wizards than me probably see better ways to do it, but it
+works.</p>
+
+<url id='scss' href='https://sass-lang.com/' />
+<url id='flexbox' href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox' />
+
+</body>
+</entry>
+</blog>

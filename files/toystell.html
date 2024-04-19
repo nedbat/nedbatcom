@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toy layout</title>
+    <style>
+        :root {
+            --border-color: #844;
+            --side-width: 10rem;
+            --thin-border: 3px;
+            --banner-height: 4rem;
+            --footer-height: 3rem;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #caa;
+            border: 5px solid var(--border-color);
+            max-width: 55rem;
+            margin: 0 auto 1rem;
+            padding: 0;
+            display: flex;
+            flex-flow: row wrap;
+        }
+        body > * {
+            padding: .75rem;
+            border: 0 solid var(--border-color);
+            flex: 1 100%;
+        }
+        #logo {
+            position: absolute;
+            width: var(--side-width);
+            height: var(--side-width);
+            background: white;
+            border-width: 0 var(--thin-border) var(--thin-border) 0;
+            background-image: url(https://placehold.co/400/orange/white?text=Logo);
+            background-size: contain;
+        }
+        #banner {
+            order: 1;
+            height: var(--banner-height);
+            margin-left: var(--side-width);
+            border-bottom-width: var(--thin-border);
+            background: #ddd;
+        }
+        #content {
+            order: 3;
+            flex: 1 0;
+            background: white;
+        }
+        #sidebar {
+            order: 2;
+            flex: 0 var(--side-width);
+            border-width: 0 var(--thin-border) 0 0;
+            margin-top: calc(var(--side-width) - var(--banner-height));
+            margin-bottom: calc(0rem - var(--footer-height));
+            background: #ddd;
+        }
+        #footer {
+            order: 4;
+            margin-left: var(--side-width);
+            height: var(--footer-height);
+            border-top-width: var(--thin-border);
+            background: #ddd;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header id="banner">Top Banner</header>
+    <main id="content">
+        <p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+        <p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+        <p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+        <p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+        <p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.</p>
+    </main>
+    <aside id="sidebar">
+        <p>Item 1</p><p>Item 2</p><p>Item 3</p><p>Item 4</p>
+    </aside>
+    <footer id="footer"><p>Footer</p></footer>
+    <header id="logo"></header>
+</body>
