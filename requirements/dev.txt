@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-asgiref==3.7.2
+asgiref==3.8.1
     # via django
 beautifulsoup4==4.12.3
     # via linkchecker
@@ -14,11 +14,11 @@ certifi==2024.2.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
-cogapp==3.3.0
+cogapp==3.4.1
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.11
+django==4.2.12
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -29,15 +29,15 @@ django-sendfile2==0.7.1
     # via -r requirements/base.in
 dnspython==2.6.1
     # via linkchecker
-freezegun==1.4.0
+freezegun==1.5.0
     # via
     #   -r requirements/dev.in
     #   pytest-freezer
-ftfy==6.1.3
+ftfy==6.2.0
     # via -r requirements/base.in
 greenlet==3.0.3
     # via playwright
-idna==3.6
+idna==3.7
     # via requests
 iniconfig==2.0.0
     # via pytest
@@ -45,31 +45,31 @@ libsass==0.23.0
     # via -r requirements/base.in
 linkchecker==10.4.0
     # via -r requirements/dev.in
-lxml==5.1.0
+lxml==5.2.1
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
 markdown2==2.4.13
     # via -r requirements/base.in
-packaging==23.2
+packaging==24.0
     # via pytest
-path==16.10.0
+path==16.14.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==10.2.0
+pillow==10.3.0
     # via -r requirements/base.in
-playwright==1.41.2
+playwright==1.43.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
-pluggy==1.4.0
+pluggy==1.5.0
     # via pytest
-pyee==11.0.1
+pyee==11.1.0
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==8.1.0
+pytest==8.2.0
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -82,7 +82,7 @@ pytest-django==4.8.0
     # via -r requirements/dev.in
 pytest-freezer==0.4.8
     # via -r requirements/dev.in
-pytest-playwright==0.4.4
+pytest-playwright==0.5.0
     # via -r requirements/dev.in
 python-dateutil==2.9.0.post0
     # via freezegun
@@ -104,7 +104,7 @@ smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-es
     # via -r requirements/base.in
 soupsieve==2.5
     # via beautifulsoup4
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   django
     #   django-debug-toolbar
@@ -112,7 +112,7 @@ text-unidecode==1.3
     # via python-slugify
 tinycss2==1.2.1
     # via bleach
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via pyee
 urllib3==2.2.1
     # via requests
