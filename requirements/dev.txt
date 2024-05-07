@@ -18,7 +18,7 @@ cogapp==3.4.1
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.12
+django==4.2.13
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
