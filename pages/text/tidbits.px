@@ -54,6 +54,9 @@ find things.</p>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python dicts can have tuples as keys. Consider a dict with (x,y) keys instead of nested lists for a grid.  It simplifies sparse grids, "resizes" are automatic, it doesn't matter where (0,0) is, and you can use negative positions: <a href="https://t.co/6IcJSUHBvl">pic.twitter.com/6IcJSUHBvl</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1522543448376623104?ref_src=twsrc%5Etfw">May 6, 2022</a></blockquote>
 <!-- [[[end]]] -->
 
+<!-- mastodon: 20240513: https://hachyderm.io/@nedbat/112433551925287037 -->
+
+<!-- https://gist.github.com/nedbat/42cec00e2f03868dc5791ac0b86e68ba -->
 
 <code lang="pycon"><![CDATA[
 >>> board = {}
@@ -78,6 +81,8 @@ find things.</p>
 ·###·
 ·····
 ]]></code>
+
+<!-- https://gist.github.com/nedbat/f22b03f70ceb9686881c4bcd442fad11  -->
 
 <code lang="pycon"><![CDATA[
 >>> # Let's add more to the board..
@@ -114,6 +119,8 @@ find things.</p>
 ·······························@nedbat·
 ·······································
 ]]></code>
+
+<!-- https://gist.github.com/nedbat/43f1dc266fc8ab5a0f641adc47b59062 -->
 
 
 <!-- =============================================== -->
