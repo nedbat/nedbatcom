@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240522T185822'>
+<title>Echos of the People API user guide</title>
+<category>pycon</category>
+<category>coverage</category>
+
+<description>A few brief notes on some things that happened at PyCon 2024</description>
+<img src="pix/cards/sleepy-sprint.png" alt="Sleepy Snake snoozing near a laptop"/>
+
+<body>
+
+<p>PyCon 2024 just happened, and as always it was a whirlwind of re-connecting
+with old friends, meeting new friends, talking about anything and everything,
+juggling, and getting simultaneously energized and exhausted.  I won't write
+about everything that happened, but one thread sticks with me: the continuing
+echos of my talk from last year.</p>
+
+<p>If you haven't seen it yet, I spoke at PyCon 2023 about the ways engineers
+can use their engineering skills to interact better with people, something
+engineers stereotypically need help with.  I called it
+<a pref="text/key23.px"/>.</p>
+
+<p>A number of people mentioned the talk to me this year, which was very
+gratifying.  It's good to hear that it stuck with people. A few said they had
+passed it on to others, which is a real sign that it landed well with them.</p>
+
+<p>On the other hand, at lunch one day, someone asked me if I had done a talk
+last year, and I sheepishly answered, "um, yeah, I did the opening keynote..."
+It's hard to answer that question without it becoming a humble brag!</p>
+
+<p>The most unexpected echo of the talk was at the coverage.py sprint table.
+<a href="https://ludob.com/">Ludovico Bianchi</a> was working away when he
+turned to me and said, "oh, I forgot to send you this last year!" He showed me
+this picture he drew during the talk a year ago:</p>
+
+<figurep href="pix/sleepy-ovation.png">
+<img src="pix/sleepy-ovation.png" alt="Sleepy Snake getting a well-deserved ovation"/>
+</figurep>
+
+<p>I've only ever stayed for one day of sprints.  It can be hard to get people
+started on meaty issues in that short time.  We have a good time anyway, and
+merge a few pull requests.  This year, three people came back who sprinted with
+me in 2023, another sign that something is going right.</p>
+
+<p>Once the sprint was over, Ludovico also sketched Sleepy into the group photo
+of the sprint gang:</p>
+
+<figurep href="pix/sleepy-sprint.png">
+<img src="pix/sleepy-sprint.png" alt="A group of people around a table, with Sleepy Snake coiled in and around their laptops"/>
+</figurep>
+
+<p>Half the fun of preparing last year's talk was art-directing the
+<a href="https://artofbatch.com">illustrations by my son Ben</a>, similar to
+how <a pref="blog/sleepy-snake.bx">we had worked to make Sleepy Snake</a>.  As
+much as I like hearing that people like my words, as a dad it's just as good to
+hear that people like Ben's art.  Seeing other people play with Sleepy in clever
+ways is extra fun.</p>
+
+</body>
+</entry>
+
+<entry when='20240522T070722' draft='y'>
+<title>Old echos of the People API user guide</title>
+<category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>When people ask me about how I came up with the topic for
+<a pref="text/key23.px"/>, I tell them that I had been mulling it over for
+years, that some of the slides literally were first written in 2018, but that it
+isn't a topic that could be done as a talk-track session.  But I realized today
+that I'd first started scribbling down some of the ideas much earlier than that
+even.</p>
+
+<p>A draft blog post from March 2008 titled "People skills for engineers"
+included these notes:</p>
+
+<ul>
+
+<li>Engineers that sweat the details to make sure their HTML page validates
+won't bother with politeness, because it is "unnecessary".  Think of manners as
+validation for people protocols.</li>
+
+<li>You have ideas in your head.  You want to get those ideas into the heads
+around you.  How do you do it?  Yes, this involves dealing with noisy channels.
+This means overcoming people's emotions and prejudices and histories.  It is
+difficult. It's also really important.</li>
+
+</ul>
+
+<p>A draft from January 2012 titled "Getting to Yes" had:</p>
+
+<ul>
+
+<li>About IRC:
+    <ul>
+        <li>It is purely textual, so there are no social cues to help lubricate communication.</li>
+        <li>Brevity is valued, so lots of things people usually say to keep the conversation "polite" are skipped.</li>
+        <li>The discussions are about detailed technical topics, and agreement on fine distinctions can be difficult to reach.</li>
+        <li>The participants tend to be strangers to each other so there's little common ground to build on.</li>
+        <li>People join in from around the world, including those with poor English skills.</li>
+        <li>The participants are at wildly varying levels of expertise, so it is difficult to know what is already understood and what is not.</li>
+    </ul>
+    </li>
+
+<li>When people come into #python with a question, things don't always go
+smoothly.  I have lots of ideas about why that is, and how to improve the
+situation, but I want to mention just one today: say "Yes" more.</li>
+
+</ul>
+
+<p>So these ideas have been rolling around in my head (and in draft blog posts)
+for a long time, longer than I had remembered.  It was really exciting and fun
+last year to have a place to finally give them their due and get them in front
+of people.</p>
+
+</body>
+</entry>
+</blog>
