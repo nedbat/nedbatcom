@@ -14,8 +14,10 @@ to.</description>
 I'd like <a href="https://github.com/nedbat/coveragepy/issues/780">feedback</a>
 about whether they behave the way you want them to.</p>
 
-<p>I haven't made a PyPI release.  To try the new reports, install coverage from
-GitHub. Be sure to include the hash:</p>
+<p>I haven't made a PyPI release.  [UPDATE April 23: this is now available as of
+<a href="https://pypi.org/project/coverage/7.5.0">coverage.py 7.5.0</a>, so
+you don't need to install from GitHub.]  To try the new reports, install
+coverage from GitHub. Be sure to include the hash:</p>
 
 <code><![CDATA[
 $ python3 -m pip install git+https://github.com/nedbat/coveragepy@f10c455b7c8fd26352de#egg=coverage==0.0
