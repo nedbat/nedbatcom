@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240516T152737' draft='y'>
+<title>Recent changes to coverage.py</title>
+<category>coverage</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>A few recent improvements to the coverage.py HTML report have made it faster
+easier to use.</p>
+
+<ul>
+
+<li>First, we now have per-function and per-class index pages in the HTML
+report.  These index into the full source files, but by function or class name
+rather than file name.</li>
+
+<li>The index pages also now have a "Hide covered" checkbox that hides all the
+100% covered files, functions or classes.</li>
+
+</ul>
+
+<p>Together these give me a faster way to find uncovered parts of my code.  I
+can use the function index page, hide the fully covered functions, then use it
+as an index into the HTML report.  Clicking the function name jumps me right to
+the function in the source file report, so I don't have to scroll around to find
+what I want.</p>
+
+<p>I hadn't thought I wanted per-function coverage measurement, but it's a
+really quick way to navigate to the code I need to see.</p>
+
+
+<p>Those changes are new, but there are features of the HTML report that you
+might not know about even though they've been around a long time:</p>
+
+<ul>
+
+<li>On a source file page, you can jump to the next or previous highlighted line
+with <b>j</b> or <b>k</b>.</li>
+
+<li>Hovering over a yellow line (partial branch) will show you the reason the
+branches weren't all taken.</li>
+
+<li>The colored buttons at the top of the page summarizing the number of
+statements, missed lines and so on can be used as toggles to turn highlighting of
+those kinds of lines off and on.</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
