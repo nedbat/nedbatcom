@@ -5,9 +5,9 @@
 <category>mycode</category>
 <category>coverage</category>
 <body>
-    
-    <p>The latest beta version of coverage.py is available: I give you 
-        <a href='http://pypi.python.org/pypi/coverage/3.6b1'>coverage.py v3.6b1</a>.  
+
+    <p>The latest beta version of coverage.py is available: I give you
+        <a href='http://pypi.python.org/pypi/coverage/3.6b1'>coverage.py v3.6b1</a>.
         There are lots of changes here.  Somehow I got on a roll, and fixed 22
         tickets.  The full list of changes is below.</p>
 
@@ -21,7 +21,7 @@
                 repo that demonstrates this problem, let me know so I can use it as a test case.</li>
             <li><a href='https://bitbucket.org/ned/coveragepy/issue/74/on-linux-packages-get-installed-in-places'>On Linux, packages get installed in places coverage.py doesn't ignore</a>:
                 If you have any good ideas for determining which directories contain "third-party" packages,
-                I'd like to make coverage.py smarter about it.  It doesn't have to be perfect, because 
+                I'd like to make coverage.py smarter about it.  It doesn't have to be perfect, because
                 users can always override the defaults, but I'd like it to start with a better guess.</li>
         </ul>
 
@@ -99,7 +99,7 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
 operating systems.</li>
 <li>Docstrings for the legacy singleton methods are more helpful.  Thanks Marius
 Gedminas.  Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/205/make-pydoc-coverage-more-friendly">issue 205</a>.</li>
-<li>The pydoc tool can now show docmentation for the class <cite>coverage.coverage</cite>.
+<li>The pydoc tool can now show documentation for the class <cite>coverage.coverage</cite>.
 Closes <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/206/pydoc-coveragecoverage-fails-with-an-error">issue 206</a>.</li>
 <li>Added a page to the docs about contributing to coverage.py, closing
 <a class="reference external" href="https://bitbucket.org/ned/coveragepy/issue/171/how-to-contribute-and-run-tests">issue 171</a>.</li>
@@ -118,7 +118,7 @@ so kiss <a class="reference external" href="https://bitbucket.org/ned/coveragepy
 <category>mycode</category>
 <category>coverage</category>
 <body>
-    
+
     <p>The <a href='http://pypi.python.org/pypi/coverage/3.6b2'>second beta version of coverage.py 3.6</a> is ready.
         There are only a few changes:</p>
 
@@ -144,7 +144,7 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
 <category>mycode</category>
 <category>coverage</category>
 <body>
-    
+
     <p>So that happened...  I had just posted 3.6b2 earlier this week, and was
         quickly informed that it was terribly broken.  The process works!</p>
 
@@ -152,7 +152,7 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
         that I wasn't testing, shame on me!  Now I have a test of that style,
         to prevent this in the future.</p>
 
-    <p>The good news is that <a href='http://pypi.python.org/pypi/coverage/3.6b3'>coverage.py 3.6b3</a> 
+    <p>The good news is that <a href='http://pypi.python.org/pypi/coverage/3.6b3'>coverage.py 3.6b3</a>
         fixes the problem.  I'm not planning any more changes for v3.6.  Try it and let me know if
         you find any problems.</p>
 
@@ -168,12 +168,12 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
 <body>
 
     <p>Coverage.py version 3.6 is ready.  It has a few new features since 3.5.3:</p>
-    
+
     <ul>
 
         <li>A new --fail-under switch on the reporting commands makes the
             command exit with a failure status code if the total coverage is
-            below a given threshhold. This is great for build servers to raise
+            below a given threshold. This is great for build servers to raise
             an alarm if coverage falls too low.</li>
 
         <li>The reporting functions now return a float indicating the total
@@ -191,7 +191,7 @@ fixing <a class="reference external" href="https://bitbucket.org/ned/coveragepy/
         <a href='/code/coverage/changes.html#h_Version_3.6__E2_80_94_5_January_2013'>change history</a>
         for details.</p>
 
-    <p>I heartily recommend that everyone upgrade to <a href='http://pypi.python.org/pypi/coverage/3.6'>coverage.py 3.6</a> 
+    <p>I heartily recommend that everyone upgrade to <a href='http://pypi.python.org/pypi/coverage/3.6'>coverage.py 3.6</a>
         right away. Happy New Year!</p>
 
 </body>

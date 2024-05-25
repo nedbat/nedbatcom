@@ -47,7 +47,7 @@ modified version, and your product code should assert that it is using the modif
 // .. rest of product code ..
 ]]></code>
 
-<p>This way, if a build machine's configuration changes, or a new devloper doesn't set up his enviroment
+<p>This way, if a build machine's configuration changes, or a new developer doesn't set up his environment
 properly, a very visible error message will appear, rather than subtle bugs manifesting themselves.</p>
 
 <p>The same technique can be used in Python.  Mark the library file:</p>

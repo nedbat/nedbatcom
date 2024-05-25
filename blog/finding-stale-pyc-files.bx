@@ -17,7 +17,7 @@
 find . -name '*.pyc' -exec bash -c 'test "$1" -ot "${1%c}"' -- {} \; -print  #stalepyc
 </code>
 
-    <p>It's one of those Unix-isms I wont be able to remember (yet?), so I'll
+    <p>It's one of those Unix-isms I won't be able to remember (yet?), so I'll
         leave it here to find again when I need it later.</p>
 
     <p>Notice I've added a <a href="/blog/201307/hashtags_for_commands.html">bashtag</a>

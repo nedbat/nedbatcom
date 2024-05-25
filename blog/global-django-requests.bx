@@ -10,7 +10,7 @@ that doesn't have the request object.  The latest reason was that I wanted
 a model class helper to have access to the session so it could access some
 debug flags.</p>
 
-<p>The first option for making this work was to pass the request object 
+<p>The first option for making this work was to pass the request object
 through two or three layers of code that otherwise didn't need a request.
 This meant changing the signature and callers of the two or three functions,
 which felt messy.  The prospect of it made me unhappy.</p>
@@ -37,12 +37,12 @@ class GlobalRequestMiddleware(object):
         _requests[currentThread()] = request
 ]]></code>
 
-<p>I didn't write this code, I got it from 
-<a href='http://stackoverflow.com/questions/653735/django-forms-set-an-initial-value-to-request-user/1233143#1233143'>here</a> and 
+<p>I didn't write this code, I got it from
+<a href='http://stackoverflow.com/questions/653735/django-forms-set-an-initial-value-to-request-user/1233143#1233143'>here</a> and
 <a href='http://bitbucket.org/vanschelven/global_request_middleware/src/df173c616e32/global_request_middleware/__init__.py'>here</a>,
 not sure who wrote it first.  I'm also not sure why Django provides its
 own currentThread function when the Python standard module threading provides
-thread locals to acheive the same effect.</p>
+thread locals to achieve the same effect.</p>
 
 <p>There's another way to get a global request object, but you probably won't
 like it:</p>

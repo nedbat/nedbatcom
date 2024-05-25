@@ -59,7 +59,7 @@ for path, value in todo:
 is updated to point to it.</p>
 
 <p>Note that this doesn't affect what the command "python" means, that's determined
-by your PATH enviroment variable.  These registry settings change which Python
+by your PATH environment variable.  These registry settings change which Python
 executable is found when you invoke a .py file as a command.</p>
 
 </body>

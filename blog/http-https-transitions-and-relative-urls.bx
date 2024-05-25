@@ -51,7 +51,7 @@ URLs, but using a more obscure syntax:
 case, the protocol scheme from the displayed page will be used, but against the
 host in the URL.  The relative URL system is still in play here: omitted portions
 of the URL at the beginning are taken from the base page, and the relative URL
-takes over whereever it starts.  On an HTTPS page, this will be an HTTPS request
+takes over wherever it starts.  On an HTTPS page, this will be an HTTPS request
 to the CDN, on an HTTP page, it will be an HTTP request.</p>
 
 <p>You have to be careful to only use this syntax in pages destined for browsers.

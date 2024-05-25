@@ -5,7 +5,7 @@
 <category>python</category>
 <body>
 
-<p>Python's context managers are the general mechnism underlying the "with"
+<p>Python's context managers are the general mechanism underlying the "with"
     statement.  They're a nice abstraction of doing a thing, and then later
     undoing it.  The classic example is opening a file and then later closing
     it:</p>
@@ -28,7 +28,7 @@ import contextlib
 def change_dir(new_dir):
     """Change directory, and then change back.
 
-    Use as a context manager, it will give you the new directory, 
+    Use as a context manager, it will give you the new directory,
     and later restore the old one.
 
     """

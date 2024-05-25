@@ -12,13 +12,13 @@
     <p>I'm working on a Django project for a client, and it needs to be localized into their language.
         Django has good support for localization, providing tools for extracting strings from Python,
         HTML, and Javascript files.  But something wasn't right: the client reported that some of
-        the strings were still in English.  Usually this means that they made a small mistake during 
+        the strings were still in English.  Usually this means that they made a small mistake during
         the translation process, and the English in the source doesn't match the English in the
         message file.</p>
 
     <p>But when I looked, it turned out the English was completely missing from the message file.
         Check the source: yup, it's properly marked for translation.  Then I remembered: parsing
-        Javascript source files for messages is fragile.  I'd encountered this before, and had 
+        Javascript source files for messages is fragile.  I'd encountered this before, and had
         simply fiddled with the Javascript source to make the problem go away.  But this time,
         as one message was re-harvested, other messages would disappear.  The problem seemed
         more severe than I had encountered in the past.  I decided to learn more about why it
@@ -27,11 +27,11 @@
     <p>Like many open source projects, Django uses <a href='http://www.gnu.org/software/gettext/'>Gnu gettext</a>
         to manage the message files, including using the xgettext tool to parse the source files to find
         strings to translate.  But xgettext doesn't support parsing Javascript.  Django has a
-        strange accomodation to deal with this: it performs a simple transformation on the Javascript
+        strange accommodation to deal with this: it performs a simple transformation on the Javascript
         source, then tells xgettext that it's Perl.</p>
 
     <p>I can only guess why Perl was chosen: because Javascript and Perl both have regex literals,
-        which as we'll see, play a large part in this story.  But Django's Javascript-to-Perl transformation 
+        which as we'll see, play a large part in this story.  But Django's Javascript-to-Perl transformation
         is simplistic: it just converts all //-comments on their own line into #-comments.
         So this Javascript:</p>
 
@@ -49,11 +49,11 @@ x = 1;  // Don't start x at zero.
 gettext("Please translate me!");
     ]]></code>
 
-    <p>I assume the reason //-comments that share a line with code are skipped is to avoid 
+    <p>I assume the reason //-comments that share a line with code are skipped is to avoid
         clobbering strings with // in them, though with multi-line strings, even that is not
         enough to protect them.</p>
 
-    <p>Of course, this transformation is insufficient to properly carry the strings into the 
+    <p>Of course, this transformation is insufficient to properly carry the strings into the
         "Perl" so that xgettext can find them.  For example, in the above sample, the Javascript
         comment on line 2 is still executable Perl code after the transformation, and the apostrophe
         in the comment is considered the start of a string literal, so the gettext call is
@@ -71,18 +71,18 @@ gettext("Message on 5");
     ]]></code>
 
     <p>Here messages 1 and 5 are found, and 3 and 4 are not.  How come?  Because Perl's <a href='http://perldoc.perl.org/functions/y.html'>y operator</a>
-        consumes two strings delimited by the next character, in this case a semicolon, so lines 3 and 4 
+        consumes two strings delimited by the next character, in this case a semicolon, so lines 3 and 4
         are considered literals rather than code.</p>
 
     <p>In truth, Django's accommodation for Javascript is an egregious hack.  So I wanted to
         find a better solution.  I figured that if I could properly lex Javascript, then
-        I could manipulate the token stream to create something that could reliably be parsed 
+        I could manipulate the token stream to create something that could reliably be parsed
         by gettext.</p>
 
     <p>The result is <a href='https://bitbucket.org/ned/jslex'>jslex</a>, a pure-Python lexer
         for Javascript.  Lexing Javascript turns out to be tricky due to our old friend the
         regex literal.  When a slash character is found, it could mean one of four things:
-        a division operator (either / or /=), a line comment (//), a multi-line comment (/*), 
+        a division operator (either / or /=), a line comment (//), a multi-line comment (/*),
         or a regex literal.  The two comment forms are simple to deal with, because a regex
         literal can't be empty, so // is always a comment, and a regex can't start with a star,
         so /* is always a comment.</p>
@@ -109,9 +109,9 @@ for (var x = a in foo && "</x>" || mot ?  z/x:3;x<5;y</g/i) {xyz(x++);}
     <p>The lexer is a general-purpose multi-state lexer built on regular expressions. The rules
         create a two-state lexer with a state for "division possible," and "regex possible."
         When I thought I had it working, I outsourced the QA to Stack Overflow, finally finding
-        something to do with my too-many reputation points: 
+        something to do with my too-many reputation points:
         <a href='http://stackoverflow.com/questions/5533925/what-javascript-constructs-does-jslex-incorrectly-lex'>pay a bounty to find Javascript it doesn't lex properly</a>.
-        Mind-twistingly, a respondent there found a useful test: a Javascript lexer written in Javascript, 
+        Mind-twistingly, a respondent there found a useful test: a Javascript lexer written in Javascript,
         which when fed through my lexer, failed because my regex-matching regex couldn't properly lex his
         regex-matching regex!
     </p>

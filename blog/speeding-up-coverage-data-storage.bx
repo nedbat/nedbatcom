@@ -29,14 +29,14 @@
 
     <p>But for branch pairs, what options do we have?  A general
         pair-of-integers data structure is probably too complex.  But I had a
-        hunch that our data had idiosyncracies we could take advantage of.  In
+        hunch that our data had idiosyncrasies we could take advantage of.  In
         particular, for most of our pairs of numbers, the two numbers will be
         close together, since many branches are just a few statements forward
         in the code.</p>
 
     <p>To test this hunch, I made a quick experiment.  I reached for the nearest
         large project (<a href='https://github.com/edx/edx-platform'>Open edX</a>),
-        and changed its .coveragerc files to use the Python tracer.  Then I 
+        and changed its .coveragerc files to use the Python tracer.  Then I
         hacked a counter into the Python tracer which would tally up, for each
         line transition, what was the delta between the source and the destination.</p>
 
@@ -108,7 +108,7 @@
     <p>The data showed what I suspected: there's a huge bulge around zero,
         since most branches are to points nearby in the code.  There are also
         spikes elsewhere, like the 80k branches that went 351 lines forward.
-        And I don't understand why the seven largest jumps all occurred 34 or 
+        And I don't understand why the seven largest jumps all occurred 34 or
         37 times?</p>
 
     <p>In any case, this pointed to a possible storage strategy.  My first idea
@@ -136,7 +136,7 @@ Int size 64, offset 0: 77.73%
 Int size 8, offset -1: 73.87%
 Int size 32, offset -6: 80.74%
 Int size 64, offset -7: 85.50%
-</code>    
+</code>
 
     <p>This says that if we use a vector of bytes, with an offset of -1, then
         73% of the data will use the vector, the rest would go to the dictionary.

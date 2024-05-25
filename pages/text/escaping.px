@@ -5,7 +5,7 @@
 </history>
 
 <p>Properly escaping data to make it correct and safe is a seemingly
-mundane coding task that has huge implications.  Many security vulnerabilites
+mundane coding task that has huge implications.  Many security vulnerabilities
 boil down to incorrectly escaped data.  Getting escaping right often requires
 a thorough understand of all the components of your system.</p>
 
@@ -192,7 +192,7 @@ them up:</p>
 <code lang='python'>
 def esc_sql(data):
     return data.replace("'", "''")
-    
+
 sql_query = "SELECT * from USERS where last_name = '" + esc_sql(last_name) + "';"
 </code>
 
@@ -316,7 +316,7 @@ and you don't have to be too careful about where it is applied.</p>
 <p>
 
     PHP strings http://us2.php.net/types.string
-   
+
 </p>
 
 Python's r strings

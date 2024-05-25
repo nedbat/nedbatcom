@@ -236,7 +236,7 @@ OK
     execute your tests.</p><p>To run a test, unittest creates an instance of your test case class.
     Then it executes the test method on that object.  It wraps the execution
     in a try/except clause so that assertion failures will be recorded as test
-    failures, and if no exception happens, it's recorded as a succcess.</p><figurep href="text/test0/test0.html#21"><img alt="Add more tests" scale="0.5" src="text/test0/test0_020.png"/></figurep><!-- {{{ --><p>One test isn't enough, let's add some more.  Here we add a simpler test,
+    failures, and if no exception happens, it's recorded as a success.</p><figurep href="text/test0/test0.html#21"><img alt="Add more tests" scale="0.5" src="text/test0/test0_020.png"/></figurep><!-- {{{ --><p>One test isn't enough, let's add some more.  Here we add a simpler test,
     test_empty, and a more complicated test, test_buy_two_stocks.  Each test is
     another test method in our PortfolioTest class:</p><!--[[[cog include_file("test_port2.py", px=True) ]]] {{{ --><code lang="python">
 # test_port2.py
@@ -672,12 +672,12 @@ class PortfolioValueTest(unittest.TestCase):
     other components.  Again, this is a tradeoff, and you have to choose
     carefully how deeply to use the technique.</p><h1>Also</h1><figurep href="text/test0/test0.html#50"><img alt="Also" scale="0.5" src="text/test0/test0_049.png"/></figurep><!-- {{{ --><p>Testing is a huge topic, there are many paths to take from here.</p><figurep href="text/test0/test0.html#51"><img alt="Tools" scale="0.5" src="text/test0/test0_050.png"/></figurep><!-- {{{ --><p>Other tools:</p><ul>
 
-        <li><a href="https://docs.python.org/2/library/unittest.html#unittest.TestCase.addCleanup">addCleanup</a> 
+        <li><a href="https://docs.python.org/2/library/unittest.html#unittest.TestCase.addCleanup">addCleanup</a>
         is a method on test cases.  It lets you register clean up functions to
         be called when the test is done.  This has the advantage that partially
         set up tests can be torn down, and you can register clean up functions
         in the body of tests if you like.</li>
-        
+
         <li><a href="https://docs.python.org/2/library/doctest.html">doctest</a>
         is another module in the standard library for writing tests.  It
         executes Python code embedded in docstrings.  Some people love it, but
@@ -736,7 +736,7 @@ class PortfolioValueTest(unittest.TestCase):
 
         <li>Load testing is the process of generating synthetic traffic to a
         web site or other concurrent system to determine its behavior as the
-        traffic load increases.  Specialized tools can help generate the 
+        traffic load increases.  Specialized tools can help generate the
         traffic and record response times as the load changes.</li>
 
     </ul><p>There are plenty of other topics, I wish I had time and space to discuss
@@ -751,16 +751,16 @@ class PortfolioValueTest(unittest.TestCase):
     be rewarding, since it is a technical challenge to study and overcome.</p><p>Here are our two developers, happy and confident at last because they
     have a good set of tests.  (I couldn't get my son to draw me a third
     picture!)</p><figurep href="text/test0/test0.html#55"><img alt="Questions?" scale="0.5" src="text/test0/test0_054.png"/></figurep>
-    
 
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
 
 <pagecomments/>
 

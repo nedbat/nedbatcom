@@ -257,9 +257,9 @@ print textwrap.fill(story)
 player to second-guess how his words will be used.</p>
 
 
-<h1>Re-usable slots</h1>
+<h1>Reusable slots</h1>
 
-<p>The next feature to tackle was re-usable slots.  For example, after asking for "an adjective",
+<p>The next feature to tackle was reusable slots.  For example, after asking for "an adjective",
 the word could be used twice or more in the same story.
 To make this work, we had to expand the types of objects in the storylist.  We could have
 gone two different ways: add two new objects (one for the reusable word, and one for where it was

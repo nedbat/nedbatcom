@@ -18,7 +18,7 @@ these notes varies as my energy level waxed and waned.
     <a href='http://us.pycon.org/2008/conference/schedule/event/6/'>Using Python To Teach Object-Oriented Programming in CS1</a><br/>
     Michael H Goldwasser
 </h2>
-    
+
 <ul>
 <li>Objects later, or objects first?</li>
 <li>Objects first sounds better, but:
@@ -40,7 +40,7 @@ these notes varies as my energy level waxed and waned.
         Python primitive types are classes, but Java's are not.</li>
     </ul>
 </li>
-    
+
 <li>Writing classes
     <ul>
     <li>self is a bit of an obstacle.
@@ -53,7 +53,7 @@ these notes varies as my energy level waxed and waned.
     <li>Generics and polymorphism are a strong plus for Python.</li>
     </ul>
 </li>
-    
+
 <li>After Python, need to transition to other languages.
     <ul>
     <li>Don't have to unteach any Python lessons, unlike other languages.</li>
@@ -98,7 +98,7 @@ these notes varies as my energy level waxed and waned.
     </ul></li>
 </ul>
 
-    
+
 <h2><a href='http://us.pycon.org/2008/conference/schedule/event/17/'>Applying Expert System Technology to Code Reuse with Pyke</a>
 <br/>Bruce Frederiksen</h2>
 <ul>
@@ -281,7 +281,7 @@ Van Lindberg. IP and Open Source</h2>
     <li>SQL Expression language
         <ul>
         <li>Smart operators</li>
-        <li>Geeric functions</li>
+        <li>Generic functions</li>
         <li>Lots of engine-aware differences handled automatically.</li>
         </ul></li>
     <li>Collections API: auto-map records to collection classes.</li>
@@ -306,7 +306,7 @@ Van Lindberg. IP and Open Source</h2>
     <li>Migrate</li>
     </ul></li>
 </ul>
-    
+
 
 
 <h2>
@@ -390,7 +390,7 @@ Van Lindberg. IP and Open Source</h2>
     </ul></li>
 <li>Drawing on the screen
     <ul>
-    <li>protoype with wxpython or pygame</li>
+    <li>prototype with wxpython or pygame</li>
     <li>real thing: pyCairo</li>
     </ul></li>
 <li>OS interaction
@@ -403,8 +403,8 @@ Van Lindberg. IP and Open Source</h2>
     <li>NSIS</li>
     </ul></li>
 </ul>
-    
-    
+
+
 <h2>
     <a href='http://us.pycon.org/2008/conference/schedule/event/63/'>To RE or not to RE -- Parsing text in Python</a><br/>
     Anna Ravenscroft
@@ -433,7 +433,7 @@ Mark Hammond</h2>
 <li>Python is the first of the second-class languages</li>
 <li>History, 1998
     <ul>
-    <li>open source was still a curiousity.</li>
+    <li>open source was still a curiosity.</li>
     <li>Netscape released source code to Navigator</li>
     <li>Then tried to rewrite it from scratch</li>
     </ul></li>
@@ -618,7 +618,7 @@ Ivan Krstić</h2>
 <li>Agile methods include lots of stuff like automated testing.</li>
 <li>Forensic code analysis
     <ul>
-    <li>large sw projcets are living organisms</li>
+    <li>large sw projects are living organisms</li>
     <li>We lack tools to study them.</li>
     <li>CPython has cool hooks</li>
     </ul></li>

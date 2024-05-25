@@ -10,7 +10,7 @@ but under the hood, they are quite large.
 </p>
 
 <more>
-    
+
 <p>The first change is that each blog entry here now has its own URL.  We can
 debate whether or not I had permalinks the old way: it depends if you accept the
 fragment identifier in a URL (the part after the hash mark) as part of the permalink.
@@ -66,7 +66,7 @@ but before I needed to write the code myself.  The site starts with the same pil
 of <a href='site/xuffpx.html'>XML source files</a>, but now they are used to build
 a SQLite database, which is then used by the Django code to produce the HTML files.</p>
 
-<p>So in a few ways, I've smoothed out some of the idiosyncracy behind the scenes
+<p>So in a few ways, I've smoothed out some of the idiosyncrasy behind the scenes
 of this blog, which makes me feel good.  I'm glad to have had a chance to make changes
 on this scale.</p>
 

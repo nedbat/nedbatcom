@@ -99,7 +99,7 @@ Exception: Unimplemented abstract method: __main__.Statement.execute
 
 <p>But all this Python hacking to emulate Java interfaces may be missing the point:
 As I mentioned in <a pref='text/interfaces.px'/>, Python doesn't have interfaces
-partly because interfaces are an artifact of staticly typed languages.
+partly because interfaces are an artifact of statically typed languages.
 Python's dynamic nature makes interfaces far less important.
 And interfaces don't have as much flexibility as Python offers in the first place.
 </p>

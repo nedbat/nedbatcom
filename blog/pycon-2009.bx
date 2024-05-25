@@ -85,7 +85,7 @@ looks very slick, and was used to build the PyCon site.</li>
 
 <li><a href='http://www.openplans.org/projects/melkjug/project-home'>Melkjug</a>
 is a tunable news reader.</li>
-    
+
 <li><a href='https://launchpad.net/txloadbalancer'>txLoadBalancer</a> is a
 Twisted-based load balancer.</li>
 
@@ -128,17 +128,17 @@ Barry Hawkins:
     - Pycon is like rivendell.  The elves have all this knowledge, doing cool
     stuff.  People: "Why don't you tell more people about it?"  Pythonistas:
     "Meh, we just do what we do."
-    
+
 Brett Cannon, DVCS for Python
 
     - SVN is the prune juice of vcs
     - git is out of the running
     - like to use a python-based tool
-    
+
 Jonathan Ellis
 
     - Cassandra distributed db.  Scalable writes
-    
+
 Jon Hayward? (jonathancorner.com)
 
     - Issac Asimov: the best sound in science isn't "Eureka," but "that's funny".
@@ -150,7 +150,7 @@ Windmill testing
     - Test recording in every browser.
     - Looks very capable
     - getwindmill.com
-    
+
 Missed talk: Mike Fletcher on Run Snake Run
 
 Twill Talk
@@ -161,53 +161,53 @@ Twill Talk
         order factory
         page objects
         twill
-        
+
     - twill has handy methods for automating web browsing
     - No javascript!
         - selenium
-    
+
     - Page objects:
         - base class Page, derived classes for different Pages
         - web pages as objects with methods particular to them.
-    
+
 - ConfigObj is getting a lot of mention
 
 Testing Ajax
 
     - modular design encourages testing.
     - ajax endpoints are simple, data-oriented.
-    
+
     1. test data handlers
     2. test js
     3. isolate ui for testing
     4. automate ui tests
     5. gridify test suite
-    
+
     javascriptlint.com
-    
+
     rhino for running javascript standalone.
     No DOM, but env.js from resig may help.
-    
+
     Fake controllers for feeding results to isolate the UI for testing.
     Bypass the server by replacing jQuery.ajax to mock out the entire server!
 
 Functional Testing of Desktop applications, Michael Foord
 
     - "If you write software without tests, you are a bad person, incapable of love." someone else
-    
+
 
 
 
 Saturday morning lightning talks
 
     - Some broken demos. :(
-    
+
     - Catherine Devlin:  sqlpython unix-like prompt for treating tables as unix files.
-    
+
     - playerpiano: better python presentations: run doctests in an interactive python session.
 
-    - pymite: micro-python (subset) for micrcontrollers: 4k ram!
-    
+    - pymite: micro-python (subset) for microcontrollers: 4k ram!
+
     - web2py looks very slick.
 
 Guido BDFL
@@ -218,8 +218,8 @@ Sat night lightning
 
     - DVDev: trac for hg?
     - Melkjug: tunable news reader
-    
-    - txLoadBalancer: twisted-based load balancer   
+
+    - txLoadBalancer: twisted-based load balancer
 
 
 Reddit keynote

@@ -33,13 +33,13 @@ that has to be applied to solve one.  As an example, here is today's
 <figurep><img src='pix/kenken/kenken06.png' alt='KenKen, step 6'/></figurep>
 <p>The last number in column 4 is the 7 for B4.  The 56<times/> cage needs a 7, which can't go in row B or column 5, so it goes in C6: </p>
 <figurep><img src='pix/kenken/kenken07.png' alt='KenKen, step 7'/></figurep>
-<p>Now comes some complicated logic.  Look at rows B, C, and D.  All togther, their cells have to sum to 84.  We know the 56<times/> cage has to be 7,2,4, so the only cages we don't know the sums of are 36<times/>, 3<minus/>, and 2<minus/>.  The others sum to 54. </p>
+<p>Now comes some complicated logic.  Look at rows B, C, and D.  All together, their cells have to sum to 84.  We know the 56<times/> cage has to be 7,2,4, so the only cages we don't know the sums of are 36<times/>, 3<minus/>, and 2<minus/>.  The others sum to 54. </p>
 <p>There are three possibilities for the 36<times/> cage: 3,4,3 or 6,2,3 or 6,1,6. Let's consider them in turn: </p>
 <ul>
     <li>If 36<times/> is 3,4,3, then the 3<minus/> and 2<minus/> cages have to sum to 20,
     which isn't possible since the sum of a 3<minus/> must be odd and the sum of a 2<minus/>
     must be even, which sum to odd.</li>
-    
+
     <li>If 36<times/> is 6,2,3, then the 3<minus/> and 2<minus/> cages sum to 19. There are
     three ways to do that, none of which are allowed:
     <ul>
@@ -48,7 +48,7 @@ that has to be applied to solve one.  As an example, here is today's
         <li>5,2 and 7,5: two 5's in row D.</li>
     </ul>
     </li>
-    
+
     <li>So 36<times/> must be 6,1,6. Let's look at the possibilities for the 3<minus/> and 2<minus/>:
     <ul>
         <li>7,4 and 4,2: nope, two 4's in row D.</li>
@@ -58,7 +58,7 @@ that has to be applied to solve one.  As an example, here is today's
     </ul>
     </li>
 </ul>
-<p>So there's only one way to complete the 3<minus/> and 2<minus/> in row D, and we know the solution to the 36<times/>.  Also, the possibilites for the 2<minus/> cage force the positions of the 1 and 4 in column 4: </p>
+<p>So there's only one way to complete the 3<minus/> and 2<minus/> in row D, and we know the solution to the 36<times/>.  Also, the possibilities for the 2<minus/> cage force the positions of the 1 and 4 in column 4: </p>
 <figurep><img src='pix/kenken/kenken08.png' alt='KenKen, step 8'/></figurep>
 <p>Column 3 is almost completed.  D3 is either 2 or 5, so B3 is either 5 or 2. If it's 2, then B5 must be 6, but column 5 will get a 6 from either D5 or G5, so B3 must be 5, and D2 and D3 are determined also: </p>
 <figurep><img src='pix/kenken/kenken09.png' alt='KenKen, step 9'/></figurep>

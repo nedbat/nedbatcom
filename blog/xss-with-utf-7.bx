@@ -92,7 +92,7 @@ the character set, and seeing the distinctive UTF-7 byte sequences, will
 choose UTF-7. In UTF-7, the string is executable HTML, and the
 script will be executed.</p>
 
-<p>XSS vulnerabilites often boil down to a piece of data interpreted
+<p>XSS vulnerabilities often boil down to a piece of data interpreted
 in two different ways.  The server believes it to be static, but the browser
 decides it is executable.  In this case, the server thought the string was
 static because it interpreted the byte string as ISO-8859-1 characters

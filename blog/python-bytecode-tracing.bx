@@ -33,7 +33,7 @@ a divide by zero error is lurking there.
 
 
 <h1>Line tracing and beyond</h1>
-    
+
 <p>The problem is that Python's tracing facility
 (<a href='http://docs.python.org/lib/debugger-hooks.html'>sys.settrace</a>) is
 based on source lines.  Your callback function is invoked for each line executed.
@@ -73,7 +73,7 @@ tracing without modifying the interpreter.</p>
 <p>The bytecode interpreter invokes the trace function every time an opcode to be
 executed is the first opcode on a new source line. But how does it know which
 opcodes those are? The key is the co_lnotab member in the code object. This is a
-string, interpreted as pairs of one-byte unsigned integers. To re-use the
+string, interpreted as pairs of one-byte unsigned integers. To reuse the
 example from
 <a href='blog/200804/the_structure_of_pyc_files.html'>The Structure of .pyc Files</a>,
 here's some bytecode:</p>
@@ -139,7 +139,7 @@ offsets to line numbers?</p>
 
 
 <h1>A simple program to trace</h1>
-    
+
 <p>To set up the test, here's a sample.py:</p>
 
 <code lang='python' name='sample.py'><![CDATA[
@@ -202,7 +202,7 @@ class PycFile:
         self.magic = f.read(4)
         self.modtime = f.read(4)
         self.code = marshal.load(f)
-    
+
     def write(self, f):
         if isinstance(f, basestring):
             f = open(f, "wb")
@@ -212,7 +212,7 @@ class PycFile:
 
     def hack_line_numbers(self):
         self.code = hack_line_numbers(self.code)
-        
+
 def hack_line_numbers(code):
     """ Replace a code object's line number information to claim that every
         byte of the bytecode is a new line.  Returns a new code object.
@@ -230,7 +230,7 @@ def hack_line_numbers(code):
         code.co_argcount, code.co_nlocals, code.co_stacksize, code.co_flags,
         code.co_code, tuple(new_consts), code.co_names, code.co_varnames,
         code.co_filename, code.co_name, 0, new_lnotab
-        ) 
+        )
     return new_code
 
 def hack_file(f):

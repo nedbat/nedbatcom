@@ -6,24 +6,24 @@
 <category>ruby</category>
 <via />
 <body>
-<p>Earlier this month, Ruby on Rails reached a milestone: 
+<p>Earlier this month, Ruby on Rails reached a milestone:
 they issued a <a href='http://weblog.rubyonrails.org/2006/8/9/rails-1-1-5-mandatory-security-patch-and-other-tidbits'>security advisory</a>:</p>
 
 <quote>
-<p>This is a MANDATORY upgrade for anyone not running on a very recent edge 
-(which isn't affected by this). If you have a public Rails site, you MUST upgrade to Rails 1.1.5. 
+<p>This is a MANDATORY upgrade for anyone not running on a very recent edge
+(which isn't affected by this). If you have a public Rails site, you MUST upgrade to Rails 1.1.5.
 The security issue is severe and you do not want to be caught unpatched.</p>
 
-<p>The issue is in fact of such a criticality that we're not going to dig into the specifics. 
+<p>The issue is in fact of such a criticality that we're not going to dig into the specifics.
 No need to arm would-be assalients.</p>
 </quote>
 
-<p>24 hours later, they <a href='http://weblog.rubyonrails.org/2006/8/10/rails-1-1-6-backports-and-full-disclosure'>explained 
+<p>24 hours later, they <a href='http://weblog.rubyonrails.org/2006/8/10/rails-1-1-6-backports-and-full-disclosure'>explained
 the whole situation</a>.  Unfortunately, it turned out that the mandatory 1.1.5
 patch not only was not sufficient, requiring a 1.1.6 patch, but if you had
 been running 1.0 or 1.1.3, then upgrading to 1.1.5 made your system <em>less</em> secure!</p>
 
-<p>This naturally engendered a 
+<p>This naturally engendered a
 <a href='http://weblog.rubyonrails.org/2006/8/10/rails-1-1-6-backports-and-full-disclosure'>great deal of discussion on the Ruby blog</a>.
 As you may have guessed, the opinions there run the gamut.
 On the plus side, <a href="http://blog.mattfast1.com/">Matt Van Dusen</a> said:
@@ -69,14 +69,14 @@ On the plus side, <a href="http://blog.mattfast1.com/">Matt Van Dusen</a> said:
 
 <quote><p>DHH: Grow up.</p></quote>
 
-<p>As I said, it's a milestone for Ruby on Rails.  They've had a pheneomenal success, 
+<p>As I said, it's a milestone for Ruby on Rails.  They've had a pheneomenal success,
 a huge adoption rate, and tremendous press.  This security patch was a real-world
 hiccup.  All software has security issues and bugs.  What determines
 success is how the team deals with them.</p>
 
 <p>I think the 24 hour turnaround was very good, and the full (eventual) disclosure
 was also very good.  Keeping the vulnerability secret for a day was bad, especially since this is an open-source project,
-so the details were publically available, but only to those able to diff and grok the code.
+so the details were publicly available, but only to those able to diff and grok the code.
 The inadvertent lowering of security with a mandatory patch
 was very bad, as was the sniping at your customers in the blog comments.
 Growing pains all around.

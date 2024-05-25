@@ -135,7 +135,7 @@ $ git ee3 one two
 <p>The second one works because the ":" command eats up the extra arguments.
     The third one works because the eventual command run is "f one two", so the
     values are passed to the function. So the "&amp;&amp; :" wasn't pointless
-    afterall, it was needed to make the arguments work properly.</p>
+    after all, it was needed to make the arguments work properly.</p>
 
 <p>From previous cargo-cult expeditions, my ~/.gitconfig has other aliases using
     a different form:</p>

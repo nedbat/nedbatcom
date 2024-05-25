@@ -66,8 +66,8 @@ notes skew toward the negatives.</p>
 
     <li>The lock-in is latency:
         <ul>
-        <li>Transfering data within the Amazon services is free.</li>
-        <li>Transfering data to an Amazon competitor: not free.</li>
+        <li>Transferring data within the Amazon services is free.</li>
+        <li>Transferring data to an Amazon competitor: not free.</li>
         </ul>
     </li>
 
@@ -78,7 +78,7 @@ notes skew toward the negatives.</p>
         </ul>
     </li>
 
-    <li>Cloud further enables virutal companies.  A bunch of guys with laptops
+    <li>Cloud further enables virtual companies.  A bunch of guys with laptops
     can move office wherever they want, don't worry about where the servers are.</li>
 
     <li>They all muttered knowingly about the day Amazon's cloud was down.
@@ -86,7 +86,7 @@ notes skew toward the negatives.</p>
         <li>"You could read about it on Twitter, but all the avatars were missing, because Twitter kept them on S3."</li>
         </ul>
     </li>
-    
+
     <li>Cloud encourages queue architectures.
         <ul>
         <li>Pipelined role-based "machines".</li>
@@ -94,7 +94,7 @@ notes skew toward the negatives.</p>
         <li>Number of machines in each role can be altered dynamically to deal with the actual load right now.</li>
         </ul>
     </li>
-    
+
     <li>You need monitoring services external to your cloud!</li>
 </ul>
 

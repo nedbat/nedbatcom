@@ -65,7 +65,7 @@ AttributeError: 'tuple' object has no attribute 'append'
     tuples.</p>
 
 <p>The Cultural Difference is about how lists and tuples are actually
-    used: lists are used where you have a homogenous sequence of unknown
+    used: lists are used where you have a homogeneous sequence of unknown
     length; tuples are used where you know the number of elements in advance
     because the position of the element is semantically significant.</p>
 
@@ -117,7 +117,7 @@ Station(id=44, city='Denver', state='CO', lat=40, long=105)
     tuples are namedtuples without the names.</p>
 
 <p>The Technical Difference and the Cultural Difference are an uneasy alliance,
-    because they are sometimes at odds.  Why should homogenous sequences be
+    because they are sometimes at odds.  Why should homogeneous sequences be
     mutable, but hetergenous sequences not be? For example, I can't modify my
     weather station because a namedtuple is a tuple, which is immutable:</p>
 

@@ -27,7 +27,7 @@ a characteristic of that directory that can be applied to other directories of m
 but not the system list!</p>
 
 <p>And, I understand that these directories are not hardcoded, but are stored in the registry
-to acheive a level of indirection and customizability.
+to achieve a level of indirection and customizability.
 So when I say "Temporary Internet Files" directory, I really mean the directory returned by
 <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/shell/reference/functions/shgetfolderpath.asp'>SHGetFolderPath</a>(<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/shell/reference/enums/csidl.asp'>CSIDL_INTERNET_CACHE</a>).
 </p>

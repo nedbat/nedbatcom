@@ -105,7 +105,7 @@ special symbols will appear.</p>
     the UTF-8 string produces the original Unicode string.</p><figurep href="text/unipain/unipain.html#20"><img alt="Encoding errors" scale="0.5" src="text/unipain_pix/019.png"/></figurep><p>Unfortunately, encoding and decoding can produce errors if the data
     isn't appropriate for the specified encoding.  Here we try to encode our
     exotic Unicode string to ASCII.  It fails because ASCII can only represent
-    charaters in the range 0 to 127, and our Unicode string has code points
+    characters in the range 0 to 127, and our Unicode string has code points
     outside that range.</p><p>The UnicodeEncodeError that's raised indicates the encoding being used,
     in the form of the "codec" (short for coder/decoder), and the actual
     position of the character that caused the problem.</p><figurep href="text/unipain/unipain.html#21"><img alt="Decoding errors" scale="0.5" src="text/unipain_pix/020.png"/></figurep><p>Decoding can also produce errors.  Here we try to decode our UTF-8

@@ -43,7 +43,7 @@ loses the race.</p>
 records.  The attachment should point to a bookkeeping record, which should point to
 the latest version, which should exist.  So again: how could that result set be empty?</p>
 
-<p>The QE engineer looking into the problem reported that it wasn't consistently reproducable.
+<p>The QE engineer looking into the problem reported that it wasn't consistently reproducible.
 There seemed to be a random element, bolstering our finger-pointing at the race condition.
 He thought that putting more than one attachment on an action item made the problem worse.
 Maybe loading up the transaction with more attachments affected the timing
@@ -71,7 +71,7 @@ I liked this part of the description:
 "First, let's look at what TPC-B is not. It is not TPC-A." Thanks.</p>
 
 <p>It seems to be a well thought-out test, and I was mulling over adapting it
-to test our database supprt, when the QE engineer showed me the results of running
+to test our database support, when the QE engineer showed me the results of running
 the new code with the exception instead of the assert.
 </p>
 

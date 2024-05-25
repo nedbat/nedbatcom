@@ -13,7 +13,7 @@
         coverage.py, and succeeded when run under the C tracer, but failed when
         run under the Python tracer.  I should explain: the heart of
         coverage.py is the trace function invoked by CPython on every line of
-        exection.  Coverage.py has two implementations of its trace function:
+        execution.  Coverage.py has two implementations of its trace function:
         one in C for speed, and another simpler one in Python for maximum
         flexibility.  The bug report was that one of the implementations caused
         the product code to fail, and the other did not.</p>

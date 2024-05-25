@@ -8,9 +8,9 @@
 <p>I love <a href="http://stackoverflow.com">Stack Overflow</a>,
     for a number of reasons.  First, they have great answers to programming
     questions.  When I need an answer to a detailed issue I'm having with code,
-    the answer is usually on Stack Overflow, and with the 
+    the answer is usually on Stack Overflow, and with the
     <a href="http://smackdown.blogsblogsblogs.com/2011/01/31/how-matt-cutts-leveraged-the-stack-overflow-and-hacker-news-communities-in-redefining-the-phrase-content-farms/">recent
-        Google tweak to tamp down content farms in search results</a>, 
+        Google tweak to tamp down content farms in search results</a>,
     it's usually the first hit on Google as well.
 </p>
 
@@ -24,7 +24,7 @@
 </figurep>
 
 <p>The combination of being awarded points, and debating with other
-    knowledgable experts, plus being able to learn along the way, and help
+    knowledgeable experts, plus being able to learn along the way, and help
     people, is very compelling.  But it can get obsessive.  Joel Spolsky
     claims that tons of rep means you are a superstar developer, but it
     also implies that you've spent a lot of energy chasing reputation
@@ -41,7 +41,7 @@
 // ==UserScript==
 // @name           No answering on Stackoverflow
 // @namespace      http://nedbatchelder.com/greasemonkey
-// @description    Hide the answer box on Stack Overflow 
+// @description    Hide the answer box on Stack Overflow
 //                 to stop obsessive behavior
 // @include        http://stackoverflow.com/*
 // ==/UserScript==

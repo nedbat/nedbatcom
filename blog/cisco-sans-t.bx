@@ -6,7 +6,7 @@
 <category>webpage</category>
 <via href='http://taint.org'>Justin Mason</via>
 <body>
-<p>One of those simple typos that turns into an embarassing public mistake:
+<p>One of those simple typos that turns into an embarrassing public mistake:
 <a href='http://blog.dotsmart.net/2008/09/25/cisco-home-page-fail/'>Cisco home page FAIL</a>,
 where (it is theorized) a regex that should have had \t had only t, and as a
 result, all lowercase t's were removed from the page, breaking it completely.

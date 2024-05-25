@@ -25,12 +25,12 @@
         claims to be "mytemplate.html".  When coverage.py tries to report on
         the file, it can't parse it as Python, and things go wrong.</p>
 
-    <p>Originally, this error would be reported to the user.  There's a -i 
+    <p>Originally, this error would be reported to the user.  There's a -i
         switch that shuts off all errors like this, but it seemed dumb for
         coverage.py to get confused by something like this.  So I changed it
         to not trace files named "*.html".</p>
 
-    <p>Of course, the world is more varied than that, so I got a 
+    <p>Of course, the world is more varied than that, so I got a
         <a href='https://bitbucket.org/ned/coveragepy/issue/82/tokenerror-when-generating-html-report'>report</a>
         of someone with Jinja2 files named "*.jinja2" which now trip the error.
         So I need a more general solution.</p>
@@ -46,7 +46,7 @@
         </li>
 
         <li>Measure all files, but during reporting, if a file can't be parsed,
-            ignore the error if it has an extenstion that isn't "*.py".</li>
+            ignore the error if it has an extension that isn't "*.py".</li>
 
         <li>(Shudder) Make a configuration option about what extensions to
             measure, or which to ignore.</li>

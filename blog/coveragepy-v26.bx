@@ -12,7 +12,7 @@
 <ul>
 <li>Function decorators no longer confuse it (thanks, Joseph Tate).</li>
 <li>Fixes for argument handling (thanks, Mark van der Wal and Sigve Tjora).</li>
-<li>A new parallel mode lets many processes collect coverage data at once, 
+<li>A new parallel mode lets many processes collect coverage data at once,
 and then later collate everything together for unified reporting (thanks, Geoff Bache).</li>
 </ul>
 
@@ -34,7 +34,7 @@ different lines being executed.  Oy.
 <p>I get suggestions for coverage.py in a steady drip over time, and usually
 don't have the concentration bandwidth to attend to them.  An unexpected window
 of time opened up this weekend, so I went through the ideas and put the
-managable ones into the code.  Then I tackled Python 2.5, making some biggish
+manageable ones into the code.  Then I tackled Python 2.5, making some biggish
 changes in the process.</p>
 
 <p>I've felt guilty for delaying on implementing people's ideas, and now I feel

@@ -22,7 +22,7 @@ params += "foo=1723";
 <p>If the query component started with ampersand, we could just tack on "&amp;foo=1723"
 and be done with it.  From a whole-URL view, there's some sense to separating
 the query and the path with a distinct character like question mark, but it's
-not like it would have been unparseable to say the query component starts with
+not like it would have been unparsable to say the query component starts with
 the first ampersand.</p>
 
 <p>Next time we'll get it right... :)</p>
@@ -37,19 +37,19 @@ import cgi, urllib, urlparse
 
 class Url(object):
     """A structured URL.
-    
+
     Create from a string or Django request, then read or write the components
     through attributes `scheme`, `netloc`, `path`, `params`, `query`, and
     `fragment`.
-    
+
     The query is more usefully available as the dictionary `args`.
-    
+
     """
     def __init__(self, url):
         """Construct from a string or Django request."""
         if hasattr(url, 'get_full_path'):
             url = url.get_full_path()
-        
+
         self.scheme, self.netloc, self.path, self.params, \
             self.query, self.fragment = urlparse.urlparse(url)
         self.args = dict(cgi.parse_qsl(self.query))
