@@ -1,17 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20230922T095900' draft='y'>
-<title>How to fix Python circular imports</title>
-<category></category>
+<entry when='20240528T134600'>
+<title>One way to fix Python circular imports</title>
+<category>python</category>
+
+<description>Python circular imports can be confusing.  Simply using a different
+form of import can sometimes fix the problem.</description>
+
 <!--
-<description></description>
 <img src="pix/cards/xxx.png" alt=""/>
 -->
+
 <body>
 
 <!-- From https://indiehackers.social/@simeon/111104070914276120 -->
 
-<!-- This post is cogged. Re-cog it with:
+<!-- *** Cog stuff {{{ -->
+<!--
+
+    This post is cogged. Re-cog it with:
 
     $ cog -rP blog/how-to-fix-python-circular-imports.bx
 
@@ -28,7 +35,7 @@
         ...
 
     def show_file(text):
-        print("""<code lang="python"><![CDATA[""")
+        print("""<code lang="python" number="1"><![CDATA[""")
         print(textwrap.dedent(text).rstrip())
         print("""]]></code>""")
 
@@ -53,6 +60,8 @@
                     stderr=subprocess.STDOUT,
                 ).stdout.decode()
                 output = output.replace(f"/private{tmpdir}/", "")
+                # Force wrapping
+                output = output.replace("initialized module", "initialized\n  module")
                 print(output.rstrip())
                 print("""]]></code>""")
             finally:
@@ -61,7 +70,6 @@
     scene1 = {
         "one.py": """\
             # one.py
-
             from two import func_two
 
             def func_one():
@@ -69,7 +77,6 @@
             """,
         "two.py": """\
             # two.py
-
             from one import func_one
 
             def do_work():
@@ -89,19 +96,17 @@
     scene2 = {
         "one.py": """\
             # one.py
-
-            import two
+            import two              # was:  from two import func_two
 
             def func_one():
-                two.func_two()
+                two.func_two()      # was:  func_two()
             """,
         "two.py": """\
             # two.py
-
-            import one
+            import one              # was:  from one import func_one
 
             def do_work():
-                one.func_one()
+                one.func_one()      # was:  func_one()
 
             def func_two():
                 print("Hello, world!")
@@ -114,22 +119,27 @@
             """,
     }
 ]]]-->
-<!--[[[end]]]-->
+<!--[[[end]]] -->
+<!-- }}} -->
+
+<p>In Python, a circular import is when two files each try to import the other,
+causing a failure when a module isn't fully initialized.  The best way to fix
+this situation is to organize your code in layers so that the importing
+relationships naturally flow in just one direction.  But sometimes it works to
+simply change the style of import statement you use. I'll show you.</p>
 
 <p>Let's say you have these files:</p>
 
 <!-- [[[cog show_scene(scene1) ]]] -->
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # one.py
-
 from two import func_two
 
 def func_one():
     func_two()
 ]]></code>
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # two.py
-
 from one import func_one
 
 def do_work():
@@ -138,7 +148,7 @@ def do_work():
 def func_two():
     print("Hello, world!")
 ]]></code>
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # main.py
 from two import do_work
 do_work()
@@ -153,44 +163,59 @@ do_work()
 Traceback (most recent call last):
   File "main.py", line 2, in <module>
     from two import do_work
-  File "two.py", line 3, in <module>
+  File "two.py", line 2, in <module>
     from one import func_one
-  File "one.py", line 3, in <module>
+  File "one.py", line 2, in <module>
     from two import func_two
-ImportError: cannot import name 'func_two' from partially initialized module 'two' (most likely due to a circular import) (two.py)
+ImportError: cannot import name 'func_two' from partially initialized
+  module 'two' (most likely due to a circular import) (two.py)
 ]]></code>
 <!-- [[[end]]] -->
 
-<p>Instead we can import modules instead of names from modules, like this:</p>
+<p>When Python imports a module, it executes the file line by line. Every global
+in the file (top-level name including functions and classes) becomes an
+attribute on the module object being constructed.  In two.py, we import from
+one.py at line 2. At that moment, the <c>two</c> module has been created, but it
+has no attributes yet because nothing has been defined yet.  It will eventually
+have <c>do_work</c> and <c>func_two</c>, but we haven't executed those def
+statements yet, so they don't exist.  Like a function call, when the import
+statement is run, it begins executing the imported file, and doesn't come back
+to the current file until the import is done.</p>
+
+<p>The import of one.py starts, and its line 2 tries to get a name from the two
+module.  As we just said, the <c>two</c> module exists, but has no names defined
+yet.  That gives us the error.</p>
+
+<p>Instead of importing names from modules, we can import whole modules instead.
+All we do is change the form of the imports, and how we reference the functions
+from the imported modules, like this:</p>
 
 <!-- [[[cog show_scene(scene2) ]]] -->
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # one.py
-
-import two
+import two              # was:  from two import func_two
 
 def func_one():
-    two.func_two()
+    two.func_two()      # was:  func_two()
 ]]></code>
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # two.py
-
-import one
+import one              # was:  from one import func_one
 
 def do_work():
-    one.func_one()
+    one.func_one()      # was:  func_one()
 
 def func_two():
     print("Hello, world!")
 ]]></code>
-<code lang="python"><![CDATA[
+<code lang="python" number="1"><![CDATA[
 # main.py
 from two import do_work
 do_work()
 ]]></code>
 <!-- [[[end]]] -->
 
-<p>After the fix, it looks like this:</p>
+<p>Running the fixed code, we get this:</p>
 
 <!-- [[[cog run_scene(scene2) ]]] -->
 <code><![CDATA[
@@ -199,6 +224,26 @@ Hello, world!
 ]]></code>
 <!-- [[[end]]] -->
 
+<p>It works because two.py imports <c>one</c> at line 2, and then one.py imports
+<c>two</c> at its line 2.  That works just fine, because the <c>two</c> module
+exists.  It's still empty like it was before the fix, but now we aren't trying
+to find a name in it during the import.  Once all of the imports are done, the
+<c>one</c> and <c>two</c> modules both have all their names defined, and we can
+access them from inside our functions.</p>
+
+<p>The key idea here is that "from two import func_two" tries to find
+<c>func_two</c> during the import, before it exists.  Deferring the name lookup
+to the body of the function by using "import two" lets all of the modules get
+themselves fully initialized before we try to use them, avoiding the circular
+import error.</p>
+
+<p>As I mentioned at the top, the best way to fix circular imports is to
+structure your code so that modules don't have mutual dependencies like this.
+But that isn't always easy, and this can buy you a little time to get your code
+working again.</p>
+
 </body>
 </entry>
 </blog>
+
+<!-- vim: set foldmethod=marker foldlevel=0 :-->
