@@ -11,25 +11,193 @@
 
 <!-- From https://indiehackers.social/@simeon/111104070914276120 -->
 
+<!-- This post is cogged. Re-cog it with:
+
+    $ cog -rP blog/how-to-fix-python-circular-imports.bx
+
+-->
+
+<!-- [[[cog
+    import os
+    import subprocess
+    import tempfile
+    import textwrap
+    from pathlib import Path
+
+    def make_files_and_run(files_dict):
+        ...
+
+    def show_file(text):
+        print("""<code lang="python"><![CDATA[""")
+        print(textwrap.dedent(text).rstrip())
+        print("""]]></code>""")
+
+    def show_scene(scene):
+        for text in scene.values():
+            show_file(text)
+
+    def run_scene(scene, cmd="python main.py"):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            olddir = os.getcwd()
+            os.chdir(tmpdir)
+            try:
+                for name, text in scene.items():
+                    Path(name).write_text(textwrap.dedent(text))
+                print("""<code><![CDATA[""")
+                print(f"% {cmd}")
+                output = subprocess.run(
+                    cmd,
+                    shell=True,
+                    check=False,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                ).stdout.decode()
+                output = output.replace(f"/private{tmpdir}/", "")
+                print(output.rstrip())
+                print("""]]></code>""")
+            finally:
+                os.chdir(olddir)
+
+    scene1 = {
+        "one.py": """\
+            # one.py
+
+            from two import func_two
+
+            def func_one():
+                func_two()
+            """,
+        "two.py": """\
+            # two.py
+
+            from one import func_one
+
+            def do_work():
+                func_one()
+
+            def func_two():
+                print("Hello, world!")
+            """,
+
+        "main.py": """\
+            # main.py
+            from two import do_work
+            do_work()
+            """,
+    }
+
+    scene2 = {
+        "one.py": """\
+            # one.py
+
+            import two
+
+            def func_one():
+                two.func_two()
+            """,
+        "two.py": """\
+            # two.py
+
+            import one
+
+            def do_work():
+                one.func_one()
+
+            def func_two():
+                print("Hello, world!")
+            """,
+
+        "main.py": """\
+            # main.py
+            from two import do_work
+            do_work()
+            """,
+    }
+]]]-->
+<!--[[[end]]]-->
+
 <p>Let's say you have these files:</p>
 
+<!-- [[[cog show_scene(scene1) ]]] -->
+<code lang="python"><![CDATA[
+# one.py
+
+from two import func_two
+
+def func_one():
+    func_two()
+]]></code>
+<code lang="python"><![CDATA[
+# two.py
+
+from one import func_one
+
+def do_work():
+    func_one()
+
+def func_two():
+    print("Hello, world!")
+]]></code>
+<code lang="python"><![CDATA[
+# main.py
+from two import do_work
+do_work()
+]]></code>
+<!-- [[[end]]] -->
+
+<p>If we run main.py, we get this:</p>
+
+<!-- [[[cog run_scene(scene1) ]]] -->
 <code><![CDATA[
+% python main.py
+Traceback (most recent call last):
+  File "main.py", line 2, in <module>
+    from two import do_work
+  File "two.py", line 3, in <module>
+    from one import func_one
+  File "one.py", line 3, in <module>
+    from two import func_two
+ImportError: cannot import name 'func_two' from partially initialized module 'two' (most likely due to a circular import) (two.py)
+]]></code>
+<!-- [[[end]]] -->
+
+<p>Instead we can import modules instead of names from modules, like this:</p>
+
+<!-- [[[cog show_scene(scene2) ]]] -->
+<code lang="python"><![CDATA[
 # one.py
 
 import two
 
-def one_func(text):
-
+def func_one():
+    two.func_two()
 ]]></code>
-
-<code><![CDATA[
+<code lang="python"><![CDATA[
 # two.py
 
 import one
 
-one.one_func("Hello")
-]]></code>
+def do_work():
+    one.func_one()
 
+def func_two():
+    print("Hello, world!")
+]]></code>
+<code lang="python"><![CDATA[
+# main.py
+from two import do_work
+do_work()
+]]></code>
+<!-- [[[end]]] -->
+
+<p>After the fix, it looks like this:</p>
+
+<!-- [[[cog run_scene(scene2) ]]] -->
+<code><![CDATA[
+% python main.py
+Hello, world!
+]]></code>
+<!-- [[[end]]] -->
 
 </body>
 </entry>
