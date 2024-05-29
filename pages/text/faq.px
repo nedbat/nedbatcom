@@ -2,6 +2,7 @@
 <page title='Frequent Python questions'>
 <history>
 <what when='20180331T074200'>Created.</what>
+<what when='20240529T070400'>Added a bunch more.</what>
 </history>
 
 <p>I like helping people understand things, especially Python.  I've written a
@@ -10,6 +11,16 @@ no overall plan or structure to them, but at least I've collected them here for
 easier browsing:</p>
 
 <ul>
+<li><a pref='blog/how-to-fix-python-circular-imports.bx'/> (blog post)</li>
+<li><a pref='blog/does-python-have-pointers.bx'/> (blog post)</li>
+<li><a pref='blog/one-way-to-package-python-code-right-now.bx'/> (blog post)</li>
+<li><a pref='blog/real-world-matchcase.bx'/> (blog post)</li>
+<li><a pref='blog/say-it-again-values-not-expressions.bx'/> (blog post)</li>
+<li><a pref='blog/singletons-are-a-bad-idea.bx'/> (blog post)</li>
+<li><a pref='blog/why-your-mock-still-doesnt-work.bx'/> (blog post)</li>
+<li><a pref='blog/pickles-flaws.bx'/> (blog post)</li>
+<li><a pref='blog/sysgetsizeof-is-not-what-you-want.bx'/> (blog post)</li>
+<li><a pref='blog/why-your-mock-doesnt-work.bx'/> (blog post)</li>
 <li><a pref='blog/python-interpreted-or-compiled.bx'/> (blog post)</li>
 <li><a pref='text/shell-maybe.px'/> (article)</li>
 <li><a pref='text/names1.px'/> (PyCon talk)</li>
