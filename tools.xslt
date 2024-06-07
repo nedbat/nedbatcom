@@ -144,17 +144,14 @@
 <xsl:template match='a'>
     <a>
         <xsl:choose>
-            <xsl:when test='@href|@isbn'>
+            <xsl:when test='@href|@isbn|@urlid'>
                 <xsl:call-template name='a_attributes' />
+                <xsl:call-template name='check_a_content' />
                 <xsl:apply-templates select='*|text()'/>
             </xsl:when>
 
             <xsl:when test='@pref'>
-                <xsl:attribute name='href'>
-                    <xsl:call-template name='makeuri'>
-                        <xsl:with-param name='uri' select='xuff:permaurl(current()/@pref)' />
-                    </xsl:call-template>
-                </xsl:attribute>
+                <xsl:call-template name='a_attributes' />
                 <xsl:choose>
                     <xsl:when test='text()'>
                         <xsl:value-of select='text()'/>
@@ -163,24 +160,6 @@
                         <xsl:value-of select='xuff:pathtitle(current()/@pref)' />
                     </xsl:otherwise>
                 </xsl:choose>
-            </xsl:when>
-
-            <xsl:when test='@urlid'>
-                <xsl:variable name='urlid' select='@urlid' />
-                <xsl:attribute name='rel'>external noopener</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test='//url[@id=$urlid]'>
-                        <xsl:attribute name='href'>
-                            <xsl:value-of select='//url[@id=$urlid]/@href'/>
-                        </xsl:attribute>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:text>BAD URLID=</xsl:text>
-                        <xsl:value-of select='$urlid'/>
-                        <xsl:text>: </xsl:text>
-                    </xsl:otherwise>
-                </xsl:choose>
-                <xsl:apply-templates select='*|text()'/>
             </xsl:when>
 
             <xsl:otherwise>
@@ -193,16 +172,19 @@
     </a>
 </xsl:template>
 
-<xsl:template name='a_attributes'>
-    <xsl:if test='string(@href|@isbn)=""'>
-        <xsl:message>
-            <xsl:text>Empty href on &lt;a&gt; tag at </xsl:text>
-            <xsl:call-template name='pinpoint'/>
-        </xsl:message>
-    </xsl:if>
+<xsl:template name='check_a_content'>
     <xsl:if test='not(text()|*)'>
         <xsl:message>
             <xsl:text>&lt;a&gt; tag with no content at </xsl:text>
+            <xsl:call-template name='pinpoint'/>
+        </xsl:message>
+    </xsl:if>
+</xsl:template>
+
+<xsl:template name='a_attributes'>
+    <xsl:if test='string(@href|@isbn|@pref|@urlid)=""'>
+        <xsl:message>
+            <xsl:text>Empty href on linking tag at </xsl:text>
             <xsl:call-template name='pinpoint'/>
         </xsl:message>
     </xsl:if>
@@ -233,6 +215,31 @@
             <xsl:attribute name='rel'>external</xsl:attribute>
         </xsl:when>
 
+        <xsl:when test='@pref'>
+            <xsl:attribute name='href'>
+                <xsl:call-template name='makeuri'>
+                    <xsl:with-param name='uri' select='xuff:permaurl(current()/@pref)' />
+                </xsl:call-template>
+            </xsl:attribute>
+        </xsl:when>
+
+        <xsl:when test='@urlid'>
+            <xsl:variable name='urlid' select='@urlid' />
+            <xsl:attribute name='rel'>external noopener</xsl:attribute>
+            <xsl:choose>
+                <xsl:when test='//url[@id=$urlid]'>
+                    <xsl:attribute name='href'>
+                        <xsl:value-of select='//url[@id=$urlid]/@href'/>
+                    </xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name='BADURLID'>
+                        <xsl:value-of select='$urlid'/>
+                    </xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:when>
+
         <xsl:otherwise>
             <xsl:attribute name='href'>
                 <xsl:call-template name='makeuri'>
@@ -243,7 +250,7 @@
 
     </xsl:choose>
 
-    <xsl:apply-templates select='@*[name()!="href" and name()!="isbn"]'/>
+    <xsl:apply-templates select='@*[name()!="href" and name()!="isbn" and name()!="pref" and name()!="urlid"]'/>
 </xsl:template>
 
 <!-- Structural stuff: no-ops at this stage. -->
@@ -396,7 +403,7 @@
 
 <xsl:template name='figurep_maybe_a'>
     <xsl:choose>
-        <xsl:when test='@href|@pref|@isbn'>
+        <xsl:when test='@href|@pref|@isbn|@urlid'>
             <a>
                 <xsl:call-template name='a_attributes' />
                 <xsl:call-template name='figurep_maybe_aspect'/>
