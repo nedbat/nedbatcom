@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240616T060000' draft='y'>
+<title>Math factoid of the day: 62</title>
+<category>me</category>
+<category>math</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>There are two <a urlid="archimedean">Archimedean solids</a> with 62
+faces:</p>
+
+<figurep>
+<a href='https://polyhedra.tessera.li/rhombicosidodecahedron/info'>
+    <img
+        src='pix/poly60/rhombicosidodecahedron.png' width='250' height='250'
+        alt='rhombicosidodecahedron'
+        caption='rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron'
+    />
+</a>
+
+<a href='https://polyhedra.tessera.li/truncated-icosidodecahedron/info'>
+    <img
+        src='pix/poly60/truncated-icosidodecahedron.png' width='250' height='250'
+        alt='truncated icosidodecahedron'
+        caption='truncated icosi&#xAD;dodeca&#xAD;hedron'
+    />
+</a>
+</figurep>
+
+
+<url id="archimedean" href="https://en.wikipedia.org/wiki/Archimedean_solid" />
+
+</body>
+</entry>
+</blog>
