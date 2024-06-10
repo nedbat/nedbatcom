@@ -55,15 +55,15 @@ describing problems and solutions.</p>
 ]]></code>
 
 <p>Here the HTML processor is your web browser, and begins in a data mode.  The
-left angle bracket <codeword>&lt;</codeword> is the command to switch into
-instruction mode, and the right angle bracket <codeword>&gt;</codeword> switches
+left angle bracket <c>&lt;</c> is the command to switch into
+instruction mode, and the right angle bracket <c>&gt;</c> switches
 back to data mode.
 If I need to include an angle bracket in the displayed page, I need to escape it:</p>
 
 <code lang='html'><![CDATA[<p>My &lt;awesome&gt; web page!</p>]]></code>
 
 <p>In HTML, there isn't actually a way to escape the angle bracket, instead
-I need to use a different chunk of text (<codeword>&amp;lt;</codeword>) to the same effect.</p>
+I need to use a different chunk of text (<c>&amp;lt;</c>) to the same effect.</p>
 
 
 <h1>Nested processors</h1>
@@ -76,7 +76,7 @@ than one processor.  Here's some Javascript embedded into HTML:</p>
 <script>document.write("<p>It's awesome!</p>");</script>
 ]]></code>
 
-<p>The <codeword>&lt;script&gt;</codeword> command switches into another
+<p>The <c>&lt;script&gt;</c> command switches into another
 mode. But: is it a data mode or an instruction mode?  It depends on how you look
 at it.</p>
 
@@ -105,12 +105,12 @@ script tag.  What happens now?:</p>
 <script>document.write("<p>Script ends with </script></p>");</script>
 ]]></code>
 
-<p>Here the Javascript text ends at the <codeword>&lt;/script></codeword> tag
+<p>Here the Javascript text ends at the <c>&lt;/script></c> tag
 in the string literal.  When the HTML processor enters its script mode, it isn't
 understanding the script text, it's just looking for its command to switch out of
 data mode and back into instruction mode.  It doesn't know those characters are in
 a Javascript string literal.  The HTML processor will return to instruction mode
-starting with the <codeword>&lt;/p></codeword> tag, the text it sends to Javascript
+starting with the <c>&lt;/p></c> tag, the text it sends to Javascript
 will be invalid because it is truncated, and so will not run, and this will be displayed
 on the page:</p>
 
@@ -120,7 +120,7 @@ on the page:</p>
 the end of the script), and by the Javascript processor (to look for the end of
 the string), the closing script tag has to be escaped in a way that keeps the HTML
 processor from ending the script, but will still cause the Javascript processor
-to put the characters <codeword>&lt;/script></codeword> into the string.</p>
+to put the characters <c>&lt;/script></c> into the string.</p>
 
 <p>Here's one way:</p>
 
@@ -134,10 +134,10 @@ In Javascript, the backslash-slash combination results in a slash in the string,
 so we get the result we wanted.</p>
 
 <p>One more detail to note: although the HTML processor will be reading all of the
-Javascript text, there's no need to perform the usual escaping of <codeword>&lt;</codeword>
-to <codeword>&amp;lt;</codeword> in the Javascript text because the HTML processor's
+Javascript text, there's no need to perform the usual escaping of <c>&lt;</c>
+to <c>&amp;lt;</c> in the Javascript text because the HTML processor's
 script data mode doesn't recognize simple angle brackets as commands, only the
-<codeword>&lt;script></codeword> tag.</p>
+<c>&lt;script></c> tag.</p>
 
 
 <p>http://www.thescripts.com/forum/thread90624.html</p>
@@ -213,15 +213,15 @@ brackets denote variable substitution:</p>
 ]]></code>
 
 <p>Here we have to worry that the title variable might have characters in it that are
-special to HTML.  If title is <codeword>&lt;blink> is bad!</codeword>, then the
+special to HTML.  If title is <c>&lt;blink> is bad!</c>, then the
 title will be "is bad!", blinking!</p>
 
-<p>In the case of HTML, malicious code can be inserted with a <codeword>&lt;script></codeword>
+<p>In the case of HTML, malicious code can be inserted with a <c>&lt;script></c>
 tag, and these holes are known as Cross-Site Scripting (XSS) vulnerabilities.</p>
 
 <p>Escaping HTML is easy, simply replace the five characters
-<codeword>&lt; > &amp; " '</codeword> with their entities
-<codeword>&amp;lt; &amp;gt; &amp;amp; &amp;quot; &amp;#39;</codeword>
+<c>&lt; > &amp; " '</c> with their entities
+<c>&amp;lt; &amp;gt; &amp;amp; &amp;quot; &amp;#39;</c>
 (the last should <a href='blog/200703/random_html_factoid_no_apos.html'>not be &amp;apos;</a>):</p>
 
 <code lang='python'><![CDATA[
@@ -264,7 +264,7 @@ var title = "{{title|addslashes}}";
 
 <p>But as we saw above, if this Javascript is also in an HTML fragment, then
 more escaping is needed.  The new escapejs filter adds the escaping of
-<codeword>&lt;/</codeword> to guarantee that a <codeword>&lt;/script></codeword>
+<c>&lt;/</c> to guarantee that a <c>&lt;/script></c>
 tag doesn't get through improperly.  If you used only the addslashes filter
 on Javascript in an HTML file, you have an XSS hole.</p>
 
@@ -272,7 +272,7 @@ on Javascript in an HTML file, you have an XSS hole.</p>
 interpret your text.</box>
 
 <p>Also, Django now provides automatic HTML escaping, which isn't needed in
-&lt;script> tags, and so must be disabled, with the <codeword>safe</codeword> pseudo-filter.
+&lt;script> tags, and so must be disabled, with the <c>safe</c> pseudo-filter.
 The correct incantation is:</p>
 
 <code lang='js'><![CDATA[
@@ -286,8 +286,8 @@ var title = "{{title|escapejs|safe}}";
 ]]></code>
 
 <p>Here dest is a URL, which requires its own form of escaping,
-where many characters are replaced by a hex escape, so that <codeword>A@B</codeword>
-becomes <codeword>A%40B</codeword>, for example.  Since dest will be interpreted
+where many characters are replaced by a hex escape, so that <c>A@B</c>
+becomes <c>A%40B</c>, for example.  Since dest will be interpreted
 as a Javascript string embedded in HTML, we need the escapejs and safe filters
 to get the data into the string properly.  Since the string will be used as a URL
 it also needs urlencode to get URL escaping.</p>

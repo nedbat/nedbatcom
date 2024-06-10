@@ -24,7 +24,7 @@ and pushes the result:</p>
 ]]></code>
 
 <p>Control structures work the same way.
-The <codeword>ifelse</codeword> operator takes
+The <c>ifelse</c> operator takes
 three things from the stack: a boolean and two executable blocks.
 If the boolean is true, it executes the first block and discards the
 second.  If the boolean is false, it executes the second block and
@@ -34,7 +34,7 @@ discards the first:</p>
 1 2 eq { (y) } { (n) } ifelse   % leaves "n" on the stack
 ]]></code>
 
-<p>The <codeword>for</codeword> operator is used for looping.
+<p>The <c>for</c> operator is used for looping.
 It takes a start value, an increment, an end value, and an
 executable block as operands:</p>
 

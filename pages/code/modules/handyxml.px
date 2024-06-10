@@ -26,7 +26,7 @@ where data is stored in XML files.
 </mydata>
 ]]></code>
 
-<p>To parse the file, simply use the <codeword>xml</codeword> function:</p>
+<p>To parse the file, simply use the <c>xml</c> function:</p>
 
 <code lang='python'><![CDATA[
 >> import handyxml
@@ -56,7 +56,7 @@ u'duck2'
 <p>Unlike other Python XML-to-dictionary schemes, these objects act just like
 full-fledged DOM nodes, and so can be processed with other XML facilities.</p>
 
-<p>Handyxml also provides the <codeword>xpath</codeword> function for evaluating
+<p>Handyxml also provides the <c>xpath</c> function for evaluating
 XPath expressions.  The first argument is either an argument acceptable to xml(),
 or a parsed XML node.
 The second argument is the XPath expression to evaluate against the XML.
@@ -69,8 +69,8 @@ u'dewey'
 ]]></code>
 
 <p>When looking for a file, handyxml will search the list of directories
-specified in its <codeword>path</codeword> value, much like
-<codeword>sys.path</codeword>.</p>
+specified in its <c>path</c> value, much like
+<c>sys.path</c>.</p>
 
 <h1>Changes</h1>
 

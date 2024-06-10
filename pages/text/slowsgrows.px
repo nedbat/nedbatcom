@@ -283,23 +283,23 @@ what those are in order to accurately understand your own code.</p>
 <p>Here are some for Python data structures:</p>
 
     <table>
-        <tr><td rowspan='5'><b>Lists</b><br/><codeword>[1, 2, 3, 4]</codeword></td>
-            <td><codeword>mylist.append(val)  </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>mylist[i]           </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>val in mylist       </codeword></td><td>O(N)</td></tr>
-        <tr><td><codeword>for val in mylist:  </codeword></td><td>O(N)</td></tr>
-        <tr><td><codeword>mylist.sort()       </codeword></td><td>O(N&#160;log&#160;N)</td></tr>
+        <tr><td rowspan='5'><b>Lists</b><br/><c>[1, 2, 3, 4]</c></td>
+            <td><c>mylist.append(val)  </c></td><td>O(1)</td></tr>
+        <tr><td><c>mylist[i]           </c></td><td>O(1)</td></tr>
+        <tr><td><c>val in mylist       </c></td><td>O(N)</td></tr>
+        <tr><td><c>for val in mylist:  </c></td><td>O(N)</td></tr>
+        <tr><td><c>mylist.sort()       </c></td><td>O(N&#160;log&#160;N)</td></tr>
 
-        <tr><td rowspan='4'><b>Dicts</b><br/><codeword>{'a': 1, 'b': 2}</codeword></td>
-            <td><codeword>mydict[key] = val   </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>mydict[key]         </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>key in mydict       </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>for key in mydict:  </codeword></td><td>O(N)</td></tr>
+        <tr><td rowspan='4'><b>Dicts</b><br/><c>{'a': 1, 'b': 2}</c></td>
+            <td><c>mydict[key] = val   </c></td><td>O(1)</td></tr>
+        <tr><td><c>mydict[key]         </c></td><td>O(1)</td></tr>
+        <tr><td><c>key in mydict       </c></td><td>O(1)</td></tr>
+        <tr><td><c>for key in mydict:  </c></td><td>O(N)</td></tr>
 
-        <tr><td rowspan='3'><b>Sets</b><br/><codeword>{1, 2, 3, 4}</codeword></td>
-            <td><codeword>myset.add(val)      </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>val in myset        </codeword></td><td>O(1)</td></tr>
-        <tr><td><codeword>for val in myset:   </codeword></td><td>O(N)</td></tr>
+        <tr><td rowspan='3'><b>Sets</b><br/><c>{1, 2, 3, 4}</c></td>
+            <td><c>myset.add(val)      </c></td><td>O(1)</td></tr>
+        <tr><td><c>val in myset        </c></td><td>O(1)</td></tr>
+        <tr><td><c>for val in myset:   </c></td><td>O(N)</td></tr>
     </table>
 
 <p>In all of these, N is the size of the list, dict, or set.</p>

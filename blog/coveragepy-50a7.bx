@@ -12,7 +12,7 @@ pytest-cov is supporting coverage.py 5.0, and we're talking about the future of
 pytest-cov.</p>
 
 <p>There are two big changes in Coverage.py 5.0a7.  First, there is a new
-reporting command: <codeword>coverage json</codeword> produces a JSON file with
+reporting command: <c>coverage json</c> produces a JSON file with
 information similar to the XML report.  In coverage.py 4.x, the data storage was
 a lightly cloaked JSON file.  That file was not in a supported format, and in
 fact, it is gone in 5.0.  This command produces a supported JSON format for

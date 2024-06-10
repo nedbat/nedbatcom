@@ -114,7 +114,7 @@ similarly.</p>
 the current directory.  My other project has a quirk: edx-lint/edx_lint has the
 code, so the punctuation difference threw it off.]</p>
 
-<p>To look at the mutants, use the <codeword>results</codeword> command:</p>
+<p>To look at the mutants, use the <c>results</c> command:</p>
 
 <code><![CDATA[
 $ mutmut results
@@ -135,7 +135,7 @@ Survived 🙁 (8)
 <p>This gives me the ids of the mutants that survived, that is, the mutations
 that didn't cause a failure in the test suite.</p>
 
-<p>We can see the actual code mutation with the <codeword>show</codeword>
+<p>We can see the actual code mutation with the <c>show</c>
 command:</p>
 
 <code><![CDATA[
@@ -160,7 +160,7 @@ the new line with plus.  Here the INDENT_STEP constant was changed from 4 to
 <p>Right off the bat, we have a philosophical decision to make.  A bit about
 how templite works: it converts template files into Python code.  Rendering a
 template is done by executing the generated Python code.  This
-<codeword>INDENT_STEP</codeword> constant is the indentation amount used in the
+<c>INDENT_STEP</c> constant is the indentation amount used in the
 generated code.</p>
 
 <p>I have no tests that examine the generated code. That code is an
@@ -195,7 +195,7 @@ $ mutmut show 29
 
 <p>The second mutant has found the one line of code that is not covered by the
 test suite, because it's for Python 2, and we are only running under Python 3.
-Mutmut has a <codeword>--use-coverage</codeword> flag, which uses coverage data
+Mutmut has a <c>--use-coverage</c> flag, which uses coverage data
 to skip mutations on lines that are not covered by the test suite. If I had
 used it to begin with, this mutant wouldn't have appeared. Nice.</p>
 
@@ -259,7 +259,7 @@ space!  Adding this simple test kills the mutant:</p>
 self.try_render("  hello  ", {}, "  hello  ")
 ]]></code>
 
-<p>I thought that <codeword>mutmut run</codeword> again would clear the mutant
+<p>I thought that <c>mutmut run</c> again would clear the mutant
 from the results, but the only way I could find to clear it was to delete the
 mutmut cache and run all the mutations again. [Anders wrote
 <a href='https://github.com/boxed/mutmut/issues/92'>an issue</a> about this.]</p>
@@ -281,8 +281,8 @@ $ mutmut show 46
              if token.startswith('{'):
 ]]></code>
 
-<p>Here <codeword>squash</codeword> is the same boolean flag we saw in mutant
-45.  I only ever check it with <codeword>if squash:</codeword>, so of course
+<p>Here <c>squash</c> is the same boolean flag we saw in mutant
+45.  I only ever check it with <c>if squash:</c>, so of course
 False and None produce the same results.  Notice here if I wanted to prevent
 this mutant by adding a pragma to the line, I would also have prevented the
 first success we had.  Adding that pragma would be counter-productive.</p>
@@ -305,11 +305,11 @@ $ mutmut show 58
 ]]></code>
 
 <p>This is another useful result.  Turns out in my tests, I always wrote
-space-squashing tags with a space, like <codeword>{{a -}}</codeword>.  This
+space-squashing tags with a space, like <c>{{a -}}</c>.  This
 mutated code adjusted the trimming of punctuation to account for the dash.
 Because I always had a space before the dash, the change to -4 went unnoticed.
 I killed this mutant by changing some tags in my tests to have no space:
-<codeword>{{a-}}</codeword>, and also added some with many spaces for good
+<c>{{a-}}</c>, and also added some with many spaces for good
 measure.</p>
 
 <p>Mutant 108 sure looks like it's real:</p>

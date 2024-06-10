@@ -35,15 +35,15 @@ look?  There's probably stuff you want to fix.  Simply add style rules to
 printstyle.css to correct whatever is wrong.</p>
 
 <p>For example, You'll probably have entire sections of your page you don't want
-to print at all.  Give them a <codeword>display:none</codeword> rule.  Narrow
-columns can be fixed with <codeword>width:100%</codeword>.  Fancy positioning
-can be undone with <codeword>float:none</codeword> or <codeword>position:static</codeword>.
+to print at all.  Give them a <c>display:none</c> rule.  Narrow
+columns can be fixed with <c>width:100%</c>.  Fancy positioning
+can be undone with <c>float:none</c> or <c>position:static</c>.
 Garish styling can be set back to black and white.</p>
 
 <p>You may find you need to select sections of your pages differently than you
 had to for the screen.  For instance, my home page has inline CSS since it's
 unique on my site, but it shares the printstyle.css stylesheet, so I added an
-id to the body tag (<codeword>&lt;body id="mainpage"></codeword>) so that I could
+id to the body tag (<c>&lt;body id="mainpage"></c>) so that I could
 write print CSS rules that applied only to the home page.</p>
 
 <p>When you are done, you'll have a printable page that looks like you meant
@@ -54,7 +54,7 @@ forms that can't be filled in.</p>
 <p>Printing well is one of those nice touches web designers often overlook, but
 it's not difficult at all, and will pleasantly surprise your printing readers
 when they put your content through their printer and end up with something they
-can actually use.</p>    
+can actually use.</p>
 
 <p>I'm not going to pick on ten blogs I read.  My checklist looks like this:</p>
 
@@ -64,7 +64,7 @@ can actually use.</p>
 
 <p>In fact, I think a better game is to pick a blogger in the BAD category,
 and suggest fixes to get them going.  For example, <a href='http://simonwillison.net/'>Simon Willison's</a>
-main problem is that his content is in a <codeword>overflow:hidden</codeword> div,
+main problem is that his content is in a <c>overflow:hidden</c> div,
 which makes it both pop onto a page of its own, and be clipped to that page,
 giving you three pages out of your printer: two blank except for navigation,
 and one with only the start of the content.  This would go a long way to making

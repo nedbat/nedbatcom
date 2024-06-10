@@ -32,19 +32,19 @@ def __eq__(self, other):
 
 <p>and ran my unit tests, and they failed.  What!?  How could doing a simple
 boolean refactoring cause breakage?  I scratched my head, re-read the lines,
-questioned my understanding of the short-circuit nature of the <codeword>and</codeword>
+questioned my understanding of the short-circuit nature of the <c>and</c>
 operator, and so on.  The usual "am I going crazy?" debugging techniques.</p>
 
 <p>Undoing the refactor made the tests work again, I changed it again to the
 shorter lines, and the tests failed again.   Adding some print statements to see
-the actual values being compared, I realized that the result of <codeword>make_div_only</codeword>
-is an object (of class Spec), and that object defines its own <codeword>Spec.__eq__</codeword> method
-to define the meaning of the <codeword>==</codeword> operator for its instances.</p>
+the actual values being compared, I realized that the result of <c>make_div_only</c>
+is an object (of class Spec), and that object defines its own <c>Spec.__eq__</c> method
+to define the meaning of the <c>==</c> operator for its instances.</p>
 
-<p>Then it hit me: the class doesn't define a <codeword>__ne__</codeword> method.
+<p>Then it hit me: the class doesn't define a <c>__ne__</c> method.
 My refactoring changed the operator from == to !=, the first was overridden to
 provide custom semantics, but the second was not, so simple object inequality was
-being checked, so <codeword>make_div_only</codeword> inequality test was always
+being checked, so <c>make_div_only</c> inequality test was always
 true, and the method incorrectly always returned False.</p>
 
 <p>The <a href='http://www.python.org/doc/2.5.2/ref/customization.html'>Python docs</a>
@@ -55,7 +55,7 @@ The truth of x==y does not imply that x!=y is false.
 Accordingly, when defining __eq__(), one should also define __ne__() so that the
 operators will behave as expected.</p></quote>
 
-<p>Adding a <codeword>__ne__</codeword> method to my Spec class made everything
+<p>Adding a <c>__ne__</c> method to my Spec class made everything
 work properly:</p>
 
 <code lang='python'><![CDATA[

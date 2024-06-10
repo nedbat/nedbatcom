@@ -36,7 +36,7 @@ def expensive_fn(a, b):
 
 <p>But there's a potential problem: the cache dictionary is a global.  Don't be
     fooled by the fact that it isn't literally a global: it doesn't use the
-    <codeword>global</codeword> keyword, and it isn't a module-level variable.
+    <c>global</c> keyword, and it isn't a module-level variable.
     But it is global in the sense that there is only one cache dictionary for
     expensive_fn for the entire process.</p>
 

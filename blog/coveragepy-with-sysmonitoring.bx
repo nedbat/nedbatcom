@@ -28,7 +28,7 @@ things I would like to know is what your real-world speed improvements are
 like.</p>
 
 <p>Because the support is still a bit experimental, you need to define an
-environment variable to use it: <codeword>COVERAGE_CORE=sysmon</codeword>.
+environment variable to use it: <c>COVERAGE_CORE=sysmon</c>.
 Eventually, sys.monitoring will be automatically used where possible, but for
 now you need to explicitly request it.</p>
 

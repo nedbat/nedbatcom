@@ -6,9 +6,9 @@
 <category>google</category>
 <body>
 <p>Armin's post about <a href='http://lucumr.pocoo.org/2008/7/1/whitespace-sensitivity'>Whitespace sensitivity</a>
-in Ruby piqued my interest.  It points out that in Ruby, <codeword>foo[42]</codeword>
-is different than <codeword>foo [42]</codeword> and that <codeword>foo/bar</codeword>
-is the same as <codeword>foo / bar</codeword> but different than <codeword>foo /bar</codeword>.
+in Ruby piqued my interest.  It points out that in Ruby, <c>foo[42]</c>
+is different than <c>foo [42]</c> and that <c>foo/bar</c>
+is the same as <c>foo / bar</c> but different than <c>foo /bar</c>.
 </p>
 
 <p>So I wanted to learn more about Ruby, and looked at a bunch of tutorials,

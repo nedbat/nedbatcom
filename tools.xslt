@@ -345,14 +345,6 @@
     </blockquote>
 </xsl:template>
 
-<xsl:template match='codeword'>
-    <code>
-        <xsl:call-template name='code-replace'>
-            <xsl:with-param name='code' select='translate(text(), " ", "&#160;")'/>
-        </xsl:call-template>
-    </code>
-</xsl:template>
-
 <xsl:template match='c'>
     <code>
         <xsl:call-template name='code-replace'>

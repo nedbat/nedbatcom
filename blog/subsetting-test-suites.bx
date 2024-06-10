@@ -69,8 +69,8 @@ tests/test_config.py::ConfigTest::test_toml_parse_errors[[tool.coverage.run]\nco
 pytest --select-cmd="python pick.py sample 10 < tests.txt"
 ]]></code>
 
-We're using <codeword>--select-cmd</codeword> to specify the shell command that
-will output the names of tests.  Our command uses <codeword>pick.py</codeword>
+We're using <c>--select-cmd</c> to specify the shell command that
+will output the names of tests.  Our command uses <c>pick.py</c>
 to select 10 random lines from tests.txt.
 
 </li>

@@ -94,7 +94,7 @@ total 8
 
 <p>Git stores three kinds of things: blobs, trees, and commits.  We now have one
 of each.  Blobs store the file contents.  You can see the
-<codeword>b581d8</codeword> blob is 859Kb, which is our 1Mb file with a little
+<c>b581d8</c> blob is 859Kb, which is our 1Mb file with a little
 compression applied.</p>
 
 <p>Now we change the file just a little bit by writing it over again with a
@@ -155,8 +155,8 @@ total 1720
 ]]></code>
 
 <p>Now, as promised, there are two blobs, each 859Kb.  The original file
-contents are still in blob <codeword>b581d8</codeword>, and there's a new blob
-(<codeword>3026a4</codeword>) to hold the updated contents.</p>
+contents are still in blob <c>b581d8</c>, and there's a new blob
+(<c>3026a4</c>) to hold the updated contents.</p>
 
 <p>Even though we changed just one line in a 2000-line file, git stores the full
 contents of both revisions of the file.</p>

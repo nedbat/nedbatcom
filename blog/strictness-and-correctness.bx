@@ -41,7 +41,7 @@ HTML and XML both use tags.</p>
 <p>HTML is derived from SGML, which has a dizzying array of shortcuts to minimize
 the markup in a document.  Take a quick look at <a href='http://www.is-thought.co.uk/book/sgml-9.htm'>Tag Minimization</a>
 from Martin Bryan's book to see the kind of stuff SGML lets you do.  Some of
-this is still in HTML, which is why XML's <codeword><![CDATA[<br/>]]></codeword> doesn't do what you
+this is still in HTML, which is why XML's <c><![CDATA[<br/>]]></c> doesn't do what you
 think in an HTML document.</p>
 
 <p>Other issues include the special treatment browsers give to script content,

@@ -19,7 +19,7 @@ pip install coverage==5.6b1
 <p>What's changed?  Previously, coverage.py didn't understand about third-party
 code you had installed.  With no options specified, it would measure and report
 on that code, for example in site-packages.  A common solution was to use
-<codeword>--source=.</codeword> to only measure code in the current directory
+<c>--source=.</c> to only measure code in the current directory
 tree.  But many people put their virtualenv in the current directory, so
 third-party code installed into the virtualenv would still get reported.</p>
 
@@ -27,7 +27,7 @@ third-party code installed into the virtualenv would still get reported.</p>
 measure code it finds there.  This should produce more useful results with less
 work on your part.</p>
 
-<p>This was a bit tricky because the <codeword>--source</codeword> option can
+<p>This was a bit tricky because the <c>--source</c> option can
 also specify an importable name instead of a directory, and it had to still
 measure that code even if it was installed where third-party code goes.</p>
 

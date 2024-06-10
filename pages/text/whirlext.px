@@ -460,14 +460,14 @@ insert_powers1(PyObject *self, PyObject *args)
 </p>
 
 <ul>
-<li><codeword>self</codeword> is borrowed, as our argument values always are.
+<li><c>self</c> is borrowed, as our argument values always are.
 The caller (or one of his callers) must own a reference to this value in order
 to call us with it, so we can borrow it from him.</li>
-<li>Similarly for <codeword>args</codeword>.</li>
-<li><codeword>numbers</codeword> is an object we pull out of the
-<codeword>args</codeword> with PyArg_ParseTuple.  Since args is borrowed, we
+<li>Similarly for <c>args</c>.</li>
+<li><c>numbers</c> is an object we pull out of the
+<c>args</c> with PyArg_ParseTuple.  Since args is borrowed, we
 can borrow value out of it, so numbers is also borrowed.</li>
-<li><codeword>powers</codeword> is our first owned reference.  We create this
+<li><c>powers</c> is our first owned reference.  We create this
 tuple at line 16, and Py_BuildValue returns a new reference, so it is now our
 responsibility.</li>
 </ul>
@@ -478,7 +478,7 @@ ownership to our caller.</p>
 
 <p>But there is a memory leak in this code: if PySequence_SetItem fails, we
 properly return NULL from the function to indicate the problem, but in that code
-path, we haven't disposed of our owned reference, <codeword>numbers</codeword>.
+path, we haven't disposed of our owned reference, <c>numbers</c>.
 </p>
 
 
@@ -591,14 +591,14 @@ careful to acquire and release them properly.
 </p>
 
         <figurep><img src="text/whirlext/whirlext_036.png" alt="Slide 36"/></figurep><p>When writing a class in Python, special methods have special names, like
-<codeword>__init__</codeword>.  When creating a type in C, those special methods
+<c>__init__</c>.  When creating a type in C, those special methods
 are ordinary C function with particular signatures that will be specified as
 part of the type definition.  Often, these functions are named systematically
 with the type name and method name, but as with our earlier C functions, the
 name really doesn't matter: a pointer to the function will be used to associate
 it with its role.</p>
 
-<p>Each type has an init function, which is the analog of <codeword>__init__</codeword>:
+<p>Each type has an init function, which is the analog of <c>__init__</c>:
 it initializes the data members:</p>
 
 <code lang="c">
@@ -648,7 +648,7 @@ some flags, and a docstring for the attribute.  The array will be used later
 in the type definition.
 </p>
 
-        <figurep><img src="text/whirlext/whirlext_038.png" alt="Slide 38"/></figurep><p>Class methods are defined just like functions.  That strange <codeword>self</codeword>
+        <figurep><img src="text/whirlext/whirlext_038.png" alt="Slide 38"/></figurep><p>Class methods are defined just like functions.  That strange <c>self</c>
 argument we had on our functions earlier now makes sense: we can declare it to be
 our struct type, and use it to access our data fields:
 </p>

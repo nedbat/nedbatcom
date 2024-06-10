@@ -12,13 +12,13 @@ File timestamps are ignored, allowing regenerated files to be properly
 uploaded only if their contents have changed.
 </p>
 
-<p>Call <codeword>setHost()</codeword> and <codeword>setMd5File()</codeword>
+<p>Call <c>setHost()</c> and <c>setMd5File()</c>
 to establish the settings for a session,
-then <codeword>upload()</codeword> for each set of files to upload.
+then <c>upload()</c> for each set of files to upload.
 If you want to have
 removed local files automatically delete the remote files, call
-<codeword>deleteOldFiles()</codeword> once,
-then <codeword>finish()</codeword> to perform the closing bookkeeping.
+<c>deleteOldFiles()</c> once,
+then <c>finish()</c> to perform the closing bookkeeping.
 </p>
 
 <code lang='python'><![CDATA[

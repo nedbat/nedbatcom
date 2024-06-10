@@ -130,9 +130,9 @@ strategy:
 ]]></code>
 
 <p>If you haven't seen cog before, this is how it works: it finds chunks of
-Python code between <codeword>[[[cog</codeword> and <codeword>]]]</codeword>
+Python code between <c>[[[cog</c> and <c>]]]</c>
 markers, executes them, and inserts the output into the file up to the
-<codeword>[[[end]]]</codeword> marker.  Existing output is replaced.</p>
+<c>[[[end]]]</c> marker.  Existing output is replaced.</p>
 
 <p>Here, the 30 lines of combinations are the output.  They weren't in the file
 originally; they were created when I ran cog and it re-wrote the whole file.  If

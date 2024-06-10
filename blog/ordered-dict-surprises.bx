@@ -16,7 +16,7 @@ random.</p>
 
 <p>Since the items in a dict have a specific order, it should be easy to get the
 first (or Nth) item, right?  Wrong. It's not possible to do this directly. You
-might think that <codeword>d[0]</codeword> would be the first item, but it's
+might think that <c>d[0]</c> would be the first item, but it's
 not, it's the value of the key 0, which could be the last item added to the
 dict.</p>
 
