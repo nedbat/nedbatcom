@@ -4,10 +4,10 @@
 <title>Math factoid of the day: 62</title>
 <category>me</category>
 <category>math</category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+
+<description>The rhombicosidodecahedron has 62 faces and is more common than you'd think</description>
+<img src="pix/poly60/zomeballs.png" alt="A number of Zometool hubs"/>
+
 <body>
 
 <p>There are two <a urlid="archimedean">Archimedean solids</a> with 62
@@ -31,25 +31,33 @@ faces:</p>
 </a>
 </figurep>
 
-<p>The rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron shows up in more places than you
-might expect for a complex polyhedron.  The
-<a urlid="zome">Zometool</a> building kit uses it for
-hubs, though the squares are adjusted to rectangles:</p>
+<p>They both have 62 faces because of their roots in the dodecahedron and
+icosahedron.  They have a face for each of the faces, vertices, and edges of
+either of those polyhedra: 12 + 20 + 30 = 62.</p>
+
+<p>The <a urlid="wiki">rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron</a> shows up
+in more places than you might expect for a complex polyhedron.  The
+<a urlid="zome">Zometool</a> building kit uses it for hubs, though the squares
+are adjusted to rectangles:</p>
 
 <figurep urlid="zome">
-    <img src="pix/poly60/zomeballs.png" width="500" height="250" alt="A pile of Zome hubs" />
+    <img src="pix/poly60/zomeballs.png" width="500" height="250" alt="A large number of Zometool hubs" />
 </figurep>
 
 <p>Recently one also showed up on Kickstarter: <a urlid="glint">Glint</a>, a
-rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron machined in solid brass.  I have one. It's satisfyingly heavy and precise.
-Here it is with its little Zome sister:</p>
+rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron machined in solid brass.  I have one.
+It's satisfyingly heavy and precise.  Here it is with its little Zome
+sister:</p>
 
 <figurep>
     <img src="pix/poly60/glint-zome.jpg" width="500" height="300" alt="Two rhombicosidodecahedral toys: Glint and Zome" />
 </figurep>
 
+<p>The rhomb&#xAD;icosi&#xAD;dodeca&#xAD;hedron is very pleasing: nearly round,
+but with simply polygonal faces close to the same size.</p>
 
 <url id="archimedean" href="https://en.wikipedia.org/wiki/Archimedean_solid" />
+<url id="wiki" href="https://en.wikipedia.org/wiki/Rhombicosidodecahedron" />
 <url id="zome" href="https://zometool.com" />
 <url id="glint" href="https://www.kickstarter.com/projects/1230816877/glint-a-uniquely-tactile-kinetic-desk-toy" />
 
