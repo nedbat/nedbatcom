@@ -17,6 +17,7 @@
 <what when='20240216T095800'>3.13.0a4</what>
 <what when='20240414T070700'>3.13.0a6</what>
 <what when='20240510T060700'>3.13.0b1</what>
+<what when='20240614T211500'>3.13.0b2</what>
 </history>
 
 <meta>
@@ -34,7 +35,7 @@ The Python Developer's Guide has a
 <a href="https://devguide.python.org/versions/">page summarizing the release
 cycles</a> of Python versions.</p>
 
-<h1>3.13: due October 1, 2024 (currently pre-release: beta 1)</h1>
+<h1>3.13: due October 1, 2024 (currently pre-release: beta 2)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#a-better-interactive-interpreter">Improved REPL</a>.</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
