@@ -50,7 +50,7 @@ End-of-life expected October 2029.
 
 <h1>3.12: October 2, 2023</h1>
 <ul>
-    <li>New type annotation syntax for generic classes and <b>type</b> aliases (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
+    <li>New type annotation syntax for generic classes and <c>type</c> aliases (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
     <li>New <a href="https://docs.python.org/3.12/whatsnew/3.12.html#pep-695-type-parameter-syntax">generic type syntax</a>.</li>
     <li>The distutils module has been removed (see <a href="https://peps.python.org/pep-0594/">PEP 594</a> and <a href="https://peps.python.org/pep-0632/">PEP 632</a>).</li>
@@ -85,10 +85,10 @@ End-of-life expected October 2027.
 
 <h1>3.10: October 4, 2021</h1>
 <ul>
-    <li>structural pattern matching, <b>match/case</b> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
+    <li>structural pattern matching, <c>match/case</c> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
     <li>better error messages</li>
     <li>parenthesized context managers</li>
-    <li>union types as <b>X|Y</b></li>
+    <li>union types as <c>X|Y</c></li>
 </ul>
 
 <p><a href='https://docs.python.org/3/whatsnew/3.10.html'>Full list of 3.10 changes</a>.
@@ -100,7 +100,7 @@ End-of-life expected October 2026.
 <h1>3.9: October 5, 2020</h1>
 <ul>
     <li>dict union operators</li>
-    <li>type hinting generics in standard collections (<b>list[int]</b> instead of <b>List[int]</b>)</li>
+    <li>type hinting generics in standard collections (<c>list[int]</c> instead of <c>List[int]</c>)</li>
     <li>relaxed decorator syntax</li>
     <li>str.removeprefix and str.removesuffix</li>
     <li>new modules: <a href="https://docs.python.org/3/library/graphlib.html#module-graphlib">graphlib</a>,
@@ -115,7 +115,7 @@ End-of-life expected October 2025.
 
 <h1>3.8: October 14, 2019</h1>
 <ul>
-    <li>assignment expressions (walrus operator <b>:=</b> )</li>
+    <li>assignment expressions (walrus operator <c>:=</c> )</li>
     <li>f-string "=" specifier</li>
     <li>positional-only parameters</li>
     <li><a href="https://docs.python.org/3/whatsnew/3.8.html#typing">typing additions</a>: TypedDict, Literal, Final, and Protocol</li>
@@ -131,7 +131,7 @@ End-of-life expected October 2024.
 <h1>3.7: June 27, 2018 (EOL June 2023)</h1>
 <ul>
     <li>postponed evaluation of type annotations (PEP 563)</li>
-    <li><b>async</b> and <b>await</b> are keywords</li>
+    <li><c>async</c> and <c>await</c> are keywords</li>
     <li><a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses</a></li>
     <li>dict order is guaranteed</li>
     <li>module __getattr__ and __dir__ (<a href="https://peps.python.org/pep-0562/">PEP 562</a>)</li>
