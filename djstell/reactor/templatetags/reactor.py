@@ -20,11 +20,11 @@ def comment_label(entryid):
 
 
 @register.inclusion_tag("comments.html", takes_context=True)
-def entry_comments(context, entryid, url):
+def entry_comments(context, entryid, url, closed):
     form = CommentForm(context["request"], entryid)
     context = copy.copy(context)
 
-    if form.is_post:
+    if form.is_post and not closed:
         form.handle_post(context)
         if form.is_adding and form.is_ok():
             # We finished a successful post, the view function should redirect.
@@ -34,6 +34,7 @@ def entry_comments(context, entryid, url):
     context.update({
         "comments": comments,
         "url": url,
+        "closed": closed,
     })
     context.update(form.context_data())
     return context

@@ -126,7 +126,7 @@
             {% endblock body %}
 
             {% if comments %}
-                {% entry_comments comments.entryid comments.url %}
+                {% entry_comments comments.entryid comments.url comments.closed %}
             {% endif %}
 
         </div>

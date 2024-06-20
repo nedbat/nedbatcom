@@ -32,6 +32,9 @@
 {% endfor %}
 
 <div id='commentform'>
+{% if closed %}
+    <h2>Comments are closed.</h2>
+{% else %}
 <h2>Add a comment:</h2>
 <div>
     <form method="post" action="{{url}}#commentform" id="commentformform">
@@ -131,6 +134,8 @@
 
     </form>
 </div>
+
+{% endif %}
 </div>
 
 </div>
