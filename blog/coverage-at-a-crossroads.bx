@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240621T081448'>
+<title>Coverage at a crossroads</title>
+<category>coverage</category>
+
+<body>
+
+<p>This is an interesting time for coverage.py: I'm trying to make use of new
+facilities in Python to drastically reduce the execution-time overhead, but it's
+raising tricky questions about how coverage should work.</p>
+
+<p>The current situation is a bit involved.  I'll try to explain, but this will
+get long, with a few sections.  Come talk in <a urlid="channel">Discord</a>
+about anything here, or anything about coverage at all.</p>
+
+<h1links/>
+
+
+<h1>How coverage works today</h1>
+
+<p>Much of this is discussed in <a urlid="howitworks">How coverage.py
+works</a>, but I'll give a quick overview here to set the stage for the rest of
+this post.</p>
+
+<h2>Trace function</h2>
+
+<p>Coverage knows what code is executed because it registers a
+<a urlid="settrace">trace function</a> which gets called for each line of
+Python execution.  This is the source of the overhead: calling a function is
+expensive.  Worse, for statement coverage, we only need one bit of information
+for each line: was it ever executed?  But the trace function will be invoked for
+every execution of the line, taking time but giving us no new information.</p>
+
+<h2>Arcs</h2>
+
+<p>The other thing to know about how coverage works today is arcs.  Coverage
+measures branch coverage by tracking the previous line that was executed, then
+the trace function can record an arc: the previous line number and the current
+line number as a pair.  Taken all together, these arcs show how execution has
+moved through the code.</p>
+
+<p>Most arcs are uninteresting. Consider this simple program:</p>
+
+<code lang="python" number="1"><![CDATA[
+print("Hello")
+print("world")
+print("bye")
+]]></code>
+
+<p>This will result in arcs (1, 2) and (2, 3).  Those tell us that lines 1, 2,
+and 3 were all executed, but nothing more interesting.  Lots of arcs are this
+kind of straight-line information.</p>
+
+<p>But when there are choices in the execution path, arcs tell us about branches
+taken:</p>
+
+<code lang="python" number="1"><![CDATA[
+a = 1
+if a == 1:
+    print("a is one!")
+else:
+    print("a isn't one!")
+print("Done")
+]]></code>
+
+<p>Now we'll collect these arcs during execution: (1, 2), (2, 3), (3, 6).  When
+coverage.py analyzes the code, it will determine that there were two possible
+arcs that didn't happen: (2, 5) and (5, 6).</p>
+
+<p>The set of all possible arcs is used to determine where the branches are. A
+branch is a line that has more than one possible arc leaving it.  In this case,
+the possible arcs include (2, 3) and (2, 5), so line 2 is a branch, and only one
+of the possible arcs happened, so line 2 is marked as a partial branch.</p>
+
+
+<h1>SlipCover</h1>
+
+<p><a urlid="slipcover">SlipCover</a> is a completely different implementation
+of a coverage measurement tool, focused on minimal execution overhead. They've
+accomplished this in a few clever ways, primarily by instrumenting the code to
+directly announce what is happening rather than using a trace function.
+Synthetic bytecode or source lines are inserted into your code to
+record data during execution without using a trace function.</p>
+
+<p>SlipCover's author (Juan Altmayer Pizzorno) and I have been talking for years
+about how SlipCover and coverage.py each work, with the ultimate goal to
+incorporate SlipCover-like techniques into coverage.py.  SlipCover is an
+academic project, so was never meant to be widely used and maintained
+long-term.</p>
+
+<p>One of the ways that SlipCover reduces overhead is to remove instrumentation
+once it has served its purpose.  After a line has been marked as executed, there
+is no need to keep that line's inserted bytecode.  The extra tracking code can
+be removed to avoid its execution overhead.</p>
+
+<p>Instrumenting and un-instrumenting code is complex.  With Python 3.12, we
+might be able to get the best aspects of instrumented code without having to
+jump through complicated hoops.</p>
+
+
+<h1>Python 3.12: sys.monitoring</h1>
+
+<p>Python 3.12 introduced a new way for Python to track execution.  The
+<a urlid="sysmon">sys.monitoring</a> feature lets you register for events when
+lines are executed.  This is similar to a classic trace function, but the
+crucial difference is you can disable the event line-by-line.  Once a line has
+reported its execution to coverage.py, that line's event can be disabled, and
+the line will run at full speed in the future without the overhead of reporting
+to coverage. Other lines in the same file will still report their events, and
+they can each be disabled once they have fired once.  This gives us low overhead
+because lines mostly run at full speed.</p>
+
+<p>Coverage.py has supported line coverage in 3.12
+<a pref="blog/coveragepy-with-sysmonitoring.bx">since 7.4.0</a> with only 5%
+overhead or so.</p>
+
+<p>Unfortunately, branch coverage is a different story.  sys.monitoring has
+branch events, but they are disabled based only on the "from" line, not on the
+"from/to" pair.  In our example above, line 2 could branch to 3 or to 5.  When
+sys.monitoring tells us line 2 branched to 3, we have to keep the event enabled
+until we get an event announcing line 2 branching to line 5.  This means we
+continue to suffer event overhead during execution of the 2-to-3 branch, plus
+we have to do our own bookkeeping to recognize when both branch destinations
+have been seen before we can disable the event.</p>
+
+<p>As a result, branch coverage doesn't get the same advantages from
+sys.monitoring as statement coverage.</p>
+
+<p>I've been talking to the core Python devs about changing how sys.monitoring
+works for branches. But even if we come to a workable design, because of
+Python's yearly release cycle it wouldn't be available until 3.14 in October
+2025 at the earliest.</p>
+
+
+<h1>Using lines for branches</h1>
+
+<p>In SlipCover, Juan came up with an interesting approach to use sys.monitoring
+line events for measuring branch coverage.  SlipCover already had a few ways of
+instrumenting code, rewriting the code during import to add
+statements that report execution data.  The new idea was to add lines at the
+destinations of branches.  The lines don't have to do anything. If
+sys.monitoring reports that the line was executed, then it must mean that the
+branch to that line happened.</p>
+
+<p>As an example, our code from above would be rewritten to look something
+like this:</p>
+
+<code lang="python"><![CDATA[
+a = 1
+if a == 1:                  # line 2
+    NO-OP                   # line A, marked as 2->3
+    print("a is one!")      # line 3
+else:                       
+    NO-OP                   # line B, marked as 2->5
+    print("a isn't one!")   # line 5
+print("Done")
+]]></code>
+
+<p>If sys.monitoring reports that line A was executed, we can record a branch
+from 2 to 3 and disable the event for line A.  This reduces the overhead and
+still lets us later get an event for line B when line 2 branches to line 5.</p>
+
+<p>This seems to give us the best of all the approaches: events can be disabled
+for each choice from a branch independently, and the inserted lines can be as
+minimal as possible.</p>
+
+
+<h1>Problems</h1>
+
+<p>There are a few problems with adapting this clever approach to
+coverage.py.</p>
+
+<h2>Moving away from arcs</h2>
+
+<p>This technique changes the data we collect during execution.  We no longer
+get a (1, 2) arc, for example.  Overall, that's fine because that arc isn't
+involved in computing branches anyway.  But arcs are used as intermediate data
+throughout coverage.py, including its extensive test suite.  How can we move to
+arc-less measurement on 3.12+ without refactoring many tests and while still
+supporting Pythons older than 3.12?</p>
+
+<p>I've gotten a start on adapting some test helpers to avoid having to change
+the tests, so this might not be a big blocker.</p>
+
+<h2>Is every multi-arc a branch?</h2>
+
+<p>Another problem is how coverage.py determines branches.  As I mentioned
+above, coverage.py statically analyzes code to determine all possible arcs.  Any
+line that could arc to more than one next line is considered a branch.  This
+works great for classic branches like if statements.  But what about this
+code?</p>
+
+<code lang="python" number="1"><![CDATA[
+def func(x):
+    try:
+        if x == 10:
+            print("early return")
+            return
+    finally:
+        print("finally")
+    print("finished")
+]]></code>
+
+<p>If you look at line 7, there are two places it could go next.  If x is 10,
+line 7 will return from the function because of the return on line 5.  If x is
+not 10, the line 7 will be followed by line 8.  Coverage.py's static analysis
+understands these possibilities and includes both (7, return) and (7, 8) in the
+possible arcs, so it considers line 7 a branch.  But is it?  The conditional
+here is really on line 3, which is already considered a branch.</p>
+
+<p>I mention this as a problem here because the clever NO-OP rewriting scheme
+depends on being able to insert a line at a destination that clearly indicates
+where the branch started from.  In this finally clause, where would we put the
+NO-OP line for the return?  The rewriting scheme breaks down if the same
+destination can be reached from different starting points.</p>
+
+<p>But maybe those cases are exactly the ones that shouldn't be considered
+branches in the first place?</p>
+
+
+<h1>Where are we?</h1>
+
+<p>I've been hacking on this in a <a urlid="mybranch">branch in the coveragepy
+repo</a>.  It's a complete mess with print-debugging throughout just to see
+where this idea could lead.</p>
+
+<p>For measuring performance, we have a cobbled-together benchmark tool in the
+<a urlid="benchmark">benchmark directory of the repo</a>. I could use help
+making it more repeatable and useful if you are interested.</p>
+
+<p>I'm looking for thoughts about how to resolve some of these issues, and how
+to push forward on a faster coverage.py.  There's now a
+<a urlid="channel">#coverage-py channel</a> in the Python Discord where I'd
+welcome feedback or ideas about any of this, or anything to do with
+coverage.py.</p>
+
+
+<url id="howitworks" href="https://coverage.readthedocs.io/en/latest/howitworks.html" />
+<url id="settrace" href="https://docs.python.org/3/library/sys.html#sys.settrace" />
+<url id="slipcover" href="https://github.com/plasma-umass/slipcover" />
+<url id="sysmon" href="https://docs.python.org/3/library/sys.monitoring.html" />
+<url id="mybranch" href="https://github.com/nedbat/coveragepy/tree/nedbat/sysmon-fake-lines-for-branches" />
+<url id="channel" href="https://discord.gg/RBw567RyWc" />
+<url id="benchmark" href="https://github.com/nedbat/coveragepy/tree/master/benchmark" />
+
+</body>
+</entry>
+</blog>
