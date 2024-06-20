@@ -675,17 +675,12 @@
   -->
 <xsl:template match='h1links'>
     <ul>
-        <xsl:for-each select='ancestor::page/h1'>
+        <xsl:for-each select='ancestor::page/h1|ancestor::body/h1'>
             <li>
                 <a>
                     <xsl:attribute name='href'>
-                        <xsl:call-template name='makeuri'>
-                            <xsl:with-param name='uri'>
-                                <xsl:value-of select='$dpath' />
-                                <xsl:text>#h_</xsl:text>
-                                <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
-                            </xsl:with-param>
-                        </xsl:call-template>
+                        <xsl:text>#h_</xsl:text>
+                        <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
                     </xsl:attribute>
                     <xsl:value-of select='text()' />
                 </a>
