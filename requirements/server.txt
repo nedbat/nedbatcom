@@ -13,7 +13,7 @@ django==4.2.13
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==4.3.0
+django-debug-toolbar==4.4.2
     # via -r requirements/base.in
 django-sendfile2==0.7.1
     # via -r requirements/base.in
@@ -21,7 +21,7 @@ ftfy==6.2.0
     # via -r requirements/base.in
 libsass==0.23.0
     # via -r requirements/base.in
-lxml==5.2.1
+lxml==5.2.2
     # via -r requirements/base.in
 markdown2==2.4.13
     # via -r requirements/base.in
