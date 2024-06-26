@@ -19,6 +19,8 @@ django-sendfile2==0.7.1
     # via -r requirements/base.in
 ftfy==6.2.0
     # via -r requirements/base.in
+gunicorn==22.0.0
+    # via -r requirements/server.in
 libsass==0.23.0
     # via -r requirements/base.in
 lxml==5.2.2
@@ -27,6 +29,8 @@ markdown2==2.4.13
     # via -r requirements/base.in
 mysqlclient==2.2.4
     # via -r requirements/server.in
+packaging==24.1
+    # via gunicorn
 path==16.14.0
     # via path-py
 path-py==12.5.0
@@ -55,3 +59,5 @@ webencodings==0.5.1
     # via
     #   bleach
     #   tinycss2
+whitenoise==6.7.0
+    # via -r requirements/base.in

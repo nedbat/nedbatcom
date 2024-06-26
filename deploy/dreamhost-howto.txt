@@ -73,3 +73,70 @@
         https://nedbatchelder.net/blog/201003/autism_moms_survival_guide.html
     - webp images:
         https://nedbatchelder.net/blog/202106/math_factoid_of_the_day_59_icosahedra.html
+
+
+= July 2024:
+- dreamhost required change to proxy server with gunicorn
+- proxy server change for nedbatchelder.net
+    - need to use legacy ui: https://panel.dreamhost.com/?tree=advanced.proxy
+    - added a proxy on port 9101
+    - myapp.py:
+        def app(environ, start_response):
+            data = b"Hello, World From Gunicorn!"
+            start_response("200 OK", [
+                ("Content-Type", "text/plain"),
+                ("Content-Length", str(len(data))),
+            ])
+            return iter([data])
+    - this works:
+        gunicorn myapp:app --log-level=debug --bind=nedbatchelder.net:9101
+        - why do the instructions show this?
+            GUNICORN_CMD_ARGS="--bind=example.com:8002" gunicorn myapp:app --log-level=debug
+    - passenger is enabled here: https://panel.dreamhost.com/?switch_to_user=nedbat&tree=domain.dashboard#/site/nedbatchelder.net
+        - under "web options"
+- more nb.net moving to gunicorn
+    - made subdomain static.nedbatchelder.net
+        - BUT: cache-busting: nedbatchelder_123123123.js
+        - don't need it, removed subdomain
+    - the old way, urls would be served from nedbatchelder.net/public with the .htaccess there in effect
+        - this isn't happening now, dreamhost opened a ticket about it
+    - wsgi.py can be generic:
+            """
+            It exposes the WSGI callable as a module-level variable named ``application``.
+
+            For more information on this file, see
+            https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
+            """
+
+            from django.core.wsgi import get_wsgi_application
+
+            application = get_wsgi_application()
+        - then:
+            DJANGO_SETTINGS_MODULE=djstell.settings_nednet gunicorn wsgi --log-level=debug --bind=nedbatchelder.net:9101
+    - installing linger
+        - https://help.dreamhost.com/hc/en-us/articles/23971547819412-Using-linger-with-Gunicorn
+        $ loginctl enable-linger
+        $ mkdir -p ~/.config/systemd/user/
+        $ cp nedbatchelder.net/nednet.service ~/.config/systemd/user/
+        $ systemctl --user enable nednet
+        Created symlink /home/nedbat/.config/systemd/user/default.target.wants/nednet.service → /home/nedbat/.config/systemd/user/nednet.service.
+        $ systemctl --user start nednet
+        $ systemctl --user status nednet
+        ● nednet.service - Gunicorn instance to serve nedbatchelder.net
+             Loaded: loaded (/home/nedbat/.config/systemd/user/nednet.service; enabled; vendor preset: enabled)
+             Active: active (running) since Tue 2024-06-25 13:43:24 PDT; 4s ago
+           Main PID: 223138 (gunicorn)
+              Tasks: 4 (limit: 115199)
+             Memory: 157.4M
+                CPU: 2.669s
+             CGroup: /user.slice/user-1003993.slice/user@1003993.service/nednet.service
+                     ├─223138 /home/nedbat/venvs/nednet/bin/python /home/nedbat/venvs/nednet/bin/gunicorn --workers 3 --bind=nedbatchelder.net:9101 wsgi
+                     ├─223148 /home/nedbat/venvs/nednet/bin/python /home/nedbat/venvs/nednet/bin/gunicorn --workers 3 --bind=nedbatchelder.net:9101 wsgi
+                     ├─223149 /home/nedbat/venvs/nednet/bin/python /home/nedbat/venvs/nednet/bin/gunicorn --workers 3 --bind=nedbatchelder.net:9101 wsgi
+                     └─223150 /home/nedbat/venvs/nednet/bin/python /home/nedbat/venvs/nednet/bin/gunicorn --workers 3 --bind=nedbatchelder.net:9101 wsgi
+
+- updating nb.com
+    cd nedbatchelder.com/
+    cp nedcom.service ~/.config/systemd/user/
+    systemctl --user enable nedcom
+    systemctl --user start nedcom

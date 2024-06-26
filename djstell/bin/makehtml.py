@@ -32,6 +32,12 @@ def timed(fn):
     return wrapped
 
 
+def run_cmd(*cmd):
+    process = subprocess.Popen([*cmd], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for line in process.stdout:
+        sys.stdout.buffer.write(line)
+
+
 class CmdLine(object):
     def __init__(self):
         self.xuff = XuffApp.XuffApp()
@@ -44,7 +50,7 @@ class CmdLine(object):
         self.text_ext='''
             *.html *.css *.xslt *.js *.txt *.xml
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
-            *.htaccess *.ini *.env
+            *.htaccess *.ini *.env *.service
             *.svg *.ipynb
             webfinger atproto-did
             '''
@@ -68,21 +74,24 @@ class CmdLine(object):
         self.dreamhost("nedbatchelder.com", "nedcom")
 
     def dreamhost(self, domain, slug):
+        self.slug = slug
         self.BASE = f'//{domain}'
         self.ROOT = "to_dh"
         self.VERB_ROOT = "to_dh/public"
         self.COPY_FILES = [
             (f"deploy/.env", ".env"),
-            (f"deploy/{slug}_passenger_wsgi.py", "passenger_wsgi.py"),
-            ("deploy/dreamhost_public.htaccess", "public/.htaccess"),
-            ]
+            ("deploy/dreamhost_public.htaccess", "public/.htaccess"),   # This has no effect any more?
+            ("deploy/wsgi.py", "wsgi.py"),
+            (f"deploy/{slug}.service", f"{slug}.service"),
+        ]
         self.COPY_TREES = [
             ("../../py/stellated", "stellated"),
             ("requirements", "requirements"),
-            ]
+        ]
         self.user_data = f"deploy/{slug}_users.json"
-        self.RSYNC_DST = f"dreamhost:{domain}"
-        self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell timestamps upload rsyncdb"
+        self.server = "dreamhost"
+        self.RSYNC_DST = f"{self.server}:{domain}"
+        self.all_words = "clean load copy_verbatim copy_live support collectstatic djstell timestamps upload rsyncdb restart"
         self.FTP = dict(
             host="nedbatchelder.net", hostdir=domain,
             user='nedbat', password=os.environ["DREAMHOST_PASSWORD"],
@@ -119,10 +128,6 @@ class CmdLine(object):
     def do_timestamps(self):
         with open(os.path.join(self.ROOT, "djstell/settings_timestamp.py"), "w") as f:
             print(f"DEPLOY_TIME = '{int(time.time())}'", file=f)
-        tmp = os.path.join(self.ROOT, "tmp")
-        os.makedirs(tmp, exist_ok=True)
-        with open(os.path.join(tmp, "restart.txt"), "w") as f:
-            print(str(datetime.datetime.now()), file=f)
 
     def run_sass(self, sassname, dst):
         """Compile a Sass file named `sassname` into the `dst` directory"""
@@ -202,10 +207,11 @@ class CmdLine(object):
 
     @timed
     def do_rsyncdb(self):
-        cmd = ["rsync", "-arvz", self.ROOT + "/djstell/stell.db", self.RSYNC_DST + "/djstell"]
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        for line in process.stdout:
-            sys.stdout.buffer.write(line)
+        run_cmd("rsync", "-arvz", f"{self.ROOT}/djstell/stell.db", f"{self.RSYNC_DST}/djstell")
+
+    def do_restart(self):
+        run_cmd("ssh", self.server, "systemctl", "--user", "restart", self.slug)
+        run_cmd("ssh", self.server, "systemctl", "--user", "status", self.slug)
 
     def do_all(self):
         self.exec_words(self.all_words.split())

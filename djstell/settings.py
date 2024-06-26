@@ -74,7 +74,7 @@ MEDIA_URL = None
 ADMIN_MEDIA_PREFIX = '/media/'
 
 STATIC_URL = "/"
-MY_BOGUS_STATIC_DIR = ""
+MY_BOGUS_STATIC_DIR = "public"
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = os.environ.get("SECRET_KEY", "doesn't matter")
@@ -85,6 +85,7 @@ MIDDLEWARE = (
     'djstell.middleware.standard.StaticOverlayMiddleware',
     #'djstell.middleware.secure_headers.set_secure_headers',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',

@@ -6,6 +6,7 @@ import datetime
 import logging
 import os
 import os.path
+import re
 import time
 
 import bleach
@@ -363,6 +364,8 @@ def last_resort(request, path):
 
     # Serve static files.
     if settings.STATIC_URL:
+        if m := re.fullmatch(r"(.+)__[0-9a-f]+\.(css|js)", path):
+            path = f"{m[1]}.{m[2]}"
         return serve_static(request, path=path, document_root=settings.MY_BOGUS_STATIC_DIR)
     else:
         raise Http404(f"Couldn't find {path=}")
