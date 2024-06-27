@@ -12,6 +12,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["nedbatchelder.com"]
+CSRF_TRUSTED_ORIGINS = ["https://nedbatchelder.com"]
 
 DATABASES = {
     'default': {
