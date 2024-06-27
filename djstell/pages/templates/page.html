@@ -75,12 +75,14 @@
         {% navbar %}
     </header>
 
+    {% comment %}  <!-- set this in style.scss to show it:  $show-alert: yes; -->
     <header id='alert'>
         <a href='/site/hirened.html'>
             I’m available for <b>freelance</b> work.
             <span class="link">Let’s talk</span> {% ch ">>" %}
         </a>
     </header>
+    {% endcomment %}
 
     <main id='content'>
         {% if user.is_superuser %}
