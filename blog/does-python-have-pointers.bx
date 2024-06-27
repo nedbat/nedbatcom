@@ -33,8 +33,8 @@ what it's referring to or how the decision was made.  The pointer gives us an
 indirection that lets us separate concerns and write more modular code.</p>
 
 <p>Many programming languages provide a pointer facility like this.  For
-example, in C, the get_address_of() operation is ampersand, and the
-get_value_via_pointer() operation is star, and our code snippet would be:</p>
+example, in C, the <c>get_address_of()</c> operation is ampersand, and the
+<c>get_value_via_pointer()</c> operation is star, and our code snippet would be:</p>
 
 <code lang="c"><![CDATA[
 int myvar = 17;
@@ -46,8 +46,8 @@ print_int(*mypointer);      // outputs 17
 capabilities.</p>
 
 <p>OK, so what about Python?  In one sense, Python doesn't have a pointer
-concept like this.  You could say that get_address_of() is provided by Python's
-id() function, since (in CPython at least) it returns the memory address of the
+concept like this.  You could say that <c>get_address_of()</c> is provided by Python's
+<c>id()</c> function, since (in CPython at least) it returns the memory address of the
 data:</p>
 
 <code lang="python"><![CDATA[
@@ -55,8 +55,8 @@ myvar = 17
 mypointer = id(myvar)   # ** not useful
 ]]></code>
 
-<p>But Python has no inverse operation: there's no get_value_via_pointer()
-that can get you myvar given mypointer.</p>
+<p>But Python has no inverse operation: there's no <c>get_value_via_pointer()</c>
+that can get you <c>myvar</c> given <c>mypointer</c>.</p>
 
 <p>So Python doesn't have the classic pair of operations to be able to work with
 pointers explicitly.  But on the other hand, <em>every</em> variable in Python
