@@ -12,7 +12,6 @@ LIVEPORT = 8000
 publish: ned.com 	## (ned.com) publish to nedbatchelder.com
 stage: ned.net		## (ned.net) publish to nedbatchelder.net
 
-
 env.%:
 	op item get ned$*.env --fields label=text --format json | jq -r ".value" > deploy/.env
 
@@ -48,6 +47,12 @@ stoplive: ## stop the live dev Django server
 clean_cache: ## how to clean auto-made webp images
 	@echo "To remove auto-made .webp images:"
 	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/etc"
+
+showmemory: ## See memory use on dreamhost
+	ssh dreamhost "ps -eo pid,%cpu,%mem,vsz,command --sort=%mem | grep 'bind\=ned'"
+
+showworkers: ## See systemctl on dreamhost
+	 ssh dreamhost systemctl --user status
 
 ##@ Maintenance
 
