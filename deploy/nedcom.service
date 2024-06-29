@@ -6,7 +6,7 @@ After=network.target
 WorkingDirectory=/home/nedbat/nedbatchelder.com
 Environment="PATH=/home/nedbat/venvs/nedcom/bin"
 Environment="DJANGO_SETTINGS_MODULE=djstell.settings_nedcom"
-ExecStart=/home/nedbat/venvs/nedcom/bin/gunicorn --workers 3 --bind=nedbatchelder.com:9100 wsgi
+ExecStart=/home/nedbat/venvs/nedcom/bin/gunicorn --workers 3 --bind=nedbatchelder.com:9101 wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

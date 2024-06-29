@@ -140,3 +140,12 @@
     cp nedcom.service ~/.config/systemd/user/
     systemctl --user enable nedcom
     systemctl --user start nedcom
+
+- site was broken for days
+    - dreamhost claimed it was due to "high traffic"
+        - 1 req per second!
+    - eventually:
+        - they figured out that port 9100 is blocked somehow, so don't use it.
+- final config:
+    nedbatchelder.com proxies to port 9101
+    nedbatchelder.net proxies to port 8101
