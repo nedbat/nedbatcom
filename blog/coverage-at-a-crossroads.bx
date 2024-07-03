@@ -151,7 +151,7 @@ a = 1
 if a == 1:                  # line 2
     NO-OP                   # line A, marked as 2->3
     print("a is one!")      # line 3
-else:                       
+else:
     NO-OP                   # line B, marked as 2->5
     print("a isn't one!")   # line 5
 print("Done")
@@ -204,7 +204,7 @@ def func(x):
 
 <p>If you look at line 7, there are two places it could go next.  If x is 10,
 line 7 will return from the function because of the return on line 5.  If x is
-not 10, the line 7 will be followed by line 8.  Coverage.py's static analysis
+not 10, then line 7 will be followed by line 8.  Coverage.py's static analysis
 understands these possibilities and includes both (7, return) and (7, 8) in the
 possible arcs, so it considers line 7 a branch.  But is it?  The conditional
 here is really on line 3, which is already considered a branch.</p>
