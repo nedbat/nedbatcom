@@ -8,12 +8,12 @@ asgiref==3.8.1
     # via django
 bleach[css]==6.1.0
     # via -r requirements/base.in
-django==4.2.13
+django==4.2.14
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==4.4.2
+django-debug-toolbar==4.4.5
     # via -r requirements/base.in
 django-sendfile2==0.7.1
     # via -r requirements/base.in
@@ -29,7 +29,7 @@ path==16.14.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==10.3.0
+pillow==10.4.0
     # via -r requirements/base.in
 pygments==2.11.2
     # via -r requirements/base.in

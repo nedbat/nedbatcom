@@ -10,7 +10,7 @@ beautifulsoup4==4.12.3
     # via linkchecker
 bleach[css]==6.1.0
     # via -r requirements/base.in
-certifi==2024.6.2
+certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
@@ -18,12 +18,12 @@ cogapp==3.4.1
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.13
+django==4.2.14
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==4.4.2
+django-debug-toolbar==4.4.5
     # via -r requirements/base.in
 django-sendfile2==0.7.1
     # via -r requirements/base.in
@@ -57,9 +57,9 @@ path==16.14.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==10.3.0
+pillow==10.4.0
     # via -r requirements/base.in
-playwright==1.44.0
+playwright==1.45.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -82,7 +82,7 @@ pytest-django==4.8.0
     # via -r requirements/dev.in
 pytest-freezer==0.4.8
     # via -r requirements/dev.in
-pytest-playwright==0.5.0
+pytest-playwright==0.5.1
     # via -r requirements/dev.in
 python-dateutil==2.9.0.post0
     # via freezegun
