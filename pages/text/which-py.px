@@ -19,6 +19,7 @@
 <what when='20240510T060700'>3.13.0b1</what>
 <what when='20240614T211500'>3.13.0b2</what>
 <what when='20240628T073800'>3.13.0b3</what>
+<what when='20240720T191400'>3.13.0b4</what>
 </history>
 
 <meta>
@@ -28,15 +29,16 @@
 <p>This is a summary of what features appeared in which versions of Python.
 Items with a star were introduced with a __future__ import.</p>
 
-<p>The Python release cycle is explained in
-<a href="https://peps.python.org/pep-0602/">PEP 602</a>.  Each release has its
-own PEP with specific dates,
-<a href="https://peps.python.org/topic/release/">they are all listed here</a>.
-The Python Developer's Guide has a
-<a href="https://devguide.python.org/versions/">page summarizing the release
-cycles</a> of Python versions.</p>
+<p>The Python release cycle is explained in <a urlid="pep602">PEP 602</a>.
+Each release has its own PEP with specific dates, <a urlid="releases">listed
+here</a>.  The Python Developer's Guide has a <a urlid="versions">page
+summarizing the release cycles</a> of Python versions.</p>
 
-<h1>3.13: due October 1, 2024 (currently pre-release: beta 3)</h1>
+<url id="pep602" href="https://peps.python.org/pep-0602/" />
+<url id="releases" href="https://peps.python.org/topic/release/" />
+<url id="versions" href="https://devguide.python.org/versions/" />
+
+<h1>3.13: due October 1, 2024 (currently pre-release: beta 4)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#a-better-interactive-interpreter">Improved REPL</a>.</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
