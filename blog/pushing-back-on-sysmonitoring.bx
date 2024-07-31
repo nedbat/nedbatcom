@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240731T173251'>
+<title>Pushing back on sys.monitoring</title>
+<category>coverage</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I've been continuing to work on <a urlid="crossroads">adapting
+coverage.py</a> to the new <a urlid="sysmon">sys.monitoring</a> facility.
+Getting efficient branch coverage has been difficult even with the new API.  The
+latest idea was to compile the code under measurement to insert phantom lines
+that could trigger line monitoring events that would track branch execution.
+But I've come to the opinion that this is not the right approach.  It's a
+complex work-around for a gap in the sys.monitoring API.</p>
+
+<p>To re-cap: sys.monitoring let you subscribe to events for code execution.  A
+line event lets you know when lines are executed.  You can disable a line event,
+and you will never again be notified about that particular line being
+executed.</p>
+
+<p>The gap is in the branch events: when one is fired, it tells you the
+bytecode offset of the source and destination. The problem is that disabling a
+branch event disables the source offset.  You never hear about that source
+offset again, even when the destination offset is different.  The central idea
+of a branch is that one source has two different destinations, so this disabling
+behavior is awkward.</p>
+
+<p>If we leave the branch event enabled, then we might be repeatedly told about
+the same source/destination pair, slowing down execution.  We could disable the
+event once we saw both possible destinations, but that means implementing our
+own bookkeeping, and we still have the overhead of repeated first-destination
+events.  If we disable the branch event immediately, we'll never hear about the
+other possible destination and the coverage data will be incomplete.</p>
+
+<p>The clever idea from <a urlid="slipcover">SlipCover</a> is to insert
+do-nothing lines at each branch destination, then only subscribe to line events.
+This works in theory, but adds complexity to coverage.py.  It also limits how it
+can be used: you can't start coverage measurement in a process after code has
+already been imported because the line insertion happens during compilation via
+an import hook. To make matters worse, there's a tricky interaction between the
+coverage.py import hook and the pytest import hook that rewrites assertions.</p>
+
+<p>Over the years I've done plenty of clever work-arounds for limitations in
+systems I build on top of.  They can be interesting puzzles and proud
+achievements.  They can also be maintenance headaches and fragile sources of
+bugs.</p>
+
+<p>My progress on adapting coverage.py to sys.monitoring has be slow, even
+glacial.  I think it will be faster overall to work on improving sys.monitoring
+instead, even though it means the improvements wouldn't be available until 3.14.
+It will keep coverage.py simpler and more flexible, and will make the improved
+branch events available to everyone.  I can't see how the current behavior is
+useful, so let's change it.</p>
+
+<p>I've <a urlid="dpo">proposed that we fix the sys.monitoring API</a>. Of
+course other participation is welcome in that discussion.</p>
+
+<p>I remember years ago working at Lotus, using the Lotus Notes API.  I accepted
+it as a finished thing.  Later I joined the organization that built Lotus Notes.
+We had a discussion about something we were building and a difficulty we were
+encountering. One of the longer-tenured engineers said, "Let's extend the API."
+It was a revelation that we didn't have to limit ourselves to the current
+capabilities of our foundation, we could change the foundation.</p>
+
+<p>The same is true of Python, especially because it is open source.  But it can
+be hard to remember that and to advocate for it where necessary.</p>
+
+<p>BTW, I still believe that coverage.py's internal focus on "arcs" is
+misguided, and will be working to remove that idea in favor of true
+branches.</p>
+
+<p>As I mentioned last time, there's now a dedicated
+<a urlid="channel">#coverage-py channel</a> in the Python Discord if you are
+interested in discussing any of this.</p>
+
+<url id="crossroads" href="/blog/202406/coverage_at_a_crossroads.html"/>
+<url id="sysmon" href="https://docs.python.org/3/library/sys.monitoring.html" />
+<url id="slipcover" href="https://github.com/plasma-umass/slipcover" />
+<url id="dpo" href="https://discuss.python.org/t/updating-sys-monitoring-how-branch-events-are-disabled/59527" />
+<url id="channel" href="https://discord.gg/RBw567RyWc" />
+
+</body>
+</entry>
+</blog>
