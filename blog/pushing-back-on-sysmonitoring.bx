@@ -17,6 +17,10 @@ that could trigger line monitoring events that would track branch execution.
 But I've come to the opinion that this is not the right approach.  It's a
 complex work-around for a gap in the sys.monitoring API.</p>
 
+<p><b>Update:</b> Mark Shannon is working on new events:
+<a href="https://github.com/python/cpython/issues/122548">Add BRANCH_TAKEN and
+BRANCH_NOT_TAKEN events to sys.monitoring</a>.</p>
+
 <p>To re-cap: sys.monitoring let you subscribe to events for code execution.  A
 line event lets you know when lines are executed.  You can disable a line event,
 and you will never again be notified about that particular line being
