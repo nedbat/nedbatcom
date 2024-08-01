@@ -20,6 +20,7 @@
 <what when='20240614T211500'>3.13.0b2</what>
 <what when='20240628T073800'>3.13.0b3</what>
 <what when='20240720T191400'>3.13.0b4</what>
+<what when='20240801T063200'>3.13.0rc1</what>
 </history>
 
 <meta>
@@ -38,11 +39,11 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.13: due October 1, 2024 (currently pre-release: beta 4)</h1>
+<h1>3.13: due October 1, 2024 (currently pre-release: release candidate 1)</h1>
 <ul>
-    <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#a-better-interactive-interpreter">Improved REPL</a>.</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#experimental-jit-compiler">Experimental preliminary JIT</a>.</li>
+    <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#a-better-interactive-interpreter">Improved REPL</a>.</li>
 </ul>
 
 <p><a href='https://docs.python.org/3.13/whatsnew/3.13.html'>Full list of 3.13 changes</a>.
