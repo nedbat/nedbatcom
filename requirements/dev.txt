@@ -18,12 +18,12 @@ cogapp==3.4.1
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.14
+django==4.2.15
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==4.4.5
+django-debug-toolbar==4.4.6
     # via -r requirements/base.in
 django-sendfile2==0.7.1
     # via -r requirements/base.in
@@ -33,7 +33,7 @@ freezegun==1.5.1
     # via
     #   -r requirements/dev.in
     #   pytest-freezer
-ftfy==6.2.0
+ftfy==6.2.3
     # via -r requirements/base.in
 greenlet==3.0.3
     # via playwright
@@ -49,17 +49,17 @@ lxml==5.2.2
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
-markdown2==2.4.13
+markdown2==2.5.0
     # via -r requirements/base.in
 packaging==24.1
     # via pytest
-path==16.14.0
+path==17.0.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.4.0
     # via -r requirements/base.in
-playwright==1.45.0
+playwright==1.45.1
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -69,7 +69,7 @@ pyee==11.1.0
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==8.2.2
+pytest==8.3.2
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -104,7 +104,7 @@ smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-es
     # via -r requirements/base.in
 soupsieve==2.5
     # via beautifulsoup4
-sqlparse==0.5.0
+sqlparse==0.5.1
     # via
     #   django
     #   django-debug-toolbar
