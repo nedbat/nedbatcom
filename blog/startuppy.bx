@@ -19,7 +19,7 @@ configure my command history.</p>
 export PYTHONSTARTUP=~/.startup.py
 ]]></code>
 
-<p>Then <a href='https://github.com/nedbat/dot/blob/master/.startup.py'>my .startup.py</a> file is:</p>
+<p>Then <a href='https://github.com/nedbat/dot/blob/master/.config/startup.py'>my .startup.py</a> file is:</p>
 
 <code lang="python"><![CDATA[
 # Ned's startup.py file, loaded into interactive python prompts.
