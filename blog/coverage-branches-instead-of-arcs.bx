@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240826T091800'>
+<title>Coverage branches instead of arcs</title>
+<category>coverage</category>
+
+<body>
+
+<p>As I mentioned in a few <a urlid="recent">recent posts</a>, I've been working
+on some significant work in coverage.py to take advantage of new capabilities in
+Python.</p>
+
+<p>Mark Shannon has been <a urlid="122564">improving the sys.monitoring
+API</a> so that branch coverage can be done with low overhead.  I want to take
+advantage of that in coverage.py, but I needed to do some refactoring work
+first.  The tests were focused on mapping the complete set of code pathways
+(which I called arcs), but using low-overhead branch monitoring won't provide
+those complete pathways.  If the tests continued to focus on them, they would
+fail with sys.monitoring.</p>
+
+<p>But the complete pathways aren't actually needed.  The useful information is
+where the branches are, and which branches were taken.  That can be measured
+with sys.monitoring.  So a first step was to refactor the tests to focus on
+branches instead of arcs.  That took a while, but is now done.</p>
+
+<p>Not needing all those arcs also meant I could simplify the AST-based parser
+that found the arcs, removing about 150 lines.  I suspect there's more that
+could be removed. Maybe it will happen over time. Also, the new
+code.co_branches() method might make it all obsolete over time.</p>
+
+<p>If you read <a pref="blog/coverage-at-a-crossroads.bx"/> on this blog, I
+talked about using ideas from SlipCover like inserting fake lines with an import
+hook.  Those exotic ideas were appealing in their way, but are no longer needed,
+and they would have brought a bunch of complexity.  With the two new
+sys.monitoring events, we can get the branch information directly without
+advanced shenanigans.</p>
+
+<p>There's more work to do, including attending to incoming bug reports.  If
+you'd like to help, or learn more about any of this, we have a
+<a urlid="channel">#coverage-py channel in the Python Discord</a>.</p>
+
+<url id="recent" href="https://nedbatchelder.com/blog/archive/year2024.html#month202407" />
+<url id="122564" href="https://github.com/python/cpython/pull/122564" />
+<url id="channel" href="https://discord.gg/RBw567RyWc" />
+
+<!--
+
+- Removed arcs from tests
+- removed code supporting arc
+- simplified parsing, could be simplified more?
+- co_branches might make parsing unnecessary
+- mark added branch events
+    - so no longer using slipcover ideas as mentioned in https://nedbatchelder.com/blog/202406/coverage_at_a_crossroads.html
+- tests might seem a bit odd now
+
+- still have to update for sys.monitoring
+- discord channel
+
+-->
+
+</body>
+</entry>
+</blog>
