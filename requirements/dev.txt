@@ -10,7 +10,7 @@ beautifulsoup4==4.12.3
     # via linkchecker
 bleach[css]==6.1.0
     # via -r requirements/base.in
-certifi==2024.7.4
+certifi==2024.8.30
     # via requests
 charset-normalizer==3.3.2
     # via requests
@@ -18,7 +18,7 @@ cogapp==3.4.1
     # via -r requirements/dev.in
 cssselect==1.2.0
     # via -r requirements/dev.in
-django==4.2.15
+django==4.2.16
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -37,7 +37,7 @@ ftfy==6.2.3
     # via -r requirements/base.in
 greenlet==3.0.3
     # via playwright
-idna==3.7
+idna==3.8
     # via requests
 iniconfig==2.0.0
     # via pytest
@@ -45,7 +45,7 @@ libsass==0.23.0
     # via -r requirements/base.in
 linkchecker==10.4.0
     # via -r requirements/dev.in
-lxml==5.2.2
+lxml==5.3.0
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
@@ -59,7 +59,7 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.4.0
     # via -r requirements/base.in
-playwright==1.45.1
+playwright==1.46.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -78,7 +78,7 @@ pytest==8.3.2
     #   pytest-playwright
 pytest-base-url==2.1.0
     # via pytest-playwright
-pytest-django==4.8.0
+pytest-django==4.9.0
     # via -r requirements/dev.in
 pytest-freezer==0.4.8
     # via -r requirements/dev.in
@@ -102,7 +102,7 @@ six==1.16.0
     #   python-dateutil
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes
     # via -r requirements/base.in
-soupsieve==2.5
+soupsieve==2.6
     # via beautifulsoup4
 sqlparse==0.5.1
     # via
