@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240914T112725'>
+<title>Cogged GitHub profile</title>
+<category>cog</category>
+<category>github</category>
+<category>me</category>
+
+<description>My GitHub profile is over-engineered with Cog. Let me explain.</description>
+<img src="pix/cards/github_profile.jpg" alt="a glimpse of my GitHub profile"/>
+
+<body>
+
+<p><a urlid="cog">Cog</a> is my tool for using bits of Python to generate
+content inside an otherwise static file.  I used it in extreme ways to generate
+my <a urlid="profile">GitHub profile page</a>.</p>
+
+<p>If you haven't seen it before, you can customize your GitHub profile by
+creating a README.md in a repo named the same as your username.  So
+<a urlid="profile">my profile</a> is rendered from
+<a urlid="readme">nedbat/nedbat/README.md</a>.</p>
+
+<p>My profile has a bit of static text, but much of it is badges, blog posts,
+links to PyPI projects, and so on.  The <a urlid="readme">README.md</a> is
+literally a Markdown file that can be displayed by GitHub, but it's full HTML
+comments containing Python code that generates the content.  The generation
+happens once a day in a <a urlid="build.yml">GitHub action</a>.</p>
+
+<p>There are three kinds of lines in a file run through cog: static content,
+code that will generate content, and generated content.  My README.md is
+lop-sided: it has 225 lines of code, 38 of static content, and 43 of generated
+content.</p>
+
+<p>The badges are made with <a href="https://shields.io/">shields.io</a> image
+URLs.  To make this easier, there are Python functions for Markdown image
+syntax, for building shields.io badge URLs, and so on.</p>
+
+<p>I can't walk through all of the code, but I can show a few simplified
+versions to convey the idea.  Read <a urlid="readme">the file itself</a> if
+you are interested in the full details.</p>
+
+<p>This makes a shields.io URL:</p>
+
+<code lang="python"><![CDATA[
+def shields_url(
+    label=None,
+    message=None,
+    color=None,
+    label_color=None,
+    logo=None,
+):
+    params = {"style": "flat"}
+    url = "".join([
+        "/badge/",
+        quote(label or ""),
+        "-",
+        quote(message),
+        "-",
+        color,
+        ])
+    url = "https://img.shields.io" + url
+    if label_color:
+        params["labelColor"] = label_color
+    if logo:
+        params["logo"] = logo
+    return url + "?" + urlencode(params)
+]]></code>
+
+<p>This makes a Markdown image:</p>
+
+<code lang="python"><![CDATA[
+def md_image(image_url, text, link):
+    return f'[![{text}]({image_url} "{text}")]({link})'
+]]></code>
+
+<p>Now we can make a Markdown badge:</p>
+
+<code lang="python"><![CDATA[
+def badge(text=None, link=None, **kwargs):
+    return md_image(image_url=shields_url(**kwargs), text=text, link=link)
+]]></code>
+
+<p>Anything print'ed will become part of the generated portions of the file.
+We can add a badge to the page with:</p>
+
+<code lang="python"><![CDATA[
+print(badge(
+    logo="discord", logo_color="white", label_color="7289da",
+    message="Discord", color="ffe97c",
+    text="Python Discord", link="https://discord.gg/python",
+))
+]]></code>
+
+<p>There are other functions built on top of these to make Mastodon badges,
+Stack Overflow badges, a row of badges for a PyPI project, and so on.</p>
+
+<p>Building the page ends up pulling data from 10 URLs, including a JSON summary
+of my blog for including blog posts.  It's satisfying to be able to have this
+update automatically instead of having to copy data around.</p>
+
+<p>The <a urlid="profile">result</a> is a convenient mix of static and
+generated, and it was a fun exercise in light-touch automation.</p>
+
+<url id="cog" href="https://cog.readthedocs.io" />
+<url id="profile" href="https://github.com/nedbat" />
+<url id="readme" href="https://github.com/nedbat/nedbat/blob/main/README.md?plain=1" />
+<url id="build.yml" href="https://github.com/nedbat/nedbat/blob/main/.github/workflows/build.yml" />
+
+</body>
+</entry>
+</blog>
