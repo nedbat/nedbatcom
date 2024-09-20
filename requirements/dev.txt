@@ -37,13 +37,13 @@ ftfy==6.2.3
     # via -r requirements/base.in
 greenlet==3.0.3
     # via playwright
-idna==3.8
+idna==3.10
     # via requests
 iniconfig==2.0.0
     # via pytest
 libsass==0.23.0
     # via -r requirements/base.in
-linkchecker==10.4.0
+linkchecker==10.5.0
     # via -r requirements/dev.in
 lxml==5.3.0
     # via
@@ -59,17 +59,17 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.4.0
     # via -r requirements/base.in
-playwright==1.46.0
+playwright==1.47.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
 pluggy==1.5.0
     # via pytest
-pyee==11.1.0
+pyee==12.0.0
     # via playwright
 pygments==2.11.2
     # via -r requirements/base.in
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -82,7 +82,7 @@ pytest-django==4.9.0
     # via -r requirements/dev.in
 pytest-freezer==0.4.8
     # via -r requirements/dev.in
-pytest-playwright==0.5.1
+pytest-playwright==0.5.2
     # via -r requirements/dev.in
 python-dateutil==2.9.0.post0
     # via freezegun
@@ -114,7 +114,7 @@ tinycss2==1.2.1
     # via bleach
 typing-extensions==4.12.2
     # via pyee
-urllib3==2.2.2
+urllib3==2.2.3
     # via requests
 wcwidth==0.2.13
     # via ftfy
