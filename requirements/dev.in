@@ -1,6 +1,7 @@
 -r base.in
 cogapp
 cssselect
+git+https://github.com/nedbat/cupid
 freezegun
 linkchecker
 lxml
