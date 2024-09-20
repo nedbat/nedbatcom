@@ -10,7 +10,7 @@
 
 -->
 
-<!-- [[[cog from cog_helpers import get_tweet ]]] -->
+<!-- [[[cog from helpers.cog import get_tweet ]]] -->
 <!-- [[[end]]] -->
 
 <!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1522928485689348096") ]]] -->

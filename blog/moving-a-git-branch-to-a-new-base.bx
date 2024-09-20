@@ -17,7 +17,7 @@
 -->
 
 <!-- [[[cog
-from cog_helpers import include_section
+from helpers.cog import include_section
 def include_chunk(start):
     include_section(
         filename="/tmp/git-rebase.txt",
