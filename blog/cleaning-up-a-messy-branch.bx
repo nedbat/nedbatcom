@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240921T084055'>
+<title>Cleaning up a messy branch</title>
+<category>git</category>
+
+<description>I had to clean up a messy git branch. Revert commits helped.</description>
+<img src="pix/cards/clean-branch.png" alt="Part of a diagram showing git commits"/>
+
+<body>
+
+<!-- This post is cogged. Re-cog it with:
+
+    $ cog -r blog/cleaning-up-a-messy-branch.bx
+
+-->
+
+<!--[[[cog
+
+    from helpers.gitfig import GitFig
+
+    MASTER_KWARGS = dict(class_="blue tint", fill="#ddf")
+    WORK_KWARGS = dict(class_="green tint", fill="#cfc")
+    BAD_KWARGS = dict(class_="red tint", fill="#fdd")
+    REVERT_KWARGS = dict(class_="yellow tint", fill="#ffc")
+
+    def base_fig(nbranches=2):
+        global fig, main, work
+        fig = GitFig(nbranches=nbranches, ncommits=8)
+        main = fig.branch("main", y=0)
+        main.commit("A", **MASTER_KWARGS)
+        work = fig.branch("work", pod=main.head, advance=1.5, y=1)
+        for name in "BMCDEF":
+            main.commit(name, **MASTER_KWARGS)
+        work.commit("W", **WORK_KWARGS)
+        work.commit("M", **MASTER_KWARGS)
+        work.commit("X", **BAD_KWARGS)
+
+]]]-->
+<!--[[[end]]]-->
+
+
+<p>Let's say you have a long-lived git branch. Most of the changes should be
+merged back to main, but some of the changes were already cherry-picked from
+main, and some of the changes shouldn't be put onto main at all.  How do you
+review the branch and merge it?</p>
+
+<p>Here's a diagram of a simple example.  The main branch at the top has seven
+commits.  Beneath that is our work branch with three commits, of the three
+different kinds: W is important work we need to end up on main, M is a commit we
+cherry-picked from main, and X is a temporary tweak that we don't want to end up
+on main:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig()
+    fig.finish()
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" viewBox="0 0 555 135" width="555" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id1" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="blue tint normal" cx="32.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="blue tint normal" cx="102.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path class="normal" d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="172.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">M</text><path class="normal" d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="242.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">C</text><path class="normal" d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="312.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">D</text><path class="normal" d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="382.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">E</text><path class="normal" d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="452.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="32.5">F</text><path class="normal" d="M 405,32 C 411,32 411,32 417,32 C 423,32 423,32 430,32" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="green tint normal" cx="137.5" cy="102.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="137.5" y="102.5">W</text><path class="normal" d="M 55,32 C 78,32 80,44 85,67 C 89,90 91,102 115,102" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="blue tint normal" cx="207.5" cy="102.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">M</text><path class="normal" d="M 160,102 C 166,102 166,102 172,102 C 178,102 178,102 185,102" fill="none" marker-end="url(#id1)" stroke="black" /><circle class="red tint normal" cx="277.5" cy="102.5" fill="#fdd" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">X</text><path class="normal" d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id1)" stroke="black" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>If we make a pull request from our work branch, GitHub will show a diff that
+includes all three commits W, M, and X.  It was a surprise to me that M was
+included: it's not a change that will happen if we merge the work branch,
+because M is already on main.  GitHub doesn't show you a diff between your
+branch and main, it shows the diff since your branch diverged from main: it
+shows all of the commits on your branch. This makes it hard to assess what a
+merge will do if the branch has cherry-picked commits.</p>
+
+<p>And of course the pull request diff includes X, since that would be a change
+to main if we merge the work branch.  But we don't want X in the merge, and we
+don't want to be distracted by M when reviewing the pull request.  What should
+we do?</p>
+
+<p>The answer is to use the "git revert" command to add commits to the branch
+that undo M and undo X.  We show those as -M and –X:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig()
+    work.commit("\N{EN DASH}M", **REVERT_KWARGS)
+    work.commit("\N{EN DASH}X", **REVERT_KWARGS)
+    fig.finish()
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" viewBox="0 0 555 135" width="555" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id2" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="blue tint normal" cx="32.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="blue tint normal" cx="102.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path class="normal" d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="172.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">M</text><path class="normal" d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="242.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">C</text><path class="normal" d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="312.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">D</text><path class="normal" d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="382.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">E</text><path class="normal" d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="452.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="32.5">F</text><path class="normal" d="M 405,32 C 411,32 411,32 417,32 C 423,32 423,32 430,32" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="green tint normal" cx="137.5" cy="102.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="137.5" y="102.5">W</text><path class="normal" d="M 55,32 C 78,32 80,44 85,67 C 89,90 91,102 115,102" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="blue tint normal" cx="207.5" cy="102.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">M</text><path class="normal" d="M 160,102 C 166,102 166,102 172,102 C 178,102 178,102 185,102" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="red tint normal" cx="277.5" cy="102.5" fill="#fdd" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">X</text><path class="normal" d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="yellow tint normal" cx="347.5" cy="102.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="347.5" y="102.5">–M</text><path class="normal" d="M 300,102 C 306,102 306,102 312,102 C 318,102 318,102 325,102" fill="none" marker-end="url(#id2)" stroke="black" /><circle class="yellow tint normal" cx="417.5" cy="102.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="417.5" y="102.5">–X</text><path class="normal" d="M 370,102 C 376,102 376,102 382,102 C 388,102 388,102 395,102" fill="none" marker-end="url(#id2)" stroke="black" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Now the diff will show only W, great!  The –X commit is perfect, it will
+prevent X from merging to main.  But what about –M?  What will happen when we
+merge that? I was concerned that it would undo the M commit on main.  But it
+doesn't.</p>
+
+<p>A git merge compares two snapshots of the repo and combines them.  In this
+case, the changes from M are on the main branch, and no trace of them are on the
+work branch, so M is fine, and remains on main after the merge.  The merge does
+just what we want. It brings the W changes onto main, and I've named it wM to
+indicate that:</p>
+
+<figurep>
+    <!--[[[cog
+    base_fig()
+    work.commit("\N{EN DASH}M", **REVERT_KWARGS)
+    work.commit("\N{EN DASH}X", **REVERT_KWARGS)
+    main.merge(work, name="mW", **WORK_KWARGS)
+    fig.finish()
+    ]]]-->
+    <svg baseProfile="full" height="135" version="1.1" viewBox="0 0 555 135" width="555" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id3" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="blue tint normal" cx="32.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="blue tint normal" cx="102.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path class="normal" d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="172.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">M</text><path class="normal" d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="242.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">C</text><path class="normal" d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="312.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">D</text><path class="normal" d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="382.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">E</text><path class="normal" d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="452.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="32.5">F</text><path class="normal" d="M 405,32 C 411,32 411,32 417,32 C 423,32 423,32 430,32" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="green tint normal" cx="137.5" cy="102.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="137.5" y="102.5">W</text><path class="normal" d="M 55,32 C 78,32 80,44 85,67 C 89,90 91,102 115,102" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="blue tint normal" cx="207.5" cy="102.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">M</text><path class="normal" d="M 160,102 C 166,102 166,102 172,102 C 178,102 178,102 185,102" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="red tint normal" cx="277.5" cy="102.5" fill="#fdd" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">X</text><path class="normal" d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="yellow tint normal" cx="347.5" cy="102.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="347.5" y="102.5">–M</text><path class="normal" d="M 300,102 C 306,102 306,102 312,102 C 318,102 318,102 325,102" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="yellow tint normal" cx="417.5" cy="102.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="417.5" y="102.5">–X</text><path class="normal" d="M 370,102 C 376,102 376,102 382,102 C 388,102 388,102 395,102" fill="none" marker-end="url(#id3)" stroke="black" /><circle class="green tint normal" cx="522.5" cy="32.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="522.5" y="32.5">mW</text><path class="normal" d="M 475,32 C 481,32 481,32 487,32 C 493,32 493,32 500,32" fill="none" marker-end="url(#id3)" stroke="black" /><path class="normal" d="M 440,102 C 463,102 471,99 493,90 C 515,81 522,78 522,55" fill="none" marker-end="url(#id3)" stroke="black" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<p>Some other points here:</p>
+
+<ul>
+
+<li>Why not just merge the branch after the W commit?  This is a simplified
+example for illustration.  The real branch that sent me down this path has
+dozens of commits intermixed.</li>
+
+<li>GitHub has three different ways to finish a pull request (merge, squash,
+rebase).  This technique of using reverts to hide cherry-picked changes and
+avoid unwanted changes applies to all of them.</li>
+
+<li>Although our merge only adds the W changes to main, the history will show
+the complete work branch, including our revert commits.  If you wanted it a
+little cleaner, you could leave out the –M reverts before merging.  The result
+will be the same with or without them.</li>
+
+<li>If you want you can also make a new branch for the revert commits to
+keep the work branch pristine:</li>
+
+<figurep>
+    <!--[[[cog
+    base_fig(nbranches=3)
+    revert = fig.branch("revert", pod=work.head, advance=1.5, y=2)
+    revert.commit("\N{EN DASH}M", **REVERT_KWARGS)
+    revert.commit("\N{EN DASH}X", **REVERT_KWARGS)
+    main.merge(revert, name="W", **WORK_KWARGS)
+    fig.finish()
+    ]]]-->
+    <svg baseProfile="full" height="205" version="1.1" viewBox="0 0 555 205" width="555" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><marker class="arrowend" id="id4" markerHeight="10" markerWidth="10" orient="auto" refX="10" refY="5" viewBox="0,0,10,10"><path d="M 0,0 L 10,5 L 0,10 L 1,5 z" /></marker></defs><circle class="blue tint normal" cx="32.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="32.5" y="32.5">A</text><circle class="blue tint normal" cx="102.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="102.5" y="32.5">B</text><path class="normal" d="M 55,32 C 61,32 61,32 67,32 C 73,32 73,32 80,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="172.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="172.5" y="32.5">M</text><path class="normal" d="M 125,32 C 131,32 131,32 137,32 C 143,32 143,32 150,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="242.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="242.5" y="32.5">C</text><path class="normal" d="M 195,32 C 201,32 201,32 207,32 C 213,32 213,32 220,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="312.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="312.5" y="32.5">D</text><path class="normal" d="M 265,32 C 271,32 271,32 277,32 C 283,32 283,32 290,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="382.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="32.5">E</text><path class="normal" d="M 335,32 C 341,32 341,32 347,32 C 353,32 353,32 360,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="452.5" cy="32.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="32.5">F</text><path class="normal" d="M 405,32 C 411,32 411,32 417,32 C 423,32 423,32 430,32" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="green tint normal" cx="137.5" cy="102.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="137.5" y="102.5">W</text><path class="normal" d="M 55,32 C 78,32 80,44 85,67 C 89,90 91,102 115,102" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="blue tint normal" cx="207.5" cy="102.5" fill="#ddf" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="207.5" y="102.5">M</text><path class="normal" d="M 160,102 C 166,102 166,102 172,102 C 178,102 178,102 185,102" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="red tint normal" cx="277.5" cy="102.5" fill="#fdd" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="277.5" y="102.5">X</text><path class="normal" d="M 230,102 C 236,102 236,102 242,102 C 248,102 248,102 255,102" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="yellow tint normal" cx="382.5" cy="172.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="382.5" y="172.5">–M</text><path class="normal" d="M 300,102 C 323,102 325,114 330,137 C 334,160 336,172 360,172" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="yellow tint normal" cx="452.5" cy="172.5" fill="#ffc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="452.5" y="172.5">–X</text><path class="normal" d="M 405,172 C 411,172 411,172 417,172 C 423,172 423,172 430,172" fill="none" marker-end="url(#id4)" stroke="black" /><circle class="green tint normal" cx="522.5" cy="32.5" fill="#cfc" r="22.5" stroke="black" stroke-width="1.5" /><text dy=".3em" text-anchor="middle" x="522.5" y="32.5">W</text><path class="normal" d="M 475,32 C 481,32 481,32 487,32 C 493,32 493,32 500,32" fill="none" marker-end="url(#id4)" stroke="black" /><path class="normal" d="M 475,172 C 506,172 508,160 514,129 C 520,98 522,86 522,55" fill="none" marker-end="url(#id4)" stroke="black" /></svg>
+    <!--[[[end]]]-->
+</figurep>
+
+<li>Finally, the way to get the cleanest history is to create a new branch and
+rebase the commits we want before merging.  This could be a lot of work, and
+some people will object to misrepresenting the actual history of commits.  Git
+gives you plenty of tools to do it as you prefer.</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
