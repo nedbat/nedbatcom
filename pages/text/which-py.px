@@ -22,6 +22,7 @@
 <what when='20240720T191400'>3.13.0b4</what>
 <what when='20240801T063200'>3.13.0rc1</what>
 <what when='20240921T132900'>3.13.0rc2</what>
+<what when='20240926T184500'>2.0</what>
 </history>
 
 <meta>
@@ -322,6 +323,18 @@ End-of-life December 23, 2021.
 </ul>
 
 <p><a href='http://docs.python.org/whatsnew/2.1.html'>Full list of 2.1 changes</a>.</p>
+
+
+<h1>2.0: October 16th, 2000</h1>
+<ul>
+    <li>Unicode</li>
+    <li>List comprehensions</li>
+    <li>String methods</li>
+    <li>Augmented assignment</li>
+    <li>Cyclic garbage collection</li>
+</ul>
+
+<p><a href='http://docs.python.org/whatsnew/2.0.html'>Full list of 2.0 changes</a>.</p>
 
 
 </page>
