@@ -23,6 +23,7 @@
 <what when='20240801T063200'>3.13.0rc1</what>
 <what when='20240921T132900'>3.13.0rc2</what>
 <what when='20240926T184500'>2.0</what>
+<what when='20240928T054300'>3.13 delay</what>
 </history>
 
 <meta>
@@ -41,7 +42,7 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.13: due October 1, 2024 (currently pre-release: release candidate 2)</h1>
+<h1>3.13: due October 7, 2024 (currently pre-release: release candidate 2)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#experimental-jit-compiler">Experimental preliminary JIT</a>.</li>
