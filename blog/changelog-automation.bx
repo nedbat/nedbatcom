@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240929T064756'>
+<title>Changelog automation</title>
+<category>docs</category>
+
+<description>Some details of custom automation I use for changelogs.</description>
+
+<body>
+
+<p>I have two main approaches for producing changelogs, but both are based on
+the same principles: make it convenient for the author to create them, then make
+it possible to use the information automatically to benefit the readers.</p>
+
+<p>The first way is with a tool such as <a urlid="scriv">scriv</a>, which I
+wrote, but which was inspired by previous similar tools like
+<a href="https://pypi.org/project/towncrier/">towncrier</a> and CPython's
+<a href="https://github.com/python/blurb">blurb</a>.  They let you write your
+changelog one entry at a time in the same pull request as the product change
+itself.  The entries are individual uniquely named files that are collected
+together when a release is made.  This avoids merge conflicts that will happen
+if a number of developers have to all edit the same changelog file.</p>
+
+<p>The second way I maintain a changelog is how I do it for
+<a urlid="coverage">coverage.py</a>.  This predates scriv, and is more
+custom-coded, so I'll walk through the steps.  Maybe you will be inspired to add
+bits to other tooling.</p>
+
+<p>I hand-edit a <a urlid="changes_rst">CHANGES.rst</a> file.  An entry there
+might look like this:</p>
+
+<!-- lang="rst" comes out double-spaced... :(  -->
+<code name="CHANGES.rst"><![CDATA[
+- Fix: we failed calling
+  :func:`runpy.run_path <python:runpy.run_path>`, as described
+  in `issue 1234`_.  This is now fixed, thanks to `Debbie Developer
+  <pull 2345_>`_.  Details are on the :ref:`configuration page
+  <config_report_format>`.
+
+.. _issue 1234: https://github.com/nedbat/coveragepy/issues/1234
+.. _pull 2345: https://github.com/nedbat/coveragepy/pull/2345
+]]></code>
+
+<p>This lets me use semantic linking mechanisms.  GitHub displays .rst files,
+but doesn't understand the <c>:ref:</c>-style of links
+unfortunately.</p>
+
+<p>The changelog is part of the docs for the project, pulled into the docs/ tree
+with a Sphinx directive.  The <c>:end-before:</c> lets me have end-page content
+in CHANGES.rst that don't appear in the docs:</p>
+
+<code name="doc/changes.rst"><![CDATA[
+.. include:: ../CHANGES.rst
+    :end-before: scriv-end-here
+]]></code>
+
+<p>It's great when researching a bug fix in other projects to see an issue
+closed with a comment about the commit that fixed it.  Even better is when the
+issue mentions what release first had the fix.  I automate that process for
+coverage.py.</p>
+
+<p>To do that and a few other things, I have some custom tooling. It's a bit
+baroque because it grew over time, but it suits my purposes. First I need to get
+the changelog into a more easily understood form.  Sphinx has a little-known
+feature to produce .rst files as output.  It sounds paradoxical, but the benefit
+is that all links are reduced to their simplest form.  The entry above
+becomes:</p>
+
+<code name="tmp/changes.rst"><![CDATA[
+*  Fix: we failed calling
+   https://docs.python.org/3/library/runpy.html#runpy.run_path, as
+   described in `issue 1234
+   <https://github.com/nedbat/coveragepy/issues/1234>`_.  This is now
+   fixed, thanks to `Debbie Developer
+   <https://github.com/nedbat/coveragepy/pull/2345>`_.  Details are on
+   the `configuration page <config.rst#config-report-format>`_.
+]]></code>
+
+<p>Then <a href="https://pandoc.org/">pandoc</a> converts it to Markdown
+and my <a urlid="parse_relnotes">parse_relnotes.py</a> creates a JSON file to
+make it easy to find entries for each version:</p>
+
+<code lang="json"><![CDATA[
+[
+    {
+        "version": "7.6.1",
+        "text": "-   Fix: coverage used to fail when measuring code using ...",
+        "prerelease": false,
+        "when": "2024-08-04"
+    },
+    ...
+]]></code>
+
+<p>Finally(!) <a urlid="comment_on_fixes">comment_on_fixes.py</a> gets the
+latest release from the JSON file, regexes it for GitHub URLs in the text, and
+adds a comment to closed issues and merged pull requests:</p>
+
+<code><![CDATA[
+This is now released as part of [coverage 7.x.y](https://pypi.org/project/coverage/7.x.y).
+]]></code>
+
+<p>The other automated output from my CHANGES.rst file is a GitHub release.
+GitHub releases are both convenient and problematic. I don't like the idea of
+authoring content on GitHub that is only available on GitHub.  The history of my
+project is an important part of my project, so I want the source of truth to be
+a version-controlled text file in my source distribution.  But people want to
+see GitHub releases. So I author in CHANGES.rst, but publish to GitHub
+releases.</p>
+
+<p>Using <a urlid="github_releases">github_releases.py</a> I automatically
+generate a GitHub release from the JSON file.  This was useful enough that I
+added a
+<a href="https://scriv.readthedocs.io/en/latest/commands.html#scriv-github-release">github-release</a>
+command to scriv to do a similar thing, but coverage.py still has the custom
+code to take advantage of the rst link simplifications I showed above.</p>
+
+<p>One of the things I don't like about GitHub releases is that they always have
+"Assets" appended to the end, with links to .zip and .tar.gz snapshots of the
+repo.  Those aren't the right way to get the package, so I include the link to
+the PyPI page and the correct command to install the package.</p>
+
+<p>Describing all this, it sounds complicated, and I guess it is.  I like being
+able to publish information to people who want it, and this automation
+accomplishes that.</p>
+
+<url id="scriv" href="https://pypi.org/project/scriv/" />
+<url id="coverage" href="https://github.com/nedbat/coveragepy/" />
+<url id="changes_rst" href="https://github.com/nedbat/coveragepy/blob/master/CHANGES.rst?plain=1" />
+<url id="comment_on_fixes" href="https://github.com/nedbat/coveragepy/blob/master/ci/comment_on_fixes.py" />
+<url id="parse_relnotes" href="https://github.com/nedbat/coveragepy/blob/master/ci/parse_relnotes.py" />
+<url id="github_releases" href="https://github.com/nedbat/coveragepy/blob/master/ci/github_releases.py" />
+
+</body>
+</entry>
+</blog>
