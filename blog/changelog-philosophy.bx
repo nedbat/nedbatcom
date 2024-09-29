@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20240928T143336'>
+<title>Changelog philosophy</title>
+<category>docs</category>
+<category>devmindset</category>
+
+<description>
+I playfully quipped about changelogs, and Sumana
+Harihareswara thoughtfully responded with Changelogs and
+Release Notes. I agree with her on some things, and disagree on others.
+</description>
+
+<body>
+
+<p>I <a urlid="quip">playfully quipped about changelogs</a>, and Sumana
+Harihareswara thoughtfully responded with <a urlid="sumana">Changelogs and
+Release Notes</a>. I agree with her on some things, and disagree on others.</p>
+
+<figurep urlid="quip">
+    <img
+        src="pix/tap-sign-changelog.jpg"
+        alt="A Simpson's &quot;don't make me tap the sign&quot; meme saying, &quot;a list of commits is not a changelog&quot;"
+        width="300"
+        />
+</figurep>
+
+<p>My point with the meme was that people should put effort into a hand-crafted
+description of what has changed in each release of their product.  It should be
+focused on what users need to know, and not include internal changes, which can
+be found in the git commits or pull requests.  It's easy to publish a list of
+commits or pull requests and call it a changelog, but it's not that helpful to
+your users trying to understand what has changed for them.  That was the point
+of the meme.</p>
+
+<p>But Sumana raised the stakes, explaining why projects should produce
+<b>two</b> hand-crafted descriptions.  The first is a changelog which mentions
+every non-trivial change. The second are release notes which should be
+user-focused with more details.</p>
+
+<p>I liked the reasons Sumana gave:</p>
+
+<ul>
+
+<li>Release notes can include project-level information that doesn't correspond
+to a particular change in a release.  Maybe you started a new discussion forum,
+or there's a shift in maintainer attention, plans for upcoming work, and so
+on.</li>
+
+<li>If the release notes are user-focused, then the changelog can be more
+comprehensive, giving people a fuller picture of the work that goes into
+producing the project. This can pull back the curtain, helping people understand
+the inner workings of the project and perhaps find a way to help out.</li>
+
+</ul>
+
+<p>My problem with separating the changelog and release notes is that I have
+limited energy to produce them, and perhaps more importantly, people have
+limited attention to read them.  For my projects, I opt instead for a middle
+ground: <a urlid="changes_html">my changelogs</a> lean more toward Sumana's
+ideal of release notes.  They are hand-written, focused on what users of the
+project need to know, and do not include things like build changes and
+refactorings.</p>
+
+<p>For large projects like Python and Linux, there are many maintainers and many
+types of information, so it makes sense to have multiple views of "what's
+changed."  For single-maintainer projects, it feels like too much.  I applaud
+people who can do it, but I don't think I can, and I won't expect it from
+others.</p>
+
+<p>Ultimately, each project has to decide for themselves how to balance the
+effort and the benefit.  They know their audience(s), and what resources they
+have to do the work.  Open source is already difficult, the last thing I want to
+do is add a giant SHOULD to a project.</p>
+
+<p>There's an inexact nested ratio at work in projects: Most users (say 90%)
+will only consume, you will never hear from them.  You hear from the remaining
+10%, but only 10% of those will do something you consider a contribution.  For
+widely used projects like coverage.py, I think the ratio might be more like 1%
+of 1% instead of 10% of 10%.  How does this affect your communication approach?
+You could look at it two ways: either write for the audience you have (focus on
+the 90%), or write for the audience you want (focus on the 10%).</p>
+
+<p>In my changelogs now, for fixes I try to describe the bad thing that used to
+happen and any important changes in behavior.  For features, I link to the new
+docs. I include links to issues and pull requests, and I name the contributors
+who helped.</p>
+
+<p>So I guess my approach is to write changelogs for the 90%.  But I like
+Sumana's idea of making the full picture of maintainence more visible to people,
+so I'm thinking about how to add that without changing the essential character
+of my changelog.  Perhaps something at the end summarizing the changes that
+aren't yet mentioned, with a link to the git history?  I'm not sure I can
+automate collecting that information, but I'll have to play with it.</p>
+
+<url id="quip" href="https://hachyderm.io/@nedbat/113152493265812268" />
+<url id="sumana" href="https://harihareswara.net/posts/2024/changelogs-and-release-notes" />
+<url id="changes_html" href="https://coverage.readthedocs.io/en/latest/changes.html" />
+
+</body>
+</entry>
+</blog>
