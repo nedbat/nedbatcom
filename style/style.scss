@@ -86,6 +86,11 @@ body {
         &:hover {
             color: var(--link-hover-color);
         }
+        &[badurlid] {
+            background: red;
+            padding: .25em;
+            border-radius: .2em;
+        }
     }
 }
 
