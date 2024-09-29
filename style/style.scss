@@ -969,9 +969,10 @@ blockquote.code {
         text-decoration: none;
     }
     p.name {
+        font-size: 75%;
         text-align: right;
         font-style: italic;
-        margin: 0 0 -1em 0;
+        margin: 0 0 -.5em 0;
         padding: 0;
     }
     span.lineno {
