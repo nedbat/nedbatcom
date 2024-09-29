@@ -37,11 +37,11 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==10.4.0
     # via -r requirements/base.in
-pygments==2.11.2
+pygments==2.18.0
     # via -r requirements/base.in
 python-dotenv==1.0.1
     # via -r requirements/base.in
-secure==0.3.0
+secure==1.0.0
     # via -r requirements/base.in
 six==1.16.0
     # via bleach
