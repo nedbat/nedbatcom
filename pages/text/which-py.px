@@ -24,6 +24,7 @@
 <what when='20240921T132900'>3.13.0rc2</what>
 <what when='20240926T184500'>2.0</what>
 <what when='20240928T054300'>3.13 delay</what>
+<what when='20241007T164500'>3.13</what>
 </history>
 
 <meta>
@@ -42,7 +43,7 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.13: due October 7, 2024 (currently pre-release: release candidate 2)</h1>
+<h1>3.13: October 7, 2024</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#experimental-jit-compiler">Experimental preliminary JIT</a>.</li>
@@ -120,7 +121,7 @@ End-of-life expected October 2025.
 </p>
 
 
-<h1>3.8: October 14, 2019</h1>
+<h1>3.8: October 14, 2019 (EOL October 2024)</h1>
 <ul>
     <li>assignment expressions (walrus operator <c>:=</c> )</li>
     <li>f-string "=" specifier</li>
@@ -131,7 +132,7 @@ End-of-life expected October 2025.
 
 <p><a href='https://docs.python.org/3/whatsnew/3.8.html'>Full list of 3.8 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0569/">PEP 569</a>.
-End-of-life expected October 2024.
+End-of-life October 7, 2024.
 </p>
 
 
