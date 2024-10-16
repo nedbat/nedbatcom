@@ -25,6 +25,7 @@
 <what when='20240926T184500'>2.0</what>
 <what when='20240928T054300'>3.13 delay</what>
 <what when='20241007T164500'>3.13</what>
+<what when='20241015T210500'>3.14a1</what>
 </history>
 
 <meta>
@@ -42,6 +43,17 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="pep602" href="https://peps.python.org/pep-0602/" />
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
+
+<h1>3.14: expected October 2025 (currently alpha 1)</h1>
+<ul>
+    <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#pep-649-deferred-evaluation-of-annotations">Deferred evaluation of annotations</a>.</li>
+</ul>
+
+<p><a href="https://docs.python.org/3.14/whatsnew/3.14.html">Full list of 3.14 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0745/">PEP 745</a>.
+End-of-life expected October 2030.
+</p>
+
 
 <h1>3.13: October 7, 2024</h1>
 <ul>
