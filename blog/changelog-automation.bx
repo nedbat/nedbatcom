@@ -29,8 +29,7 @@ bits to other tooling.</p>
 <p>I hand-edit a <a urlid="changes_rst">CHANGES.rst</a> file.  An entry there
 might look like this:</p>
 
-<!-- lang="rst" comes out double-spaced... :(  -->
-<code name="CHANGES.rst"><![CDATA[
+<code lang="rst" name="CHANGES.rst"><![CDATA[
 - Fix: we failed calling
   :func:`runpy.run_path <python:runpy.run_path>`, as described
   in `issue 1234`_.  This is now fixed, thanks to `Debbie Developer
@@ -49,7 +48,7 @@ unfortunately.</p>
 with a Sphinx directive.  The <c>:end-before:</c> lets me have end-page content
 in CHANGES.rst that don't appear in the docs:</p>
 
-<code name="doc/changes.rst"><![CDATA[
+<code lang="rst" name="doc/changes.rst"><![CDATA[
 .. include:: ../CHANGES.rst
     :end-before: scriv-end-here
 ]]></code>
@@ -66,7 +65,7 @@ feature to produce .rst files as output.  It sounds paradoxical, but the benefit
 is that all links are reduced to their simplest form.  The entry above
 becomes:</p>
 
-<code name="tmp/changes.rst"><![CDATA[
+<code lang="rst" name="tmp/changes.rst"><![CDATA[
 *  Fix: we failed calling
    https://docs.python.org/3/library/runpy.html#runpy.run_path, as
    described in `issue 1234
