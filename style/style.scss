@@ -1081,7 +1081,7 @@ code, tt {
     font-size: 80%;
     font-family: $code-font;
     @include colors(--blockquote-bg-color);
-    padding: 0 .4em;
+    padding: 0 .1em;
     border-radius: 2px;
 }
 

@@ -10,15 +10,18 @@
     pull request number, without worrying about the repo or name of the
     branch:</p>
 
-<code><![CDATA[
+<code lang="ini"><![CDATA[
 [alias]
-copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
-                    git checkout pr/$1 && git reset --hard @; }; f"
+    copr = "!f() { \
+        git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && \
+        git checkout pr/$1 && \
+        git reset --hard @; \
+    }; f"
 ]]></code>
 
 <p>You use it with the number of the pull request you want:</p>
 
-<code><![CDATA[
+<code lang="console"><![CDATA[
 $ git copr 1234
 ...
 Switched to branch 'pr/1234'
@@ -35,7 +38,7 @@ HEAD is now at a2d8da8ffa blah blah blah blah
 <p>If the pull request is from a branch in the same repo, you can just check out
     the branch by name:</p>
 
-<code>$ git checkout joe/proposed-feature</code>
+<code lang="console">$ git checkout joe/proposed-feature</code>
 
 <p>But you might not remember the name of the branch, or it might be in a different
     fork.  Better is to be able to request the code by the pull request number.</p>
@@ -64,17 +67,20 @@ HEAD is now at a2d8da8ffa blah blah blah blah
     file to define a new command that will pull down a pull request branch when
     you need it:</p>
 
-<code><![CDATA[
+<code lang="ini"><![CDATA[
 [alias]
-copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 &&
-                    git checkout pr/$1 && git reset --hard @; }; f"
+    copr = "!f() { \
+        git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && \
+        git checkout pr/$1 && \
+        git reset --hard @; \
+    }; f"
 ]]></code>
 
-<p>(That should all be on one line, but I wanted it to be readable here.) This
+<p>This
     gives us a new command, "git copr" (for CheckOut Pull Request) that gets
     branches from pull requests:</p>
 
-<code>
+<code lang="console">
 $ git copr 1234            # gets and switches to pr/1234 from origin
 $ git copr 789 upstream    # gets and switches to pr/789 from upstream
 </code>
@@ -120,7 +126,7 @@ $ git copr 789 upstream    # gets and switches to pr/789 from upstream
 <p>When we try these, the first does a bad thing, but the second and third are
     good:</p>
 
-<code lang="python"><![CDATA[
+<code lang="console"><![CDATA[
 $ git ee1 one two
 1 is one stop
 2 is two stop one two
@@ -140,7 +146,7 @@ $ git ee3 one two
 <p>From previous cargo-cult expeditions, my ~/.gitconfig has other aliases using
     a different form:</p>
 
-<code lang="python"><![CDATA[
+<code lang="ini"><![CDATA[
 [alias]
     ee4 = !sh -c 'echo 1 is $1 stop && echo 2 is $2 stop'
     ee5 = !sh -c 'echo 1 is $1 stop && echo 2 is $2 stop' -
@@ -148,7 +154,7 @@ $ git ee3 one two
 
 <p>These do this:</p>
 
-<code><![CDATA[
+<code lang="console"><![CDATA[
 $ git ee4 one two
 1 is two stop
 2 is stop
@@ -161,7 +167,7 @@ $ git ee5 one two
     that all are designed to let you access arguments positionally, but not
     get confused by them:</p>
 
-<code><![CDATA[
+<code lang="ini"><![CDATA[
 [alias]
     cmd1 = "!command1 && command2 && :"
     cmd2 = "!f() { command1; command2; }; f"

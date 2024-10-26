@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20241026T123445'>
+<title>Git aliases: switch to mainster, etc</title>
+<category>git</category>
+<description>Some of my more elaborate git command aliases, explained.</description>
+<!--
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I use a lot of git aliases because I work in the terminal and aliases give me
+short commands for common operations.  They are defined in my
+<a urlid="config">global git config file</a> and range from simple to powerful
+but twisty.</p>
+
+<url id="config" href="https://github.com/nedbat/dot/blob/master/.config/git/config" />
+
+<p>First, some basic aliases for operations I do often:</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    br = branch
+    co = checkout
+    sw = switch
+    d = diff
+    di = diff
+    s = status -s -b --show-stash
+]]></code>
+
+<p>These are simple, but others could use some explanation.</p>
+
+
+<h1>Committing</h1>
+
+<p>I have a few aliases for committing code.  The "ci" alias provides the
+default option "--edit" so that even if I provide a message on the command line
+with "git ci -m", it will pop me into the editor to provide more detail.  "git
+amend" is for updating the last commit with the latest file edits I've made, and
+"git edit" is for updating the commit message on the latest commit:</p>
+
+<code lang="python"><![CDATA[
+[alias]
+    ci = commit --edit
+    amend = commit --amend --no-edit
+    edit = commit --amend --only
+]]></code>
+
+
+<h1>Returning home</h1>
+
+<p>I work in many repos. Many have a primary branch called "main" but in some
+it's called "master".  I don't want to have to remember which is which, so I
+have an alias "git ma" that returns me to the primary branch however it's
+named.  It uses a helper alias to find the name of the primary branch:</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # Find the name of the primary branch, either "main" or "master".
+    primary = "!f() { \
+        git branch -a | \
+        sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p'; \
+    }; f"
+]]></code>
+
+<p>If you haven't seen this style of alias before, the initial exclamation point
+means it's a shell command not a git command.  Then we use shell
+<c>f()&#xa0;{···};&#xa0;f</c> syntax to define a function and immediately invoke
+it.  This lets us use shell commands in a pipeline, access arguments with
+<c>$1</c>, and so on. (<a pref="blog/fetching-github-pull-requests.bx"/> has
+more about this technique.)</p>
+
+<p>This alias uses the "git branch -a" command to list all the branches, then
+pipes it into the Unix sed command to find the remote one named either "main" or
+"master".</p>
+
+<p>With "git primary" defined, we can define the "ma" alias to switch to the
+primary branch and pull the latest code.  I like "ma" because it's short for
+both main and master, and because it feels like coming home ("Hi ma!"):</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # Switch to main or master, whichever exists, and update it.
+    ma = "!f() { \
+        git checkout $(git primary) && \
+        git pull; \
+    }; f"
+]]></code>
+
+<p>For repos with an upstream, I need to pull their latest code and also push to
+my fork to get everything in sync.  For that I have "git mma" (like ma but
+more):</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # Pull the upstream main/master branch and update our fork.
+    mma = "!f() { \
+        git ma && \
+        git pull upstream $(git primary) --ff-only && \
+        git push; \
+    }; f"
+]]></code>
+
+
+<h1>Merging and finishing branches</h1>
+
+<p>For personal projects, I don't use pull requests to make changes.  I work on
+a branch and then merge it to main.  The "brmerge" alias merges a branch and
+then deletes the merged branch:</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # Merge a branch, and delete it here and on the origin.
+    brmerge = "!f() { \
+        : git show; \
+        git merge $1 && \
+        git branch -d $1 && \
+        git push origin --delete $1; \
+    }; f"
+]]></code>
+
+<p>This shows another technique: the <c>:&#xa0;git&#xa0;show;</c> command does
+nothing but instructs zsh's tab completion that this command takes the same
+arguments as "git show".  In other words, the name of a branch.  That argument
+is available as <c>$1</c> so we can use it in the aliased shell commands.</p>
+
+<p>Often what I want to do is switch from my branch to main, then merge the
+branch.  The "brmerge-" alias does that.  The "-" is similar to "git switch -"
+which switches to the branch you last left:</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # Merge the branch we just switched from.
+    brmerge- = "!f() { \
+        git brmerge $(git rev-parse --abbrev-ref @{-1}); \
+    }; f"
+]]></code>
+
+<p>Finally, "git brdone" is what I use from a branch that has already been
+merged in a pull request.  I return to the main branch, and delete the work
+branch:</p>
+
+<code lang="ini"><![CDATA[
+[alias]
+    # I'm done with this merged branch, ready to switch back to another one.
+    brdone = "!f() { \
+        : git show; \
+        local brname=\"$(git symbolic-ref --short HEAD)\" && \
+        local primary=\"$(git primary)\" && \
+        git checkout ${1:-$primary} && \
+        git pull && \
+        git branch -d $brname && \
+        git push origin --delete $brname; \
+    }; f"
+]]></code>
+
+<p>This one is a monster, and uses "local" to define shell variables I can use
+in a few places.</p>
+
+<p>There are other aliases in my <a urlid="config">git config</a> file, some
+of which I'd even forgotten I had. Maybe you'll find other useful pieces
+there.</p>
+
+
+</body>
+</entry>
+</blog>
