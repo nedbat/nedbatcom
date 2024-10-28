@@ -9,6 +9,11 @@
 -->
 <body>
 
+<p>There are a few different reasons why I might start out to write something.
+I find I usually end up with a side benefit I didn't expect.</p>
+
+
+
 <!--
 
 - to teach
@@ -20,6 +25,23 @@
 
 <p>
 </p>
+
+<p>Looking at my last few blog posts:</p>
+
+<ul>
+
+<li><a pref="blog/git-aliases-switch-to-mainster.bx"/>: as part of explaining my aliases, I cleaned them up to make them more understandable.
+Via a comment on the post I learned about "git commit --verbose" which looks useful.</li>
+
+<li><a pref="blog/changelog-automation.bx"/>: while explaining how I automate coverage.py changelogs, I realized that the automation
+was broken, so I fixed it.</li>
+
+<!--
+<li><a pref="blog/.bx"/>: </li>
+<li><a pref="blog/.bx"/>: </li>
+<li><a pref="blog/.bx"/>: </li>
+-->
+</ul>
 
 </body>
 </entry>
