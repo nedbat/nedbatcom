@@ -1,25 +1,32 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20111018T182823'>
+<entry when='20111018T182823' classic='tech'>
 <title>For/else</title>
 <category>python</category>
 <body>
+
+<p>Python has an unusual appendix to its looping structures: a "for" or "while"
+loop can also have an "else" clause.  It took me a while to get it, but now it
+makes complete sense to me. Let me explain.</p>
+
+<!--
 <p>Python has an unusual appendix to its looping structures.  A "for" or "while" loop can also have an "else" clause.  It was the topic of this exchange on Twitter:</p>
 <quote><a href='http://twitter.com/#!/raymondh/status/126334281810317313'>@raymondh</a>:
 else-clauses in #python's for/while loops are trivially easy to explain but some minds just rebel at the thought: <a href='http://bit.ly/for_else'>http://bit.ly/for_else</a></quote>
-<quote><a href='http://twitter.com/#!/holdenweb/status/126377825367375872'>@holdenweb</a>: 
+<quote><a href='http://twitter.com/#!/holdenweb/status/126377825367375872'>@holdenweb</a>:
 @raymondh I think we can all agree that Guido may have taken his dislike of adding keywords a step too far with for/while ... else. #python</quote>
-<quote><a href='http://twitter.com/#!/raymondh/status/126382481313251328'>@raymondh</a>: 
+<quote><a href='http://twitter.com/#!/raymondh/status/126382481313251328'>@raymondh</a>:
 @holdenweb In 1991, "else" was the obvious choice because of the traditional way compilers implemented while-loops: <a href='http://pastebin.com/tY35CTJ4'>pastebin.com/tY35CTJ4</a></quote>
 
-<p>If something is trivial to explain, but people aren't getting it, maybe we should put more work into explaining it.  
+<p>If something is trivial to explain, but people aren't getting it, maybe we should put more work into explaining it.
     Steve Holden knows a lot about Python, and feels that "else" was a stretch for this purpose, so even he doesn't seem comfortable with for/else.
     It took me a while to get it too, but now it makes complete sense to me. Let me explain.</p>
+-->
 
 <p>The classic (trivial) description of for/else is this:  the "else" clause is executed if the loop completes normally, but not if it was interrupted with a "break".
     This explanation is technically correct, but is also confusing.  It seems like "else" should instead be "and also", since the else clause isn't an alternative to
-    the loop, it's added on, but only if the entire loop completed. So it seems like the wrong word.  And Raymond's resort
-    to an examination of compiled code doesn't help anyone understand it.  One of the great things about Python is Guido's insistence on usability of
+    the loop, it's added on, but only if the entire loop completed. So it seems like the wrong word.  <!-- And Raymond's resort
+    to an examination of compiled code doesn't help anyone understand it.--> One of the great things about Python is Guido's insistence on usability of
     the language as a guiding principle in its design.  There should be a user-centric explanation that makes sense.</p>
 
 <p>Consider a common structure of a "for" loop:</p>
