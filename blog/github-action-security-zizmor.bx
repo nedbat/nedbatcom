@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20241030T081612'>
+<title>GitHub action security: zizmor</title>
+<category>github</category>
+<category>security</category>
+
+<description>Zizmor is a new tool to check your GitHub action workflows for
+security concerns. I found it really helpful to lock down actions.</description>
+
+<body>
+
+<p><a href="https://woodruffw.github.io/zizmor/">Zizmor</a> is a new tool to
+check your GitHub action workflows for security concerns.  I found it really
+helpful to lock down actions.</p>
+
+<p>Action workflows can be esoteric, and continuous integration is not
+everyone's top concern, so it's easy for them to have subtle flaws.  A tool like
+zizmor is great for drawing attention to them.</p>
+
+<p>When I ran it, I had a few issues to fix:</p>
+
+<ul>
+
+<li>Some data available to actions is manipulable by unknown people, so you have
+to avoid interpolating it directly into shell commands.  For example, you might
+want to add the branch name to the action summary:
+
+<code lang="python"><![CDATA[
+- name: "Summarize"
+  run: |
+    echo "### From branch ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+]]></code>
+
+But <c>github.ref</c> is a branch name chosen by the author of the pull request.
+It could have a shell injection which could let an attacker exfiltrate secrets.
+Instead, put the value into an environment variable, then use it to interpolate:
+
+<code lang="python"><![CDATA[
+- name: "Summarize"
+  env:
+    REF: ${{ github.ref }}
+  run: |
+    echo "### From branch ${REF}" >> $GITHUB_STEP_SUMMARY
+]]></code>
+
+</li>
+
+<li>The actions/checkout step should avoid persisting credentials:
+
+<code lang="yaml"><![CDATA[
+- name: "Check out the repo"
+  uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+  with:
+    persist-credentials: false
+]]></code>
+
+</li>
+
+<li>In steps where I was pushing to GitHub, this meant I needed to explicitly
+set a remote URL with credentials:
+
+<code lang="yaml"><![CDATA[
+- name: "Push digests to pages"
+  env:
+    GITHUB_TOKEN: ${{ secrets.token }}
+  run: |
+    git config user.name nedbat
+    git config user.email ned@nedbatchelder.com
+    git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+]]></code>
+
+</li>
+
+</ul>
+
+<p>There were some other things that were easy to fix, and of course, you might
+have other issues.  One improvement to zizmor: it could link to explanations of
+how to fix the problems it finds, but it wasn't hard to find resources, like
+<a urlid="hardening">GitHub's Security hardening for GitHub Actions</a>.</p>
+
+<url id="hardening" href="https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions" />
+
+<p>William Woodruff is zizmor's author.  He was incredibly responsive when I had
+problems or questions about using zizmor.  If you hit a snag, write an
+<a href="https://github.com/woodruffw/zizmor/issues">issue</a>.  It will be a
+good experience.</p>
+
+<p>If you are like me, you have repos lying around that you don't think about
+much.  These are a special concern, because their actions could be years old,
+and not well maintained.  These dusty corners could be a good vector for an
+attack.  So I wanted to check all of my repos.</p>
+
+<p>With <a href="https://claude.ai">Claude's help</a> I wrote a shell script
+to find all git repos I own and run zizmor on them. It checks the owner of the
+repo because my drive is littered with git repos I have no control over:</p>
+
+<code lang="bash"><![CDATA[
+#!/bin/bash
+# zizmor-repos.sh
+
+echo "Looking for workflows in repos owned by: $*"
+
+# Find all git repositories in current directory and subdirectories
+find . \
+    -type d \( \
+        -name "Library" \
+        -o -name "node_modules" \
+        -o -name "venv" \
+        -o -name ".venv" \
+        -o -name "__pycache__" \
+    \) -prune \
+    -o -type d -name ".git" -print 2>/dev/null \
+| while read gitdir; do
+    # Get the repository directory (parent of .git)
+    repo_dir="$(dirname "$gitdir")"
+
+    # Check if .github/workflows exists
+    if [ -d "${repo_dir}/.github/workflows" ]; then
+        # Get the GitHub remote URL
+        remote_url=$(git -C "$repo_dir" remote get-url origin)
+
+        # Check if it's our repository
+        # Handle both HTTPS and SSH URL formats
+        for owner in $*; do
+            if echo "$remote_url" | grep -q "github.com[/:]$owner/"; then
+                echo ""
+                echo "Found workflows in $owner repository: $repo_dir"
+                ~/.cargo/bin/zizmor $repo_dir/.github/workflows
+            fi
+        done
+    fi
+done
+]]></code>
+
+
+<p>After fixing issues, it's very satisfying to see:</p>
+
+<code><![CDATA[
+% zizmor-repos.sh nedbat BostonPython
+Looking for workflows in repos owned by: nedbat BostonPython
+
+Found workflows in nedbat repository: ./web/stellated
+🌈 completed ping-nedbat.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./web/nedbat_nedbat
+🌈 completed build.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./scriv
+🌈 completed tests.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./lab/gh-action-tests
+🌈 completed matrix-play.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./aptus/trunk
+🌈 completed kit.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./cog
+🌈 completed ci.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./dinghy/nedbat
+🌈 completed test.yml
+🌈 completed daily-digest.yml
+🌈 completed docs.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./dinghy/sample
+🌈 completed daily-digest.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./coverage/badge-samples
+🌈 completed samples.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./coverage/django_coverage_plugin
+🌈 completed tests.yml
+No findings to report. Good job!
+
+Found workflows in nedbat repository: ./coverage/trunk
+🌈 completed dependency-review.yml
+🌈 completed publish.yml
+🌈 completed codeql-analysis.yml
+🌈 completed quality.yml
+🌈 completed kit.yml
+🌈 completed python-nightly.yml
+🌈 completed coverage.yml
+🌈 completed testsuite.yml
+No findings to report. Good job!
+
+Found workflows in BostonPython repository: ./bospy/about
+🌈 completed past-events.yml
+No findings to report. Good job!
+]]></code>
+
+<p><i>Nice.</i></p>
+
+</body>
+</entry>
+</blog>
