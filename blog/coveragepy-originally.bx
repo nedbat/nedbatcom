@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20241102T162744'>
+<title>Coverage.py originally</title>
+<category>coverage</category>
+
+<description>Coverage.py was started in 2001 but not by me. It's interesting to
+see how small it started (350 lines!) and how far it's come (20k lines).</description>
+
+<body>
+
+<p>Something many people don't realize is that I didn't write the original
+coverage.py.  It was written by Gareth Rees in 2001. I've been extending and
+maintaining it <a pref="1blog/stuck.bx">since 2004</a>.  This ancient history
+came up this week, so I grabbed the 2001 version from archive.org to keep it
+here for posterity.</p>
+
+<p>I already had a copy of <a href="/code/modules/rees-coverage.html">Gareth's
+original page about coverage.py</a>, which now links to my local copy of
+<a href="/code/modules/rees-coveragepy.html">coverage.py from 2001</a>.  BTW:
+that page is itself a historical artifact now, with the header from this site as
+it looked when I first copied the page.</p>
+
+<p>The <a href="/code/modules/rees-coveragepy.html">original coverage.py</a>
+was a single file, so the "coverage.py" name was literal: it was the name of the
+file.  It only had about 350 lines of code, including a few to deal with pre-2.0
+Python!  Some of those lines <a urlid="annotate">remain nearly unchanged</a>
+to this day, but most of it has been heavily refactored and extended.</p>
+
+<p>Coverage.py now has about 20k lines of Python in about 100 files.  The
+project now has twice the amount of C code as the original file had
+Python.  I guess in almost 20 years a lot can happen!</p>
+
+<url id="annotate" href="https://github.com/nedbat/coveragepy/blob/864ef601b9d7bc1aba07821daf6543081c85486e/coverage/annotate.py#L92-L115" />
+
+<p>It's interesting to see this code again, and to reflect on how far it's come.</p>
+
+
+</body>
+</entry>
+</blog>
