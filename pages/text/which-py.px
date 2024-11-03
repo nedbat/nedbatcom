@@ -26,6 +26,7 @@
 <what when='20240928T054300'>3.13 delay</what>
 <what when='20241007T164500'>3.13</what>
 <what when='20241015T210500'>3.14a1</what>
+<what when='20241103T071600'>remove a duplicate mention</what>
 </history>
 
 <meta>
@@ -72,7 +73,6 @@ End-of-life expected October 2029.
 <ul>
     <li>New type annotation syntax for generic classes and <c>type</c> aliases (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
-    <li>New <a href="https://docs.python.org/3.12/whatsnew/3.12.html#pep-695-type-parameter-syntax">generic type syntax</a>.</li>
     <li>The distutils module has been removed (see <a href="https://peps.python.org/pep-0594/">PEP 594</a> and <a href="https://peps.python.org/pep-0632/">PEP 632</a>).</li>
     <li>Invalid backslash escape sequences in strings now warn with SyntaxWarning.</li>
     <li>Per-interpreter GIL, but only in the C API (<a href="https://peps.python.org/pep-0684/">PEP 684</a>).</li>
