@@ -126,7 +126,7 @@ find . \
             if echo "$remote_url" | grep -q "github.com[/:]$owner/"; then
                 echo ""
                 echo "Found workflows in $owner repository: $repo_dir"
-                ~/.cargo/bin/zizmor $repo_dir/.github/workflows
+                ~/.cargo/bin/zizmor "$repo_dir/.github/workflows"
             fi
         done
     fi
