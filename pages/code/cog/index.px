@@ -531,7 +531,7 @@ This is line 2 //(generated)
 <p>The --markers option lets you control the syntax of the marker lines.  The
     value must be a string with two spaces in it.  The three markers are the
     three pieces separated by the spaces.  The default value for markers is
-    "[[cog ]]] [[[end]]]".</p>
+    "[[[cog ]]] [[[end]]]".</p>
 
 <p>The -x flag tells cog to delete the old generated output without running
 the generators.  This lets you remove all the generated output from a source
