@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20241119T054035'>
+<title>Loop targets</title>
+<category>python</category>
+
+<description>People were surprised by my example of assigning to a dict item in
+a for loop. Here's more explanation.</description>
+<img src="pix/tidbit/for-target.jpg" alt="Python code assigning to a dict item in a for loop"/>
+
+<body>
+
+<p>I <a urlid="bsky">posted a Python tidbit</a> about how for loops can assign
+to other things than simple variables, and many people were surprised or even
+concerned:</p>
+
+<url id="bsky" href="https://bsky.app/profile/nedbat.com/post/3lb5ehqs3qc2c" />
+<url id="mast" href="https://hachyderm.io/@nedbat/113498200513086976" />
+
+<figurep>
+<img src="pix/tidbit/for-target.jpg" alt="Sample Python assigning to a dict item in a for loop, same as text below" />
+</figurep>
+
+<!-- https://gist.github.com/nedbat/d04b7d1bef5fb84542f23126424c814c -->
+
+<code lang="python"><![CDATA[
+params = {
+    "query": QUERY,
+    "page_size": 100,
+}
+
+# Get page=0, page=1, page=2, ...
+for params["page"] in itertools.count():
+    data = requests.get(SEARCH_URL, params).json()
+    if not data["results"]:
+        break
+    ...
+]]></code>
+
+<p>This code makes successive GET requests to a URL, with a params dict as the
+data payload.  Each request uses the same data, except the "page" item is 0,
+then 1, 2, and so on. It has the same effect as if we had written it:</p>
+
+<code lang="python"><![CDATA[
+for page_num in itertools.count():
+    params["page"] = page_num
+    data = requests.get(SEARCH_URL, params).json()
+]]></code>
+
+<p><a urlid="mast">One reply</a> asked if there was a new params dict in each
+iteration.  No, loops in Python do not create a scope, and never make new
+variables.  The loop target is assigned to exactly as if it were an assignment
+statement.</p>
+
+<p>As a <a href="https://pythondiscord.com/">Python Discord</a> helper once
+described it,</p>
+
+<!-- This was OpalMist, who is attention-shy. -->
+
+<quote><p>While loops are "if" on repeat. For loops are assignment on
+repeat.</p></quote>
+
+<p>A loop like <c>for &lt;ANYTHING&gt; in &lt;ITER&gt;:</c> will take successive
+values from <c>&lt;ITER&gt;</c> and do an assignment exactly as this statement
+would: <c>&lt;ANYTHING&gt; = &lt;VAL&gt;</c>.  If the assignment statement is
+ok, then the for loop is ok.</p>
+
+<p>We're used to seeing for loops that do more than a simple assignment:</p>
+
+<code lang="python"><![CDATA[
+for i, thing in enumerate(things):
+    ...
+
+for x, y, z in zip(xs, ys, zs):
+    ...
+]]></code>
+
+<p>These work because Python can assign to a number of variables at once:</p>
+
+<code lang="python"><![CDATA[
+i, thing = 0, "hello"
+x, y, z = 1, 2, 3
+]]></code>
+
+<p>Assigning to a dict key (or an attribute, or a property setter, and so on) in
+a for loop is an example of Python having a few independent mechanisms that
+combine in uniform ways.  We aren't used to seeing exotic combinations, but you
+can reason through how they would behave, and you would be right.</p>
+
+<p>You can assign to a dict key in an assignment statement, so you can assign to
+it in a for loop.  You might decide it's too unusual to use, but it is
+possible and it works.</p>
+
+</body>
+</entry>
+</blog>
