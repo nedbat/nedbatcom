@@ -755,8 +755,18 @@ a.s {
             height: 1.9em;
             vertical-align: bottom;
             margin-left: .35em;
-            margin-right: -.5em;
             background-image: url(/pix/progressprideflag.png);
+            background-size: contain;
+        }
+
+        .usflag {
+            display: inline-block;
+            width: 3.6em;
+            height: 1.9em;
+            vertical-align: bottom;
+            margin-left: .35em;
+            margin-right: -.5em;
+            background-image: url(/pix/us-flag.png);
             background-size: contain;
         }
     }
