@@ -950,6 +950,18 @@ https://gist.github.com/nedbat/3a186827ac8bdfa08f34d36b9fce48dc
     https://bsky.app/profile/nedbat.com/post/3lbuofkndyk2y 2024-11-26
     https://hachyderm.io/@nedbat/113550691507693664 2024-11-26
 
+- how to check if a string is only 0 and 1:
+    all(c in "01" for c in s)
+    set(s).issubset({"0", "1"})
+    set(s) <= {"0", "1"}
+    re.fullmatch(r"[01]*", s)
+    s.strip("01") == ""
+2024-12-01:
+    https://gist.github.com/nedbat/5e7c0874df2134f101e8331d3f7c6d5c
+    https://hachyderm.io/@nedbat/113578406735752229
+    https://bsky.app/profile/nedbat.com/post/3lcaybekthc2k
+
+
 @@@@
 
 -->
