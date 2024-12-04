@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20241204T070332'>
+<title>Testing some tidbits</title>
+<category>python</category>
+<category>testing</category>
+
+<description>A custom test harness for some esoteric Python expressions</description>
+
+<body>
+
+<p>I <a urlid="bsky1">posted a Python tidbit</a> about checking if a string
+consists entirely of zeros and ones:</p>
+
+<url id="bsky1" href="https://bsky.app/profile/did:plc:w225kiqaw67ddpex4jmoo7rs/post/3lcaybekthc2k" />
+<url id="bsky2" href="https://bsky.app/profile/nedbat.com/post/3lci5tohzf22d" />
+<url id="mast1" href="https://hachyderm.io/@nedbat/113578406735752229" />
+<url id="mast2" href="https://hachyderm.io/@nedbat/113594560995455110" />
+
+<figurep urlid="bsky1">
+    <img src="pix/tidbit/01_first.png" alt="Python expressions checking if a string is only zeros and ones" />
+</figurep>
+
+<p>I got a bunch of replies suggesting other ways. I wanted to post those, but I
+also wanted to check if they were right.  A classic testing structure would have
+required putting them all in functions, etc, which I didn't want to bother
+with.</p>
+
+<p>So I cobbled together a test harness for them (also in
+<a href="https://gist.github.com/nedbat/6cbd9040400e4a86289d69eb5b34d6e4">a
+gist</a> if you want):</p>
+
+<code lang="python"><![CDATA[
+GOOD = [
+    "",
+    "0",
+    "1",
+    "000000000000000000",
+    "111111111111111111",
+    "101000100011110101010000101010101001001010101",
+]
+
+BAD = [
+    "x",
+    "nedbat",
+    "x000000000000000000000000000000000000",
+    "111111111111111111111111111111111111x",
+    "".join(chr(i) for i in range(10000)),
+]
+
+TESTS = """
+    # The original checks
+    all(c in "01" for c in s)
+    set(s).issubset({"0", "1"})
+    set(s) <= {"0", "1"}
+    re.fullmatch(r"[01]*", s)
+    s.strip("01") == ""
+    not s.strip("01")
+
+    # Using min/max
+    "0" <= min(s or "0") <= max(s or "1") <= "1"
+    not s or (min(s) in "01" and max(s) in "01")
+    ((ss := sorted(s or "0")) and ss[0] in "01" and ss[-1] in "01")
+
+    # Using counting
+    s.count("0") + s.count("1") == len(s)
+    (not (ctr := Counter(s)) or (ctr["0"] + ctr["1"] == len(s)))
+
+    # Using numeric tests
+    all(97*c - c*c > 2351 for c in s.encode())
+    max((abs(ord(c) - 48.5) for c in "0"+s)) < 1
+    all(map(lambda x: (ord(x) ^ 48) < 2, s))
+
+    # Removing all the 0 and 1
+    re.sub(r"[01]", "", s) == ""
+    len((s).translate(str.maketrans("", "", "01"))) == 0
+    len((s).replace("0", "").replace("1", "")) == 0
+    "".join(("1".join((s).split("0"))).split("1")) == ""
+
+    # A few more for good measure
+    set(s + "01") == set("01")
+    not (set(s) - set("01"))
+    not any(filter(lambda x: x not in {"0", "1"}, s))
+    all(map(lambda x: x in "01", s))
+"""
+
+import re
+from collections import Counter
+from inspect import cleandoc
+
+g = {
+    "re": re,
+    "Counter": Counter,
+}
+
+for test in cleandoc(TESTS).splitlines():
+    test = test.partition("#")[0]
+    if not test:
+        continue
+    for ss, expected in [(GOOD, True), (BAD, False)]:
+        for s in ss:
+            result = eval(test, {"s": s} | g)
+            if bool(result) != expected:
+                print("OOPS:")
+                print(f"   {s = }")
+                print(f"   {test}")
+                print(f"   {expected = }")
+]]></code>
+
+<p>It's a good thing I did this because a few of the suggestions needed
+adjusting, especially for dealing with the empty string.  But now they all work,
+and are checked!</p>
+
+<figurep urlid="bsky2">
+    <img src="pix/tidbit/01_more.png" alt="More Python expressions checking if a string is only zeros and ones" />
+</figurep>
+
+<p>BTW, if you prefer Mastodon to BlueSky, the posts are there too:
+<a urlid="mast1">first</a> and <a urlid="mast2">second</a>.</p>
+
+</body>
+</entry>
+</blog>
