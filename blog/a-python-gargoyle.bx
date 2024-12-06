@@ -5,8 +5,8 @@
 <category>python</category>
 <body>
 
-<p>In the <a href='irc://irc.freenode.net/#python'>#python IRC channel</a> today,
-someone asked:</p> 
+<p>In the <a href='irc://irc.libera.chat/#python'>#python IRC channel</a> today,
+someone asked:</p>
 
 <quote><p>Does anyone know of any libraries that could convert '1-5,7,9,10-13'
 to [1,2,3,4,5,7,9,10,11,12,13] ?</p></quote>
@@ -64,7 +64,7 @@ little differently):</p>
 
 <code lang="python"><![CDATA[
 [
-    i 
+    i
     for p in s.split(',')
         for a, _, b in [p.partition('-')]
             for i in range(int(a), int(b or a)+1)
@@ -126,7 +126,7 @@ number we need.</p>
 <code lang="python"><![CDATA[
 s = '1-5,7,9,10-13'
 result = [
-    i 
+    i
     for p in s.split(',')
         for a, _, b in [p.partition('-')]
             for i in range(int(a), int(b or a)+1)
