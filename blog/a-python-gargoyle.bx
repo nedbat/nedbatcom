@@ -3,6 +3,11 @@
 <entry when='20180226T202403'>
 <title>A Python gargoyle</title>
 <category>python</category>
+
+<description>Deep dive into how a compact Python list comprehension works
+to unpack "1-5,7,9,10-13" into a list of numbers.</description>
+
+
 <body>
 
 <p>In the <a href='irc://irc.libera.chat/#python'>#python IRC channel</a> today,
