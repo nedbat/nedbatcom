@@ -1,0 +1,21 @@
+# Controls how rg searches files
+.treerc
+html
+html?
+html_*
+live
+local
+to_dh
+sample_coverage_html*
+htmlcov
+*.md5
+*.pack.js
+*.min.js
+*.db
+.pytest_cache
+.sass-cache
+*.gif
+*.png
+*.jpg
+*.xcf
+data
