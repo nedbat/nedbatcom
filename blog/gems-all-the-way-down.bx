@@ -3,8 +3,9 @@
 <entry when='20120919T205229'>
 <title>Gems all the way down</title>
 <category>python</category>
+<category>gem</category>
 <body>
-    
+
     <p>Today I had to update a function that computed a date range for charting.
         It accepted a parameter of how many days back to draw the chart. I needed
         to adapt it to do months too.</p>
@@ -20,7 +21,7 @@
         day of the month N months ago, which simplified the problem.</p>
 
     <p>Rather than drop the logic right into the compute_chart_dates() function, I pulled
-        it out into its own function.  This made it easy to test the month subtraction 
+        it out into its own function.  This made it easy to test the month subtraction
         logic directly.  Thinking about testing often leads to better-structured code,
         because of the extra demands of having usable surface area for the tests to attach
         to.</p>
@@ -34,7 +35,7 @@ def subtract_months(when, months):
     `when`: the datetime.date to count back from.
 
     `months`: the number of months to subtract.
-    
+
     """
     when = when.replace(day=1)
     years, months = divmod(months, 12)
