@@ -6,9 +6,12 @@
 <head>
 {% metatags %}
 <meta name="description" content="Ned Batchelder's personal web site, blog, writings, software, math, parenting, autism">
+<meta name="og:description" content="Ned Batchelder's personal web site, blog, writings, software, math, parenting, autism">
 <meta name="keywords" content="Ned Batchelder, nedbat, Python, software, blog, parenting, autism, math">
+<meta name="fediverse:creator" content="@nedbat@hachyderm.io">
 {% if settings.NOINDEX %}<meta name="robots" content="noindex">{% endif %}
 <title>Ned Batchelder</title>
+<meta name="og:title" content="Ned Batchelder">
 
 {# RSS link #}
 <link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="RSS feed for Ned's blog">
@@ -129,7 +132,7 @@ I help organize <a href='https://about.bostonpython.com'>Boston Python</a>.
 <h2>Also me</h2>
 <p>
 <a href="https://hachyderm.io/@nedbat" rel="me">mastodon</a>{% ch " ." %}
-<a href="https://bsky.app/profile/nedbat.com">bluesky</a>{% ch " ." %}
+<a href="https://bsky.app/profile/nedbat.com" rel="me">bluesky</a>{% ch " ." %}
 <a href='https://github.com/nedbat' rel='me'>github</a>{% ch " ." %}
 <a href='https://github.com/users/nedbat/sponsorship'>sponsor</a>{% ch " ." %}
 <a href='https://linkedin.com/in/nedbat' rel='me'>linkedin</a>{% ch " ." %}
