@@ -357,7 +357,7 @@ def last_resort(request, path):
     if os.path.isdir(fpath):
         index = os.path.join(fpath, "index.html")
         if os.path.exists(index):
-            new = path + "/"
+            new = path.rstrip("/") + "/index.html"
             if not path.startswith("/"):
                 new = "/" + new
             return redirect(new)
