@@ -307,7 +307,7 @@ def index(request):
     c['code'] = [
         { title: 'Dinghy', url: 'blog/202203/dinghy_digests.html', description: 'for digesting GitHub activity' },
         { title: 'Scriv', url: 'blog/202009/scriv.html', description: 'for managing changelogs' },
-        { title: 'coverage.py', url: 'code/coverage', description: 'for measuring Python code coverage' },
+        { title: 'coverage.py', url: 'https://coverage.readthedocs.io', description: 'for measuring Python code coverage' },
     ]
 
     # Text
