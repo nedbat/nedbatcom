@@ -52,10 +52,10 @@ urlpatterns = [
     path('summary.json', dpv.summary),
     re_path(r'^blog/(?P<whenid>\d{8}T\d{6}).html$', dpv.entry_by_date),
 
-    re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.org/en/latest/')),
-    path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.org/en/latest/%(path)s')),
-    path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.org/en/latest/%(path)s')),
-    path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.org')),
+    re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.io/en/latest/')),
+    path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
+    path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
+    path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.io')),
     path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
 
     path('NedBatchelder.pdf', redirect(url='Ned-Batchelder-Resume.pdf')),
