@@ -8,12 +8,12 @@ asgiref==3.8.1
     # via django
 bleach[css]==6.2.0
     # via -r requirements/base.in
-django==4.2.17
+django==4.2.18
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
     #   django-sendfile2
-django-debug-toolbar==4.4.6
+django-debug-toolbar==5.0.1
     # via -r requirements/base.in
 django-sendfile2==0.7.1
     # via -r requirements/base.in
