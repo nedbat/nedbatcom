@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250130T160717'>
+<title>Intricate interleaved iteration</title>
+<category>python</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<!-- https://discord.com/channels/267624335836053506/267624335836053506/1334538636175212619 -->
+
+<p>Someone asked recently, "is there any reason to use a generator if I need to
+store all the values anyway?"  As it happens, I did just that in the code for
+this blog's sidebar because I found it the most readable way to do it.  Maybe it
+was a good idea, maybe not.  Let me show you.</p>
+
+<p>If you look at the sidebar on the left, "More blog" lists tags and years
+interleaved in an unusual way: two tags, a year, a tag, a year.  That pattern of
+five repeats:</p>
+
+<quote>
+<p>
+python<br/>
+coverage<br/>
+'25<br/>
+my code<br/>
+'24<br/>
+math<br/>
+beginners<br/>
+'23<br/>
+git<br/>
+'22<br/>
+github<br/>
+testing<br/>
+'21<br/>
+audio<br/>
+'20<br/>
+(etc)
+</p>
+</quote>
+
+<p>I chose this pattern because it seemed to fill the space nicely and simpler
+schemes didn't look as good.  But how to implement it in a convenient way?</p>
+
+<p>Generators are a good way to express iteration (a sequence of values)
+separately from the code that will consume the values.  A simplified version of
+my sidebar code looks something like this:</p>
+
+<code lang="python"><![CDATA[
+def gen_sidebar_links():
+    # Get list of commonly used tags.
+    tags = iter(list_most_common_tags())
+    # Get all the years we've published.
+    years = iter(list_all_years())
+
+    while True:
+        yield next(tags)
+        yield next(tags)
+        yield next(years)
+        yield next(tags)
+        yield next(years)
+]]></code>
+
+<p>This nicely expresses the "2/1/1/1 forever" idea, except it doesn't work:
+when we are done with the years, <c>next(years)</c> will raise a
+StopIteration exception, and generators aren't allowed to raise those so we have
+to deal with it.  And, I wanted to fill out the sidebar with some more tags once
+the years were done, so it's actually more like this:</p>
+
+<code lang="python"><![CDATA[
+def gen_sidebar_links():
+    # Get list of commonly used tags.
+    tags = iter(list_most_common_tags())
+    # Get all the years we've published.
+    years = iter(list_all_years())
+
+    try:
+        while True:
+            yield next(tags)
+            yield next(tags)
+            yield next(years)
+            yield next(tags)
+            yield next(years)
+    except StopIteration:   # no more years
+        pass
+
+    # A few more tags:
+    for _ in range(8):
+        yield next(tags)
+]]></code>
+
+<p>This relates to the original question because I only use this generator
+once to create a cached list of the sidebar links:</p>
+
+<code lang="python"><![CDATA[
+@functools.cache
+def sidebar_links():
+    return list(gen_sidebar_links)
+]]></code>
+
+<p>This is strange: a generator that's only called once, and is used to make a
+list.  I find the generator the best way to express the idea.  Other ways to
+write the function feel more awkward to me.  I could have built a list directly
+and the function would be more like:</p>
+
+<code lang="python"><![CDATA[
+def sidebar_links():
+    # ... Get the tags and years ...
+
+    links = []
+    try:
+        while True:
+            links.append(next(tags))
+            links.append(next(tags))
+            links.append(next(years))
+            links.append(next(tags))
+            links.append(next(years))
+    except StopIteration:   # no more years
+        pass
+
+    for _ in range(8):
+        links.append(next(tags))
+
+    return links
+]]></code>
+
+<p>Now the meat of the function is cluttered with "links.append", obscuring the
+pattern, but could be OK.  We could be tricky and make a short helper, but that
+might be too clever:</p>
+
+<code lang="python"><![CDATA[
+def sidebar_links():
+    # ... Get the tags and years ...
+
+    use = (links := []).append
+    try:
+        while True:
+            use(next(tags))
+            use(next(tags))
+            use(next(years))
+            use(next(tags))
+            use(next(years))
+    except StopIteration:   # no more years
+        pass
+
+    for _ in range(8):
+        use(next(tags))
+
+    return links
+]]></code>
+
+<p>Probably there's a way to use the <a urlid="itertools">itertools</a>
+treasure chest to create the interleaved sequence I want, but I haven't tried
+too hard to figure it out.</p>
+
+<p>I'm a fan of generators, so I still like the yield approach.  I like that it
+focuses solely on what values should appear in what order without mixing in what
+to do with those values.  Your taste may differ.</p>
+
+<url id="itertools" href="https://docs.python.org/3/library/itertools.html" />
+
+</body>
+
+
+
+
+
+<!--
+
+itertools techniques from TeXNickAL:
+
+tags_l,yrs_l = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), '10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25'.split()
+
+it = cycle([ *[tags_l]*2,  yrs_l,  tags_l,  yrs_l ]);  l_out = []
+
+while tags_l and yrs_l: l_out.append( next(it).pop(0) )
+
+l_out #⟾  ['A', 'B', '10', 'C', '11', …, 'S', 'T', '22', 'U', '23', 'V', 'W', '24', 'X', '25']
+
+#=====#
+
+dblsuck  = itertools.chain.from_iterable
+
+
+tags,yrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25'.split()
+
+tags_it, yrs_it = map(iter,[tags,yrs])
+
+list(dblsuck(zip( *[tags_it]*2, yrs_it, tags_it, yrs_it )))
+ #⟾ ['A', 'B', '10', 'C', '11', … , 'S', 'T', '22', 'U', '23',    'V', 'W', '24', 'X', '25']
+
+-->
+
+</entry>
+</blog>
