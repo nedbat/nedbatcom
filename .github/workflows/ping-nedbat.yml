@@ -8,11 +8,13 @@ name: "Ping profile"
 on:
   - push
 
+permissions: {}
+
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/github-script@v6
+    - uses: actions/github-script@v7
       with:
         # Needs: repo:public_repo
         github-token: ${{ secrets.NEDBAT_PING_TOKEN }}
