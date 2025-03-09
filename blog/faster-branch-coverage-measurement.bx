@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250309T160702'>
+<title>Faster branch coverage measurement</title>
+<category>coverage</category>
+
+<description>After nearly two years, I think this is finally ready: coverage.py
+can use sys.monitoring to more efficiently measure branch
+coverage.</description>
+
+<body>
+
+<p>After nearly two years, I think this is finally ready: coverage.py can use
+<a urlid="sysmon">sys.monitoring</a> to more efficiently measure branch
+coverage.</p>
+
+<p>I would love for people to try it, but it's a little involved at the
+moment:</p>
+
+<ul>
+
+<li>You need to have your own build of Python from the main branch on GitHub,
+because the CPython side of the work landed after 3.14 alpha 5.  Alpha 6 is
+supposed to arrive within a week, so that will make it easier.</li>
+
+<li>I haven't released a version of coverage.py to PyPI with this code yet, so
+you also need to install coverage from GitHub:</li>
+
+<code lang="shell"><![CDATA[
+% python3 -m pip install git+https://github.com/nedbat/coveragepy
+]]></code>
+
+</ul>
+
+<p>Once you have both of those things, set the environment variable
+<c>COVERAGE_CORE=sysmon</c> and run coverage as you usually do.  If all goes
+well, it should be faster.  Please let me know!</p>
+
+<p>Feedback is welcome in <a urlid="github">GitHub issues</a> or in the
+<a urlid="channel">#coverage-py channel</a> in the Python Discord server.</p>
+
+<p>This has been a long journey, starting when <a urlid="pep669disc">I first
+commented on PEP 669</a> that underpins this work.  Mark Shannon and I have had
+many back and forths about the behavior of sys.monitoring, finally landing on
+something that would work for us both.</p>
+
+<p>For the curious: traditionally coverage.py relied on
+<a urlid="settrace">sys.settrace</a>. Python calls my recording function for
+every line of Python executed.  It's simple and effective, but inefficient.
+After I've been told a line was executed once, I don't need to be told again,
+but settrace keeps calling my function.  The new
+<a urlid="sysmon">sys.monitoring</a> that arrived in Python 3.12 lets me
+disable an event once it's fired, so after the first ping there's no overhead to
+running that same code multiple times.</p>
+
+<p>It took a while to iron out the event behavior that lets us measure branches
+as well as lines, but Python 3.14.0 after alpha 5 has it, so we're finally able
+to announce coverage.py support for people to try out.</p>
+
+<url id="sysmon" href="https://docs.python.org/3/library/sys.monitoring.html" />
+<url id="pep669disc" href="https://discuss.python.org/t/pep-669-low-impact-monitoring-for-cpython/13018/33" />
+<url id="settrace" href="https://docs.python.org/3/library/sys.html#sys.settrace" />
+<url id="channel" href="https://discord.gg/RBw567RyWc" />
+<url id="github" href="https://github.com/nedbat/coveragepy/issues" />
+
+</body>
+</entry>
+</blog>
