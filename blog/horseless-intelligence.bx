@@ -1,29 +1,137 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20241010T084803' draft='y'>
+<entry when='20250317T135603'>
 <title>Horseless intelligence</title>
-<category></category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+<category>ai</category>
+
+<description>Some thoughts and opinions about AI. In a stretch, I compare AI to
+automobiles.</description>
+
 <body>
 
-<!--
+<p>AI is everywhere these days, and everyone has opinions and thoughts. These
+are some of mine.</p>
 
-- ai is like automobiles
-    - will transform many things
-    - can be really good
-    - will also cause harm
-        - 100 years later we are still trying to deal with the harm from cars
-    - but ai will allow much more intentional harm
-- cars are not "like" horses
-    - but they solve many of the same problems
+<p>Full disclosure: for a time I worked for Anthropic, the makers of
+<a href="https://claude.ai">Claude.ai</a>.  I no longer do, and nothing in
+this post (or elsewhere on this site) is their opinion or is proprietary to
+them.</p>
 
--->
+<h1>How to use AI</h1>
 
-<p>
-</p>
+<p>My advice about using AI is simple: use AI as an assistant, not an expert,
+and use it judiciously.  Some people will object, "but AI can be wrong!"  Yes,
+and so can the internet in general, but no one now recommends avoiding online
+resources because they can be wrong.  They recommend taking it all with a grain
+of salt and being careful.  That's what you should do with AI help as well.</p>
+
+<p>We are all learning how to use AI well.  Prompt engineering is a new
+discipline.  It surprises me that large language models (LLMs) give better
+answers if you include phrases like "think step-by-step" or "check your answer
+before you reply" in your prompt, but they do improve the result.  LLMs are not
+search engines, but like search engines, you have to approach them as unique
+tools that will do better if you know how to ask the right questions.</p>
+
+<p>If you approach AI thinking that it will hallucinate and be wrong, and then
+discard it as soon as it does, you are falling victim to
+<a urlid="bias">confirmation bias</a>.  Yes, AI will be wrong sometimes.  That
+doesn't mean it is useless.  It means you have to use it carefully.</p>
+
+<p>I've used AI to help me write code when I didn't know how to get started
+because it needed more research than I could afford at the moment.  The AI
+didn't produce finished code, but it got me going in the right direction, and
+iterating with it got me to working code.</p>
+
+<p>One thing it seemed to do well was to write more tests given a few examples
+to start from.  Your workflow probably has steps where AI can help you. It's
+not a magic bullet, it's a tool that you have to learn how to use.</p>
+
+
+<h1>The future of coding</h1>
+
+<p>In beginner-coding spaces like <a urlid="discord">Python Discord</a>,
+anxious learners ask if there is any point in learning to code, since won't AI
+take all the jobs soon anyway?</p>
+
+<p><a urlid="simon">Simon Willison</a> seems to be our best guide to the
+head-spinning pace of AI development these days (if you can keep up with the
+head-spinning pace of his blog!) I like what he <a urlid="simoncomment">said
+recently</a> about how AI will affect new programmers:</p>
+
+<quote>
+
+    <p>There has never been a better time to learn to code <emdash/> the
+    learning curve is being shaved down by these new LLM-based tools, and the
+    amount of value people with programming literacy can produce is going up by
+    an order of magnitude.</p>
+
+    <p>People who know both coding and LLMs will be a whole lot more attractive
+    to hire to build software than people who just know LLMs for many years to
+    come.</p>
+
+</quote>
+
+<p>Simon has also emphasized in his writing what I have found: AI lets me write
+code that I wouldn't have undertaken without its help.  It doesn't produce the
+finished code, but it's a helpful pair-programming assistant.</p>
+
+
+<h1>Can LLMs think?</h1>
+
+<p>Another objection I see often: "but LLMs can't think, they just predict the
+next word!" I'm not sure we have a consensus understanding of what "think" means
+in this context.  Airplanes don't fly in the same way that birds do.
+Automobiles don't run in the same way that horses do.  The important thing is
+that they accomplish many of the same tasks.</p>
+
+<p>OK, so AI doesn't think the same way that people do.  I'm fine with that.
+What's important to me is that it can do some work for me, work that could also
+be done by people thinking.  Cars ("horseless carriages") do work that used to
+be done by horses running.  No one now complains that cars work differently than
+horses.</p>
+
+<p>If "just predict the next word" is an accurate description of what LLMs are
+doing, it's a demonstration of how surprisingly powerful predicting the next
+word can be.</p>
+
+
+<h1>Harms</h1>
+
+<p>I am concerned about the harms that AI can cause.  Some people and
+organizations are focused on Asimov-style harms (will society collapse, will
+millions die?) and I am glad they are.  But I'm more concerned with
+Dickens-style harms: people losing jobs not because AI can do their work, but
+because people in charge will think AI can do other people's work.  Harms due to
+people misunderstanding what AI does and doesn't do well and misusing it.</p>
+
+<p>I don't see easy solutions to these problems.  To go back to the car analogy:
+we've been a car society for about 120 years.  For most of that time we've been
+leaning more and more towards cars.  We are still trying to find the right
+balance, the right way to reduce the harm they cause while keeping the benefits
+they give us.</p>
+
+<p>AI will be similar.  The technology is not going to go away. We will not turn
+our back on it and put it back into the bottle.  We'll continue to work on
+improving how it works and how we work with it.  There will be good and bad.
+The balance will depend on how well we collectively use it and educate each
+other, and how well we pay attention to what is happening.</p>
+
+
+<h1>Future</h1>
+
+<p>The pro-AI hype in the industry now is at a fever pitch, it's completely
+overblown.  But the anti-AI crowd also seems to be railing against it without a
+clear understanding of the current capabilities or the useful approaches.</p>
+
+<p>I'm going to be using AI more, and learning where it works well and where it
+doesn't.</p>
+
+
+
+<url id="bias" href="https://en.wikipedia.org/wiki/Confirmation_bias" />
+<url id="discord" href="https://discord.gg/python" />
+<url id="simoncomment" href="https://news.ycombinator.com/item?id=43166157" />
+<url id="simon" href="https://simonwillison.net/" />
 
 </body>
 </entry>
