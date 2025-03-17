@@ -485,6 +485,9 @@ a.headerlink {
 
 .tight {
     word-spacing: -.05em;
+    & li a {
+        white-space: nowrap;    // prevent "how-to" being split across lines.
+    }
 }
 
 .body {
