@@ -1093,8 +1093,8 @@ code, tt {
     font-size: 80%;
     font-family: $code-font;
     @include colors(--blockquote-bg-color);
-    padding: 0 .1em;
-    border-radius: 2px;
+    padding: .1em .25em;
+    border-radius: .2em;
 }
 
 .box {
