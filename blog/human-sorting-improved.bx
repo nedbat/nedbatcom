@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250329T125935'>
+<title>Human sorting improved</title>
+<category>gem</category>
+<category>python</category>
+
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>When sorting strings, you'd often like the order to make sense to a person.
+That means numbers need to be treated numerically even if they are in a larger
+string.</p>
+
+<p>For example, sorting Python versions with the default sort() would give
+you:</p>
+
+<code><![CDATA[
+Python 3.10
+Python 3.11
+Python 3.9
+]]></code>
+
+<p>when you want it to be:</p>
+
+<code><![CDATA[
+Python 3.9
+Python 3.10
+Python 3.11
+]]></code>
+
+<p>I wrote about this long ago (<a pref="blog/human-sorting.bx"/>), but have
+continued to tweak the code and needed to <a urlid="wgha">add it to a
+project</a> recently.  Here's the latest:</p>
+
+<code lang="python"><![CDATA[
+import re
+
+def human_key(s: str) -> tuple[list[str | int], str]:
+    """Turn a string into a sortable value that works how humans expect.
+
+    "z23A" -> (["z", 23, "a"], "z23A")
+
+    The original string is appended as a last value to ensure the
+    key is unique enough so that "x1y" and "x001y" can be distinguished.
+
+    """
+    def try_int(s: str) -> str | int:
+        """If `s` is a number, return an int, else `s` unchanged."""
+        try:
+            return int(s)
+        except ValueError:
+            return s
+
+    return ([try_int(c) for c in re.split(r"(\d+)", s.casefold())], s)
+
+def human_sort(strings: list[str]) -> None:
+    """Sort a list of strings how humans expect."""
+    strings.sort(key=human_key)
+]]></code>
+
+<p>The central idea here is to turn a string like <c>"Python 3.9"</c> into the
+key <c>["Python ", 3, ".", 9]</c> so that numeric components will be sorted by
+their numeric value. The re.split() function gives us interleaved words and
+numbers, and try_int() turns the numbers into actual numbers, giving us sortable
+key lists.</p>
+
+<p>There are two improvements from the original:</p>
+
+<ul>
+
+<li>The sort is made case-insensitive by using casefold() to lower-case the
+string.</li>
+
+<li>The key returned is now a two-element tuple: the first element is the list
+of intermixed strings and integers that gives us the ordering we want.  The
+second element is the original string unchanged to ensure that unique strings
+will always result in distinct keys.  Without it, <c>"x1y"</c> and
+<c>"x001Y"</c> would both produce the same key.  This solves a
+<a urlid="cb1709">problem that actually happened</a> when sorting the items of
+a dictionary.
+
+<code lang="python"><![CDATA[
+# Without the tuple: different strings, same key!!
+human_key("x1y") -> ["x", 1, "y"]
+human_key("x001Y") -> ["x", 1, "y"]
+
+# With the tuple: different strings, different keys.
+human_key("x1y") -> (["x", 1, "y"], "x1y")
+human_key("x001Y") -> (["x", 1, "y"], "x001Y")
+]]></code>
+
+</li>
+
+</ul>
+
+<p>If you are interested, there are many different ways to split the string into
+the word/number mix.  The <a urlid="oldcomments">comments on the old post</a>
+have many alternatives, and there are certainly more.</p>
+
+<p>This still makes some assumptions about what is wanted, and doesn't cover all
+possible options (floats? negative/positive? full file paths?).  For those, you
+probably want the full-featured <a urlid="natsort">natsort</a> (natural sort)
+package.</p>
+
+<url id="cb1709" href="https://github.com/nedbat/coveragepy/issues/1709" />
+<url id="wgha" href="https://github.com/nedbat/watchgha/commit/cfcd48ac3f24f5b76aa02caa695af13e37f38bcf" />
+<url id="oldcomments" href="https://nedbatchelder.com/blog/200712/human_sorting.html#comments" />
+<url id="natsort" href="https://pypi.org/project/natsort/" />
+
+</body>
+</entry>
+</blog>
