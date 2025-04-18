@@ -1066,8 +1066,12 @@ blockquote.code {
     .ow {
         color: #0000ff;
     }
-    .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
+    .sb, .sc, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss {
         color: #a31515;
+    }
+    .sd {
+        color: #008000;
+        font-style: italic;
     }
 }
 
