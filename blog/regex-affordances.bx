@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250418T111946'>
+<title>Regex affordances</title>
+<category>python</category>
+<category>regex</category>
+
+<description>A tour of some real code showing little-used power features of the
+Python regular expression module.</description>
+
+<body>
+
+<p>Python regexes have a number of features that bring new power to text
+manipulation.  I'm not talking about fancy matching features like negative
+look-behinds, but ways you can construct and use regexes.  As a demonstration,
+I'll show you some real code from a real project.</p>
+
+<p>Coverage.py will expand environment variables in values read from its
+configuration files.  It does this with a function called
+<c>substitute_variables</c>:</p>
+
+<code lang="python"><![CDATA[
+def substitute_variables(
+    text: str,
+    variables: dict[str, str],
+) -> str:
+    """
+    Substitute ``${VAR}`` variables in `text`.
+
+    Variables in the text can take a number of
+    shell-inspired forms::
+
+        $VAR
+        ${VAR}
+        ${VAR?}         strict: an error if no VAR.
+        ${VAR-miss}     defaulted: "miss" if no VAR.
+        $$              just a dollar sign.
+
+    `variables` is a dictionary of variable values.
+
+    Returns the resulting text with values substituted.
+
+    """
+]]></code>
+
+<p>Call it with a string and a dictionary, and it makes the substitutions:</p>
+
+<code lang="python"><![CDATA[
+>>> substitute_variables(
+...     text="Look: $FOO ${BAR-default} $$",
+...     variables={'FOO': 'Xyzzy'},
+... )
+
+'Look: Xyzzy default $'
+]]></code>
+
+<p>We use a regex to pick apart the text:</p>
+
+<code lang="python"><![CDATA[
+dollar_pattern = r"""(?x)   # Verbose regex syntax
+    \$                      # A dollar sign,
+    (?:                     # then
+        (?P<dollar> \$ ) |      # a dollar sign, or
+        (?P<word1> \w+ ) |      # a plain word, or
+        \{                      # a {-wrapped
+            (?P<word2> \w+ )        # word,
+            (?:                         # either
+                (?P<strict> \? ) |      # strict or
+                -(?P<defval> [^}]* )    # defaulted
+            )?                      # maybe
+        }
+    )
+    """
+]]></code>
+
+<p>This isn't a super-fancy regex: it doesn't use advanced pattern matching.
+But there are some useful regex features at work here:</p>
+
+<ul>
+
+<li>The <c>(?x)</c> flag at the beginning turns on "verbose" regex syntax. In
+this mode, all white space is ignored so the regex can be multi-line and we can
+indent to help see the structure, and comments are allowed at the ends of
+lines.</li>
+
+<li>Named groups like <c>(?P&lt;word1&gt; … )</c> are used to capture parts of
+the text that we can retrieve later by name.</li>
+
+<li>There are also two groups used to get the precedence of operators right, but
+we don't want to capture those values separately, so I use the non-capturing
+group syntax for them: <c>(?: … )</c>.  In this code, we only ever access groups
+by name, so I could have left them as regular capturing groups, but I think it's
+clearer to indicate up-front that we won't be using them.</li>
+
+</ul>
+
+<p>The verbose syntax in particular makes it easier to understand the regex.
+Compare to what it would look like in one line:</p>
+
+<code lang="python"><![CDATA[
+r"\$(?:(?P<dollar>\$)|(?P<word1>\w+)|\{(?P<word2>\w+)(?:(?P<strict>\?)|-(?P<defval>[^}]*))?})"
+]]></code>
+
+<p>Once we have the regex, we can use <c>re.sub()</c> to replace the variables
+with their values:</p>
+
+<code lang="python"><![CDATA[
+re.sub(dollar_pattern, dollar_replace, text)
+]]></code>
+
+<p>But we're going to use another power feature of Python regexes:
+<c>dollar_replace</c> here isn't a string, it's a function! Each fragment the
+regex matches will be passed as a match object to our <c>dollar_replace</c>
+function.  It returns a string which re.sub() uses as the replacement in the
+text:</p>
+
+<code lang="python"><![CDATA[
+def dollar_replace(match: re.Match[str]) -> str:
+    """Called for each $replacement."""
+    # Get the one group that matched.
+    groups = match.group('dollar', 'word1', 'word2')
+    word = next(g for g in groups if g)
+
+    if word == "$":
+        return "$"
+    elif word in variables:
+        return variables[word]
+    elif match["strict"]:
+        msg = f"Variable {word} is undefined: {text!r}"
+        raise NameError(msg)
+    else:
+        return match["defval"]
+]]></code>
+
+<p>First we use <c>match.group()</c>.  Called with a number of names, it returns
+a tuple of what those named groups matched. They could be the matched text, or
+None if the group didn't match anything.</p>
+
+<p>The way our regex is written only one of those three groups will match, so
+the tuple will have one string and two None's.  To get the matched string, we
+use <c>next()</c> to find it. If the built-in <c>any()</c> returned the first
+true thing it found this code could be simpler, but it doesn't so we have to do
+it this way.</p>
+
+<p>Now we can check the value to decide on the replacement:</p>
+
+<ul>
+<li>If the match was a dollar sign, we return a dollar sign.</li>
+
+<li>If the word is one of our defined variables, we return the value of the
+variable.</li>
+
+<li>Since the word isn't a defined variable, we check if the "strict" marker was
+found, and if so, raise an exception.</li>
+
+<li>Otherwise we return the default value provided.</li>
+
+</ul>
+
+<p>The final piece of the implementation is to use <c>re.sub()</c> and return
+the result:</p>
+
+<code lang="python"><![CDATA[
+return re.sub(dollar_pattern, dollar_replace, text)
+]]></code>
+
+<p>Regexes are often criticized for being too opaque and esoteric.  But done
+right, they can be very powerful and don't have to be a burden.  What we've done
+here is used simple pattern matching paired with useful API features to
+compactly write a useful transformation.</p>
+
+<p>BTW, if you are interested, the <a urlid="miscpy">real code is in
+coverage.py</a>.</p>
+
+<url id="miscpy" href="https://github.com/nedbat/coveragepy/blob/master/coverage/misc.py#L228-L276" />
+
+</body>
+</entry>
+</blog>
