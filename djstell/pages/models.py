@@ -1,6 +1,7 @@
 # nedbatchelder.com models
 
 import datetime
+import functools
 import re
 import time
 
@@ -376,6 +377,7 @@ class Entry(ModelMixin, models.Model):
     def to_brief_html(self):
         return self.to_html(blogmode='brief')
 
+    @functools.cache
     def to_html(self, blogmode='full'):
         params={
             'dpath':    string_param(""),
