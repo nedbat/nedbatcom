@@ -76,7 +76,8 @@ body {
     font-size: 115%;
     text-align: left;
     max-width: 100%;
-    hyphens: manual;
+    hyphens: auto;
+    hyphenate-limit-chars: 10 4 4;
 
     a {
         &.s {
@@ -1099,6 +1100,7 @@ code, tt {
     @include colors(--blockquote-bg-color);
     padding: .1em .25em;
     border-radius: .2em;
+    hyphens: none;
 }
 
 .box {
