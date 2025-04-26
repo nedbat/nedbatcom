@@ -19,10 +19,10 @@ def just_text(value):
     """ Remove non-text HTML tags (really just img for now).
     """
     # Remove all img tags
-    noimg = re.sub(r"<img [^>]*>(</img>)?", "", value)
-    # Now we might have empty <a> tags. Remove them..
-    noemptya = re.sub(r"<a [^>]*></a>", "", noimg)
-    return noemptya
+    text = re.sub(r"<img [^>]*>(</img>)?", "", value)
+    # Remove all <a> tags.
+    text = re.sub(r"<a [^>]*>|</a>", "", text)
+    return text
 
 
 def first_sentence(value, number=1):

@@ -15,6 +15,7 @@ def test_first_sentence(text, num, sentences):
 
 @pytest.mark.parametrize("text, result", [
     ("<p><a href='foo'><img src='bar'></a>My son Max</p>", "<p>My son Max</p>"),
+    ("<p><a href='foo'>My son</a> Max</p>", "<p>My son Max</p>"),
 ])
 def test_just_text(text, result):
     assert just_text(text) == result
