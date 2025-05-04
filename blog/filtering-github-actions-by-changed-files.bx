@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250504T070006'>
+<title>Filtering GitHub actions by changed files</title>
+<category>ci</category>
+<category>github</category>
+
+<description>How to limit what GitHub workflows run based on what files have
+changed.</description>
+
+<body>
+
+<p>Coverage.py has a large test suite that runs in many environments, which can
+take a while.  But some changes don't require running the test suite at all.
+I've changed the actions to detect when they need to run based on what files
+have changed, but there were some twists and turns along the way.</p>
+
+<p>The <a urlid="dorny">dorny/paths-filter</a> action can check which files
+have changed for pull requests or branches.  I <a urlid="change1">added it to
+my tests action</a> like this:</p>
+
+
+<code lang="yaml"><![CDATA[
+jobs:
+
+  changed:
+    name: "Check what files changed"
+    outputs:
+      python: ${{ steps.filter.outputs.python }}
+    steps:
+      - name: "Check out the repo"
+        uses: actions/checkout
+
+      - name: "Examine changed files"
+        uses: dorny/paths-filter
+        id: filter
+        with:
+          filters: |
+            python:
+              - "**.py"
+
+  tests:
+    # Don't run tests if the branch name includes "-notests".
+    # Only run tests if Python files changed.
+    needs: changed
+    if: ${{ !contains(github.ref, '-notests') && needs.changed.outputs.python == 'true' }}
+]]></code>
+
+<p>The "changed" jobs checks what files have changed, then the "tests" job
+examines its output to decide whether to run at all.</p>
+
+<p>It's a little awkward having an output for the "changed" job as an
+intermediary, but this did what I wanted: if any .py file changed, run the
+tests, otherwise don't run them.  I left in an old condition: if the branch name
+includes "-notests", then don't run the tests.</p>
+
+<p>This worked, but I realized I needed to run the tests on other conditions
+also.  What if no Python file changed, but the GitHub action file itself had
+changed?  So I <a urlid="change2">added that as a condition</a>. The
+if-expression was getting long, so I made it a multi-line string:</p>
+
+<code lang="yaml"><![CDATA[
+jobs:
+
+  changed:
+    name: "Check what files changed"
+    outputs:
+      python: ${{ steps.filter.outputs.python }}
+      workflow: ${{ steps.filter.outputs.workflow }}
+    steps:
+      - name: "Check out the repo"
+        uses: actions/checkout
+
+      - name: "Examine changed files"
+        uses: dorny/paths-filter
+        id: filter
+        with:
+          filters: |
+            python:
+              - "**.py"
+            workflow:
+              - ".github/workflows/testsuite.yml"
+
+  tests:
+    # Don't run tests if the branch name includes "-notests".
+    # Only run tests if Python files or this workflow changed.
+    needs: changed
+    if: |
+      ${{
+        !contains(github.ref, '-notests')
+        && (
+          needs.changed.outputs.python == 'true'
+          || needs.changed.outputs.workflow == 'true'
+        )
+      }}
+]]></code>
+
+<p>This seemed to work, but it has a bug that I will get to in a bit.</p>
+
+<p>Thinking about it more, I realized there are other files that could affect
+the test results: requirements files, test output files, and the tox.ini.
+Rather than add them as three more conditions, I <a urlid="change3">combined
+them all into one</a>:</p>
+
+<code lang="yaml"><![CDATA[
+jobs:
+
+  changed:
+    name: "Check what files changed"
+    outputs:
+      run_tests: ${{ steps.filter.outputs.run_tests }}
+    steps:
+      - name: "Check out the repo"
+        uses: actions/checkout
+
+      - name: "Examine changed files"
+        uses: dorny/paths-filter
+        id: filter
+        with:
+          filters: |
+            run_tests:
+              - "**.py"
+              - ".github/workflows/testsuite.yml"
+              - "tox.ini"
+              - "requirements/*.pip"
+              - "tests/gold/**"
+
+  tests:
+    # Don't run tests if the branch name includes "-notests".
+    # Only run tests if files that affect tests have changed.
+    needs: changed
+    if: |
+      ${{
+        needs.changed.outputs.run_tests == 'true'
+        && !contains(github.ref, '-notests')
+      }}
+]]></code>
+
+<p>BTW: these commits also update the quality checks workflow which has other
+kinds of mix-and-match conditions to deal with that you might be interested
+in.</p>
+
+<p>All seemed good! Then I made a commit that only changed my Makefile, and the
+tests ran! Why!? The Makefile isn't one of the checked files.  The paths-filter
+action helpfully includes debug output that showed that only the Makefile was
+considered changed, and that the "run_test" output was false.</p>
+
+<p>I took a guess that GitHub actions don't like expressions with newlines in
+them.  Using the trusty <a href="https://yaml-multiline.info/">YAML multi-line
+string cheat sheet</a>, I tried changing from the literal block style (with a
+pipe) to the folded style (with a greater-than):</p>
+
+<code lang="yaml"><![CDATA[
+if: >
+  ${{
+    needs.changed.outputs.run_tests == 'true'
+    && !contains(github.ref, '-notests')
+  }}
+]]></code>
+
+<p>The literal form includes all newlines, the folded style turns newlines into
+spaces.  To check that I had it right, I tried parsing the YAML files: to my
+surprise, both forms included all the newlines, there was no difference at all.
+It turns out that YAML "helpfully" notices changes in indentation, and includes
+newlines for indented lines.  My expression is nicely indented, so it has
+newlines no matter what syntax I use.</p>
+
+<p>The <a urlid="ghaexpr">GitHub actions docs</a> don't mention it, but it
+seems that newlines do break expression evaluation.  Sigh. My expressions are
+not as long now as they had gotten during this exploration, so I
+<a urlid="change4">changed them all back to one line</a>, and now it all works
+as I wanted.</p>
+
+<p>There are some other things I'd like to tweak: when the tests are skipped,
+the final status is "success", but I'm wondering if there's a way to make it
+"skipped".  I'm also torn about whether every change to master should run all
+the workflows or if they should also filter based on the changed files.
+Currently they are filtered.</p>
+
+<p>Continuous integration and GitHub workflows are great, but they always seem
+to involve this kind of fiddling in environments that are difficult to debug.
+Maybe I've saved you some grief.</p>
+
+<url id="dorny" href="https://github.com/dorny/paths-filter"/>
+<url id="change1" href="https://github.com/nedbat/coveragepy/commit/62891c81d2c7f175ff14f0d492b5695f507780e8#diff-2dcad576de77b3d5156ec1976a4f88236339c48a6000beda4885b0fe8e3ba006"/>
+<url id="change2" href="https://github.com/nedbat/coveragepy/commit/9cb9bdc6847115c1a357ec1cb95c697e49a434ae#diff-2dcad576de77b3d5156ec1976a4f88236339c48a6000beda4885b0fe8e3ba006"/>
+<url id="change3" href="https://github.com/nedbat/coveragepy/commit/18f2240406d18417eac3497df6b2d184c719a7cc#diff-2dcad576de77b3d5156ec1976a4f88236339c48a6000beda4885b0fe8e3ba006"/>
+<url id="change4" href="https://github.com/nedbat/coveragepy/commit/902ef7a111a0fb5b48828f4502b01db1e9e002aa#diff-2dcad576de77b3d5156ec1976a4f88236339c48a6000beda4885b0fe8e3ba006"/>
+<url id="ghaexpr" href="https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions"/>
+
+</body>
+</entry>
+</blog>
