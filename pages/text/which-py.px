@@ -31,6 +31,7 @@
 <what when='20250117T070707'>3.14a4</what>
 <what when='20250212T183800'>3.14a5</what>
 <what when='20250323T060100'>3.14a6</what>
+<what when='20250508T054700'>3.14b1</what>
 </history>
 
 <meta>
@@ -49,9 +50,12 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.14: expected October 2025 (currently alpha 6)</h1>
+<h1>3.14: expected October 2025 (currently beta 1)</h1>
 <ul>
+    <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep750">Template strings</a> (t-strings).</li>
+    <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep765">Disallow return from finally</a>.</li>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#pep-649-deferred-evaluation-of-annotations">Deferred evaluation of annotations</a>.</li>
+    <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pyrepl-highlighting">Syntax highlighting in the REPL</a>.</li>
 </ul>
 
 <p><a href="https://docs.python.org/3.14/whatsnew/3.14.html">Full list of 3.14 changes</a>.
