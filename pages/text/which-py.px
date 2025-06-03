@@ -65,7 +65,7 @@ End-of-life expected October 2030.
 </p>
 
 
-<h1>3.13: October 7, 2024 (now 3.13.3)</h1>
+<h1>3.13: October 7, 2024 (now 3.13.4)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler">Experimental preliminary JIT</a>.</li>
@@ -78,7 +78,7 @@ End-of-life expected October 2029.
 </p>
 
 
-<h1>3.12: October 2, 2023 (now 3.12.10)</h1>
+<h1>3.12: October 2, 2023 (now 3.12.11)</h1>
 <ul>
     <li>New type annotation syntax for generic classes and <c>type</c> aliases (<a href="https://peps.python.org/pep-0695/">PEP 695</a>).</li>
     <li>More flexible f-string parsing, allowing many things previously disallowed (<a href="https://peps.python.org/pep-0701/">PEP 701</a>).</li>
@@ -93,7 +93,7 @@ End-of-life expected October 2028.
 </p>
 
 
-<h1>3.11: October 24, 2022 (now 3.11.12)</h1>
+<h1>3.11: October 24, 2022 (now 3.11.13)</h1>
 <ul>
     <li>10–60% faster than 3.10</li>
     <li>exact expression error locations</li>
@@ -112,7 +112,7 @@ End-of-life expected October 2027.
 </p>
 
 
-<h1>3.10: October 4, 2021 (now 3.10.17)</h1>
+<h1>3.10: October 4, 2021 (now 3.10.18)</h1>
 <ul>
     <li>structural pattern matching, <c>match/case</c> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
     <li>better error messages</li>
@@ -126,7 +126,7 @@ End-of-life expected October 2026.
 </p>
 
 
-<h1>3.9: October 5, 2020 (now 3.9.22)</h1>
+<h1>3.9: October 5, 2020 (now 3.9.23)</h1>
 <ul>
     <li>dict union operators</li>
     <li>type hinting generics in standard collections (<c>list[int]</c> instead of <c>List[int]</c>)</li>
