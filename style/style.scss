@@ -708,6 +708,14 @@ a.s {
     margin: 0 0 0 0;
 }
 
+.subtitle {
+    font-size: 110%;
+    font-style: italic;
+    color: var(--info-text-color);
+    margin: 0.5em 0 0 0;
+    line-height: 130%;
+}
+
 #banner .path {
     margin: .35em 0 -1em 0;
     display: flex;

@@ -27,6 +27,11 @@
             {% endif %}
         {% endif %}
     </p>
+
+    {# Subtitle after date #}
+    {% if entry.description %}
+        <p class='subtitle'>{{entry.description}}</p>
+    {% endif %}
 </header>
 {# End Head #}
 

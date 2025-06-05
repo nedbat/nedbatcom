@@ -101,7 +101,7 @@ def blogmain(request):
     c['features'] = features
     c['entries_listed'] = ents[6:]
     c['title'] = 'Blog'
-    c['hide_h1'] = True
+    c['hide_page_header'] = True
     c['bodyclass'] = 'blog main'
     return render(request, 'blogmain.html', c)
 
