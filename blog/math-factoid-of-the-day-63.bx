@@ -39,7 +39,7 @@ make an octahedron.</p>
 <p>Start with one cube:</p>
 
 <figurep>
-    <!--[[[cog read_svg("pix/hauy/0.svg") ]]]-->
+    <!--[[[cog read_svg("pages/code/diagrams/hauy/0.svg") ]]]-->
     <!-- {{{ -->
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="143.349793" height="154.665972" viewBox="0 0 143.349793 154.665972">
     <path fill-rule="nonzero" fill="rgb(53.882353%, 31.764706%, 11.058824%)" fill-opacity="1" stroke-width="0.5" stroke-linecap="butt" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 123.351562 104.882812 L 83.601562 134.664062 L 83.601562 68.398438 L 123.351562 38.613281 Z M 123.351562 104.882812 "/>
@@ -53,7 +53,7 @@ make an octahedron.</p>
 <p>Add six more cubes around it, one on each face:</p>
 
 <figurep>
-    <!--[[[cog read_svg("pix/hauy/1.svg") ]]]-->
+    <!--[[[cog read_svg("pages/code/diagrams/hauy/1.svg") ]]]-->
     <!-- {{{ -->
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="295.989488" height="313.709163" viewBox="0 0 295.989488 313.709163">
     <path fill-rule="nonzero" fill="rgb(27.764706%, 41.176471%, 0%)" fill-opacity="1" stroke-width="0.5" stroke-linecap="butt" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 247.371094 148.664062 L 207.621094 178.449219 L 207.621094 112.179688 L 247.371094 82.394531 Z M 247.371094 148.664062 "/>
@@ -85,7 +85,7 @@ make an octahedron.</p>
 <p>Add another layer, adding a cube to touch every visible cube:</p>
 
 <figurep>
-    <!--[[[cog read_svg("pix/hauy/2.svg") ]]]-->
+    <!--[[[cog read_svg("pages/code/diagrams/hauy/2.svg") ]]]-->
     <!-- {{{ -->
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="448.629183" height="472.752355" viewBox="0 0 448.629183 472.752355">
     <path fill-rule="nonzero" fill="rgb(0%, 44.941176%, 39.764706%)" fill-opacity="1" stroke-width="0.5" stroke-linecap="butt" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 371.390625 192.445312 L 331.640625 222.230469 L 331.640625 155.960938 L 371.390625 126.175781 Z M 371.390625 192.445312 "/>
@@ -171,7 +171,7 @@ make an octahedron.</p>
 <p>One more layer and we have a total of 63 cubes:</p>
 
 <figurep>
-    <!--[[[cog read_svg("pix/hauy/3.svg") ]]]-->
+    <!--[[[cog read_svg("pages/code/diagrams/hauy/3.svg") ]]]-->
     <!-- {{{ -->
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="601.268877" height="631.795547" viewBox="0 0 601.268877 631.795547">
     <path fill-rule="nonzero" fill="rgb(20.235294%, 37.411765%, 60%)" fill-opacity="1" stroke-width="0.5" stroke-linecap="butt" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 495.410156 236.226562 L 455.660156 266.011719 L 455.660156 199.742188 L 495.410156 169.960938 Z M 495.410156 236.226562 "/>
@@ -367,6 +367,19 @@ make an octahedron.</p>
     <!-- }}} -->
     <!--[[[end]]]-->
 </figurep>
+
+<p>Colophon: I made these diagrams by asking Claude to write me a
+<a href="code/diagrams/hauy/hauy_oct.py">Python program</a> to do it.
+It wasn't a fast process because it took pushing and prodding to get the
+diagrams to come out the way I liked.  But Claude was very competent, and I
+could think about the results rather than about projections or color spaces.  I
+could dip into it for 10 minutes at a time over a number of days without having
+to somehow reconstruct a mental context.</p>
+
+<p>This kind of casual hobby programming is perfect for AI assistance.  I don't
+need the code to be perfect or even good, I just want the diagrams to be nice.
+I don't have the focus time to learn how to write the program, so I can leave it
+to an imperfect assistant.</p>
 
 </body>
 </entry>
