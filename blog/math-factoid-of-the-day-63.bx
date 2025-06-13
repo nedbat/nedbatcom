@@ -25,8 +25,8 @@
 <!--[[[end]]]-->
 
 <p>63 is a <a urlid="wiki">centered octahedral number</a>. That means if you
-build a rough approximation of an octahedron with cubes, one size of octahedron
-will have 64 cubes.</p>
+build a rough approximation of an octahedron with cubes, one of the sizes of
+octahedron will have 63 cubes.</p>
 
 <url id="wiki" href="https://en.wikipedia.org/wiki/Centered_octahedral_number" />
 <url id="hauy" href="https://en.wikipedia.org/wiki/Ren%C3%A9_Just_Ha%C3%BCy" />
@@ -50,7 +50,7 @@ make an octahedron.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>Add six more cubes around it, one on each face:</p>
+<p>Add six more cubes around it, one on each face. Now we have seven:</p>
 
 <figurep>
     <!--[[[cog read_svg("pages/code/diagrams/hauy/1.svg") ]]]-->
@@ -82,7 +82,7 @@ make an octahedron.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>Add another layer, adding a cube to touch every visible cube:</p>
+<p>Add another layer, adding a cube to touch every visible cube, making 25:</p>
 
 <figurep>
     <!--[[[cog read_svg("pages/code/diagrams/hauy/2.svg") ]]]-->
@@ -168,7 +168,7 @@ make an octahedron.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>One more layer and we have a total of 63 cubes:</p>
+<p>One more layer and we have a total of 63:</p>
 
 <figurep>
     <!--[[[cog read_svg("pages/code/diagrams/hauy/3.svg") ]]]-->
@@ -368,7 +368,10 @@ make an octahedron.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>Colophon: I made these diagrams by asking Claude to write me a
+<p>The next numbers in <a href="https://oeis.org/A001845">the sequence</a> are
+129, 231, 377, 575, 833, 1159, 1561, 2047, 2625, etc.</p>
+
+<p>Colophon: I made these diagrams by asking Claude to write a
 <a href="code/diagrams/hauy/hauy_oct.py">Python program</a> to do it.
 It wasn't a fast process because it took pushing and prodding to get the
 diagrams to come out the way I liked.  But Claude was very competent, and I
