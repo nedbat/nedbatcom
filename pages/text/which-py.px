@@ -33,6 +33,7 @@
 <what when='20250323T060100'>3.14a6</what>
 <what when='20250508T054700'>3.14b1</what>
 <what when='20250603T070700'>3.14b2</what>
+<what when='20250613T133700'>3.13.5</what>
 </history>
 
 <meta>
@@ -65,7 +66,7 @@ End-of-life expected October 2030.
 </p>
 
 
-<h1>3.13: October 7, 2024 (now 3.13.4)</h1>
+<h1>3.13: October 7, 2024 (now 3.13.5)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler">Experimental preliminary JIT</a>.</li>
