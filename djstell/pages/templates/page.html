@@ -87,7 +87,7 @@
     {% endcomment %}
 
     <main id='content'>
-        {% if user.is_superuser %}
+        {% if user.is_superuser or settings.DEBUG %}
             {% if description or image %}
                 <div class='ogmetadata'>
                     <details>
