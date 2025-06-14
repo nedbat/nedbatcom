@@ -546,6 +546,11 @@
     <b class='term'><xsl:apply-templates select='*|text()'/></b>
 </xsl:template>
 
+<!-- A name with initials, like <name>H. S. M. Coxeter</name> -->
+<xsl:template match='name'>
+    <span class='name'><xsl:value-of select='translate(text(), " ", "&#x2009;")'/></span>
+</xsl:template>
+
 <!--
   - Links.  Convert .lx to .px
   -->
