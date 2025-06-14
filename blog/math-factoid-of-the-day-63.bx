@@ -5,7 +5,7 @@
 <category>me</category>
 <category>math</category>
 
-<description>A Haüy octahedron has 63 cubes</description>
+<description>Two geometric facts about 63, but how to connect them?</description>
 <!--
 <img src="pix/cards/xxx.png" alt=""/>
 -->
@@ -16,19 +16,24 @@
     def read_svg(path, scale=.3):
         print("<!-" + "- {{{ -" + "->")
         with open(path) as f:
-            lines = list(f)
-            for line in lines[1:]:
-                print(line, end="")
+            svg = False
+            for line in f:
+                if line.startswith("<svg"):
+                    svg = True
+                if svg:
+                    print(line, end="")
+                if line.startswith("</svg"):
+                    svg = False
         print("<!-" + "- }}} -" + "->")
 
 ]]]-->
 <!--[[[end]]]-->
 
-<p>63 is a <a urlid="wiki">centered octahedral number</a>. That means if you
-build a rough approximation of an octahedron with cubes, one of the sizes of
-octahedron will have 63 cubes.</p>
+<p>63 is a <a urlid="octnum">centered octahedral number</a>. That means if you
+build an approximation of an octahedron with cubes, one size of octahedron will
+have 63 cubes.</p>
 
-<url id="wiki" href="https://en.wikipedia.org/wiki/Centered_octahedral_number" />
+<url id="octnum" href="https://en.wikipedia.org/wiki/Centered_octahedral_number" />
 <url id="hauy" href="https://en.wikipedia.org/wiki/Ren%C3%A9_Just_Ha%C3%BCy" />
 
 <p>In the late 1700's <a urlid="hauy">René Just Haüy</a> developed a theory
@@ -82,7 +87,7 @@ make an octahedron.</p>
     <!--[[[end]]]-->
 </figurep>
 
-<p>Add another layer, adding a cube to touch every visible cube, making 25:</p>
+<p>Add another layer, adding a cube to touch each visible cube, making 25:</p>
 
 <figurep>
     <!--[[[cog read_svg("pages/code/diagrams/hauy/2.svg") ]]]-->
@@ -371,7 +376,392 @@ make an octahedron.</p>
 <p>The next numbers in <a href="https://oeis.org/A001845">the sequence</a> are
 129, 231, 377, 575, 833, 1159, 1561, 2047, 2625, etc.</p>
 
-<p>Colophon: I made these diagrams by asking Claude to write a
+<url id="delannoy" href="https://en.wikipedia.org/wiki/Delannoy_number" />
+
+<p>63 also shows up in the <a urlid="delannoy">Delannoy numbers</a>, the
+number of ways to traverse a grid from the lower left corner to upper right
+using steps north, east, or northeast.  Here are the 63 ways of moving on a
+3<times/>3 grid:</p>
+
+<figurep>
+    <!--[[[cog read_svg("pages/code/diagrams/delannoy3.svg") ]]]-->
+    <!-- {{{ -->
+    <svg width="500px" height="400px" viewBox="-5 -5 360 280"
+    	preserveAspectRatio="xMidYMid" version="1.1"
+    	xmlns="http://www.w3.org/2000/svg"
+    	xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    	<title>Delannoy paths 3x3</title>
+    	<desc>Robert Dickau, 2006-2007</desc>
+
+    	<defs>
+    		<g id="backgrid" stroke="lightblue" stroke-width="1"
+    			stroke-linecap="square">
+    			<line x1="0" y1="-1" x2="0" y2="31" />
+    			<line x1="10" y1="-1" x2="10" y2="31" />
+    			<line x1="20" y1="-1" x2="20" y2="31" />
+    			<line x1="30" y1="-1" x2="30" y2="31" />
+
+    			<line x1="-1" y1="0" x2="31" y2="0" />
+    			<line x1="-1" y1="10" x2="31" y2="10" />
+    			<line x1="-1" y1="20" x2="31" y2="20" />
+    			<line x1="-1" y1="30" x2="31" y2="30" />
+    		</g>
+    	</defs>
+
+    	<g stroke-linejoin="round" stroke-linecap="round" stroke="red"
+    		stroke-width="2" fill="none">
+
+    		<!-- row 1 -->
+
+    		<g transform="translate(0 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 30,0" />
+    		</g>
+
+    		<g transform="translate(40 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(80 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,10 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(120 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 30,0" />
+    		</g>
+
+    		<g transform="translate(160 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 10,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(200 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 10,10 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(240 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(280 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(320 0)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 20,20 20,10 30,0" />
+    		</g>
+
+    		<!-- row 2 -->
+
+    		<g transform="translate(0 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 20,20 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(40 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 30,0" />
+    		</g>
+
+    		<g transform="translate(80 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 20,20 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(120 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(160 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 10,0 30,0" />
+    		</g>
+
+    		<g transform="translate(200 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 10,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(240 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(280 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,10 10,0 30,0" />
+    		</g>
+
+    		<g transform="translate(320 40)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,10 20,10 20,0 30,0" />
+    		</g>
+
+    		<!-- row 3 -->
+
+    		<g transform="translate(0 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(40 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 10,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(80 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 10,10 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(120 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(160 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(200 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 20,20 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(240 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 20,20 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(280 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 10,0 30,0" />
+    		</g>
+
+    		<g transform="translate(320 80)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 10,10 20,10 20,0 30,0" />
+    		</g>
+
+    		<!-- row 4 -->
+
+    		<g transform="translate(0 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 10,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(40 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 20,20 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(80 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 20,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(120 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,20 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(160 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(200 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,10 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(240 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(280 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(320 120)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,20 20,10 30,0" />
+    		</g>
+
+    		<!-- row 5 -->
+
+    		<g transform="translate(0 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,20 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(40 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 20,20 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(80 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 20,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(120 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 20,20 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(160 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 20,10 30,0" />
+    		</g>
+
+    		<g transform="translate(200 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 20,20 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(240 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(280 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,0 30,0" />
+    		</g>
+
+    		<g transform="translate(320 160)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 10,10 10,0 30,0" />
+    		</g>
+
+    		<!-- row 6 -->
+
+    		<g transform="translate(0 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(40 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(80 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 10,0 30,0" />
+    		</g>
+
+    		<g transform="translate(120 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 10,10 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(160 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 10,20 10,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(200 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 20,20 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(240 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 20,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(280 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 0,20 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(320 200)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,0 30,0" />
+    		</g>
+
+    		<!-- row 7 -->
+
+    		<g transform="translate(0 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,10 20,10 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(40 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(80 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,20 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(120 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 20,20 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(160 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 10,30 10,20 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(200 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 20,0 30,0" />
+    		</g>
+
+    		<g transform="translate(240 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 20,10 30,10 30,0" />
+    		</g>
+
+    		<g transform="translate(280 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 20,30 20,20 30,20 30,0" />
+    		</g>
+
+    		<g transform="translate(320 240)">
+    			<use xlink:href="#backgrid" />
+    			<polyline points="0,30 30,30 30,0" />
+    		</g>
+
+    	</g>
+
+    </svg>
+    <!-- }}} -->
+    <!--[[[end]]]-->
+</figurep>
+
+<p>(Diagram from <a href="https://en.wikipedia.org/wiki/File:Delannoy3x3.svg">Wikipedia</a>)</p>
+
+<p>In fact, the number of cubes in an N-layer Haüy octahedron is the same as the
+number of Delannoy steps on a 3<times/>N grid.</p>
+
+<p>Since the two ideas are both geometric and fairly simple, I would love to
+find a geometric explanation for the correspondence.  The octahedron is
+three-dimensional, and the Delannoy grids have that tantalizing 3 in them.  It
+seems like there should be a way to convert Haüy coordinates to Delannoy
+coordinates to show how they relate.  But I haven't found one...</p>
+
+<bulletsep/>
+
+<p>Colophon: I made the octahedron diagrams by asking Claude to write a
 <a href="code/diagrams/hauy/hauy_oct.py">Python program</a> to do it.
 It wasn't a fast process because it took pushing and prodding to get the
 diagrams to come out the way I liked.  But Claude was very competent, and I
