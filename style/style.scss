@@ -942,6 +942,13 @@ a.s {
     text-decoration: none;
 }
 
+span.times {
+    /* Current font makes them too large and low. */
+    font-size: 75%;
+    vertical-align: top;
+    padding: .05em;
+}
+
 /* Block quotes */
 
 blockquote {

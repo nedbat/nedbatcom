@@ -288,7 +288,7 @@
 <xsl:template match='middot'>&#183;</xsl:template>
 <xsl:template match='space'><xsl:text> </xsl:text></xsl:template>
 <xsl:template match='bullet'>&#x2022;</xsl:template>
-<xsl:template match='times'>&#xd7;</xsl:template>
+<xsl:template match='times'><span class="times">&#xd7;</span></xsl:template>
 <xsl:template match='divide'>&#xf7;</xsl:template>
 <xsl:template match='minus'>&#x2212;</xsl:template>
 <xsl:template match='ltlt'>&#xab;</xsl:template>
