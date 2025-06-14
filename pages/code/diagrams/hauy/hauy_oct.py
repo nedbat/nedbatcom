@@ -1,7 +1,8 @@
 import math
-import cairo
 import colorsys
 from dataclasses import dataclass
+
+import cairo
 from colorspace import HCL
 
 def parse_css_color(css_color):
@@ -355,7 +356,7 @@ if __name__ == "__main__":
     viewpoint = (-0.5, -0.8, .5)  # Adjusted x component to rotate view so apex is at top
 
     # Generate different sizes of Haüy octahedra
-    for n in [0, 1, 2, 3]:
+    for n in range(4):
         cube_count = create_hauy_octahedron_svg(
             f'{n}.svg',
             n=n,
@@ -366,6 +367,13 @@ if __name__ == "__main__":
             color_scheme='distance'
         )
         print(f"Haüy octahedron (n={n}) with {cube_count} cubes saved as '{n}.svg'")
+
+    for n in range(4):
+        with open(f"{n}.svg") as svg:
+            lines = list(svg)
+        lines[1:1] = ["<!-- from https://nedbatchelder.com/blog/202506/math_factoid_of_the_day_63.html -->\n"]
+        with open(f"{n}.svg", "w") as svg:
+            svg.write("".join(lines))
 
     # # Generate with different color schemes
     # create_hauy_octahedron_svg('hauy_octahedron_height.svg', n=3, viewpoint=viewpoint, scale=15, gap=3, color_scheme='height')
