@@ -16,7 +16,7 @@ django.setup()
 from django.conf import settings
 from django.core.management import call_command
 
-from stellated import XuffApp
+from blogtools import XuffApp
 
 import loadpages
 import sass
@@ -85,7 +85,7 @@ class CmdLine(object):
             (f"deploy/{slug}.service", f"{slug}.service"),
         ]
         self.COPY_TREES = [
-            ("../../py/stellated", "stellated"),
+            ("../blogtools", "blogtools"),
             ("requirements", "requirements"),
         ]
         self.user_data = f"deploy/{slug}_users.json"

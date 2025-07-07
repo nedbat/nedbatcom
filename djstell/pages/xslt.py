@@ -4,7 +4,7 @@ from io import BytesIO
 import re
 
 from lxml import etree
-from stellated.XsltExtensions import *
+from blogtools.XsltExtensions import *
 from django.conf import settings
 import smartypants
 
