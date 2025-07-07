@@ -4,11 +4,11 @@
 #
 #    make upgrade
 #
-asgiref==3.8.1
+asgiref==3.9.0
     # via django
 bleach[css]==6.2.0
     # via -r requirements/base.in
-django==4.2.23
+django==5.2.4
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -21,7 +21,7 @@ ftfy==6.3.1
     # via -r requirements/base.in
 libsass==0.23.0
     # via -r requirements/base.in
-lxml==5.4.0
+lxml==6.0.0
     # via -r requirements/base.in
 markdown2==2.5.3
     # via -r requirements/base.in
@@ -29,11 +29,11 @@ path==17.1.0
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==11.2.1
+pillow==11.3.0
     # via -r requirements/base.in
-pygments==2.19.1
+pygments==2.19.2
     # via -r requirements/base.in
-python-dotenv==1.1.0
+python-dotenv==1.1.1
     # via -r requirements/base.in
 secure==1.0.1
     # via -r requirements/base.in
