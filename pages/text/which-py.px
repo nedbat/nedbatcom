@@ -35,6 +35,7 @@
 <what when='20250603T070700'>3.14b2</what>
 <what when='20250613T133700'>3.13.5</what>
 <what when='20250617T164700'>3.14b3</what>
+<what when='20250708T145500'>3.14b4</what>
 </history>
 
 <meta>
@@ -53,12 +54,13 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.14: expected October 2025 (now beta 3)</h1>
+<h1>3.14: expected October 2025 (now beta 4)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep750">Template strings</a> (t-strings).</li>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep765">Disallow return from finally</a>.</li>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep649">Deferred evaluation of annotations</a>.</li>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pyrepl-highlighting">Syntax highlighting in the REPL</a>.</li>
+    <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep779">Free-threaded Python is officially supported</a>.</li>
 </ul>
 
 <p><a href="https://docs.python.org/3.14/whatsnew/3.14.html">Full list of 3.14 changes</a>.
