@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250715T065229'>
+<title>2048: iterators and iterables</title>
+<category>python</category>
+
+<description>Making a simple game, I waded into a classic iterator/iterable
+confusion.</description>
+
+<body>
+
+<p>I wrote a <a urlid="my2048">low-tech terminal-based version</a> of the
+classic <a urlid="2048">2048 game</a> and had some interesting difficulties
+with iterators along the way.</p>
+
+<p>2048 has a 4<times/>4 grid with sliding tiles.  Because the tiles can slide
+left or right and up or down, sometimes we want to loop over the rows and
+columns from 0 to 3, and sometimes from 3 to 0.  My first attempt looked like
+this:</p>
+
+<code lang="python"><![CDATA[
+N = 4
+if sliding_right:
+    cols = range(N-1, -1, -1)   # 3 2 1 0
+else:
+    cols = range(N)             # 0 1 2 3
+
+if sliding_down:
+    rows = range(N-1, -1, -1)   # 3 2 1 0
+else:
+    rows = range(N)             # 0 1 2 3
+
+for row in rows:
+    for col in cols:
+        ...
+]]></code>
+
+<p>This worked, but those counting-down ranges are ugly. Let's make it
+nicer:</p>
+
+<code lang="python"><![CDATA[
+cols = range(N)                 # 0 1 2 3
+if sliding_right:
+    cols = reversed(cols)       # 3 2 1 0
+
+rows = range(N)                 # 0 1 2 3
+if sliding_down:
+    rows = reversed(rows)       # 3 2 1 0
+
+for row in rows:
+    for col in cols:
+        ...
+]]></code>
+
+<p>Looks cleaner, but it doesn't work!  Can you see why? It took me a bit of
+debugging to see the light.</p>
+
+<p><c>range()</c> produces an iterable: something that can be iterated over.
+Similar but different is that <c>reversed()</c> produces an iterator: something
+that is already iterating.  Some iterables (like ranges) can be used more than
+once, creating a new iterator each time.  But once an iterator like
+<c>reversed()</c> has been consumed, it is done.  Iterating it again will
+produce no values.</p>
+
+<p>If "iterable" vs "iterator" is already confusing here's a quick definition:
+an iterable is something that can be iterated, that can produce values in a
+particular order.  An iterator tracks the state of an iteration in progress. An
+analogy: the pages of a book are iterable; a bookmark is an iterator.  The
+English hints at it: an iter-able is able to be iterated at some point, an
+iterator is actively iterating.</p>
+
+<p>The outer loop of my double loop was iterating only once over the rows, so
+the row iteration was fine whether it was going forward or backward.  But the
+columns were being iterated again for each row.  If the columns were going
+forward, they were a range, a reusable iterable, and everything worked fine.</p>
+
+<p>But if the columns were meant to go backward, they were a one-use-only
+iterator made by <c>reversed()</c>.  The first row would get all the columns,
+but the other rows would try to iterate using a fully consumed iterator and get
+nothing.</p>
+
+<p>The simple fix was to use <c>list()</c> to turn my iterator into a reusable
+iterable:</p>
+
+<code lang="python"><![CDATA[
+cols = list(reversed(cols))
+]]></code>
+
+<p>The code was slightly less nice, but it worked.  An even better fix
+was to change my doubly nested loop into a single loop:</p>
+
+<code lang="python"><![CDATA[
+for row, col in itertools.product(rows, cols):
+]]></code>
+
+<p>That also takes care of the original iterator/iterable problem, so I can get
+rid of that first fix:</p>
+
+<code lang="python"><![CDATA[
+cols = range(N)
+if sliding_right:
+    cols = reversed(cols)
+
+rows = range(N)
+if sliding_down:
+    rows = reversed(rows)
+
+for row, col in itertools.product(rows, cols):
+    ...
+]]></code>
+
+<p>Once I had this working, I wondered why <c>product()</c> solved the
+iterator/iterable problem.  The <a urlid="proddoc">docs have a sample Python
+implementation</a> that shows why: internally, <c>product()</c> is doing just
+what my <c>list()</c> call did: it makes an explicit iterable from each of the
+iterables it was passed, then picks values from them to make the pairs. This
+lets <c>product()</c> accept iterators (like my reversed range) rather than
+forcing the caller to always pass iterables.</p>
+
+<p>If your head is spinning from all this iterable / iterator / iteration talk,
+I don't blame you.  Just now I said, "it makes an explicit iterable from each of
+the iterables it was passed." How does that make sense?  Well, an iterator is an
+iterable.  So <c>product()</c> can take either a reusable iterable (like a range
+or a list) or it can take a use-once iterator (like a reversed range).  Either
+way, it populates its own reusable iterables internally.</p>
+
+<p>Python's iteration features are powerful but sometimes require careful
+thinking to get right.  Don't overlook the tools in itertools, and mind your
+iterators and iterables!</p>
+
+
+
+<url id="my2048" href="https://github.com/nedbat/odds/blob/master/2048/2048.py" />
+<url id="2048" href="https://play2048.co/" />
+<url id="proddoc" href="https://docs.python.org/3/library/itertools.html#itertools.product" />
+
+
+<bulletsep/>
+
+<p>Some more notes:</p>
+
+<p>1: Another way to reverse a range: you can slice them!</p>
+
+<code lang="python"><![CDATA[
+>>> range(4)
+range(0, 4)
+>>> range(4)[::-1]
+range(3, -1, -1)
+>>> reversed(range(4))
+<range_iterator object at 0x10307cba0>
+]]></code>
+
+<p>It didn't occur to me to reverse-slice the range, since <c>reversed</c> is
+right there, but the slice gives you a new reusable range object while reversing
+the range gives you a use-once iterator.</p>
+
+<p>2: Why did <c>product()</c> explicitly store the values it would need but
+<c>reversed</c> did not? Two reasons: first, <c>reversed()</c> depends on the
+<c>__reversed__</c> dunder method, so it's up to the original object to decide
+how to implement it. Ranges know how to produce their values in backward order,
+so they don't need to store them all.  Second, <c>product()</c> is going to need
+to use the values from each iterable many times and can't depend on the
+iterables being reusable.</p>
+
+</body>
+</entry>
+</blog>
