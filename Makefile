@@ -49,7 +49,7 @@ clean_cache: ## how to clean auto-made webp images
 	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/etc"
 
 showmemory: ## See memory use on dreamhost
-	ssh dreamhost "ps -eo pid,%cpu,%mem,vsz,command --sort=%mem | grep 'bind\=ned'"
+	ssh dreamhost "ps -eo pid,%mem,%cpu,vsz,command --sort=%mem | tail -30"
 
 showworkers: ## See systemctl on dreamhost
 	 ssh dreamhost systemctl --user status
