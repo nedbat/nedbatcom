@@ -377,7 +377,7 @@ class Entry(ModelMixin, models.Model):
     def to_brief_html(self):
         return self.to_html(blogmode='brief')
 
-    @functools.cache
+    #@functools.cache
     def to_html(self, blogmode='full'):
         params={
             'dpath':    string_param(""),
