@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250724T190327'>
+<title>Coverage 7.10.0: patch</title>
+<category>coverage</category>
+
+<description>Coverage 7.10 has some significant new features that have solved
+some long-standing problems.</description>
+
+<body>
+
+<p>Years ago I greeted a friend returning from vacation and asked how it had
+been. She answered, "It was good, I got a lot done!" I understand that feeling.
+I just had a long vacation myself, and used the time to clean up some old issues
+and add some new features in <a urlid="coverage">coverage.py v7.10</a>.</p>
+
+<p>The major new feature is a configuration option,
+<a urlid="patch"><c>[run]&#xa0;patch</c></a>.  With it, you specify named
+patches that coverage can use to monkey-patch some behavior that gets in the way
+of coverage measurement.</p>
+
+<p>The first is <c>subprocess</c>.  Coverage works great when you start your
+program with coverage measurement, but has long had the problem of how to also
+measure the coverage of sub-processes that your program created.  The existing
+solution had been a complicated two-step process of creating obscure .pth files
+and setting environment variables.  Whole projects appeared on PyPI to handle
+this for you.</p>
+
+<p>Now, <c>patch = subprocess</c> will do this for you automatically, and clean
+itself up when the program ends.  It handles sub-processes created by the
+<a urlid="subprocess">subprocess</a> module, the
+<a urlid="os.system">os.system()</a> function, and any of the
+<a urlid="execv">execv</a> or <a href="spawnv">spawnv</a> families of
+functions.</p>
+
+<p>This alone has spurred <a urlid="leodevian">one user to exclaim</a>,</p>
+
+<quote><p>The latest release of Coverage feels like a Christmas present!
+The native support for Python subprocesses is so good!</p></quote>
+
+<p>Another patch is <c>_exit</c>.  This patches
+<a urlid="os._exit">os._exit()</a> so that coverage saves its data before
+exiting. The os._exit() function is an immediate and abrupt termination of the
+program, skipping all kinds of registered clean up code.  This patch makes it
+possible to collect coverage data from programs that end this way.</p>
+
+<p>The third patch is <c>execv</c>.  The <a urlid="execv">execv</a> functions
+end the current program and replace it with a new program in the same process.
+The <c>execv</c> patch arranges for coverage to save its data before the
+current program is ended.</p>
+
+<p>Now that these patches are available, it seems silly that it's taken so long.
+They (mostly) weren't difficult. I guess it took looking at the old issues,
+realizing the friction they caused, and thinking up a new way to let users
+control the patching.  Monkey-patching is a bit invasive, so I've never wanted
+to do it implicitly.  The patch option gives the user an explicit way to request
+what they need without having to get into the dirty details themselves.</p>
+
+<p>Another process-oriented feature was contributed by Arkady Gilinsky: with
+<c>--save-signal=USR1</c> you can specify a user signal that coverage will
+attend to.  When you send the signal to your running coverage process, it will
+save the collected data to disk.  This gives a way to measure coverage in a
+long-running process without having to end the process.</p>
+
+<p>There were some other fixes and features along the way, like better HTML
+coloring of multi-line statements, and more default exclusions
+(<c>if TYPE_CHECKING:</c> and <c>...</c>).</p>
+
+<p>It feels good to finally address some of these pain points.  I also closed
+some stale issues and pull requests.  There is more to do, always more to do,
+but this feels like a real step forward.  Give <a urlid="cov-7.10">coverage
+7.10.0</a> a try and let me know how it works for you.</p>
+
+
+<url id="coverage" href="https://pypi.org/project/coverage/" />
+<url id="patch" href="https://coverage.readthedocs.io/en/latest/config.html#run-patch" />
+<url id="subprocess" href="https://docs.python.org/3/library/subprocess.html#module-subprocess" />
+<url id="os.system" href="https://docs.python.org/3/library/os.html#os.system" />
+<url id="execv" href="https://docs.python.org/3/library/os.html#os.execl" />
+<url id="spawnv" href="https://docs.python.org/3/library/os.html#os.spawnl" />
+<url id="os._exit" href="https://docs.python.org/3/library/os.html#os._exit" />
+<url id="cov-7.10" href="https://coverage.readthedocs.io/en/7.10.0/changes.html#version-7-10-0-2025-07-24" />
+<url id="leodevian" href="https://bsky.app/profile/did:plc:yj4vzsbzzkpswr7x5yagzhhx/post/3luqfffiiqk27" />
+
+</body>
+</entry>
+</blog>
