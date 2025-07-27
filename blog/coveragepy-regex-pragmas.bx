@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250728T120412'>
+<title>Coverage.py regex pragmas</title>
+<category>coverage</category>
+
+<description>Coverage.py uses regexes to define pragma syntax. This is
+surprisingly powerful.</description>
+
+<body>
+
+<p><a urlid="covpy">Coverage.py</a> lets you indicate code to exclude from
+measurement by adding comments to your Python files. But coverage implements
+them differently than other similar tools. Rather than having fixed syntax for
+these comments, they are defined using regexes that you can change or add to.
+This has been surprisingly powerful.</p>
+
+<p>The basic behavior: coverage finds lines in your source files that match the
+regexes.  These lines are excluded from measurement, that is, it's OK if they
+aren't executed.  If a matched line is part of a multi-line statement the
+whole multi-line statement is excluded.  If a matched line introduces a block of
+code the entire block is excluded.</p>
+
+<p>At first, these regexes were just to make it easier to implement the basic
+"here's the comment you use" behavior for pragma comments.  But it also enabled
+pragma-less exclusions.  You could decide (for example) that you didn't care to
+test any <c>__repr__</c> methods.  By adding <c>def __repr__</c> as an exclusion
+regex, all of those methods were automatically excluded from coverage
+measurement without having to add a comment to each one. Very nice.</p>
+
+<url id="covpy" href="https://coverage.readthedocs.io/" />
+
+<p>Not only did this let people add custom exclusions in their projects, but
+it enabled third-party plugins that could configure regexes in other interesting
+ways:</p>
+
+<ul>
+
+<li><a href="https://pypi.org/project/covdefaults/">covdefaults</a> adds a
+bunch of default exclusions, and also platform- and version-specific comment
+syntaxes.</li>
+
+<li><a href="https://pypi.org/project/coverage-conditional-plugin/">coverage-conditional-plugin</a>
+gives you a way to create comment syntaxes for entire files, for whether other
+packages are installed, and so on.</li>
+
+</ul>
+
+<p>Then about a year ago, <a urlid="1807">Daniel Diniz contributed a
+change</a> that amped up the power: regexes could match multi-line patterns.
+This sounds like not that large a change, but it enabled much more powerful
+exclusions.  As a sign, it made it possible to support <a urlid="7.6.0">four
+different feature requests</a>.</p>
+
+<p>To make it work, Daniel changed the matching code.  Originally, it was a loop
+over the lines in the source file, checking each line for a match against the
+regexes.  The new code uses the entire source file as the target string, and
+loops over the matches against that text.  Each match is converted into a set of
+line numbers and added to the results.</p>
+
+<p>The power comes from being able to use one pattern to match many lines. For
+example, one of the four feature requests was <a urlid="118">how to exclude an
+entire file</a>.  With configurable multi-line regex patterns, you can do this
+yourself:</p>
+
+<code><![CDATA[
+\A(?s:.*# pragma: exclude file.*)\Z
+]]></code>
+
+<p>With this regex, if you put the comment "# pragma: exclude file" in your
+source file, the entire file will be excluded.  The <c>\A</c> and <c>\Z</c>
+match the start and end of the target text, which remember is the entire file.
+The <c>(?s:...)</c> means the <a urlid="dotall">s/DOTALL</a> flag is in
+effect, so <c>.</c> can match newlines.  This pattern matches the entire source
+file if the desired pragma is somewhere in the file.</p>
+
+<p>Another requested feature was <a urlid="1803">excluding code between two
+lines</a>.  We can use "# no cover: start" and "# no cover: end" as delimiters
+with this regex:</p>
+
+<code><![CDATA[
+# no cover: start(?s:.*?)# no cover: stop
+]]></code>
+
+<p>Here <c>(?s:.*?)</c> means any number of any character at all, but as few as
+possible.  A star in regexes means as many as possible, but star-question-mark
+means as few as possible.  We need the minimal match so that we don't match from
+the start of one pair of comments all the way through to the end of a different
+pair of comments.</p>
+
+<p>This regex approach is powerful, but is still fairly shallow.  For example,
+either of these two examples would get the wrong lines if you had a string
+literal with the pragma text in it.  There isn't a regex that skips easily over
+string literals.</p>
+
+<p>This kind of difficulty hit home when I added a new default pattern to
+exclude empty placeholder methods like this:</p>
+
+<code lang="python"><![CDATA[
+def not_yet(self): ...
+
+def also_not_this(self):
+    ...
+
+async def definitely_not_this(
+    self,
+    arg1,
+):
+    ...
+]]></code>
+
+<p>We can't just match three dots, because ellipses can be used in other places
+than empty function bodies. We need to be more delicate. I ended up with:</p>
+
+<code><![CDATA[
+^\s*(((async )?def .*?)?\)(\s*->.*?)?:\s*)?\.\.\.\s*(#|$)
+]]></code>
+
+<p>This craziness ensures the ellipsis is part of an (async) def, that the
+ellipsis appears first in the body (but no docstring allowed, doh!), allows for
+a comment on the line, and so on.  And even with a pattern this complex, it
+would incorrectly match this contrived line:</p>
+
+<code lang="python"><![CDATA[
+def f(): print("(well): ... #2 false positive!")
+]]></code>
+
+<p>So regexes aren't perfect, but they're a pretty good balance: flexible and
+powerful, and will work great on real code even if we can invent weird edge
+cases where they fail.</p>
+
+<p>What started as a simple implementation expediency has turned into a powerful
+configuration option that has done more than I would have thought.</p>
+
+<url id="118" href="https://github.com/nedbat/coveragepy/issues/118" />
+<url id="1803" href="https://github.com/nedbat/coveragepy/issues/1803" />
+<url id="1807" href="https://github.com/nedbat/coveragepy/pull/1807" />
+<url id="7.6.0" href="https://coverage.readthedocs.io/en/latest/changes.html#version-7-6-0-2024-07-11" />
+<url id="dotall" href="https://docs.python.org/3/library/re.html#re.S" />
+
+</body>
+</entry>
+</blog>
