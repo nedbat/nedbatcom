@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250813T061446'>
+<title>Starting with pytest's parametrize</title>
+<category>testing</category>
+
+<description>Pytest's parametrize feature is powerful but it looks scary. I
+hope this step-by-step explanation helps people use it more.</description>
+
+<body>
+
+<p>Writing tests can be difficult and repetitive.  Pytest has a feature called
+parametrize that can make it reduce duplication, but it can be hard to
+understand if you are new to the testing world. It's not as complicated as it
+seems.</p>
+
+<p>Let's say you have a function called <c>add_nums()</c> that adds up a list of
+numbers, and you want to write tests for it.  Your tests might look like
+this:</p>
+
+<code lang="python"><![CDATA[
+def test_123():
+    assert add_nums([1, 2, 3]) == 6
+
+def test_negatives():
+    assert add_nums([1, 2, -3]) == 0
+
+def test_empty():
+    assert add_nums([]) == 0
+]]></code>
+
+<p>This is great: you've tested some behaviors of your <c>add_nums()</c>
+function.  But it's getting tedious to write out more test cases.  The names of the
+function have to be different from each other, and they don't mean anything, so
+it's extra work for no benefit.  The test functions all have the same structure,
+so you're repeating uninteresting details. You want to add more cases but it
+feels like there's friction that you want to avoid.</p>
+
+<p>If we look at these functions, they are very similar.  In any software, when
+we have functions that are similar in structure, but differ in some details, we
+can refactor them to be one function with parameters for the differences. We can
+do the same for our test functions.</p>
+
+<p>Here the functions all have the same structure: call <c>add_nums()</c> and
+assert what the return value should be.  The differences are the list we pass to
+<c>add_nums()</c> and the value we expect it to return.  So we can turn those
+into two parameters in our refactored function:</p>
+
+<code lang="python"><![CDATA[
+def test_add_nums(nums, expected_total):
+    assert add_nums(nums) == expected_total
+]]></code>
+
+<p>Unfortunately, tests aren't run like regular functions.  We write the test
+functions, but we don't call them ourselves.  That's the reason the names of the
+test functions don't matter.  The test runner (pytest) finds functions named
+<c>test_*</c> and calls them for us.  When they have no parameters, pytest can
+call them directly.  But now that our test function has two parameters, we have
+to give pytest instructions about how to call it.</p>
+
+<p>To do that, we use the <c>@pytest.mark.parametrize</c> decorator. Using it
+looks like this:</p>
+
+<code lang="python"><![CDATA[
+import pytest
+
+@pytest.mark.parametrize(
+    "nums, expected_total",
+    [
+        ([1, 2, 3], 6),
+        ([1, 2, -3], 0),
+        ([], 0),
+    ]
+)
+def test_add_nums(nums, expected_total):
+    assert add_nums(nums) == expected_total
+]]></code>
+
+<p>There's a lot going on here, so let's take it step by step.</p>
+
+<p>If you haven't seen a decorator before, it starts with <c>@</c> and is like a
+prologue to a function definition. It can affect how the function is defined or
+provide information about the function.</p>
+
+<p>The parametrize decorator is itself a function call that takes two arguments.
+The first is a string ("nums, expected_total") that names the two arguments to
+the test function.  Here the decorator is instructing pytest, "when you call
+<c>test_add_nums</c>, you will need to provide values for its <c>nums and</c>
+<c>expected_total parameters</c>."</p>
+
+<p>The second argument to <c>parametrize</c> is a list of the values to supply
+as the arguments.  Each element of the list will become one call to our test
+function.  In this example, the list has three tuples, so pytest will call our
+test function three times.  Since we have two parameters to provide, each
+element of the list is a tuple of two values.</p>
+
+<p>The first tuple is <c>([1, 2, 3], 6)</c>, so the first time pytest calls
+test_add_nums, it will call it as test_add_nums([1, 2, 3], 6).  All together,
+pytest will call us three times, like this:</p>
+
+<code lang="python"><![CDATA[
+test_add_nums([1, 2, 3], 6)
+test_add_nums([1, 2, -3], 0)
+test_add_nums([], 0)
+]]></code>
+
+<p>This will all happen automatically.  With our original test functions, when
+we ran pytest, it showed the results as three passing tests because we had three
+separate test functions.  Now even though we only have one function, it still
+shows as three passing tests!  Each set of values is considered a separate test
+that can pass or fail independently.  This is the main advantage of using
+parametrize instead of writing three separate assert lines in the body of a
+simple test function.</p>
+
+<p>What have we gained?</p>
+
+<ul>
+
+<li>We don't have to write three separate functions with different names.</li>
+
+<li>We don't have to repeat the same details in each function (<c>assert</c>,
+<c>add_nums()</c>, <c>==</c>).</li>
+
+<li>The differences between the tests (the actual data) are written succinctly
+all in one place.</li>
+
+<li>Adding another test case is as simple as adding another line of data to the
+decorator.</li>
+
+</ul>
+
+</body>
+</entry>
+</blog>
