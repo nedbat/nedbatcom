@@ -37,6 +37,7 @@
 <what when='20250617T164700'>3.14b3</what>
 <what when='20250708T145500'>3.14b4</what>
 <what when='20250722T160800'>3.14rc1</what>
+<what when='20250816T160800'>3.14rc2</what>
 </history>
 
 <meta>
@@ -55,7 +56,7 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.14: expected October 2025 (now rc1)</h1>
+<h1>3.14: expected October 2025 (now rc2)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep750">Template strings</a> (t-strings).</li>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pep765">Disallow return from finally</a>.</li>
@@ -70,7 +71,7 @@ End-of-life expected October 2030.
 </p>
 
 
-<h1>3.13: October 7, 2024 (now 3.13.5)</h1>
+<h1>3.13: October 7, 2024 (now 3.13.7)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler">Experimental preliminary JIT</a>.</li>
