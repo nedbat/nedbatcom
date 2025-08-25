@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250824T172812'>
+<title>Finding unneeded pragmas</title>
+<category>coverage</category>
+
+<description>A proof-of-concept tool for finding unneeded coverage.py exclusion
+pragmas</description>
+
+<!--
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>To answer a <a urlid="251">long-standing coverage.py feature request</a>, I
+threw together an experiment: a tool to identify lines that have been excluded
+from coverage, but which were actually executed.</p>
+
+<p>The program is a standalone file in the coverage.py repo. It is unsupported.
+I'd like people to try it to see what they think of the idea. Later we can
+decide what to do with it.</p>
+
+<p>To try it: copy <a urlid="warn_executed.py">warn_executed.py</a> from
+GitHub.  Create a .toml file that looks something like this:</p>
+
+<code lang="toml"><![CDATA[
+# Regexes that identify excluded lines:
+warn-executed = [
+    "pragma: no cover",
+    "raise AssertionError",
+    "pragma: cant happen",
+    "pragma: never called",
+    ]
+
+# Regexes that identify partial branch lines:
+warn-not-partial = [
+    "pragma: no branch",
+    ]
+]]></code>
+
+<p>These are exclusion regexes that you've used in your coverage runs.  The
+program will print out any line identified by a pattern and that ran during your
+tests.  It might be that you don't need to exclude the line, because it ran.</p>
+
+<p>In this file, none of your coverage settings or the default regexes are
+assumed: you need to explicitly specify all the patterns you want flagged.</p>
+
+<p>Run the program with Python 3.11 or higher, giving the name of the coverage
+data file and the name of your new TOML configuration file. It will print the
+lines that might not need excluding:</p>
+
+<code lang="shell"><![CDATA[
+$ python3.12 warn_executed.py .coverage warn.toml
+]]></code>
+
+<p>The reason for a new list of patterns instead of just reading the existing
+coverage settings is that some exclusions are "don't care" rather than "this
+will never happen." For example, I exclude "def __repr__" because some
+__repr__'s are just to make my debugging easier. I don't care if the test suite
+runs them or not. It might run them, so I don't want it to be a warning that
+they actually ran.</p>
+
+<p>This tool is not perfect. For example, I exclude "if TYPE_CHECKING:" because
+I want that entire clause excluded.  But the if-line itself is actually run.  If
+I include that pattern in the warn-executed list, it will flag all of those
+lines.  Maybe I'm forgetting a way to do this: it would be good to have a way to
+exclude the body of the if clause while understanding that the if-line itself is
+executed.</p>
+
+<p>Give <a urlid="warn_executed.py">warn_executed.py</a> a try and comment on
+<a urlid="251">the issue</a> about what you think of it.</p>
+
+<url id="251" href="https://github.com/nedbat/coveragepy/issues/251" />
+<url id="warn_executed.py" href="https://github.com/nedbat/coveragepy/blob/master/lab/warn_executed.py" />
+
+</body>
+</entry>
+</blog>
