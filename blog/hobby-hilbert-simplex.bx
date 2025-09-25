@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20250922T211404' draft='y'>
+<title>Hobby Hilbert Simplex</title>
+<category></category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I saw this by
+<a href="https://genart.social/@hamoid/115125620138280715">aBe on Mastodon</a>:</p>
+
+<blockquote class="mastodon-post" lang="en" cite="https://genart.social/@hamoid/115125620138280715" data-source="fediverse">
+  <p>I love how these lines separate and reunite. And the fact that I can express this idea in 3 or 4 lines of code.</p><p>For me they're lives represented by closed paths that end where they started, spending part of the journey together, separating while we go in different directions and maybe reconnecting again in the future.</p><p><a href="https://genart.social/tags/CreativeCoding" class="mention hashtag" rel="nofollow noopener" target="_blank">#<span>CreativeCoding</span></a> <a href="https://genart.social/tags/algorithmicart" class="mention hashtag" rel="nofollow noopener" target="_blank">#<span>algorithmicart</span></a>  <a href="https://genart.social/tags/proceduralArt" class="mention hashtag" rel="nofollow noopener" target="_blank">#<span>proceduralArt</span></a> <a href="https://genart.social/tags/OPENRNDR" class="mention hashtag" rel="nofollow noopener" target="_blank">#<span>OPENRNDR</span></a> <a href="https://genart.social/tags/Kotlin" class="mention hashtag" rel="nofollow noopener" target="_blank">#<span>Kotlin</span></a></p>
+  <figure><img src="https://media.hachyderm.io/cache/media_attachments/files/115/125/620/285/265/947/small/5a73d40e6a4a81c1.png" width="480" height="480" alt="80 wobbly black hobby curves with low opacity. In some places the curves travel together, but sometimes they split in 2 or 3 groups and later reunite. Due to the low opacity, depending on how many curves overlap the result is brighter or darker." loading="lazy" /></figure>
+  <footer>
+     — aBe (@hamoid@genart.social) <a href="https://genart.social/@hamoid/115125620138280715"><time datetime="2025-08-31T21:59:13.000Z">8/31/2025, 5:59:13 PM</time></a>
+  </footer>
+</blockquote>
+
+<p>The drawing is made by choosing 10 random points, drawing a curve through
+those points, then slightly scooching the points and drawing another curve.
+There are 40 curves, each slightly different than the last.  Occasionally
+the next curve makes a jump, which is why they separate and reunite.</p>
+
+<p>I was intrigued. I don't read Kotlin code, but I could get the sense of it,
+so I started hacking around in Python to understand how it worked and make
+something like it:</p>
+
+<figurep><img class="hairline" src='pix/fluidity/repro_139.png' /></figurep>
+
+<p>Along the way I had to learn about three techniques I got from the Kotlin code:
+Hobby curves, Hilbert sorting, and simplex noise.</p>
+
+<p>Each of these algorithms tries to do something "natural" automatically, so
+that we can generate art that looks nice without any manual steps.</p>
+
+
+<h1>Hobby curves</h1>
+
+<p>To draw swoopy curves through our random points, we use an algorithm
+developed by John Hobby as part of Donald Knuth's Metafont type design system.
+Jake Low has a <a href="hobby">great interactive page for playing with Hobby
+curves</a>, you should try it.</p>
+
+<url id="hobby" href="https://www.jakelow.com/blog/hobby-curves" />
+
+<p>Here are three examples of Hobby curves through ten random points:</p>
+
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_unsorted.png" /></figurep>
+
+<p>The results are kind of a scribble, because we're joining points together in
+an unnatural way determined by the randomness of the points.  If you asked a
+person to connect random points, they wouldn't jump back and forth across the
+canvas. They would find a close point to use next, producing a more natural tour
+of the set.</p>
+
+<p>We're generating everything automatically, so we can't manually intervene
+to choose a natural order for the points.  Instead we use Hilbert sorting.</p>
+
+
+<h1>Hilbert sorting</h1>
+
+<p>The Hilbert space-filling fractal visits every square in a 2D grid.
+<a urlid="hilbertsort">Hilbert sorting</a> uses a Hilbert fractal traversing
+the canvas, and sorts the points by when their square is visited by the fractal.
+This gives a tour of the points that corresponds more closely to what people
+expect.</p>
+
+<url id="hilbertsort" href="https://doc.cgal.org/latest/Spatial_sorting/index.html" />
+
+<p>If we sort the points using Hilbert sorting, we get much nicer curves:</p>
+
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_sorted.png" /></figurep>
+
+<p>Here are unsorted and sorted side-by-side:</p>
+
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hilbert_compared.png" /></figurep>
+
+<p>If you compare closely, the points in each pair are the same, but the sorted
+points are connected in a better order, producing nicer curves.</p>
+
+
+<h1>Simplex noise</h1>
+
+<p>Choosing random points would be easy to do with a random number generator,
+but we want the points to move in interesting graceful ways.  To do that, we use
+simplex noise. This is a 2D function (let's call the inputs u and v) that
+produces a value from -1 to 1.  The important thing is the function is
+continuous: if you sample it at two (u,v) coordinates that are close together,
+the results will be close together.  But it's also random: the continuous curves
+you get are wavy in unpredictable ways.  Think of the simplex noise function as
+a smooth hilly landscape.</p>
+
+<p>To get an (x,y) point for our drawing, we choose a (u,v) coordinate to
+produce an x value and a completely different (u,v) cooordinate for the y.  To
+get the next (x,y) point, we keep the u values the same and change the v values by
+just a tiny bit.  That makes the (x,y) points move smoothly but interestingly.</p>
+
+<p>Here are the trails of four points moving using this scheme:</p>
+
+<figurep><img class="hairline" src="pix/fluidity/point_motion.png" /></figurep>
+
+<figurep><img src="pix/fluidity/fnew.gif" /></figurep>
+<figurep><img src="pix/fluidity/fhobby.gif" /></figurep>
+<figurep><img src="pix/fluidity/funsort.gif" /></figurep>
+<figurep><img src="pix/fluidity/fevery.gif" /></figurep>
+
+</body>
+</entry>
+</blog>
