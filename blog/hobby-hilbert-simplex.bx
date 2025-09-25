@@ -51,11 +51,11 @@ curves</a>, you should try it.</p>
 
 <figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_unsorted.png" /></figurep>
 
-<p>The results are kind of a scribble, because we're joining points together in
-an unnatural way determined by the randomness of the points.  If you asked a
-person to connect random points, they wouldn't jump back and forth across the
-canvas. They would find a close point to use next, producing a more natural tour
-of the set.</p>
+<p>The curves are nice, but kind of a scribble, because we're joining points
+together in the order we generated them (shown by the green lines).  If you
+asked a person to connect random points, they wouldn't jump back and forth
+across the canvas like this.  They would find a nearby point to use next,
+producing a more natural tour of the set.</p>
 
 <p>We're generating everything automatically, so we can't manually intervene
 to choose a natural order for the points.  Instead we use Hilbert sorting.</p>
@@ -71,11 +71,12 @@ expect.</p>
 
 <url id="hilbertsort" href="https://doc.cgal.org/latest/Spatial_sorting/index.html" />
 
-<p>If we sort the points using Hilbert sorting, we get much nicer curves:</p>
+<p>If we sort the points using Hilbert sorting, we get much nicer curves. Here
+are the same points as last time:</p>
 
 <figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_sorted.png" /></figurep>
 
-<p>Here are unsorted and sorted side-by-side:</p>
+<p>Here are pairs of the same points, unsorted and sorted side-by-side:</p>
 
 <figurep><img class="hairline" scale="0.5" src="pix/fluidity/hilbert_compared.png" /></figurep>
 
@@ -99,14 +100,59 @@ produce an x value and a completely different (u,v) cooordinate for the y.  To
 get the next (x,y) point, we keep the u values the same and change the v values by
 just a tiny bit.  That makes the (x,y) points move smoothly but interestingly.</p>
 
-<p>Here are the trails of four points moving using this scheme:</p>
+<p>Here are the trails of four points taking 50 steps using this scheme:</p>
 
 <figurep><img class="hairline" src="pix/fluidity/point_motion.png" /></figurep>
 
-<figurep><img src="pix/fluidity/fnew.gif" /></figurep>
-<figurep><img src="pix/fluidity/fhobby.gif" /></figurep>
-<figurep><img src="pix/fluidity/funsort.gif" /></figurep>
-<figurep><img src="pix/fluidity/fevery.gif" /></figurep>
+<p>If we use seven points taking five steps, and draw curves through the seven
+points at each step, we get examples like this:</p>
+
+<figurep><img class="hairline" src="pix/fluidity/small_runs.png" /></figurep>
+
+<p>I've left the points visible, and given them large steps so the lines are
+very widely spaced to show the motion.  Taking out the points and drawing more
+lines with smaller steps gives us this:</p>
+
+<figurep><img class="hairline" src="pix/fluidity/large_runs.png" /></figurep>
+
+<p>With 40 lines drawn wider with some transparency, we start to see the smoky
+fluidity:</p>
+
+<figurep><img class="hairline" src="pix/fluidity/larger_runs.png" /></figurep>
+
+
+<h1>Jumps</h1>
+
+<p>In his Mastodon post, aBe commented on the separating of the lines as one of
+the things he liked about this. But why do they do that?  If we are moving the
+points in small increments, why do the curves sometimes make large jumps?</p>
+
+<p>The first reason is because of Hobby curves.  They do a great job drawing a
+curve through a set of points as a person might.  But a downside of the
+algorithm is sometimes changing a point a small amount makes the entire curve
+take a different route. If you play around with the interactive examples on
+<a urlid="hobby">Jake Low's page</a> you will see the curve can unexpectedly
+take a different shape.</p>
+
+<p>As we inch our points along, sometimes the Hobby curve jumps.</p>
+
+<p>The second reason is due to Hilbert sorting.  Each of our lines is sorted
+independently of how the previous line was sorted.  If a point's small motion
+moves it into a different grid square, it can change the sorting order, which
+changes the Hobby curve even more.</p>
+
+<p>If we sort the first line, and then keep that order of points for all the lines,
+the result has fewer jumps, but the Hobby curves still act unpredictably:</p>
+
+<figurep><img class="hairline" src="pix/fluidity/first_line_runs.png" /></figurep>
+
+<h1>Colophon</h1>
+
+<p>
+- Code
+- Libraries
+- Jupyter notebook
+</p>
 
 </body>
 </entry>
