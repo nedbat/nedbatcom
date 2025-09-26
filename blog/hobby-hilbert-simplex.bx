@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20250922T211404' draft='y'>
+<entry when='20250926T081404'>
 <title>Hobby Hilbert Simplex</title>
 <category>genart</category>
 <category>algorithms</category>
-<!--
-<description></description>
-<img src="pix/cards/xxx.png" alt=""/>
--->
+
+<description>An exploration and explanation of how to generate interesting swoopy art</description>
+<img src="pix/fluidity/first_line_runs.png" alt="Two curving smoky abstract shapes"/>
+
 <body>
 
 <p>I saw a generative art piece I liked and wanted to learn how it was made.
@@ -112,18 +112,18 @@ just a tiny bit.  That makes the (x,y) points move smoothly but interestingly.</
 <p>If we use seven points taking five steps, and draw curves through the seven
 points at each step, we get examples like this:</p>
 
-<figurep><img class="hairline" src="pix/fluidity/small_runs.png" /></figurep>
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/small_runs.png" /></figurep>
 
 <p>I've left the points visible, and given them large steps so the lines are
 very widely spaced to show the motion.  Taking out the points and drawing more
 lines with smaller steps gives us this:</p>
 
-<figurep><img class="hairline" src="pix/fluidity/large_runs.png" /></figurep>
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/large_runs.png" /></figurep>
 
 <p>With 40 lines drawn wider with some transparency, we start to see the smoky
 fluidity:</p>
 
-<figurep><img class="hairline" src="pix/fluidity/larger_runs.png" /></figurep>
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/larger_runs.png" /></figurep>
 
 
 <h1>Jumps</h1>
@@ -150,7 +150,7 @@ changes the Hobby curve even more.</p>
 lines, the result has fewer jumps, but the Hobby curves still act
 unpredictably:</p>
 
-<figurep><img class="hairline" src="pix/fluidity/first_line_runs.png" /></figurep>
+<figurep><img class="hairline" scale="0.5" src="pix/fluidity/first_line_runs.png" /></figurep>
 
 
 <h1>Colophon</h1>
