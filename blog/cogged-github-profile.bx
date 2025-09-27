@@ -22,7 +22,7 @@ creating a README.md in a repo named the same as your username.  So
 
 <p>My profile has a bit of static text, but much of it is badges, blog posts,
 links to PyPI projects, and so on.  The <a urlid="readme">README.md</a> is
-literally a Markdown file that can be displayed by GitHub, but it's full HTML
+literally a Markdown file that can be displayed by GitHub, but it's full of HTML
 comments containing Python code that generates the content.  The generation
 happens once a day in a <a urlid="build.yml">GitHub action</a>.</p>
 
