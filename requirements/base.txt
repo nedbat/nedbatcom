@@ -4,11 +4,11 @@
 #
 #    make upgrade
 #
-asgiref==3.9.1
+asgiref==3.9.2
     # via django
 bleach[css]==6.2.0
     # via -r requirements/base.in
-django==5.2.6
+django==5.2.7
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -21,7 +21,7 @@ ftfy==6.3.1
     # via -r requirements/base.in
 libsass==0.23.0
     # via -r requirements/base.in
-lxml==6.0.1
+lxml==6.0.2
     # via -r requirements/base.in
 markdown2==2.5.4
     # via -r requirements/base.in
@@ -45,11 +45,11 @@ sqlparse==0.5.3
     #   django-debug-toolbar
 tinycss2==1.4.0
     # via bleach
-wcwidth==0.2.13
+wcwidth==0.2.14
     # via ftfy
 webencodings==0.5.1
     # via
     #   bleach
     #   tinycss2
-whitenoise==6.9.0
+whitenoise==6.11.0
     # via -r requirements/base.in
