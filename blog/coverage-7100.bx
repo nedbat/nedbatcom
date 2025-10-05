@@ -30,7 +30,7 @@ this for you.</p>
 itself up when the program ends.  It handles sub-processes created by the
 <a urlid="subprocess">subprocess</a> module, the
 <a urlid="os.system">os.system()</a> function, and any of the
-<a urlid="execv">execv</a> or <a href="spawnv">spawnv</a> families of
+<a urlid="execv">execv</a> or <a urlid="spawnv">spawnv</a> families of
 functions.</p>
 
 <p>This alone has spurred <a urlid="leodevian">one user to exclaim</a>,</p>
