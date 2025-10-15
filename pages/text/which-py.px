@@ -41,6 +41,7 @@
 <what when='20250918T081600'>3.14rc3</what>
 <what when='20251007T221600'>3.14.0 and 3.13.8</what>
 <what when='20251009T173400'>3.13 - 3.9</what>
+<what when='20251015T102000'>3.15</what>
 </history>
 
 <meta>
@@ -59,6 +60,17 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
+<h1>3.15: expected October 2026 (now alpha 1)</h1>
+<ul>
+    <li>To come.</li>
+</ul>
+
+<p><a href="https://docs.python.org/3.15/whatsnew/3.15.html">Full list of 3.15 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0790/">PEP 790</a>.
+End-of-life expected October 2031.
+</p>
+
+
 <h1>3.14: October 7, 2025 (now 3.14.0)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-template-string-literals">Template strings</a> (t-strings).</li>
@@ -74,7 +86,7 @@ End-of-life expected October 2030.
 </p>
 
 
-<h1>3.13: October 7, 2024 (now 3.13.8)</h1>
+<h1>3.13: October 7, 2024 (now 3.13.9)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler">Experimental preliminary JIT</a>.</li>
