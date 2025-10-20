@@ -64,6 +64,10 @@ without match/case would be more verbose and confusing.</p>
 the event.  This one wouldn't have been so hard to write in a different way, but
 match/case makes it nicer.</p>
 
+<p>The last case matches if the payload is an "issue" containing a
+"pull_request", which is GitHub's slightly unusual way of describing a pull
+request.</p>
+
 <p>This is just what match/case is good at: checking patterns in the structure
 of data.</p>
 
@@ -163,7 +167,7 @@ value of the first key, check if it's a dict with at least one key
 
 <p>Hand-writing these sorts of checks might result in shorter bytecode. For
 example, I already know the event value is a dict, since that is what the GitHub
-API promise me, so there's no need to check it explicitly each time.  But the
+API promises me, so there's no need to check it explicitly each time.  But the
 Python code would be twistier and harder to get right. I was initially a skeptic
 about match/case, but this example shows a clear benefit.</p>
 
