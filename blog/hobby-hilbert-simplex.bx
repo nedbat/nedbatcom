@@ -33,7 +33,12 @@ the next curve makes a jump, which is why they separate and reunite.</p>
 
 <p>Eventually I made something similar:</p>
 
-<figurep><img class="hairline" src='pix/fluidity/repro_139.png' /></figurep>
+<figurep>
+    <img class="hairline"
+        src="pix/fluidity/repro_139.png"
+        alt="An image similar to the one from Mastodon, with smoky sinuous curves"
+    />
+</figurep>
 
 <p>Along the way I had to learn about three techniques I got from the Kotlin
 code: Hobby curves, Hilbert sorting, and simplex noise.</p>
@@ -49,11 +54,14 @@ developed by John Hobby as part of Donald Knuth's Metafont type design system.
 Jake Low has a <a urlid="hobby">great interactive page for playing with Hobby
 curves</a>, you should try it.</p>
 
-<url id="hobby" href="https://www.jakelow.com/blog/hobby-curves" />
-
 <p>Here are three examples of Hobby curves through ten random points:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_unsorted.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/hobby_unsorted.png"
+        alt="Red random points connected by green lines then with a curve through all ten."
+    />
+</figurep>
 
 <p>The curves are nice, but kind of a scribble, because we're joining points
 together in the order we generated them (shown by the green lines).  If you
@@ -74,16 +82,24 @@ This gives a tour of the points that corresponds more closely to what people
 expect.  Points that are close together in space are likely (but not guaranteed)
 to be close in the ordering.</p>
 
-<url id="hilbertsort" href="https://doc.cgal.org/latest/Spatial_sorting/index.html" />
-
 <p>If we sort the points using Hilbert sorting, we get much nicer curves. Here
 are the same points as last time:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hobby_sorted.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/hobby_sorted.png"
+        alt="The same three examples of ten points, but the curves make more sense now"
+    />
+</figurep>
 
 <p>Here are pairs of the same points, unsorted and sorted side-by-side:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/hilbert_compared.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/hilbert_compared.png"
+        alt="Comparing the scribbles and the nice curves"
+    />
+</figurep>
 
 <p>If you compare closely, the points in each pair are the same, but the sorted
 points are connected in a better order, producing nicer curves.</p>
@@ -107,23 +123,43 @@ just a tiny bit.  That makes the (x,y) points move smoothly but interestingly.</
 
 <p>Here are the trails of four points taking 50 steps using this scheme:</p>
 
-<figurep><img class="hairline" src="pix/fluidity/point_motion.png" /></figurep>
+<figurep>
+    <img class="hairline"
+        src="pix/fluidity/point_motion.png"
+        alt="Four trails of red dots showing how the randomness creates unpredictable but interesting paths"
+    />
+</figurep>
 
 <p>If we use seven points taking five steps, and draw curves through the seven
 points at each step, we get examples like this:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/small_runs.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/small_runs.png"
+        alt="Drawing curves through the points, widely spaced to show the construction"
+    />
+</figurep>
 
 <p>I've left the points visible, and given them large steps so the lines are
 very widely spaced to show the motion.  Taking out the points and drawing more
 lines with smaller steps gives us this:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/large_runs.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/large_runs.png"
+        alt="More lines to move toward the look we want"
+    />
+</figurep>
 
 <p>With 40 lines drawn wider with some transparency, we start to see the smoky
 fluidity:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/larger_runs.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/larger_runs.png"
+        alt="Now we're getting the original effect"
+    />
+</figurep>
 
 
 <h1>Jumps</h1>
@@ -150,7 +186,12 @@ changes the Hobby curve even more.</p>
 lines, the result has fewer jumps, but the Hobby curves still act
 unpredictably:</p>
 
-<figurep><img class="hairline" scale="0.5" src="pix/fluidity/first_line_runs.png" /></figurep>
+<figurep>
+    <img class="hairline" scale="0.5"
+        src="pix/fluidity/first_line_runs.png"
+        alt="The same two sets of points as the last figure. Fewer jumps, but still with some discontinuities"
+    />
+</figurep>
 
 
 <h1>Colophon</h1>
@@ -173,7 +214,12 @@ the effect you want, either artistic or pedagogical. The notebook shows some of
 the thumbnail galleries I used to pick the examples to show.</p>
 
 <p>I went on to play with animations, which led to other learnings, but those
-will have to wait for another blog post.</p>
+will have to wait for another blog post.
+<b>Update:</b> I animated these in <a pref="blog/natural-cubics-circular-simplex.bx" />.
+</p>
+
+<url id="hobby" href="https://www.jakelow.com/blog/hobby-curves" />
+<url id="hilbertsort" href="https://doc.cgal.org/latest/Spatial_sorting/index.html" />
 
 </body>
 </entry>
