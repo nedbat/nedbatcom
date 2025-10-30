@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20251030T062313'>
+<title>Side project advice</title>
+<category>devmindset</category>
+
+<description>A chat about side projects from a Boston Python project
+night: choose your paths and forgive yourself.</description>
+
+<body>
+
+<p>Last night was a <a urlid="bospy">Boston Python project night</a> where I
+had a good conversation with a few people that was mostly guided by questions
+from a nice guy named Mark.</p>
+
+
+<h1>How to write nice code in research</h1>
+
+<p>Mark works in research and made the classic observation that research code is
+often messy, and asked about how to make it nicer.</p>
+
+<p>I pointed out that for software engineers, the code is the product. For
+research, the results are the product, so there's a reason the code can be and
+often is messier.  It's important to keep the goal in mind. I mentioned it might
+not be worth it to add type annotations, detailed docstrings, or whatever else
+would make the code "nice".</p>
+
+<p>But the more you can make "nice" a habit, the less work it will be to do it
+as a matter of course. Even in a result-driven research environment, you'll be
+able to write code the way you want, or at least push back a little bit. Code
+usually lives longer than people expect, so the nicer you can make it,
+the better it will be.</p>
+
+
+<h1>Side projects</h1>
+
+<p>Side projects are a good opportunity to work differently. If work means messy
+code, your side project could be pristine. If work is very strict, your side
+project can be thrown together just for fun.  You get to set the goals.</p>
+
+<p>And different side projects can be different. I develop
+<a href="https://coverage.readthedocs.io">coverage.py</a> very differently
+than <a pref="blog/natural-cubics-circular-simplex.bx">fun math art
+projects</a>. Coverage.py has an extensive test suite run on many versions of
+Python (including nightly builds of the tip of main).  The math art projects
+usually have no tests at all.</p>
+
+<p>Side projects are a great place to decide how you want to code and to
+practice that style.  Later you can bring those skills and learnings back to a
+work environment.</p>
+
+
+<h1>Forgive yourself</h1>
+
+<p>Mark said one of his difficulties with side projects is perfectionism. He'll
+come back to a project and find he wants to rewrite the whole thing.</p>
+
+<p>My advice is: forgive yourself.  It's OK to rewrite the whole thing. It's OK
+to not rewrite the whole thing. It's OK to ignore it for months at a time.  It's
+OK to stop in the middle of a project and never come back to it. It's OK to
+obsess about "irrelevant" details.</p>
+
+<p>The great thing about a side project is that you are the only person who
+decides what and how it should be.</p>
+
+
+<h1>How to stay motivated</h1>
+
+<p>But how to stay motivated on side projects? For me, it's very motivating that
+many people use and get value from coverage.py. It's a service to the community
+that I find rewarding.  Other side projects will have other motivations: a
+chance to learn new things, flex different muscles, stretch myself in new
+ways.</p>
+
+<p>Find a reason that motivates you, and structure your side projects to lean
+into that reason. Don't forget to forgive yourself if it doesn't work out the
+way you planned or if you change your mind.</p>
+
+
+<h1>How to write something people will use</h1>
+
+<p>Sure, it's great to have a project that many people use, but how do you find
+a project that will end up like that?  The best way is to write something that
+you find useful. Then talk about it with people.  You never know what will catch
+on.</p>
+
+<p>I mentioned my <a href="https://pypi.org/project/cogapp/">cog</a> project,
+which I first wrote in 2004 for one reason, but which is now being used by other
+people (including me) for different purposes.  It
+<a pref="blog/cog-resurgence.bx">took years to catch on</a>.</p>
+
+<p>Of course there's no guarantee something like that will happen: it most
+likely won't.  But I don't know of a better way to make something people will
+use than to start by making something that <em>you</em> will use.</p>
+
+
+<h1>Other topics</h1>
+
+<p>The discussion wasn't as linear as this. We touched on other things along the
+way: unit tests vs system tests, obligations to support old versions of
+software, how to navigate huge code bases. There were probably other tangents
+that I've forgotten.</p>
+
+<p>Project nights are almost never just about projects: they are about
+connecting with people in lots of different ways. This discussion felt like a
+good connection.  I hope the ideas of choosing your own paths and forgiving
+yourself hit home.</p>
+
+
+<url id="bospy" href="https://about.bostonpython.com/" />
+
+</body>
+</entry>
+</blog>
