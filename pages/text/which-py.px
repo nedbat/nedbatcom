@@ -42,6 +42,7 @@
 <what when='20251007T221600'>3.14.0 and 3.13.8</what>
 <what when='20251009T173400'>3.13 - 3.9</what>
 <what when='20251015T102000'>3.15</what>
+<what when='20251031T160400'>3.9 eol</what>
 </history>
 
 <meta>
@@ -147,7 +148,7 @@ End-of-life expected October 2026.
 </p>
 
 
-<h1>3.9: October 5, 2020 (now 3.9.24)</h1>
+<h1>3.9: October 5, 2020 (3.9.25, EOL October 2025)</h1>
 <ul>
     <li>dict union operators</li>
     <li>type hinting generics in standard collections (<c>list[int]</c> instead of <c>List[int]</c>)</li>
@@ -159,11 +160,11 @@ End-of-life expected October 2026.
 
 <p><a href='http://docs.python.org/3/whatsnew/3.9.html'>Full list of 3.9 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0596/">PEP 596</a>.
-End-of-life expected October 2025.
+End-of-life October 31, 2025.
 </p>
 
 
-<h1>3.8: October 14, 2019 (EOL October 2024)</h1>
+<h1>3.8: October 14, 2019 (3.8.20, EOL October 2024)</h1>
 <ul>
     <li>assignment expressions (walrus operator <c>:=</c> )</li>
     <li>f-string "=" specifier</li>
@@ -178,7 +179,7 @@ End-of-life October 7, 2024.
 </p>
 
 
-<h1>3.7: June 27, 2018 (EOL June 2023)</h1>
+<h1>3.7: June 27, 2018 (3.7.17, EOL June 2023)</h1>
 <ul>
     <li>postponed evaluation of type annotations (PEP 563)</li>
     <li><c>async</c> and <c>await</c> are keywords</li>
@@ -195,7 +196,7 @@ End-of-life June 27, 2023.
 </p>
 
 
-<h1>3.6: December 23, 2016 (EOL December 2021)</h1>
+<h1>3.6: December 23, 2016 (3.6.15, EOL December 2021)</h1>
 <ul>
     <li>f-strings</li>
     <li>kwargs and class attributes order is preserved</li>
