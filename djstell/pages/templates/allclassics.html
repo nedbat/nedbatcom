@@ -9,9 +9,9 @@
     </p>
 
     <ul>
-        <li><a href="/blog/classics/tech.html">Technical</a>: blah blah</li>
-        <li><a href="/blog/classics/autism.html">Autism parenting</a>: blah blah</li>
-        <li><a href="/blog/classics/me.html">About me</a></li>
+        {% for slug, sect in classics.items %}
+            <li><a href="/blog/classics/{{ slug }}.html">{{ sect.head }}</a>: {{ sect.description }}</li>
+        {% endfor %}
     </ul>
 
     <p>If you're looking for something else, you can also

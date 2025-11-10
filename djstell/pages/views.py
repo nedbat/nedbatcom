@@ -210,6 +210,7 @@ def classics_home(request):
     c = {}
     c['title'] = 'Blog: classics'
     c['bodyclass'] = 'blog classics'
+    c['classics'] = CLASSICS
     return render(request, 'allclassics.html', c)
 
 def classics(request, slug):
