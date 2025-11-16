@@ -75,14 +75,16 @@ do whatever you want, and they let you, with no notification.</p>
 <p>Once the order of the mocks in the signature was fixed, the test passed.</p>
 
 <p>But there's a way we could write this to be more fool-proof.  Mocks can be
-made strict with their "spec=True" option.  When set, the mock will raise an
-error if you use a method or attribute on it that didn't exist on the object it
-was mocking.</p>
+made strict with their <c>spec=True</c> option.  When set, the mock will raise
+an error if you use a method or attribute on it that didn't exist on the object
+it was mocking.</p>
 
-<p>Even better is the
-<a href="https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch">autospec=True</a>
-option to mock.patch.  This makes the mock strict with spec=True, and also
-recursively auto-applies spec=True to any new mock you get from the mock:</p>
+<p>Even better is the <a urlid="mock.patch">autospec=True</a> option to
+mock.patch.  This makes the mock strict with <c>spec=True</c>, and also
+recursively auto-applies <c>spec=True</c> to any new mock you get from the
+mock:</p>
+
+<url id="mock.patch" href="https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch" />
 
 <code lang="python"><![CDATA[
 @patch("cool_feature.expensive_prep", autospec=True)
@@ -99,9 +101,9 @@ AttributeError: 'function' object has no attribute 'info'
 
 <p>I wish autospec=True was the default.  I can see why there are occasional
 needs for truly permissive mocks, but mostly we intend to use them in strict
-ways, and want to know  when we don't.</p>
+ways, and want to know when we don't.</p>
 
-<p>BTW, the usual advice to avoid mocking applies if you can, since even when
+<p>BTW, the usual advice applies: avoid mocking if you can, since even when
 you get your mocks working properly, there are still dangerous pitfalls. I'll
 re-recommend these two resources about how to test differently:</p>
 

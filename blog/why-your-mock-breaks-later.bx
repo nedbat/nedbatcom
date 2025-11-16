@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20251116T075548'>
+<title>Why your mock breaks later</title>
+<category>python</category>
+<category>testing</category>
+
+<description>An overly aggressive mock can work fine, but then break much later.
+Why?</description>
+
+<body>
+
+<p>In <a pref="blog/why-your-mock-doesnt-work.bx"/> I explained this rule of
+mocking:</p>
+
+<quote><p>Mock where the object is used, <strong>not</strong> where it's
+defined.</p></quote>
+
+<p>That blog post explained why that rule was important: often a mock doesn't
+work at all if you do it wrong.  But in some cases, the mock will work even if
+you don't follow this rule, and then it can break much later. Why?</p>
+
+<p>Let's say you have code like this:</p>
+
+<code lang="python"><![CDATA[
+# user.py
+
+def get_user_settings() -> str:
+    with open(Path("~/settings.json").expanduser()) as f:
+        return json.load(f)
+
+def add_two_settings() -> int:
+    settings = get_user_settings()
+    return settings["opt1"] + settings["opt2"]
+]]></code>
+
+<p>You write a simple test:</p>
+
+<code lang="python"><![CDATA[
+def test_add_two_settings():
+    # NOTE: need to create ~/settings.json for this to work:
+    #   {"opt1": 10, "opt2": 7}
+    assert add_two_settings() == 17
+]]></code>
+
+<p>As the comment in the test points out, the test will only pass if you create
+the correct settings.json file in your home directory. This is bad: you don't
+want to require finicky environments for your tests to pass.</p>
+
+<p>The thing we want to avoid is opening a real file, so it's a natural impulse
+to mock out <c>open()</c>:</p>
+
+<code lang="python"><![CDATA[
+# test_user.py
+
+from io import StringIO
+from unittest.mock import patch
+
+@patch("builtins.open")
+def test_add_two_settings(mock_open):
+    mock_open.return_value = StringIO('{"opt1": 10, "opt2": 7}')
+    assert add_two_settings() == 17
+]]></code>
+
+<p>Nice, the test works without needing to create a file in our home
+directory!</p>
+
+<h1>Much later...</h1>
+
+<url id="2083" href="https://github.com/coveragepy/coveragepy/issues/2083" />
+
+<p>One day your test suite <a urlid="2083">fails with an error</a> like:</p>
+
+<code lang="pytb"><![CDATA[
+  ...
+  File ".../site-packages/coverage/python.py", line 55, in get_python_source
+    source_bytes = read_python_source(try_filename)
+  File ".../site-packages/coverage/python.py", line 39, in read_python_source
+    return source.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: replace() argument 1 must be str, not bytes
+]]></code>
+
+<p>What happened!? Coverage.py code runs during your tests, invoked by the
+Python interpreter.  The mock in the test changed the builtin <c>open</c>, so
+any use of it anywhere during the test is affected. In some cases, coverage.py
+needs to read your source code to record the execution properly.  When that
+happens, coverage.py unknowingly uses the mocked <c>open</c>, and bad things
+happen.</p>
+
+<p>When you use a mock, patch it where it's used, not where it's defined.  In
+this case, the patch would be:</p>
+
+<code lang="python"><![CDATA[
+@patch("myproduct.user.open")
+def test_add_two_settings(mock_open):
+    ... etc ...
+]]></code>
+
+<p>With a mock like this, the coverage.py code would be unaffected.</p>
+
+<p>Keep in mind: it's not just coverage.py that could trip over this mock. There
+could be other libraries used by your code, or you might use <c>open</c>
+yourself in another part of your product.  Mocking the definition means
+<em>anything</em> using the object will be affected.  Your intent is to only
+mock in one place, so target that place.</p>
+
+<h1>Postscript</h1>
+
+<p>I decided to add some code to coverage.py to defend against this kind of
+over-mocking.  There is <a urlid="mocksearch">a lot of over-mocking out
+there</a>, and this problem only shows up in coverage.py with Python 3.14. It's
+not happening to many people yet, but it will happen more and more as people
+start testing with 3.14. I didn't want to have to answer this question many
+times, and I didn't want to force people to fix their mocks.</p>
+
+<p>From a certain perspective, I shouldn't have to do this. They are in the
+wrong, not me.  But this will reduce the overall friction in the universe. And
+<a urlid="openfix">the fix</a> was really simple:</p>
+
+<code lang="python"><![CDATA[
+open = open
+]]></code>
+
+<p>This is a top-level statement in my module, so it runs when the module is
+imported, long before any tests are run.  The assignment to <c>open</c> will
+create a global in my module, using the current value of <c>open</c>, the one
+found in the builtins. This saves the original <c>open</c> for use in my module
+later, isolated from how builtins might be changed later.</p>
+
+<p>This is an ad-hoc fix: it only defends one builtin. Mocking other builtins
+could still break coverage.py.  But <c>open</c> is a common one, and this will
+keep things working smoothly for those cases. And there's precedent: I've
+already been using a more involved technique to <a urlid="osfix">defend
+against mocking of the <c>os</c> module</a> for ten years.</p>
+
+<url id="mocksearch" href="https://github.com/search?type=code&amp;q=patch+builtins.open+language%3APython+path%3A%22test%22" />
+<url id="openfix" href="https://github.com/coveragepy/coveragepy/commit/961fc5b4a1c40bec6e0d1908b6fb43b84a5d8c6b#diff-7a060a25115604cc3bc99075e1366afb84075101dcb0aef22d80f8f67c0c4593R30" />
+<url id="osfix" href="https://github.com/coveragepy/coveragepy/commit/3b8f4a0b86f8796f1e7925b9c6593a9d5198b437" />
+
+
+<h1>Even better!</h1>
+
+<p>No blog post about mocking is complete without encouraging a number of other
+best practices, some of which could get you out of the mocking mess:</p>
+
+<ul>
+
+<li>Use <c>autospec=True</c> to make your mocks strictly behave like the
+original object: see <a pref="blog/why-your-mock-still-doesnt-work.bx"/>.</li>
+
+<li>Make assertions about how your mock was called to be sure everything is
+connected up properly.</li>
+
+<li>Use verified fakes instead of auto-generated mocks: <a urlid="itamar">Fast
+tests for slow services: why you should use verified fakes</a>.</li>
+
+<li>Dependency injection lets you explicitly pass test-specific objects where
+they are needed instead of relying on implicit access to a mock.</li>
+
+</ul>
+
+<url id="itamar" href="https://pythonspeed.com/articles/verified-fakes/"/>
+
+</body>
+</entry>
+</blog>
