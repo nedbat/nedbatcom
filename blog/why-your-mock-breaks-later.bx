@@ -155,12 +155,18 @@ connected up properly.</li>
 <li>Use verified fakes instead of auto-generated mocks: <a urlid="itamar">Fast
 tests for slow services: why you should use verified fakes</a>.</li>
 
+<li>Separate your code so that computing functions like our
+<c>add_two_settings</c> don't also do I/O. This makes the functions easier to
+test in the first place. Take a look at <a urlid="gary">Function Core,
+Imperative Shell</a>.</li>
+
 <li>Dependency injection lets you explicitly pass test-specific objects where
 they are needed instead of relying on implicit access to a mock.</li>
 
 </ul>
 
 <url id="itamar" href="https://pythonspeed.com/articles/verified-fakes/"/>
+<url id="gary" href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell"/>
 
 </body>
 </entry>
