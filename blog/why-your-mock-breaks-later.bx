@@ -25,11 +25,11 @@ you don't follow this rule, and then it can break much later. Why?</p>
 <code lang="python"><![CDATA[
 # user.py
 
-def get_user_settings() -> str:
+def get_user_settings():
     with open(Path("~/settings.json").expanduser()) as f:
         return json.load(f)
 
-def add_two_settings() -> int:
+def add_two_settings():
     settings = get_user_settings()
     return settings["opt1"] + settings["opt2"]
 ]]></code>
