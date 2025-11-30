@@ -137,7 +137,7 @@ End-of-life expected October 2027.
 
 <h1>3.10: October 4, 2021 (now 3.10.19)</h1>
 <ul>
-    <li>structural pattern matching, <c>match/case</c> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
+    <li>structural pattern matching: <c>match/case</c> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
     <li>better error messages</li>
     <li>parenthesized context managers</li>
     <li>union types as <c>X|Y</c></li>
