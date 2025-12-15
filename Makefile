@@ -49,8 +49,8 @@ clean_cache: ## how to clean auto-made webp images
 	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/etc"
 
 showmemory: ## See memory use on dreamhost
-	ssh dreamhost "ps -eo pid,%mem,%cpu,vsz,command --sort=%mem | tail -20"
 	@echo '   PID %MEM %CPU VSZ'
+	@ssh dreamhost "ps -eo pid,%mem,%cpu,vsz,command --sort=%mem | tail -20"
 	@python -c 'import sys;print(round(sum(map(float, sys.argv[2:])),2))' $$(ssh dreamhost "ps -eo %mem")
 
 showworkers: ## See systemctl on dreamhost
