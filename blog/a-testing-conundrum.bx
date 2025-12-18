@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20251218T053006'>
+<title>A testing conundrum</title>
+<category>testing</category>
+<category>python</category>
+
+<description>A useful class that is hard to test thoroughly, and my failed
+attempt to use Hypothesis to do it.</description>
+
+<body>
+
+<p>In coverage.py, I have a class for computing the fingerprint of a data
+structure.  It's used to avoid doing duplicate work when re-processing the same
+data won't add to the outcome.  It's designed to work for nested data, and to
+canonicalize things like set ordering.  The slightly simplified code looks like
+this:</p>
+
+<code lang="python"><![CDATA[
+class Hasher:
+    """Hashes Python data for fingerprinting."""
+
+    def __init__(self) -> None:
+        self.hash = hashlib.new("sha3_256")
+
+    def update(self, v: Any) -> None:
+        """Add `v` to the hash, recursively if needed."""
+        self.hash.update(str(type(v)).encode("utf-8"))
+        match v:
+            case None:
+                pass
+            case str():
+                self.hash.update(v.encode("utf-8"))
+            case bytes():
+                self.hash.update(v)
+            case int() | float():
+                self.hash.update(str(v).encode("utf-8"))
+            case tuple() | list():
+                for e in v:
+                    self.update(e)
+            case dict():
+                for k, kv in sorted(v.items()):
+                    self.update(k)
+                    self.update(kv)
+            case set():
+                self.update(sorted(v))
+            case _:
+                raise ValueError(f"Can't hash {v = }")
+        self.hash.update(b".")
+
+    def digest(self) -> bytes:
+        """Get the full binary digest of the hash."""
+        return self.hash.digest()
+]]></code>
+
+<p>To test this, I had some basic tests like:</p>
+
+<code lang="python"><![CDATA[
+def test_string_hashing():
+    # Same strings hash the same.
+    # Different strings hash differently.
+    h1 = Hasher()
+    h1.update("Hello, world!")
+    h2 = Hasher()
+    h2.update("Goodbye!")
+    h3 = Hasher()
+    h3.update("Hello, world!")
+    assert h1.digest() != h2.digest()
+    assert h1.digest() == h3.digest()
+
+def test_dict_hashing():
+    # The order of keys doesn't affect the hash.
+    h1 = Hasher()
+    h1.update({"a": 17, "b": 23})
+    h2 = Hasher()
+    h2.update({"b": 23, "a": 17})
+    assert h1.digest() == h2.digest()
+]]></code>
+
+<p>The last line in the update() method adds a dot to the running hash. That was
+to solve a problem covered by this test:</p>
+
+<code lang="python"><![CDATA[
+def test_dict_collision():
+    # Nesting matters.
+    h1 = Hasher()
+    h1.update({"a": 17, "b": {"c": 1, "d": 2}})
+    h2 = Hasher()
+    h2.update({"a": 17, "b": {"c": 1}, "d": 2})
+    assert h1.digest() != h2.digest()
+]]></code>
+
+<p>The most recent change to Hasher was to add the set() clause. There (and in
+dict()), we are sorting the elements to canonicalize them. The idea is that
+equal values should hash equally and unequal values should not. Sets and dicts
+are equal regardless of their iteration order, so we sort them to get the same
+hash.</p>
+
+<p>I added a test of the set behavior:</p>
+
+<code lang="python"><![CDATA[
+def test_set_hashing():
+    h1 = Hasher()
+    h1.update({(1, 2), (3, 4), (5, 6)})
+    h2 = Hasher()
+    h2.update({(5, 6), (1, 2), (3, 4)})
+    assert h1.digest() == h2.digest()
+    h3 = Hasher()
+    h3.update({(1, 2)})
+    assert h1.digest() != h3.digest()
+]]></code>
+
+<p>But I wondered if there was a better way to test this class.  My small
+one-off tests weren't addressing the full range of possibilities. I could read
+the code and feel confident, but wouldn't a more comprehensive test be better?
+This is a pure function: inputs map to outputs with no side-effects or other
+interactions. It should be very testable.</p>
+
+<p>This seemed like a good candidate for property-based testing. The
+<a urlid="hypothesis">Hypothesis</a> library would let me generate data, and I
+could check that the desired properties of the hash held true.</p>
+
+<p>It took me a while to get the Hypothesis strategies wired up correctly.
+I ended up with this, but there might be a simpler way:</p>
+
+<code lang="python"><![CDATA[
+from hypothesis import strategies as st
+
+scalar_types = [
+    st.none(),
+    st.booleans(),
+    st.integers(),
+    st.floats(allow_infinity=False, allow_nan=False),
+    st.text(),
+    st.binary(),
+]
+
+scalars = st.one_of(*scalar_types)
+
+def tuples_of(strat):
+    return st.lists(strat, max_size=3).map(tuple)
+
+hashable_types = scalar_types + [tuples_of(s) for s in scalar_types]
+
+# Homogeneous sets: all elements same type.
+homogeneous_sets = (
+    st.sampled_from(hashable_types)
+    .flatmap(lambda s: st.sets(s, max_size=5))
+)
+
+# Full nested Python data.
+python_data = st.recursive(
+    scalars,
+    lambda children: (
+        st.lists(children, max_size=5)
+        | tuples_of(children)
+        | homogeneous_sets
+        | st.dictionaries(st.text(), children, max_size=5)
+    ),
+    max_leaves=10,
+)
+]]></code>
+
+<p>This doesn't make completely arbitrary nested Python data: sets are forced to
+have elements all of the same type or I wouldn't be able to sort them.
+Dictionaries only have strings for keys. But this works to generate data similar
+to the real data we hash. I wrote this simple test:</p>
+
+<code lang="python"><![CDATA[
+from hypothesis import given
+
+@given(python_data)
+def test_one(data):
+    # Hashing the same thing twice.
+    h1 = Hasher()
+    h1.update(data)
+    h2 = Hasher()
+    h2.update(data)
+    assert h1.digest() == h2.digest()
+]]></code>
+
+<p>This didn't find any failures, but this is the easy test: hashing the same
+thing twice produces equal hashes.  The trickier test is to get two different
+data structures, and check that their equality matches their hash equality:</p>
+
+<code lang="python"><![CDATA[
+@given(python_data, python_data)
+def test_two(data1, data2):
+    h1 = Hasher()
+    h1.update(data1)
+    h2 = Hasher()
+    h2.update(data2)
+
+    if data1 == data2:
+        assert h1.digest() == h2.digest()
+    else:
+        assert h1.digest() != h2.digest()
+]]></code>
+
+<p>This immediately found problems, but not in my code:</p>
+
+<code><![CDATA[
+> assert h1.digest() == h2.digest()
+E AssertionError: assert b'\x80\x15\xc9\x05...' == b'\x9ap\xebD...'
+E
+E   At index 0 diff: b'\x80' != b'\x9a'
+E
+E   Full diff:
+E   - (b'\x9ap\xebD...)'
+E   + (b'\x80\x15\xc9\x05...)'
+E Falsifying example: test_two(
+E     data1=(False, False, False),
+E     data2=(False, False, 0),
+E )
+]]></code>
+
+<p>Hypothesis found that (False, False, False) is equal to (False, False, 0),
+but they hash differently. This is correct. The Hasher class takes the types of
+the values into account in the hash. False and 0 are equal, but they are
+different types, so they hash differently. The same problem shows up for
+<c>0&#160;==&#160;0.0</c> and <c>0.0&#160;==&#160;-0.0</c>.  The theory of my
+test was incorrect: some values that are equal should hash differently.</p>
+
+<p>In my real code, this isn't an issue. I won't ever be comparing values like
+this to each other.  If I had a schema for the data I would be comparing, I
+could use it to steer Hypothesis to generate realistic data.  But I don't have
+that schema, and I'm not sure I want to maintain that schema. This Hasher is
+useful as it is, and I've been able to reuse it in new ways without having to
+update a schema.</p>
+
+<p>I could write a smarter equality check for use in the tests, but that would
+roughly approximate the code in Hasher itself. Duplicating product code in the
+tests is a good way to write tests that pass but don't tell you anything
+useful.</p>
+
+<p>I could exclude bools and floats from the test data, but those are actual
+values I need to handle correctly.</p>
+
+<p>Hypothesis was useful in that it didn't find any failures others than the
+ones I described.  I can't leave those tests in the automated test suite because
+I don't want to manually examine the failures, but at least this gave me more
+confidence that the code is good as it is now.</p>
+
+<p>Testing is a challenge unto itself. This brought it home to me again. It's
+not easy to know precisely what you want code to do, and it's not easy to
+capture that intent in tests. For now, I'm leaving just the simple tests. If
+anyone has ideas about how to test Hasher more thoroughly, I'm all ears.</p>
+
+<url id="hypothesis" href="https://hypothesis.readthedocs.io/en/latest/index.html" />
+
+</body>
+</entry>
+</blog>
