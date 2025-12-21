@@ -10,6 +10,9 @@ attempt to use Hypothesis to do it.</description>
 
 <body>
 
+<p><b>Update:</b> I found a solution which I describe in
+<a pref="blog/generating-data-shapes-with-hypothesis.bx" />.</p>
+
 <p>In coverage.py, I have a class for computing the fingerprint of a data
 structure.  It's used to avoid doing duplicate work when re-processing the same
 data won't add to the outcome.  It's designed to work for nested data, and to

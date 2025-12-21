@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20251221T114300'>
+<title>Generating data shapes with Hypothesis</title>
+<category>testing</category>
+<category>python</category>
+
+<description>I used Hypothesis to generate random data structure schemas, and
+then generate random data using them. I learned a lot along the
+way.</description>
+
+<body>
+
+<p>In my last blog post (<a pref="blog/a-testing-conundrum.bx"/>), I described
+trying to test my Hasher class which hashes nested data. I couldn't get
+Hypothesis to generate usable data for my test.  I wanted to assert that two
+equal data items would hash equally, but Hypothesis was finding pairs like
+<c>[0]</c> and <c>[False]</c>. These are equal but hash differently because the
+hash takes the types into account.</p>
+
+<p>In the blog post I said,</p>
+
+<quote><p>If I had a schema for the data I would be comparing, I could use it to
+steer Hypothesis to generate realistic data.  But I don't have that
+schema...</p></quote>
+
+<p>I don't want a fixed schema for the data Hasher would accept, but tests to
+compare data generated from the same schema.  It shouldn't compare a list of
+ints to a list of bools.  Hypothesis is good at generating things randomly.
+Usually it generates data randomly, but we can also use it to generate schemas
+randomly!</p>
+
+
+<h1>Hypothesis basics</h1>
+
+<p>Before describing my solution, I'll take a quick detour to describe how
+Hypothesis works.</p>
+
+<p>Hypothesis calls their randomness machines "strategies". Here is a strategy
+that will produce random integers between -99 and 1000:</p>
+
+<code lang="python"><![CDATA[
+import hypothesis.strategies as st
+st.integers(min_value=-99, max_value=1000)
+]]></code>
+
+<p>Strategies can be composed:</p>
+
+<code lang="python"><![CDATA[
+st.lists(st.integers(min_value=-99, max_value=1000), max_size=50)
+]]></code>
+
+<p>This will produce lists of integers from -99 to 1000. The lists will have up
+to 50 elements.</p>
+
+<p>Strategies are used in tests with the <c>@given</c> decorator, which takes a
+strategy and runs the test a number of times with different example data drawn
+from the strategy.  In your test you check a desired property that holds true
+for any data the strategy can produce.</p>
+
+<p>To demonstrate, here's a test of sum() that checks that summing a list of
+numbers in two halves gives the same answer as summing the whole list:</p>
+
+<code lang="python"><![CDATA[
+from hypothesis import given, strategies as st
+
+@given(st.lists(st.integers(min_value=-99, max_value=1000), max_size=50))
+def test_sum(nums):
+    # We don't have to test sum(), this is just an example!
+    mid = len(nums) // 2
+    assert sum(nums) == sum(nums[:mid]) + sum(nums[mid:])
+]]></code>
+
+<p>By default, Hypothesis will run the test 100 times, each with a different
+randomly generated list of numbers.</p>
+
+
+<h1>Schema strategies</h1>
+
+<p>The solution to my data comparison problem is to have Hypothesis generate a
+random schema in the form of a strategy, then use that strategy to generate two
+examples. Doing this repeatedly will get us pairs of data that have the same
+"shape" that will work well for our tests.</p>
+
+<p>This is kind of twisty, so let's look at it in pieces.  We start with a list
+of strategies that produce primitive values:</p>
+
+<code lang="python"><![CDATA[
+primitives = [
+    st.none(),
+    st.booleans(),
+    st.integers(min_value=-1000, max_value=10_000_000),
+    st.floats(min_value=-100, max_value=100),
+    st.text(max_size=10),
+    st.binary(max_size=10),
+]
+]]></code>
+
+<p>Then a list of strategies that produce hashable values, which are all the
+primitives, plus tuples of any of the primitives:</p>
+
+<code lang="python"><![CDATA[
+def tuples_of(elements):
+    """Make a strategy for tuples of some other strategy."""
+    return st.lists(elements, max_size=3).map(tuple)
+
+# List of strategies that produce hashable data.
+hashables = primitives + [tuples_of(s) for s in primitives]
+]]></code>
+
+<p>We want to be able to make nested dictionaries with leaves of some other
+type.  This function takes a leaf-making strategy and produces a strategy to
+make those dictionaries:</p>
+
+<code lang="python"><![CDATA[
+def nested_dicts_of(leaves):
+    """Make a strategy for recursive dicts with leaves from another strategy."""
+    return st.recursive(
+        leaves,
+        lambda children: st.dictionaries(st.text(max_size=10), children, max_size=3),
+        max_leaves=10,
+    )
+]]></code>
+
+<p>Finally, here's our strategy that makes schema strategies:</p>
+
+<code lang="python"><![CDATA[
+nested_data_schemas = st.recursive(
+    st.sampled_from(primitives),
+    lambda children: st.one_of(
+        children.map(lambda s: st.lists(s, max_size=5)),
+        children.map(tuples_of),
+        st.sampled_from(hashables).map(lambda s: st.sets(s, max_size=10)),
+        children.map(nested_dicts_of),
+    ),
+    max_leaves=3,
+)
+]]></code>
+
+<p>For debugging, it's helpful to generate an example strategy from this
+strategy, and then an example from that, many times:</p>
+
+<code lang="python"><![CDATA[
+for _ in range(50):
+    print(repr(nested_data_schemas.example().example()))
+]]></code>
+
+<p>Hypothesis is good at making data we'd never think to try ourselves. Here is
+some of what it made:</p>
+
+<code lang="python"><![CDATA[
+[None, None, None, None, None]
+{}
+[{False}, {False, True}, {False, True}, {False, True}]
+{(1.9, 80.64553337755876), (-41.30770818038395, 9.42967906108538, -58.835811641800085), (31.102786990742203,), (28.2724197133397, 6.103515625e-05, -84.35107066147154), (7.436329211943294e-263,), (-17.335739410320514, 1.5029061311609365e-292, -8.17077562035881), (-8.029363284353857e-169, 49.45840191722425, -15.301768150196054), (5.960464477539063e-08, 1.1518373121077722e-213), (), (-0.3262457914511714,)}
+[b'+nY2~\xaf\x8d*\xbb\xbf', b'\xe4\xb5\xae\xa2\x1a', b'\xb6\xab\xafEi\xc3C\xab"\xe1', b'\xf0\x07\xdf\xf5\x99', b'2\x06\xd4\xee-\xca\xee\x9f\xe4W']
+{'fV': [81.37177374286324, 3.082323424992609e-212, 3.089885728465406e-151, -9.51475773638932e-86, -17.061851038597922], 'J»\x0c\x86肭|\x88\x03\x8aU': [29.549966208819654]}
+[{}, -68.48316192397687]
+None
+['\x85\U0004bf04°', 'pB\x07iQT', 'TRUE', '\x1a5ùZâ\U00048752+¹\U0005fdf8ê', '\U000fe0b9m*¤\U000b9f1e']
+(14.232866652585258, -31.193835515904652, 62.29850355163285)
+{'': {'': None, 'Ã\U000be8de§\nÈ\U00093608u': None, 'Y\U000709e4¥ùU)GE\U000dddc5¬': None}}
+[{(), (b'\xe7', b'')}, {(), (b'l\xc6\x80\xdf\x16\x91', b'', b'\x10,')}, {(b'\xbb\xfb\x1c\xf6\xcd\xff\x93\xe0\xec\xed',), (b'g',), (b'\x8e9I\xcdgs\xaf\xd1\xec\xf7', b'\x94\xe6#', b'?\xc9\xa0\x01~$k'), (b'r', b'\x8f\xba\xe6\xfe\x92n\xc7K\x98\xbb', b'\x92\xaa\xe8\xa6s'), (b'f\x98_\xb3\xd7', b'\xf4+\xf7\xbcU8RV', b'\xda\xb0'), (b'D',), (b'\xab\xe9\xf6\xe9', b'7Zr\xb7\x0bl\xb6\x92\xb8\xad', b'\x8f\xe4]\x8f'), (b'\xcf\xfb\xd4\xce\x12\xe2U\x94mt',), (b'\x9eV\x11', b'\xc5\x88\xde\x8d\xba?\xeb'), ()}, {(b'}', b'\xe9\xd6\x89\x8b')}, {(b'\xcb`', b'\xfd', b'w\x19@\xee'), ()}]
+((), (), ())
+]]></code>
+
+
+<h1>Finally writing the test</h1>
+
+<p>Time to use all of this in a test:</p>
+
+<code lang="python"><![CDATA[
+@given(nested_data_schemas.flatmap(lambda s: st.tuples(s, s)))
+def test_same_schema(data_pair):
+    data1, data2 = data_pair
+    h1, h2 = Hasher(), Hasher()
+    h1.update(data1)
+    h2.update(data2)
+    if data1 == data2:
+        assert h1.digest() == h2.digest()
+    else:
+        # Strictly speaking, unequal data could produce equal hashes,
+        # but it's very unlikely, so test for it anyway.
+        assert h1.digest() != h2.digest()
+]]></code>
+
+<p>Here I use the .flatmap() method to draw an example from the
+<c>nested_data_schemas</c> strategy and call the provided lambda with the drawn
+example, which is itself a strategy. The lambda uses <c>st.tuples</c> to make
+tuples with two examples drawn from the strategy. So we get one data schema, and
+two examples from it as a tuple passed into the test as <c>data_pair</c>. The
+test then unpacks the data, hashes them, and makes the appropriate
+assertion.</p>
+
+<p>This works great: the tests pass. To check that the test was working well, I
+made some breaking tweaks to the Hasher class. If Hypothesis is configured to
+generate enough examples, it finds data examples demonstrating the failures.</p>
+
+<p>I'm pleased with the results. Hypothesis is something I've been wanting to
+use more, so I'm glad I took this chance to learn more about it and get it
+working for these tests.  To be honest, this is way more than I needed to test
+my Hasher class.  But once I got started, I wanted to get it right, and learning
+is always good.</p>
+
+<p>I'm a bit concerned that the standard setting (100 examples) isn't enough to
+find the planted bugs in Hasher. There are many parameters in my strategies that
+could be tweaked to keep Hypothesis from wandering too broadly, but I don't know
+how to decide what to change.</p>
+
+
+
+<h1>Actually</h1>
+
+<p>The code in this post is different than the actual code I ended up with.
+Mostly this is because I was working on the code while I was writing this post,
+and discovered some problems that I wanted to fix. For example, the
+<c>tuples_of</c> function makes homogeneous tuples: varying lengths with
+elements all of the same type. This is not the usual use of tuples (see
+<a pref="blog/lists-vs-tuples.bx"/>).  Adapting for heterogeneous tuples added
+more complexity, which was interesting to learn, but I didn't want to go back
+and add it here.</p>
+
+<p>You can look at the <a urlid="strategies.py">final strategies.py</a> to see
+that and other details, including type hints for everything, which was a journey
+of its own.</p>
+
+<url id="strategies.py" href="https://github.com/coveragepy/coveragepy/blob/582ea59724f2df097c2dd9e1bad372be430ff512/tests/strategies.py" />
+
+
+<h1>Postscript: AI assistance</h1>
+
+<p>I would not have been able to come up with all of this by myself. Hypothesis
+is very powerful, but requires a new way of thinking about things. It's twisty
+to have functions returning strategies, and especially strategies producing
+strategies. The docs don't have many examples, so it can be hard to get a
+foothold on the concepts.</p>
+
+<p>Claude helped me by providing initial code, answering questions, debugging
+when things didn't work out, and so on. If you are interested,
+<a href="https://claude.ai/share/3b7e7e02-36e2-4824-acaf-6d4ab5e41cbd">this is
+one of the discussions I had with it</a>.</p>
+
+</body>
+</entry>
+</blog>
