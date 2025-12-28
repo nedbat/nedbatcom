@@ -44,7 +44,7 @@ http://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
 
 body {
     font-family: $me-font;
-    margin: 0 auto 1rem;
+    margin: 0 auto;
     padding: 0;
     @if $color-scheme == gaudy {
         background-color: red;
