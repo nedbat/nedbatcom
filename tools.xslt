@@ -567,6 +567,8 @@
 
 <!--
   - Thumbnails, linked to the picture.
+  - Using imagemagick to make thumbnails:
+    % for p in gmao_?.jpg; do magick $p -resize 500x500 "${p%.*}"_thumb.jpg; done
   -->
 
 <xsl:template match='thumbnail'>
