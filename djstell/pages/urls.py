@@ -34,18 +34,22 @@ redirect = RedirectView.as_view
 urlpatterns = [
     re_path(r'^(?:index.html)?$', dpv.index),
     re_path(r'^blog/?(?:index.html)?$', dpv.blogmain),
-    path('blog/<yyyy:year><mm:month>/<slug:slug>.html', dpv.entry),
 
-    path('blog/tags.html', dpv.tags),
-    path('blog/tag/none.html', dpv.untagged),
-    path('blog/tag/<slug:slug>.html', dpv.tag),
+    # Old .html URLs redirect to no-extension versions.
+    re_path(r'^(?P<path>.+)\.html$', redirect(url='/%(path)s', permanent=True)),
 
-    path('blog/archive/year<yyyy:year>.html', dpv.archiveyear),
-    path('blog/archive/date<mm:month><dd:day>.html', dpv.archivedate),
-    path('blog/archive/all.html', dpv.archiveall),
-    path('blog/drafts.html', dpv.drafts),
-    path('blog/classics.html', dpv.classics_home),
-    path('blog/classics/<slug:slug>.html', dpv.classics),
+    path('blog/<yyyy:year><mm:month>/<slug:slug>', dpv.entry),
+
+    path('blog/tags', dpv.tags),
+    path('blog/tag/none', dpv.untagged),
+    path('blog/tag/<slug:slug>', dpv.tag),
+
+    path('blog/archive/year<yyyy:year>', dpv.archiveyear),
+    path('blog/archive/date<mm:month><dd:day>', dpv.archivedate),
+    path('blog/archive/all', dpv.archiveall),
+    path('blog/drafts', dpv.drafts),
+    path('blog/classics', dpv.classics_home),
+    path('blog/classics/<slug:slug>', dpv.classics),
 
     re_path(r'^blog/(?:rss|rssfull|atom).xml$', dpv.blog_rss),
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),

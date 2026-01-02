@@ -242,11 +242,15 @@ def article(request, path):
         if os.path.exists(maybe_file) and not os.path.isdir(maybe_file):
             return sendfile(request, os.path.abspath(maybe_file))
 
-    if path.endswith(".html"):
-        pxpath = path.replace('.html', '.px')
+    index_path = path.rstrip("/") + "/index.px"
+    if path.endswith("/"):
+        pxpath = index_path
     else:
-        pxpath = path.rstrip("/") + "/index.px"
-    a = get_object_or_404(Article, path=pxpath)
+        pxpath = path + ".px"
+    try:
+        a = get_object_or_404(Article, path=pxpath)
+    except Http404:
+        a = get_object_or_404(Article, path=index_path)
     c = {}
     c['title'] = a.title
     c['url'] = abs_url(a.permaurl())
