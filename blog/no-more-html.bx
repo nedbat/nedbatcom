@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260102T132412'>
+<title>No more .html</title>
+<category>site</category>
+
+<description>My site used to have URLs ending with .html. Not
+anymore.</description>
+
+<body>
+
+<p>This morning I shared a link to this site, and the recipient said, "it looks
+like a file." I thought they meant the page was all black and white with no
+color. No, they were talking about the URL, which ended with ".html".</p>
+
+<p>This site started <a pref="0blog/compucolor.bx">almost 24 years ago</a> as
+a static site: a pile of .html files created on my machine and uploaded to the
+server. The URLs naturally had .html extensions. It was common in web sites of
+the time.</p>
+
+<p>Over the years, the technology has changed. In 2008, it was still a static
+site on the host, but <a pref="blog/permalinks-and-gravatars.bx">produced with
+Django</a> running locally. In 2021, it became a
+<a pref="blog/real-django-site.bx">real Django site</a> on the host.</p>
+
+<p>Through all these changes, the URLs remained the same<emdash/>they still had
+the old-fashioned .html extension. I was used to them, so it never struck me as
+odd. But when it was pointed out today, it suddenly seemed obviously out of
+date.</p>
+
+<p>So now the site prefers URLs with no extension.  The fashion in URLs changed
+quite some time ago: for 2026, I'm going to party like it's 2006!</p>
+
+<p>The old URLs still work, but get a permanent redirect to the modern style.
+If you notice anything amiss,
+<a pref="blog/please-report-bugs-in-this-site.bx">please let me know</a>, as
+always.</p>
+
+</body>
+</entry>
+</blog>
