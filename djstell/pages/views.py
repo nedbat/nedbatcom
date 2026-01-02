@@ -378,6 +378,6 @@ def last_resort(request, path):
 
 def not_found(request, *args, **kwargs):
     """The view function for 404's"""
-    resp = article(request, path="err404.html")
+    resp = article(request, path="err404")
     resp.status_code = 404
     return resp

@@ -70,7 +70,7 @@ urlpatterns = [
 
     re_path(r'^(?P<path>(text|code|site))$', dpv.article),
     re_path(r'^(?P<path>(text|code|site)/.*)$', dpv.article),
-    re_path(r'^(?P<path>err404.html)$', dpv.article),
+    re_path(r'^(?P<path>err404)$', dpv.article),
 
     path('crash', dpv.crash),
 
