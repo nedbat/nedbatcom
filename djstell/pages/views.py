@@ -310,16 +310,16 @@ def index(request):
     title, url, description = 'title', 'url', 'description'
     # Code
     c['code'] = [
-        { title: 'Dinghy', url: 'blog/202203/dinghy_digests.html', description: 'for digesting GitHub activity' },
-        { title: 'Scriv', url: 'blog/202009/scriv.html', description: 'for managing changelogs' },
+        { title: 'Dinghy', url: 'blog/202203/dinghy_digests', description: 'for digesting GitHub activity' },
+        { title: 'Scriv', url: 'blog/202009/scriv', description: 'for managing changelogs' },
         { title: 'coverage.py', url: 'https://coverage.readthedocs.io', description: 'for measuring Python code coverage' },
     ]
 
     # Text
     c['text'] = [
-        { title: 'Python Names and Values', url: 'text/names1.html', description: 'how assignment works' },
-        { title: 'Kindling projects', url: 'text/kindling.html', description: 'small projects for new programmers' },
-        { title: 'Pragmatic Unicode', url: 'text/unipain.html', description: 'how to stop the pain' },
+        { title: 'Python Names and Values', url: 'text/names1', description: 'how assignment works' },
+        { title: 'Kindling projects', url: 'text/kindling', description: 'small projects for new programmers' },
+        { title: 'Pragmatic Unicode', url: 'text/unipain', description: 'how to stop the pain' },
     ]
 
     return render(request, 'mainpage.html', c)

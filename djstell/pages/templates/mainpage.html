@@ -58,17 +58,17 @@
 <section class='a-s'>
 {% reallyspaceless %}
 <p><b><a href='/blog'>More blog</a></b>{% ch " :" %}&#32;
-{# <a href='/blog/classics.html'><i>classics</i></a>{% ch " ." %}&#32; #}
+{# <a href='/blog/classics'><i>classics</i></a>{% ch " ." %}&#32; #}
 {% for tag in tags %}
 <a href='{{tag.permaurl}}'>#{{tag.hashtag}}</a>{% ch " ." %}&#32;
 {% endfor %}
 <a href='#' class='thisdate'><i>this date</i></a>{% ch " ." %}&#32;
 {% endreallyspaceless %}
 {% for y in archive_years %}
-<a href='/blog/archive/year{{y}}.html'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
+<a href='/blog/archive/year{{y}}'>{% if forloop.first %}{{y}}{% else %}{% twodigit y %}{% endif %}</a>{% ch " ." %}&#32;
 {% endfor %}
 <a href='/blog/rss.xml' type='application/rss+xml'><img src='/pix/rss28.png' width='14' height='14' title='RSS feed of posts' alt='RSS feed'></a>
-<span class='readmore'> {% ch ">> " %}<a href='/blog/tags.html'>more topics..</a></span>
+<span class='readmore'> {% ch ">> " %}<a href='/blog/tags'>more topics..</a></span>
 </p>
 </section>
 
@@ -102,18 +102,18 @@
 <aside class='sidebar'>
 <div id='star'></div>
 {% comment %}
-<h2><a class='s' href='/site/hirened.html'>Hire me</a></h2>
-<p class='first'>I'm a freelancer, ready to help you.  Let's talk about your project and what I can do.<span class='readmore'> {% ch ">> " %}<a href='/site/hirened.html'>get in touch..</a></span>
+<h2><a class='s' href='/site/hirened'>Hire me</a></h2>
+<p class='first'>I'm a freelancer, ready to help you.  Let's talk about your project and what I can do.<span class='readmore'> {% ch ">> " %}<a href='/site/hirened'>get in touch..</a></span>
 </p>
 {% endcomment %}
 
 <section class='oneline'>
-<h2><a class='s' href='/site/aboutned.html' rel='author'>About me</a></h2>
+<h2><a class='s' href='/site/aboutned' rel='author'>About me</a></h2>
 <p>
 I'm a software developer with a long career,
 <a href='https://susansenator.com'>a wife</a> and three sons, one autistic.
 I help organize <a href='https://about.bostonpython.com'>Boston Python</a>.
-<span class='readmore'> {% ch ">> " %}<a href='/site/aboutned.html' rel='author'>more..</a></span>
+<span class='readmore'> {% ch ">> " %}<a href='/site/aboutned' rel='author'>more..</a></span>
 </p>
 </section>
 
@@ -151,7 +151,7 @@ I help organize <a href='https://about.bostonpython.com'>Boston Python</a>.
 </aside>
 
 <footer class='sidebar'>
-<p class='copyright'><a class='s' href='/site/legal.html' rel='license'>{% ch "(c) " %}{% year_range archive_years|last archive_years|first %}</a></p>
+<p class='copyright'><a class='s' href='/site/legal' rel='license'>{% ch "(c) " %}{% year_range archive_years|last archive_years|first %}</a></p>
 </footer>
 
 </body>

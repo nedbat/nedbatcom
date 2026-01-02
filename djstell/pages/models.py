@@ -103,19 +103,19 @@ class Article(ModelMixin, models.Model):
 
     def to_html(self):
         dpath = self.path
-        dpath = dpath[:dpath.rfind('.')] + ".html"
+        dpath = dpath[:dpath.rfind('.')]
         params = {
             "dpath": string_param(dpath),
         }
         return content_transform(self.path, fix_blog_links(self.text), params=params)
 
     def permaurl(self, short=False):
-        purl = self.path.replace('.px', '.html')
+        purl = self.path.replace('.px', '')
         if short:
-            if purl.endswith('/index.html'):
-                # Strip off /index.html suffix, if any.
-                purl = purl[:-len('/index.html')]
-            elif purl == 'index.html':
+            if purl.endswith('/index'):
+                # Strip off /index suffix, if any.
+                purl = purl[:-len('/index')]
+            elif purl == 'index':
                 purl = ''
         return '/' + purl
 
@@ -242,7 +242,7 @@ class Tag(ModelMixin, models.Model):
                     tag.related.add(rel_tag)
 
     def permaurl(self):
-        return "/blog/tag/%s.html" % self.tag
+        return "/blog/tag/%s" % self.tag
 
     def entry_set_no_drafts(self):
         return self.entry_set.filter(draft=False)
@@ -388,13 +388,13 @@ class Entry(ModelMixin, models.Model):
         return content_transform(self.title, fix_blog_links(self.text), 'body', params=params)
 
     def permaurl(self):
-        return "/blog/%04d%02d/%s.html" % (self.when.year, self.when.month, self.slug)
+        return "/blog/%04d%02d/%s" % (self.when.year, self.when.month, self.slug)
 
     def monthurl(self):
-        return "/blog/archive/year%04d.html#month%04d%02d" % (self.when.year, self.when.year, self.when.month)
+        return "/blog/archive/year%04d#month%04d%02d" % (self.when.year, self.when.year, self.when.month)
 
     def dateurl(self):
-        return "/blog/archive/date%02d%02d.html" % (self.when.month, self.when.day)
+        return "/blog/archive/date%02d%02d" % (self.when.month, self.when.day)
 
     def entryid(self):
         return self.when.strftime("e%Y%m%dT%H%M%S")
