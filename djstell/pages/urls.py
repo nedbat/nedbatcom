@@ -32,9 +32,6 @@ register_converter(digits(2), 'dd')
 redirect = RedirectView.as_view
 
 urlpatterns = [
-    re_path(r'^(?:index.html)?$', dpv.index),
-    re_path(r'^blog/?(?:index.html)?$', dpv.blogmain),
-
     # Old coverage links shouldn't get .html stripped, so handle them before
     # the html-stripping rule.
     re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.io')),
@@ -45,6 +42,11 @@ urlpatterns = [
 
     # Old .html URLs redirect to no-extension versions.
     re_path(r'^(?P<path>.+)\.html$', redirect(url='/%(path)s', permanent=True)),
+    # URLs ending in slashes redirect to no-slash versions.
+    re_path(r'^(?P<path>.+)/$', redirect(url='/%(path)s', permanent=True)),
+
+    re_path(r'^$', dpv.index),
+    re_path(r'^blog$', dpv.blogmain),
 
     path('blog/<yyyy:year><mm:month>/<slug:slug>', dpv.entry),
 

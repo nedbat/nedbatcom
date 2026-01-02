@@ -21,6 +21,8 @@ BASE = 'http://localhost/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+APPEND_SLASH = False
+
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
