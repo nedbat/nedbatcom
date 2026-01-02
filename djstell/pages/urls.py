@@ -35,6 +35,14 @@ urlpatterns = [
     re_path(r'^(?:index.html)?$', dpv.index),
     re_path(r'^blog/?(?:index.html)?$', dpv.blogmain),
 
+    # Old coverage links shouldn't get .html stripped, so handle them before
+    # the html-stripping rule.
+    re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.io')),
+    path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
+    path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
+    path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.io')),
+    path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
+
     # Old .html URLs redirect to no-extension versions.
     re_path(r'^(?P<path>.+)\.html$', redirect(url='/%(path)s', permanent=True)),
 
@@ -55,12 +63,6 @@ urlpatterns = [
     path('blog/planetpython.xml', dpv.tags_rss, {'tags': PLANET_PYTHON_TAGS}),
     path('summary.json', dpv.summary),
     re_path(r'^blog/(?P<whenid>\d{8}T\d{6})$', dpv.entry_by_date),
-
-    re_path(r'^code/coverage/?$', redirect(url='https://coverage.readthedocs.io')),
-    path('code/coverage/beta/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
-    path('code/coverage/<path:path>', redirect(url='https://coverage.readthedocs.io/en/latest/%(path)s')),
-    path('code/modules/coverage.html', redirect(url='https://coverage.readthedocs.io')),
-    path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
 
     re_path(r'^code/cog/?$', redirect(url='https://cog.readthedocs.io')),
 
