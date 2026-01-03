@@ -1,3 +1,5 @@
+"""Full settings for nedbatchelder.com deployment."""
+
 import os
 
 from .settings_nedcom_base import *

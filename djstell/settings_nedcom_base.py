@@ -1,4 +1,7 @@
-import os
+"""Base settings for nedbatchelder.com deployment."""
+
+# This file is used as the settings while makehtml.py is run.
+# See `env.%` in the Makefile.
 
 from .settings import *
 

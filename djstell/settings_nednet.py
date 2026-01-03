@@ -1,3 +1,5 @@
+"""Full settings for nedbatchelder.net deployment."""
+
 import os
 
 from .settings_nednet_base import *
