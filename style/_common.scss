@@ -113,6 +113,10 @@ img {
     border: none;
 }
 
+.dn {
+    display: none !important;
+}
+
 //
 
 @if $debug-links == yes {
