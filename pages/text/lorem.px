@@ -139,6 +139,14 @@ if input() == "yes":
     # lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 ]]></code>
 
+<p>Code without a language specified:</p>
+
+<code><![CDATA[
+lorem ipsum quia dolor sit amet consectetur adipisci velit,
+sed quia non numquam eius modi tempora incidunt,
+ut labore et dolore magnam aliquam quaerat voluptatem.
+]]></code>
+
 <p>Code with line numbers:</p>
 
 <code lang="python" number="1"><![CDATA[
@@ -226,11 +234,10 @@ with a computation engine in C for speed.</p>
 <p>More samples:</p>
 
 <figurep>
-    <thumbnail href='code/aptus/DragonTails.png' alt='A portion of the Mandelbrot set' />
-    <thumbnail href='code/aptus/FringedBabies.png' alt='A portion of the Mandelbrot set' />
-    <br/>
-    <thumbnail href='code/aptus/GreenSeahorses.png' alt='A portion of the Mandelbrot set' />
-    <thumbnail href='code/aptus/PaisleySpiral.png' alt='A portion of the Mandelbrot set' />
+<thumbnail href='code/aptus/DragonTails.png' alt='A portion of the Mandelbrot set' />
+<thumbnail href='code/aptus/FringedBabies.png' alt='A portion of the Mandelbrot set' />
+<thumbnail href='code/aptus/GreenSeahorses.png' alt='A portion of the Mandelbrot set' />
+<thumbnail href='code/aptus/PaisleySpiral.png' alt='A portion of the Mandelbrot set' />
 </figurep>
 
 
