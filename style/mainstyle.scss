@@ -103,13 +103,17 @@ h1 {
     }
 }
 
-h2 {
+h2, h3 {
     font-size: 100%;
     display: inline;
     margin: 1em 0 0 0;
     .blog-entry & {
         margin-right: 1em;
     }
+}
+
+.only-unstyled {
+    display: none;
 }
 
 .searchflex {
@@ -156,9 +160,11 @@ h2 {
 
 p.huh {
     display: inline;
-    color: var(--info-text-color);
     &:before {
         content: " ·· ";
+    }
+    &.info {
+        color: var(--info-text-color);
     }
 }
 
@@ -171,7 +177,7 @@ p.huh {
     }
 }
 
-section {
+section, div.section {
     margin-top: 2em;
 
     section {

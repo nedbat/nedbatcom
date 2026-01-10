@@ -45,10 +45,11 @@
 
 <main>
 <section>
+    <h2 class='only-unstyled'><a href='/blog'>Latest blog posts</a></h2>
     {# -- Latest entries: first two sentences. -- #}
     {% for entry in recent_entries %}
         <div class='blog-entry'>
-            <h2><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h2>
+            <h3><a class='s' href='{{entry.permaurl}}'>{{entry.title}}</a></h3>
             <p class='date'> {{entry.when|date:"j"}}{% ch " " %}{{entry.when|date:"F"}}{% if entry.show_year %}{% ch " " %}{{entry.when|date:"Y"}}{% endif %}</p>
             <p class='first'>{{entry.ogdescription|safe}}<span class='readmore'> {% ch ">> " %}<a href='{{entry.permaurl}}'>more..</a></span></p>
         </div>
@@ -57,7 +58,8 @@
 
 <section class='a-s'>
 {% reallyspaceless %}
-<p><b><a href='/blog'>More blog</a></b>{% ch " :" %}&#32;
+<h2><a href='/blog'>More blog</a></h2>
+<p class="huh">
 {# <a href='/blog/classics'><i>classics</i></a>{% ch " ." %}&#32; #}
 {% for tag in tags %}
 <a href='{{tag.permaurl}}'>#{{tag.hashtag}}</a>{% ch " ." %}&#32;
@@ -72,10 +74,10 @@
 </p>
 </section>
 
-<section class='a-s'>
+<div class='section a-s'>
 <section>
 <h2><a href='/code'>Code</a></h2>
-<p class='huh'>software I made</p>
+<p class='huh info'>software I made</p>
 <ul>
     {% for x in code %}
     <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
@@ -86,7 +88,7 @@
 
 <section>
 <h2><a href='/text'>Text</a></h2>
-<p class='huh'>words I wrote</p>
+<p class='huh info'>words I wrote</p>
 <ul>
     {% for x in text %}
     <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
@@ -94,7 +96,7 @@
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></p>
 </section>
-</section>
+</div>
 </main>
 
 </div> {# content #}
