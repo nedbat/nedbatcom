@@ -281,7 +281,6 @@
 </xsl:template>
 
 <!-- Custom "symbols" -->
-<xsl:template match='permalinksym'>(&#164;)</xsl:template>
 <xsl:template match='nbsp'>&#160;</xsl:template>
 <xsl:template match='enspace'>&#x2002;</xsl:template>
 <xsl:template match='emspace'>&#x2003;</xsl:template>
@@ -549,7 +548,7 @@
 
 <!-- A name with initials, like <name>H. S. M. Coxeter</name> -->
 <xsl:template match='name'>
-    <span class='name'><xsl:value-of select='translate(text(), " ", "&#x2009;")'/></span>
+    <span class='name'><xsl:value-of select='translate(text(), ". ", ".&#x2009;")'/></span>
 </xsl:template>
 
 <!--

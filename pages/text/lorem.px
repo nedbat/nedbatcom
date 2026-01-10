@@ -4,19 +4,29 @@
 <what when='20160911T125000'>Created.</what>
 </history>
 
-<p>This page has examples of lots of kinds of content, to see that they all
-    work properly.</p>
+<p>This page has examples of lots of kinds of content, to see that they all work
+properly and <a urlid="validate">validate well</a>.</p>
 
-<p>Lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non
-    numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam
-    quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
-    ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-    consequatur?</p>
+<url id="validate" href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fnedbatchelder.com%2Ftext%2Florem" />
 
-<p>Quis autem <b>bold words</b> and <i>italic words</i> vel eum iure
-    reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae
-    consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla
-    pariatur.</p>
+<p>It was the best of times, it was the worst of times, it was the age of
+wisdom, it was the age of foolishness, it was the epoch of belief, it was the
+epoch of incredulity, it was the season of Light, it was the season of Darkness,
+it was the spring of hope, it was the winter of despair, we had everything
+before us, we had nothing before us, we were all going direct to Heaven, we were
+all going direct the other way—in short, the period was so far like the present
+period, that some of its noisiest authorities insisted on its being received,
+for good or for evil, in the superlative degree of comparison only.</p>
+
+<p>There were a king with a large jaw and a queen with a plain face, on the
+throne of England; there were a king with a large jaw and a queen with a fair
+face, on the throne of France. In both countries it was clearer than crystal to
+the lords of the State preserves of loaves and fishes, that things in general
+were settled for ever.</p>
+
+<p>We can have <b>bold words</b> and <i>italic words</i>, we can have
+<em>emphasis</em> and <strong>strong words</strong>.  We can have
+em-dashes<emdash/>like this<emdash/>and 3<times/>5.</p>
 
 <p>Short.</p>
 
@@ -74,7 +84,6 @@
 <li><a href="https://projecteuler.net/">Project Euler</a>: A collection of
     math/programming problems.  Many require math expertise to solve.</li>
 
-<!-- Suggested by Vaibhav Sagar, vaibhavsagar@gmail.com -->
 <li><a href="http://pythonpracticeprojects.com/">Python Practice Projects</a>:
     a short list of detailed project descriptions, if you want specific
     instructions.</li>
@@ -124,8 +133,12 @@
     but nothing fancy like <c>eval</c> and <c>exec</c>:</p>
 
 <code lang="python"><![CDATA[
-print("Hello, world!")
-print("Goodbye")
+def main():
+    print("Hello, world!")
+    print("Goodbye")
+
+if __name__ == "__main__":
+    main()
 ]]></code>
 
 <p>Some wide code:</p>
@@ -142,9 +155,12 @@ if input() == "yes":
 <p>Code without a language specified:</p>
 
 <code><![CDATA[
-lorem ipsum quia dolor sit amet consectetur adipisci velit,
-sed quia non numquam eius modi tempora incidunt,
-ut labore et dolore magnam aliquam quaerat voluptatem.
+def main():
+    print("Hello, world!")
+    print("Goodbye")
+
+if __name__ == "__main__":
+    main()
 ]]></code>
 
 <p>Code with line numbers:</p>
@@ -245,7 +261,7 @@ with a computation engine in C for speed.</p>
 
 <p>A table of stupid video resolutions:</p>
 
-<table align='center' cellpadding='5'>
+<table>
 <tr><td>VGA</td>	<td>640<times/>480</td></tr>
 <tr><td>SVGA</td>	<td>800<times/>600</td></tr>
 <tr><td>XGA</td>	<td>1024<times/>768</td></tr>
@@ -259,7 +275,7 @@ with a computation engine in C for speed.</p>
 try the <a href='http://www.wordsmith.org/anagram/advanced.html'>Internet Anagram Server</a>.
 It helpfully told me that "Ned Batchelder" could be anagrammed to:</p>
 
-<table align='center' width='90%' cellpadding='5'>
+<table>
 <tr>
 <td>Bleached Trend</td>
 <td>Branch Deleted</td>
@@ -283,6 +299,65 @@ It helpfully told me that "Ned Batchelder" could be anagrammed to:</p>
 </table>
 
 <p>(and thousands of others...)</p>
+
+<h1>Special characters</h1>
+
+<!--
+    Regenerate with:
+        $ cog -rP pages/text/lorem.px
+-->
+<!--[[[cog
+    import textwrap
+    snips = textwrap.dedent("""\
+        one two
+        one<enspace/>two
+        one<emspace/>two
+        look<chev/>
+        one<middot/>two
+        one<bullet/>two
+        3<times/>5 = x<times/>y+1
+        3<divide/>5
+        3+1-5 vs 3+1<minus/>5
+        1<ltlt/>2
+        2<gtgt/>1
+        consider <pilcrow/>1
+        98<degree/>
+        a<logand/>b<logor/>c<logimpl/>d<lognot/>e
+        one-half: <half/>
+        x<sup1/>+y<sup2/>+z<sup3/>
+        H.S.M.Coxeter
+        H. S. M. Coxeter
+        <name>H. S. M. Coxeter</name>
+        """)
+
+    print("<table>")
+    for snip in snips.splitlines():
+        print(f"<tr><td><c><![CDATA[{snip}]]></c></td><td>{snip}</td></tr>")
+    print("</table>")
+]]]-->
+<table>
+<tr><td><c><![CDATA[one two]]></c></td><td>one two</td></tr>
+<tr><td><c><![CDATA[one<enspace/>two]]></c></td><td>one<enspace/>two</td></tr>
+<tr><td><c><![CDATA[one<emspace/>two]]></c></td><td>one<emspace/>two</td></tr>
+<tr><td><c><![CDATA[look<chev/>]]></c></td><td>look<chev/></td></tr>
+<tr><td><c><![CDATA[one<middot/>two]]></c></td><td>one<middot/>two</td></tr>
+<tr><td><c><![CDATA[one<bullet/>two]]></c></td><td>one<bullet/>two</td></tr>
+<tr><td><c><![CDATA[3<times/>5 = x<times/>y+1]]></c></td><td>3<times/>5 = x<times/>y+1</td></tr>
+<tr><td><c><![CDATA[3<divide/>5]]></c></td><td>3<divide/>5</td></tr>
+<tr><td><c><![CDATA[3+1-5 vs 3+1<minus/>5]]></c></td><td>3+1-5 vs 3+1<minus/>5</td></tr>
+<tr><td><c><![CDATA[1<ltlt/>2]]></c></td><td>1<ltlt/>2</td></tr>
+<tr><td><c><![CDATA[2<gtgt/>1]]></c></td><td>2<gtgt/>1</td></tr>
+<tr><td><c><![CDATA[consider <pilcrow/>1]]></c></td><td>consider <pilcrow/>1</td></tr>
+<tr><td><c><![CDATA[98<degree/>]]></c></td><td>98<degree/></td></tr>
+<tr><td><c><![CDATA[a<logand/>b<logor/>c<logimpl/>d<lognot/>e]]></c></td><td>a<logand/>b<logor/>c<logimpl/>d<lognot/>e</td></tr>
+<tr><td><c><![CDATA[one-half: <half/>]]></c></td><td>one-half: <half/></td></tr>
+<tr><td><c><![CDATA[x<sup1/>+y<sup2/>+z<sup3/>]]></c></td><td>x<sup1/>+y<sup2/>+z<sup3/></td></tr>
+<tr><td><c><![CDATA[H.S.M.Coxeter]]></c></td><td>H.S.M.Coxeter</td></tr>
+<tr><td><c><![CDATA[H. S. M. Coxeter]]></c></td><td>H. S. M. Coxeter</td></tr>
+<tr><td><c><![CDATA[<name>H. S. M. Coxeter</name>]]></c></td><td><name>H. S. M. Coxeter</name></td></tr>
+</table>
+<!--[[[end]]]-->
+
 
 <h1>rem-width paragraphs</h1>
 
