@@ -155,7 +155,7 @@ if input() == "yes":
 <p>Code without a language specified:</p>
 
 <code><![CDATA[
-def main():
+def main_no_lang():
     print("Hello, world!")
     print("Goodbye")
 

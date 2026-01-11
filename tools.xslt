@@ -315,61 +315,23 @@
     <xsl:apply-templates select='document(@file)/*'/>
 </xsl:template>
 
-<!-- Code chunks: \n becomes <br/>, space becomes nbsp. -->
+<!-- Code chunks -->
 <xsl:template match='code'>
     <xsl:call-template name='checkblock'/>
     <blockquote class='code'>
         <xsl:if test='@name'>
             <p class='name'><xsl:value-of select='@name'/></p>
         </xsl:if>
-        <pre>
-            <xsl:choose>
-            <xsl:when test='@lang'>
-                <xsl:attribute name='class'><xsl:value-of select='@lang' /></xsl:attribute>
-                <xsl:value-of
-                    disable-output-escaping='yes'
-                    select='xuff:lexcode(string(text()), string(@lang), string(@number))'/>
-            </xsl:when>
-            <xsl:when test='starts-with(text(), "&#10;")'>
-                <xsl:call-template name='code-replace'>
-                    <xsl:with-param name='code' select='translate(substring-after(text(), "&#10;"), " ", "&#160;")'/>
-                </xsl:call-template>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name='code-replace'>
-                    <xsl:with-param name='code' select='translate(text(), " ", "&#160;")'/>
-                </xsl:call-template>
-            </xsl:otherwise>
-            </xsl:choose>
-        </pre>
+        <xsl:value-of
+            disable-output-escaping='yes'
+            select='xuff:lexcode(string(text()), string(@lang), string(@number))'/>
     </blockquote>
 </xsl:template>
 
 <xsl:template match='c'>
     <code>
-        <xsl:call-template name='code-replace'>
-            <xsl:with-param name='code' select='translate(text(), " ", "&#160;")'/>
-        </xsl:call-template>
+        <xsl:value-of select='translate(text(), " ", "&#160;")'/>
     </code>
-</xsl:template>
-
-<xsl:template name='code-replace'>
-    <xsl:param name='code'/>
-
-    <xsl:choose>
-    <xsl:when test='contains($code,"&#10;")'>
-        <!--<nobr>-->
-        <xsl:value-of select='substring-before($code,"&#10;")'/>
-        <!--</nobr>-->
-        <br/>
-        <xsl:call-template name='code-replace'>
-            <xsl:with-param name='code' select='substring-after($code,"&#10;")'/>
-        </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-        <!--<nobr>--><xsl:value-of select='$code'/><!--</nobr>-->
-    </xsl:otherwise>
-    </xsl:choose>
 </xsl:template>
 
 <xsl:template match='quotep'>
