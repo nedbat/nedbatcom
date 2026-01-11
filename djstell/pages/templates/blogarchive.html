@@ -17,12 +17,12 @@
                 These are the {{entries|length}} blog posts for {{year}}.
             {% endif %}
             {% if prev_year %}
-                Older is <a href='/blog/archive/year{{ prev_year }}'>{{ prev_year }}</a>.
+                Older is <a href='/blog/{{ prev_year }}'>{{ prev_year }}</a>.
             {% endif %}
             {% if next_year %}
-                Newer is <a href='/blog/archive/year{{ next_year }}'>{{ next_year }}</a>.
+                Newer is <a href='/blog/{{ next_year }}'>{{ next_year }}</a>.
             {% endif %}
-            There is also a <a href='/blog/archive/all' rel='up'>complete archive</a>.
+            There is also a <a href='/blog/all' rel='up'>complete archive</a>.
         {% elif type == 'date' %}
             {% if entries|length == 0 %}
                 I have no blog posts
@@ -33,9 +33,9 @@
             {% endif %}
             written on {{date|date:"F j"|nbsp}} of any year.
             (Nearby:
-                <a href='/blog/archive/date{{prev_date|date:"md"}}'>{{prev_date|date:"F j"|nbsp}}</a>
+                <a href='/blog/date/{{prev_date|date:"md"}}'>{{prev_date|date:"F j"|nbsp}}</a>
             and
-                <a href='/blog/archive/date{{next_date|date:"md"}}'>{{next_date|date:"F j"|nbsp}}</a>.)
+                <a href='/blog/date/{{next_date|date:"md"}}'>{{next_date|date:"F j"|nbsp}}</a>.)
         {% elif type == 'drafts' %}
             These are the {{entries|length}} unfinished blog posts.
         {% endif %}
@@ -46,7 +46,7 @@
 
             {% if type == 'date' %}
                 {% ifchanged %}
-                <p class='date'><a href='/blog/archive/year{{ entry.when|date:"Y" }}'>{{ entry.when|date:"Y" }}</a>: </p>
+                <p class='date'><a href='/blog/{{ entry.when|date:"Y" }}'>{{ entry.when|date:"Y" }}</a>: </p>
                 {% endifchanged %}
             {% else %}
                 {% ifchanged %}
@@ -54,7 +54,7 @@
                 {% endifchanged %}
 
                 {% ifchanged %}
-                <p class='date'><a href='/blog/archive/date{{ entry.when|date:"md" }}'>{{ entry.when|date:"D j" }}</a>: </p>
+                <p class='date'><a href='/blog/date/{{ entry.when|date:"md" }}'>{{ entry.when|date:"D j" }}</a>: </p>
                 {% endifchanged %}
             {% endif %}
 

@@ -44,6 +44,10 @@ urlpatterns = [
     re_path(r'^(?P<path>.+)\.html$', redirect(url='/%(path)s', permanent=True)),
     # URLs ending in slashes redirect to no-slash versions.
     re_path(r'^(?P<path>.+)/$', redirect(url='/%(path)s', permanent=True)),
+    # Old blog archive URLs redirect to new ones.
+    re_path(r'blog/archive/year(?P<year>\d{4})', redirect(url='/blog/%(year)s', permanent=True)),
+    re_path(r'blog/archive/date(?P<date>\d{4})', redirect(url='/blog/date/%(date)s', permanent=True)),
+    re_path(r'blog/archive/all', redirect(url='/blog/all', permanent=True)),
 
     re_path(r'^$', dpv.index),
     re_path(r'^blog$', dpv.blogmain),
@@ -54,9 +58,9 @@ urlpatterns = [
     path('blog/tag/none', dpv.untagged),
     path('blog/tag/<slug:slug>', dpv.tag),
 
-    path('blog/archive/year<yyyy:year>', dpv.archiveyear),
-    path('blog/archive/date<mm:month><dd:day>', dpv.archivedate),
-    path('blog/archive/all', dpv.archiveall),
+    path('blog/<yyyy:year>', dpv.archiveyear),
+    path('blog/date/<mm:month><dd:day>', dpv.archivedate),
+    path('blog/all', dpv.archiveall),
     path('blog/drafts', dpv.drafts),
     path('blog/classics', dpv.classics_home),
     path('blog/classics/<slug:slug>', dpv.classics),
