@@ -55,6 +55,9 @@ urlpatterns = [
     re_path(r'^$', dpv.index),
     re_path(r'^blog$', dpv.blogmain),
 
+    re_path(r'^index$', perm_redirect(url='/')),
+    re_path(r'^blog/index$', perm_redirect(url='/blog')),
+
     path('blog/<yyyy:year><mm:month>/<slug:slug>', dpv.entry),
 
     path('blog/tags', dpv.tags),
