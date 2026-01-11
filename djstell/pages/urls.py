@@ -1,3 +1,5 @@
+import functools
+
 from django.urls import path, re_path, register_converter
 from django.views.generic.base import RedirectView
 
@@ -29,7 +31,8 @@ register_converter(digits(4), 'yyyy')
 register_converter(digits(2), 'mm')
 register_converter(digits(2), 'dd')
 
-redirect = RedirectView.as_view
+redirect = functools.partial(RedirectView.as_view, permanent=False)
+perm_redirect = functools.partial(RedirectView.as_view, permanent=True)
 
 urlpatterns = [
     # Old coverage links shouldn't get .html stripped, so handle them before
@@ -41,13 +44,13 @@ urlpatterns = [
     path('code/modules/coverage-<path:path>', redirect(url='https://pypi.org/project/coverage/#files')),
 
     # Old .html URLs redirect to no-extension versions.
-    re_path(r'^(?P<path>.+)\.html$', redirect(url='/%(path)s', permanent=True)),
+    re_path(r'^(?P<path>.+)\.html$', perm_redirect(url='/%(path)s')),
     # URLs ending in slashes redirect to no-slash versions.
-    re_path(r'^(?P<path>.+)/$', redirect(url='/%(path)s', permanent=True)),
+    re_path(r'^(?P<path>.+)/$', perm_redirect(url='/%(path)s')),
     # Old blog archive URLs redirect to new ones.
-    re_path(r'blog/archive/year(?P<year>\d{4})', redirect(url='/blog/%(year)s', permanent=True)),
-    re_path(r'blog/archive/date(?P<date>\d{4})', redirect(url='/blog/date/%(date)s', permanent=True)),
-    re_path(r'blog/archive/all', redirect(url='/blog/all', permanent=True)),
+    re_path(r'blog/archive/year(?P<year>\d{4})', perm_redirect(url='/blog/%(year)s')),
+    re_path(r'blog/archive/date(?P<date>\d{4})', perm_redirect(url='/blog/date/%(date)s')),
+    re_path(r'blog/archive/all', perm_redirect(url='/blog/all')),
 
     re_path(r'^$', dpv.index),
     re_path(r'^blog$', dpv.blogmain),
