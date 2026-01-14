@@ -77,10 +77,10 @@
 <div class='section a-s'>
 <section>
 <h2><a href='/code'>Code</a></h2>
-<p class='huh info'>software I made</p>
+<p class='huh info'>Software I made</p>
 <ul>
     {% for x in code %}
-    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch "::" %} {{x.description}}</li>
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/code'>more code..</a></p>
@@ -88,10 +88,10 @@
 
 <section>
 <h2><a href='/text'>Text</a></h2>
-<p class='huh info'>words I wrote</p>
+<p class='huh info'>Words I wrote</p>
 <ul>
     {% for x in text %}
-    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch " :" %} {{x.description}}</li>
+    <li><b><a href='{{x.url}}'>{{x.title}}</a></b>{% ch "::" %} {{x.description}}</li>
     {% endfor %}
 </ul>
 <p class='readmore'>{% ch ">> " %}<a href='/text'>more text..</a></p>

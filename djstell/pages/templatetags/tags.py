@@ -110,6 +110,7 @@ special_ch = {
     '*':    '&#x2022;',     # •  BULLET
     '.':    '&#xb7;',       # ·  MIDDLE DOT
     ':':    '&#xb7;&#xb7;', #    two middle dots, a strange colon-like thing
+    '::':   '<span class="dn">:</span><span class="huh"></span>', #    two middle dots, a strange colon-like thing
     '-':    '&#x2013;',     # –  EN DASH
     '--':   '&#x2014;',     # —  EM DASH
     ':>':   '&#x25b6;',     # ▶  BLACK RIGHT-POINTING TRIANGLE

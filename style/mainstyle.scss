@@ -154,13 +154,14 @@ h2, h3 {
     color: var(--info-text-color);
 }
 
-p.huh {
+.huh {
     display: inline;
     &:before {
         content: " ·· ";
     }
     &.info {
         color: var(--info-text-color);
+        text-transform: lowercase;
     }
 }
 
