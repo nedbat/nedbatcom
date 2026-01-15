@@ -490,10 +490,11 @@ a.headerlink {
 .body {
     line-height: $text-line-height;
 
-    // H1's have a line underneath them.
+    // H1's have a line above them.
     h1 {
         font-size: 100%;
-        border-bottom: 1px solid silver;
+        border-top: 1px solid silver;
+        padding-top: .25em;
     }
 
     h2 {
