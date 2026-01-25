@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260125T153221'>
+<title>Testing: exceptions and caches</title>
+<category>testing</category>
+<category>python</category>
+
+<description>Nicer ways to test exceptions and to test cached function
+results.</description>
+
+<body>
+
+<p>Two testing-related things I found recently.</p>
+
+
+<h1>Unified exception testing</h1>
+
+<p>Kacper Borucki blogged about <a urlid="borutzki">parameterizing exception
+testing</a>, and linked to <a urlid="pytestdocs">pytest docs</a> and a
+<a urlid="so">StackOverflow answer</a> with similar approaches.</p>
+
+<p>The common way to test exceptions is to use
+<a urlid="raises"><c>pytest.raises</c></a> as a context manager, and have
+separate tests for the cases that succeed and those that fail.  Instead, this
+approach lets you unify them.</p>
+
+<p>I tweaked it to this, which I think reads nicely:</p>
+
+<code lang="python"><![CDATA[
+from contextlib import nullcontext as produces
+
+import pytest
+from pytest import raises
+
+@pytest.mark.parametrize(
+    "example_input, result",
+    [
+        (3, produces(2)),
+        (2, produces(3)),
+        (1, produces(6)),
+        (0, raises(ZeroDivisionError)),
+        ("Hello", raises(TypeError)),
+    ],
+)
+def test_division(example_input, result):
+    with result as e:
+        assert (6 / example_input) == e
+]]></code>
+
+<p>One parameterized test that covers both good and bad outcomes. Nice.</p>
+
+<url id="borutzki" href="https://borutzki.github.io/2026/01/15/how-to-parametrize-exception-testing-in-pytest.html" />
+<url id="pytestdocs" href="https://docs.pytest.org/en/stable/example/parametrize.html#parametrizing-conditional-raising" />
+<url id="so" href="https://stackoverflow.com/questions/20274987/how-to-use-pytest-to-check-that-error-is-not-raised/68012715#68012715" />
+<url id="raises" href="https://docs.pytest.org/en/7.1.x/how-to/assert.html#assertions-about-expected-exceptions" />
+
+
+<h1>AntiLRU</h1>
+
+<p>The <a urlid="lru_cache"><c>@functools.lru_cache</c></a> decorator (and its
+convenience cousin <c>@cache</c>) are good ways to save the result of a function
+so that you don't have to compute it repeatedly.  But, they hide an implicit
+global in your program: the dictionary of cached results.</p>
+
+<p>This can interfere with testing. Your tests should all be isolated from each
+other. You don't want a side effect of one test to affect the outcome of another
+test. The hidden global dictionary will do just that. The first test calls the
+cached function, then the second test gets the cached value, not a newly
+computed one.</p>
+
+<p>Ideally, lru_cache would only be used on <em>pure</em> functions: the result only depends on the arguments.
+If it's only used for pure functions, then you don't need to worry about interactions between tests
+because the answer will be the same for the second test anyway.</p>
+
+<p>But lru_cache is used on functions that pull information from the
+environment, perhaps from a network API call.  The tests might mock out the API
+to check the behavior under different API circumstances. Here's where the
+interference is a real problem.</p>
+
+<p>The lru_cache decorator makes a <c>.clear_cache</c> method available on each
+decorated function. I had some code that explicitly called that method on the
+cached functions. But then I added a new cached function, forgot to update the
+conftest.py code that cleared the caches, and my tests were failing.</p>
+
+<p>A more convenient approach is provided by
+<a urlid="antilru">pytest-antilru</a>: it's a pytest plugin that monkeypatches
+<c>@lru_cache</c> to track all of the cached functions, and clears them all
+between tests. The caches are still in effect during each test, but can't
+interfere between them.</p>
+
+<p>It works great. I was able to get rid of all of the manually maintained cache
+clearing in my conftest.py.</p>
+
+<url id="antilru" href="https://pypi.org/project/pytest-antilru/" />
+<url id="lru_cache" href="https://docs.python.org/3/library/functools.html#functools.lru_cache" />
+
+</body>
+</entry>
+</blog>
