@@ -45,6 +45,7 @@
 <what when='20251031T160400'>3.9 eol</what>
 <what when='20251119T055600'>3.15.0a2</what>
 <what when='20251217T151900'>3.15.0a3</what>
+<what when='20260127T122300'>3.15.0a5</what>
 </history>
 
 <meta>
@@ -63,9 +64,9 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.15: expected October 2026 (now alpha 3)</h1>
+<h1>3.15: expected October 2026 (now alpha 5)</h1>
 <ul>
-    <li>To come.</li>
+    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#pep-799-a-dedicated-profiling-package">New profiling packages</a>.</li>
 </ul>
 
 <p><a href="https://docs.python.org/3.15/whatsnew/3.15.html">Full list of 3.15 changes</a>.
