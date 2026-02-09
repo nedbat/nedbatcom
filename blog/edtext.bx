@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260209T073411'>
+<title>EdText</title>
+<category>cog</category>
+<category>gem</category>
+<category>mycode</category>
+
+<description>edtext is a utility inspired by the ed editor for selecting and
+manipulating lines of text.</description>
+
+<body>
+
+<p>I have a new small project: <a urlid="edtext">edtext</a> provides text
+selection and manipulation functions inspired by the <a urlid="ed">classic ed
+text editor</a>.</p>
+
+<p>I've long used <a urlid="cog">cog</a> to build documentation and HTML
+presentations. Cog interpolates text from elsewhere, like source code or
+execution output. Often I don't want the full source file or all of the lines of
+output. I want to be able to choose the lines, and sometimes I need to tweak the
+lines with a regex to get the results I want.</p>
+
+<p>Long ago I wrote my own <a urlid="incfile">ad-hoc function</a> to include a
+file and over the years it had grown "organically", to use a positive word.  It
+had become baroque and confusing. Worse, it still didn't do all the things I
+needed.</p>
+
+<p>The old function has 16 arguments (!), nine of which are for selecting the
+lines of text:</p>
+
+<code lang="python"><![CDATA[
+start=None,
+end=None,
+start_has=None,
+end_has=None,
+start_from=None,
+end_at=None,
+start_nth=1,
+end_nth=1,
+line_count=None,
+]]></code>
+
+<p>Recently I started a new presentation, and when I couldn't express what I
+needed with these nine arguments, I thought of a better way: the
+<a urlid="ed">ed text editor</a> has concise mechanisms for addressing lines
+of text. Ed addressing evolved into vim and sed, and probably other things too,
+so it might already be familiar to you.</p>
+
+<p>I wrote <a urlid="edtext">edtext</a> to replace my ad-hoc function that I
+was copying from project to project.  Edtext lets me select subsets of lines
+using ed/sed/vim address ranges.  Now if I have a source file like this with
+section-marking comments:</p>
+
+<code lang="python"><![CDATA[
+import pytest
+
+# section1
+def six_divided(x):
+    return 6 / x
+
+# Check the happy paths
+
+@pytest.mark.parametrize(
+    "x, expected",
+    [ (4, 1.5), (3, 2.0), (2, 3.0), ]
+)
+def test_six_divided(x, expected):
+    assert six_divided(x) == expected
+# end
+
+# section2
+# etc....
+]]></code>
+
+<p>then with an <c>include_file</c> helper that reads the file and gives me an
+<c>EdText</c> object, I can select just section1 with:</p>
+
+<code lang="python"><![CDATA[
+include_file("test_six_divided.py")["/# section1/+;/# end/-"]
+]]></code>
+
+<p>EdText allows slicing with a string containing an ed address range. Ed
+addresses often (but don't always) use regexes, and they have a similar powerful
+compact feeling.  "/# section1/" finds the next line containing that string, and
+the "+" suffix adds one, so our range starts with the line after the section1
+comment.  The semicolon means to look for the end line starting from the start
+line, then we find "# end", and the "-" suffix means subtract one. So our range
+ends with the line before the "# end" comment, giving us:</p>
+
+<code lang="python"><![CDATA[
+def six_divided(x):
+    return 6 / x
+
+# Check the happy paths
+
+@pytest.mark.parametrize(
+    "x, expected",
+    [ (4, 1.5), (3, 2.0), (2, 3.0), ]
+)
+def test_six_divided(x, expected):
+    assert six_divided(x) == expected
+]]></code>
+
+<p>Most of ed addressing is implemented, and there's a <c>sub()</c> method to
+make regex replacements on selected lines. I can run pytest, put the output into
+an EdText object, then use:</p>
+
+<code lang="python"><![CDATA[
+pytest_edtext["1", "/collected/,$-"].sub("g/====", r"0.0\ds", "0.01s")
+]]></code>
+
+<p>This slice uses two address ranges. The first selects just the first line,
+the pytest command itself. The second range gets the lines from "collected" to
+the second-to-last line. Slicing gives me a new EdText object, then I use
+<c>.sub()</c> to tweak the output: on any line containing "====", change the
+total time to "0.01s" so that slight variations in the duration of the test run
+doesn't cause needless changes in the output.</p>
+
+<p>It was very satisfying to write <a urlid="edtext">edtext</a>: it's small in
+scope, but useful. It has a full test suite. It might even be done!</p>
+
+
+<url id="edtext" href="https://github.com/nedbat/edtext" />
+<url id="incfile" href="https://github.com/nedbat/blank_prz/blob/master/cogutil.py#L32-L45" />
+<url id="ed" href="https://www.gnu.org/software/ed/manual/ed_manual.html#Line-addressing" />
+<url id="cog" href="https://cog.readthedocs.io/" />
+
+</body>
+</entry>
+</blog>
