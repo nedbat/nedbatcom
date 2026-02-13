@@ -33,7 +33,7 @@ all the keys and values, not the size of the keys and values themselves.
 In other words, it tells you about the internal bookkeeping, and not any of your
 actual data!</p>
 
-<p>The reason my co-worker's API responses was all the same size was because
+<p>The reason my co-worker's API responses were all the same size was because
 they were dictionaries with the same number of keys, and getsizeof was ignoring
 all the keys and values when reporting the size:</p>
 
