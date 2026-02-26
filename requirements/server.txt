@@ -19,7 +19,7 @@ django-sendfile2==0.7.2
     # via -r requirements/base.in
 ftfy==6.3.1
     # via -r requirements/base.in
-gunicorn==25.0.1
+gunicorn==25.1.0
     # via -r requirements/server.in
 libsass==0.23.0
     # via -r requirements/base.in
@@ -27,7 +27,7 @@ lxml==6.0.2
     # via -r requirements/base.in
 markdown2==2.5.4
     # via -r requirements/base.in
-mysqlclient==2.2.7
+mysqlclient==2.2.8
     # via -r requirements/server.in
 packaging==26.0
     # via gunicorn
@@ -35,7 +35,7 @@ path==17.1.1
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==12.1.0
+pillow==12.1.1
     # via -r requirements/base.in
 pygments==2.19.2
     # via -r requirements/base.in
@@ -51,7 +51,7 @@ sqlparse==0.5.5
     #   django-debug-toolbar
 tinycss2==1.4.0
     # via bleach
-wcwidth==0.5.3
+wcwidth==0.6.0
     # via ftfy
 webencodings==0.5.1
     # via

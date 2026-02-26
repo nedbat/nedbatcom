@@ -12,7 +12,9 @@ import html
 import json
 import sys
 
+from edtext import EdText
 import requests
+
 
 def get_tweet(url):
     if url in ["", "xxx"]:
@@ -52,6 +54,19 @@ def include_section(filename, start, end, prelude="", postlude=""):
     print("".join(lines[start_num+1: end_num]), end="")
     if postlude:
         print(postlude)
+
+def code(filename, *slices, lang=""):
+    with open(filename) as f:
+        ed = EdText(f.read())
+    if slices:
+        ed = ed.ranges(*slices)
+    if lang:
+        langattr = f" lang='{lang}'"
+    else:
+        langattr = ""
+    print(f"<code{langattr}><![CDATA[")
+    print(ed, end="")
+    print("]]></code>")
 
 if __name__ == "__main__":
     url = sys.argv[1]

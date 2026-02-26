@@ -29,7 +29,7 @@ path==17.1.1
     # via path-py
 path-py==12.5.0
     # via -r requirements/base.in
-pillow==12.1.0
+pillow==12.1.1
     # via -r requirements/base.in
 pygments==2.19.2
     # via -r requirements/base.in
@@ -45,7 +45,7 @@ sqlparse==0.5.5
     #   django-debug-toolbar
 tinycss2==1.4.0
     # via bleach
-wcwidth==0.5.3
+wcwidth==0.6.0
     # via ftfy
 webencodings==0.5.1
     # via
