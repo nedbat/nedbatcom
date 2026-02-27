@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!--
+
+This post is cogged. Re-cog it with:
+
+    $ sed -n -e '/^##: run/,/^## end/p' < blog/pytest-parameter-functions.bx | bash
+
+-->
+
+<!-- [[[cog
+import functools
+import os
+from helpers.cog import code, ed
+
+os.chdir("/tmp/work")
+
+python = functools.partial(code, lang="python")
+
+]]]-->
+<!-- [[[end]]] (sum: 1B2M2Y8Asg) -->
+
+<blog>
+<entry when='20260227T065340'>
+<title>Pytest parameter functions</title>
+<category>python</category>
+<category>testing</category>
+
+<description>Pytest's parametrize can be made even more powerful with your own
+helper functions to build test cases.</description>
+
+<body>
+
+<p>Pytest's parametrize is a great feature for writing tests without repeating
+yourself needlessly. (If you haven't seen it before, read
+<a pref="blog/starting-with-pytestparametrize.bx" /> first).
+When the data gets complex, it can help to use functions to build the
+data parameters.</p>
+
+<!--
+
+Golden
+This is what it sounds like
+Addicted to love
+1999
+All Star
+We Got The Beat
+Me
+
+-->
+
+<p>I've been working on <a href="https://github.com/nedbat/linklint">a project
+involving multi-line data</a>, and the parameterized test data was getting
+awkward to create and maintain. I created helper functions to make it nicer.
+The actual project is a bit gnarly, so I'll use a simpler example to
+demonstrate.</p>
+
+<p>Here's a function that takes a multi-line string and returns two numbers,
+the lengths of the shortest and longest non-blank lines:</p>
+
+<!-- [[[cog python(ed("non_blanks.py")) ]]] -->
+<code lang='python'><![CDATA[
+def non_blanks(text: str) -> tuple[int, int]:
+    """Stats of non-blank lines: shortest and longest lengths."""
+    lengths = [len(ln) for ln in text.splitlines() if ln]
+    return min(lengths), max(lengths)
+]]></code>
+<!-- [[[end]]] (sum: +cmCh8rPUS) -->
+
+<p>We can test it with a simple parameterized test with two test cases:</p>
+
+<!-- [[[cog python(ed("test_1.py")) ]]] -->
+<code lang='python'><![CDATA[
+import pytest
+from non_blanks import non_blanks
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        ("""\
+A long line
+The next line is blank:
+
+Short.
+Much much longer line, more than anyone thought.
+""", 6, 48),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+]]></code>
+<!-- [[[end]]] (sum: ie8TOFYnqf) -->
+
+<p>I really dislike how the multi-line string breaks the indentation flow, so I
+wrap strings like that in <a urlid="dedent">textwrap.dedent</a>:</p>
+
+<!-- [[[cog python(ed("test_2.py")[r"/@/,/^\)/"]) ]]] -->
+<code lang='python'><![CDATA[
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        (textwrap.dedent("""\
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """),
+        6, 48),
+    ]
+)
+]]></code>
+<!-- [[[end]]] (sum: 1QxpAIZHV0) -->
+
+<p>(For brevity, this and following examples only show the parametrize
+decorator, the test function itself stays the same.)</p>
+
+<p>This looks nicer, but I have to remember to use dedent, which adds a little
+bit of visual clutter. I also need to remember that first backslash so that the
+string won't start with a newline.</p>
+
+<p>As the test data gets more elaborate, I might not want to have it all inline
+in the decorator. I'd like to have some of the large data in its own file:</p>
+
+<!-- [[[cog python(ed("test_3.py")[r"/@/,/^\)/"]) ]]] -->
+<code lang='python'><![CDATA[
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        (textwrap.dedent("""\
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """),
+        6, 48),
+        (Path("gettysburg.txt").read_text(), 18, 80),
+    ]
+)
+]]></code>
+<!-- [[[end]]] (sum: 3N1MWhbSXB) -->
+
+<p>Now things are getting complicated. Here's where a function can help us.
+Each test case needs a string and three numbers. The string is sometimes
+provided explicitly, sometimes read from a file.</p>
+
+<p>We can use a function to create the correct data for each case from its
+most convenient form. We'll take a string and use it as either a file name or
+literal data. We'll deal with the initial newline, and dedent the multi-line
+strings:</p>
+
+<!-- [[[cog python(ed("test_4.py")[r"/def nb_case/;/^$/-"]) ]]] -->
+<code lang='python'><![CDATA[
+def nb_case(text, short, long):
+    """Create data for test_non_blanks."""
+    if "\n" in text:
+        # Multi-line string: it's actual data.
+        if text[0] == "\n":     # Remove a first newline
+            text = text[1:]
+        text = textwrap.dedent(text)
+    else:
+        # One-line string: it's a file name.
+        text = Path(text).read_text()
+    return (text, short, long)
+]]></code>
+<!-- [[[end]]] (sum: PRwqXULm1Q) -->
+
+<p>Now the test data is more direct:</p>
+
+<!-- [[[cog python(ed("test_4.py")[r"/@/,/^\)/"]) ]]] -->
+<code lang='python'><![CDATA[
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        nb_case("abcde\na\nabc\n", 1, 5),
+        nb_case("""
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """,
+            6, 48),
+        nb_case("gettysburg.txt", 18, 80),
+    ]
+)
+]]></code>
+<!-- [[[end]]] (sum: spJak33xyg) -->
+
+<p>One nice thing about parameterized tests is that pytest creates a distinct id
+for each one. The helps with reporting failures and with selecting tests to run.
+But the id is made from the test data. Here, our last test case has an id using
+the entire Gettysburg Address, over 1500 characters. It was
+<a urlid="getty">very short for a speech</a>, but it's very long for an id!</p>
+
+<p>This is what the pytest output looks like with our current ids:</p>
+
+<!-- [[[cog
+    code(
+        ed("pytest.out")[r"g/test_4/"]
+            .sub("%", "test_4", "test_non_blank")
+            .sub("%", "PASSED.*", "PASSED")
+    )
+]]] -->
+<code><![CDATA[
+test_non_blank.py::test_non_blanks[abcde\na\nabc\n-1-5] PASSED
+test_non_blank.py::test_non_blanks[A long line\nThe next line is blank:\n\nShort.\nMuch much longer line, more than anyone thought.\n-6-48] PASSED
+test_non_blank.py::test_non_blanks[Four score and seven years ago our fathers brought forth on this continent, a\nnew nation, conceived in Liberty, and dedicated to the proposition that all men\nare created equal.\n\nNow we are engaged in a great civil war, testing whether that nation, or any\nnation so conceived and so dedicated, can long endure. We are met on a great\nbattle-field of that war. We have come to dedicate a portion of that field, as a\nfinal resting place for those who here gave their lives that that nation might\nlive. It is altogether fitting and proper that we should do this.\n\nBut, in a larger sense, we can not dedicate \u2013 we can not consecrate we can not\nhallow \u2013 this ground. The brave men, living and dead, who struggled here, have\nconsecrated it far above our poor power to add or detract. The world will little\nnote, nor long remember what we say here, but it can never forget what they did\nhere. It is for us the living, rather, to be dedicated here to the unfinished\nwork which they who fought here have thus far so nobly advanced. It is rather\nfor us to be here dedicated to the great task remaining before us that from\nthese honored dead we take increased devotion to that cause for which they gave\nthe last full measure of devotion \u2013 that we here highly resolve that these dead\nshall not have died in vain that this nation, under God, shall have a new birth\nof freedom \u2013 and that government of the people, by the people, for the people,\nshall not perish from the earth.\n-18-80] PASSED
+]]></code>
+<!-- [[[end]]] (sum: Uyy/GD0oS4) -->
+
+<p>Even that first shortest test has an awkward and hard to use test name.</p>
+
+<p>For more control over the test data, instead of creating tuples to use as
+test cases, you can use <a urlid="param">pytest.param</a> to create the
+internal parameters object that pytest needs. Each of these can have an explicit
+id assigned. Pytest will still assign an id if you don't provide one.</p>
+
+<p>Here's an updated <c>nb_case()</c> function using pytest.param:</p>
+
+<!-- [[[cog python(ed("test_5.py")[r"/def nb_case/;/^$/-"]) ]]] -->
+<code lang='python'><![CDATA[
+def nb_case(text, short, long, id=None):
+    if "\n" in text:
+        # Multi-line string: it's actual data.
+        if text[0] == "\n":     # Remove a first newline
+            text = text[1:]
+        text = textwrap.dedent(text)
+    else:
+        # One-line string: it's a file name.
+        id = id or text
+        text = Path(text).read_text()
+    return pytest.param(text, short, long, id=id)
+]]></code>
+<!-- [[[end]]] (sum: 1WcZE2bj+6) -->
+
+<p>Now we can provide ids for test cases. The ones reading from a file will use
+the file name as the id:</p>
+
+<!-- [[[cog python(ed("test_5.py")[r"/@/,/^\)/"]) ]]] -->
+<code lang='python'><![CDATA[
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        nb_case("abcde\na\nabc\n", 1, 5, id="little"),
+        nb_case("""
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """,
+            6, 48, id="four"),
+        nb_case("gettysburg.txt", 18, 80),
+    ]
+)
+]]></code>
+<!-- [[[end]]] (sum: dTIR4dGZ4H) -->
+
+<p>Now our tests have useful ids:</p>
+
+<!-- [[[cog
+    code(
+        ed("pytest.out")[r"g/test_5/"]
+            .sub("%", "test_5", "test_non_blank")
+            .sub("%", "PASSED.*", "PASSED")
+    )
+]]] -->
+<code><![CDATA[
+test_non_blank.py::test_non_blanks[little] PASSED
+test_non_blank.py::test_non_blanks[four] PASSED
+test_non_blank.py::test_non_blanks[gettysburg.txt] PASSED
+]]></code>
+<!-- [[[end]]] (sum: tXDRrME8L1) -->
+
+<p>The exact details of my <c>case()</c> function aren't important here. Your
+tests will need different helpers, and you might make different decisions about
+what to do for these tests. But a function like this lets you write your complex
+test cases in the way you like best to make your tests as concise, expressive
+and readable as you want.</p>
+
+<url id="dedent" href="https://docs.python.org/3/library/textwrap.html#textwrap.dedent" />
+<url id="param" href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.param" />
+<url id="getty" href="https://en.wikipedia.org/wiki/Gettysburg_Address" />
+
+<!-- #### end of the post #### -->
+
+
+
+
+
+<comment><![CDATA[
+##> non_blanks.py
+def non_blanks(text: str) -> tuple[int, int]:
+    """Stats of non-blank lines: shortest and longest lengths."""
+    lengths = [len(ln) for ln in text.splitlines() if ln]
+    return min(lengths), max(lengths)
+## end
+
+##> test_1.py
+import pytest
+from non_blanks import non_blanks
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        ("""\
+A long line
+The next line is blank:
+
+Short.
+Much much longer line, more than anyone thought.
+""", 6, 48),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+## end
+
+##> test_2.py
+import textwrap
+import pytest
+from non_blanks import non_blanks
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        (textwrap.dedent("""\
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """),
+        6, 48),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+## end
+
+##> gettysburg.txt
+Four score and seven years ago our fathers brought forth on this continent, a
+new nation, conceived in Liberty, and dedicated to the proposition that all men
+are created equal.
+
+Now we are engaged in a great civil war, testing whether that nation, or any
+nation so conceived and so dedicated, can long endure. We are met on a great
+battle-field of that war. We have come to dedicate a portion of that field, as a
+final resting place for those who here gave their lives that that nation might
+live. It is altogether fitting and proper that we should do this.
+
+But, in a larger sense, we can not dedicate – we can not consecrate we can not
+hallow – this ground. The brave men, living and dead, who struggled here, have
+consecrated it far above our poor power to add or detract. The world will little
+note, nor long remember what we say here, but it can never forget what they did
+here. It is for us the living, rather, to be dedicated here to the unfinished
+work which they who fought here have thus far so nobly advanced. It is rather
+for us to be here dedicated to the great task remaining before us that from
+these honored dead we take increased devotion to that cause for which they gave
+the last full measure of devotion – that we here highly resolve that these dead
+shall not have died in vain that this nation, under God, shall have a new birth
+of freedom – and that government of the people, by the people, for the people,
+shall not perish from the earth.
+## end
+
+##> test_3.py
+import textwrap
+from pathlib import Path
+import pytest
+from non_blanks import non_blanks
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        ("abcde\na\nabc\n", 1, 5),
+        (textwrap.dedent("""\
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """),
+        6, 48),
+        (Path("gettysburg.txt").read_text(), 18, 80),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+## end
+
+##> test_4.py
+import textwrap
+from pathlib import Path
+import pytest
+from non_blanks import non_blanks
+
+def nb_case(text, short, long):
+    """Create data for test_non_blanks."""
+    if "\n" in text:
+        # Multi-line string: it's actual data.
+        if text[0] == "\n":     # Remove a first newline
+            text = text[1:]
+        text = textwrap.dedent(text)
+    else:
+        # One-line string: it's a file name.
+        text = Path(text).read_text()
+    return (text, short, long)
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        nb_case("abcde\na\nabc\n", 1, 5),
+        nb_case("""
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """,
+            6, 48),
+        nb_case("gettysburg.txt", 18, 80),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+## end
+
+##> test_5.py
+import textwrap
+from pathlib import Path
+import pytest
+from non_blanks import non_blanks
+
+def nb_case(text, short, long, id=None):
+    if "\n" in text:
+        # Multi-line string: it's actual data.
+        if text[0] == "\n":     # Remove a first newline
+            text = text[1:]
+        text = textwrap.dedent(text)
+    else:
+        # One-line string: it's a file name.
+        id = id or text
+        text = Path(text).read_text()
+    return pytest.param(text, short, long, id=id)
+
+@pytest.mark.parametrize(
+    "text, short, long",
+    [
+        nb_case("abcde\na\nabc\n", 1, 5, id="little"),
+        nb_case("""
+            A long line
+            The next line is blank:
+
+            Short.
+            Much much longer line, more than anyone thought.
+            """,
+            6, 48, id="four"),
+        nb_case("gettysburg.txt", 18, 80),
+    ]
+)
+def test_non_blanks(text, short, long):
+    assert non_blanks(text) == (short, long)
+## end
+]]></comment>
+
+
+
+
+<comment><![CDATA[
+##: run
+
+shopt -u checkwinsize # stop bash from resetting COLUMNS after each command
+export COLUMNS=72
+export POST=blog/pytest-parameter-functions.bx
+
+# Extract files from below
+rm -rf /tmp/work
+mkdir -p /tmp/work
+for f in $(sed -n -e "/^##> /s/##> \(.*\)/\1/p" < $POST); do
+    sed -n -e "/^##> $f/,/^## end/p" < $POST | sed '1d;$d' > /tmp/work/$f
+done
+
+cd /tmp/work
+python3 -m pytest -v | tee pytest.out
+cd -
+cog -crP $POST
+
+## end
+]]></comment>
+
+
+</body>
+</entry>
+</blog>
