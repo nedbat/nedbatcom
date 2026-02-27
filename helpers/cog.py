@@ -11,6 +11,7 @@ https://developer.twitter.com/en/docs/twitter-for-websites/embedded-tweets/overv
 import html
 import json
 import sys
+from pathlib import Path
 
 from edtext import EdText
 import requests
@@ -55,18 +56,22 @@ def include_section(filename, start, end, prelude="", postlude=""):
     if postlude:
         print(postlude)
 
-def code(filename, *slices, lang=""):
-    with open(filename) as f:
-        ed = EdText(f.read())
-    if slices:
-        ed = ed.ranges(*slices)
+
+def ed(filename):
+    return EdText(Path(filename).read_text())
+
+
+def code(text, lang=""):
+    text = str(text)
+    assert "]]" not in text, "Can't include ']]' in code text"
     if lang:
         langattr = f" lang='{lang}'"
     else:
         langattr = ""
     print(f"<code{langattr}><![CDATA[")
-    print(ed, end="")
+    print(text, end="")
     print("]]></code>")
+
 
 if __name__ == "__main__":
     url = sys.argv[1]
