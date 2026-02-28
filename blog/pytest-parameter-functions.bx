@@ -191,13 +191,13 @@ def nb_case(text, short, long):
 ]]></code>
 <!-- [[[end]]] (sum: spJak33xyg) -->
 
-<p>One nice thing about parameterized tests is that pytest creates a distinct id
+<p>One nice thing about parameterized tests is that pytest creates a distinct ID
 for each one. The helps with reporting failures and with selecting tests to run.
-But the id is made from the test data. Here, our last test case has an id using
+But the ID is made from the test data. Here, our last test case has an ID using
 the entire Gettysburg Address, over 1500 characters. It was
-<a urlid="getty">very short for a speech</a>, but it's very long for an id!</p>
+<a urlid="getty">very short for a speech</a>, but it's very long for an ID!</p>
 
-<p>This is what the pytest output looks like with our current ids:</p>
+<p>This is what the pytest output looks like with our current IDs:</p>
 
 <!-- [[[cog
     code(
@@ -218,7 +218,7 @@ test_non_blank.py::test_non_blanks[Four score and seven years ago our fathers br
 <p>For more control over the test data, instead of creating tuples to use as
 test cases, you can use <a urlid="param">pytest.param</a> to create the
 internal parameters object that pytest needs. Each of these can have an explicit
-id assigned. Pytest will still assign an id if you don't provide one.</p>
+ID assigned. Pytest will still assign an ID if you don't provide one.</p>
 
 <p>Here's an updated <c>nb_case()</c> function using pytest.param:</p>
 
@@ -238,8 +238,8 @@ def nb_case(text, short, long, id=None):
 ]]></code>
 <!-- [[[end]]] (sum: 1WcZE2bj+6) -->
 
-<p>Now we can provide ids for test cases. The ones reading from a file will use
-the file name as the id:</p>
+<p>Now we can provide IDs for test cases. The ones reading from a file will use
+the file name as the ID:</p>
 
 <!-- [[[cog python(ed("test_5.py")[r"/@/,/^\)/"]) ]]] -->
 <code lang='python'><![CDATA[
@@ -261,7 +261,7 @@ the file name as the id:</p>
 ]]></code>
 <!-- [[[end]]] (sum: dTIR4dGZ4H) -->
 
-<p>Now our tests have useful ids:</p>
+<p>Now our tests have useful IDs:</p>
 
 <!-- [[[cog
     code(
