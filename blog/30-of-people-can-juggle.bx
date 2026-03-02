@@ -9,12 +9,82 @@
 find an answer searching the web, so I used the best polling method I have,
 Twitter:</p>
 
-<blockquote class="twitter-tweet"><div class="inner"><p lang="en" dir="ltr">&quot;What percent of people can juggle three balls?&quot;<br/>I can&#39;t find an answer, so I&#39;m collecting data with a poll. Please RT for reach!<br/><br/>Can you juggle three balls?</p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1321079085251125248?ref_src=twsrc%5Etfw">October 27, 2020</a></div></blockquote>
+<!-- https://twitter.com/nedbat/status/1321079085251125248 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+      <img src="pix/tweet/avatar_nedbat.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Ned Batchelder</div>
+        <div class="handle-follow">
+          <span>@nedbat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">"What percent of people can juggle three balls?" I can't find an answer, so I'm collecting data with a poll.  Please RT for reach!</p>
+
+  <p class="text">Can you juggle three balls?</p>
+
+  <div class="poll-options">
+    <div class="poll-option">
+      <div class="poll-bar normal" style="width: 36%"></div>
+      <span class="poll-label">Yes</span>
+      <span class="poll-pct">36%</span>
+    </div>
+    <div class="poll-option">
+      <div class="poll-bar winner" style="width: 64%"></div>
+      <span class="poll-label winner">No</span>
+      <span class="poll-pct winner">64%</span>
+    </div>
+  </div>
+
+  <div class="poll-meta">780 votes · Final results</div>
+  <div class="tweet-time">9:19 AM · Oct 27, 2020</div>
+</div>
 
 <p>I realize that my Twitter followers skew toward people like me, so I ran a
 second poll to try to get data outside of my bubble:</p>
 
-<blockquote class="twitter-tweet"><div class="inner"><p lang="en" dir="ltr">Thanks for voting on my juggling poll. NOW: to correct for my tech-bubble, please ask a NON-TECH friend (or relative, etc), and put their answer in this poll:<br/><br/>Can your non-tech friend juggle three balls?</p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1322190468545990657?ref_src=twsrc%5Etfw">October 30, 2020</a></div></blockquote>
+<!-- https://twitter.com/nedbat/status/1322190468545990657 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+      <img src="pix/tweet/avatar_nedbat.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Ned Batchelder</div>
+        <div class="handle-follow">
+          <span>@nedbat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">Thanks for voting on my juggling poll.   NOW: to correct for my tech-bubble, please ask a NON-TECH friend (or relative, etc), and put their answer in this poll:</p>
+
+  <p class="text">Can your non-tech friend juggle three balls?</p>
+
+  <div class="poll-options">
+    <div class="poll-option">
+      <div class="poll-bar normal" style="width: 25.7%"></div>
+      <span class="poll-label">Yes</span>
+      <span class="poll-pct">25.7%</span>
+    </div>
+    <div class="poll-option">
+      <div class="poll-bar winner" style="width: 74.3%"></div>
+      <span class="poll-label winner">No</span>
+      <span class="poll-pct winner">74.3%</span>
+    </div>
+  </div>
+
+  <div class="poll-meta">113 votes · Final results</div>
+  <div class="tweet-time">10:55 AM · Oct 30, 2020</div>
+</div>
 
 <p>These polls are by no means scientific, and are still very skewed toward the
 savvy and educated.  If you ask a tech-bubble person to ask a friend, the friend
@@ -26,7 +96,53 @@ people can juggle.</p>
 <p>Since I was making polls, and since 30% was higher than I would have guessed,
 I made a third poll to see what other people would guess:</p>
 
-<blockquote class="twitter-tweet"><div class="inner"><p lang="en" dir="ltr">Before I reveal the results of my juggling poll, what is your guess?<br/><br/>What percent of people can juggle three balls?</p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1322515184519401472?ref_src=twsrc%5Etfw">October 31, 2020</a></div></blockquote>
+<!-- https://twitter.com/nedbat/status/1322515184519401472 -->
+
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+      <img src="pix/tweet/avatar_nedbat.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Ned Batchelder</div>
+        <div class="handle-follow">
+          <span>@nedbat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">Before I reveal the results of my juggling poll, what is your guess?</p>
+
+  <p class="text">What percent of people can juggle three balls?</p>
+
+  <div class="poll-options">
+    <div class="poll-option">
+      <div class="poll-bar normal" style="width: 35.3%"></div>
+      <span class="poll-label">5%</span>
+      <span class="poll-pct">35.3%</span>
+    </div>
+    <div class="poll-option">
+      <div class="poll-bar winner" style="width: 36.1%"></div>
+      <span class="poll-label winner">15%</span>
+      <span class="poll-pct winner">36.1%</span>
+    </div>
+    <div class="poll-option">
+      <div class="poll-bar normal" style="width: 23.9%"></div>
+      <span class="poll-label">30%</span>
+      <span class="poll-pct">23.9%</span>
+    </div>
+    <div class="poll-option">
+      <div class="poll-bar normal" style="width: 4.8%"></div>
+      <span class="poll-label">50%</span>
+      <span class="poll-pct">4.8%</span>
+    </div>
+  </div>
+
+  <div class="poll-meta">377 votes · Final results</div>
+  <div class="tweet-time">8:26 AM · Oct 31, 2020</div>
+</div>
 
 <p>There's a nice symmetry to the idea that about 70% of people are surprised
 that about 30% of people can juggle!</p>

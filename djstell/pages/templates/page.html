@@ -65,6 +65,10 @@
         {% static_url_link "https://platform.twitter.com/widgets.js" type="js" defer=True %}
     {% endif %}
 
+    {% if 'faketweets' in features %}
+        {% static_link "tweet.css" %}
+    {% endif %}
+
     {% endblock %}
 
     {% static_link "nedbatchelder.js" %}

@@ -77,6 +77,8 @@ class ModelMixin:
             self.add_feature("svg")
         if bool(dom.findall('.//blockquote[@class="twitter-tweet"]')):
             self.add_feature("tweets")
+        if bool(dom.findall('.//div[@class="fake-tweet-card"]')):
+            self.add_feature("faketweets")
 
 
 class Article(ModelMixin, models.Model):
