@@ -9,42 +9,120 @@
 -->
 <body>
 
-<!-- This post is cogged. Re-cog it with:
-
-    $ cog -rP blog/cog-resurgence.bx
-
--->
-
-<!-- [[[cog from helpers.cog import get_tweet ]]] -->
-<!-- [[[end]]] -->
-
 <p>My <a href="/code/cog">cog</a> tool has been having a resurgence of late: a
 number of people are discovering it's useful to run a little bit of Python code
 inside otherwise static files.</p>
 
-<!-- [[[cog get_tweet("https://twitter.com/nedbat/status/1462885205497290752") ]]] -->
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">It took cog 17 years to become an overnight success :) <br/>(first posted Feb 2004: <a href="https://t.co/Zmtrdy0by9">https://t.co/Zmtrdy0by9</a>) <a href="https://t.co/DON9THZ5wh">https://t.co/DON9THZ5wh</a></p>— Ned Batchelder (@nedbat) <a href="https://twitter.com/nedbat/status/1462885205497290752?ref_src=twsrc%5Etfw">November 22, 2021</a></blockquote>
-<!-- [[[end]]] -->
+<!-- https://twitter.com/nedbat/status/1462885205497290752 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+        <img src="pix/tweet/avatar_nedbat.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Ned Batchelder</div>
+        <div class="handle-follow">
+          <span>@nedbat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">It took cog 17 years to become an overnight success :) <br/>(first posted Feb 2004: <a href="https://nedbatchelder.com/blog/200402/code_generation_with_cog">nedbatchelder.com/blog/200402/co&#x2026;</a>)</p>
+
+  <div class="tweet-time">3:46 PM · Nov 22, 2021</div>
+</div>
+
 
 <p>Hynek Schlawack used it to de-duplicate his pyproject.toml:</p>
 
-<!-- [[[cog get_tweet("https://twitter.com/hynek/status/1460897764338974725") ]]] -->
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">As a test balloon, I’ve switched structlog from <a href="https://t.co/PihDrIF58S">https://t.co/PihDrIF58S</a> to flit w/ pyproject.toml in combination with <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a>’s cog to maintain some deduplication. I think I like it! Sharp tools that do one thing well FTW.<a href="https://t.co/w2RM4Ckyke">https://t.co/w2RM4Ckyke</a></p>— Hynek Schlawack (@hynek) <a href="https://twitter.com/hynek/status/1460897764338974725?ref_src=twsrc%5Etfw">November 17, 2021</a></blockquote>
-<!-- [[[end]]] -->
+<!-- https://twitter.com/hynek/status/1460897764338974725 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+        <img src="pix/tweet/avatar_hynek.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Hynek Schlawack</div>
+        <div class="handle-follow">
+          <span>@hynek</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">As a test balloon, I’ve switched structlog from setup.py to flit w/ pyproject.toml in combination with <a href="https://hachyderm.io/@nedbat">@nedbat</a>’s cog to maintain some deduplication. I think I like it! Sharp tools that do one thing well FTW.</p>
+
+  <div class="media">
+    <a href="https://github.com/hynek/structlog/commit/5e6ea9c04e070f7ef0106ff1256c58ef54c03686">
+      <img
+        src="pix/tweet/ESwQVS-3.jpg"
+        alt="Switch to flit with dynamic metadata via cog · hynek/structlog@5e6ea9c"
+      />
+    </a>
+  </div>
+  <div class="tweet-time">4:09 AM · Nov 17, 2021</div>
+</div>
+
+
 
 <p>Automator extraordinaire Simon Willison started using it to
 <a href="https://til.simonwillison.net/python/cog-to-update-help-in-readme">keep
 docs up to date</a>:</p>
 
-<!-- [[[cog get_tweet("https://twitter.com/simonw/status/1481020195074293761") ]]] -->
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I've been solving so many documentation problems with <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a>'s cog tool recently - it's fantastic for keeping documentation automatically up-to-date, in Markdown or rST)<br/><br/>Here's a new page of sqlite-utils docs showing --help for every CLI command! <a href="https://t.co/Dwef9p2h8P">https://t.co/Dwef9p2h8P</a> <a href="https://t.co/8tyfyfe7AT">pic.twitter.com/8tyfyfe7AT</a></p>— Simon Willison (@simonw) <a href="https://twitter.com/simonw/status/1481020195074293761?ref_src=twsrc%5Etfw">January 11, 2022</a></blockquote>
-<!-- [[[end]]] -->
+<!-- https://twitter.com/simonw/status/1481020195074293761 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+        <img src="pix/tweet/avatar_simonw.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Simon Willison</div>
+        <div class="handle-follow">
+          <span>@simonw</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">I've been solving so many documentation problems with <a href="https://hachyderm.io/@nedbat">@nedbat</a>'s cog tool recently - it's fantastic for keeping documentation automatically up-to-date, in Markdown or rST)</p>
+  <p class="text">Here's a new page of sqlite-utils docs showing --help for every CLI command! <a href="https://sqlite-utils.datasette.io/en/latest/cli-reference.html">sqlite-utils.datasette.io/en/latest/cli-&#x2026;</a> <a href="https://t.co/8tyfyfe7AT">pic.twitter.com/8tyfyfe7AT</a></p>
+
+  <div class="media">
+    <img
+      src="pix/tweet/FI2j6GUUcAMvclU.jpg"
+      alt="Partial screenshot of that page, showing three different commands each with their --help output and a link to further information in the prose documentation"
+    />
+  </div>
+  <div class="tweet-time">4:48 PM · Jan 11, 2022</div>
+</div>
+
 
 <p>Brett Cannon even called it trendy!</p>
 
-<!-- [[[cog get_tweet("https://twitter.com/brettsky/status/1477043913349373957") ]]] -->
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A quick, public thanks to <a href="https://twitter.com/nedbat?ref_src=twsrc%5Etfw">@nedbat</a> for creating Cog; I did the "trendy" thing and used Cog to automate the README for the Python Launcher for Unix (instead of using my home-grown solution). Makes editing the README simple again!<a href="https://t.co/F5jnqgW7cG">https://t.co/F5jnqgW7cG</a></p>— Brett Cannon (@brettsky) <a href="https://twitter.com/brettsky/status/1477043913349373957?ref_src=twsrc%5Etfw">December 31, 2021</a></blockquote>
-<!-- [[[end]]] -->
+<!-- https://twitter.com/brettsky/status/1477043913349373957 -->
+<div class="fake-tweet-card">
+  <div class="header">
+    <div class="user-info">
+      <div class="avatar">
+        <img src="pix/tweet/avatar_brettsky.jpg" />
+      </div>
+      <div class="name-block">
+        <div class="display-name">Brett Cannon</div>
+        <div class="handle-follow">
+          <span>@brettsky</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text">A quick, public thanks to <a href="https://hachyderm.io/@nedbat">@nedbat</a> for creating Cog; I did the "trendy" thing and used Cog to automate the README for the Python Launcher for Unix (instead of using my home-grown solution). Makes editing the README simple again! <a href="https://github.com/brettcannon/python-launcher/commit/f93123f209bae6ec38bf7ec1f9cd652edfaa92a5">Move to using cog for maintaining the README</a></p>
+
+  <div class="tweet-time">Dec 31, 2021</div>
+</div>
 
 <p>Of course, <a href="https://twitter.com/search?q=cog%20nedbat%20until%3A2020-01-01&amp;src=typed_query">some people were using it before it was cool</a>.</p>
 

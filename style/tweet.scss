@@ -16,6 +16,16 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
+    a {
+        text-decoration: none;
+    }
+
+    .media {
+        border: 1px solid #e1e8ed;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
+
     .header {
         display: flex;
         align-items: center;
