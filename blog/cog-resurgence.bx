@@ -17,9 +17,7 @@ inside otherwise static files.</p>
 <div class="fake-tweet-card">
   <div class="header">
     <div class="user-info">
-      <div class="avatar">
-        <img src="pix/tweet/avatar_nedbat.jpg" />
-      </div>
+      <div class="avatar"><img src="/pix/tweet/avatar_nedbat.jpg" alt="Ned's face" /></div>
       <div class="name-block">
         <div class="display-name">Ned Batchelder</div>
         <div class="handle-follow">
@@ -41,9 +39,7 @@ inside otherwise static files.</p>
 <div class="fake-tweet-card">
   <div class="header">
     <div class="user-info">
-      <div class="avatar">
-        <img src="pix/tweet/avatar_hynek.jpg" />
-      </div>
+      <div class="avatar"><img src="/pix/tweet/avatar_hynek.jpg" alt="Hynek's face" /></div>
       <div class="name-block">
         <div class="display-name">Hynek Schlawack</div>
         <div class="handle-follow">
@@ -58,14 +54,13 @@ inside otherwise static files.</p>
   <div class="media">
     <a href="https://github.com/hynek/structlog/commit/5e6ea9c04e070f7ef0106ff1256c58ef54c03686">
       <img
-        src="pix/tweet/ESwQVS-3.jpg"
+        src="/pix/tweet/ESwQVS-3.jpg"
         alt="Switch to flit with dynamic metadata via cog · hynek/structlog@5e6ea9c"
       />
     </a>
   </div>
   <div class="tweet-time">4:09 AM · Nov 17, 2021</div>
 </div>
-
 
 
 <p>Automator extraordinaire Simon Willison started using it to
@@ -76,9 +71,7 @@ docs up to date</a>:</p>
 <div class="fake-tweet-card">
   <div class="header">
     <div class="user-info">
-      <div class="avatar">
-        <img src="pix/tweet/avatar_simonw.jpg" />
-      </div>
+      <div class="avatar"><img src="/pix/tweet/avatar_simonw.jpg" alt="Simon's face" /></div>
       <div class="name-block">
         <div class="display-name">Simon Willison</div>
         <div class="handle-follow">
@@ -93,7 +86,7 @@ docs up to date</a>:</p>
 
   <div class="media">
     <img
-      src="pix/tweet/FI2j6GUUcAMvclU.jpg"
+      src="/pix/tweet/FI2j6GUUcAMvclU.jpg"
       alt="Partial screenshot of that page, showing three different commands each with their --help output and a link to further information in the prose documentation"
     />
   </div>
@@ -107,9 +100,7 @@ docs up to date</a>:</p>
 <div class="fake-tweet-card">
   <div class="header">
     <div class="user-info">
-      <div class="avatar">
-        <img src="pix/tweet/avatar_brettsky.jpg" />
-      </div>
+      <div class="avatar"><img src="/pix/tweet/avatar_brettsky.jpg" alt="Brett's face" /></div>
       <div class="name-block">
         <div class="display-name">Brett Cannon</div>
         <div class="handle-follow">

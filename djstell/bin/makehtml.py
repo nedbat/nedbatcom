@@ -55,7 +55,7 @@ class CmdLine(object):
             webfinger atproto-did
             '''
         self.binary_ext='''
-            *.gif *.jpg *.JPG *.png *.mp3 *.exe *.ico *.doc *.pdf *.ai
+            *.gif *.jpg *.JPG *.png *.mp3 *.mp4 *.exe *.ico *.doc *.pdf *.ai
             *.zip *.gz *.tgz
             *.ttf *.woff2
             '''
@@ -113,7 +113,7 @@ class CmdLine(object):
                 '''
             )
         self.xuff.copytree(src='pix', dst=dst+"/pix",
-            include='*.gif *.jpg *.JPG *.png *.svg *.swf'
+            include='*.gif *.jpg *.JPG *.png *.svg *.swf *.mp4'
             )
         self.xuff.copytree(src='files', dst=dst+"/files", include='*.*')
         self.xuff.copytree(src="pages/.well-known", dst=dst+"/.well-known", include="*")
