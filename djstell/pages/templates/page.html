@@ -61,10 +61,6 @@
         {% static_link "svg.css" %}
     {% endif %}
 
-    {% if 'tweets' in features %}
-        {% static_url_link "https://platform.twitter.com/widgets.js" type="js" defer=True %}
-    {% endif %}
-
     {% if 'faketweets' in features %}
         {% static_link "tweet.css" %}
     {% endif %}

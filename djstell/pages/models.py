@@ -75,8 +75,6 @@ class ModelMixin:
     def add_features_from_text(self, dom):
         if bool(dom.findall('.//svg:svg', namespaces={'svg': 'http://www.w3.org/2000/svg'})):
             self.add_feature("svg")
-        if bool(dom.findall('.//blockquote[@class="twitter-tweet"]')):
-            self.add_feature("tweets")
         if bool(dom.findall('.//div[@class="fake-tweet-card"]')):
             self.add_feature("faketweets")
 
