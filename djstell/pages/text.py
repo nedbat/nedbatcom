@@ -15,13 +15,15 @@ def inner_html(value):
     return value
 
 
-def just_text(value):
-    """ Remove non-text HTML tags (really just img for now).
+def just_text(text):
+    """ Remove non-text HTML tags.
     """
     # Remove all img tags
-    text = re.sub(r"<img [^>]*>(</img>)?", "", value)
+    text = re.sub(r"<img [^>]*>(</img>)?", "", text)
     # Remove all <a> tags.
     text = re.sub(r"<a [^>]*>|</a>", "", text)
+    # Remove all <span> tags.
+    text = re.sub(r"<span [^>]*>|</span>", "", text)
     return text
 
 
