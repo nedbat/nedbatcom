@@ -37,18 +37,6 @@ yourself needlessly. (If you haven't seen it before, read
 When the data gets complex, it can help to use functions to build the
 data parameters.</p>
 
-<!--
-
-Golden
-This is what it sounds like
-Addicted to love
-1999
-All Star
-We Got The Beat
-Me
-
--->
-
 <p>I've been working on <a href="https://github.com/nedbat/linklint">a project
 involving multi-line data</a>, and the parameterized test data was getting
 awkward to create and maintain. I created helper functions to make it nicer.

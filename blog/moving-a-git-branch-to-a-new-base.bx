@@ -17,14 +17,9 @@
 -->
 
 <!-- [[[cog
-from helpers.cog import include_section
+from helpers.cog import code, ed
 def include_chunk(start):
-    include_section(
-        filename="/tmp/git-rebase.txt",
-        start=start,
-        end="::end",
-        prelude="<code><![CDATA[", postlude="]]></code>",
-    )
+    code(ed("/tmp/git-rebase.txt")[f"/{start}/+;/::end/-"])
 ]]]-->
 <!-- [[[end]]] -->
 
@@ -41,17 +36,17 @@ looks like this:</p>
 <!-- [[[cog include_chunk("::start") ]]] -->
 <code><![CDATA[
 % git log --oneline --decorate --graph --all
-* a8ab80e (HEAD -> my-work) my work edit 2
-* 5f66562 my work edit 1
-| * 9682932 (old-home) old-home edit 3
+* 190d865 (HEAD -> my-work) my work edit 2
+* c90491f my work edit 1
+| * 103eebd (old-home) old-home edit 3
 |/
-* 98d09e4 old-home edit 2
-* a6fa334 old-home edit 1
-| * e409e95 (new-home) new-home edit 2
-| * 7d3ca09 new-home edit 1
+* e525c84 old-home edit 2
+* 66a574f old-home edit 1
+| * 1dc9f06 (new-home) new-home edit 2
+| * e46e6ab new-home edit 1
 |/
-* 1b008d5 (main) main edit 2
-* e9152aa main edit 1
+* 6041fc0 (main) main edit 2
+* c738c76 main edit 1
 ]]></code>
 <!-- [[[end]]] -->
 
@@ -72,7 +67,7 @@ branches diverge, so it's perfect for this:</p>
 <!-- [[[cog include_chunk("::merge-base") ]]] -->
 <code><![CDATA[
 % git merge-base old-home @
-98d09e4b4d3ca45e3e03cf27386f7dd01f0662a8
+e525c84433ce825f48d64448172b23a7494c0fdf
 ]]></code>
 <!-- [[[end]]] -->
 
@@ -90,16 +85,16 @@ Successfully rebased and updated refs/heads/my-work.
 <!-- [[[cog include_chunk("::done") ]]] -->
 <code><![CDATA[
 % git log --oneline --decorate --graph --all
-* df22106 (HEAD -> my-work) my work edit 2
-* 9ac8707 my work edit 1
-* e409e95 (new-home) new-home edit 2
-* 7d3ca09 new-home edit 1
-| * 9682932 (old-home) old-home edit 3
-| * 98d09e4 old-home edit 2
-| * a6fa334 old-home edit 1
+* 050b764 (HEAD -> my-work) my work edit 2
+* 4668e2a my work edit 1
+* 1dc9f06 (new-home) new-home edit 2
+* e46e6ab new-home edit 1
+| * 103eebd (old-home) old-home edit 3
+| * e525c84 old-home edit 2
+| * 66a574f old-home edit 1
 |/
-* 1b008d5 (main) main edit 2
-* e9152aa main edit 1
+* 6041fc0 (main) main edit 2
+* c738c76 main edit 1
 ]]></code>
 <!-- [[[end]]] -->
 
@@ -126,16 +121,16 @@ Successfully rebased and updated refs/heads/my-work.
 <!-- [[[cog include_chunk("::done") ]]] -->
 <code><![CDATA[
 % git log --oneline --decorate --graph --all
-* df22106 (HEAD -> my-work) my work edit 2
-* 9ac8707 my work edit 1
-* e409e95 (new-home) new-home edit 2
-* 7d3ca09 new-home edit 1
-| * 9682932 (old-home) old-home edit 3
-| * 98d09e4 old-home edit 2
-| * a6fa334 old-home edit 1
+* 050b764 (HEAD -> my-work) my work edit 2
+* 4668e2a my work edit 1
+* 1dc9f06 (new-home) new-home edit 2
+* e46e6ab new-home edit 1
+| * 103eebd (old-home) old-home edit 3
+| * e525c84 old-home edit 2
+| * 66a574f old-home edit 1
 |/
-* 1b008d5 (main) main edit 2
-* e9152aa main edit 1
+* 6041fc0 (main) main edit 2
+* c738c76 main edit 1
 ]]></code>
 <!-- [[[end]]] -->
 
