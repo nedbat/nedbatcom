@@ -19,7 +19,7 @@ def errors(page):
 
 def nav(meth, *args, **kwargs):
     __tracebackhide__ = True
-    with meth.__self__.expect_response("*") as response_info:
+    with meth.__self__.expect_response("**") as response_info:
         meth(*args, **kwargs)
     response = response_info.value
     assert response.status == 200, f"{response.request.method} {response.url} returned {response.status}"
