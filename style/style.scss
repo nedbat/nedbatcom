@@ -1123,14 +1123,13 @@ blockquote.code {
         max-width: 550px;
         @include colors(--bg-color);
         padding: 0 1em.5em 1em;
-        border: 1px solid #ddd;
+        border: 1px solid silver;
         border-radius: 1em;
         font-size: 85%;
         font-family: sans-serif;
         line-height: 1.2em;
         a {
             text-decoration: none;
-            color: #00a !important;
         }
         footer {
             border: none;
