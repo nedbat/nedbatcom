@@ -30,11 +30,11 @@ def fail_faster(page):
 
 PREVIEW = "Preview >>"
 ADD_IT = "Add it >>"
-BLOG_POST = "/blog/200203/my_first_job_ever.html"
+BLOG_POST = "/blog/200203/my_first_job_ever"
 
 @pytest.mark.parametrize("url, title", [
-    ("/blog/202108/me_on_bug_hunters_caf.html", "Me on Bug Hunters Café"),
-    ("/blog/200203/my_first_job_ever.html", "My first job ever"),
+    ("/blog/202108/me_on_bug_hunters_caf", "Me on Bug Hunters Café"),
+    ("/blog/200203/my_first_job_ever", "My first job ever"),
 ])
 def test_blog_post(page, url, title):
     nav(page.goto, url)

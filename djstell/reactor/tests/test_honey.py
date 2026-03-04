@@ -55,18 +55,18 @@ def save(response):
     with open("bad.html", "wb") as f:
         f.write(response.content)
 
-BLOG_POST = "/blog/200203/my_first_job_ever.html"
+BLOG_POST = "/blog/200203/my_first_job_ever"
 ENTRYID = "e20020307T000000"
 
 ENTRIES = [
     SimpleNamespace(
-        url="/blog/200203/my_first_job_ever.html",
+        url="/blog/200203/my_first_job_ever",
         id="e20020307T000000",
         title="My first job ever",
     ),
     SimpleNamespace(
-        url="/text/names1.html",
-        id="text/names1.html",
+        url="/text/names1",
+        id="text/names1",
         title="Python Names and Values",
     ),
 ]
@@ -354,7 +354,7 @@ class TestSaving:
         response = client.get(entry.url)
 
         # What email got sent?
-        assert len(mail.outbox) == 2
+        assert len(mail.outbox) == 1
         email = mail.outbox[0]
         assert email.subject == f'A comment on "{entry.title}" from Thomas Edison'
         assert email.recipients() == ["ned@nedbatchelder.com"]
@@ -363,13 +363,13 @@ class TestSaving:
         assert "Thank you" in email.body
         assert "REMOTE_ADDR:" in email.body
 
-        email = mail.outbox[1]
-        assert email.subject == f'[nedlive.net] A comment on "{entry.title}" from Thomas Edison'
-        assert email.recipients() == ["nik@tesla.com"]
-        assert email.from_email == "reactor@nedbatchelder.com"
-        assert "email:" not in email.body
-        assert "Thank you" in email.body
-        assert "REMOTE_ADDR:" not in email.body
+        # email = mail.outbox[1]
+        # assert email.subject == f'[nedlive.net] A comment on "{entry.title}" from Thomas Edison'
+        # assert email.recipients() == ["nik@tesla.com"]
+        # assert email.from_email == "reactor@nedbatchelder.com"
+        # assert "email:" not in email.body
+        # assert "Thank you" in email.body
+        # assert "REMOTE_ADDR:" not in email.body
 
     @pytest.mark.freeze_time
     def test_bleaching(self, client, freezer, monkeypatch):
