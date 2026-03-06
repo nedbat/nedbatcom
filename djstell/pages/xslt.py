@@ -93,7 +93,7 @@ ns['imgvariant'] = wrapit(imgvariant)
 XSLT_XFORM = None
 
 def content_transform(name, xmltext, child=None, params={}):
-    #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-', params.get('blogmode', '')))
+    #print("XSLT: %.80s(%s) %r" % (xmltext.replace('\n', ' '), child or '-'))
     global XSLT_XFORM
     if XSLT_XFORM is None:
         XSLT_XFORM = etree.XSLT(etree.parse("content.xslt"))

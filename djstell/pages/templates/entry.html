@@ -37,11 +37,7 @@
 
 {# Body #}
 
-{% if mode == 'brief' %}
-{{entry.to_brief_html|safe}}
-{% elif mode == 'full' %}
 {{entry.to_html|safe}}
-{% endif %}
 
 {# End Body #}
 

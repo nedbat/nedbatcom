@@ -374,14 +374,10 @@ class Entry(ModelMixin, models.Model):
 
             save_plain_text(e.find("body"))
 
-    def to_brief_html(self):
-        return self.to_html(blogmode='brief')
-
     #@functools.cache
-    def to_html(self, blogmode='full'):
+    def to_html(self):
         params={
             'dpath':    string_param(""),
-            'blogmode': string_param(blogmode),
             'title':    string_param(self.title),
             'permaurl': string_param(self.permaurl()),
             }
