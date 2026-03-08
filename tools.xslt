@@ -607,38 +607,6 @@
     </a>
 </xsl:template>
 
-
-<!-- Blog tools -->
-
-<xsl:template name='catname'>
-
-    <xsl:variable name='catid' select='text()' />
-    <xsl:variable name='cat' select='$cats[@id=$catid]' />
-    <xsl:variable name='tag'>
-        <xsl:choose>
-            <xsl:when test='$cat/tag'>
-                <xsl:value-of select='$cat/tag' />
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select='translate($cat/name, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")' />
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
-    <xsl:value-of select='$tag' />
-
-</xsl:template>
-
-<xsl:template name='cattag'>
-
-    <xsl:variable name='catid' select='text()' />
-
-    <a href='blog/tag_{$catid}.html'>
-        <xsl:call-template name='catname'/>
-    </a>
-
-</xsl:template>
-
 <!--
   - Insert a table of in-document links to the <h1> elements on the page.
   -->
