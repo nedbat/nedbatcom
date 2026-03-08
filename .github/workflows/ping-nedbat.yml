@@ -18,8 +18,12 @@ jobs:
   ping:
     name: "Ping nedbat profile"
     runs-on: ubuntu-latest
+    environment:
+      name: ping profile
+
     steps:
-    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+    - name: "Update GitHub readme"
+      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
       with:
         # Needs: repo:public_repo
         github-token: ${{ secrets.NEDBAT_PING_TOKEN }}
