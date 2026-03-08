@@ -136,7 +136,7 @@ livelinkcheck:		#- check the links on the live local server
 .PHONY: clean sterile
 
 clean:			#- get rid of stuff we don't need
-	rm -rf html live to_dh local
+	rm -rf html html[0-9] live to_dh local
 	rm -f deploy/.env
 
 sterile: clean		#- extra-clean

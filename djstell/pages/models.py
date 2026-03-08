@@ -400,7 +400,11 @@ class Entry(ModelMixin, models.Model):
         return description_safe(self.description or first_sentence(just_text(self.to_html()), 2))
 
     def age_warning(self):
-        age = datetime.datetime.now() - self.when
+        # Use "noon today" for age warnings. If we use the exact time, then
+        # comparing local HTML finds differences in the age warnings.
+        now = datetime.datetime.now()
+        now = now.replace(hour=12, minute=0, second=0, microsecond=0)
+        age = now - self.when
         if age.days > 5 * 365:
             return years_age(age)
 
