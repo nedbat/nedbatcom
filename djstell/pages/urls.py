@@ -76,6 +76,8 @@ urlpatterns = [
     path('summary.json', dpv.summary),
     re_path(r'^blog/(?P<whenid>\d{8}T\d{6})$', dpv.entry_by_date),
 
+    path(r'ai', redirect(url='/site/legal')),
+
     re_path(r'^code/cog/?$', redirect(url='https://cog.readthedocs.io')),
 
     path('NedBatchelder.pdf', redirect(url='Ned-Batchelder-Resume.pdf')),
