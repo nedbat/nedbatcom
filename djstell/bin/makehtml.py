@@ -48,7 +48,7 @@ class CmdLine(object):
         self.user_data = None
         self.all_words = "clean load make upload"
         self.text_ext='''
-            *.html *.css *.xslt *.js *.txt *.xml
+            *.html *.css *.xslt *.js *.txt *.xml *.json
             *.ps *.py *.pyw *.cmd *.h *.c *.cpp *.ida *.scm
             *.htaccess *.ini *.env *.service
             *.svg *.ipynb
@@ -107,7 +107,7 @@ class CmdLine(object):
         self.xuff.copytree(src='pages', dst=dst,
             include='''
                 *.html *.css *.xslt *.js *.gif *.jpg *.png *.svg *.ttf *.woff2
-                *.txt *.ida *.php *.ico *.xml
+                *.txt *.ida *.php *.ico *.xml *.json
                 *.ps *.py *.pyw *.exe *.cmd *.zip *.cpp *.h *.scm *.pdf *.gz *.tgz *.dmg
                 *.ipynb
                 '''

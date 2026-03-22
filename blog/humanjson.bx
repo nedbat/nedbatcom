@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260322T132853'>
+<title>Human.json</title>
+<category>online</category>
+<category>semweb</category>
+
+<description>human.json is an interesting idea, but comes with the usual
+semantic web problems.</description>
+
+<body>
+
+<p><a href="https://codeberg.org/robida/human.json">Human.json</a> is a new
+idea for asserting that a site is authored by a person, and for vouching for
+other sites' authorship. I've added one to this site.</p>
+
+<p>It's a fun idea, and I've joined in, but to be honest, I have some concerns.
+When I made my human.json file, I looked through my browser history, and saw a
+number of sites that were clearly personal sites that I liked. But if I list
+one, am I claiming to know that there is no AI content on that site? I can't
+know that for sure.</p>
+
+<p>I haven't let this stop me from adding my own
+<a href="/human.json">/human.json</a>, and I'll be interested to see what
+comes of it.</p>
+
+<p>Human.json isn't a new idea. There have been a number of attempts to add
+structured data to web pages:</p>
+
+<ul>
+
+<li><a urlid="meta"><c>&lt;meta name="author"&gt;</c> tags</a> are a simple
+way to claim authorship. I was surprised to see that this site didn't have it,
+so I added it.</li>
+
+<li><a href="https://json-ld.org/">JSON-LD</a> is a way to embed structured
+metadata into a page.</li>
+
+<li><a href="https://en.wikipedia.org/wiki/FOAF">FOAF</a> (Friend of a Friend)
+was an earlier attempt to model interpersonal relationships with structured
+data, as was <a href="https://gmpg.org/xfn/">XFN</a>.</li>
+
+<li><a href="https://humanstxt.org/">humans.txt</a> is not structured, it's a
+.txt file. This makes it all the stranger: if it's free-form text to be read by
+people, why not an HTML page?</li>
+
+</ul>
+
+<p>These ideas are all appealing in their ways, but I don't think the messy
+complicated real world will yield to our desire for structure and
+categories.</p>
+
+<p>To get a sense of the current state, I wrote a <a urlid="spider">simple web
+crawler</a> to explore human.json, meta tags, and JSON-LD. Currently it finds
+214 vouched sites and 60 people's names across 40 human.json files. This is a
+very small number, but the proposal is only two weeks old.</p>
+
+<p>Like any hand-edited files, human.json files are strict: four of the
+human.json files I found had errors. But beyond simple editing mistakes, people
+use structured data incorrectly. As an example, <a urlid="flickr">Flickr</a>
+embeds JSON-LD that claims there's a person named "Flickr", right next to where
+it says there's a website named Flickr and an organization named Flickr.</p>
+
+<p>Flickr's goof about being a person isn't such a big deal. But the goal of
+human.json is to indicate human authorship. If I were using AI to generate web
+content (ugh, "content"), I'd do whatever I could to mark it as human. The
+vouching is meant to build a web of trust, but it will be easy for the network
+to spring a leak and grant trust to sites that don't deserve it.</p>
+
+<p>Human.json wants to declare a binary categorization: your content is
+AI-generated or it isn't.  What about a site with 100% human-written text and
+also AI artwork? Should it be vouched for? The world doesn't often provide us
+with tidy yes/no distinctions.</p>
+
+<p>There is already
+<a href="https://codeberg.org/robida/human.json/issues">discussion</a> about
+how to address some of these issues, but I think at heart structured data like
+this is trying to sweep back the sea of complex human reality.</p>
+
+<p>I don't mean to be overly negative. I love these "small web" touches. I like
+anything that gets people talking to each other. When I found errors in
+human.json files, I sent emails to the authors, and got nice emails in return.
+Connection!</p>
+
+<p>I like that human.json is simple; I don't like that it is simplistic. But we
+can't blame human.json for that, it's a common pitfall in
+<a href="/blog/tag/semweb">all attempts to organize the messy world</a>.</p>
+
+<p>I've added my file. We'll see where it goes.</p>
+
+<url id="meta" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta" />
+<url id="spider" href="https://github.com/nedbat/human_spider" />
+<url id="flickr" href="https://www.flickr.com/photos/leahoswald/" />
+
+</body>
+</entry>
+</blog>
