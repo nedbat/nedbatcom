@@ -278,15 +278,13 @@ def article(request, path):
     return render_or_redirect(request, 'article.html', c, a)
 
 def index(request):
+    """The main home page."""
     num_entries = 4
     num_tags = 25
     tag_years = 3
     bad_tags = {"me", "site", "mycode"}
 
-    a = get_object_or_404(Article, path='index.px')
     c = {}
-    c['title'] = a.title
-    c['pagebody'] = a.to_html()
     c['recent_entries'] = list(Entry.objects.all().order_by('-when')[:num_entries])
     now = datetime.datetime.now()
     for recent in c['recent_entries']:
