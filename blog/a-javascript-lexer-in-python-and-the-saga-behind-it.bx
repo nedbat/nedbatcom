@@ -100,7 +100,7 @@ for (var x = a in foo && "</x>" || mot ?  z/x:3;x<5;y</g/i) {xyz(x++);}
     <p>The <a href='http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf'>ECMAScript standard</a>
         says you need to parse the code, and if you're at a point where a regex literal
         would be a valid next token, then lex it as a regex, but if you're at a point where
-        a division would be valid, that lex it as division.</p>
+        a division would be valid, then lex it as division.</p>
 
     <p>I wasn't willing to write a full parser, but I've taken a similar approach to other
         light JavaScript tools, and use the previous token to decide if the next token
