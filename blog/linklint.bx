@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260412T142216'>
+<title>Linklint</title>
+<category>mycode</category>
+<category>docs</category>
+
+<description>Linklint is a Sphinx extension to suppress excessive links in the
+Python documentation.</description>
+
+<body>
+
+<p>I wrote a Sphinx extension to eliminate excessive links:
+<a urlid="pypi">linklint</a>.  It started as a linter to check and modify
+.rst files, but it grew into a Sphinx extension that works without changing the
+source files.</p>
+
+<p>It all started with a topic in the discussion forums: <a urlid="dpo">Should
+not underline links</a>, which argued that the underlining was distracting from
+the text. Of course we did not remove underlines, they are important for
+accessibility and for seeing that there are links at all.</p>
+
+<p>But I agreed that there were places in the docs that had too many links. In
+particular, there are two kinds of link that are excessive:</p>
+
+<ul>
+
+<li>Links within a section to the same section. These arise naturally when
+describing a function (or class or module). Mentioning the function again in the
+description will link to the function. But we're already reading about the
+function. The link is pointless and confusing.</li>
+
+<li>A second (or third, etc) instance of the same link in a single paragraph.
+The first mention of a referent should be linked, but subsequent ones don't need
+to be.</li>
+
+</ul>
+
+<p>Linklint is a Sphinx extension that suppresses these two kinds of links
+during the build process.  It examines the doctree (the abstract syntax tree of
+the documentation) and finds and modifies references matching our criteria for
+excessiveness.  It's <a urlid="pr">running now in the CPython
+documentation</a>, where it suppressed 3612 links. Nice.</p>
+
+<p>I had another idea for a kind of link to suppress: "obvious" references. For
+example, I don't think it's useful to link every instance of "str" to the
+<a urlid="str">str() constructor</a>. Is there anyone who needs that link
+because they don't know what "str" means? And if they don't know, is that the
+right place to take them?</p>
+
+<p>There are three problems with that idea: first, not everyone agrees that
+"obvious" links should be suppressed at all.  Second, even among those who do,
+people won't agree on what is obvious. Sure, int and str. But what about list,
+dict, set?  Third, there are some places where a link to str() needs to be kept,
+like "See str() for details."  Sphinx has a syntax for references to suppress
+the link, but there's no syntax to force a link when linklint wants to suppress
+it.</p>
+
+<p>So linklint doesn't suppress obvious links. Maybe we can do it in the future
+once there's been some more thought about it.</p>
+
+<p>In the meantime, linklint is working to stop many excessive links. It was a
+small project that turned out much better than I expected when I started on it.
+A Sphinx extension is a really powerful way to adjust or enhance documentation
+without causing churn in the .rst source files. Sphinx itself can be complex and
+mysterious, but with a skilled code reading assistant, I was able to build this
+utility and improve the documentation.</p>
+
+<url id="pypi" href="https://pypi.org/project/linklint/" />
+<url id="dpo" href="https://discuss.python.org/t/should-not-underline-links/106012" />
+<url id="pr" href="https://github.com/python/cpython/pull/145130" />
+<url id="str" href="https://docs.python.org/3/library/stdtypes.html#str" />
+
+</body>
+</entry>
+</blog>
