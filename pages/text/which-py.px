@@ -47,6 +47,7 @@
 <what when='20251217T151900'>3.15.0a3</what>
 <what when='20260127T122300'>3.15.0a5</what>
 <what when='20260310T185400'>3.15.0a7</what>
+<what when='20260415T080800'>3.15.0a8 and mention 3.13 dead batteries</what>
 </history>
 
 <meta>
@@ -65,7 +66,7 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.15: expected October 2026 (now alpha 7)</h1>
+<h1>3.15: expected October 2026 (now alpha 8)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-lazy-imports">Lazy imports</a>.</li>
     <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-frozendict">frozendict</a>.</li>
@@ -100,6 +101,7 @@ End-of-life expected October 2030.
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">Experimental free-threading</a> (no GIL).</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler">Experimental preliminary JIT</a>.</li>
     <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#a-better-interactive-interpreter">Improved REPL</a>.</li>
+    <li><a href="https://docs.python.org/3.13/whatsnew/3.13.html#whatsnew313-pep594">Removed "dead batteries" modules</a>.</li>
 </ul>
 
 <p><a href='https://docs.python.org/3.13/whatsnew/3.13.html'>Full list of 3.13 changes</a>.
