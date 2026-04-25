@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260425T172100'>
+<title>School is artificial</title>
+<category>beginners</category>
+<category>edu</category>
+
+<description>The real world is not like school.</description>
+
+<body>
+
+<p>One of the hard parts of moving from school to "the real world" is adjusting
+to all the ways that school is artificial. It's different from the real
+world.</p>
+
+<p>I've been thinking about this because of questions I see young learners
+commonly asking. Too often the questions are meaningless in the real world, and
+even if you could get answers, the answers would use useless.</p>
+
+<p><b>How long does it take to learn Python?</b> In school, learning is divided
+into discrete labelled chunks. A class called "Beginning Python" might last four
+months. Everyone in the class will be taught the same things at the same pace.
+The objectives are laid out by the teacher, and at the end you will get a
+grade.</p>
+
+<p>Outside of school, learning happens as needed, at your own pace, guided by
+your own goals. Only you will know if you have learned enough, deeply enough,
+for what you want to do.</p>
+
+<p>An answer will be useless to you anyway: will you feel bad if it's taking you
+longer than them?  Maybe they started from a different point than you did.
+Maybe they are learning different material, or to a finer degree of detail.
+Comparison is the thief of joy: learn what you need, the way you need to.</p>
+
+<p>What does "learn Python" even mean? There's no end to what might be included
+in a broad term like "Python": there's the language itself, the standard
+library, and the enormous ecosystem of third-party packages. Add to that the
+culture and conventions, and maybe even the community.  Nobody knows all of it.
+It doesn't stay still, Python keeps changing, growing, and expanding. You have
+to decide for yourself what's important for you to learn. The point isn't to
+finish it. Classes in school can be finished; topics in the real world
+cannot.</p>
+
+<p>School gives you neatly labelled units with clear-cut criteria at the end.
+The real world doesn't work that way.</p>
+
+<p><b>No, but how long did it take you?</b> It doesn't matter. Everyone's
+situation is different.  In school, your classmates are very similar to you:
+you've been taking roughly the same classes with the same material all your
+life. Outside of school, everyone is much more different. My pace, my learning
+style, my needs are all different than yours. Comparing won't help you
+learn.</p>
+
+<p><b>How will I know when I am not a beginner?</b> In school, classes have
+labels like beginner and advanced, or remedial and gifted.  Outside of school,
+these labels are meaningless. Knowledge isn't laid out conveniently in a
+straight line.  For example: I've been using Python for 25 years, and know more
+about one particular dark corner of Python
+(<a urlid="settrace">sys.settrace</a>) than almost anyone.  At the same time,
+I know literally nothing about <a urlid="tkinter">tkinter</a>. Am I an expert
+or a beginner?</p>
+
+<p>If someone could tell you whether you were a beginner or not, what would you
+do with the answer?  In school, it tells you that you are ready to take the next
+course. But in the real world, no one needs the answer. What's important is
+whether you understand the next concept, tool, or technique to make progress in
+whatever you're building. Focus on your own goals and path, and keep
+moving forward.  Labels are fake.</p>
+
+<p>Choose a goal. Move toward it. Do what you need to do.</p>
+
+<url id="settrace" href="https://www.google.com/search?q=site%3Anedbatchelder.com+settrace&amp;udm=14" />
+<url id="tkinter" href="https://docs.python.org/3/library/tkinter.html" />
+
+<p>BTW, I see now that this post is very very similar to a post from six years
+ago: <a pref="blog/how-long-did-it-take-you-to-learn-python.bx"/> I guess
+people are still asking, and I feel strongly about it!</p>
+
+</body>
+</entry>
+</blog>
