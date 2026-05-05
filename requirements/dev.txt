@@ -10,7 +10,7 @@ beautifulsoup4==4.14.3
     # via linkchecker
 bleach[css]==6.3.0
     # via -r requirements/base.in
-certifi==2026.2.25
+certifi==2026.4.22
     # via requests
 charset-normalizer==3.4.7
     # via requests
@@ -20,7 +20,7 @@ cssselect==1.4.0
     # via -r requirements/dev.in
 cupid @ git+https://github.com/nedbat/cupid
     # via -r requirements/dev.in
-django==5.2.13
+django==5.2.14
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -39,9 +39,9 @@ freezegun==1.5.5
     #   pytest-freezer
 ftfy==6.3.1
     # via -r requirements/base.in
-greenlet==3.3.2
+greenlet==3.5.0
     # via playwright
-idna==3.11
+idna==3.13
     # via requests
 iniconfig==2.3.0
     # via pytest
@@ -49,13 +49,13 @@ libsass==0.23.0
     # via -r requirements/base.in
 linkchecker==10.6.0
     # via -r requirements/dev.in
-lxml==6.0.2
+lxml==6.1.0
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
 markdown2==2.5.5
     # via -r requirements/base.in
-packaging==26.0
+packaging==26.2
     # via pytest
 path==17.1.1
     # via path-py
@@ -63,7 +63,7 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==12.2.0
     # via -r requirements/base.in
-playwright==1.58.0
+playwright==1.59.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -75,7 +75,7 @@ pygments==2.20.0
     # via
     #   -r requirements/base.in
     #   pytest
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   -r requirements/dev.in
     #   pytest-base-url
@@ -100,7 +100,7 @@ requests==2.33.1
     # via
     #   linkchecker
     #   pytest-base-url
-secure==1.0.1
+secure==2.0.1
     # via -r requirements/base.in
 six==1.17.0
     # via python-dateutil
@@ -124,7 +124,7 @@ typing-extensions==4.15.0
     #   pyee
 urllib3==2.6.3
     # via requests
-wcwidth==0.6.0
+wcwidth==0.7.0
     # via ftfy
 webencodings==0.5.1
     # via

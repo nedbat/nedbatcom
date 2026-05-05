@@ -8,7 +8,7 @@ asgiref==3.11.1
     # via django
 bleach[css]==6.3.0
     # via -r requirements/base.in
-django==5.2.13
+django==5.2.14
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -21,7 +21,7 @@ ftfy==6.3.1
     # via -r requirements/base.in
 libsass==0.23.0
     # via -r requirements/base.in
-lxml==6.0.2
+lxml==6.1.0
     # via -r requirements/base.in
 markdown2==2.5.5
     # via -r requirements/base.in
@@ -35,7 +35,7 @@ pygments==2.20.0
     # via -r requirements/base.in
 python-dotenv==1.2.2
     # via -r requirements/base.in
-secure==1.0.1
+secure==2.0.1
     # via -r requirements/base.in
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes
     # via -r requirements/base.in
@@ -45,7 +45,7 @@ sqlparse==0.5.5
     #   django-debug-toolbar
 tinycss2==1.4.0
     # via bleach
-wcwidth==0.6.0
+wcwidth==0.7.0
     # via ftfy
 webencodings==0.5.1
     # via
