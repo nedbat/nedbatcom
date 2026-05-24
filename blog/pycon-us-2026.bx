@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260524T070421'>
+<title>PyCon US 2026</title>
+<category>pycon</category>
+<description>Thoughts from PyCon US 2026 in Long Beach CA.</description>
+<body>
+
+<p>Last week was PyCon US in Long Beach California. As always, it was a
+jam-packed intense time. I'll try to report on my experience. The videos aren't
+uploaded yet, but I'll link to them later when they are.</p>
+
+<p>This recap is longer than I've done in the past. I don't know why, it's just
+how it came out. I want to convey a sense of what I get out of PyCon and what
+you can get out of PyCon.</p>
+
+<h1>Thursday</h1>
+
+<h3>Opening reception</h3>
+
+<p>I came with five of my colleagues from Netflix. I got to the Thursday night
+reception with Anika (first PyCon) and Josey (first PyCon with me). They said,
+"we're going to count how many people Ned says hi to!" They were at 16 after
+five minutes and gave up. I don't blame them. The reception is a very social
+time, and I have lots of friends I really enjoy seeing there.</p>
+
+<h3>New friends and backpacks</h3>
+
+<p>Besides seeing old friends, one of the great things about unstructured time
+like the opening reception is meeting new people. Tower Research Capital was
+giving away full-size Osprey backpacks at their booth. This was easily the most
+appreciated swag at PyCon. At the booth a clump of us were wondering what was
+required to get one. While there I met
+<a href="https://github.com/antoniamaia">Maria</a>,
+<a href="https://camilamaia.com/">Camila</a>, and
+<a href="https://github.com/vinigfer">Vinícius</a>. They are from Brazil, and
+were very friendly. They will re-appear in this story a few times.</p>
+
+<p>BTW: nothing was required to get a backpack, just ask and you get one.
+Everyone was very impressed.</p>
+
+<h3>Volunteering</h3>
+
+<p>A good PyCon life-hack is to do some volunteer jobs. In particular, being a
+session runner is great. Pick a talk you want to go see anyway. Volunteer to be
+the session runner. Your duty is to go to the green room 15 minutes before the
+talk, meet the speaker, and help them get to the room on time and get set up.
+It's a good way to make a connection with the speaker and help them at a
+particularly stressful time. It helps PyCon run smoothly. Also: the green room
+has coffee and snacks all day long!</p>
+
+<p>As it happens Vinícius was doing a talk Friday about t-strings I wanted to
+see, so I signed up to be his session runner.</p>
+
+
+<h1>Friday</h1>
+
+<h3>(No) breakfast</h3>
+
+<p>Friday morning, I discovered that PyCon was not providing breakfast. This was
+unfortunate because conference meals are one of those unstructured times you can
+interact with lots of people.  My strategy has usually been to look for a table
+that has people that don't seem like me (in whatever ways), and meet people.
+Without a provided breakfast, I was instead eating a muffin in the quiet hotel
+lobby by myself. I understand why we were on our own for breakfast (conference
+food is expensive to provide), but I missed the congregating it encouraged.</p>
+
+<p>Maybe next year there will be a way to get people to gather over breakfast
+without paying conference-food prices.</p>
+
+<h3>Fireworks disaster</h3>
+
+<p>The opening plenary by Deb Nicholson pumped the room up with excitement. But
+then came the opening "keynote" by Fireworks CEO Lin Qiao. I use the term
+sarcastically because it was not a keynote. It was an undisguised sales pitch
+for some kind of AI thing, complete with a QR code for discounts. It was a
+tone-deaf disaster of epic proportions. People (including me) walked out in the
+middle and were not shy about it.</p>
+
+<p>To make it even worse, Fireworks isn't a sponsor of the PSF or of PyCon.
+Before the keynote, a few sponsors were given a chance to say a word. Anthropic
+gave $1.5M and spoke for two minutes about the importance of Python to their
+work. Then Fireworks had 45 minutes to sell products without giving anything!?
+It was extremely distasteful.</p>
+
+<p>The conference organizers were not at fault. Speaking to them afterwards, it
+was clear they were as blindsided as the rest of us. I don't think anyone blamed
+PyCon for it, but it was definitely a missed opportunity. You want an opening
+keynote to lift spirits and launch people into the conference.  Not a good
+start.</p>
+
+<h3>Brazilian energy</h3>
+
+<p>At Vinícius' t-strings talk, his <a urlid="vintalk">friends were in the
+front row</a> waving Brazilian flags and occasionally blowing an air horn.  They
+were also audible during large plenaries when Brazil was mentioned. I thought it
+was great and would love to hear more groups making noise when their segments or
+interests are in focus. It helps to give a sense of the breadth and scope of the
+community, and the strong sub-groups you might not have been aware of.</p>
+
+<url id="vintalk" href="https://hachyderm.io/@nedbat/116580278702441945"/>
+
+<h3>Art open space</h3>
+
+<p>Mario Munoz ran an open space all Friday afternoon about Python and Art. I
+don't consider myself an artist, but I've enjoyed making math-generated image
+projects.  I got in touch beforehand to ask if <a href="/blog/tag/genart">my
+generative art projects</a> would be on-topic.  He said they would, so I dropped
+in.</p>
+
+<p>I showed some things I had made like <a urlid="truchet">truchet-tiled
+images</a> or <a urlid="flourish">harmonic pendulums</a>. The conversation
+quickly turned to, "is it art?" and if so, "who is the artist?"  I created the
+programs, but then either a random number generator or the user clicking
+squiggles was making the choices. In the resulting image, who is the artist?</p>
+
+<p>I don't have an answer, but it was interesting to hear people's perspectives.
+I loved that in the midst of a highly organized conference with lots of
+"serious" topics like devops or security or AI, a few of us could sit quietly,
+noodle on a guitar and ponder what makes art.</p>
+
+<p>PyCon open spaces allow for all kinds of in-depth discussions and
+interactions.  This was a perfect example.</p>
+
+<url id="truchet" href="/blog/202208/truchet_images" />
+<url id="flourish" href="https://flourish.nedbat.com" />
+
+<h3>Mia's docs change</h3>
+
+<p>At last year's PyCon, I met Mia, who was very interested to make some
+improvements to the Python docs. She landed one change, but then I didn't hear
+from her over the rest of the year.  We ran into each other again in the art
+open space, and we sat down afterwards to talk some more about contribution.</p>
+
+<p>We settled on a <a urlid="150030">change to the docs home page</a>, and she
+made that happen. Earlier this year I heard Jack Skinner on a podcast describe
+conferences as "co-working spaces with interruptions called talks." Sitting with
+Mia was like a 30-minute sprint to find a change and get started on it enough so
+that the rest of the work could happen afterwards.</p>
+
+<url id="150030" href="https://github.com/python/cpython/pull/150030" />
+
+<h3>Lightning talks</h3>
+
+<p>Some of my favorite parts of PyCon are the lightning talk sessions. These are
+five-minute talks about anything, proposed and selected the day before. Because
+they are short, people will talk about all kinds of things.  Because they are
+not "formal", the selection process can select for variety rather than
+Importance.</p>
+
+<p>I keep coming back to the breadth of how Python is used and what it means to
+people. Lightning talks are a concrete way to see that.</p>
+
+<p>This year, some of the talks included:</p>
+
+<ul>
+    <li>Adam Silkey's rousing oration about running for local political office</li>
+    <li>Choosing the ideal cat emoji</li>
+    <li>Yapping</li>
+    <li>Why you should run Python betas</li>
+    <li><a href="https://cumbuca.dev/">Cumbuca.dev</a>, promoting diversity in tech in Brazil, run by my new friends Maria and Camila</li>
+    <li>A PyPI that installs from floppy disks(?)</li>
+</ul>
+
+<p>Of course this is just a small sampling. I encourage you to find the
+lightning talks and watch them all.</p>
+
+<h3 id="h_lightning_talk1">Lightning talk?</h3>
+
+<p>At dinner Friday I mentioned an idea I'd had for a while for a lightning
+talk.  I'd never given it because I was only excited about it during PyCon, and
+didn't feel like I had the time to do the slides well enough. Stay tuned.</p>
+
+
+<h1>Saturday</h1>
+
+<h3 id="h_lightning_talk2">Lightning talk!</h3>
+
+<p>Saturday morning, I thought more about the lightning talk, and how making the
+slides was the blocker.  So I tried using Claude to make the slides. I wrote an
+outline and tried a bit to get the slides built.  When I saw that it seemed
+likely to work out, I submitted the talk for consideration.  By lunch, I got the
+email saying I was on for Saturday night. Fun! I kept tweaking the slides over
+the course of the day.</p>
+
+<h3>Pablo's keynote</h3>
+
+<p>Pablo Galindo Salgado gave the morning keynote. He spoke in Spanish, with
+simultaneous captioning in English. He spoke with heart and passion about the
+collective effort to create Python. In particular he lamented the effects of the
+AI onslaught on the Python core team and on open source projects in general.</p>
+
+<p>Comparing open source work to building a cathedral, he took a long view on
+the skill- and community-building that are natural by-products of open source
+work. AI threatens to wash that all away, and maintainers aren't sure what to do
+about it.  We want to maintain the interpersonal dynamics that underpin
+everything we do, but AI makes it too easy to make all the wrong kinds of
+contributions and interactions.</p>
+
+<p>Pablo was emotional, personal, relevant, and inspirational. He connected with
+everyone in the room.  On Friday I was joking that everyone agreed on two
+things: the backpack swag was great, and the Fireworks keynote was awful.  Now
+everyone agreed on three things, because Pablo's keynote was a keeper, one for
+the ages.</p>
+
+<h3>PSF Members lunch</h3>
+
+<p>The PSF Members lunch is a place to have a lunch in a smallish room, with
+time for questions of the PSF. Two themes emerged from the questions: the first
+is that running a conference is very expensive and getting worse. 2027 will be
+in Long Beach again, but there's no location chosen yet for 2028.  I got the
+sense that the PSF is re-thinking the conference to maybe reshape the costs.</p>
+
+<p>The second theme was about non-US attendance. Many people chose not to travel
+to the US because of the current political situation, and I don't blame them.
+When asked why we don't do the main PyCon outside the US, Deb Nicholson pointed
+out that some US citizens would not be comfortable leaving the US and then
+trying to get back in. This is on top of the logistical problems of trying to
+run a conference outside your own country.</p>
+
+<h3>Juggling</h3>
+
+<p>Saturday afternoon, I continued a PyCon tradition: running a juggling open
+space. My strategy is to bring a couple dozen beanbags, camp out in a highly
+trafficked hallway, and teach anyone who's interested. This year I had beanbags
+shipped to the hotel, and then gave most of those away at the end of the
+session. We had a lot of fun, some people learned some basics, and some were
+genuinely surprised to be gifted beanbags to take home.</p>
+
+<h3>Long walk</h3>
+
+<p>It took longer than I thought to wrap up the juggling open space, so I had to
+hurry to the big stage for my lightning talk. But for some reason, we weren't
+allowed to walk through the venue as we had that morning. We had to go outside
+and around a long block to walk back in a different entrance. That was bad
+enough, but I was given the wrong directions, so walked about twice that
+distance. I was very stressed and very thirsty, but did manage to get to the
+stage in time to get ready.</p>
+
+<h3>Silence is Golden</h3>
+
+<p>My lightning talk was "Silence is Golden". It was about leaving quiet time
+during discussions so that reluctant speakers can find a place to insert
+themselves.  What made the talk fun to do was riffing on PyCon's usual Pac-Man
+rule, which says to leave a wedge open when standing in a circle so that new
+people can join you. The riff is to make a similar rule for time: if you draw a
+clock with a hand sweeping out the time that people are speaking, you can get a
+Pac-Man shape, with an open mouth for the time to be quiet so that someone new
+can speak.</p>
+
+<p>Making the clock animation was the thing I didn't know how to do myself but
+Claude did for me. That let me focus on how to get the message across and not
+get lost in the mechanics of SVG details.</p>
+
+<p>I followed Simon Willison's extremely energetic, fast-paced, loud lightning
+talk summarizing a year of LLM progress in five minutes (pelicans on bicycles),
+so it was an interesting contrast.</p>
+
+<p>Afterward people told me they really liked the talk, including Eric Holscher
+who had first formulated the Pac-Man rule. Nice. One of the Sunday morning
+lightning talks mentioned "Silence is Golden"! That's one of the great things
+about lightning talks: they can be inspired, created, proposed, selected, and
+presented all during the weekend.</p>
+
+
+<h1>Sunday</h1>
+
+<p>Sunday was low-key for me compared to the first days. Maybe I was really low
+on sleep.  No, I definitely was. I tend to sleep at most four hours a night at
+PyCon.</p>
+
+<p>We had more lightning talks. amanda casari did another good keynote tapping
+into concern about AI and how it would affect our work. Rachell Calhoun and Tim
+Schilling did a keynote about how they run Djangonauts, an upskilling program
+for new contributors. All of the big-audience events helped to reinforce the
+overarching themes that bind us together: working with each other, for each
+other.</p>
+
+<p>In the final closing session, I was really pleased to see my Boston
+co-organizer Fay Shaw be awarded a PyLadies Award! She's very energetic and
+richly deserved it.</p>
+
+
+<h1>Reflections</h1>
+
+<h3>What I didn't do</h3>
+
+<p>There are always far too many things happening at once to do everything I'd
+like.  I didn't attend any of the Security track, the Packaging Summit, the
+Maintainers' Summit, the organizers' open space, the PyLadies auction, and so on
+and so on. I didn't do anything outside the conference center other than
+dinners. Maybe next year I'll walk over to take a look at the Queen Mary.</p>
+
+<h3>People there and people not</h3>
+
+<p>I can think of a number of people I didn't see at PyCon that I expected to.
+I know there were many from outside the US who stayed away. I think back to
+PyCons of the last decade, and the visible people who seemed central to Python
+and PyCon then, but who now no longer are and no longer attend.  That's OK, the
+individuals change over time, but the community retains its essential nature.
+Some of the visible faces now are actually quite new to PyCon. Someone who
+attended for the first time this year might be one of the driving forces next
+year.</p>
+
+<p>We live and breathe, we grow and evolve. We remain the same.</p>
+
+</body>
+</entry>
+</blog>
