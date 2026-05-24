@@ -74,8 +74,15 @@
         blockquote|form
         '>
     <xsl:param name='h_id'>
-        <xsl:text>h_</xsl:text>
-        <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
+        <xsl:choose>
+            <xsl:when test='@id'>
+                <xsl:value-of select='@id'/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>h_</xsl:text>
+                <xsl:value-of select='xuff:idfromtext(string(descendant-or-self::*))'/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:param>
 
     <xsl:call-template name='checkblock' />
