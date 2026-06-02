@@ -46,10 +46,10 @@ stoplive:		#- stop the live dev Django server
 
 clean_cache:		#- how to clean auto-made webp images
 	@echo "To remove auto-made .webp images:"
-	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/etc"
+	@echo "ssh dreamhost rm nedbatchelder.com/public/iv/webp/pix/SOMETHING"
 	@echo
 	@echo "To remove images updated in the last commit:"
-	@echo "ssh dreamhost rm \$$(git show --name-only --pretty=oneline @ | sed -n 's@pix/@nedbatchelder.com/public/iv/webp/pix/@p' | sed 's@$@.webp@')"
+	@echo "ssh dreamhost rm \$$(git show --name-only --pretty=oneline @ | sed -n 's@pix/@nedbatchelder.com/public/iv/webp/pix/@p' | sed 's@$$''@.webp@')"
 
 
 showmemory:		#- See memory use on dreamhost
