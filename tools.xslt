@@ -70,6 +70,7 @@
 <xsl:template match='
         p|ul|ol|dl|
         div|
+        hr|
         h1|h2|h3|h4|h5|h6|
         blockquote|form
         '>
