@@ -10,7 +10,7 @@ beautifulsoup4==4.14.3
     # via linkchecker
 bleach[css]==6.3.0
     # via -r requirements/base.in
-certifi==2026.4.22
+certifi==2026.5.20
     # via requests
 charset-normalizer==3.4.7
     # via requests
@@ -20,7 +20,7 @@ cssselect==1.4.0
     # via -r requirements/dev.in
 cupid @ git+https://github.com/nedbat/cupid
     # via -r requirements/dev.in
-django==5.2.14
+django==5.2.15
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -39,9 +39,9 @@ freezegun==1.5.5
     #   pytest-freezer
 ftfy==6.3.1
     # via -r requirements/base.in
-greenlet==3.5.0
+greenlet==3.5.1
     # via playwright
-idna==3.13
+idna==3.18
     # via requests
 iniconfig==2.3.0
     # via pytest
@@ -49,7 +49,7 @@ libsass==0.23.0
     # via -r requirements/base.in
 linkchecker==10.6.0
     # via -r requirements/dev.in
-lxml==6.1.0
+lxml==6.1.1
     # via
     #   -r requirements/base.in
     #   -r requirements/dev.in
@@ -63,7 +63,7 @@ path-py==12.5.0
     # via -r requirements/base.in
 pillow==12.2.0
     # via -r requirements/base.in
-playwright==1.59.0
+playwright==1.60.0
     # via
     #   -r requirements/dev.in
     #   pytest-playwright
@@ -88,7 +88,7 @@ pytest-django==4.12.0
     # via -r requirements/dev.in
 pytest-freezer==0.4.9
     # via -r requirements/dev.in
-pytest-playwright==0.7.2
+pytest-playwright==0.8.0
     # via -r requirements/dev.in
 python-dateutil==2.9.0.post0
     # via freezegun
@@ -96,7 +96,7 @@ python-dotenv==1.2.2
     # via -r requirements/base.in
 python-slugify==8.0.4
     # via pytest-playwright
-requests==2.33.1
+requests==2.34.2
     # via
     #   linkchecker
     #   pytest-base-url
@@ -106,7 +106,7 @@ six==1.17.0
     # via python-dateutil
 smartypants @ git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes
     # via -r requirements/base.in
-soupsieve==2.8.3
+soupsieve==2.8.4
     # via beautifulsoup4
 sqlparse==0.5.5
     # via
@@ -122,7 +122,7 @@ typing-extensions==4.15.0
     # via
     #   beautifulsoup4
     #   pyee
-urllib3==2.6.3
+urllib3==2.7.0
     # via requests
 wcwidth==0.7.0
     # via ftfy

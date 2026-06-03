@@ -8,7 +8,7 @@ asgiref==3.11.1
     # via django
 bleach[css]==6.3.0
     # via -r requirements/base.in
-django==5.2.14
+django==5.2.15
     # via
     #   -r requirements/base.in
     #   django-debug-toolbar
@@ -23,7 +23,7 @@ gunicorn==26.0.0
     # via -r requirements/server.in
 libsass==0.23.0
     # via -r requirements/base.in
-lxml==6.1.0
+lxml==6.1.1
     # via -r requirements/base.in
 markdown2==2.5.5
     # via -r requirements/base.in
