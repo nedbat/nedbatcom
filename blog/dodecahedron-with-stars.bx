@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260618T061520'>
+<title>Dodecahedron with stars</title>
+<category>art</category>
+<category>math</category>
+
+<description>A Platonic dodecahedron decorated with an Islamic pattern.</description>
+<img src="pix/tajra/tajra_card.jpg" alt="A closeup of a dodecahedron decorated with an Islamic design"/>
+
+<body>
+
+<p>I saw this <a urlid="tajtoot">dodecahedron with an Islamic-inspired pattern
+designed by Taj Ragoo</a>. As soon as I saw it, I knew I had to make one. I
+studied the pattern, wrote some Python, and made myself a PDF. I cut it out,
+folded it, glued it together, and now I have one of my own:</p>
+
+<figurep>
+    <img src="pix/tajra/tajra_desk.jpg" alt="A paper dodecahedron on a cluttered desk" width="450" height="600" />
+</figurep>
+
+<p>I love that this elegantly combines two pure geometric forms: the Platonic
+dodecahedron (12 uniform pentagons), and an Islamic pattern using five-pointed
+stars.</p>
+
+<p>Looking closely, details emerge:</p>
+
+<figurep>
+    <img src="pix/tajra/tajra_highlighted.jpg" alt="The dodecahedron with some regions of the pattern highlighted in colors" width="500" height="500" />
+</figurep>
+
+<p>Each face has ten small stars in a ring. I've lightened them a bit in the
+front face here. At the center of each face is a ten-pointed star (highlighted
+in red), made of two overlaid five-pointed stars.</p>
+
+<p>The real genius of the pattern is at the corners. I've highlighted one in
+blue. It's a star made of the same parts as the central ten-pointed star, but
+there are only nine points. It works because three pentagons lying flat touching
+at a point occupy 324 degrees, leaving a 36-degree gap.</p>
+
+<p>When the dodecahedron is folded together, the gap is closed. 36 degrees is
+exactly one-tenth of a complete 360-degree circle, so exactly one point of the
+ten-pointed star is missing, leaving a perfect nine-pointed star using the same
+shapes, spread over the corners of three pentagons.  Beautiful!</p>
+
+<p>If this appeals to you, <a urlid="taj_insta">follow Taj on Instagram</a>:
+he's got more Platonic/Islamic mashups to enjoy. The paper versions are just
+prototypes of the final versions he makes in wood.</p>
+
+<p>Of course, you can <a href="/files/tajra.pdf">get my PDF</a> and make one
+for yourself:</p>
+
+<figurep href="/files/tajra.pdf">
+    <img src="pix/tajra/tajra_net.png" alt="A thumbnail of the PDF" class="hairline" width="400" height="517" />
+</figurep>
+
+<p>The <a urlid="dodeca.py">Python code to draw the net</a> isn't great: it
+has no real parallels to the structure of each face. It's a lot of math and
+line drawing to get things in the right places. My ideal would be to have a
+toolset that used a tile-placing abstraction, to be able to do more interesting
+designs. Some day.</p>
+
+<p>It was a joy to work on this though. It was a slow process of studying the
+original, working out the math, then mulling over coding approaches. The code was developed in small
+steps over weeks. Then printing initial versions, marking them up, working out the tab structure.
+Some copies were colored to understand how the lines flowed across the whole dodecahedron.
+It was good to be working in both the mental and physical worlds:</p>
+
+<figurep>
+    <img src="pix/tajra/progress.jpg" alt="Various stages of progress in a messy pile" width="400" height="533" />
+</figurep>
+
+<url id="tajtoot" href="https://mathstodon.xyz/@TajraWD/116539942319775498" />
+<url id="taj_insta" href="https://www.instagram.com/tajra.wd/p/DMVSwwmoHVJ/" />
+<url id="dodeca.py" href="https://github.com/nedbat/zellij/blob/master/bin/tajra_dodeca.py" />
+
+</body>
+</entry>
+</blog>
