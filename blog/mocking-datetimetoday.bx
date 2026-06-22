@@ -19,7 +19,7 @@
 
     <p>Second, I want to mock just one function in the module, not the whole module.  There
         are a few suggestions of how to do this out there:
-        Michael Foord wrote about <a href='http://www.voidspace.org.uk/python/mock/examples.html#partial-mocking'>Partial mocking</a> in the Mock docs,
+        Michael Foord wrote about <a href='http://www.voidspace.uk/python/mock/examples.html#partial-mocking'>Partial mocking</a> in the Mock docs,
         William John Bert <a href='http://williamjohnbert.com/2011/07/how-to-unit-testing-in-django-with-mocking-and-patching/'>showed another way</a>,
         and of course, a <a href='http://stackoverflow.com/questions/4481954/python-trying-to-mock-datetime-date-today-but-not-working'>Stack Overflow question about it</a>.
     </p>
@@ -38,7 +38,7 @@
 <code lang="python"><![CDATA[
 def setUp(self):
     datetime_patcher = mock.patch.object(
-        my_module.datetime, 'datetime', 
+        my_module.datetime, 'datetime',
         mock.Mock(wraps=datetime.datetime)
     )
     mocked_datetime = datetime_patcher.start()

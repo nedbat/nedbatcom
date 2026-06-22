@@ -312,7 +312,7 @@ test infrastructure, I should use someone else's already-tested library.</p>
 and fudge is more declarative.  Sometimes one feels more natural, sometimes the other one
 does.  I'll show you both.</p>
 
-<p><a href='http://www.voidspace.org.uk/python/mock/'>Mock</a> [28:30]:
+<p><a href='http://www.voidspace.uk/python/mock/'>Mock</a> [28:30]:
 Here a with block calls patch.object on APIVoterManager to replace the _raw_voters method. I want
 to replace it with something that is very simple and predictable.  This binds the new mocked-out
 _raw_voters method as "voters", and then I can say, "your return value is such-and-such."
