@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20160818T061433'>
+<entry when='20160818T061433' evergreen="y">
 <title>Lists vs. Tuples</title>
 <category>python</category>
 
@@ -163,6 +163,17 @@ TypeError: unhashable type: 'list'
     than lists. Lists are over-allocated to make appending faster.  This shows
     Python's pragmatic side: rather than quibble over the list/tuple semantics
     of *args, just use the data structure that works best in this case.</p>
+
+<p>[Update 2026] With type annotations, much of the cultural distinction has
+been expressed in a technical way.  The annotation <c>tuple[int]</c> means a
+tuple with exactly one element, an int.  You can use <c>tuple[int, str,
+bool]</c> to indicate the expected types at each index of a tuple that must have
+three elements. To be flexible about the length of tuple, you use <c>tuple[int,
+...]</c> to mean a tuple of any number of ints.</p>
+
+<p>For lists, <c>list[str]</c> means a list of any number of strings and there
+is no way to indicate the types of individual elements or to specify a specific
+length. [/update]</p>
 
 <p>For the most part, you should choose whether to use a list or a tuple based
     on the Cultural Difference.  Think about what your data means. If it can
