@@ -31,7 +31,7 @@ attributes.</p>
 conforming implementation):</p>
 
 <code lang="ps"><![CDATA[
-GS>      [1 2 3] dup         % make an an array and duplicate it
+GS>      [1 2 3] dup         % make an array and duplicate it
 GS<2>    cvx                 % make the top one executable
 GS<2>    pstack              % print the stack
 {1 2 3}
