@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260703T081235' draft='y'>
+<title>Expert asterisks</title>
+<category>experts</category>
+<!--
+<description></description>
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>Watching discussions happening online, I see a frequent unfortunate tic I'll
+call the Expert Asterisk.  A beginner is asking for help, and experts are
+answering. Then in the spirit of completeness, an expert throws in a fact or
+detail far from the learner's abilities or needs.</p>
+
+<p>This morning's interaction was about git. A new learner was clearly having
+trouble getting properly oriented. They were asking how branches relate to
+directories, and how to undo a change. They had <c>git init</c> but didn't know
+how it related to changing projects.</p>
+
+<quote>
+<p><b>newb</b>: so every time I change project I simply do 'git init' on them?</p>
+<p><b>expert1</b>: 'git init' is for creating a new project.</p>
+<p><b>expert2</b>: you change your working directory, typically, when you change project</p>
+</quote>
+
+<p>So far so good, but then:</p>
+
+<quote>
+
+<p><b>expert2</b>: or you specify the git repo directory with the -C switch, but
+it's more typing to do, so hardly anyone does that unless there's a very good
+reason</p>
+
+</quote>
+
+<p>What!? Why mention this while explicitly pointing out no one does it?  The
+newb just barely understands how git works at all, why introduce obscure
+command-line options that "hardly anyone" uses?</p>
+
+<p>I call this an asterisk because it feels like an esoteric footnote that only
+experts, academics, or completionists would need to know.</p>
+
+<p>The expert is trying to be helpful. They are presenting all the options in
+the optimistic hope that the newb will be able to pick and choose among them. To
+be fair, this -C comment didn't derail the session.</p>
+
+<p>But sometimes multiple experts each offer their own
+asterisks, and the poor newb is intrigued and distracted by each one. The new
+learner doesn't have a way to sift out which details might be important to them.
+Their original question gets lost in the spreading tangents.</p>
+
+<p>It's hard to help new learners: we can't know where their gaps are.  What
+misconceptions need to be unwound?  Often we have only a glimpse of their
+context.  Experts can miss when they use words slightly wrong, taking them at
+face value instead of seeing the misunderstanding that leads down the wrong
+path. Notice in the exchange above, "change project" could mean switching among
+existing projects or starting a new project. We're not sure which they
+meant.</p>
+
+<p>I understand why experts add these asterisks to help sessions, but it's
+important to try to resist the impulse.  Focus on the question at hand, try hard
+to get into the newb's mindset. Speak their language.</p>
+
+</body>
+</entry>
+</blog>
