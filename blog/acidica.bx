@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260726T105428'>
+<title>Acidica</title>
+<category>mycode</category>
+<category>proglang</category>
+
+<description>A toy BASIC interpreter, written for fun.</description>
+
+<body>
+
+<p>My latest fun project is a BASIC interpreter called
+<a urlid="acidica">Acidica</a>.  Classic <a urlid="basic">BASIC</a> is an
+old-school language first developed in 1964 that saw an explosion of
+implementations on microcomputers in the '70s and '80s. It's much more primitive
+than the Visual Basic that you might be familiar with.</p>
+
+<p>A simple BASIC program:</p>
+
+<code lang="basic"><![CDATA[
+10 INPUT "What is your name"; U$
+20 PRINT "Hello "; U$
+30 INPUT "How many stars do you want"; N
+40 S$ = ""
+50 FOR I = 1 TO N
+60 S$ = S$ + "*"
+70 NEXT I
+80 PRINT S$
+90 INPUT "Do you want more stars"; A$
+100 IF LEN(A$) = 0 THEN 90
+110 A$ = LEFT$(A$, 1)
+120 IF A$ = "Y" OR A$ = "y" THEN 30
+130 PRINT "Goodbye ";U$
+140 END
+]]></code>
+
+<p>Run it, and you get this:</p>
+
+<code><![CDATA[
+What is your name? Ned
+Hello Ned
+How many stars do you want? 10
+**********
+Do you want more stars? y
+How many stars do you want? 20
+********************
+Do you want more stars? n
+Goodbye Ned
+]]></code>
+
+<p>The wide variety of BASIC flavors meant I first had to decide what to
+implement.  I found <a urlid="vintage">Vintage BASIC</a> and used its spec,
+both because it is concisely described, and because it has an implementation I
+could run to double-check behavior when I had questions. The site also has a
+<a urlid="games">collection of runnable games</a> from
+<a urlid="creative">Creative Computing magazine</a>, which I remember
+fondly.</p>
+
+<p>This was a perfect vacation-week project. It has no real-world consequences.
+It had some interesting problems to puzzle through. It was testable. It
+satisfied some nostalgia for my earlier computing days. It was bounded enough to
+be "done".</p>
+
+<p>In those ways, it's very similar to a vacation project of mine from four
+years ago: <a pref="blog/stilted.bx">Stilted</a>, an implementation of
+PostScript.</p>
+
+<p>Acidica is not useful for writing new programs, only because BASIC itself is
+so difficult. There is no scoping beyond single-line functions, variables names
+can be as long as you want but only the first two letters and first digit are
+significant. Keywords are recognized anywhere, so FACTOR can't be variable name
+because it has TO in the middle.  The only control structures are FOR, IF, and
+GOTO. It's something of a testament to human persistence that programs like
+<a urlid="qubit">three-dimensional tic-tac-toe</a> can be written in it.</p>
+
+<p>As a side project, I could choose my development style: no real type
+checking (partly because BASIC's values would be awkward to squeeze into static
+typing), and very few docstrings. There are lots of tests, but only integration
+tests: every test is a BASIC program to run, with a check for the correct output
+and/or the expected error.</p>
+
+<p>To be honest, the "only integration tests" approach was kind of a pain, but I
+stuck with it and resisted the temptation to add unit tests along the way.</p>
+
+<p>Another choice I made: no AI. I like writing programs. I get a deeper sense
+of the thing I am building when I have my fingers in the clay. Since there was
+no deadline, or even any reason to ever finish the project, I could take my time
+and not be rushed.</p>
+
+<p>But I like the result. I enjoyed the time I spent working on it. I liked
+being able to stop and devote pure thinking time while doing other things when I
+got to the next hurdle. The next steps here might be to use this project as a
+test bed for some development ideas. Or maybe add a BASIC-to-Python transpiler.
+Or maybe it's done.</p>
+
+<url id="acidica" href="https://github.com/nedbat/acidica" />
+<url id="basic" href="https://en.wikipedia.org/wiki/BASIC" />
+<url id="vintage" href="http://www.vintage-basic.net" />
+<url id="games" href="http://www.vintage-basic.net/games.html" />
+<url id="creative" href="https://en.wikipedia.org/wiki/Creative_Computing_(magazine)" />
+<url id="stilted" href="https://github.com/nedbat/stilted" />
+<url id="qubit" href="http://www.vintage-basic.net/bcg/qubit.bas" />
+
+</body>
+</entry>
+</blog>
