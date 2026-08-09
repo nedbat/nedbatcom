@@ -82,7 +82,7 @@ with this regex:</p>
 # no cover: start(?s:.*?)# no cover: stop
 ]]></code>
 
-<p>Here <c>(?s:.*?)</c> means any number of any character at all, but as few as
+<p>Here <c>(?s:.*?)</c> means any number of any characters at all, but as few as
 possible.  A star in regexes means as many as possible, but star-question-mark
 means as few as possible.  We need the minimal match so that we don't match from
 the start of one pair of comments all the way through to the end of a different
