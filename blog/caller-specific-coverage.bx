@@ -65,7 +65,7 @@ not that all of them did.</p>
 <c>expects</c> function, I want separate coverage data for each distinct calling
 site? Then I could see that every <c>func_name</c> had a test for both the wrong
 number of arguments and the right number of arguments.  The simple branch inside
-<c>expects</c> would be measured separately for each case.</p>
+<c>expects</c> would be measured separately for each caller.</p>
 
 <p>I have a quick proof-of-concept. A decorator on <c>expects</c> does the work.
 Coverage.py already has dynamic contexts which are used for things like tracking
@@ -77,19 +77,15 @@ def coverage_per_caller(func):
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
         cov = coverage.Coverage.current()
-        if cov is not None:
-            name = func.__name__
-            caller = inspect.currentframe().f_back
-            file = caller.f_code.co_filename
-            lineno = caller.f_lineno
-            prev_context = cov.switch_context(
-                f"per_caller:{name}:{file}:{lineno}"
-            )
+        name = func.__name__
+        caller = inspect.currentframe().f_back
+        file = caller.f_code.co_filename
+        lineno = caller.f_lineno
+        prev_context = cov.switch_context(f"per_caller:{name}:{file}:{lineno}")
         try:
             ret = func(*args, **kwargs)
         finally:
-            if cov is not None:
-                cov.switch_context(prev_context)
+            cov.switch_context(prev_context)
         return ret
 
     return _wrapper
