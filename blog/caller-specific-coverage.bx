@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260809T135625'>
+<title>Caller-specific coverage</title>
+<category>coverage</category>
+
+<description>An idea for a new feature for coverage measurement: per-caller coverage</description>
+
+<body>
+
+<p>I've had an idea rattling around to get more detail from coverage
+measurement.  Can we measure the coverage in a function separately for each
+caller of the function?</p>
+
+<p>Here's why I want it: in <a pref="blog/acidica.bx">Acidica</a>, my toy
+BASIC interpreter, I have code to implement the built-in functions that looks
+something like this:</p>
+
+<code lang="python"><![CDATA[
+match func_name:
+
+    case "LEN":
+        if len(args) != 1:
+            raise TypeError(f"Wrong arguments for LEN, got {len(args)}")
+        return len(args[0])
+
+    case "LEFT$":
+        if len(args) != 2:
+            raise TypeError(f"Wrong arguments for LEFT$, got {len(args)}")
+        return args[0][:args[1]]
+
+    # ... 19 other built-ins ...
+]]></code>
+
+<p>I didn't like the repeated code here: each different <c>func_name</c> has to
+check that it got its expected number of arguments and perhaps raise an error.
+So I refactored:</p>
+
+<code lang="python"><![CDATA[
+def expects(nargs: int, func_name: str, args: tuple) -> None:
+    if len(args) != nargs:
+        raise TypeError(f"Wrong arguments for {func_name}, got {len(args)}")
+
+match func_name:
+    case "LEN":
+        expects(1, func_name, args)
+        return len(args[0])
+
+    case "LEFT$":
+        expects(2, func_name, args)
+        return args[0][:args[1]]
+]]></code>
+
+<p>Nice. The code is tighter, easier to read, and common behavior is implemented
+in one place.</p>
+
+<p>But the old code had an advantage: because each error condition had its own
+<c>raise</c> line, coverage measurement could tell me whether I had tested every
+<c>func_name</c> for the wrong number of arguments.  With the error handling
+happening in a helper function, that information is lost. I'll know that
+<i>some</i> <c>func_name</c> had a test for the wrong number of arguments, but
+not that all of them did.</p>
+
+<p>Here's where the new idea comes in. What if I could indicate that for the
+<c>expects</c> function, I want separate coverage data for each distinct calling
+site? Then I could see that every <c>func_name</c> had a test for both the wrong
+number of arguments and the right number of arguments.  The simple branch inside
+<c>expects</c> would be measured separately for each case.</p>
+
+<p>I have a quick proof-of-concept. A decorator on <c>expects</c> does the work.
+Coverage.py already has dynamic contexts which are used for things like tracking
+which tests called which code. The decorator starts a new context named for the
+calling location, then restores the context when the function returns:</p>
+
+<code lang="python"><![CDATA[
+def coverage_per_caller(func):
+    @functools.wraps(func)
+    def _wrapper(*args, **kwargs):
+        cov = coverage.Coverage.current()
+        if cov is not None:
+            name = func.__name__
+            caller = inspect.currentframe().f_back
+            file = caller.f_code.co_filename
+            lineno = caller.f_lineno
+            prev_context = cov.switch_context(
+                f"per_caller:{name}:{file}:{lineno}"
+            )
+        try:
+            ret = func(*args, **kwargs)
+        finally:
+            if cov is not None:
+                cov.switch_context(prev_context)
+        return ret
+
+    return _wrapper
+]]></code>
+
+<p>I had to make one tiny (unreleased) change to coverage.py for this:
+<c>switch_context</c> used to return None, but now it returns the previous
+context so that we can nest them properly.</p>
+
+<p>To my delight, this works! I can look at the HTML coverage report and see the
+caller contexts for the lines in <c>expects</c>. I can see that 20 callers ran
+the <c>if</c> line, but only 2 ran the <c>raise</c>, and the context names show
+the file and line number of the callers for each:</p>
+
+<figurep href="pix/per-caller-coverage.png">
+    <img src="pix/per-caller-coverage.png" class="hairline" alt="HTML report showing the contexts that ran each line of expects()" />
+</figurep>
+
+<p>This isn't the whole solution yet. Things to improve:</p>
+
+<ul>
+
+<li>I'd like to post-process these contexts to show which callers were missing
+lines inside <c>expects</c>.  What I'm looking for is the same kind of "this
+line is missing" information that I got from the original inlined logic.</li>
+
+<li>These per-caller contexts overwrite the contexts we were already collecting
+(the test names). Ideally we'd have some kind of sub-context so that we could
+track both (or many) at once.</li>
+
+<li>It's not great that I had to add a decorator to the source code. Driving
+this through the coverage configuration would keep these kinds of details out of
+the source.</li>
+
+</ul>
+
+<p>But it's a start, and gives me other ideas. I could use some aspect of the
+data passed into a function as the context name. In this example, we could have
+used <c>func_name</c> as the context instead of the caller's location. Maybe
+you have ideas for other uses.</p>
+
+</body>
+</entry>
+</blog>
