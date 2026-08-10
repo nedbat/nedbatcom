@@ -13,7 +13,7 @@ measurement.  Can we measure the coverage in a function separately for each
 caller of the function?</p>
 
 <p>Here's why I want it: in <a pref="blog/acidica.bx">Acidica</a>, my toy
-BASIC interpreter, I have code to implement the built-in functions that looks
+BASIC interpreter, I had code to implement the built-in functions that looked
 something like this:</p>
 
 <code lang="python"><![CDATA[
