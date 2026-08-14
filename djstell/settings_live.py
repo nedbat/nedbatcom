@@ -43,3 +43,15 @@ CACHE_MIDDLEWARE_SECONDS = 0
 
 # Don't send email during development.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# runserver logs every successful request at INFO. WARNING keeps 4xx and 5xx
+# but silences the flood of 200s.  Set LIVE_REQUEST_LOG=1 to see them again.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'loggers': {
+        'django.server': {
+            'level': 'INFO' if os.environ.get("LIVE_REQUEST_LOG", "") else 'WARNING',
+        },
+    },
+}
