@@ -123,13 +123,16 @@ html: stoplive		#- make HTML for comparing and examining
 
 test:			#- run the few tests we have
 	@echo 'run `make live` first to run the server to test against'
-	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url http://127.0.0.1:8000 -vv djstell
+	DJANGO_SETTINGS_MODULE=djstell.settings_live pytest --base-url $(LIVEHOST) -vv djstell
 
 linkcheck:		#- check the links on nedbatchelder.com
 	linkchecker -f etc/linkcheckerrc https://nedbatchelder.com
 
 livelinkcheck:		#- check the links on the live local server
-	linkchecker -t 12 -f etc/linkcheckerrc http://127.0.0.1:8000
+	linkchecker -t 12 -f etc/linkcheckerrc $(LIVEHOST)
+
+externlinkcheck:	#- check the links on the live local server, including external links
+	linkchecker -t 12 -f etc/linkcheckerrc --check-extern $(LIVEHOST)
 
 ### Clean up
 
