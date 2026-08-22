@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260822T155336'>
+<title>Micro language implementation: Calcium</title>
+<category>mycode</category>
+<category>proglang</category>
+
+<description>A tiny language, to explain how programming languages are
+implemented.</description>
+
+<!--
+<img src="pix/cards/xxx.png" alt=""/>
+-->
+<body>
+
+<p>I wrote a tiny language implementation: <a urlid="calcium">Calcium</a>.
+It's meant as a demonstration of how languages like Python are implemented. It
+has a tokenizer, a parser, an AST, a compiler, bytecodes, and an execution
+engine, all in about 300 lines of code.</p>
+
+<p>I did it because I often see the question: isn't Python interpreted? Why do
+people say it's compiled? (BTW, I also answered this in an earlier blog post:
+<a pref="blog/python-interpreted-or-compiled.bx"/>) It can be hard to explain
+that your Python program never becomes an explicit sequence of native CPU
+instructions, which is what people often think "compiled" means.</p>
+
+<p>So I coded up <a urlid="calcium">Calcium</a> to have on hand the next time
+it comes up. I think it will help to be able to show the execution engine code
+reading bytecodes and doing what they say.</p>
+
+<p>It could also be an interesting starting point for people wanting to play
+with a language implementation.  It has almost nothing, so there's lots of
+simple things (comments?) to add.</p>
+
+<url id="calcium" href="https://github.com/nedbat/calcium" />
+
+</body>
+</entry>
+</blog>
