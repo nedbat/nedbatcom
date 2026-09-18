@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20260916T190255'>
+<title>Silence is golden lightning talk</title>
+<category>communication</category>
+<category>people</category>
+<category>presentations</category>
+<category>pycon</category>
+
+<description>A lightning talk I did at PyCon US 2026</description>
+<img src="pix/cards/silence-is-golden.png" alt="Two pac-man diagrams: leaving space, and leaving time"/>
+
+<body>
+
+<p>This is a lightning talk I did at PyCon US 2026: Silence is Golden. The
+overall message is to leave some quiet time so that reluctant speakers have a
+chance to participate.  I start with a jokey disclaimer because I followed Simon
+Willison who gave an energetic, entertaining, and loud(!) speed-run through a
+year of progress in LLMs:</p>
+
+<figurep aspect="16x9">
+    <youtube_embed video="VA3O7UxuZO4?start=872"/>
+</figurep>
+
+<p>I do these talks and blog posts about how to better interact with people, but
+I hope they don't come off as too preachy. I have to remind myself to keep these
+ideas top of mind.  I am one of those people who speak easily that I describe in
+the lightning talk. I have to remember to hold back, to leave time and space for
+other people.</p>
+
+<p>I had the idea for this lightning talk a few years ago at PyCon, while
+watching things going wrong. I was in a room with a few dozen people. The goal
+in the room was to hear from lots of people, but the leader of the discussion
+was a "speaks easily" kind of person, and I could see the dynamic of the room
+failing to make space for everyone.</p>
+
+<p>I was really pleased to be able to extend the time-tested and well-known
+<a urlid="pacman">Pac-Man Rule</a> from space to time. It made for an
+interesting hook, making the talk more interesting than just a scold.</p>
+
+<p>It's really hard to keep quiet. But it's important sometimes.</p>
+
+<url id="pacman" href="https://www.ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/" />
+
+</body>
+</entry>
+</blog>
