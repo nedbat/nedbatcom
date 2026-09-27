@@ -1,8 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <blog>
-<entry when='20260703T081235' draft='y'>
+<entry when='20260927T162500'>
 <title>Expert asterisks</title>
 <category>experts</category>
+<category>beginners</category>
+<category>online</category>
 <!--
 <description></description>
 <img src="pix/cards/xxx.png" alt=""/>
@@ -14,10 +16,10 @@ call the Expert Asterisk.  A beginner is asking for help, and experts are
 answering. Then in the spirit of completeness, an expert throws in a fact or
 detail far from the learner's abilities or needs.</p>
 
-<p>This morning's interaction was about git. A new learner was clearly having
+<p>As an example, here was an interaction about git: a new learner was having
 trouble getting properly oriented. They were asking how branches relate to
-directories, and how to undo a change. They had <c>git init</c> but didn't know
-how it related to changing projects.</p>
+directories, and how to undo a change. They knew about <c>git init</c> but
+didn't know how it related to changing projects.</p>
 
 <quote>
 <p><b>newb</b>: so every time I change project I simply do 'git init' on them?</p>
@@ -35,33 +37,76 @@ reason</p>
 
 </quote>
 
-<p>What!? Why mention this while explicitly pointing out no one does it?  The
-newb just barely understands how git works at all, why introduce obscure
+<p>What!? Why mention this while explicitly pointing out no one does it? The
+newb just barely understands how git works at all. Why introduce obscure
 command-line options that "hardly anyone" uses?</p>
 
 <p>I call this an asterisk because it feels like an esoteric footnote that only
 experts, academics, or completionists would need to know.</p>
 
 <p>The expert is trying to be helpful. They are presenting all the options in
-the optimistic hope that the newb will be able to pick and choose among them. To
-be fair, this -C comment didn't derail the session.</p>
+the optimistic hope that the newb will be able to pick and choose among them.</p>
 
-<p>But sometimes multiple experts each offer their own
-asterisks, and the poor newb is intrigued and distracted by each one. The new
-learner doesn't have a way to sift out which details might be important to them.
-Their original question gets lost in the spreading tangents.</p>
+<p>Worse, sometimes multiple experts each offer their own asterisks, and the
+poor newb is intrigued and distracted by each one. The new learner doesn't have
+a way to sift out which details might be important to them. Their original
+question gets lost in the spreading tangents.</p>
 
-<p>It's hard to help new learners: we can't know where their gaps are.  What
-misconceptions need to be unwound?  Often we have only a glimpse of their
+<p>It's hard to help new learners: we can't know where their gaps are. What
+misconceptions need to be unwound? Often we have only a glimpse of their
 context.  Experts can miss when they use words slightly wrong, taking them at
 face value instead of seeing the misunderstanding that leads down the wrong
-path. Notice in the exchange above, "change project" could mean switching among
-existing projects or starting a new project. We're not sure which they
-meant.</p>
+path.</p>
 
-<p>I understand why experts add these asterisks to help sessions, but it's
-important to try to resist the impulse.  Focus on the question at hand, try hard
-to get into the newb's mindset. Speak their language.</p>
+<p>Notice in the exchange above, "change project" could mean switching among
+existing projects or starting a new project. We're not sure which they meant. An
+expert will cycle among a number of active projects, but beginners will work on
+one until it is done, then switch to a new project, never returning to the
+previous one. Perhaps "every time I change project I do 'git init'" was right
+for their situation.</p>
+
+<p>The <c>-C</c> comment didn't derail the session, but the effort of that
+comment could have instead been used to clarify the newb's need.</p>
+
+<p>I understand why experts add these asterisks to help sessions: they are
+useful for some people even if not for this beginner, and experts are interested
+(even fascinated) by all the intricate details.  These discussion areas are not
+strictly for newb-help. They're for general discussion among many people.
+There's no rule against talking about advanced or rare options.</p>
+
+<p>And it's hard to know what will be useful, or what the newb really means, or
+what will resonate with them to help them find a solution. It's all
+difficult.</p>
+
+<p>But you should at least recognize who you are addressing and whether you are
+helping them. If you want to help the beginner, try to resist the impulse to add
+little-traveled tangents. Focus on the question at hand and try hard to
+understand the newb's situation and mindset. Speak their language so they can
+hear you.</p>
+
+<!--
+
+<p>A related behavior is answering the literal question instead of finding the right solution to the actual problem.
+Sometimes the problem is the newb asks how to do something, and experts
+answer the question literally rather than stepping back to find the real problem
+and suggest a better solution.  Sometimes this is called an <a urlid="xy">XY
+Problem</a>: rather than asking about the original problem, they ask about
+fixing the bad solution they've already chosen.</p>
+
+<quote>
+https://discord.com/channels/267624335836053506/267624335836053506/1550975286080708708
+<p><b>newb</b>: is there a way to make a class so that every method is automatically a @classmethod without having to manually type it out for each function?</p>
+<p><b>expert1</b>: if you want everything to be a classmethod, maybe you don't want a class</p>
+<p><b>expert2</b>: You could use a meta class or a class decorator</p>
+<p><b>expert1</b>: wouldn't you agree that likely there is a non-class solution that fits well?</p>
+<p><b>expert2</b>: I would</p>
+</quote>
+
+<url id="xy" href="https://en.wikipedia.org/wiki/XY_problem" />
+
+
+-->
+
 
 </body>
 </entry>
