@@ -51,6 +51,7 @@
 <what when='20260508T071800'>3.15.0b1</what>
 <what when='20260720T120200'>3.15.0b4</what>
 <what when='20260913T141100'>3.15.0rc2</what>
+<what when='20261001T070600'>3.15.0rc3</what>
 </history>
 
 <meta>
@@ -69,13 +70,14 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.15: expected October 2026 (now rc2)</h1>
+<h1>3.15: expected October 2026 (now rc3)</h1>
 <ul>
     <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-lazy-imports">Lazy imports</a>.</li>
-    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-frozendict">frozendict</a>.</li>
-    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#pep-798-unpacking-in-comprehensions">Unpacking in comprehensions</a>.</li>
-    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#pep-799-a-dedicated-profiling-package">New profiling packages</a>.</li>
-    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#other-language-changes">UTF-8 default encoding</a>.</li>
+    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-frozendict">frozendict</a> and
+        <a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-sentinel">sentinel</a> builtins.</li>
+    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-unpacking-in-comprehensions">Unpacking in comprehensions</a>.</li>
+    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-sampling-profiler">Tachyon sampling profiler</a>.</li>
+    <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-utf8-default">UTF-8 default encoding</a>.</li>
 </ul>
 
 <p><a href="https://docs.python.org/3.15/whatsnew/3.15.html">Full list of 3.15 changes</a>.
