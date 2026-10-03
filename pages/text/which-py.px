@@ -52,6 +52,7 @@
 <what when='20260720T120200'>3.15.0b4</what>
 <what when='20260913T141100'>3.15.0rc2</what>
 <what when='20261001T070600'>3.15.0rc3</what>
+<what when='20261003T102900'>3.10 EOL</what>
 </history>
 
 <meta>
@@ -149,7 +150,7 @@ End-of-life expected October 2027.
 </p>
 
 
-<h1>3.10: October 4, 2021</h1>
+<h1>3.10: October 4, 2021 (EOL October 2026)</h1>
 <ul>
     <li>structural pattern matching: <c>match/case</c> (<a href='https://www.python.org/dev/peps/pep-0634'>PEP 634</a>)</li>
     <li>better error messages</li>
@@ -159,7 +160,6 @@ End-of-life expected October 2027.
 
 <p><a href='https://docs.python.org/3/whatsnew/3.10.html'>Full list of 3.10 changes</a>.
 Release schedule: <a href="https://peps.python.org/pep-0619/">PEP 619</a>.
-End-of-life expected October 2026.
 </p>
 
 
