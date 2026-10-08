@@ -1145,6 +1145,7 @@ blockquote.code {
 code, tt {
     font-size: 80%;
     font-family: $code-font;
+    word-spacing: -.5ch;
     @include colors(--blockquote-bg-color);
     padding: .1em .25em;
     border-radius: .2em;
