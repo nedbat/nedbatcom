@@ -53,6 +53,7 @@
 <what when='20260913T141100'>3.15.0rc2</what>
 <what when='20261001T070600'>3.15.0rc3</what>
 <what when='20261003T102900'>3.10 EOL</what>
+<what when='20261015T053300'>3.15, 3.16a1</what>
 </history>
 
 <meta>
@@ -71,7 +72,18 @@ summarizing the release cycles</a> of Python versions.</p>
 <url id="releases" href="https://peps.python.org/topic/release/" />
 <url id="versions" href="https://devguide.python.org/versions/" />
 
-<h1>3.15: expected October 2026 (now rc3)</h1>
+<h1>3.16: expected October 2027 (now alpha 1)</h1>
+<ul>
+    <li>TBD</li>
+</ul>
+
+<p><a href="https://docs.python.org/3.16/whatsnew/3.16.html">Full list of 3.16 changes</a>.
+Release schedule: <a href="https://peps.python.org/pep-0826/">PEP 826</a>.
+End-of-life expected October 2032.
+</p>
+
+
+<h1>3.15: October 9, 2026</h1>
 <ul>
     <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-lazy-imports">Lazy imports</a>.</li>
     <li><a href="https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-frozendict">frozendict</a> and
