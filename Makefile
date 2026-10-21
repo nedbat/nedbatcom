@@ -64,13 +64,11 @@ showworkers:		#- See systemctl on dreamhost
 
 .PHONY: upgrade backupcomments db.%
 
-PIPCOMPILE = pip-compile --upgrade --rebuild --resolver=backtracking
+PIPCOMPILE = uv pip compile -q --upgrade --universal --generate-hashes
 
-upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
+upgrade: export UV_CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade:		#- update the pip requirements files to use the latest releases satisfying our constraints
-	pip install -qr requirements/pip-tools.txt
 	# Make sure to compile files after any other files they include!
-	$(PIPCOMPILE) -o requirements/pip-tools.txt requirements/pip-tools.in
 	$(PIPCOMPILE) -o requirements/base.txt requirements/base.in
 	$(PIPCOMPILE) -o requirements/dev.txt requirements/dev.in
 	$(PIPCOMPILE) -o requirements/server.txt requirements/server.in
