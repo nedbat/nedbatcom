@@ -3,7 +3,7 @@ Pygments
 lxml
 pillow
 #smartypants
-git+https://github.com/nedbat/smartypants.py.git@nedbat/disable-escapes#egg=smartypants
+smartypants@https://github.com/nedbat/smartypants.py/archive/nedbat/disable-escapes.tar.gz
 path.py
 libsass
 django-sendfile2

@@ -322,7 +322,8 @@ secure==2.0.1 \
     --hash=sha256:12794037e2c4d0b54697045b50285a37faf26ba026cb34a68cd55e96d472898b \
     --hash=sha256:bb492b9ca2ae66d04f4718675a18de1d1a29217aaded3d6cb5bd8b4ba2e2a645
     # via -r requirements/base.in
-smartypants @ git+https://github.com/nedbat/smartypants.py.git@ce643817746dc78e8231b325b11112b55754216e#egg=smartypants
+smartypants @ https://github.com/nedbat/smartypants.py/archive/nedbat/disable-escapes.tar.gz \
+    --hash=sha256:b1d1de5e5001c5ed14cd0707ff321f92f29e943f9518e4a55c783e41a2576f78
     # via -r requirements/base.in
 sqlparse==0.6.0 \
     --hash=sha256:113c35c75365ab9cc9c7231d68c6428fb11c085fc8e9eb1ad659b7ddbf6cd2b9 \

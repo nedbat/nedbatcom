@@ -691,7 +691,8 @@ six==1.17.0 \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
     # via python-dateutil
-smartypants @ git+https://github.com/nedbat/smartypants.py.git@ce643817746dc78e8231b325b11112b55754216e#egg=smartypants
+smartypants @ https://github.com/nedbat/smartypants.py/archive/nedbat/disable-escapes.tar.gz \
+    --hash=sha256:b1d1de5e5001c5ed14cd0707ff321f92f29e943f9518e4a55c783e41a2576f78
     # via -r requirements/base.in
 soupsieve==2.10 ; python_full_version < '3.11.5' \
     --hash=sha256:49e9380d7d2905463583bafe285e818c7366a9ed7b3aee221c1ac79c905d8bc0 \
