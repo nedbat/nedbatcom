@@ -88,11 +88,15 @@ livedb:			#- open phpMyAdmin for nedbatchelder.com
 
 ### Testing
 
-.PHONY: install loadlivecomments html test linkcheck livelinkcheck
+.PHONY: venv install loadlivecomments html test linkcheck livelinkcheck
 
-install:		#- install the local dev requirements
-	python -m pip install -r requirements/dev.txt
-	playwright install
+venv: .venv		#- create the local venv
+.venv:
+	uv venv --python=3.11 --prompt=stell
+
+install: venv		#- install the local dev requirements
+	uv pip sync requirements/dev.txt
+	uv run playwright install
 
 loadlivecomments:	#- load latest comments into live server
 	sqlite3 djstell/reactor.db 'delete from reactor_comment'
@@ -144,6 +148,8 @@ clean:			#- get rid of stuff we don't need
 
 sterile: clean		#- extra-clean
 	rm -rf html0
+	rm -rf .*cache .DS_Store
+	rm -rf .venv
 
 ### Helpful
 
