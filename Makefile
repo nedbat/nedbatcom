@@ -90,7 +90,7 @@ livedb:			#- open phpMyAdmin for nedbatchelder.com
 
 venv: .venv		#- create the local venv
 .venv:
-	uv venv --python=3.11 --prompt=stell
+	uv venv --python=3.14 --prompt=stell
 
 install: venv		#- install the local dev requirements
 	uv pip sync requirements/dev.txt
