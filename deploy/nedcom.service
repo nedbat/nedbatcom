@@ -10,7 +10,6 @@ ExecStart=/home/nedbat/venvs/nedcom/bin/gunicorn --workers 2 --bind=nedbatchelde
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
-PrivateTmp=true
 Restart=on-failure
 
 [Install]
