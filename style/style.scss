@@ -254,9 +254,6 @@ body {
     font-size: 85%;
     font-style: italic;
     margin-bottom: 0;
-    a {
-        @include inside-link;
-    }
 
     .sitetools {
         word-spacing: .125em;
@@ -847,9 +844,6 @@ a.s {
         display: inline;
         float: right;
     }
-    .react {
-        display: inline;
-    }
 }
 
 #content .blog-blurb {
@@ -1395,6 +1389,7 @@ img {
     body, #banner, #footer {
         background: white;
         margin: 0;
+        border: none;
     }
     #banner {
         border-bottom-width: 1px;
@@ -1402,11 +1397,14 @@ img {
     #footer {
         border-top-width: 1px;
     }
-    #logo, #sidebar, #comments {
-        display: none;
+    #logo, #sidebar, #comments, .topflags, .sitetools {
+        display: none !important;
     }
     body.oneentry .blog-entry footer {
         border-bottom: 0;
         margin-bottom: 0;
+    }
+    .body a:not(.s):after {
+        content: " <" attr(href) ">";
     }
 }
