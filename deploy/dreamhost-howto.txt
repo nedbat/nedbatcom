@@ -74,6 +74,10 @@
     - webp images:
         https://nedbatchelder.net/blog/202106/math_factoid_of_the_day_59_icosahedra.html
 
+- migrations
+    - edit the models.py file
+    $ python djstell/manage.py makemigrations
+
 
 = July 2024:
 - dreamhost required change to proxy server with gunicorn

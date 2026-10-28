@@ -21,7 +21,7 @@
 
         {% if entry.age_warning %}
             {% if entry.evergreen %}
-                &mdash; <span class="agewarning">This is {{ entry.age_warning }} old, but it's still good.</span>
+                &mdash; <span class="agewarning">This is {{ entry.age_warning }} old{{ entry.evergreen_text }}</span>
             {% else %}
                 &mdash; <span class="agewarning">This is {{ entry.age_warning }} old. Be careful.</span>
             {% endif %}
