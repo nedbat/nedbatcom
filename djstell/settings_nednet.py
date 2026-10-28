@@ -5,6 +5,11 @@ import os
 from .settings_nednet_base import *
 from .settings_nednet_db import *
 
+# Behind DreamHost's proxy, REMOTE_ADDR isn't the client's address.
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": "djstell.middleware.debug_toolbar.show_toolbar_behind_proxy",
+}
+
 # xsendfile works on dreamhost if you ask support to enable it for your domain.
 SENDFILE_BACKEND = "django_sendfile.backends.xsendfile"
 SENDFILE_ROOT = DJSTELL.parent

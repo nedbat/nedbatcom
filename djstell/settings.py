@@ -87,8 +87,10 @@ MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
+    # The toolbar must be outside the cache middleware, or pages with the
+    # toolbar in them will be cached and served to everyone.
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -153,5 +155,5 @@ SESSION_ENGINE = "django.contrib.sessions.backends.file"
 INTERNAL_IPS = [
     '127.0.0.1',
     # For debug-toolbar on remote servers:
-    '71.232.43.199',
+    '24.60.194.85',
 ]
