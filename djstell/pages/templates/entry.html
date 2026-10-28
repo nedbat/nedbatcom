@@ -47,7 +47,7 @@
 
     {# Categories #}
     {% for tag in entry.tags.all %}
-        <a class='s' href='{{tag.permaurl}}' rel='tag'>#{{tag.hashtag}}</a>
+        <a href='{{tag.permaurl}}' rel='tag'>#{{tag.hashtag}}</a>
     {% endfor %}
 
     {# Separator for category and via. #}

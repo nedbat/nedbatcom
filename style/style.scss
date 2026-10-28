@@ -254,6 +254,9 @@ body {
     font-size: 85%;
     font-style: italic;
     margin-bottom: 0;
+    a {
+        @include inside-link;
+    }
 
     .sitetools {
         word-spacing: .125em;
@@ -1404,7 +1407,7 @@ img {
         border-bottom: 0;
         margin-bottom: 0;
     }
-    .body a:not(.s):after {
+    .body a:not(.s, .via a, .react a):after {
         content: " <" attr(href) ">";
     }
 }
