@@ -1388,6 +1388,10 @@ img {
     }
 }
 
+#djDebugRoot {
+    padding: 0;
+}
+
 @media print {
     body, #banner, #footer {
         background: white;
