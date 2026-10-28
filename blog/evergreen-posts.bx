@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20261028T084128'>
+<title>Evergreen posts</title>
+<category>site</category>
+
+<description>How blog posts here indicate their age, and how I had too much fun
+with it.</description>
+
+<body>
+
+<p>Because I've been writing this blog for so long, I often share links to very
+old posts. Three years ago, I added a feature: if the post is more than five
+years old, there's a message next to the dateline indicating the age.</p>
+
+<p>The age descriptions adjust automatically when the post is rendered. I had
+fun implementing the human-style age descriptions: "nearly 12 years", "more than
+seven years", "exactly nine years", etc:</p>
+
+<code lang="python"><![CDATA[
+NUMBER_NAMES = dict(enumerate(
+    "zero one two three four five six seven eight nine ten".split()
+))
+
+def years_age(age):
+    years, frac = divmod(age.days / 365.25, 1)
+    years = int(years)
+    if frac < 1/365:
+        modifier = "exactly "
+    elif frac < 2/12:
+        modifier = ""
+    elif frac < 4/12:
+        modifier = "more than "
+    elif frac < 8/12:
+        modifier = "over "
+    elif frac < 9/12:
+        modifier = "close to "
+        years += 1
+    elif frac < 10/12:
+        modifier = "almost "
+        years += 1
+    elif frac < 11/12:
+        modifier = "nearly "
+        years += 1
+    elif frac < 364/365:
+        modifier = ""
+        years += 1
+    else:
+        modifier = "exactly "
+        years += 1
+    years = NUMBER_NAMES.get(years, years)
+    return f"{modifier}{years} years"
+]]></code>
+
+<p>The complete message is then something like <i>"This is more than 14 years
+old.  Be careful"</i> because many posts are technical, and details might have
+shifted.  For example: <a pref="blog/tricky-locals.bx"/>.</p>
+
+<p>But some posts never become stale: they are evergreen. So back then I also
+added a way to mark blog posts as evergreen. The message would change to
+<i>"This is eight years old, but it's still good."</i> I marked blog posts
+evergreen one by one when I shared them and saw the needless "Be careful"
+warning.</p>
+
+<p>Today I took it one step further: I made the <i>"but it's still good"</i>
+message customizable on each post. For example:</p>
+
+<ul>
+<li><a pref="blog/lap-vs-length.bx"/>: <i>"but it still bugs me."</i></li>
+<li><a pref="blog/print-this-file-your-printer-will-jam.bx"/>: <i>"but it really happened."</i></li>
+<li><a pref="0blog/paul-rand-geometry-books.bx"/>: <i>"but I still have the books."</i></li>
+</ul>
+
+<p>One of the things I like about running this site is that it is all mine. I
+can change the software however I like. I can build features like this that
+truly don't matter, but they make me smile. And that is always good.</p>
+
+</body>
+</entry>
+</blog>
