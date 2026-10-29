@@ -106,7 +106,7 @@ def blogmain(request):
     return render(request, 'blogmain.html', c)
 
 def archiveyear(request, year):
-    ents = list(Entry.objects.filter(when__year=int(year)).order_by('-when'))
+    ents = list(Entry.objects.filter(when__year=int(year)).order_by('-when').prefetch_related('tags'))
     c = {}
     add_entries(c, ents)
     c['type'] = 'year'
@@ -122,7 +122,7 @@ def archiveyear(request, year):
 
 def archivedate(request, month, day):
     date = datetime.datetime(2004, int(month), int(day))
-    ents = list(Entry.objects.filter(when__month=date.month, when__day=date.day).order_by('-when'))
+    ents = list(Entry.objects.filter(when__month=date.month, when__day=date.day).order_by('-when').prefetch_related('tags'))
     c = {}
     add_entries(c, ents)
     c['type'] = 'date'
@@ -134,7 +134,7 @@ def archivedate(request, month, day):
     return render(request, 'blogarchive.html', c)
 
 def archiveall(request):
-    ents = list(Entry.objects.all().order_by('-when'))
+    ents = list(Entry.objects.all().order_by('-when').prefetch_related('tags'))
     c = {}
     add_entries(c, ents)
     c['type'] = 'complete'
@@ -155,7 +155,7 @@ def tags(request):
 
 def tag(request, slug):
     tag = Tag.objects.get(tag=slug)
-    ents = tag.entry_set_no_drafts().order_by('-when')
+    ents = tag.entry_set_no_drafts().order_by('-when').prefetch_related('tags')
     c = {}
     add_entries(c, ents)
     c['tag'] = tag
@@ -173,12 +173,12 @@ def untagged(request):
 
 def untagged_entries():
     # There's probably a good ORM way to find untagged entries, but I don't know what it is.
-    ents = Entry.objects.all().order_by('-when')
+    ents = Entry.objects.all().order_by('-when').prefetch_related('tags')
     ents = [e for e in ents if e.tags.all().count() == 0]
     return ents
 
 def drafts(request):
-    ents = list(Entry.drafts.all().order_by('-when'))
+    ents = list(Entry.drafts.all().order_by('-when').prefetch_related('tags'))
     c = {}
     add_entries(c, ents)
     c['type'] = 'drafts'
@@ -214,7 +214,7 @@ def classics_home(request):
     return render(request, 'allclassics.html', c)
 
 def classics(request, slug):
-    ents = list(Entry.objects.filter(classic=slug).order_by("-when"))
+    ents = list(Entry.objects.filter(classic=slug).order_by("-when").prefetch_related("tags"))
     c = {}
     add_entries(c, ents)
     c["title"] = f"Blog: {CLASSICS[slug].head.lower()} classics"
