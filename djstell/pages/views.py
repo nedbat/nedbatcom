@@ -61,7 +61,7 @@ def render_or_redirect(request, template, c, obj):
 def entry(request, year, month, slug):
     """ Single entry.
     """
-    ent = get_object_or_404(Entry.all_entries.select_related(), when__year=int(year), when__month=int(month), slug=slug)
+    ent = get_object_or_404(Entry.all_entries.prefetch_related('tags', 'via_set__link'), when__year=int(year), when__month=int(month), slug=slug)
     c = {}
     c['entry'] = ent
     c['title'] = ent.title
@@ -91,7 +91,7 @@ def entry_by_date(request, whenid):
 def blogmain(request):
     """ The main blog page. A dozen recent entries.
     """
-    ents = list(Entry.objects.all().order_by('-when')[:12])
+    ents = list(Entry.objects.all().order_by('-when').prefetch_related('tags', 'via_set__link')[:12])
     c = {}
     add_entries(c, ents)
     c['entries_shown'] = shown = ents[:6]
