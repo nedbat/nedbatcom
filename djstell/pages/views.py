@@ -270,7 +270,7 @@ def article(request, path):
     c['image_alt'] = a.image_alt
     if a.comments:
         c['comments'] = {
-            'entryid': path,
+            'entryid': a.path.removesuffix(".px") + ".html",
             'url': abs_url(path),
             'title': a.title,
             'lorem': path == "text/lorem.html",
