@@ -1,6 +1,5 @@
 # Make a site!
 
-import collections
 import dataclasses
 import datetime
 import logging
@@ -296,12 +295,13 @@ def index(request):
     # Tags to display: the most populated ones, but not "me", "site", etc, and
     # only include tags from the last few years.
     sunset = datetime.datetime.now() - datetime.timedelta(days=tag_years*365)
-    census = collections.Counter()
-    for entry in Entry.objects.filter(when__gt=sunset):
-        for tag in entry.tags.all():
-            if tag.tag not in bad_tags:
-                census[tag] += 1
-    tags = [t[0] for t in census.most_common(num_tags)]
+    tags = (
+        Tag.objects
+        .filter(entry__when__gt=sunset, entry__draft=False)
+        .exclude(tag__in=bad_tags)
+        .annotate(num_entries=Count('entry'))
+        .order_by('-num_entries', 'tag')
+    )[:num_tags]
     tags = sorted(tags, key=lambda t: t.hashtag)
     c['tags'] = tags
 

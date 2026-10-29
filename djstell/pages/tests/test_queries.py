@@ -12,6 +12,7 @@ def warm_caches(db):
 
 
 @pytest.mark.parametrize("url", [
+    "/",
     "/blog/all",
     "/blog/2024",
     "/blog/date/0101",
