@@ -19,6 +19,7 @@ def warm_caches(db):
     "/blog/classics/tech",
     "/blog/tag/python",
     "/blog/tag/none",
+    "/blog/tags",
 ])
 def test_entry_lists_prefetch_tags(client, warm_caches, django_assert_max_num_queries, url):
     with django_assert_max_num_queries(5):

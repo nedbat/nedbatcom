@@ -12,6 +12,7 @@ import time
 import bleach
 import bleach.css_sanitizer
 from django.conf import settings
+from django.db.models import Count, Q
 from django.db.models.functions import Lower
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -143,7 +144,9 @@ def archiveall(request):
     return render(request, 'blogarchive.html', c)
 
 def tags(request):
-    tags = Tag.objects.all().order_by(Lower('name'))
+    tags = Tag.objects.annotate(
+        num_entries=Count('entry', filter=Q(entry__draft=False)),
+    ).order_by(Lower('name'))
     c = {}
     c['tags'] = tags
     c['min_date'] = Entry.objects.all().order_by('when')[0].when
