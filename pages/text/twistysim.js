@@ -1,5 +1,5 @@
-// http://cube.crider.co.uk/twistysim.html
-// pulled from http://cube.crider.co.uk/twistysim.js so that I could serve it over https
+// https://cube.rider.biz/twistysim.html
+// pulled from https://cube.rider.biz/twistysim.js so that I could serve it over https
 // --------------------------------------------
 // TwistySim v1.5.5
 // Built on: Thu Dec  1 09:14:03 UTC 2016
