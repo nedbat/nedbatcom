@@ -6,13 +6,20 @@
 
 .PHONY: publish stage live stoplive clean_cache
 .PHONY: ned.% dep.% acc.% err.% ver.%
+.PHONY: _check_credentials
 
 LIVEPORT = 8000
 
 publish: ned.com 	#- (ned.com) publish to nedbatchelder.com
 stage: ned.net		#- (ned.net) publish to nedbatchelder.net
 
-env.%:
+_check_credentials:
+	@if [[ -z "$$DREAMHOST_PASSWORD" ]]; then \
+		echo 'Missing DREAMHOST_PASSWORD: opvars'; \
+		exit 1; \
+	fi
+
+env.%: _check_credentials
 	op item get ned$*.env --fields label=text --format json | jq -r ".value" > deploy/.env
 
 ned.%: env.%		#- deploy to .net or .com
