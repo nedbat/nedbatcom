@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<blog>
+<entry when='20261125T074625'>
+<title>Human sorting, hardened</title>
+<category>gem</category>
+<category>python</category>
+<category>development</category>
+
+<description>How many times can I revisit three lines of code that are 20 years
+old?</description>
+
+<body>
+
+<p>"Human sorting" is sorting strings (usually file names) so that any numbers
+in the names come out in the right order. For example, "file10.txt" should come
+after "file2.txt", but regular sorting will put them in the wrong order.  I've
+written twice before about the function to do this
+(<a pref="blog/human-sorting.bx"/> and
+<a pref="blog/human-sorting-improved.bx"/>), but there's more to say about
+it.</p>
+
+<p>One effect of AI these days is bug reports for obscure edge cases. As a
+maintainer, it's been a challenge first to read through them all, and then to
+decide which ones deserve a fix. It's tempting to fix every little thing no
+matter how unlikely it is to happen in the real world. But every fix costs time,
+energy and focus. Every fix comes with risks in the form of new bugs or changed
+behavior. So some long-tail issues should be marked as "won't fix."</p>
+
+<p>But this one intrigued me: if a file name includes a numeric component with
+4301 digits, then the human sorting function fails. Buh?</p>
+
+<p>Before we get to the current problem, here's the original "buggy" code,
+slightly simplified:</p>
+
+<code lang="python"><![CDATA[
+def human_key(s: str) -> tuple[list[str | int], str]:
+    """Turn a string into a sortable value that works how humans expect.
+
+    "z23A" -> (["z", 23, "A"], "z23A")
+
+    """
+    def try_int(s: str) -> str | int:
+        """If `s` is a number, return an int, else `s` unchanged."""
+        try:
+            return int(s)
+        except ValueError:
+            return s
+
+    parts = re.split(r"(\d+)", s)
+    split_key = [try_int(c) for c in parts]
+    return (split_key, s)
+
+def human_sorted(strings: Iterable[str]) -> list[str]:
+    """Sort the given iterable of strings the way that humans expect."""
+    return sorted(strings, key=human_key)
+]]></code>
+
+<p>It splits the string into parts alternating between runs of digits and runs
+of non-digits.  It uses <c>try_int</c> on all of them, which turns the digits
+into ints and leaves the non-digits as strings. That gives us a list of words
+and numbers that can be compared to do the sort we need.</p>
+
+<p>The problem now is with that 4301-digit run. Since 2022, Python's
+string-to-integer conversion has had a limit on the number of digits that can be
+converted. This is to prevent denial of service attacks based on the quadratic
+time to convert a string to an int.  The default limit is 4300 digits. If a
+string is longer than that, <c>int()</c> raises a ValueError.</p>
+
+<p>But we were counting on ValueError to mean "this isn't an integer", and to
+separate words from digits. Now that too-long number makes <c>try_int</c> return
+the string un-converted, and using it as a sort key will try to compare an int
+to a string, failing with:</p>
+
+<code><![CDATA[
+TypeError: '<' not supported between instances of 'int' and 'str'
+]]></code>
+
+<p>Of course, it's absurd to be concerned that an actual file name will include
+a run of more than 4300 digits. But I've been tweaking this function over
+decades, and I like fiddling with it.  The <a urlid="comments">comments on the
+original post</a> offered a number of alternative implementations, a few of
+which would have avoided this problem.</p>
+
+<url id="comments" href="/blog/200712/human_sorting#comments"/>
+
+<p>Rather than try to convert all of the parts of the name, we know from how
+<c>re.split</c> works that the parts will alternate between words and numbers,
+starting with a word even if it's just an empty string.  So we can attempt
+conversion only for the parts that we know are digits.</p>
+
+<p>First, we replace <c>try_int</c> with a function to safely convert digit
+spans into numbers:</p>
+
+<code lang="python"><![CDATA[
+def number(s: str) -> float:
+    """Convert s to a number with no errors."""
+    try:
+        return int(s)
+    except ValueError:
+        # This only happens if the number is too large to convert to an int.
+        return float("inf")
+]]></code>
+
+<p>Now we can create <c>split_key</c> differently by only converting the
+odd-numbered parts:</p>
+
+<code lang="python"><![CDATA[
+split_key = [(number(p) if i % 2 else p) for i, p in enumerate(parts)]
+]]></code>
+
+<p>It's tempting to check whether a part starts with a digit:</p>
+
+<code lang="python"><![CDATA[
+split_key = [(number(p) if p[:1].isdigit() else p) for p in parts] 
+]]></code>
+
+<p>But <c>isdigit()</c> gets us into Unicode difficulties because <c>\d</c> and
+<c>isdigit()</c> disagree on what count as digits.  Something odd like
+<c>"a1²b"</c> would be split into <c>['a', '1', '²b']</c>, and
+<c>'²'.isdigit()</c> is true, so now we'd be mistaking words for numbers.</p>
+
+<p>Another even-odd approach, but it's too fancy:</p>
+
+<code lang="python"><![CDATA[
+converters = itertools.cycle([str, number])
+split_key = [fn(part) for fn, part in zip(converters, parts)]
+]]></code>
+
+<p>In the end, though this is a long-tail bug, I fixed the human sort function;
+it was a tiny isolated fix. Also, I don't like having a function that works only
+99.9999% of the time. And maybe it's still not done: there are probably other
+odd edge cases that could be a problem here. If I hear of those, I might make
+more fixes.</p>
+
+<p>The AI fire-hose of issues and pull requests requires me to exercise and
+strengthen my "won't fix" muscle. But I also get to choose where to make a fix
+just because it pleases me.</p>
+
+</body>
+</entry>
+</blog>
