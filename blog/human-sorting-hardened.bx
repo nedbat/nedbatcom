@@ -136,6 +136,60 @@ more fixes.</p>
 strengthen my "won't fix" muscle. But I also get to choose where to make a fix
 just because it pleases me.</p>
 
+<p><b>Update:</b> <a urlid="stylus">Jeff Epler suggested</a> a few clever
+alternatives.  The 4300-digit limit is only applied to base 10 conversion. If we
+interpret digit spans as base 16, there's no limit on length, and the resulting
+ints will sort the same as their base 10 counterparts.  No helper function is
+needed at all.  As an added bonus, there are now no floats, so the type hinting
+can be more straighforward.  The result is satisfyingly compact:</p>
+
+<code lang="python"><![CDATA[
+def _human_key(s: str) -> tuple[list[str | int], str]:
+    """Turn a string into a list of string and number chunks.
+
+    "z23a" -> (["z", 35, "a"], "z23a")
+
+    Runs of digits are converted using base 16 because it has no digit limit,
+    and the numbers will sort the same as if they were interpreted as base 10.
+    The original string is appended as a last value to ensure the key is unique
+    enough so that "x1y" and "x001y" can be distinguished.
+    """
+    parts = re.split(r"(\d+)", s)
+    split_key = [(int(p, base=16) if i % 2 else p) for i, p in enumerate(parts)]
+    return (split_key, s)
+
+def human_sorted(strings: Iterable[str]) -> list[str]:
+    """Sort the given iterable of strings the way that humans expect.
+
+    Numeric components in the strings are sorted as numbers.
+
+    Returns the sorted list.
+
+    """
+    return sorted(strings, key=_human_key)
+]]></code>
+
+<url id="stylus" href="https://social.afront.org/@stylus/117679145301569683" />
+
+<p>Another of their suggestions was to use a different int substitute. We don't
+need actual ints in the key, just something that will sort the same way as ints.
+Their idea was to turn digit runs into a tuple of (length, value) with no
+integer conversion at all!</p>
+
+<code lang="python"><![CDATA[
+split_key = [
+    (
+        (len(p2 := p.lstrip("0")), p2)
+        if i % 2 else p
+    )
+    for i, p in enumerate(parts)
+]
+]]></code>
+
+<p>I haven't done timings of any of these solutions. This last solution avoids
+the quadratic time of integer conversion, but would likely be slower for the
+real-world data we find in file names.</p>
+
 </body>
 </entry>
 </blog>
