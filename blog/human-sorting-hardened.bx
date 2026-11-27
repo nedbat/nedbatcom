@@ -171,10 +171,10 @@ def human_sorted(strings: Iterable[str]) -> list[str]:
 
 <url id="stylus" href="https://social.afront.org/@stylus/117679145301569683" />
 
-<p>Another of their suggestions was to use a different int substitute. We don't
-need actual ints in the key, just something that will sort the same way as ints.
-Their idea was to turn digit runs into a tuple of (length, value) with no
-integer conversion at all!</p>
+<p>Another of his suggestions was to use a different <c>int()</c> substitute. We
+don't need actual integers in the key, just something that will sort the same
+way as integers.  His idea was to turn digit runs into a tuple of (length,
+value) with no conversion at all!</p>
 
 <code lang="python"><![CDATA[
 split_key = [
